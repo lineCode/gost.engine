@@ -1,0 +1,1 @@
+PNG loader for GoST

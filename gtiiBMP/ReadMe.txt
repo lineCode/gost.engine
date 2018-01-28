@@ -1,0 +1,1 @@
+BMP loader for GoST
