@@ -29,6 +29,20 @@ gtSceneSystemImpl::~gtSceneSystemImpl(){
 	}
 }
 
+void gtSceneSystemImpl::clearScene( void ){
+	if( m_rootNode ){
+		auto * childs = &m_rootNode->getChildList();
+		{
+			for( auto it = childs->begin(); it != childs->end();){
+				removeObject( (*it) );
+				it = childs->begin();
+			}
+		}
+	}
+
+	m_activeCamera = nullptr;
+}
+
 gtSprite*		gtSceneSystemImpl::addSprite( gtTexture * texture, gtDriver * driver, const v2f& size, const v3f& position, bool /*asBillboard*/ ){
 	gtSprite * sprite = new gtSprite( texture, size, driver );
 

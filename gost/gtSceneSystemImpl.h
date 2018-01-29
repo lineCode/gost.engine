@@ -33,7 +33,7 @@ namespace gost{
 		gtGameObject*	getRootObject( void );
 		void removeObject( gtGameObject* object );
 		void renderScene( void );
-
+		void clearScene( void );
 	};
 
 }

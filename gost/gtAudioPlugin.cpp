@@ -33,6 +33,16 @@ bool gtPluginAudio::checkLibraryFunctions(){
 	return true;
 }
 
+gtAudioSystem* gtPluginAudio::loadAudioDriver(){
+	if( !m_isLoad ) load();
+
+	if( m_isLoad ){
+		return loadAudioDriverProc();
+	}
+
+	return nullptr;
+}
+
 	///	загрузить плагин
 void gtPluginAudio::load( void ){
 

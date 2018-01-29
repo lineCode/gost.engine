@@ -139,6 +139,9 @@ namespace gost{
 	}
 
 	void gtMainSystemWin32::shutdown( void ){
+
+		m_sceneSystem->clearScene();
+
 		quit();
 	}
 }

@@ -100,6 +100,8 @@ void gtPluginSystemImpl::scanFolder( const gtString& dir ){
 					if( !plugin->checkLibraryFunctions())	continue;
 
 					this->m_importModelPluginCache.push_back( plugin.data() );
+					m_plugins.push_back( plugin.data() );
+
 				}else if( pi.m_type == gtPluginType::audio ){
 					
 					gtPtr_t(gtPluginAudio,plugin,new gtPluginAudio( &pi_dl ) );
