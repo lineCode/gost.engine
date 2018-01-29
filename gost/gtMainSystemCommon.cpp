@@ -69,13 +69,13 @@ void gtStackTrace::dumpStackTrace( void ){
 }
 
 	//	Инициализирует видео драйвер
-gtDriver* gtMainSystemCommon::createVideoDriver( gtPlugin* videoDriverPlugin, const gtDriverInfo& params ){
+gtDriver* gtMainSystemCommon::createVideoDriver( /*gtPlugin* videoDriverPlugin,*/ const gtDriverInfo& params, const gtString& uid ){
 
-	GT_ASSERT2( videoDriverPlugin, "videoDriverPlugin was nullptr" );
+	//GT_ASSERT2( videoDriverPlugin, "videoDriverPlugin was nullptr" );
 
-	if( !videoDriverPlugin ) return nullptr;
+	//if( !videoDriverPlugin ) return nullptr;
 
-	if( videoDriverPlugin->getInfo().m_info.m_type != gtPluginType::render ){
+	/*if( videoDriverPlugin->getInfo().m_info.m_type != gtPluginType::render ){
 
 		gtLogWriter::printError( u"Can not create video driver" );
 
@@ -86,9 +86,16 @@ gtDriver* gtMainSystemCommon::createVideoDriver( gtPlugin* videoDriverPlugin, co
 		return nullptr;
 	}
 
-	gtPluginRender* plugin = (gtPluginRender*)videoDriverPlugin;
+	gtPluginRender* plugin = (gtPluginRender*)videoDriverPlugin;*/
 
-	return plugin->loadDriver( params );
+	auto plugin = this->getPluginSystem()->getPlugin( uid );
+
+	if( plugin->getInfo().m_info.m_type != gtPluginType::render ){
+		gtLogWriter::printError( u"Can not create video driver" );
+		return nullptr;
+	}
+
+	return ((gtPluginRender*)plugin)->loadDriver( params );
 }
 
 	//	Выделяет память размером size. Для освобождения нужно вызвать freeMemory
@@ -205,12 +212,33 @@ bool gtMainSystemCommon::isRun( void ){
 	return m_isRun;
 }
 
-gtPtrNew<gtAudioSystem> gtMainSystemCommon::createAudioSystem( const gtString& guid ){
-	if( guid.size() ){
+gtAudioSystem* gtMainSystemCommon::createAudioSystem( const gtString& uid ){
+	/*
+	GT_ASSERT2( videoDriverPlugin, "videoDriverPlugin was nullptr" );
+
+	if( !videoDriverPlugin ) return nullptr;
+
+	if( videoDriverPlugin->getInfo().m_info.m_type != gtPluginType::render ){
+
+		gtLogWriter::printError( u"Can not create video driver" );
+
+#ifdef GT_EDBUG
+		gtStackTrace::dumpStackTrace();
+#endif
+
+		return nullptr;
+	}
+
+	gtPluginRender* plugin = (gtPluginRender*)videoDriverPlugin;
+
+	return plugin->loadDriver( params );
+	*/
+	/*if( guid.size() ){
 	}else{
 	}
 
-	return gtPtrNew<gtAudioSystem>( new gtAudioSystem );
+	return gtPtrNew<gtAudioSystem>( new gtAudioSystem );*/
+	return nullptr;
 }
 
 /*

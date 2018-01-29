@@ -79,10 +79,10 @@ namespace gost{
 		gtStackTrace*	getStackTracer( void );
 
 		
-		gtPtrNew<gtAudioSystem> createAudioSystem( const gtString& guid = gtString() );
+		gtAudioSystem* createAudioSystem( const gtString& uid = gtString() );
 
 
-		gtDriver* createVideoDriver( gtPlugin* videoDriverPlugin, const gtDriverInfo& );
+		gtDriver* createVideoDriver( /*gtPlugin* videoDriverPlugin,*/ const gtDriverInfo&, const gtString& uid );
 
 		bool	allocateMemory( void** data, u32 size );
 
