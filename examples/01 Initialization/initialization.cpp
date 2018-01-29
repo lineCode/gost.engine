@@ -41,27 +41,20 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 	gtPtr_t(gtWindow,window,mainSystem->createSystemWindow( wi ));
 
 
-	///	Initialize graphics engine.
-
-	///	1. You need get gtPluginSystem.
-	gtPluginSystem * pluginSystem = mainSystem->getPluginSystem();
-
-	///	2. Get standart render plugin.
-	///	All plugins have Unique IDs. All UIDs for standart plugins defined in gtPluginSystem.h.
-	///	Call pluginSystem->getPlugin with GT_UID_RENDER_D3D11 argument for get Direct3D 11 plugin.
-	///	pluginSystem->getPlugin will return polymorphic class, common for all plugin types.
-	///	Convert gtPlugin to gtPluginRender calling pluginSystem->getAsPluginRender.
-	gtPluginRender * d3d11Plugin = pluginSystem->getAsPluginRender( pluginSystem->getPlugin( GT_UID_RENDER_D3D11 ) );
-
-	///	3. Set up render plugin parameters.
+	///	Set up render plugin parameters.
 	gtDriverInfo di;
 	/// di.m_fullScreen	=	true;
 	///	di.m_backBufferSize	=	v2i_t( 1600, 900 ); /// Or calculate from wi.rect if you need.
 	///	di.m_vSync = true;
 	di.m_outWindow = window.data(); /// Set output window for rendering.
 
-	///	4. Initialize graphics engine.
-	gtPtr_t(gtDriver,driver,d3d11Plugin->loadDriver( di ));
+	///	Initialize graphics engine.
+	gtPtr_t(gtDriver,driver,mainSystem->createVideoDriver( di, GT_UID_RENDER_D3D11 ));
+
+	//gtPluginAudio * audioPlugin = pluginSystem->getAsPluginAudio( pluginSystem->getPlugin( GT_UID_AUDIO_XADUDIO2 ) );
+
+	//gtPtr_t(gtAudioSystem,audioSystem,audioPlugin->loadAudioDriver());
+
 
 	while( mainSystem->update() ){
 

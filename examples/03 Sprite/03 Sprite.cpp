@@ -21,12 +21,9 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 	gtPtr_t(gtWindow,window,mainSystem->createSystemWindow( wi ));
 
 
-	gtPluginSystem * pluginSystem = mainSystem->getPluginSystem();
-	gtPluginRender * d3d11Plugin = pluginSystem->getAsPluginRender( pluginSystem->getPlugin( GT_UID_RENDER_D3D11 ) );
-
 	gtDriverInfo di;
 	di.m_outWindow = window.data(); /// Set output window for rendering.
-	gtPtr_t(gtDriver,driver,d3d11Plugin->loadDriver( di ));
+	gtPtr_t(gtDriver,driver,mainSystem->createVideoDriver( di, GT_UID_RENDER_D3D11 ));
 
 
 	///	Get scene system
