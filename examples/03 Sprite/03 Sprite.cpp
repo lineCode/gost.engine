@@ -26,7 +26,7 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 
 	gtDriverInfo di;
 	di.m_outWindow = window.data(); /// Set output window for rendering.
-	gtDriver * driver = d3d11Plugin->loadDriver( di );
+	gtPtr_t(gtDriver,driver,d3d11Plugin->loadDriver( di ));
 
 
 	///	Get scene system
@@ -42,13 +42,13 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 
 	gtSprite * tank = scene->addSprite(
 		texture_tank.data(),
-		driver,
+		driver.data(),
 		v2f_t( (f32)texture_tank->getWidth() / 100.f,
 		(f32)texture_tank->getHeight() / 100.f ));
 
 	gtSprite * cannon = scene->addSprite(
 		texture_cannon.data(),
-		driver,
+		driver.data(),
 		v2f_t( (f32)texture_cannon->getWidth() / 100.f,
 		(f32)texture_cannon->getHeight() / 100.f ),
 		v3f_t(0.f,0.f,-1.1f) // set closer to camera
@@ -83,44 +83,47 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 			}
 		}
 
+		if( mainSystem->isRun() ){
 
-		/// Camera zoom
-		if( mainSystem->isKeyPressed( gtKey::K_X ) ) camera->setFOV( camera->getFOV() + 10.f * delta );
-		if( mainSystem->isKeyPressed( gtKey::K_Z ) ) camera->setFOV( camera->getFOV() - 10.f * delta );
+			/// Camera zoom
+			if( mainSystem->isKeyPressed( gtKey::K_X ) ) camera->setFOV( camera->getFOV() + 10.f * delta );
+			if( mainSystem->isKeyPressed( gtKey::K_Z ) ) camera->setFOV( camera->getFOV() - 10.f * delta );
 
 
-		if( mainSystem->isKeyPressed( gtKey::K_W ) ){
-            tank->setPosition( tank->getPosition() + v3f_t( 0.f, move_speed * delta, 0.f ) );
-			tank->setRotation( v3f_t( 0.f, 0.f, -PI/2.f ) ); /// use math::radToDeg if you need
+			if( mainSystem->isKeyPressed( gtKey::K_W ) ){
+				tank->setPosition( tank->getPosition() + v3f_t( 0.f, move_speed * delta, 0.f ) );
+				tank->setRotation( v3f_t( 0.f, 0.f, -PI/2.f ) ); /// use math::radToDeg if you need
 
-        }else if( mainSystem->isKeyPressed( gtKey::K_S ) ){
-            tank->setPosition( tank->getPosition() - v3f_t( 0.f, move_speed * delta, 0.f ) );
-			tank->setRotation( v3f_t( 0.f, 0.f, PI/2.f ) );
+			}else if( mainSystem->isKeyPressed( gtKey::K_S ) ){
+				tank->setPosition( tank->getPosition() - v3f_t( 0.f, move_speed * delta, 0.f ) );
+				tank->setRotation( v3f_t( 0.f, 0.f, PI/2.f ) );
 
-        }else if( mainSystem->isKeyPressed( gtKey::K_A ) ){
-            tank->setPosition( tank->getPosition() + v3f_t( move_speed * delta, 0.f, 0.f ) );
-			tank->setRotation( v3f_t( 0.f, 0.f, 0.f ) );
+			}else if( mainSystem->isKeyPressed( gtKey::K_A ) ){
+				tank->setPosition( tank->getPosition() + v3f_t( move_speed * delta, 0.f, 0.f ) );
+				tank->setRotation( v3f_t( 0.f, 0.f, 0.f ) );
 
-        }else if( mainSystem->isKeyPressed( gtKey::K_D ) ){
-            tank->setPosition( tank->getPosition() - v3f_t( move_speed * delta, 0.f, 0.f ) );
-			tank->setRotation( v3f_t( 0.f, 0.f, PI ) );
-        }
+			}else if( mainSystem->isKeyPressed( gtKey::K_D ) ){
+				tank->setPosition( tank->getPosition() - v3f_t( move_speed * delta, 0.f, 0.f ) );
+				tank->setRotation( v3f_t( 0.f, 0.f, PI ) );
+			}
 
-		if( mainSystem->isKeyPressed( gtKey::K_Q ) )
-			cannon->setRotation( cannon->getRotation() + v3f_t( 0.f, 0.f, 10.f * delta ) );
+			if( mainSystem->isKeyPressed( gtKey::K_Q ) )
+				cannon->setRotation( cannon->getRotation() + v3f_t( 0.f, 0.f, 10.f * delta ) );
         
-		if( mainSystem->isKeyPressed( gtKey::K_E ) )
-			cannon->setRotation( cannon->getRotation() - v3f_t( 0.f, 0.f, 10.f * delta ) );
+			if( mainSystem->isKeyPressed( gtKey::K_E ) )
+				cannon->setRotation( cannon->getRotation() - v3f_t( 0.f, 0.f, 10.f * delta ) );
 
-		driver->beginRender( true, gtColor( 0.7372549019607843f, 0.8901960784313725f, 1.f, 1.f ) ); /// RGBA.
+			driver->beginRender( true, gtColor( 0.7372549019607843f, 0.8901960784313725f, 1.f, 1.f ) ); /// RGBA.
 
-		scene->renderScene(); /// Draw all
+			scene->renderScene(); /// Draw all
 
-		driver->endRender();
+			driver->endRender();
 
-		delta = (f32)(now - time)*0.0001f;
+			delta = (f32)(now - time)*0.0001f;
 					
-		time = now;
+			time = now;
+		}
+
 	}
 
 	return 0;

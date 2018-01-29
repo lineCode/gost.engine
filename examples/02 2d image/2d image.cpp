@@ -73,7 +73,7 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 
 	gtDriverInfo di;
 	di.m_outWindow = window.data(); /// Set output window for rendering.
-	gtDriver * driver = d3d11Plugin->loadDriver( di );
+	gtPtr_t(gtDriver,driver,d3d11Plugin->loadDriver( di ));
 
 	///	Get `import image` plugins
 	gtPluginImportImage * bmpPlugin = pluginSystem->getAsPluginImportImage( pluginSystem->getPlugin( GT_UID_IMPORT_IMAGE_BMP ) );
@@ -158,35 +158,38 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 			}
 		}
 
-		if( mainSystem->isKeyPressed( gtKey::K_ESCAPE ) ){
-			mainSystem->shutdown();
-		}
+		if( mainSystem->isRun() ){
 
-		if( !texture ){
-			if( !image ){
-				window->setWindowTitle( gtString(u"2D image: ") + images[ current_image_index ] );
-				image	= mainSystem->loadImage( images[ current_image_index ] );
-				texture = driver->createTexture( image, filter );
-				image->release();
-				image = nullptr;
+			if( mainSystem->isKeyPressed( gtKey::K_ESCAPE ) ){
+				mainSystem->shutdown();
 			}
+
+			if( !texture ){
+				if( !image ){
+					window->setWindowTitle( gtString(u"2D image: ") + images[ current_image_index ] );
+					image	= mainSystem->loadImage( images[ current_image_index ] );
+					texture = driver->createTexture( image, filter );
+					image->release();
+					image = nullptr;
+				}
+			}
+
+			driver->beginRender( true, gtColor( 0.7372549019607843f, 0.8901960784313725f, 1.f, 1.f ) ); /// RGBA.
+
+			if( texture ){
+				f32 tw = texture->getWidth();
+				f32 th = texture->getHeight();
+
+				f32 x2 = tw * (600.f/th);
+				f32 y2 = th * (600.f/th);
+				driver->draw2DImage( v4i_t( 0, 0, (s32)x2, (s32)y2 ), texture );
+
+				/// You can draw region of image. Use overloaded function for this.
+				/// driver->draw2DImage( v4i_t( 0, 0, (s32)x2, (s32)y2 ), v4i_t( 30, 30, 60, 60 ), texture );
+			}
+
+			driver->endRender();
 		}
-
-		driver->beginRender( true, gtColor( 0.7372549019607843f, 0.8901960784313725f, 1.f, 1.f ) ); /// RGBA.
-
-		if( texture ){
-			f32 tw = texture->getWidth();
-			f32 th = texture->getHeight();
-
-			f32 x2 = tw * (600.f/th);
-			f32 y2 = th * (600.f/th);
-			driver->draw2DImage( v4i_t( 0, 0, (s32)x2, (s32)y2 ), texture );
-
-			/// You can draw region of image. Use overloaded function for this.
-			/// driver->draw2DImage( v4i_t( 0, 0, (s32)x2, (s32)y2 ), v4i_t( 30, 30, 60, 60 ), texture );
-		}
-
-		driver->endRender();
 	}
 
 	if( texture )

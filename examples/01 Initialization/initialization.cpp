@@ -61,7 +61,11 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 	di.m_outWindow = window.data(); /// Set output window for rendering.
 
 	///	4. Initialize graphics engine.
-	gtDriver * driver = d3d11Plugin->loadDriver( di );
+	gtPtr_t(gtDriver,driver,d3d11Plugin->loadDriver( di ));
+
+	gtPluginAudio * audioPlugin = pluginSystem->getAsPluginAudio( pluginSystem->getPlugin( GT_UID_AUDIO_XADUDIO2 ) );
+
+	gtPtr_t(gtAudioSystem,audioSystem,audioPlugin->loadAudioDriver());
 
 	while( mainSystem->update() ){
 
@@ -69,19 +73,23 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 		///	This method update all events in event queue.
 		while( mainSystem->pollEvent( gtEvent() ) );
 
-		///	After 'pollEvent', you can get key state.
-		if( mainSystem->isKeyPressed( gtKey::K_ESCAPE ) ){
-			mainSystem->shutdown(); /// mainSystem->update() return false
+		///	This 'if' will help when program terminated
+		if( mainSystem->isRun() ){
+
+			///	After 'pollEvent', you can get key state.
+			if( mainSystem->isKeyPressed( gtKey::K_ESCAPE ) ){
+				mainSystem->shutdown(); /// mainSystem->update() return false
+			}
+
+			///	Before starts rendering, call driver->beginRender
+			///	true - clear back buffer
+			driver->beginRender( true, gtColor( 0.7372549019607843f, 0.8901960784313725f, 1.f, 1.f ) ); /// RGBA.
+			// driver->beginRender( true, gtColor( 188, 227, 255, 255 ) ); /// RGBA
+			// driver->beginRender( true, gtColor( 0xFFBCE3FF ) ); /// ARGB
+
+			///	After rendering, call driver->endRender
+			driver->endRender();
 		}
-
-		///	Before starts rendering, call driver->beginRender
-		///	true - clear back buffer
-		driver->beginRender( true, gtColor( 0.7372549019607843f, 0.8901960784313725f, 1.f, 1.f ) ); /// RGBA.
-		// driver->beginRender( true, gtColor( 188, 227, 255, 255 ) ); /// RGBA
-		// driver->beginRender( true, gtColor( 0xFFBCE3FF ) ); /// ARGB
-
-		///	After rendering, call driver->endRender
-		driver->endRender();
 	}
 
 	return 0;
