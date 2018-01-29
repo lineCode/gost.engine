@@ -63,10 +63,6 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 	///	4. Initialize graphics engine.
 	gtPtr_t(gtDriver,driver,d3d11Plugin->loadDriver( di ));
 
-	gtPluginAudio * audioPlugin = pluginSystem->getAsPluginAudio( pluginSystem->getPlugin( GT_UID_AUDIO_XADUDIO2 ) );
-
-	gtPtr_t(gtAudioSystem,audioSystem,audioPlugin->loadAudioDriver());
-
 	while( mainSystem->update() ){
 
 		///	If you do not use gtEventConsumer, use this method.
