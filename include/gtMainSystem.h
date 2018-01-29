@@ -101,7 +101,7 @@ namespace gost{
 			/// Инициализирует аудио плагин.
 			/// \param giud: id плагина.
 			/// \remark если guid == empty(), загрузится первый попавшийся аудио плагин
-		virtual gtPtrNew<gtAudioSystem> createAudioSystem( const gtString& guid = gtString() ) = 0;
+		virtual gtAudioSystem* createAudioSystem( const gtString& uid = gtString() ) = 0;
 
 			///	Создаёт окно, которое можно использовать для рисования 3D сцены
 			/// \param wi: window info
@@ -111,7 +111,7 @@ namespace gost{
 			///	Инициализирует видео драйвер
 			/// \param di: driver info
 			/// \return video driver
-		virtual gtDriver*	createVideoDriver( gtPlugin* videoDriverPlugin, const gtDriverInfo& di ) = 0;
+		virtual gtDriver*	createVideoDriver( /*gtPlugin* videoDriverPlugin, */const gtDriverInfo& di, const gtString& uid ) = 0;
 
 			///	Выделяет память размером size. Для освобождения нужно вызвать freeMemory
 			///	\param data: pointer to data
