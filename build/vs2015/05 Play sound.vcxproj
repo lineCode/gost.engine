@@ -26,47 +26,50 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\examples\05 Play sound\05 Play sound.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{69097B78-4444-4EC8-B1E5-802DE16C3AD8}</ProjectGuid>
-    <RootNamespace>gost</RootNamespace>
+    <ProjectGuid>{25293E4F-D8CF-432D-936A-49CD1DE70FEF}</ProjectGuid>
+    <RootNamespace>My01Initialization</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Production|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Production|x64'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -97,44 +100,41 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <TargetName>$(ProjectName)_d</TargetName>
-    <OutDir>../../lib/x86/</OutDir>
+    <OutDir>../../bin32/</OutDir>
     <IntDir>$(Configuration)\$(ProjectName)\</IntDir>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>../../lib/x86/</OutDir>
+    <OutDir>../../bin32/</OutDir>
     <IntDir>$(Configuration)\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Production|Win32'">
-    <OutDir>../../lib/x86/</OutDir>
+    <OutDir>../../bin32/</OutDir>
     <IntDir>$(Configuration)\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OutDir>../../lib/x64/</OutDir>
+    <OutDir>../../bin64/</OutDir>
     <IntDir>$(Configuration)\$(ProjectName)\</IntDir>
-    <TargetName>$(ProjectName)_d</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Production|x64'">
-    <OutDir>../../lib/x64/</OutDir>
+    <OutDir>../../bin64/</OutDir>
     <IntDir>$(Configuration)\$(ProjectName)\</IntDir>
-    <TargetName>$(ProjectName)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <OutDir>../../lib/x64/</OutDir>
+    <OutDir>../../bin64/</OutDir>
     <IntDir>$(Configuration)\$(ProjectName)\</IntDir>
-    <TargetName>$(ProjectName)</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>EnableAllWarnings</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>false</SDLCheck>
-      <AdditionalIncludeDirectories>../../include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_DEBUG;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>../../include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_DEBUG;_UNICODE;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
-      <OutputFile>../../bin32/$(TargetName)$(TargetExt)</OutputFile>
+      <AdditionalLibraryDirectories>../../lib/x86/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <SubSystem>Windows</SubSystem>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -142,11 +142,12 @@
       <WarningLevel>EnableAllWarnings</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>false</SDLCheck>
-      <AdditionalIncludeDirectories>../../include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_DEBUG;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>../../include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_DEBUG;_UNICODE;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <OutputFile>../../bin64/$(TargetName)$(TargetExt)</OutputFile>
+      <AdditionalLibraryDirectories>../../lib/x64/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <SubSystem>Windows</SubSystem>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -156,12 +157,14 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>false</SDLCheck>
-      <AdditionalIncludeDirectories>../../include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_UNICODE;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <OutputFile>../../bin32/$(TargetName)$(TargetExt)</OutputFile>
+      <AdditionalLibraryDirectories>../../lib/x86/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <SubSystem>Windows</SubSystem>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Production|Win32'">
@@ -171,12 +174,14 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>false</SDLCheck>
-      <AdditionalIncludeDirectories>../../include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_UNICODE;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <OutputFile>../../bin32/$(TargetName)$(TargetExt)</OutputFile>
+      <AdditionalLibraryDirectories>../../lib/x86/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <SubSystem>Windows</SubSystem>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -186,12 +191,13 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>false</SDLCheck>
-      <AdditionalIncludeDirectories>../../include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>../../include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <OutputFile>../../bin64/$(TargetName)$(TargetExt)</OutputFile>
+      <AdditionalLibraryDirectories>../../lib/x64/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Production|x64'">
@@ -200,121 +206,17 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>../../include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>../../include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <SDLCheck>false</SDLCheck>
+      <StringPooling>true</StringPooling>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <OutputFile>../../bin64/$(TargetName)$(TargetExt)</OutputFile>
+      <AdditionalLibraryDirectories>../../lib/x64/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="..\..\gost\dllmain.cpp" />
-    <ClCompile Include="..\..\gost\gost.cpp" />
-    <ClCompile Include="..\..\gost\gtAudioPlugin.cpp" />
-    <ClCompile Include="..\..\gost\gtCameraImpl.cpp" />
-    <ClCompile Include="..\..\gost\gtDriverCommon.cpp" />
-    <ClCompile Include="..\..\gost\gtDummyObjectImpl.cpp" />
-    <ClCompile Include="..\..\gost\gtEventSystem.cpp" />
-    <ClCompile Include="..\..\gost\gtFileSystemCommon.cpp" />
-    <ClCompile Include="..\..\gost\gtFileSystemImpl.cpp" />
-    <ClCompile Include="..\..\gost\gtFileSystemWin32.cpp" />
-    <ClCompile Include="..\..\gost\gtFileWin32.cpp" />
-    <ClCompile Include="..\..\gost\gtLogerImpl.cpp" />
-    <ClCompile Include="..\..\gost\gtMainSystemCommon.cpp" />
-    <ClCompile Include="..\..\gost\gtMainSystemWin32.cpp" />
-    <ClCompile Include="..\..\gost\gtModelImpl.cpp" />
-    <ClCompile Include="..\..\gost\gtModelSystemImpl.cpp" />
-    <ClCompile Include="..\..\gost\gtOutputWindowWin32.cpp" />
-    <ClCompile Include="..\..\gost\gtPluginImportImage.cpp" />
-    <ClCompile Include="..\..\gost\gtPluginImportModel.cpp" />
-    <ClCompile Include="..\..\gost\gtPluginRender.cpp" />
-    <ClCompile Include="..\..\gost\gtPluginSystemImpl.cpp" />
-    <ClCompile Include="..\..\gost\gtSceneSystemImpl.cpp" />
-    <ClCompile Include="..\..\gost\gtStaticObjectImpl.cpp" />
-    <ClCompile Include="..\..\gost\gtTimerWin32.cpp" />
-    <ClCompile Include="..\..\gost\gtWindowCommon.cpp" />
-    <ClCompile Include="..\..\gost\gtWindowWin32.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\gost\gtCameraImpl.h" />
-    <ClInclude Include="..\..\gost\gtDriverCommon.h" />
-    <ClInclude Include="..\..\gost\gtDummyObjectImpl.h" />
-    <ClInclude Include="..\..\gost\gtEventSystem.h" />
-    <ClInclude Include="..\..\gost\gtFileSystemCommon.h" />
-    <ClInclude Include="..\..\gost\gtFileSystemWin32.h" />
-    <ClInclude Include="..\..\gost\gtFileWin32.h" />
-    <ClInclude Include="..\..\gost\gtLogerImpl.h" />
-    <ClInclude Include="..\..\gost\gtMainSystemCommon.h" />
-    <ClInclude Include="..\..\gost\gtMainSystemWin32.h" />
-    <ClInclude Include="..\..\gost\gtModelImpl.h" />
-    <ClInclude Include="..\..\gost\gtModelSystemImpl.h" />
-    <ClInclude Include="..\..\gost\gtOutputWindowWin32.h" />
-    <ClInclude Include="..\..\gost\gtPluginSystemImpl.h" />
-    <ClInclude Include="..\..\gost\gtSceneSystemImpl.h" />
-    <ClInclude Include="..\..\gost\gtStaticObjectImpl.h" />
-    <ClInclude Include="..\..\gost\gtTimerWin32.h" />
-    <ClInclude Include="..\..\gost\gtWindowCommon.h" />
-    <ClInclude Include="..\..\gost\gtWindowWin32.h" />
-    <ClInclude Include="..\..\gost\common.h" />
-    <ClInclude Include="..\..\include\gost.h" />
-    <ClInclude Include="..\..\include\gtAABB.h" />
-    <ClInclude Include="..\..\include\gtAllocator.h" />
-    <ClInclude Include="..\..\include\gtAnimation.h" />
-    <ClInclude Include="..\..\include\gtArray.h" />
-    <ClInclude Include="..\..\include\gtAudioObject.h" />
-    <ClInclude Include="..\..\include\gtAudioSource.h" />
-    <ClInclude Include="..\..\include\gtAudioSystem.h" />
-    <ClInclude Include="..\..\include\gtBaseObject.h" />
-    <ClInclude Include="..\..\include\gtCamera.h" />
-    <ClInclude Include="..\..\include\gtColor.h" />
-    <ClInclude Include="..\..\include\gtDriver.h" />
-    <ClInclude Include="..\..\include\gtDummyObject.h" />
-    <ClInclude Include="..\..\include\gtError.h" />
-    <ClInclude Include="..\..\include\gtEvent.h" />
-    <ClInclude Include="..\..\include\gtFileSystem.h" />
-    <ClInclude Include="..\..\include\gtGameObject.h" />
-    <ClInclude Include="..\..\include\gtImage.h" />
-    <ClInclude Include="..\..\include\gtInfo.h" />
-    <ClInclude Include="..\..\include\gtInput.h" />
-    <ClInclude Include="..\..\include\gtList.h" />
-    <ClInclude Include="..\..\include\gtLoger.h" />
-    <ClInclude Include="..\..\include\gtMainSystem.h" />
-    <ClInclude Include="..\..\include\gtMaterial.h" />
-    <ClInclude Include="..\..\include\gtMath.h" />
-    <ClInclude Include="..\..\include\gtMatrix.h" />
-    <ClInclude Include="..\..\include\gtModel.h" />
-    <ClInclude Include="..\..\include\gtModelSystem.h" />
-    <ClInclude Include="..\..\include\gtOutputWindow.h" />
-    <ClInclude Include="..\..\include\gtPlugin.h" />
-    <ClInclude Include="..\..\include\gtPluginSystem.h" />
-    <ClInclude Include="..\..\include\gtPriorQueue.h" />
-    <ClInclude Include="..\..\include\gtPtr.h" />
-    <ClInclude Include="..\..\include\gtQuaternion.h" />
-    <ClInclude Include="..\..\include\gtRefObject.h" />
-    <ClInclude Include="..\..\include\gtRenderModel.h" />
-    <ClInclude Include="..\..\include\gtSceneSystem.h" />
-    <ClInclude Include="..\..\include\gtShader.h" />
-    <ClInclude Include="..\..\include\gtSprite.h" />
-    <ClInclude Include="..\..\include\gtStackTrace.h" />
-    <ClInclude Include="..\..\include\gtStaticObject.h" />
-    <ClInclude Include="..\..\include\gtString.h" />
-    <ClInclude Include="..\..\include\gtSubModel.h" />
-    <ClInclude Include="..\..\include\gtTexture.h" />
-    <ClInclude Include="..\..\include\gtTimer.h" />
-    <ClInclude Include="..\..\include\gtTypes.h" />
-    <ClInclude Include="..\..\include\gtUtilities.h" />
-    <ClInclude Include="..\..\include\gtVector.h" />
-    <ClInclude Include="..\..\include\gtVertex.h" />
-    <ClInclude Include="..\..\include\gtWindow.h" />
-    <ClInclude Include="..\..\include\iSqrt_table.hpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="..\..\gost\ReadMe.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\include\gtStackTraceWin32.inl" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
