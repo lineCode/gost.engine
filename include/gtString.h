@@ -330,6 +330,30 @@ namespace gost{
 			}
 		}
 
+		void erase( u32 begin, u32 end ){
+			GT_ASSERT3(m_size);
+			GT_ASSERT3(begin<=end);
+			GT_ASSERT3(begin<m_size);
+			GT_ASSERT3(end<m_size);
+
+			u32 numCharsToDelete = end - begin + 1u; // example, delete first char: 0 - 0 + 1
+
+			u32 next = end + 1u;
+
+			for( u32 i = begin; i < m_size; ++i ){
+
+				if( next < m_size ){
+
+					m_data[ i ] = m_data[ next ];
+
+					++next;
+				}
+
+			}
+
+			m_size -= numCharsToDelete;
+			m_data[ m_size ] = 0;
+		}
 	};
 
 	//! \brief Строка с utf-16. gtString(u"asdasd")

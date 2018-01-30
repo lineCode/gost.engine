@@ -30,7 +30,7 @@
 
 
 //C++
-//#include <cctype> //isalpha
+#include <cctype> //isalpha
 #include <fstream>
 #include <sstream>
 #include <string>
@@ -42,6 +42,7 @@
 #include <gtTypes.h>
 
 
+#include <gtError.h>
 
 #include <gtString.h>
 
@@ -50,7 +51,6 @@
 #include <gtPtr.h>
 
 #include <gtLoger.h>
-#include <gtError.h>
 
 #include <gtAllocator.h>
 

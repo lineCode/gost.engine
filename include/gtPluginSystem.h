@@ -36,6 +36,8 @@ namespace gost{
 	class gtPluginRender;
 	class gtPluginImportImage;
 	class gtPluginImportModel;
+	class gtPluginAudio;
+
 
 		///	Интерфейс для работы с плагинами
 	class gtPluginSystem : public gtRefObject{
@@ -72,6 +74,12 @@ namespace gost{
 		gtPluginRender * getAsPluginRender( gtPlugin * plugin ){
 			if( plugin->getInfo().m_info.m_type == gtPluginType::render )
 				return reinterpret_cast<gtPluginRender*>(plugin);
+			return nullptr;
+		}
+
+		gtPluginAudio * getAsPluginAudio( gtPlugin * plugin ){
+			if( plugin->getInfo().m_info.m_type == gtPluginType::audio )
+				return reinterpret_cast<gtPluginAudio*>(plugin);
 			return nullptr;
 		}
 
@@ -132,6 +140,8 @@ namespace gost{
 			///	указатель на функцию запуска audio плагина
 			/// \return gtAudioSystem*
 		gtLoadAudioDriver_t loadAudioDriverProc;
+
+		virtual gtAudioSystem* loadAudioDriver();
 
 			///	Загрузить плагин в память
 		void load( void );

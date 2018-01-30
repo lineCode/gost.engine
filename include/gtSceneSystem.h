@@ -86,6 +86,9 @@ namespace gost{
 			///	Render all objects, which added by method with "add" prefix
 		virtual void renderScene( void ) = 0;
 
+			///	Remove objects from scene
+		virtual void clearScene( void ) = 0;
+
 	};
 
 }

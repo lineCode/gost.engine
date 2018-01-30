@@ -159,8 +159,6 @@ namespace gost{
 			return m_currentWindowSize;
 		}
 
-		/*временно*/
-		friend void setHandle( gtDriver* instance, void * h );
 	};
 
 }

@@ -1,28 +1,60 @@
 ﻿/*!	GOST
-	\file gtAudioSystem.h
-	\brief GoST audio system
+	\file gtAudioObject.h
+	\brief Object with loaded audio
 */
-
 #pragma once
-#ifndef __GT_AUDIO_SYSTEM_H__
-#define __GT_AUDIO_SYSTEM_H__ ///< include guard
+#ifndef __GT_AUDIO_OBJECT_H__
+#define __GT_AUDIO_OBJECT_H__ ///< include guard
 
-#include <gtAudioObject.h>
+#include <gtAudioSource.h>
 
 namespace gost{
 
-
-		///	Класс для работы с аудио
-	class gtAudioSystem : public gtRefObject{
+			///	Common class for all sound objects
+	class gtAudioObject : public gtRefObject{
 	public:
 
-			///	Load audio file. After using need call `release`
-			/// \param fileName: audio file
-			///	\param sp: Simultaneous playback.
-		virtual gtAudioObject*	createAudioObject( const gtString& fileName, u32 sp = 1u ) = 0;
-		virtual gtAudioObject*	createAudioObject( gtAudioSource* source, u32 sp = 1u ) = 0;
+		virtual void play( void ) = 0;
+		virtual bool isPlay( void ) = 0;
 
-		virtual gtAudioSource*	loadAudioSource( const gtString& fileName ) = 0;
+		virtual void pause( void ) = 0;
+		virtual void stop( void ) = 0;
+
+		virtual void setVolume( f32 volume ) = 0;
+		virtual f32  getVolume( void ) = 0;
+
+		virtual void setLoop( bool isLoop ) = 0;
+		virtual bool isLoop( void ) = 0;
+
+		virtual void setAudioSource( gtAudioSource* source ) = 0;
+		virtual gtAudioSource* getAudioSource( void ) = 0;
+	};
+
+	class gtAudioObjectCommon : public gtAudioObject{
+	protected:
+		bool m_isPlay;
+		bool m_isLoop;
+	public:
+
+		gtAudioObjectCommon( void ):
+			m_isPlay( false ),
+			m_isLoop( false )
+		{
+#ifdef GT_DEBUG
+			m_debugName = "gtAudioObject";
+#endif
+		}
+
+		virtual ~gtAudioObjectCommon( void ){}
+
+		bool isPlay( void ){
+			return m_isPlay;
+		}
+
+
+		bool isLoop( void ){
+			return m_isLoop;
+		}
 
 	};
 
@@ -31,7 +63,7 @@ namespace gost{
 #endif
 
 /*
-Copyright (c) 2017, 2018 532235
+Copyright (c) 2018 532235
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
 and associated documentation files (the "Software"), to deal in the Software without restriction, 
