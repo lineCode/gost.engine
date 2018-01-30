@@ -31,7 +31,7 @@ namespace gost{
 
 
 			//	дл€ двоичной записи
-		void	write( u8 * data, u32 size );
+		u32		write( u8 * data, u32 size );
 
 			//	дл€ текста. –аботает если файл открыт в текстовом режиме.
 		void	write( const gtStringA& string );

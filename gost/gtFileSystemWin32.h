@@ -61,6 +61,7 @@ namespace gost{
 
 			//	возвращает путь к системной папке
 		gtString getSystemPath( void );
+		gtString getRealPath( const gtString& in );
 	};
 
 }

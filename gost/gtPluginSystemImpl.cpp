@@ -179,12 +179,14 @@ gtPlugin*	gtPluginSystemImpl::getPlugin( u32 id ){
 	//	загружает картинку
 gtImage * gtPluginSystemImpl::importImage( const gtString& fileName, const gtString& guid, bool useguid ){
 
-	if( !gtFileSystem::existFile( fileName ) ){
-		gtLogWriter::printWarning( u"Can not load image [%s]. File not exist.", fileName.data() );
+	gtString realPath = gtFileSystem::getRealPath( fileName );
+
+	if( !gtFileSystem::existFile( realPath ) ){
+		gtLogWriter::printWarning( u"Can not load image [%s]. File not exist.", realPath.data() );
 		return nullptr;
 	}
 
-	gtString file = fileName;
+	gtString file = realPath;
 	util::stringFlipSlash( file );
 	
 	gtString ext = util::stringGetExtension( file );
@@ -216,7 +218,7 @@ gtImage * gtPluginSystemImpl::importImage( const gtString& fileName, const gtStr
 	}
 
 	if( image->data ){
-		gtLogWriter::printInfo(u"Loading image: %s", fileName.data());
+		gtLogWriter::printInfo(u"Loading image: %s", realPath.data());
 		return image;
 	}
 
@@ -227,12 +229,14 @@ gtImage * gtPluginSystemImpl::importImage( const gtString& fileName, const gtStr
 	//	загружает модель
 gtModel * gtPluginSystemImpl::importModel( const gtString& fileName, const gtString& guid, bool useguid){
 
-	if( !gtFileSystem::existFile( fileName ) ){
-		gtLogWriter::printWarning( u"Can not load model [%s]. File not exist.", fileName.data() );
+	gtString realPath = gtFileSystem::getRealPath( fileName );
+
+	if( !gtFileSystem::existFile( realPath ) ){
+		gtLogWriter::printWarning( u"Can not load model [%s]. File not exist.", realPath.data() );
 		return nullptr;
 	}
 
-	gtString file = fileName;
+	gtString file = realPath;
 	util::stringFlipSlash( file );
 	
 	gtString ext = util::stringGetExtension( file );
