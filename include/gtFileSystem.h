@@ -60,7 +60,7 @@ namespace gost{
 			///	Записать двоичные данные
 			/// \param data: данные которые нужно записать
 			/// \param size: размер данных в байтах
-		virtual void	write( u8 * data, u32 size ) = 0;
+		virtual u32		write( u8 * data, u32 size ) = 0;
 
 			///	Записать текст. Работает если файл открыт в текстовом режиме.
 			/// \param string: text
@@ -284,6 +284,8 @@ namespace gost{
 			/// \return Вернёт путь к системной папке
 		GT_API static gtString getSystemPath( void );
 
+			///	Переведёт путь вида например '../media/file.ext' в полный путь
+		GT_API static gtString getRealPath( const gtString& in );
 
 	};
 
@@ -316,6 +318,11 @@ namespace gost{
 
 		GT_FORCE_INLINE gtPtrNew<gtFile> openFileForReadBin( const gtString& fileName ){
 			return gtFileSystem::createFile( fileName, gtFileSystem::FileMode::EFM_BINARY, gtFileSystem::FileAccessMode::EFAM_READ, 
+				gtFileSystem::FileAction::EFA_OPEN );
+		}
+
+		GT_FORCE_INLINE gtPtrNew<gtFile> openFileForWriteBin( const gtString& fileName ){
+			return gtFileSystem::createFile( fileName, gtFileSystem::FileMode::EFM_BINARY, gtFileSystem::FileAccessMode::EFAM_WRITE, 
 				gtFileSystem::FileAction::EFA_OPEN );
 		}
 	}

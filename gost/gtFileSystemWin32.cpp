@@ -203,6 +203,38 @@ gtString gtFileSystemWin32::getSystemPath( void ){
 	return m_systemPath;
 }
 
+gtString gtFileSystemWin32::getRealPath( const gtString& in ){
+	u32 dots_count = 0u;
+
+	u32 in_sz = in.size();
+
+	u32 last = in_sz - 1;
+
+	for( u32 i = 0u; i < in_sz; ++i ){
+		if( in[ i ] == u'.' ){
+
+			if( i < last ){
+				if( in[ i + 1u ] == u'.' ){
+					++dots_count;
+					++i;// skip second .
+				}
+			}
+		}
+	}
+
+	gtString realPath = m_exePath;
+	gtString relativePath = in;
+	for( u32 i = 0u; i < dots_count; ++i ){
+		util::stringPopBackBefore( realPath, '/' );
+		relativePath.erase( 0u, 2u );
+	}
+
+	realPath += relativePath;
+
+
+	return realPath;
+}
+
 
 /*
 Copyright (c) 2017 532235

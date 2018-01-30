@@ -75,6 +75,10 @@ gtString gtFileSystem::getSystemPath( void ){
 	return gtMainSystemCommon::s_fileSystem->getSystemPath();
 }
 
+gtString gtFileSystem::getRealPath( const gtString& in ){
+	return gtMainSystemCommon::s_fileSystem->getRealPath( in );
+}
+
 /*
 Copyright (c) 2017 532235
 

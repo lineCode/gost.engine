@@ -214,31 +214,45 @@ bool gtMainSystemCommon::isRun( void ){
 
 gtAudioSystem* gtMainSystemCommon::createAudioSystem( const gtString& uid ){
 	/*
-	GT_ASSERT2( videoDriverPlugin, "videoDriverPlugin was nullptr" );
+	auto plugin = this->getPluginSystem()->getPlugin( uid );
 
-	if( !videoDriverPlugin ) return nullptr;
-
-	if( videoDriverPlugin->getInfo().m_info.m_type != gtPluginType::render ){
-
+	if( plugin->getInfo().m_info.m_type != gtPluginType::render ){
 		gtLogWriter::printError( u"Can not create video driver" );
-
-#ifdef GT_EDBUG
-		gtStackTrace::dumpStackTrace();
-#endif
-
 		return nullptr;
 	}
 
-	gtPluginRender* plugin = (gtPluginRender*)videoDriverPlugin;
-
-	return plugin->loadDriver( params );
+	return ((gtPluginRender*)plugin)->loadDriver( params );
 	*/
-	/*if( guid.size() ){
-	}else{
+	
+	gtPlugin * plugin = nullptr;
+	gtPluginAudio * pluginAudio = nullptr;
+
+	auto * ps = getPluginSystem();
+
+	if( uid.size() )
+		plugin = ps->getPlugin( uid );
+
+	if( !plugin || !uid.size() ){
+		u32 np = ps->getNumOfPlugins();
+
+		for( u32 i = 0u; i < np; ++i ){
+
+			auto * pl = ps->getPlugin( i );
+
+			if( pl->getInfo().m_info.m_type == gtPluginType::audio ){
+			
+				pluginAudio = ps->getAsPluginAudio( pl );
+
+				auto * ret = pluginAudio->loadAudioDriver();
+
+				if( ret ) return ret;
+
+			}
+		}
 	}
 
-	return gtPtrNew<gtAudioSystem>( new gtAudioSystem );*/
-	return nullptr;
+	pluginAudio = ps->getAsPluginAudio( plugin );
+	return pluginAudio->loadAudioDriver();
 }
 
 /*

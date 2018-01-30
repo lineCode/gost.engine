@@ -84,6 +84,7 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 	f32 move_speed = 10.f;
 	u32 time = mainSystem->getTime();
 
+
 	while( mainSystem->update() ){
 
 		u32 now = mainSystem->getTime();
@@ -91,6 +92,7 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 		while( mainSystem->pollEvent( event ) ){
 			switch( event.type ){
 				case gtEventType::keyboard:
+
 
 				if( event.keyboardEvent.isReleased( gtKey::K_ESCAPE ) ){
 					mainSystem->shutdown(); /// exit when key released
@@ -100,6 +102,7 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 		}
 
 		if( mainSystem->isRun() ){
+
 
 			/// Camera zoom
 			if( mainSystem->isKeyPressed( gtKey::K_X ) ) camera->setFOV( camera->getFOV() + 10.f * delta );

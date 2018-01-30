@@ -100,20 +100,22 @@ gtFile::TextFileInfo	gtFileWin32::getTextFileInfo( void ){
 }
 
 //	дл€ двоичной записи
-void	gtFileWin32::write( u8 * data, u32 size ){
+u32	gtFileWin32::write( u8 * data, u32 size ){
 
 	GT_ASSERT1( (m_desiredAccess & GENERIC_WRITE), "Can not write to file.", "File open in READ_ONLY mode" );
 
 	if( !m_handle ){
 		gtLogWriter::printWarning( u"Can not write text to file. m_handle == nullptr" );
-		return;
+		return 0;
 	}
 
-	DWORD bytesWritten;
+	DWORD bytesWritten = 0;
 	if( WriteFile( m_handle, data, size, &bytesWritten, NULL ) == FALSE ){
 		gtLogWriter::printWarning( u"Can not write text to file. Error code [%u]", GetLastError() );
 	}else 
 		m_pointerPosition += size;
+
+	return bytesWritten;
 }
 
 //	дл€ текста. –аботает если файл открыт в текстовом режиме.

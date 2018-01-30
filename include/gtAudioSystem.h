@@ -7,6 +7,8 @@
 #ifndef __GT_AUDIO_SYSTEM_H__
 #define __GT_AUDIO_SYSTEM_H__ ///< include guard
 
+#include <gtAudioObject.h>
+
 namespace gost{
 
 
@@ -14,9 +16,13 @@ namespace gost{
 	class gtAudioSystem : public gtRefObject{
 	public:
 
-			/// Get `this`
-		GT_API static gtAudioSystem*	getInstance( void );
+			///	Load audio file. After using need call `release`
+			/// \param fileName: audio file
+			///	\param sp: Simultaneous playback.
+		virtual gtAudioObject*	createAudioObject( const gtString& fileName, u32 sp = 1u ) = 0;
+		virtual gtAudioObject*	createAudioObject( gtAudioSource* source, u32 sp = 1u ) = 0;
 
+		virtual gtAudioSource*	loadAudioSource( const gtString& fileName ) = 0;
 
 	};
 

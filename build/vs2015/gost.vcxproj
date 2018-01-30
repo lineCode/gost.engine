@@ -262,6 +262,8 @@
     <ClInclude Include="..\..\include\gtAllocator.h" />
     <ClInclude Include="..\..\include\gtAnimation.h" />
     <ClInclude Include="..\..\include\gtArray.h" />
+    <ClInclude Include="..\..\include\gtAudioObject.h" />
+    <ClInclude Include="..\..\include\gtAudioSource.h" />
     <ClInclude Include="..\..\include\gtAudioSystem.h" />
     <ClInclude Include="..\..\include\gtBaseObject.h" />
     <ClInclude Include="..\..\include\gtCamera.h" />

@@ -9,7 +9,7 @@
 #if defined( GT_USE_STACK_TRACE )
 
 #if defined( GT_PLATFORM_WIN32 )
-#include <Windows.h>
+//#include <Windows.h>
 #include <dbghelp.h>
 #pragma comment(lib,"Dbghelp.lib")
 #else

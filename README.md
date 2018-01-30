@@ -11,6 +11,7 @@ Wiki for samples https://github.com/532235/GoST/wiki
 - .obj model import
 - .png image import
 - .bmp image import
+- 2D sprite with animation
 
 # VS 2015 Redistributable
 http://imsoftworks.info/files/VS%202015%20redist.7z
