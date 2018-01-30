@@ -51,7 +51,9 @@ gtTexture * gtDriverD3D11::getStandartTexture( void ){
 }
 
 gtDriverD3D11::~gtDriverD3D11( void ){
-	
+
+
+
 	if( m_standartTexture.data() )
 		m_standartTexture->release();
 
@@ -726,14 +728,19 @@ gtShader *	gtDriverD3D11::getShader(
 	std::unique_ptr<s8[]> pixelBuffer;
 
 	//	если указан файл то читаем его
-	if( gtFileSystem::existFile( vertexShader ) ){
 
-		gtFile_t file = util::openFileForReadText( vertexShader );
+	//	попробую получить полный путь
+	gtString fullPathVS = gtFileSystem::getRealPath( vertexShader );
+	gtString fullPathPS = gtFileSystem::getRealPath( pixelShader );
+
+	if( gtFileSystem::existFile( fullPathVS ) ){
+
+		gtFile_t file = util::openFileForReadText( fullPathVS );
 
 		u32 sz = file->size();
 		
 		if( !sz ){
-			gtLogWriter::printError( u"Empty shader file [%s]", vertexShader.data() );
+			gtLogWriter::printError( u"Empty shader file [%s]", fullPathVS.data() );
 			return nullptr;
 		}
 
@@ -761,11 +768,11 @@ gtShader *	gtDriverD3D11::getShader(
 		}
 	}
 
-	if( gtFileSystem::existFile( pixelShader ) ){
-		gtFile_t file = util::openFileForReadText( pixelShader );
+	if( gtFileSystem::existFile( fullPathPS ) ){
+		gtFile_t file = util::openFileForReadText( fullPathPS );
 		u32 sz = file->size();
 		if( !sz ){
-			gtLogWriter::printError( u"Empty shader file [%s]", pixelShader.data() );
+			gtLogWriter::printError( u"Empty shader file [%s]", fullPathPS.data() );
 			return nullptr;
 		}
 		pixelBuffer.reset( new s8[ sz+1 ] );
