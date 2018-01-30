@@ -52,6 +52,13 @@ enum class XAudioVersion : u32{
 	none
 };
 
+#define NUM_OF_SUPPORTED_EXTENSIONS 2u
+
+constexpr s8* Extensions[ NUM_OF_SUPPORTED_EXTENSIONS ] = {
+	"wav",
+	"ogg"
+};
+
 #define _USE_MATH_DEFINES
 #undef _MATH_DEFINES_DEFINED
 

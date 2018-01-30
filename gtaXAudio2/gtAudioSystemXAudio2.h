@@ -28,6 +28,45 @@ namespace gost{
 		void STDMETHODCALLTYPE OnLoopEnd(void * pBufferContext) {    }
 		void STDMETHODCALLTYPE OnVoiceError(void * pBufferContext, HRESULT Error) { }
 	};
+
+	struct StreamingVoiceContext : public IXAudio2VoiceCallback
+	{
+				STDMETHOD_( void, OnVoiceProcessingPassStart )( UINT32 )
+				{
+				}
+				STDMETHOD_( void, OnVoiceProcessingPassEnd )()
+				{
+				}
+				STDMETHOD_( void, OnStreamEnd )()
+				{
+				}
+				STDMETHOD_( void, OnBufferStart )( void* )
+				{
+				}
+				STDMETHOD_( void, OnBufferEnd )( void* )
+				{
+					SetEvent( hBufferEndEvent );
+				}
+				STDMETHOD_( void, OnLoopEnd )( void* )
+				{
+				}
+				STDMETHOD_( void, OnVoiceError )( void*, HRESULT )
+				{
+				}
+
+		HANDLE hBufferEndEvent;
+
+				StreamingVoiceContext() : hBufferEndEvent( CreateEvent( NULL, FALSE, FALSE, NULL ) )
+				{
+				}
+		virtual ~StreamingVoiceContext()
+		{
+			CloseHandle( hBufferEndEvent );
+		}
+	};
+
+
+
 	class gtAudioSystemXAudio2_7 : public gtAudioSystem{
 
 		XAudioVersion			m_version;
@@ -111,10 +150,44 @@ namespace gost{
 			bool			init( u32 sp );
 		};
 
+		class gtAudioStreamImpl : public gtAudioStream{
+			bool					m_isOpen;
+			gtFile *				m_file;
+			f32						m_volume;
+			StreamingVoiceContext	m_voiceContext;
+
+			Wave					m_wave;
+
+			gtAudioSourceInfo		m_info;
+
+		public:
+
+			gtAudioStreamImpl( void );
+			~gtAudioStreamImpl( void );
+
+			void			play( void );
+			void			pause( void );
+			void			stop( void );
+			void			setVolume( f32 volume );
+			f32				getVolume( void );
+			void			setLoop( bool isLoop );
+			void			setAudioSource( gtAudioSource* source );
+			gtAudioSource*	getAudioSource( void );
+
+			bool	close( void );
+			bool	open( const gtString& fileName );
+		};
+
 		gtAudioObject*	createAudioObject( const gtString& fileName, u32 sp = 1u );
 		gtAudioObject*	createAudioObject( gtAudioSource* source, u32 sp = 1u );
 
 		gtAudioSource*	loadAudioSource( const gtString& fileName );
+
+		bool	checkFeature( gtAudioPluginFeatures feature );
+		u32		getSupportedExtensions( void );
+		const s8*		getSupportedExtension( u32 id );
+
+		gtAudioStream*	createStream( const gtString& fileName );
 
 		static gtAudioSystemXAudio2_7* s_instance;
 		static gtAudioSystemXAudio2_7*	getInstance( void );

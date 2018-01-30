@@ -25,9 +25,9 @@ gtAudioSourceImpl* Ogg::read( const gtString& fileName ){
 	info.m_formatType		= 1;
 	info.m_channels			= pInfo->channels;
 	info.m_sampleRate		= pInfo->rate;
-	info.m_AvgBytesPerSec	= pInfo->bitrate_nominal;
-	info.m_BlockAlign		= 4;
-	info.m_BitsPerSample	= 16;
+	info.m_bytesPerSec	= pInfo->bitrate_nominal;
+	info.m_blockAlign		= 4;
+	info.m_bitsPerSample	= 16;
 	
 	std::vector<u8> buffer;
 
