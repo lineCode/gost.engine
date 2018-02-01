@@ -45,6 +45,8 @@ namespace gost{
 		u32			getTime( void );
 			//	получит указатель на таймер
 		gtTimer*	getTimer( void );
+
+		gtThread*	createThread( void );
 	};
 
 }

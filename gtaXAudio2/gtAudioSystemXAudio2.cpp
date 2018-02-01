@@ -9,6 +9,7 @@ gtAudioSystemXAudio2_7::gtAudioSystemXAudio2_7( void ):
 	m_SubmixVoice( nullptr )
 {
 	s_instance = this;
+	CoInitializeEx( NULL, COINIT_MULTITHREADED );
 }
 
 gtAudioSystemXAudio2_7::~gtAudioSystemXAudio2_7( void ){
@@ -30,7 +31,7 @@ gtAudioSystemXAudio2_7*	gtAudioSystemXAudio2_7::getInstance( void ){
 bool	gtAudioSystemXAudio2_7::checkFeature( gtAudioPluginFeatures feature ){
 	switch( feature ){
 		case gost::gtAudioPluginFeatures::streaming_audio:
-		return false;
+		return true;
 		break;
 		case gost::gtAudioPluginFeatures::reverberation:
 		return false;
@@ -69,10 +70,8 @@ bool gtAudioSystemXAudio2_7::initialize( XAudioVersion version ){
 
 	m_libXAudio = LoadLibrary( (wchar_t*)path.c_str() );
 	if( !m_libXAudio ){
-#ifdef GT_DEBUG
 		gtLogWriter::printError( u"Can not load XAudio library" );
 		MessageBox( 0, L"See log.txt for details", L"Error", MB_OK );
-#endif
 		return false;
 	}
 
@@ -80,47 +79,37 @@ bool gtAudioSystemXAudio2_7::initialize( XAudioVersion version ){
 	HRESULT hr = 0;
 
 	if( FAILED( hr = XAudio2Create( &m_XAudio2, flags, XAUDIO2_DEFAULT_PROCESSOR ) ) ){
-#ifdef GT_DEBUG
         gtLogWriter::printError( u"Failed to init XAudio2 engine: %i", hr );
 		MessageBox( 0, L"See log.txt for details", L"Error", MB_OK );
-#endif
         return false;
     }
 
 	if( FAILED( hr = m_XAudio2->CreateMasteringVoice( 
 		&m_MasteringVoice,
 		XAUDIO2_DEFAULT_CHANNELS) ) ){
-#ifdef GT_DEBUG
 		gtLogWriter::printError( u"Failed creating mastering voice: %i", hr );
 		MessageBox( 0, L"See log.txt for details", L"Error", MB_OK );
-#endif
 		return false;
     }
 
 	XAUDIO2_DEVICE_DETAILS deviceDetails;
 	if( FAILED( hr = m_XAudio2->GetDeviceDetails( 0, &deviceDetails ) ) ){
-#ifdef GT_DEBUG
 		gtLogWriter::printError( u"Failed get device details: %i", hr );
 		MessageBox( 0, L"See log.txt for details", L"Error", MB_OK );
-#endif
         return false;
 	}
 
 	if( deviceDetails.OutputFormat.Format.nChannels > OUTPUTCHANNELS ){
-#ifdef GT_DEBUG
 		gtLogWriter::printError( u"Failed create audio engine" );
 		MessageBox( 0, L"See log.txt for details", L"Error", MB_OK );
-#endif
 		return false;
     }
 
 	DWORD channelMask = deviceDetails.OutputFormat.dwChannelMask;
 	u32 nuofchannels = deviceDetails.OutputFormat.Format.nChannels;
 	if( FAILED( hr = XAudio2CreateReverb( &m_ReverbEffect, 0 ) ) ){
-#ifdef GT_DEBUG
 		gtLogWriter::printError( u"Can't create AudioFX: %i", hr );
 		MessageBox( 0, L"See log.txt for details", L"Error", MB_OK );
-#endif
 		return false;
     }
 
@@ -129,10 +118,8 @@ bool gtAudioSystemXAudio2_7::initialize( XAudioVersion version ){
 	if( FAILED( hr = m_XAudio2->CreateSubmixVoice( &m_SubmixVoice, 1,
 			deviceDetails.OutputFormat.Format.nSamplesPerSec, 0, 0,
 				NULL, &effectChain ) ) ){
-#ifdef GT_DEBUG
 		gtLogWriter::printError( u"Can't create Submix Voice: %i", hr );
 		MessageBox( 0, L"See log.txt for details", L"Error", MB_OK );
-#endif
         return false;
     }
 
@@ -152,24 +139,18 @@ bool gtAudioSystemXAudio2_7::initialize( XAudioVersion version ){
 
 gtAudioStream*	gtAudioSystemXAudio2_7::createStream( const gtString& fileName ){
 
-	gtAudioStreamImpl * stream = new gtAudioStreamImpl;
+	gtAudioStreamImpl * stream = new gtAudioStreamImpl(m_XAudio2);
 
 	if( !stream ){
-#ifdef GT_DEBUG
 		gtLogWriter::printError( u"Can not allocate memory for stream object" );
-#endif
 		return nullptr;
 	}
 
-
 	if( !stream->open( fileName ) ){
-#ifdef GT_DEBUG
 		gtLogWriter::printError( u"Can not open stream" );
-#endif	
 		stream->release();
 		return nullptr;
 	}
-
 
 	return stream;
 }
@@ -200,16 +181,12 @@ gtAudioObject*	gtAudioSystemXAudio2_7::createAudioObject( gtAudioSource* source,
 	gtAudioObjectImpl * audioObject = new gtAudioObjectImpl( source );
 
 	if( !audioObject ){
-#ifdef GT_DEBUG
 		gtLogWriter::printWarning( u"Can not allocate memory for audio object" );
-#endif
 		return nullptr;
 	}
 
 	if( !audioObject->init( sp ) ){
-#ifdef GT_DEBUG
 		gtLogWriter::printWarning( u"Can not initialize audio object" );
-#endif
 		audioObject->release();
 		return nullptr;
 	}
@@ -217,7 +194,9 @@ gtAudioObject*	gtAudioSystemXAudio2_7::createAudioObject( gtAudioSource* source,
 	return audioObject;
 }
 
-
+void	gtAudioSystemXAudio2_7::gtAudioObjectImpl::setTime( f64 t ){
+	m_time = t;
+}
 
 
 gtAudioSource*	gtAudioSystemXAudio2_7::loadAudioSource( const gtString& fileName ){
@@ -225,9 +204,7 @@ gtAudioSource*	gtAudioSystemXAudio2_7::loadAudioSource( const gtString& fileName
 	gtString realPath = gtFileSystem::getRealPath( fileName );
 
 	if( !gtFileSystem::existFile( realPath ) ){
-#ifdef GT_DEBUG
 		gtLogWriter::printWarning( u"File not exist: %s", realPath.data() );
-#endif
 		return nullptr;
 	}
 
@@ -244,26 +221,29 @@ gtAudioSource*	gtAudioSystemXAudio2_7::loadAudioSource( const gtString& fileName
 		if( wave.getInfo( info ) )
 			source = wave.read( info );
 		else{
-#ifdef GT_DEBUG
-		gtLogWriter::printInfo( u"Can not get audio information" );
-#endif
-		return nullptr;
+			gtLogWriter::printInfo( u"Can not get audio information" );
+			return nullptr;
 		}
 
 		if( !source )
 			return nullptr;
 
 	}else if( ext == u"ogg" ){
-		Ogg ogg;
-		source = ogg.read( realPath );
+		Ogg ogg( realPath );
+
+		if( ogg.getInfo( info ) )
+			source = ogg.read( info );
+		else{
+			gtLogWriter::printInfo( u"Can not get audio information" );
+			return nullptr;
+		}
 
 		if( !source )
 			return nullptr;
 
+
 	}else{
-#ifdef GT_DEBUG
 		gtLogWriter::printInfo( u"Unknown sound file" );
-#endif
 		return nullptr;
 	}
 
@@ -299,7 +279,7 @@ gtAudioSystemXAudio2_7::gtAudioObjectImpl::~gtAudioObjectImpl( void ){
 }
 
 bool gtAudioSystemXAudio2_7::gtAudioObjectImpl::init( u32 sp ){
-	HRESULT hr;
+//	HRESULT hr;
 
 	auto * asys = gtAudioSystemXAudio2_7::getInstance();
 
@@ -312,16 +292,19 @@ bool gtAudioSystemXAudio2_7::gtAudioObjectImpl::init( u32 sp ){
 
 	gtAudioSourceImpl* source = (gtAudioSourceImpl*)m_source;
 
+	setTime( source->m_time );
+
+
 	WAVEFORMATEX wfex;
 	ZeroMemory( &wfex, sizeof( wfex ) );
 
 	const gtAudioSourceInfo& info = source->getInfo();
-	wfex.cbSize				= source->getDataSize();
+	wfex.cbSize				= 0u;//source->getDataSize();
 	wfex.nAvgBytesPerSec	= info.m_bytesPerSec;
-	wfex.nBlockAlign		= info.m_blockAlign;
-	wfex.nChannels			= info.m_channels;
-	wfex.wBitsPerSample		= info.m_bitsPerSample;
-	wfex.wFormatTag			= info.m_formatType;
+	wfex.nBlockAlign		= (WORD)info.m_blockAlign;
+	wfex.nChannels			= (WORD)info.m_channels;
+	wfex.wBitsPerSample		= (WORD)info.m_bitsPerSample;
+	wfex.wFormatTag			= (WORD)info.m_formatType;
 	wfex.nSamplesPerSec		= info.m_sampleRate;
 
 	m_sourceMax = sp;
@@ -331,9 +314,7 @@ bool gtAudioSystemXAudio2_7::gtAudioObjectImpl::init( u32 sp ){
 	for( u32 i = 0u; i < m_sourceMax; ++i ){
 		if( FAILED( asys->m_XAudio2->CreateSourceVoice( &sv, &wfex, 0,
 			XAUDIO2_DEFAULT_FREQ_RATIO, &m_callback, &sendList ) ) ){
-#ifdef GT_DEBUG
 			gtLogWriter::printWarning( u"Can not create source voice" );
-#endif
 			return false;
 		}
 		m_sourceVoice.push_back( sv );
@@ -354,9 +335,7 @@ void gtAudioSystemXAudio2_7::gtAudioObjectImpl::play( void ){
 		updateBuffer();
 
 		if( FAILED( m_sourceVoice[ m_currentSourceVoice ]->Start( 0u, XAUDIO2_COMMIT_ALL ) ) ){
-#ifdef GT_DEBUG
 			gtLogWriter::printWarning( u"m_sourceVoice->Start failed" );
-#endif
 		}
 
 		++m_currentSourceVoice;
@@ -373,9 +352,7 @@ void gtAudioSystemXAudio2_7::gtAudioObjectImpl::play( void ){
 void gtAudioSystemXAudio2_7::gtAudioObjectImpl::pause( void ){
 
 	if( m_state == gtAudioState::pause ){
-#ifdef GT_DEBUG
 		gtLogWriter::printWarning( u"Can not set pause audio playback" );
-#endif
 		return;
 	}
 
@@ -394,9 +371,7 @@ void gtAudioSystemXAudio2_7::gtAudioObjectImpl::pause( void ){
 void gtAudioSystemXAudio2_7::gtAudioObjectImpl::stop( void ){
 
 	if( m_state == gtAudioState::stop ){
-#ifdef GT_DEBUG
 		gtLogWriter::printWarning( u"Can not stop audio playback" );
-#endif
 		return;
 	}
 
@@ -415,9 +390,6 @@ void gtAudioSystemXAudio2_7::gtAudioObjectImpl::stop( void ){
 }
 
 void gtAudioSystemXAudio2_7::gtAudioObjectImpl::setVolume( f32 volume ){
-	if( volume < 0.0000f ) volume = 0.f;
-	else if( volume > 1.f ) volume = 1.f;
-
 	m_volume = volume;
 
 	u32 sz = m_sourceVoice.size();
@@ -434,7 +406,7 @@ void gtAudioSystemXAudio2_7::gtAudioObjectImpl::setLoop( bool loop ){
 }
 
 ///???
-void gtAudioSystemXAudio2_7::gtAudioObjectImpl::setAudioSource( gtAudioSource* source ){
+void gtAudioSystemXAudio2_7::gtAudioObjectImpl::setAudioSource( gtAudioSource* /*source*/ ){
 }
 
 gtAudioSource* gtAudioSystemXAudio2_7::gtAudioObjectImpl::getAudioSource( void ){
@@ -443,9 +415,7 @@ gtAudioSource* gtAudioSystemXAudio2_7::gtAudioObjectImpl::getAudioSource( void )
 
 void gtAudioSystemXAudio2_7::gtAudioObjectImpl::updateBuffer( void ){
 	if( FAILED( m_sourceVoice[ m_currentSourceVoice ]->SubmitSourceBuffer( &m_sourceImpl->getXAUDIO2_BUFFER() ) ) ){
-#ifdef GT_DEBUG
 		gtLogWriter::printWarning( u"SubmitSourceBuffer failed" );
-#endif
 	}
 }
 
@@ -457,10 +427,12 @@ void gtAudioSystemXAudio2_7::gtAudioObjectImpl::updateBuffer( void ){
 */
 
 
-gtAudioSystemXAudio2_7::gtAudioStreamImpl::gtAudioStreamImpl( void ):
+gtAudioSystemXAudio2_7::gtAudioStreamImpl::gtAudioStreamImpl( IXAudio2* d ):
 	m_isOpen( false ),
-	m_file( nullptr ),
-	m_volume( 1.f )
+	m_volume( 1.f ),
+	m_sourceVoice( nullptr ),
+	m_device( d ),
+	m_format( AudioFileFormat::wav )
 {}
 
 gtAudioSystemXAudio2_7::gtAudioStreamImpl::~gtAudioStreamImpl( void ){
@@ -468,18 +440,26 @@ gtAudioSystemXAudio2_7::gtAudioStreamImpl::~gtAudioStreamImpl( void ){
 }
 
 bool	gtAudioSystemXAudio2_7::gtAudioStreamImpl::close( void ){
+
+	m_wave.closeStream();
+	m_ogg.closeStream();
+
+	if( m_sourceVoice )
+		m_sourceVoice->DestroyVoice();
+	m_sourceVoice = nullptr;
+
+
 	if( m_isOpen ){
-	//	m_file->release();
+
+
 		m_isOpen = false;
 		return true;
 	}
 	return false;
 }
 
-#define STREAMING_BUFFER_SIZE 65536
-#define MAX_BUFFER_COUNT 3
-
 bool	gtAudioSystemXAudio2_7::gtAudioStreamImpl::open( const gtString& fileName ){
+
 	if( !m_isOpen ){
 
 		gtString fullPath = fileName;
@@ -487,145 +467,147 @@ bool	gtAudioSystemXAudio2_7::gtAudioStreamImpl::open( const gtString& fileName )
 			
 			fullPath = gtFileSystem::getRealPath( fileName );
 			if( !gtFileSystem::existFile( fullPath ) ){
-#ifdef GT_DEBUG
 				gtLogWriter::printWarning( u"Can not open file for streaming. %s", fullPath.data() );
-#endif
+				return false;
+			}
+		}
+
+		gtString ext = util::stringGetExtension( fullPath );
+		util::stringToLower( ext );
+
+		if( ext != u"wav" && ext != u"ogg" ){
+			gtLogWriter::printWarning( u"File format not supported. %s", fullPath.data() );
+			return false;
+		}
+
+		if( ext == u"ogg" ){
+			m_format = AudioFileFormat::ogg;
+			m_ogg.m_fileName = fullPath;
+
+			if( !m_ogg.getInfo( m_info )){
+				gtLogWriter::printWarning( u"Bad file. %s", fullPath.data() );
 				return false;
 			}
 
+			this->m_time = m_ogg.m_time;
+
+		}else{
+			m_wave.m_fileName = fullPath;
+
+			if( !m_wave.getInfo( m_info )){
+				gtLogWriter::printWarning( u"Bad file. %s", fullPath.data() );
+				return false;
+			}
+
+			//this->m_time = 
 		}
 
-		m_wave.m_fileName = fullPath;
-
-		m_wave.getInfo( m_info );
-
-
-
-		//m_file = util::openFileForReadBinShared( fullPath ).data();
-
-		/*if( !m_file ){
-#ifdef GT_DEBUG
-			gtLogWriter::printWarning( u"Can not open file for streaming. %s", fullPath.data() );
-#endif
+		WAVEFORMATEX wfex;
+		ZeroMemory( &wfex, sizeof( wfex ) );
+		wfex.nAvgBytesPerSec	= m_info.m_bytesPerSec;
+		wfex.nBlockAlign		= (WORD)m_info.m_blockAlign;
+		wfex.nChannels			= (WORD)m_info.m_channels;
+		wfex.wBitsPerSample		= (WORD)m_info.m_bitsPerSample;
+		wfex.wFormatTag			= (WORD)m_info.m_formatType;
+		wfex.nSamplesPerSec		= m_info.m_sampleRate;
+		
+		if( FAILED( m_device->CreateSourceVoice( &m_sourceVoice, &wfex, 0, 1.0f, &m_voiceContext ) ) ){
+			gtLogWriter::printWarning( u"Error creating source voice" );
 			return false;
-		}*/
-
-		OVERLAPPED ovlCurrentRequest;
-		ZeroMemory( &ovlCurrentRequest, sizeof( ovlCurrentRequest ) );
-		ovlCurrentRequest.hEvent = CreateEvent( NULL, TRUE, FALSE, NULL );
-
-		BYTE buffers[MAX_BUFFER_COUNT][STREAMING_BUFFER_SIZE];
-		DWORD currentDiskReadBuffer = 0;
-		DWORD currentPosition = 0;
-
-		/*Нужно получить информацию о файле. Потом её использовать здесь.*/
-		//DWORD waveOffset = m_wave.m_offset;
-        DWORD waveLength = m_wave.m_dataLen;
-
-		/*while( currentPosition < waveLength ){
-
-			DWORD cbValid = min( STREAMING_BUFFER_SIZE, waveLength - currentPosition );
-            ovlCurrentRequest.Offset = waveOffset + currentPosition;
-
-                if( !ReadFileEx( hAsync, buffers[ currentDiskReadBuffer ], STREAMING_BUFFER_SIZE, &ovlCurrentRequest,
-                                 NULL ) )
-                {
-                    wprintf( L"\nCouldn't start async read: error %#X\n", HRESULT_FROM_WIN32( GetLastError() ) );
-                    exit = true;
-                    break;
-                }
-
-                currentPosition += cbValid;*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-		m_isOpen = true;
-		return true;
+		}
+		
 	}
-	return false;
+
+	return true;
 }
 
 
-void			gtAudioSystemXAudio2_7::gtAudioStreamImpl::play( void ){
-	if( m_state == gtAudioState::not_load ){
-#ifdef GT_DEBUG
-		gtLogWriter::printWarning( u"Can not start playback [m_state == not_load]" );
-#endif
-		return;
-	}
-
+void	gtAudioSystemXAudio2_7::gtAudioStreamImpl::play( void ){
 	if( m_state != gtAudioState::play ){
+		m_ogg.m_playBackCommand = PlayBackCommand::PBC_NONE;
+		m_wave.m_playBackCommand = PlayBackCommand::PBC_NONE;
 
-		m_state = gtAudioState::play;
-	}
-#ifdef GT_DEBUG
-	else{
+		if( isOgg() ){
+			if( !m_ogg.prepareToStreaming(
+										   m_sourceVoice,
+										   &m_state)){
+				gtLogWriter::printWarning( u"Can not start playback [!prepareToStreaming]" );
+				return;
+			}else{
+				gtLogWriter::printInfo( u"Starting playback %s", m_ogg.m_fileName.data() );
+			}
+		}else{
+			if( !m_wave.prepareToStreaming(
+										   m_sourceVoice,
+										   &m_state)){
+				gtLogWriter::printWarning( u"Can not start playback [!prepareToStreaming]" );
+				return;
+			}else{
+				gtLogWriter::printInfo( u"Starting playback %s", m_wave.m_fileName.data() );
+			}
+		}
+
+
+	}else{
 		gtLogWriter::printWarning( u"Can not start playback [m_state == play]" );
 	}
-#endif
 }
 
 
 void			gtAudioSystemXAudio2_7::gtAudioStreamImpl::pause( void ){
-	if( m_state == gtAudioState::not_load ){
-#ifdef GT_DEBUG
-		gtLogWriter::printWarning( u"Can not pause playback [m_state == not_load]" );
-#endif
-		return;
-	}
-
 	if( m_state == gtAudioState::play ){
-		
-		m_state == gtAudioState::pause;
-	}
-#ifdef GT_DEBUG
-	else{
+		m_ogg.m_playBackCommand = PlayBackCommand::PBC_PAUSE;
+		m_wave.m_playBackCommand = PlayBackCommand::PBC_PAUSE;
+	}else
 		gtLogWriter::printWarning( u"Can not pause playback [m_state != play]" );
-	}
-#endif
 }
 
 
 void			gtAudioSystemXAudio2_7::gtAudioStreamImpl::stop( void ){
-	if( m_state == gtAudioState::not_load ){
-#ifdef GT_DEBUG
-		gtLogWriter::printWarning( u"Can not stop playback [m_state == not_load]" );
-#endif
-		return;
-	}
 	if( m_state == gtAudioState::play ){
-		
-		m_state == gtAudioState::stop;
-	}
-#ifdef GT_DEBUG
-	else{
+		m_ogg.m_playBackCommand = PlayBackCommand::PBC_STOP;
+		m_wave.m_playBackCommand = PlayBackCommand::PBC_STOP;
+	}else
 		gtLogWriter::printWarning( u"Can not stop playback [m_state != play]" );
-	}
-#endif
 }
 
 void			gtAudioSystemXAudio2_7::gtAudioStreamImpl::setVolume( f32 volume ){
 	m_volume = volume;
+	m_sourceVoice->SetVolume( m_volume );
 }
+
 f32				gtAudioSystemXAudio2_7::gtAudioStreamImpl::getVolume( void ){
 	return m_volume;
 }
+
 void			gtAudioSystemXAudio2_7::gtAudioStreamImpl::setLoop( bool loop ){
 	m_isLoop = loop;
+	m_wave.m_isLoop = loop ? 1u : 0u;
+	m_ogg.m_isLoop = loop ? 1u : 0u;
 }
 
-void			gtAudioSystemXAudio2_7::gtAudioStreamImpl::setAudioSource( gtAudioSource* source ){
+void	gtAudioSystemXAudio2_7::gtAudioStreamImpl::setPlaybackPosition( f32 position ){
+	f32 p = position;
+	if( p < 0.00f ) p = 0.f;
+	if( p > 1.00f ) p = 1.f;
+
+	if( isOgg() ){
+		m_ogg.setPos( p );
+	}else{
+		m_wave.setPos( p );
+	}
+	
 }
+
+f32		gtAudioSystemXAudio2_7::gtAudioStreamImpl::getPlaybackPosition( void ){
+	if( isOgg() ){
+		return m_ogg.getPos();
+	}else{
+		return m_wave.getPos();
+	}
+}
+
+void			gtAudioSystemXAudio2_7::gtAudioStreamImpl::setAudioSource( gtAudioSource* /*source*/ ){}
 gtAudioSource*	gtAudioSystemXAudio2_7::gtAudioStreamImpl::getAudioSource( void ){
 	return nullptr;
 }

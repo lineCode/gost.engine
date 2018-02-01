@@ -6,6 +6,7 @@ gtWindowWin32::gtWindowWin32( const gtWindowInfo& wi )
 	:	m_hWnd( 0u ), m_isInit( false )
 {
 	m_params = wi;
+
 }
 
 gtWindowWin32::~gtWindowWin32( void ){
@@ -377,22 +378,7 @@ LRESULT CALLBACK gtWindowWin32::WndProc(HWND hWnd, UINT message, WPARAM wParam, 
 			case WM_RBUTTONDBLCLK: ev.mouseEvent.state.bits.b7 = true; break;
 		}
 
-//		ev.value2 = static_cast<s32>(wParam & ( MK_LBUTTON | MK_RBUTTON));
-		//if( wParam & MK_MBUTTON )
-		//	ev.value2 |= GT_EVENT_MASK_MOUSE_MMB;
-		//if( wParam & MK_XBUTTON1 )
-		//	ev.value2 |= GT_EVENT_MASK_MOUSE_EXTRA1;
-		//if( wParam & MK_XBUTTON2 )
-		//	ev.value2 |= GT_EVENT_MASK_MOUSE_EXTRA2;
-
-		//if( message == WM_LBUTTONDBLCLK )
-		//	ev.value2 |= GT_EVENT_MASK_MOUSE_LMB_DBL;
-		//else if( message == WM_RBUTTONDBLCLK )
-		//	ev.value2 |= GT_EVENT_MASK_MOUSE_RMB_DBL;
-		
-
-		//	dataSize пустует. можно использовать для этого
-		ev.dataSize = static_cast<u32>( s8( (f32)GET_WHEEL_DELTA_WPARAM(wParam) / (f32)WHEEL_DELTA ) );
+		ev.mouseEvent.wheel = static_cast<u16>( s8( (f32)GET_WHEEL_DELTA_WPARAM(wParam) / (f32)WHEEL_DELTA ) );
 
 		gtMainSystem::getInstance()->addEvent( ev );
 

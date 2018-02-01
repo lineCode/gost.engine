@@ -15,38 +15,38 @@ struct WaveHeader{
 	u32 subchunk2Size;	//data size
 };
 
+
 struct Wave{
 	
 
-	Wave():
-		m_file( nullptr )
-	{
-	}
+	Wave( void ){}
 
-	Wave( const gtString& fileName ):
-		m_file( nullptr )
-	{
+	Wave( const gtString& fileName ){
 		m_fileName = fileName;
 	}
 
 	~Wave( void ){
-
 		if( m_file )
 			m_file->release();
-
 	}
 
 	gtAudioSourceImpl* read( gtAudioSourceInfo info );
 
 	bool	getInfo( gtAudioSourceInfo& info );
+	void	closeStream( void );
+	bool	prepareToStreaming( IXAudio2SourceVoice*	sourceVoice,  gtAudioState *state);
+	void	setPos( f32 p );
+	f32		getPos( void );
 
-	u32		m_dataLen;
-	u8*		m_offset;
-
-	gtFile * m_file;
-
-	WaveHeader m_header;
-	gtString m_fileName;
+	gtFile	  * m_file		= nullptr;
+	WaveHeader	m_header;
+	gtString	m_fileName;
+	WaveStream	m_stream;
+	gtThread*	m_thread = nullptr;
+	PlayBackCommand	m_playBackCommand = PBC_NONE;
+	u8			m_isLoop;
+	DWORD		m_position = 44;
+	f64			m_time;
 };
 
 /*

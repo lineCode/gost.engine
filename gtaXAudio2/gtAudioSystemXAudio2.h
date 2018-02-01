@@ -5,68 +5,6 @@
 
 namespace gost{
 
-	class VoiceCallback : public IXAudio2VoiceCallback{
-	public:
-		HANDLE	hBufferEndEvent;
-		u32*	p_num_of_played_sounds;
-
-		VoiceCallback(): hBufferEndEvent( CreateEvent( NULL, FALSE, FALSE, NULL ) ){
-			p_num_of_played_sounds = nullptr;
-		}
-
-		~VoiceCallback(){ CloseHandle( hBufferEndEvent ); }
-		
-		void STDMETHODCALLTYPE  OnStreamEnd() { 
-			if( p_num_of_played_sounds )
-				*p_num_of_played_sounds -= 1;
-		}
-
-		void STDMETHODCALLTYPE OnVoiceProcessingPassEnd() { }
-		void STDMETHODCALLTYPE OnVoiceProcessingPassStart(UINT32 SamplesRequired) {    }
-		void STDMETHODCALLTYPE OnBufferEnd(void * pBufferContext)    { }
-		void STDMETHODCALLTYPE OnBufferStart(void * pBufferContext) {    }
-		void STDMETHODCALLTYPE OnLoopEnd(void * pBufferContext) {    }
-		void STDMETHODCALLTYPE OnVoiceError(void * pBufferContext, HRESULT Error) { }
-	};
-
-	struct StreamingVoiceContext : public IXAudio2VoiceCallback
-	{
-				STDMETHOD_( void, OnVoiceProcessingPassStart )( UINT32 )
-				{
-				}
-				STDMETHOD_( void, OnVoiceProcessingPassEnd )()
-				{
-				}
-				STDMETHOD_( void, OnStreamEnd )()
-				{
-				}
-				STDMETHOD_( void, OnBufferStart )( void* )
-				{
-				}
-				STDMETHOD_( void, OnBufferEnd )( void* )
-				{
-					SetEvent( hBufferEndEvent );
-				}
-				STDMETHOD_( void, OnLoopEnd )( void* )
-				{
-				}
-				STDMETHOD_( void, OnVoiceError )( void*, HRESULT )
-				{
-				}
-
-		HANDLE hBufferEndEvent;
-
-				StreamingVoiceContext() : hBufferEndEvent( CreateEvent( NULL, FALSE, FALSE, NULL ) )
-				{
-				}
-		virtual ~StreamingVoiceContext()
-		{
-			CloseHandle( hBufferEndEvent );
-		}
-	};
-
-
-
 	class gtAudioSystemXAudio2_7 : public gtAudioSystem{
 
 		XAudioVersion			m_version;
@@ -148,21 +86,29 @@ namespace gost{
 
 			void			updateBuffer( void );
 			bool			init( u32 sp );
+
+			void			setTime( f64 t );
 		};
 
 		class gtAudioStreamImpl : public gtAudioStream{
 			bool					m_isOpen;
-			gtFile *				m_file;
+		//	gtFile *				m_file;
 			f32						m_volume;
 			StreamingVoiceContext	m_voiceContext;
+			IXAudio2SourceVoice*	m_sourceVoice;
 
 			Wave					m_wave;
+			Ogg						m_ogg;
 
 			gtAudioSourceInfo		m_info;
 
+
+			IXAudio2*				m_device;
+
+			AudioFileFormat			m_format;
 		public:
 
-			gtAudioStreamImpl( void );
+			gtAudioStreamImpl( IXAudio2* d );
 			~gtAudioStreamImpl( void );
 
 			void			play( void );
@@ -176,6 +122,13 @@ namespace gost{
 
 			bool	close( void );
 			bool	open( const gtString& fileName );
+			void	setPlaybackPosition( f32 position );
+			f32		getPlaybackPosition( void );
+
+
+			bool	init( const gtString& fileName );
+
+			bool isOgg( void ){ return m_format == AudioFileFormat::ogg; }
 		};
 
 		gtAudioObject*	createAudioObject( const gtString& fileName, u32 sp = 1u );

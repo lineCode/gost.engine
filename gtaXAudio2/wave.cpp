@@ -1,7 +1,11 @@
 #include "common.h"
 
+#define STREAMING_BUFFER_SIZE 8192
+#define MAX_BUFFER_COUNT 3
+
+
+
 bool Wave::getInfo( gtAudioSourceInfo& info ){
-	HRESULT hr;
 
 	m_file = util::openFileForReadBinShared( m_fileName ).data();
 
@@ -9,7 +13,6 @@ bool Wave::getInfo( gtAudioSourceInfo& info ){
 		gtLogWriter::printWarning( u"Can not open file." );
 		return false;
 	}
-
 
 	u32 bytesRead = m_file->read( (u8*)&m_header, sizeof(m_header) );
 	m_file->release();
@@ -37,18 +40,20 @@ bool Wave::getInfo( gtAudioSourceInfo& info ){
 	info.m_formatType	= m_header.audioFormat;
 	info.m_sampleRate	= m_header.sampleRate;
 
+	m_time = 0.;
 
 	return true;
 }
 
 gtAudioSourceImpl* Wave::read( gtAudioSourceInfo info ){
 
+
 	gtAudioSourceImpl* source = new gtAudioSourceImpl;
 	if( !source ) return nullptr;
 
 	source->allocate( m_header.subchunk2Size );
 	if( !source->getData() ){
-		gtLogWriter::printWarning( u"Can not allocate memmory for audio source" );
+		gtLogWriter::printWarning( u"Can not allocate memory for audio source" );
 		delete source;
 		return nullptr;
 	}
@@ -62,8 +67,6 @@ gtAudioSourceImpl* Wave::read( gtAudioSourceInfo info ){
 
 	u32 offset = m_file->size() - m_header.subchunk2Size;
 
-
-
 	m_file->seek( offset, gtFile::SeekPos::ESP_BEGIN );
 	m_file->read( source->getData(), source->getDataSize() );
 	m_file->release();
@@ -73,8 +76,128 @@ gtAudioSourceImpl* Wave::read( gtAudioSourceInfo info ){
 	source->setInfo( info );
 
 	source->updateData();
+	source->m_time = m_time;
 
 	return source;
+}
+
+
+void	WavStreamFunc( void * arg ){
+
+	WaveStream*	args = (WaveStream*)arg;
+	
+	*args->state = gtAudioState::play;
+
+	BYTE buffers[MAX_BUFFER_COUNT][STREAMING_BUFFER_SIZE];
+
+	auto * mainSystem = gtMainSystem::getInstance();
+
+	gtFile_t file = util::openFileForReadBinShared( args->filePath );
+	do{
+		if( !mainSystem->isRun() ) break;
+
+		file->seek( *args->currentPosition, gtFile::SeekPos::ESP_BEGIN );
+
+		args->sourceVoice->Start( 0, XAUDIO2_COMMIT_ALL );
+		while( *args->currentPosition < args->waveLength ){
+
+				///	Read-only operation
+			if( !mainSystem->isRun() ) break;
+		
+
+			u32 reads = file->read( buffers[ args->currentDiskReadBuffer ], STREAMING_BUFFER_SIZE );
+			if( !reads ) break;
+
+			*args->currentPosition += reads;
+
+			XAUDIO2_VOICE_STATE state;
+			for(; ; ){
+				args->sourceVoice->GetState( &state );
+				if( state.BuffersQueued < MAX_BUFFER_COUNT - 1 )
+					break;
+	
+			}
+
+			XAUDIO2_BUFFER buf = {0};
+			buf.AudioBytes = reads;
+			buf.pAudioData = buffers[args->currentDiskReadBuffer];
+			if( *args->currentPosition >= args->waveLength )
+				buf.Flags = XAUDIO2_END_OF_STREAM;
+
+			args->sourceVoice->SubmitSourceBuffer( &buf );
+		
+			if( *args->command != PlayBackCommand::PBC_NONE )
+				break;
+
+			args->currentDiskReadBuffer++;
+			args->currentDiskReadBuffer %= MAX_BUFFER_COUNT;
+		}
+
+		args->sourceVoice->Stop();
+		args->sourceVoice->FlushSourceBuffers();
+
+		if( *args->command == PlayBackCommand::PBC_SETPOS){
+			*args->command = PlayBackCommand::PBC_NONE;
+			continue;
+		}
+
+
+
+		if( *args->command == PlayBackCommand::PBC_PAUSE){
+			*args->state			=	gtAudioState::pause;
+			return;
+		}else if( *args->command == PlayBackCommand::PBC_STOP){
+			*args->currentPosition	= 44u;
+			*args->state			=	gtAudioState::stop;
+			return;
+		}
+		*args->currentPosition	= 44u;
+
+	}while( *args->isLoop == 1 );
+}
+
+void Wave::setPos( f32 p ){
+	f32 res = (f64)m_header.subchunk2Size * p;
+	m_position = (DWORD)res;
+
+		///	align
+	if( m_position & 0x000001 ) m_position++;
+
+	m_playBackCommand	=	PlayBackCommand::PBC_SETPOS;
+}
+
+f32 Wave::getPos(){
+	return (f32)(((f64)(m_position))*1.0 / (f64)m_header.subchunk2Size);
+}
+
+bool	Wave::prepareToStreaming( 
+	IXAudio2SourceVoice*	sourceVoice,
+	gtAudioState			*state){
+	
+	m_stream.waveLength	= m_header.subchunk2Size;
+
+	m_stream.filePath	=	m_fileName;
+	m_stream.sourceVoice	= sourceVoice;
+	m_stream.state		=	state;
+	m_stream.command	=	&m_playBackCommand;
+	m_stream.isLoop		=	&m_isLoop;
+	m_stream.currentPosition	=	&m_position;
+
+
+	if( !m_thread )
+		m_thread = gtMainSystem::getInstance()->createThread();
+	m_thread->join();
+	m_thread->start( (gtThread::StartFunction)WavStreamFunc, (void*)&m_stream );
+
+	return true;
+}
+
+void	Wave::closeStream( void ){
+	if( m_thread ){
+		m_thread->join();
+		m_thread->release();
+		m_thread = nullptr;
+	}
 }
 
 /*

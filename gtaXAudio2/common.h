@@ -5,6 +5,7 @@
 
 #pragma once
 
+#pragma warning(disable : 4668, 4820)
 
 
 #include <SDKDDKVer.h>
@@ -63,6 +64,83 @@ constexpr s8* Extensions[ NUM_OF_SUPPORTED_EXTENSIONS ] = {
 #undef _MATH_DEFINES_DEFINED
 
 #include "gtAudioSourceImpl.h"
+
+enum class AudioFileFormat{
+	ogg,
+	wav
+};
+
+class VoiceCallback : public IXAudio2VoiceCallback{
+public:
+	HANDLE	hBufferEndEvent;
+	u32*	p_num_of_played_sounds;
+
+	VoiceCallback(): hBufferEndEvent( CreateEvent( NULL, FALSE, FALSE, NULL ) ){
+		p_num_of_played_sounds = nullptr;
+	}
+
+	~VoiceCallback(){ CloseHandle( hBufferEndEvent ); }
+		
+	void STDMETHODCALLTYPE  OnStreamEnd() { 
+		if( p_num_of_played_sounds )
+			*p_num_of_played_sounds -= 1;
+	}
+
+	void STDMETHODCALLTYPE OnVoiceProcessingPassEnd() { }
+	void STDMETHODCALLTYPE OnVoiceProcessingPassStart(UINT32 SamplesRequired) {    }
+	void STDMETHODCALLTYPE OnBufferEnd(void * pBufferContext)    { }
+	void STDMETHODCALLTYPE OnBufferStart(void * pBufferContext) {    }
+	void STDMETHODCALLTYPE OnLoopEnd(void * pBufferContext) {    }
+	void STDMETHODCALLTYPE OnVoiceError(void * pBufferContext, HRESULT Error) { }
+};
+
+struct StreamingVoiceContext : public IXAudio2VoiceCallback{
+			STDMETHOD_( void, OnVoiceProcessingPassStart )( UINT32 ){}
+			STDMETHOD_( void, OnVoiceProcessingPassEnd )(){}
+			STDMETHOD_( void, OnStreamEnd )(){}
+			STDMETHOD_( void, OnBufferStart )( void* ){}
+			STDMETHOD_( void, OnBufferEnd )( void* ){
+	//			SetEvent( hBufferEndEvent );
+			}
+			STDMETHOD_( void, OnLoopEnd )( void* ){}
+			STDMETHOD_( void, OnVoiceError )( void*, HRESULT ){}
+
+	//		HANDLE hBufferEndEvent;
+
+	//		StreamingVoiceContext() : hBufferEndEvent( CreateEvent( NULL, FALSE, FALSE, NULL ) ){}
+
+//	virtual ~StreamingVoiceContext(){
+	//	if( hBufferEndEvent )
+	//		CloseHandle( hBufferEndEvent );
+//	}
+};
+
+enum PlayBackCommand{
+	PBC_NONE,
+	PBC_STOP,
+	PBC_PAUSE,
+	PBC_SETPOS
+};
+
+struct OggStream{
+	u8		*	isLoop;
+	gtAudioState	*state;
+	gtString	filePath;
+	IXAudio2SourceVoice*	sourceVoice;
+	PlayBackCommand* command;
+	f64*		currentPosition;
+};
+
+struct WaveStream{
+	u8		*	isLoop;
+	DWORD		currentDiskReadBuffer = 0;
+	DWORD*		currentPosition;
+	DWORD		waveLength;
+	gtAudioState	*state;
+	gtString	filePath;
+	IXAudio2SourceVoice*	sourceVoice;
+	PlayBackCommand* command;
+};
 
 #include "wave.h"
 #include "Ogg.h"
