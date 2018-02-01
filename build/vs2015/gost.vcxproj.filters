@@ -108,6 +108,9 @@
     <ClCompile Include="..\..\gost\gtStaticObjectImpl.cpp">
       <Filter>Source\Objects</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\gost\gtThreadWin32.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\gost\gtDriverCommon.h">
@@ -322,6 +325,15 @@
     </ClInclude>
     <ClInclude Include="..\..\include\gtAudioSource.h">
       <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\gtAudioStream.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\gtThread.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\gost\gtThreadWin32.h">
+      <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

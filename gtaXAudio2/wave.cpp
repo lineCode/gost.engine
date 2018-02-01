@@ -1,197 +1,219 @@
 #include "common.h"
 
-gtAudioSourceImpl* Wave::read( const gtString& fileName ){
+#define STREAMING_BUFFER_SIZE 8192
+#define MAX_BUFFER_COUNT 3
+
+
+
+bool Wave::getInfo( gtAudioSourceInfo& info ){
+
+	m_file = util::openFileForReadBinShared( m_fileName ).data();
+
+	if( !m_file ){
+		gtLogWriter::printWarning( u"Can not open file." );
+		return false;
+	}
+
+	u32 bytesRead = m_file->read( (u8*)&m_header, sizeof(m_header) );
+	m_file->release();
+	m_file = nullptr;
+
+	if( bytesRead != 44u ){
+		gtLogWriter::printWarning( u"Can not read file. Bad header." );
+		return false;
+	}
+
+	/*if( m_header.bitsPerSample > 16u ){
+		gtLogWriter::printWarning( u"Unsupported bit depth." );
+		return false;
+	}*/
+
+	if( m_header.audioFormat != 1u ){
+		gtLogWriter::printWarning( u"Unsupported wav format." );
+		return false;
+	}
+
+	info.m_bytesPerSec	= m_header.byteRate;
+	info.m_bitsPerSample= m_header.bitsPerSample;
+	info.m_blockAlign	= m_header.blockAlign;
+	info.m_channels		= m_header.numChannels;
+	info.m_formatType	= m_header.audioFormat;
+	info.m_sampleRate	= m_header.sampleRate;
+
+	m_time = 0.;
+
+	return true;
+}
+
+gtAudioSourceImpl* Wave::read( gtAudioSourceInfo info ){
+
 
 	gtAudioSourceImpl* source = new gtAudioSourceImpl;
-
-	gtAudioSourceInfo info;
-
 	if( !source ) return nullptr;
 
-	HRESULT hr;
-	m_dwFlags = 1;
-
-	m_hmmio = mmioOpen( (wchar_t*)fileName.c_str(), NULL, MMIO_ALLOCBUF | MMIO_READ );
-	if( NULL == m_hmmio ){
-		gtLogWriter::printWarning( u"Can not open file for read" );
-		delete source;
-		return nullptr;
-	}
-
-		/// chunk info. for general use.
-	MMCKINFO ckIn;
-	memset( &ckIn, 0, sizeof(ckIn) );
-
-		/// Temp PCM structure to load in.
-	PCMWAVEFORMAT pcmWaveFormat;
-
-	if( ( 0 != mmioDescend( m_hmmio, &m_ckRiff, NULL, 0 ) ) ){
-		gtLogWriter::printWarning( u"mmioDescend == 0" );
-		delete source;
-		return nullptr;
-	}
-
-		/// Check to make sure this is a valid wave file
-	if( ( m_ckRiff.ckid != FOURCC_RIFF ) ||
-		( m_ckRiff.fccType != mmioFOURCC( 'W', 'A', 'V', 'E' ) ) ){
-		gtLogWriter::printWarning( u"Bad magic" );
-		delete source;
-		return nullptr;
-	}
-
-		/// Search the input file for for the 'fmt ' chunk.
-	ckIn.ckid = mmioFOURCC( 'f', 'm', 't', ' ' );
-	if( 0 != mmioDescend( m_hmmio, &ckIn, &m_ckRiff, MMIO_FINDCHUNK ) ){
-		gtLogWriter::printWarning( u"Can not Search the input file for for the 'fmt ' chunk" );
-		delete source;
-		return nullptr;
-	}
-
-		/// Expect the 'fmt' chunk to be at least as large as <PCMWAVEFORMAT>;
-		/// if there are extra parameters at the end, we'll ignore them
-	if( ckIn.cksize < ( LONG )sizeof( PCMWAVEFORMAT ) ){
-		gtLogWriter::printWarning( u"'fmt' chunk large as <PCMWAVEFORMAT>" );
-		delete source;
-		return nullptr;
-	}
-
-		/// Read the 'fmt ' chunk into <pcmWaveFormat>.
-	if( mmioRead( m_hmmio, ( HPSTR )&pcmWaveFormat,
-				  sizeof( pcmWaveFormat ) ) != sizeof( pcmWaveFormat ) ){
-		gtLogWriter::printWarning( u"Can not read the 'fmt ' chunk into <pcmWaveFormat>" );
-		delete source;
-		return nullptr;
-	}
-
-		/// Allocate the waveformatex, but if its not pcm format, read the next
-		/// word, and thats how many extra bytes to allocate.
-	if( pcmWaveFormat.wf.wFormatTag == WAVE_FORMAT_PCM ){
-		/*m_pwfx = ( WAVEFORMATEX* )new CHAR[ sizeof( WAVEFORMATEX ) ];
-		if( NULL == m_pwfx ){
-			gtLogWriter::printWarning( u"Can not allocate memmory for WAVEFORMATEX" );
-			return nullptr;
-		}*/
-
-			/// Copy the bytes from the pcm structure to the waveformatex structure
-		//memcpy( m_pwfx, &pcmWaveFormat, sizeof( pcmWaveFormat ) );
-		//m_pwfx->cbSize = 0;
-
-		info.m_AvgBytesPerSec	= pcmWaveFormat.wf.nAvgBytesPerSec;
-		info.m_BitsPerSample	= pcmWaveFormat.wBitsPerSample;
-		info.m_BlockAlign		= pcmWaveFormat.wf.nBlockAlign;
-		info.m_channels			= pcmWaveFormat.wf.nChannels;
-		info.m_formatType		= pcmWaveFormat.wf.wFormatTag;
-		info.m_sampleRate		= pcmWaveFormat.wf.nSamplesPerSec;
-
-	}else{
-			/// Read in length of extra bytes.
-		WORD cbExtraBytes = 0L;
-		if( mmioRead( m_hmmio, ( CHAR* )&cbExtraBytes, sizeof( WORD ) ) != sizeof( WORD ) ){
-			gtLogWriter::printWarning( u"Can not read length of extra bytes." );
-			delete source;
-			return nullptr;
-		}
-			
-
-		/*m_pwfx = ( WAVEFORMATEX* )new CHAR[ sizeof( WAVEFORMATEX ) + cbExtraBytes ];
-		if( NULL == m_pwfx ){
-			gtLogWriter::printWarning( u"Can not allocate memmory for WAVEFORMATEX" );
-			return nullptr;
-		}*/
-
-			/// Copy the bytes from the pcm structure to the waveformatex structure
-		//memcpy( m_pwfx, &pcmWaveFormat, sizeof( pcmWaveFormat ) );
-		//m_pwfx->cbSize = cbExtraBytes;
-		info.m_AvgBytesPerSec	= pcmWaveFormat.wf.nAvgBytesPerSec;
-		info.m_BitsPerSample	= pcmWaveFormat.wBitsPerSample;
-		info.m_BlockAlign		= pcmWaveFormat.wf.nBlockAlign;
-		info.m_channels			= pcmWaveFormat.wf.nChannels;
-		info.m_formatType		= pcmWaveFormat.wf.wFormatTag;
-		info.m_sampleRate		= pcmWaveFormat.wf.nSamplesPerSec;
-
-			/// Now, read those extra bytes into the structure, if cbExtraAlloc != 0.
-		u32 xb = sizeof(WAVEFORMATEX) + cbExtraBytes;
-		if( mmioRead( m_hmmio, ( CHAR* )( ( ( BYTE* )&( xb ) ) + sizeof( WORD ) ),
-						cbExtraBytes ) != cbExtraBytes ){
-			gtLogWriter::printWarning( u"Can not read extra bytes" );
-			delete source;
-			return nullptr;
-		}
-
-			/// Ascend the input file out of the 'fmt ' chunk.
-		if( 0 != mmioAscend( m_hmmio, &ckIn, 0 ) ){
-			gtLogWriter::printWarning( u"Can not ascend the input file out of the 'fmt ' chunk." );
-			delete source;
-			return nullptr;
-		}
-	}
-
-		/// Seek to the data
-	if( -1 == mmioSeek( m_hmmio, m_ckRiff.dwDataOffset + sizeof( FOURCC ),
-						SEEK_SET ) ){
-		gtLogWriter::printWarning( u"Can not seek the data" );
-		delete source;
-		return nullptr;
-	}
-
-		/// Search the input file for the 'data' chunk.
-	m_ck.ckid = mmioFOURCC( 'd', 'a', 't', 'a' );
-	if( 0 != mmioDescend( m_hmmio, &m_ck, &m_ckRiff, MMIO_FINDCHUNK ) ){
-		gtLogWriter::printWarning( u"Can not seek the data" );
-		delete source;
-		return nullptr;
-	}
-
-	source->allocate( m_ck.cksize );
-
+	source->allocate( m_header.subchunk2Size );
 	if( !source->getData() ){
-		gtLogWriter::printWarning( u"Can not allocate memmory for audio source" );
+		gtLogWriter::printWarning( u"Can not allocate memory for audio source" );
 		delete source;
 		return nullptr;
 	}
 
-
-	///	READ
-
-		/// current status of m_hmmio
-	MMIOINFO mmioinfoIn;
-
-	if( 0 != mmioGetInfo( m_hmmio, &mmioinfoIn, 0 ) ){
-		gtLogWriter::printWarning( u"Can not get MMIOINFO" );
+	m_file = util::openFileForReadBinShared( m_fileName ).data();
+	if( !m_file ){
+		gtLogWriter::printWarning( u"Can not open file." );
 		delete source;
 		return nullptr;
 	}
 
-	for( DWORD cT = 0; cT < m_ck.cksize; cT++ ){
-		// Copy the bytes from the io to the buffer.
-		if( mmioinfoIn.pchNext == mmioinfoIn.pchEndRead ){
-			if( 0 != mmioAdvance( m_hmmio, &mmioinfoIn, MMIO_READ ) ){
-				gtLogWriter::printWarning( u"mmioAdvance fail" );
-				delete source;
-				return nullptr;
-			}
+	u32 offset = m_file->size() - m_header.subchunk2Size;
 
-			if( mmioinfoIn.pchNext == mmioinfoIn.pchEndRead ){
-				gtLogWriter::printWarning( u"mmioinfoIn.pchNext" );
-				delete source;
-				return nullptr;
-			}
-		}
+	m_file->seek( offset, gtFile::SeekPos::ESP_BEGIN );
+	m_file->read( source->getData(), source->getDataSize() );
+	m_file->release();
+	m_file = nullptr;
 
-			/// Actual copy.
-		*( ( BYTE* )source->getData() + cT ) = *( ( BYTE* )mmioinfoIn.pchNext );
-		mmioinfoIn.pchNext++;
-	}
-
-	if( 0 != mmioSetInfo( m_hmmio, &mmioinfoIn, 0 ) ){
-		gtLogWriter::printWarning( u"mmioSetInfo fail" );
-		delete source;
-		return nullptr;
-	}
 
 	source->setInfo( info );
 
 	source->updateData();
+	source->m_time = m_time;
 
 	return source;
 }
+
+
+void	WavStreamFunc( void * arg ){
+
+	WaveStream*	args = (WaveStream*)arg;
+	
+	*args->state = gtAudioState::play;
+
+	BYTE buffers[MAX_BUFFER_COUNT][STREAMING_BUFFER_SIZE];
+
+	auto * mainSystem = gtMainSystem::getInstance();
+
+	gtFile_t file = util::openFileForReadBinShared( args->filePath );
+	do{
+		if( !mainSystem->isRun() ) break;
+
+		file->seek( *args->currentPosition, gtFile::SeekPos::ESP_BEGIN );
+
+		args->sourceVoice->Start( 0, XAUDIO2_COMMIT_ALL );
+		while( *args->currentPosition < args->waveLength ){
+
+				///	Read-only operation
+			if( !mainSystem->isRun() ) break;
+		
+
+			u32 reads = file->read( buffers[ args->currentDiskReadBuffer ], STREAMING_BUFFER_SIZE );
+			if( !reads ) break;
+
+			*args->currentPosition += reads;
+
+			XAUDIO2_VOICE_STATE state;
+			for(; ; ){
+				args->sourceVoice->GetState( &state );
+				if( state.BuffersQueued < MAX_BUFFER_COUNT - 1 )
+					break;
+	
+			}
+
+			XAUDIO2_BUFFER buf = {0};
+			buf.AudioBytes = reads;
+			buf.pAudioData = buffers[args->currentDiskReadBuffer];
+			if( *args->currentPosition >= args->waveLength )
+				buf.Flags = XAUDIO2_END_OF_STREAM;
+
+			args->sourceVoice->SubmitSourceBuffer( &buf );
+		
+			if( *args->command != PlayBackCommand::PBC_NONE )
+				break;
+
+			args->currentDiskReadBuffer++;
+			args->currentDiskReadBuffer %= MAX_BUFFER_COUNT;
+		}
+
+		args->sourceVoice->Stop();
+		args->sourceVoice->FlushSourceBuffers();
+
+		if( *args->command == PlayBackCommand::PBC_SETPOS){
+			*args->command = PlayBackCommand::PBC_NONE;
+			continue;
+		}
+
+
+
+		if( *args->command == PlayBackCommand::PBC_PAUSE){
+			*args->state			=	gtAudioState::pause;
+			return;
+		}else if( *args->command == PlayBackCommand::PBC_STOP){
+			*args->currentPosition	= 44u;
+			*args->state			=	gtAudioState::stop;
+			return;
+		}
+		*args->currentPosition	= 44u;
+
+	}while( *args->isLoop == 1 );
+}
+
+void Wave::setPos( f32 p ){
+	f32 res = (f64)m_header.subchunk2Size * p;
+	m_position = (DWORD)res;
+
+		///	align
+	if( m_position & 0x000001 ) m_position++;
+
+	m_playBackCommand	=	PlayBackCommand::PBC_SETPOS;
+}
+
+f32 Wave::getPos(){
+	return (f32)(((f64)(m_position))*1.0 / (f64)m_header.subchunk2Size);
+}
+
+bool	Wave::prepareToStreaming( 
+	IXAudio2SourceVoice*	sourceVoice,
+	gtAudioState			*state){
+	
+	m_stream.waveLength	= m_header.subchunk2Size;
+
+	m_stream.filePath	=	m_fileName;
+	m_stream.sourceVoice	= sourceVoice;
+	m_stream.state		=	state;
+	m_stream.command	=	&m_playBackCommand;
+	m_stream.isLoop		=	&m_isLoop;
+	m_stream.currentPosition	=	&m_position;
+
+
+	if( !m_thread )
+		m_thread = gtMainSystem::getInstance()->createThread();
+	m_thread->join();
+	m_thread->start( (gtThread::StartFunction)WavStreamFunc, (void*)&m_stream );
+
+	return true;
+}
+
+void	Wave::closeStream( void ){
+	if( m_thread ){
+		m_thread->join();
+		m_thread->release();
+		m_thread = nullptr;
+	}
+}
+
+/*
+Copyright (c) 2018 532235
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
+and associated documentation files (the "Software"), to deal in the Software without restriction, 
+including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, 
+and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, 
+subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT 
+LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, 
+WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/

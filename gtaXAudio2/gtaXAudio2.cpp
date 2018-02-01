@@ -101,7 +101,7 @@ extern "C"{
 		}
 
 		
-		
+		return nullptr;
 	}
 }
 

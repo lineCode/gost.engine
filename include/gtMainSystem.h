@@ -215,6 +215,8 @@ namespace gost{
 
 		virtual const gtDeviceCreationParameters& getDeviceCreationParameters( void ) = 0;
 
+		virtual gtThread*	createThread() = 0;
+
 			///	возвратит указатель на gtMainSystem, альтернатива this так как this не работает в статических методах
 			/// \return gtMainSystem
 		GT_API static gtMainSystem* getInstance( void );

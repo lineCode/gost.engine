@@ -2,6 +2,7 @@ class gtAudioSourceImpl : public gtAudioSource{
 
 	XAUDIO2_BUFFER			m_xaudio2Buffer;
 
+
 public:
 
 	gtAudioSourceImpl( void );
@@ -13,4 +14,5 @@ public:
 		return m_xaudio2Buffer;
 	}
 
+	f64 m_time;
 };

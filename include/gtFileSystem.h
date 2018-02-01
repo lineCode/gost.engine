@@ -80,15 +80,15 @@ namespace gost{
 			///	Прочитать двоичные данные
 			/// \param data: указатель на массив куда читать
 			/// \param size: сколько прочесть байтов
-		virtual u32		read( u8 * data, u32 size ) = 0;
+		virtual u64		read( u8 * data, u64 size ) = 0;
 
 			///	Получить размер в байтах
 			/// \return Вернёт размер в байтах
-		virtual u32		size( void ) = 0;
+		virtual u64		size( void ) = 0;
 
 			///	Получить позицию указателя
 			///	\return Вернёт позицию указателя
-		virtual u32		tell( void ) = 0;
+		virtual u64		tell( void ) = 0;
 
 			///	Для установки позиции курсора, начинать отсчёт дистанции с
 		enum SeekPos{
@@ -106,7 +106,7 @@ namespace gost{
 			///	установить позицию указателя
 			/// \param distance: как далеко от \b pos надо поставить указатель (в байтах)
 			/// \param pos: откуда начинать отсчёт \b distance
-		virtual void	seek( u32 distance, SeekPos pos ) = 0;
+		virtual void	seek( u64 distance, SeekPos pos ) = 0;
 	};
 
 	///	для краткости
@@ -319,6 +319,11 @@ namespace gost{
 		GT_FORCE_INLINE gtPtrNew<gtFile> openFileForReadBin( const gtString& fileName ){
 			return gtFileSystem::createFile( fileName, gtFileSystem::FileMode::EFM_BINARY, gtFileSystem::FileAccessMode::EFAM_READ, 
 				gtFileSystem::FileAction::EFA_OPEN );
+		}
+
+		GT_FORCE_INLINE gtPtrNew<gtFile> openFileForReadBinShared( const gtString& fileName ){
+			return gtFileSystem::createFile( fileName, gtFileSystem::FileMode::EFM_BINARY, gtFileSystem::FileAccessMode::EFAM_READ, 
+				gtFileSystem::FileAction::EFA_OPEN, gtFileSystem::EFSM_READ );
 		}
 
 		GT_FORCE_INLINE gtPtrNew<gtFile> openFileForWriteBin( const gtString& fileName ){

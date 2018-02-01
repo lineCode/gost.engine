@@ -1,58 +1,41 @@
-﻿//	GOST
-
+﻿/*!	GOST
+	\file gtAudioStream.h
+	\brief Object with audio stream
+*/
 #pragma once
-#ifndef __STDAFX_H__
-#define __STDAFX_H__
+#ifndef __GT_AUDIO_STREAM_H__
+#define __GT_AUDIO_STREAM_H__ ///< include guard
+
+namespace gost{
+
+	class gtAudioStream : public gtAudioObjectCommon{
+	public:
+
+			///	Close stream
+			///	\return \b true if done
+		virtual bool	close( void ) = 0;
+
+			/// Open file for streaming
+			///	\param fileName: target file
+			/// \return \b true if done
+		virtual bool	open( const gtString& fileName ) = 0;
+
+			///	setPlaybackPosition
+			///	\param position: Value from 0 to 1
+		virtual void	setPlaybackPosition( f32 position ) = 0;
+
+			///	Get playback position
+			///	\return Value from 0 to 1 (begin-end)
+		virtual f32		getPlaybackPosition( void ) = 0;
+	};
 
 
-#define GT_EXPORTS
-
-#include <gost.h>
-
-
-using namespace gost;
-
-//	GOST
-
-#include "gtCameraImpl.h"
-#include "gtStaticObjectImpl.h"
-#include "gtDummyObjectImpl.h"
-
-#include "gtModelImpl.h"
-#include "gtModelSystemImpl.h"
-#include "gtSceneSystemImpl.h"
-
-#include "gtOutputWindowWin32.h"
-
-#include "gtFileWin32.h"
-
-#include "gtFileSystemCommon.h"
-#include "gtFileSystemWin32.h"
-
-#include "gtPluginSystemImpl.h"
-
-#include "gtTimerWin32.h"
-
-#include "gtEventSystem.h"
-
-#include "gtThreadWin32.h"
-
-
-#include "gtMainSystemCommon.h"
-#include "gtMainSystemWin32.h"
-
-#include "gtLogerImpl.h"
-
-
-#include "gtWindowCommon.h"
-#include "gtWindowWin32.h"
-
-
+}
 
 #endif
 
 /*
-Copyright (c) 2017, 2018 532235
+Copyright (c) 2018 532235
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
 and associated documentation files (the "Software"), to deal in the Software without restriction, 

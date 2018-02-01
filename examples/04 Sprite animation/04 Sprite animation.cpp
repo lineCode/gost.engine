@@ -22,7 +22,8 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 
 	
 	gtDriverInfo di;
-	di.m_outWindow = window.data(); /// Set output window for rendering.
+	di.m_vSync		= true;
+	di.m_outWindow	= window.data(); /// Set output window for rendering.
 	gtPtr_t(gtDriver,driver,mainSystem->createVideoDriver( di, GT_UID_RENDER_D3D11 ));
 
 

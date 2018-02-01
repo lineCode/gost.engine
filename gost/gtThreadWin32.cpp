@@ -1,58 +1,47 @@
-﻿//	GOST
+#include "common.h"
 
-#pragma once
-#ifndef __STDAFX_H__
-#define __STDAFX_H__
+gtThreadWin32::gtThreadWin32( void ):
+	m_handle( nullptr )
+{}
 
+gtThreadWin32::~gtThreadWin32( void ){
+	join();
+}
 
-#define GT_EXPORTS
+bool gtThreadWin32::start( StartFunction f, void* args, u32 stackSize ){
 
-#include <gost.h>
+	m_handle = (HANDLE)_beginthreadex( NULL, stackSize, (_beginthreadex_proc_type)f, args, SYNCHRONIZE, &m_id );
 
+	if( !m_handle ) return false;
 
-using namespace gost;
+	m_status = gtThreadStatus::running;
 
-//	GOST
+	return true;
+}
 
-#include "gtCameraImpl.h"
-#include "gtStaticObjectImpl.h"
-#include "gtDummyObjectImpl.h"
+void gtThreadWin32::join( void ){
 
-#include "gtModelImpl.h"
-#include "gtModelSystemImpl.h"
-#include "gtSceneSystemImpl.h"
+	if( m_handle ){
 
-#include "gtOutputWindowWin32.h"
+		WaitForSingleObject( m_handle, INFINITE );
 
-#include "gtFileWin32.h"
+		m_status = gtThreadStatus::terminated;
 
-#include "gtFileSystemCommon.h"
-#include "gtFileSystemWin32.h"
+		
+		CloseHandle( m_handle );
+		m_handle = nullptr;
 
-#include "gtPluginSystemImpl.h"
+	}
+}
 
-#include "gtTimerWin32.h"
-
-#include "gtEventSystem.h"
-
-#include "gtThreadWin32.h"
-
-
-#include "gtMainSystemCommon.h"
-#include "gtMainSystemWin32.h"
-
-#include "gtLogerImpl.h"
+void * gtThreadWin32::getHandle( void ){
+	return (void*)m_handle;
+}
 
 
-#include "gtWindowCommon.h"
-#include "gtWindowWin32.h"
-
-
-
-#endif
 
 /*
-Copyright (c) 2017, 2018 532235
+Copyright (c) 2018 532235
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
 and associated documentation files (the "Software"), to deal in the Software without restriction, 

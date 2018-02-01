@@ -75,6 +75,8 @@ namespace gost{
 		u16	x;
 		u16 y;
 
+		u16 wheel;
+
 		bool	isLeftButtonDown( void ){	return state.bits.b0;	}
 		bool	isLeftButtonUp( void )	{	return state.bits.b1;	}
 		bool	isRightButtonDown( void ){	return state.bits.b2;	}

@@ -1,54 +1,26 @@
 //	GOST
 
 #pragma once
-#ifndef __GT_FILE_WIN_32_H__
-#define __GT_FILE_WIN_32_H__
+#ifndef __GT_THREAD_WIN_32_H__
+#define __GT_THREAD_WIN_32_H__
+
+#include <process.h>
 
 namespace gost{
 
-	class gtFileWin32 GT_FINAL : public gtFile{
-
-		gtFile::TextFileInfo m_textInfo;
+	class gtThreadWin32 : public gtThread{
 
 		HANDLE m_handle;
 
-		bool m_isTextFile;
-
-			// GENERIC_READ or GENERIC_WRITE
-		DWORD	m_desiredAccess;
-
-		u64		m_pointerPosition;
 	public:
-		gtFileWin32( const gtString& fileName, gtFileSystem::FileMode mode,
-			gtFileSystem::FileAccessMode access,
-			gtFileSystem::FileAction action,
-			gtFileSystem::FileShareMode EFSM,
-			u32 EFA );
-		virtual ~gtFileWin32( void );
 
+		gtThreadWin32( void );
+		~gtThreadWin32( void );
 
-		TextFileInfo	getTextFileInfo( void );
+		bool start( StartFunction f, void* args, u32 stackSize = 0 );
+		void join( void );
+		void * getHandle( void );
 
-
-			//	для двоичной записи
-		u32		write( u8 * data, u32 size );
-
-			//	для текста. Работает если файл открыт в текстовом режиме.
-		void	write( const gtStringA& string );
-		void	write( const gtString& string );
-		void	write( const gtString32& string );
-
-		void	flush( void );
-
-			//	чтение
-		u64		read( u8 * data, u64 size );
-
-			//	размер в байтах
-		u64		size( void );
-			//	получить позицию указателя
-		u64		tell( void );
-			//	установить позицию указателя
-		void 	seek( u64 distance, SeekPos pos );
 	};
 
 }
@@ -57,7 +29,7 @@ namespace gost{
 
 
 /*
-Copyright (c) 2017 532235
+Copyright (c) 2018 532235
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
 and associated documentation files (the "Software"), to deal in the Software without restriction, 

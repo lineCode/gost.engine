@@ -309,6 +309,17 @@ namespace gost{
 			return true;
 		}
 
+		bool operator!=( this_const_reference other ) const {
+			if( other.size() == m_size ) return false;
+
+			const u32 sz = other.size();
+			const auto * ptr = other.data();
+			for( u32 i = 0u; i < sz; ++i )
+				if( ptr[ i ] == m_data[ i ]  ) return false;
+
+			return true;
+		}
+
 		void clear( void ){
 			m_size = 0u;
 			m_data[ m_size ] = static_cast<char_type>(m_size);

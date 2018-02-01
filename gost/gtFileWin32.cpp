@@ -171,7 +171,7 @@ void	gtFileWin32::flush( void ){
 }
 
 	//	чтение
-u32	gtFileWin32::read( u8 * data, u32 size ){
+u64	gtFileWin32::read( u8 * data, u64 size ){
 	GT_ASSERT1( (m_desiredAccess & GENERIC_READ), "Can not read from file.", "File open in WRITE_ONLY mode" );
 	if( m_handle ){
 		DWORD readBytesNum = 0u;
@@ -188,24 +188,30 @@ u32	gtFileWin32::read( u8 * data, u32 size ){
 }
 
 	//	размер в байтах
-u32		gtFileWin32::size( void ){
+u64		gtFileWin32::size( void ){
 	if( !m_handle ){
 		gtLogWriter::printWarning( u"Can not get file size. m_handle == nullptr" );
 		return 0u;
 	}
-	return static_cast<u32>( GetFileSize( m_handle, NULL ) );
+	return static_cast<u64>( GetFileSize( m_handle, NULL ) );
 }
 
 	//	получить позицию указателя
-u32		gtFileWin32::tell( void ){
+u64		gtFileWin32::tell( void ){
 	return m_pointerPosition;
 }
 
 	//	установить позицию указателя
-void		gtFileWin32::seek( u32 distance, SeekPos pos ){
+void		gtFileWin32::seek( u64 distance, SeekPos pos ){
 	if( (m_desiredAccess & GENERIC_READ) || (m_desiredAccess & GENERIC_WRITE) ){
 		if( m_handle ){
-			m_pointerPosition = SetFilePointer( m_handle, static_cast<LONG>( distance ), NULL, pos );
+
+			LARGE_INTEGER li;
+			li.QuadPart = distance;
+
+			li.LowPart = SetFilePointer( m_handle, li.LowPart, (PLONG)&li.HighPart, pos );
+			m_pointerPosition = li.QuadPart;
+
 		}
 	}
 }
