@@ -232,6 +232,7 @@
     <ClCompile Include="..\..\gost\gtPluginSystemImpl.cpp" />
     <ClCompile Include="..\..\gost\gtSceneSystemImpl.cpp" />
     <ClCompile Include="..\..\gost\gtStaticObjectImpl.cpp" />
+    <ClCompile Include="..\..\gost\gtThreadWin32.cpp" />
     <ClCompile Include="..\..\gost\gtTimerWin32.cpp" />
     <ClCompile Include="..\..\gost\gtWindowCommon.cpp" />
     <ClCompile Include="..\..\gost\gtWindowWin32.cpp" />
@@ -253,6 +254,7 @@
     <ClInclude Include="..\..\gost\gtPluginSystemImpl.h" />
     <ClInclude Include="..\..\gost\gtSceneSystemImpl.h" />
     <ClInclude Include="..\..\gost\gtStaticObjectImpl.h" />
+    <ClInclude Include="..\..\gost\gtThreadWin32.h" />
     <ClInclude Include="..\..\gost\gtTimerWin32.h" />
     <ClInclude Include="..\..\gost\gtWindowCommon.h" />
     <ClInclude Include="..\..\gost\gtWindowWin32.h" />
@@ -264,6 +266,7 @@
     <ClInclude Include="..\..\include\gtArray.h" />
     <ClInclude Include="..\..\include\gtAudioObject.h" />
     <ClInclude Include="..\..\include\gtAudioSource.h" />
+    <ClInclude Include="..\..\include\gtAudioStream.h" />
     <ClInclude Include="..\..\include\gtAudioSystem.h" />
     <ClInclude Include="..\..\include\gtBaseObject.h" />
     <ClInclude Include="..\..\include\gtCamera.h" />
@@ -301,6 +304,7 @@
     <ClInclude Include="..\..\include\gtString.h" />
     <ClInclude Include="..\..\include\gtSubModel.h" />
     <ClInclude Include="..\..\include\gtTexture.h" />
+    <ClInclude Include="..\..\include\gtThread.h" />
     <ClInclude Include="..\..\include\gtTimer.h" />
     <ClInclude Include="..\..\include\gtTypes.h" />
     <ClInclude Include="..\..\include\gtUtilities.h" />

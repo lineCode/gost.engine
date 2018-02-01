@@ -13,6 +13,7 @@ using namespace gost;
 int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR /*lpCmdLine*/, int /*nCmdShow*/ ){
 #endif
 
+	
 	gtDeviceCreationParameters params;
 	gtPtr_t(gtMainSystem,mainSystem,InitializeGoSTEngine(params));
 	gtPtr_t(gtWindow,window,mainSystem->createSystemWindow( gtWindowInfo() ));
@@ -36,14 +37,20 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 		///	Create audio object. Run this example, press F1 multiple times, see result. Go back here, 
 		///	uncomment second argument and see what happens if you try press F1 again.
 	gtPtr_t( gtAudioObject, audio, audioSystem->createAudioObject( audioSource /*,2*/ ) );
+	audio->play();
+	//audio->setLoop( true );
 
 
 		/// one line version
-	///	gtPtr_t( gtAudioObject, audio, audioSystem->createAudioObject( u"../media/escapade.wav" ) );
+	//gtPtr_t( gtAudioObject, audio, audioSystem->createAudioObject( u"../media/Static-X - The Only.ogg" ) );
 
 
-	//audio->setLoop( true );
-	audio->play();
+	
+	gtPtr_t( gtAudioStream, stream, audioSystem->createStream( u"../media/Static-X - The Only.ogg" ) );
+	if( stream.data() ){
+		stream->play();
+		stream->setLoop( true );
+	}
 
 	gtEvent event;
 	f32 delta = 0.f;
@@ -55,15 +62,36 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 		u32 now = mainSystem->getTime();
 
 		while( mainSystem->pollEvent( event ) ){
-			switch( event.type ){
+			switch( event.type ){ 
+				
 				case gtEventType::keyboard:
 
-				if( event.keyboardEvent.isPressed( gtKey::K_F1 ) )
+				if( event.keyboardEvent.isPressed( gtKey::K_LEFT ) )
+					stream->setPlaybackPosition( stream->getPlaybackPosition() - 0.1f );
+				
+				if( event.keyboardEvent.isPressed( gtKey::K_RIGHT ) )
+					stream->setPlaybackPosition( stream->getPlaybackPosition() + 0.1f );
+
+				if( event.keyboardEvent.isPressed( gtKey::K_UP ) )
+					stream->setVolume( stream->getVolume() + 0.01f );
+				if( event.keyboardEvent.isPressed( gtKey::K_DOWN ) )
+					stream->setVolume( stream->getVolume() - 0.01f );
+
+				if( event.keyboardEvent.isPressed( gtKey::K_P ) )
+					stream->play();
+
+				if( event.keyboardEvent.isPressed( gtKey::K_S ) )
+					stream->stop();
+
+				if( event.keyboardEvent.isPressed( gtKey::K_O ) )
+					stream->pause();
+
+				/*if( event.keyboardEvent.isPressed( gtKey::K_F1 ) )
 					audio->play();
 				if( event.keyboardEvent.isPressed( gtKey::K_F2 ) )
 					audio->pause();
 				if( event.keyboardEvent.isPressed( gtKey::K_F3 ) )
-					audio->stop();
+					audio->stop();*/
 				
 
 				if( event.keyboardEvent.isReleased( gtKey::K_ESCAPE ) ){
@@ -73,10 +101,10 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 			}
 		}
 
-		if( mainSystem->isKeyPressed( gtKey::K_NUM_ADD ) )
+	/*	if( mainSystem->isKeyPressed( gtKey::K_NUM_ADD ) )
 			audio->setVolume( audio->getVolume() + 1.f * delta );
 		if( mainSystem->isKeyPressed( gtKey::K_NUM_SUB ) )
-			audio->setVolume( audio->getVolume() - 1.f * delta );
+			audio->setVolume( audio->getVolume() - 1.f * delta );*/
 
 		if( mainSystem->isRun() ){
 
@@ -90,68 +118,7 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 		delta = (f32)(now - time)*0.0001f;
 		time = now;
 	}
+	
 
 	return 0;
 }
-
-///	If you want use your own output window, or want use printf family functions, this class show you how to do it.
-/// Put this code after line with #include <Windows.h>
-
-/*
-class CustomOutput : public gtOutputWindow {
-private:
-		HWND m_hWnd;
-		bool m_isInit;
-		~CustomOutput( void ){
-			shutdown();
-		}
-public:
-
-	CustomOutput( void ) : m_hWnd( 0 ), m_isInit( false ){
-	#ifdef GT_DEBUG
-			this->setDebugName( u"OutputWindow" );
-	#endif
-			init();
-	}
-
-	// Call this method before using the output window
-	void	init( void ){
-
-		 //In this example, all output will be displayed in console.
-		if( !AllocConsole() ){
-			return;
-		}
-
-		freopen("CONOUT$", "w", stdout);
-		m_hWnd = GetConsoleWindow();
-		m_isInit = true;
-	}
-
-	// Call when output window is no longer needed
-	void	shutdown( void ){
-		if( m_isInit )
-			if( FreeConsole() )
-				m_isInit = false;
-	}
-
-	// Returns true if window has been initiliazed correctly
-	bool	isInit( void ){
-		return m_isInit;
-	}
-
-  //Theese methods show/hide output window. Because we are using console, they are empty.
-	void	show( void ){}
-	void	hide( void ){}
-
-
-	void	print( const gtString& s ){
-		if( m_isInit )
-			wprintf( L"%s\n", (wchar_t*)s.data() );
-	}
-
-	void	setWindowText( const gtString& s ){
-		if( m_isInit )
-			SetWindowText( m_hWnd, (wchar_t*)s.data() );
-	 }
-};
-*/
