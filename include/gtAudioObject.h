@@ -10,6 +10,12 @@
 
 namespace gost{
 
+	enum class gtAudioState : u32{
+		play,
+		pause,
+		stop
+	};
+
 			///	Common class for all sound objects
 	class gtAudioObject : public gtRefObject{
 	public:
@@ -28,17 +34,25 @@ namespace gost{
 
 		virtual void setAudioSource( gtAudioSource* source ) = 0;
 		virtual gtAudioSource* getAudioSource( void ) = 0;
+
+		virtual const gtStringA&	getName( void ) = 0;
+		virtual void setName( const gtStringA& ) = 0;
 	};
 
 	class gtAudioObjectCommon : public gtAudioObject{
 	protected:
-		bool m_isPlay;
-		bool m_isLoop;
+		bool			m_isLoop;
+		gtAudioState	m_state;
+		gtStringA		m_name;
+
+		f64				m_time;
+
 	public:
 
 		gtAudioObjectCommon( void ):
-			m_isPlay( false ),
-			m_isLoop( false )
+			m_state( gtAudioState::stop ),
+			m_isLoop( false ),
+			m_time( 0. )
 		{
 #ifdef GT_DEBUG
 			m_debugName = "gtAudioObject";
@@ -48,14 +62,30 @@ namespace gost{
 		virtual ~gtAudioObjectCommon( void ){}
 
 		bool isPlay( void ){
-			return m_isPlay;
+			return m_state == gtAudioState::play;
 		}
 
+		bool isPause( void ){
+			return m_state == gtAudioState::pause;
+		}
+
+		bool isStop( void ){
+			return m_state == gtAudioState::stop;
+		}
 
 		bool isLoop( void ){
 			return m_isLoop;
 		}
 
+		const gtStringA&	getName( void ){
+			return m_name;
+		}
+
+		void setName( const gtStringA& name ){
+			m_name = name;
+		}
+
+		f64 time( void )  { return m_time; }
 	};
 
 }

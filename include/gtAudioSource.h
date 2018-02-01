@@ -13,17 +13,17 @@ namespace gost{
 			m_formatType( 0u ),
 			m_channels( 0u ),
 			m_sampleRate( 0u ),
-			m_AvgBytesPerSec( 0u ),
-			m_BlockAlign( 0u ),
-			m_BitsPerSample( 0u )
+			m_bytesPerSec( 0u ),
+			m_blockAlign( 0u ),
+			m_bitsPerSample( 0u )
 		{}
 
-		u32		m_formatType;
+		u32		m_formatType; 
 		u32		m_channels;/* number of channels (i.e. mono, stereo...) */
-		u32		m_sampleRate;
-		u32		m_AvgBytesPerSec;    /* for buffer estimation */
-		u32		m_BlockAlign;        /* block size of data */
-		u32		m_BitsPerSample;     /* number of bits per sample of mono data */
+		u32		m_sampleRate; /*44100*/
+		u32		m_bytesPerSec;     /* for buffer estimation */
+		u32		m_blockAlign;     /*4*/   /* block size of data */
+		u32		m_bitsPerSample; /*16*/    /* number of bits per sample of mono data */
 	};
 
 	class gtAudioSource : public gtRefObject{

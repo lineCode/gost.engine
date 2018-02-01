@@ -78,6 +78,8 @@
 
 #include <gtAABB.h>
 
+#include <gtThread.h>
+
 
 #include <gtSceneSystem.h>
 #include <gtAudioSystem.h>
