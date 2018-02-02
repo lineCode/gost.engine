@@ -1,4 +1,4 @@
-## GoST
+# GoST
 2D/3D Game Engine based on plugins for C++11
 
 ## Features
@@ -12,6 +12,8 @@
 Current version (most on russian) http://imsoftworks.info/gost/doc/beta1/html/index.html
 
 Wiki for samples https://github.com/532235/GoST/wiki
+
+[![Support](http://www.imsoftworks.info/gost/support.png)](https://www.paypal.me/supportgost)
 
 # VS 2015 Redistributable
 http://imsoftworks.info/files/VS%202015%20redist.7z

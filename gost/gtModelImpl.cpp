@@ -15,9 +15,10 @@ gtModelImpl::gtModelImpl( u32 s, gtVertexType* ta ):
 
 gtModelImpl::~gtModelImpl(){
 
-//	for each( auto* var in m_submodels ){
-//		delete var;
-//	}
+	auto sz = m_submodels.size();
+	for( u32 i = 0u; i < sz; ++i ){
+		delete m_submodels[ i ];
+	}
 
 	if( m_typeArray )
 		delete []m_typeArray;
