@@ -113,10 +113,11 @@ void			gtModelImpl::updateAabb( void ){
 
 		m_box.reset();
 
-//		for each( auto * var in m_submodels ){
-//			var->updateAabb();
-//			m_box.add( var->m_box );
-//		}
+		auto msz = m_submodels.size();
+		for( u32 i = 0u; i < msz; ++i ){
+			m_submodels[ i ]->updateAabb();
+			m_box.add( m_submodels[ i ]->m_box );
+		}
 
 	}
 }
