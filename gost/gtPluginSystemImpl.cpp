@@ -114,7 +114,6 @@ void gtPluginSystemImpl::scanFolder( const gtString& dir ){
 				}
 
 				gtLogWriter::printInfo( u"Add plugin: %s", pi.m_name.data() );
-				gtLogWriter::printInfo( u"Description: %s", pi.m_description.data() );
 
 				m_numOfPlugins++;
 				GT_FREE_LIBRARY( lib );

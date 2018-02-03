@@ -118,6 +118,46 @@ namespace gost{
 				str += static_cast<charType>( other[ i ] );
 		}
 
+		template<typename array = gtArray<gtString>>
+		inline void getSupportedImportImageFormats( array& _array ){
+			auto main = gtMainSystem::getInstance();
+			auto ps = main->getPluginSystem();
+			auto nop = ps->getNumOfPlugins();
+			for( u32 i = 0u; i < nop; ++i ){
+				auto plg = ps->getPlugin( i );
+				if( plg->getInfo().m_info.m_type == gtPluginType::import_image ){
+					auto iipl = ps->getAsPluginImportImage( plg );
+					iipl->load();
+					auto isz = iipl->m_extensions.size();
+					for( u32 o = 0u; o < isz; ++o ){
+						_array.push_back( iipl->m_extensions[ o ] );
+					}
+					iipl->unload();
+				}
+			}
+		}
+
+		template<typename array = gtArray<gtString>>
+		inline void getSupportedImportModelFormats( array& _array ){
+			auto main = gtMainSystem::getInstance();
+			auto ps = main->getPluginSystem();
+			auto nop = ps->getNumOfPlugins();
+			for( u32 i = 0u; i < nop; ++i ){
+				auto plg = ps->getPlugin( i );
+				if( plg->getInfo().m_info.m_type == gtPluginType::import_model ){
+					auto iipl = ps->getAsPluginImportModel( plg );
+					iipl->load();
+					auto isz = iipl->m_extensions.size();
+					for( u32 o = 0u; o < isz; ++o ){
+						_array.push_back( iipl->m_extensions[ o ] );
+					}
+					iipl->unload();
+				}
+			}
+		}
+
+
+
 	}
 
 }
