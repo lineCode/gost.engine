@@ -52,7 +52,8 @@ gtTexture * gtDriverD3D11::getStandartTexture( void ){
 
 gtDriverD3D11::~gtDriverD3D11( void ){
 
-
+	clearTextureCache();
+	clearModelCache();
 
 	if( m_standartTexture.data() )
 		m_standartTexture->release();

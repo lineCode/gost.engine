@@ -251,16 +251,14 @@ gtModel * gtPluginSystemImpl::importModel( const gtString& fileName, const gtStr
 		if( useguid ){
 			if( o->data()->getInfo().m_info.m_GUID == guid ){
 				o->data()->load();
-				model = o->data()->loadModel( &file );
-				break;
+				return o->data()->loadModel( &file );
 			}
 		}else{
 			u32 esz = o->data()->m_extensions.size();
 			for( u32 j = 0u; j < esz; ++j ){
 				if( o->data()->m_extensions[ j ] == ext ){
 					o->data()->load();
-					model = o->data()->loadModel( &file );
-					break;
+					return o->data()->loadModel( &file );
 				}
 			}
 		}

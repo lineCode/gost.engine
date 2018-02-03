@@ -100,6 +100,8 @@
 
 #include <gtTimer.h>
 
+#include <gtFileSystem.h>
+
 #include <gtDriver.h>
 
 #include <gtGameObject.h>
@@ -112,7 +114,6 @@
 
 
 
-#include <gtFileSystem.h>
 
 
 //! \cond

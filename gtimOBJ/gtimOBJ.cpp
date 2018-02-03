@@ -153,6 +153,7 @@ extern "C"{
 		
 		/*это всё для того чтобы правильно получить индексы и т.д.*/
 		gtArray<CacheEntry*>	m_VertexCache;
+		gtArray<CacheEntry*>	m_VertexCache_trash;
 		gtArray<VERTEX> m_Vertices;      // Filled and copied to the vertex buffer
 		gtArray<u32>	m_Indices;       // Filled and copied to the index buffer
 		u32 index = 0u;
@@ -281,6 +282,9 @@ extern "C"{
 						CacheEntry* pNewEntry = new CacheEntry;
 						if( pNewEntry == NULL )
 							return nullptr;
+
+						m_VertexCache_trash.push_back( pNewEntry );
+
 						pNewEntry->index = index;
 						pNewEntry->pNext = NULL;
 						
@@ -307,9 +311,9 @@ extern "C"{
 					}
 
 					if( index == (DWORD)-1 ){
-						auto sz = m_VertexCache.size();
+						auto sz = m_VertexCache_trash.size();
 						for( u32 vi = 0; vi < sz; ++vi ){
-							delete m_VertexCache[vi];
+							delete m_VertexCache_trash[vi];
 						}
 						return nullptr;
 					}
@@ -371,9 +375,9 @@ extern "C"{
 		delete sub;
 		
 
-		auto sz = m_VertexCache.size();
+		auto sz = m_VertexCache_trash.size();
 		for( u32 vi = 0; vi < sz; ++vi ){
-			delete m_VertexCache[vi];
+			delete m_VertexCache_trash[vi];
 		}
 		
 		model->updateAabb();
@@ -414,7 +418,7 @@ extern "C"{
 		while( *ptr ){
 			if( isspace(*ptr) ) break;
 
-			str += *ptr;
+			str += (char)*ptr;
 
 			ptr++;
 
@@ -491,7 +495,7 @@ extern "C"{
 	u8 * getIds( u8 * ptr, gtStringA& str ){
 		while( *ptr ){
 			if( std::isdigit( *ptr ) || (*ptr == '/') ){
-				str += *ptr;
+				str += (char)*ptr;
 				++ptr;
 			}else break;
 

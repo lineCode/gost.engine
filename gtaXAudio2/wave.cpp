@@ -93,6 +93,7 @@ void	WavStreamFunc( void * arg ){
 	auto * mainSystem = gtMainSystem::getInstance();
 
 	gtFile_t file = util::openFileForReadBinShared( args->filePath );
+	HANDLE thread = GetCurrentThread();
 	do{
 		if( !mainSystem->isRun() ) break;
 
@@ -104,7 +105,6 @@ void	WavStreamFunc( void * arg ){
 				///	Read-only operation
 			if( !mainSystem->isRun() ) break;
 		
-
 			u32 reads = file->read( buffers[ args->currentDiskReadBuffer ], STREAMING_BUFFER_SIZE );
 			if( !reads ) break;
 
@@ -115,7 +115,7 @@ void	WavStreamFunc( void * arg ){
 				args->sourceVoice->GetState( &state );
 				if( state.BuffersQueued < MAX_BUFFER_COUNT - 1 )
 					break;
-	
+				WaitForSingleObject( thread, 20 );
 			}
 
 			XAUDIO2_BUFFER buf = {0};
@@ -140,8 +140,6 @@ void	WavStreamFunc( void * arg ){
 			*args->command = PlayBackCommand::PBC_NONE;
 			continue;
 		}
-
-
 
 		if( *args->command == PlayBackCommand::PBC_PAUSE){
 			*args->state			=	gtAudioState::pause;

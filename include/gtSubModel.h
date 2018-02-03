@@ -93,6 +93,7 @@ namespace gost{
 			}
 		}
 
+			///	Rotate mesh
 		void	rotate( gtQuaternion& new_orientation ){
 			new_orientation.normalize();
 			gtMatrix4 m;

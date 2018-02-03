@@ -1,100 +1,12 @@
 #include "common.h"
 
 #define BUFFER_SIZE   32768
-#define STREAMING_BUFFER_SIZE 8192
-#define MAX_BUFFER_COUNT 5
-
-bool Ogg::getInfo( gtAudioSourceInfo& info ){
-	gtStringA str;
-	str += m_fileName.data();
-
-	FILE * f = fopen( str.data(), "rb" );
-
-	if( !f ){
-		gtLogWriter::printWarning( u"Can not open file." );
-		return false;
-	}
-
-	vorbis_info *pInfo;
-	OggVorbis_File oggFile;
-
-	ov_open( f, &oggFile, NULL, 0);
-
-	pInfo = ov_info(&oggFile, -1);
-	
-	info.m_formatType		= 1;
-	info.m_channels			= pInfo->channels;
-	info.m_sampleRate		= pInfo->rate;
-	info.m_bytesPerSec		= pInfo->bitrate_nominal;
-	info.m_blockAlign		= 4;
-	info.m_bitsPerSample	= 16;
-
-	m_time = ov_time_total( &oggFile, -1 );
-
-	fclose( f );
-	ov_clear(&oggFile);
-
-	m_info = info;
-
-	return true;
-}
-
-gtAudioSourceImpl* Ogg::read( gtAudioSourceInfo info ){
-
-	gtStringA str;
-	str += m_fileName.data();
-
-	FILE * f = fopen( str.data(), "rb" );
-	
-	if( !f ){
-		gtLogWriter::printWarning( u"Can not open file." );
-		return false;
-	}
-
-	int endian = 0;
-	int bitStream;
-	long bytes;
-	char array[BUFFER_SIZE];
-	OggVorbis_File oggFile;
-
-	ov_open( f, &oggFile, NULL, 0);
-		
-	std::vector<u8> buffer;
-
-	do{
-		bytes = ov_read(&oggFile, array, BUFFER_SIZE, endian, 2, 1, &bitStream);
-	
-		buffer.insert(buffer.end(), array, array + bytes);
-
-	}while( bytes > 0 );
-
-	auto sz = buffer.size();
-
-	fclose( f );
-
-	ov_clear(&oggFile);
-
-	gtAudioSourceImpl* source = new gtAudioSourceImpl;
-	if( !source ) return nullptr;
-
-	source->allocate( sz );
-
-	memcpy( source->getData(), buffer.data(), sz );
-
-	source->setInfo( info );
-
-	source->updateData();
-	source->m_time = m_time;
-
-	return source;
-}
+#define STREAMING_BUFFER_SIZE 4096
+#define MAX_BUFFER_COUNT 8
 
 size_t	readOgg( void *ptr, size_t size, size_t nmemb, void *datasource ){
-
 	gtFile * file = (gtFile*)datasource;
-
 	auto bytes = file->read( (u8*)ptr, size * nmemb );
-
 	return bytes;
 }
 
@@ -125,12 +37,6 @@ int seekOgg( void *datasource, ogg_int64_t offset, int whence ){
 	return newpos;
 }
 
-int closeOgg( void *datasource ){
-	gtFile * file = (gtFile*)datasource;
-
-	return 0;
-}
-
 long tellOgg( void *datasource ){
 	gtFile * file = (gtFile*)datasource;
 	DWORD newpos = (DWORD)file->tell();
@@ -141,6 +47,89 @@ long tellOgg( void *datasource ){
 	}
 	return newpos;
 }
+
+bool Ogg::getInfo( gtAudioSourceInfo& info ){
+	vorbis_info *pInfo;
+	OggVorbis_File oggFile;
+
+	ov_callbacks callbacks;
+	callbacks.read_func	=	readOgg;
+	callbacks.seek_func	=	seekOgg;
+	callbacks.tell_func	=	tellOgg;
+	callbacks.close_func=	0;
+
+	gtFile_t file = util::openFileForReadBinShared( m_fileName );
+	if( ov_open_callbacks( file.data(), &oggFile, NULL, 0, callbacks ) < 0){
+		gtLogWriter::printWarning( u"Can not open file for stream." );
+		return false;
+	}
+
+	pInfo = ov_info(&oggFile, -1);
+	
+	info.m_formatType		= 1;
+	info.m_channels			= pInfo->channels;
+	info.m_sampleRate		= pInfo->rate;
+	info.m_bytesPerSec		= pInfo->bitrate_nominal;
+	info.m_blockAlign		= 4;
+	info.m_bitsPerSample	= 16;
+
+	m_time = ov_time_total( &oggFile, -1 );
+
+	ov_clear(&oggFile);
+
+	m_info = info;
+
+	return true;
+}
+
+gtAudioSourceImpl* Ogg::read( gtAudioSourceInfo info ){
+	int endian = 0;
+	int bitStream;
+	long bytes;
+	char array[BUFFER_SIZE];
+	OggVorbis_File oggFile;
+
+	ov_callbacks callbacks;
+	callbacks.read_func	=	readOgg;
+	callbacks.seek_func	=	seekOgg;
+	callbacks.tell_func	=	tellOgg;
+	callbacks.close_func=	0;
+
+	gtFile_t file = util::openFileForReadBinShared( m_fileName );
+	if( ov_open_callbacks( file.data(), &oggFile, NULL, 0, callbacks ) < 0){
+		gtLogWriter::printWarning( u"Can not open file for stream." );
+		return false;
+	}
+	
+	auto total = ov_raw_total( &oggFile, -1 );
+
+	std::vector<u8> buffer;
+	do{
+		bytes = ov_read(&oggFile, array, BUFFER_SIZE, endian, 2, 1, &bitStream);
+	
+		buffer.insert(buffer.end(), array, array + bytes);
+
+	}while( bytes > 0 );
+
+	auto sz = buffer.size();
+
+	ov_clear(&oggFile);
+
+	gtAudioSourceImpl* source = new gtAudioSourceImpl;
+	if( !source ) return nullptr;
+
+	source->allocate( sz );
+
+	memcpy( source->getData(), buffer.data(), sz );
+
+	source->setInfo( info );
+	source->updateData();
+	source->m_time = m_time;
+
+	return source;
+}
+
+
 
 void	OggStreamFunc( void * arg ){
 
@@ -154,14 +143,10 @@ void	OggStreamFunc( void * arg ){
 	gtFile_t file = util::openFileForReadBinShared( args->filePath );
 	
 	ov_callbacks callbacks;
-
 	callbacks.read_func	=	readOgg;
 	callbacks.seek_func	=	seekOgg;
 	callbacks.tell_func	=	tellOgg;
-	callbacks.close_func=	closeOgg;
-
-	gtStringA str;
-	str += args->filePath.data();
+	callbacks.close_func=	0;
 
 	int endian = 0;
 	int bitStream;
@@ -170,16 +155,14 @@ void	OggStreamFunc( void * arg ){
 	char buffers[MAX_BUFFER_COUNT][STREAMING_BUFFER_SIZE];
 
 	OggVorbis_File oggFile;
-
-
 	if( ov_open_callbacks( file.data(), &oggFile, NULL, 0, callbacks ) < 0){
 		gtLogWriter::printWarning( u"Can not open file for stream." );
 		return;
 	}
 
-	do{
-		
+	HANDLE thread = GetCurrentThread();
 
+	do{
 		if( !mainSystem->isRun() ) break;
 
 		args->sourceVoice->Start( 0, XAUDIO2_COMMIT_ALL );
@@ -187,11 +170,12 @@ void	OggStreamFunc( void * arg ){
 		ov_time_seek( &oggFile, *args->currentPosition );
 
 		do{
-
 			if( !mainSystem->isRun() ) break;
 			
 			bytes = ov_read(&oggFile, buffers[ currentDiskReadBuffer ], STREAMING_BUFFER_SIZE, endian, 2, 1, &bitStream);
 	
+	//		gtLogWriter::printInfo(u"lll");
+
 			if( !bytes )
 				break;
 
@@ -200,14 +184,15 @@ void	OggStreamFunc( void * arg ){
 				args->sourceVoice->GetState( &state );
 				if( state.BuffersQueued < MAX_BUFFER_COUNT - 1 )
 					break;
+				WaitForSingleObject( thread, 20 );
 			}
 
 
 			XAUDIO2_BUFFER buf = {0};
 			buf.AudioBytes = bytes;
 			buf.pAudioData = (BYTE*)buffers[currentDiskReadBuffer];
-			//if( *args->currentPosition >= args->waveLength )
-//				buf.Flags = XAUDIO2_END_OF_STREAM;
+			/*if( *args->currentPosition >= args->waveLength )
+				buf.Flags = XAUDIO2_END_OF_STREAM;*/
 
 			args->sourceVoice->SubmitSourceBuffer( &buf );
 

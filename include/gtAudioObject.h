@@ -20,25 +20,52 @@ namespace gost{
 	class gtAudioObject : public gtRefObject{
 	public:
 
+			///	Start playback
 		virtual void play( void ) = 0;
+
+			///	Check is play
+			///	\return \b true if play
 		virtual bool isPlay( void ) = 0;
 
+			///	Pause playback
 		virtual void pause( void ) = 0;
+
+			///	Stop playback
 		virtual void stop( void ) = 0;
 
+			///	Set volume
+			///	\param volume: new volume
 		virtual void setVolume( f32 volume ) = 0;
+
+			///	Get volume
+			///	\return volume
 		virtual f32  getVolume( void ) = 0;
 
+			///	Set repeat
+			///	\param isLoop: \b true if repeat
 		virtual void setLoop( bool isLoop ) = 0;
+
+			///	Check is repeat
+			///	\return \b true if repeat
 		virtual bool isLoop( void ) = 0;
 
+			///	Set source
 		virtual void setAudioSource( gtAudioSource* source ) = 0;
+
+			///	Get source
+			///	\return Source object
 		virtual gtAudioSource* getAudioSource( void ) = 0;
 
+			///	Get name
+			///	\return Name
 		virtual const gtStringA&	getName( void ) = 0;
-		virtual void setName( const gtStringA& ) = 0;
+
+			///	Set name
+			///	\param name: new name
+		virtual void setName( const gtStringA& name ) = 0;
 	};
 
+		///	Common class for audio object
 	class gtAudioObjectCommon : public gtAudioObject{
 	protected:
 		bool			m_isLoop;

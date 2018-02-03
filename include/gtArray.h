@@ -10,6 +10,7 @@
 
 namespace gost{
 
+		///	Dynamic array
 	template<typename type>
 	class gtArray{
 
@@ -50,7 +51,9 @@ namespace gost{
 		}
 
 	public:
-	
+		
+			/// Constructor.
+			///	\param addSize: 
 		gtArray( u32 addSize = 8u ):
 			m_data( nullptr ),
 			m_size( 0u ),
@@ -61,63 +64,78 @@ namespace gost{
 		~gtArray( void ){
 			clear();
 		}
-
+			
+			///	Get pointer to data
 		pointer data( void ) const {
 			return m_data;
 		}
 	
+			///	Get size
 		u32 size( void ) const {
 			return m_size;
 		}
 
+			///	Get allocated
 		u32 capacity( void ) const {
 			return m_allocated;
 		}
 
+			///	Check is empty
+			///	\return \b true if empty
 		bool empty( void ) const {
 			return m_size == 0u;
 		}
 
+			///	Get element
 		const_reference at( u32 id ) const {
 			GT_ASSERT2(id<m_size,"id>=m_size");
 			return m_data[id];
 		}
 
+			///	Get element
 		reference at( u32 id ){
 			GT_ASSERT2(id<m_size,"id>=m_size");
 			return m_data[id];
 		}
 
+			///	Get element
 		const_reference operator[]( u32 id ) const {
 			GT_ASSERT2(id<m_size,"id>=m_size");
 			return m_data[id];
 		}
 
+			///	Get element
 		reference operator[]( u32 id ){
 			GT_ASSERT2(id<m_size,"id>=m_size");
 			return m_data[id];
 		}
 
+			///	Get last element
 		reference back( void ){
 			GT_ASSERT3(m_size);
 			return m_data[ m_size - 1u ];
 		}
 
+			///	Get last element
 		const_reference back( void ) const {
 			GT_ASSERT3(m_size);
 			return m_data[ m_size - 1u ];
 		}
 
+			///	Get first element
 		const_reference front( void ) const {
 			GT_ASSERT3(m_size);
 			return m_data[ 0u ];
 		}
 
+			///	Allocate memory
+			///	\param new_capacity: new size
 		void reserve( u32 new_capacity ){
 			if( new_capacity > m_allocated )
 				reallocate( new_capacity );
 		}
 
+			///	Insert element
 		void push_back( type object ){
 			u32 new_size = m_size + 1u;
 			if( new_size > m_allocated )
@@ -126,24 +144,29 @@ namespace gost{
 			m_size = new_size;
 		}
 	
+			///	Remove all elements
 		void clear( void ){
 			if( m_data ){
 				for( u32 i = 0u; i < m_size; ++i )
 					m_allocator.destruct( &m_data[i] );
 				m_allocator.deallocate( m_data );
+				
 				m_allocated = m_size = 0u;
 				m_data = nullptr;
 			}
 		}
 
+			///	Free not used memory
 		void shrink_to_fit( void ){
 			reallocate( m_size - m_addMemory );
 		}
 
+			///	Remove element
 		void erase( u32 index ){
 			erase( index, index );
 		}
 
+			///	Remove elements
 		void erase( u32 begin, u32 end ){
 			GT_ASSERT3(begin<m_size);
 			GT_ASSERT3(end<m_size);

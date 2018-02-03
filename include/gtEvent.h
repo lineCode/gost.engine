@@ -72,10 +72,10 @@ namespace gost{
 							b5 - ex2_2x
 					   */
 
-		u16	x;
-		u16 y;
+		u16	x;	///< Cursor position on X
+		u16 y;	///< Cursor position on Y
 
-		u16 wheel;
+		u16 wheel;	///< Wheel
 
 		bool	isLeftButtonDown( void ){	return state.bits.b0;	}
 		bool	isLeftButtonUp( void )	{	return state.bits.b1;	}
