@@ -15,8 +15,8 @@ extern "C"{
 		gtMainSystem*	main_system( nullptr );
 
 		switch( params.m_device_type ){
-	#if defined( GT_PLATFORM_WIN32 )
 			case gtDeviceType::windows:{
+	#if defined( GT_PLATFORM_WIN32 )
 				main_system = new gtMainSystemWin32( params );
 
 				if( !((gtMainSystemWin32*)main_system)->init() ){
@@ -28,8 +28,8 @@ extern "C"{
 				}
 			
 			}
-			break;
 	#endif
+			break;
 			case gtDeviceType::android:
 			case gtDeviceType::ios:
 			case gtDeviceType::linux:

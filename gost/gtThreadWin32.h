@@ -4,6 +4,8 @@
 #ifndef __GT_THREAD_WIN_32_H__
 #define __GT_THREAD_WIN_32_H__
 
+#if defined(GT_PLATFORM_WIN32)
+
 #include <process.h>
 
 namespace gost{
@@ -25,6 +27,7 @@ namespace gost{
 
 }
 
+#endif
 #endif
 
 
