@@ -16,12 +16,15 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 	
 	gtDeviceCreationParameters params;
 	gtPtr_t(gtMainSystem,mainSystem,InitializeGoSTEngine(params));
+//	mainSystem->getOutputWindow()->hide();
+
 	gtPtr_t(gtWindow,window,mainSystem->createSystemWindow( gtWindowInfo() ));
 
 	window->setWindowTitle( u"05 Play sound" );
 
 	gtDriverInfo di;
 	di.m_outWindow = window.data();
+	di.m_vSync = true;
 	gtPtr_t(gtDriver,driver,mainSystem->createVideoDriver( di, GT_UID_RENDER_D3D11 ));
 
 
@@ -58,19 +61,19 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 	u32 time = mainSystem->getTime();
 
 	while( mainSystem->update() ){
-
 		u32 now = mainSystem->getTime();
-
 		while( mainSystem->pollEvent( event ) ){
 			switch( event.type ){ 
 				
 				case gtEventType::keyboard:
 
-				if( event.keyboardEvent.isPressed( gtKey::K_LEFT ) )
+				if( event.keyboardEvent.isPressed( gtKey::K_LEFT ) ){
 					stream->setPlaybackPosition( stream->getPlaybackPosition() - 0.1f );
+				}
 				
-				if( event.keyboardEvent.isPressed( gtKey::K_RIGHT ) )
+				if( event.keyboardEvent.isPressed( gtKey::K_RIGHT ) ){
 					stream->setPlaybackPosition( stream->getPlaybackPosition() + 0.1f );
+				}
 
 				if( event.keyboardEvent.isPressed( gtKey::K_UP ) )
 					stream->setVolume( stream->getVolume() + 0.01f );

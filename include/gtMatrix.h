@@ -392,13 +392,6 @@ namespace gost{
 			///Vector-matrix product
 		GT_FORCE_INLINE v3f mul( const v3f& vector, const gtMatrix4& matrix ){
 			v3f result;
-
-			//auto * pm = &matrix[ 0u ][ 0u ];
-			//auto * pv = &vector[ 0u ];
-
-			/*result[ 0u ] = (pm[ 0u ]*pv[ 0u ])+(pm[ 1u ]*pv[ 1u ])+(pm[ 2u ]*pv[ 2u ]);
-			result[ 1u ] = (pm[ 4u ]*pv[ 0u ])+(pm[ 5u ]*pv[ 1u ])+(pm[ 6u ]*pv[ 2u ]);
-			result[ 2u ] = (pm[ 8u ]*pv[ 0u ])+(pm[ 9u ]*pv[ 1u ])+(pm[ 10u ]*pv[ 2u ]);*/
 			
 			result[ 0u ] = math::dot(matrix[ 0u ], vector);
 			result[ 1u ] = math::dot(matrix[ 1u ], vector);
@@ -415,7 +408,7 @@ namespace gost{
 #endif
 
 /*
-Copyright (c) 2017, 2018 532235
+Copyright (c) 2017-2018 532235
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
 and associated documentation files (the "Software"), to deal in the Software without restriction, 

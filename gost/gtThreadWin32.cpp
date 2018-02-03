@@ -10,7 +10,7 @@ gtThreadWin32::~gtThreadWin32( void ){
 
 bool gtThreadWin32::start( StartFunction f, void* args, u32 stackSize ){
 
-	m_handle = (HANDLE)_beginthreadex( NULL, stackSize, (_beginthreadex_proc_type)f, args, SYNCHRONIZE, &m_id );
+	m_handle = (HANDLE)_beginthreadex( NULL, stackSize, (_beginthreadex_proc_type)f, args, 0, &m_id );
 
 	if( !m_handle ) return false;
 

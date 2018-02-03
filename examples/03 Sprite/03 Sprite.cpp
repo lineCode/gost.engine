@@ -14,6 +14,8 @@ using namespace gost;
 int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR /*lpCmdLine*/, int /*nCmdShow*/ ){
 #endif
 
+
+
 	gtDeviceCreationParameters params;
 	gtPtr_t(gtMainSystem,mainSystem,InitializeGoSTEngine(params));
 
@@ -23,6 +25,7 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 
 	gtDriverInfo di;
 	di.m_outWindow = window.data(); /// Set output window for rendering.
+	di.m_vSync = true;
 	gtPtr_t(gtDriver,driver,mainSystem->createVideoDriver( di, GT_UID_RENDER_D3D11 ));
 
 
@@ -67,6 +70,7 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 
 	while( mainSystem->update() ){
 
+
 		u32 now = mainSystem->getTime();
 
 		while( mainSystem->pollEvent( event ) ){
@@ -103,6 +107,7 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 				tank->setPosition( tank->getPosition() - v3f_t( move_speed * delta, 0.f, 0.f ) );
 				tank->setRotation( v3f_t( 0.f, 0.f, PI ) );
 			}
+
 
 			if( mainSystem->isKeyPressed( gtKey::K_Q ) )
 				cannon->setRotation( cannon->getRotation() + v3f_t( 0.f, 0.f, 10.f * delta ) );

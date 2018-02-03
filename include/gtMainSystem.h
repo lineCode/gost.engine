@@ -206,16 +206,32 @@ namespace gost{
 			///	\return \b true if have event
 		virtual bool pollEvent( gtEvent& event ) = 0;
 
+			///	Check pressed key
+			///	\param key: key code
+			///	\return \b true if pressed
 		virtual bool isKeyPressed( gtKey key ) = 0;
 
+			///	Left mouse button down
+			///	\return \b true if down
 		virtual bool isLMBDown( void ) = 0;
+
+			///	Right mouse button down
+			///	\return \b true if down
 		virtual bool isRMBDown( void ) = 0;
+
+			///	Middle mouse button down
+			///	\return \b true if down
 		virtual bool isMMBDown( void ) = 0;
+
+			///	Get cursor position
+			///	\return position
 		virtual const gtVector<u16,2u>& getCursorPosition( void ) = 0;
 
+			///	Get params
 		virtual const gtDeviceCreationParameters& getDeviceCreationParameters( void ) = 0;
 
-		virtual gtThread*	createThread() = 0;
+			///	Create thread object
+		virtual gtThread*	createThread( void ) = 0;
 
 			///	возвратит указатель на gtMainSystem, альтернатива this так как this не работает в статических методах
 			/// \return gtMainSystem
@@ -229,7 +245,7 @@ namespace gost{
 #endif
 
 /*
-Copyright (c) 2017, 2018 532235
+Copyright (c) 2017-2018 532235
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
 and associated documentation files (the "Software"), to deal in the Software without restriction, 

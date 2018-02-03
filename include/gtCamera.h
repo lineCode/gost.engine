@@ -11,7 +11,7 @@ namespace gost{
 		/// Camera type
 	enum class gtCameraType{
 		CT_LOOK_AT,
-		CT_PYR,		///< pitch yaw roll
+		CT_FREE,		///< pitch yaw roll, FPS camera
 		CT_2D
 	};
 
@@ -103,7 +103,7 @@ namespace gost{
 #endif
 
 /*
-Copyright (c) 2017, 2018 532235
+Copyright (c) 2017-2018 532235
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
 and associated documentation files (the "Software"), to deal in the Software without restriction, 

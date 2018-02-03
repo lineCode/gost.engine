@@ -19,7 +19,7 @@ namespace gost{
 	public:
 
 		gtModelImpl( u32, gtVertexType* );
-		~gtModelImpl();
+		virtual ~gtModelImpl();
 
 			//	возвратит суб модель, с типом, в зависимости от типа вершины
 		gtSubModel*	addSubModel( u32 v_count, u32 i_count, u32 stride );

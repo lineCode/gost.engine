@@ -157,9 +157,11 @@ void gtSceneSystemImpl::removeObject( gtGameObject* object ){
 		}
 		it = childs->begin();
 	}
-	gtLogWriter::printInfo(u"Remove object %s", name.to_utf16String().c_str() );
-	if( object )
+//	gtLogWriter::printInfo(u"Remove object %s", name.to_utf16String().c_str() );
+	if( object ){
 		object->release();
+		//delete object;
+	}
 }
 
 void gtSceneSystemImpl::sortTransparent(  gtArray<gtGameObject*>& opaque, gtArray<gtGameObject*>& transparent, gtGameObject* parent ){

@@ -105,7 +105,7 @@ void				gtCameraImpl::render( void ){
 
 	}break;
 
-	case gost::gtCameraType::CT_PYR:{
+	case gost::gtCameraType::CT_FREE:{
 		math::makePerspectiveRHMatrix( 
 			m_projectionMatrix,
 			m_fov,
