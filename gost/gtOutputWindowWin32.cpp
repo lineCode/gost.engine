@@ -275,8 +275,8 @@ void gtOutputWindowWin32::save( void ){
 				int len = GetWindowTextLength( m_hWndBuffer );
 				std::wstring wstr;
 				wstr.append( static_cast<u32>(len),0u);
-
-				GetWindowText( m_hWndBuffer, wstr._Myptr(), len );
+				auto * ptr = &wstr[0];
+				GetWindowText( m_hWndBuffer, ptr, len );
 
 				std::wofstream out(pszName);
 				out.write( wstr.data(), len-1 );

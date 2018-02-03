@@ -40,3 +40,9 @@
 /build/vs2015/Release/*
 /external/*
 *.opendb
+*.ipch
+*.db-wal
+*.db-shm
+*.idb
+*.log
+*.suo
