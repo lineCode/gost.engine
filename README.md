@@ -13,6 +13,13 @@ Current version (most on russian) http://imsoftworks.info/gost/doc/beta1/html/in
 
 Wiki for samples https://github.com/532235/GoST/wiki
 
+## Contacts
+
+532235@imsoftworks.info
+
+http://www.imsoftworks.info/contributing.php
+
+
 [![Support](http://www.imsoftworks.info/gost/support.png)](https://www.paypal.me/supportgost)
 
 # VS 2015 Redistributable

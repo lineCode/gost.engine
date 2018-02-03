@@ -1,49 +1,42 @@
-# Prerequisites
-*.d
-
-# Compiled Object files
-*.slo
-*.lo
-*.o
-*.obj
-
-# Precompiled Headers
-*.gch
-*.pch
-
-# Compiled Dynamic libraries
-#*.so
-*.dylib
-#*.dll
-
-# Fortran module files
-*.mod
-*.smod
-
-# Compiled Static libraries
-*.lai
-*.la
 *.a
-#*.lib
-
-# Executables
-*.exe
-*.out
 *.app
 
-*.pdb
+*.d
+*.db
+*.dylib
+
+*.exp
+
+*.fbx
+
+*.gch
+
 *.ilk
 *.iobj
 *.ipdb
+
+*.la
+*.lai
+*.lo
+
+*.mod
+
+*.o
+*.obj
+*.out
+
+*.pch
+*.pdb
+
+*.slo
+*.smod
+
+*.tlog
 *.tmp
-
-*.fbx
-*.exp
-
-*.db
 
 /build/vs2015/.vs/*
 /build/vs2015/Debug/*
 /build/vs2015/Production/*
 /build/vs2015/Release/*
 /external/*
+*.opendb

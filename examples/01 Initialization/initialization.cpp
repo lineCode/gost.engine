@@ -51,6 +51,26 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 	///	Initialize graphics engine.
 	gtPtr_t(gtDriver,driver,mainSystem->createVideoDriver( di, GT_UID_RENDER_D3D11 ));
 	
+
+	gtArray<gtString> supportedImages;
+	gtArray<gtString> supportedModels;
+
+	util::getSupportedImportImageFormats( supportedImages );
+	util::getSupportedImportModelFormats( supportedModels );
+
+	output->print( u"Supported images:" );
+	auto size = supportedImages.size();
+	for( auto i = 0u; i < size; ++i ){
+		output->print( supportedImages[ i ].c_str() );
+	}
+
+	output->print( u"Supported models:" );
+	size = supportedModels.size();
+	for( auto i = 0u; i < size; ++i ){
+		output->print( supportedModels[ i ].c_str() );
+	}
+
+
 	while( mainSystem->update() ){
 
 		///	If you do not use gtEventConsumer, use this method.
