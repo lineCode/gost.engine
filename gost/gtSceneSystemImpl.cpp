@@ -113,7 +113,10 @@ gtDummyObject*	gtSceneSystemImpl::addDummyObject( const v3f& position, const gtS
 }
 
 gtStaticObject*	gtSceneSystemImpl::addStaticObject( gtRenderModel* model, const v3f& position, const gtStringA& name, s32 id ){
+	if( !model ) return nullptr;
+
 	gtPtr_t( gtStaticObjectImpl, object, new gtStaticObjectImpl( model ) );
+
 
 	if( !object.data()){
 		gtLogWriter::printWarning( u"Can not create static object. Name [%s], id[%i]", name.data(), id );
@@ -160,16 +163,57 @@ void gtSceneSystemImpl::removeObject( gtGameObject* object ){
 //	gtLogWriter::printInfo(u"Remove object %s", name.to_utf16String().c_str() );
 	if( object ){
 		object->release();
-		//delete object;
 	}
 }
 
-void gtSceneSystemImpl::sortTransparent(  gtArray<gtGameObject*>& opaque, gtArray<gtGameObject*>& transparent, gtGameObject* parent ){
+
+bool aabbInFrustum( gtCameraFrustum * frustum, gtAabb* aabb, const v3f& position ){
+	v3f _min = aabb->m_min + position;
+	v3f _max = aabb->m_max + position;
+
+	/*if( max <= frustum->m_farX && max > frustum->m_nearX )
+		return true;
+	if( min >= frustum->m_nearY && min <= frustum->m_farY )
+		return true;*/
+
+
+
+	return true;
+}
+
+void addChildsInArray( gtGameObject* parent, gtArray<gtGameObject*>& outArray ){
 	auto * childs = &parent->getChildList();
 	auto it = childs->begin();
 	for(; it != childs->end(); ++it){
+		outArray.push_back( *it );
+		addChildsInArray( *it, outArray );
+	}
+}
 
+void gtSceneSystemImpl::frustumCull( gtGameObject* root, gtArray<gtGameObject*>& outArray, gtCameraFrustum * frustum ){
+	auto * childs = &root->getChildList();
+	auto it = childs->begin();
+	for(; it != childs->end(); ++it){
 		auto * var = *it;
+
+		gtAabb * aabb = var->getAabb();
+		if( aabb ){
+			if( aabbInFrustum( frustum, aabb, var->getPositionInSpace() ) ){
+				outArray.push_back( var );
+				addChildsInArray( var, outArray );
+			}else{
+				frustumCull( var, outArray, frustum );
+			}
+		}
+
+	}
+}
+
+void gtSceneSystemImpl::sortTransparent(  gtArray<gtGameObject*>& opaque, gtArray<gtGameObject*>& transparent, gtArray<gtGameObject*>& objects ){
+	auto sz = objects.size();
+	for( u32 i = 0u; i < sz; ++i ){
+
+		auto var = objects[ i ];
 
 		switch( var->getType() ){
 		case gtObjectType::STATIC:{
@@ -203,7 +247,6 @@ void gtSceneSystemImpl::sortTransparent(  gtArray<gtGameObject*>& opaque, gtArra
 		default:
 			break;
 		}
-		sortTransparent(opaque,transparent,var);
 	}
 }
 
@@ -223,10 +266,16 @@ void gtSceneSystemImpl::renderScene( void ){
 		m_mainSystem->setMatrixView( m_activeCamera->getViewMatrix() );
 	}
 
+	gtArray<gtGameObject*> objectsInFrustum;
+	frustumCull( m_rootNode, objectsInFrustum, ((gtCameraImpl*)m_activeCamera)->getFrustum() );
+
+//	gtLogWriter::printInfo( u"Num of objects: %u", objectsInFrustum.size() );
+
+
 	gtArray<gtGameObject*> opaqueObjects;
 	gtArray<gtGameObject*> transparentObjects;
 	
-	sortTransparent(opaqueObjects,transparentObjects,m_rootNode);
+	sortTransparent(opaqueObjects,transparentObjects,objectsInFrustum);
 
 	auto sz = opaqueObjects.size();
 

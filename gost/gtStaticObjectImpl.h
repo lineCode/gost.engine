@@ -51,6 +51,8 @@ namespace gost{
 
 					//	Вернёт модель которую рисует
 		gtRenderModel*	getModel( void );
+
+		gtAabb*				getAabb( void );
 	};
 
 }

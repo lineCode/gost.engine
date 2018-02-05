@@ -105,3 +105,7 @@ void				gtStaticObjectImpl::render( void ){
 gtRenderModel*	gtStaticObjectImpl::getModel( void ){
 	return m_model;
 }
+
+gtAabb* gtStaticObjectImpl::getAabb( void ){
+	return m_model->getAabb();
+}

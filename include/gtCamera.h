@@ -11,8 +11,27 @@ namespace gost{
 		/// Camera type
 	enum class gtCameraType{
 		CT_LOOK_AT,
-		CT_FREE,		///< pitch yaw roll, FPS camera
+		///CT_FREE,
+		CT_FPS,		///< FPS camera
 		CT_2D
+	};
+
+
+	/*
+	  |-------x
+	  |  far /|
+	  |     / |
+	  y____/__|
+	 -----x  /
+	|near | /
+	y_____|/
+	*/
+	struct gtCameraFrustum{
+		v3f m_farX;
+		v3f m_farY;
+		v3f m_nearX;
+		v3f m_nearY;
+
 	};
 
 		///	camera
@@ -96,6 +115,7 @@ namespace gost{
 			/// \param v: вращение
 		virtual void				setRotation( const v3f& v ) = 0;
 
+		virtual gtAabb*				getAabb( void ) = 0;
 	};
 
 }

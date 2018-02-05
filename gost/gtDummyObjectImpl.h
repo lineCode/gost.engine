@@ -30,7 +30,7 @@ namespace gost{
 		void				setRotation( const v3f& v );
 		void				update( void );
 		void				render( void );
-
+		gtAabb*				getAabb( void );
 	};
 
 }

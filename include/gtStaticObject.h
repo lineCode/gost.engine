@@ -42,6 +42,8 @@ namespace gost{
 			/// \param v: вращение
 		virtual void				setRotation( const v3f& v ) = 0;
 
+
+		virtual gtAabb*				getAabb( void ) = 0;
 	};
 
 }

@@ -7,6 +7,7 @@ namespace gost{
 	class gtCameraImpl : public gtCamera{
 
 		gtMatrix4		m_viewMatrix;
+		gtMatrix4		m_rotationMatrix;
 		gtMatrix4		m_projectionMatrix;
 
 		v4f				m_viewPort;
@@ -21,11 +22,19 @@ namespace gost{
 
 		gtObjectType	m_type;
 		gtCameraType	m_cameraType;
+		
+		gtCameraFrustum m_frustum;
+
+		gtQuaternion	m_orientation;
+
+		void			calculateFrustum( void );
 
 	public:
 
 		gtCameraImpl( void );
 		~gtCameraImpl( void );
+
+		gtCameraFrustum* getFrustum( void );
 
 
 		//	=================================					gtGameObject
@@ -101,7 +110,9 @@ namespace gost{
 
 		void					setViewPort( const v4f& v );
 		 	//	ƒл€ некоторых типов камер(2D камера), установит зум
-		void					setZoom( f32 v );
+		//void					setZoom( f32 v );
+
+		gtAabb*				getAabb( void );
 	};
 
 }

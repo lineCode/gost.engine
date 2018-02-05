@@ -96,16 +96,15 @@ void				gtCameraImpl::render( void ){
 		gtQuaternion qYaw( v3f_t( 0.f, m_rotation.y_, 0.f ) );
 		gtQuaternion qRoll( v3f_t( 0.f, 0.f, m_rotation.z_ ) );
 		
-		gtQuaternion orientation = qYaw * qPitch * qRoll;
+		m_orientation = qYaw * qPitch * qRoll;
 
+		math::makeRotationMatrix( m_rotationMatrix, m_orientation );
 
-		math::makeRotationMatrix( m_viewMatrix, orientation );
-
-		m_viewMatrix = m_viewMatrix * m_worldMatrixAbsolute;
+		m_viewMatrix = m_rotationMatrix * m_worldMatrixAbsolute;
 
 	}break;
-
-	case gost::gtCameraType::CT_FREE:{
+	//case gost::gtCameraType::CT_FREE:
+	case gost::gtCameraType::CT_FPS:{
 		math::makePerspectiveRHMatrix( 
 			m_projectionMatrix,
 			m_fov,
@@ -117,15 +116,16 @@ void				gtCameraImpl::render( void ){
 		gtQuaternion qYaw( v3f_t( 0.f, m_rotation.y_, 0.f ) );
 		gtQuaternion qRoll( v3f_t( 0.f, 0.f, m_rotation.z_ ) );
 		
-		gtQuaternion orientation = qYaw * qPitch * qRoll;
+		m_orientation = qYaw * qPitch * qRoll;
 
+		math::makeRotationMatrix( m_rotationMatrix, m_orientation );
 
-		math::makeRotationMatrix( m_viewMatrix, orientation );
-
-		m_viewMatrix = m_viewMatrix * m_worldMatrixAbsolute;
+		m_viewMatrix = m_rotationMatrix * m_worldMatrixAbsolute;
 
 	}break;
 	}
+
+	calculateFrustum();
 }
 
 
@@ -162,50 +162,86 @@ const v3f&			gtCameraImpl::getUpVector( void ){
 }
 
 	//	Установит up вектор look at камеры
-void				gtCameraImpl::setUpVector( const v3f& v ){
+void gtCameraImpl::setUpVector( const v3f& v ){
 	m_up = v;
 }
 
 	//	Установит ближнюю границу с которой начинается рисование
-void				gtCameraImpl::setNear( f32 v ){
+void gtCameraImpl::setNear( f32 v ){
 	m_near = v;
 }
 
 	//	Установит дальнюю границу после которой рисование заканчивается
-void				gtCameraImpl::setFar( f32 v ){
+void gtCameraImpl::setFar( f32 v ){
 	m_far = v;
 }
 
 	//	Установит соотношение сторон (напр. aspect = 800 : 600 )
-void				gtCameraImpl::setAspect( f32 v ){
+void gtCameraImpl::setAspect( f32 v ){
 	m_aspect = v;
 }
 
 	//	Установит поле зрения (field of view)
-void				gtCameraImpl::setFOV( f32 v ){
+void gtCameraImpl::setFOV( f32 v ){
 	m_fov = v;
 }
 
 	//	Вернёт ближнюю границу с которой начинается рисование
-f32					gtCameraImpl::getNear( void ){
+f32	gtCameraImpl::getNear( void ){
 	return m_near;
 }
 
 	//	Вернёт дальнюю границу после которой рисование заканчивается
-f32					gtCameraImpl::getFar( void ){
+f32	gtCameraImpl::getFar( void ){
 	return m_far;
 }
 
 	//	Вернёт соотношение сторон
-f32					gtCameraImpl::getAspect( void ){
+f32	gtCameraImpl::getAspect( void ){
 	return m_aspect;
 }
 
 	//	Вернёт поле зрения (field of view)
-f32					gtCameraImpl::getFOV( void ){
+f32	gtCameraImpl::getFOV( void ){
 	return m_fov;
 }
 
-void				gtCameraImpl::setViewPort( const v4f& v ){
+void gtCameraImpl::setViewPort( const v4f& v ){
 	m_viewPort = v;
+}
+
+
+gtCameraFrustum* gtCameraImpl::getFrustum( void ){
+	return &m_frustum;
+}
+
+void gtCameraImpl::calculateFrustum( void ){
+	v3f pos = getPositionInSpace();
+
+	f32 _far = m_far * (m_fov*0.5f);
+	f32 _near = m_near * (m_fov*0.5f);
+
+	v3f farX  = v3f_t(  _far,  _far,   -m_far );
+	v3f farY  = v3f_t( -_far,  -_far,  -m_far );
+	v3f nearX = v3f_t(  _near,  _near, -m_near );
+	v3f nearY = v3f_t( -_near, -_near, -m_near );
+
+	switch( m_cameraType ){
+	case gost::gtCameraType::CT_LOOK_AT:
+		break;
+	case gost::gtCameraType::CT_FPS:
+	case gost::gtCameraType::CT_2D:
+		m_frustum.m_farX  = math::mul( farX, m_rotationMatrix );
+		m_frustum.m_farY  = math::mul( farY, m_rotationMatrix );
+		m_frustum.m_nearX = math::mul( nearX,m_rotationMatrix );
+		m_frustum.m_nearY = math::mul( nearY,m_rotationMatrix );
+		break;
+	}
+
+	m_frustum.m_farY  -= pos;
+
+}
+
+gtAabb*	gtCameraImpl::getAabb( void ){
+	return nullptr;
 }

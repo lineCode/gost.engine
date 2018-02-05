@@ -38,9 +38,13 @@
 /build/vs2015/Debug/*
 /build/vs2015/Production/*
 /build/vs2015/Release/*
+
+log.txt
+
 /external/*
 /bin32/plugins/*.lib
 /bin64/plugins/*.lib
+
 *.opendb
 *.ipch
 *.db-wal

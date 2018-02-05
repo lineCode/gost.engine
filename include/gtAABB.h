@@ -19,7 +19,7 @@ namespace gost{
 			///	Установить по значениям
 			/// \param min: minimum
 			/// \param max: maximum
-		gtAabb( const v4f& min, const v4f& max ):
+		gtAabb( const v3f& min, const v3f& max ):
 			m_min( min ), m_max( max ){ }
 
 			/// is empty
@@ -30,7 +30,7 @@ namespace gost{
 
 			/// reset
 		void reset( void ){
-			m_max = v4f();
+			m_max = v3f();
 			m_min = m_max;
 		}
 
@@ -60,18 +60,18 @@ namespace gost{
 
 			///	размер коробки
 			/// \param v: [\b in/out] vector for size
-		void extent( v4f& v ){
-			v = v4f( m_max - m_min );
+		void extent( v3f& v ){
+			v = v3f( m_max - m_min );
 		}
 
 			/// центр коробки
 			/// \param v: [\b in/out] center
-		void center( v4f& v ){
-			v = v4f( m_min + m_max );
+		void center( v3f& v ){
+			v = v3f( m_min + m_max );
 			v *= 0.5f;
 		}
 
-		v4f m_min, m_max; ///< components
+		v3f m_min, m_max; ///< components
 
 	};
 
