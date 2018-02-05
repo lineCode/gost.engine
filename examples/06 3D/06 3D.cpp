@@ -33,8 +33,8 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 	camera->setFar( 30.f );
 	camera->setAspect( 1.f );
 
-//	gtStaticObject * room = scene->addStaticObject( driver->getModel(u"../media/room.obj") );
-//	room->getModel()->getMaterial(0)->textureLayer[0].texture = driver->getTexture(u"../media/room.png");
+	gtStaticObject * room = scene->addStaticObject( driver->getModel(u"../media/room.obj") );
+	room->getModel()->getMaterial(0)->textureLayer[0].texture = driver->getTexture(u"../media/room.png");
 	
 	f32 x = 0.f, y = 0.f;
 	for( int i = 0; i < 100; ++i ){
