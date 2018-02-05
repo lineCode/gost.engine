@@ -287,6 +287,7 @@
 	//! \endcond
 	#	define	GT_PLATFORM_LINUX
 	#	define	GT_PLATFORM_IS_CONSOLE	0
+	#include <string.h>
 	//! \cond
 	#	if defined(__native_client__) || defined(__nacl__) || defined(NACL)
 	//! \endcond

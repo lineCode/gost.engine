@@ -20,7 +20,7 @@ namespace gost{
 			/// \return вернёт ориентацию
 		virtual const gtQuaternion&			getQuaternion( void ) = 0;
 
-
+		virtual gtAabb*				getAabb( void ) = 0;
 	};
 
 }

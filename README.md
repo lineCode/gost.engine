@@ -22,5 +22,9 @@ http://www.imsoftworks.info/contributing.php
 
 [![Support](http://www.imsoftworks.info/gost/support.png)](https://www.paypal.me/supportgost)
 
+# Microsoft Visual C++ Redistributable for Visual Studio 2017
+x64 https://go.microsoft.com/fwlink/?LinkId=746572
+x86 https://go.microsoft.com/fwlink/?LinkId=746571
+
 # VS 2015 Redistributable
 http://imsoftworks.info/files/VS%202015%20redist.7z

@@ -1,0 +1,279 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Production|Win32">
+      <Configuration>Production</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Production|x64">
+      <Configuration>Production</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\external\libvorbis-1.3.5\lib\backends.h" />
+    <ClInclude Include="..\..\external\libvorbis-1.3.5\lib\bitrate.h" />
+    <ClInclude Include="..\..\external\libvorbis-1.3.5\lib\codebook.h" />
+    <ClInclude Include="..\..\external\libvorbis-1.3.5\lib\codec_internal.h" />
+    <ClInclude Include="..\..\external\libvorbis-1.3.5\lib\envelope.h" />
+    <ClInclude Include="..\..\external\libvorbis-1.3.5\lib\highlevel.h" />
+    <ClInclude Include="..\..\external\libvorbis-1.3.5\lib\lookup.h" />
+    <ClInclude Include="..\..\external\libvorbis-1.3.5\lib\lookup_data.h" />
+    <ClInclude Include="..\..\external\libvorbis-1.3.5\lib\lpc.h" />
+    <ClInclude Include="..\..\external\libvorbis-1.3.5\lib\lsp.h" />
+    <ClInclude Include="..\..\external\libvorbis-1.3.5\lib\masking.h" />
+    <ClInclude Include="..\..\external\libvorbis-1.3.5\lib\mdct.h" />
+    <ClInclude Include="..\..\external\libvorbis-1.3.5\lib\misc.h" />
+    <ClInclude Include="..\..\external\libvorbis-1.3.5\lib\os.h" />
+    <ClInclude Include="..\..\external\libvorbis-1.3.5\lib\psy.h" />
+    <ClInclude Include="..\..\external\libvorbis-1.3.5\lib\registry.h" />
+    <ClInclude Include="..\..\external\libvorbis-1.3.5\lib\scales.h" />
+    <ClInclude Include="..\..\external\libvorbis-1.3.5\lib\smallft.h" />
+    <ClInclude Include="..\..\external\libvorbis-1.3.5\lib\window.h" />
+    <ClInclude Include="..\..\gtaXAudio2\gtAudioSourceImpl.h" />
+    <ClInclude Include="..\..\gtaXAudio2\gtAudioSystemXAudio2.h" />
+    <ClInclude Include="..\..\gtaXAudio2\common.h" />
+    <ClInclude Include="..\..\gtaXAudio2\Ogg.h" />
+    <ClInclude Include="..\..\gtaXAudio2\wave.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\external\libogg-1.3.3\src\bitwise.c" />
+    <ClCompile Include="..\..\external\libogg-1.3.3\src\framing.c" />
+    <ClCompile Include="..\..\external\libvorbis-1.3.5\lib\analysis.c" />
+    <ClCompile Include="..\..\external\libvorbis-1.3.5\lib\barkmel.c" />
+    <ClCompile Include="..\..\external\libvorbis-1.3.5\lib\bitrate.c" />
+    <ClCompile Include="..\..\external\libvorbis-1.3.5\lib\block.c" />
+    <ClCompile Include="..\..\external\libvorbis-1.3.5\lib\codebook.c" />
+    <ClCompile Include="..\..\external\libvorbis-1.3.5\lib\envelope.c" />
+    <ClCompile Include="..\..\external\libvorbis-1.3.5\lib\floor0.c" />
+    <ClCompile Include="..\..\external\libvorbis-1.3.5\lib\floor1.c" />
+    <ClCompile Include="..\..\external\libvorbis-1.3.5\lib\info.c" />
+    <ClCompile Include="..\..\external\libvorbis-1.3.5\lib\lookup.c" />
+    <ClCompile Include="..\..\external\libvorbis-1.3.5\lib\lpc.c" />
+    <ClCompile Include="..\..\external\libvorbis-1.3.5\lib\lsp.c" />
+    <ClCompile Include="..\..\external\libvorbis-1.3.5\lib\mapping0.c" />
+    <ClCompile Include="..\..\external\libvorbis-1.3.5\lib\mdct.c" />
+    <ClCompile Include="..\..\external\libvorbis-1.3.5\lib\psy.c" />
+    <ClCompile Include="..\..\external\libvorbis-1.3.5\lib\registry.c" />
+    <ClCompile Include="..\..\external\libvorbis-1.3.5\lib\res0.c" />
+    <ClCompile Include="..\..\external\libvorbis-1.3.5\lib\sharedbook.c" />
+    <ClCompile Include="..\..\external\libvorbis-1.3.5\lib\smallft.c" />
+    <ClCompile Include="..\..\external\libvorbis-1.3.5\lib\synthesis.c" />
+    <ClCompile Include="..\..\external\libvorbis-1.3.5\lib\vorbisenc.c" />
+    <ClCompile Include="..\..\external\libvorbis-1.3.5\lib\vorbisfile.c" />
+    <ClCompile Include="..\..\external\libvorbis-1.3.5\lib\window.c" />
+    <ClCompile Include="..\..\gtaXAudio2\dllmain.cpp" />
+    <ClCompile Include="..\..\gtaXAudio2\gtAudioSourceImpl.cpp" />
+    <ClCompile Include="..\..\gtaXAudio2\gtAudioSystemXAudio2.cpp" />
+    <ClCompile Include="..\..\gtaXAudio2\gtaXAudio2.cpp" />
+    <ClCompile Include="..\..\gtaXAudio2\Ogg.cpp" />
+    <ClCompile Include="..\..\gtaXAudio2\wave.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\..\gtaXAudio2\ReadMe.txt" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{63E1A72E-31DD-4B7C-9B13-B7D8C3443845}</ProjectGuid>
+    <RootNamespace>gtrD3D11</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Production|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Production|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Production|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Production|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <TargetExt>.gpl</TargetExt>
+    <OutDir>../../bin32/plugins/</OutDir>
+    <IntDir>$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Production|Win32'">
+    <TargetExt>.gpl</TargetExt>
+    <OutDir>../../bin32/plugins/</OutDir>
+    <IntDir>$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <TargetExt>.gpld</TargetExt>
+    <OutDir>../../bin32/plugins/</OutDir>
+    <IntDir>$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>../../bin64/plugins/</OutDir>
+    <IntDir>$(Configuration)\$(ProjectName)\</IntDir>
+    <TargetExt>.gpld</TargetExt>
+    <TargetName>$(ProjectName)</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Production|x64'">
+    <OutDir>../../bin64/plugins/</OutDir>
+    <IntDir>$(Configuration)\$(ProjectName)\</IntDir>
+    <TargetExt>.gpl</TargetExt>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>../../bin64/plugins/</OutDir>
+    <IntDir>$(Configuration)\$(ProjectName)\</IntDir>
+    <TargetExt>.gpl</TargetExt>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>EnableAllWarnings</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>false</SDLCheck>
+      <AdditionalIncludeDirectories>../../include;D:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;../../external/libogg-1.3.3/include/;../../external/libvorbis-1.3.5/include/;../../external/lame-3.100/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_DEBUG;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>../../lib/x86/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>EnableAllWarnings</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>false</SDLCheck>
+      <AdditionalIncludeDirectories>../../include;D:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;../../external/libogg-1.3.3/include/;../../external/libvorbis-1.3.5/include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_DEBUG;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>../../lib/x64/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>false</SDLCheck>
+      <AdditionalIncludeDirectories>../../include;D:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;../../external/libogg-1.3.3/include/;../../external/libvorbis-1.3.5/include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>../../lib/x86/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Production|Win32'">
+    <ClCompile>
+      <WarningLevel>TurnOffAllWarnings</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>false</SDLCheck>
+      <AdditionalIncludeDirectories>../../include;D:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;../../external/libogg-1.3.3/include/;../../external/libvorbis-1.3.5/include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>../../lib/x86/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>false</SDLCheck>
+      <AdditionalIncludeDirectories>../../include;D:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;../../external/libogg-1.3.3/include/;../../external/libvorbis-1.3.5/include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>../../lib/x64/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Production|x64'">
+    <ClCompile>
+      <WarningLevel>TurnOffAllWarnings</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>false</SDLCheck>
+      <AdditionalIncludeDirectories>../../include;D:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;../../external/libogg-1.3.3/include/;../../external/libvorbis-1.3.5/include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>../../lib/x64/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

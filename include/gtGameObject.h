@@ -70,10 +70,16 @@ namespace gost{
 			///	Нарисует объект (если он рисуемый (например не 3D аудио))
 		virtual void				render( void ) = 0;
 
+		virtual gtAabb*				getAabb( void ) = 0;
+
 			///	Получить позицию
 			///	\return Возвратит позицию
 		virtual const v3f&			getPosition( void ){
 			return m_position;
+		}
+
+		virtual v3f			getPositionInSpace( void ){
+			return m_worldMatrixAbsolute[ 3 ].getXYZ();
 		}
 
 			///	Установит позицию

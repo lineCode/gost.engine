@@ -16,7 +16,9 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 
 	gtDeviceCreationParameters params;
 	gtPtr_t(gtMainSystem,mainSystem,InitializeGoSTEngine(params));
-	gtPtr_t(gtWindow,window,mainSystem->createSystemWindow( gtWindowInfo() ));
+	
+	gtWindowInfo wi;
+	gtPtr_t(gtWindow,window,mainSystem->createSystemWindow( wi ));
 
 
 	gtDriverInfo di;
@@ -26,12 +28,23 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 
 	gtSceneSystem * scene = mainSystem->getSceneSystem();
 
-	gtCamera * camera = scene->addCamera( v3f_t(5.f,5.f,5.f) );
+	gtCamera * camera = scene->addCamera( v3f_t(0.f,0.f,0.f) );
+	camera->setCameraType( gtCameraType::CT_FPS );
+	camera->setFar( 30.f );
+	camera->setAspect( 1.f );
 
 	gtStaticObject * room = scene->addStaticObject( driver->getModel(u"../media/room.obj") );
 	room->getModel()->getMaterial(0)->textureLayer[0].texture = driver->getTexture(u"../media/room.png");
 	
-	
+	f32 x = 0.f, y = 0.f;
+	for( int i = 0; i < 100; ++i ){
+		scene->addStaticObject( driver->getModel(u"../media/sh_chair.obj"), v3f_t( x, 0.f, y ) );
+		x += 1.f;
+		if( x > 10.f ){
+			x = 0.f;
+			y += 1.f;
+		}
+	}
 
 	gtEvent event;
 
@@ -48,7 +61,7 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 		f32 cs = std::cosf( angle )/180.f*PI;
 		angle += 10.f * delta; if( angle > 360.f ) angle = 0.f;
 
-		camera->setPosition( v3f_t( pos*sn, 5.f, pos*cs ) );
+		//camera->setPosition( v3f_t( pos*sn, 5.f, pos*cs ) );
 
 		u32 now = mainSystem->getTime();
 
@@ -67,6 +80,17 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 			/// Camera zoom
 			if( mainSystem->isKeyPressed( gtKey::K_X ) ) camera->setFOV( camera->getFOV() + 10.f * delta );
 			if( mainSystem->isKeyPressed( gtKey::K_Z ) ) camera->setFOV( camera->getFOV() - 10.f * delta );
+			if( mainSystem->isKeyPressed( gtKey::K_Q ) ) camera->setRotation( camera->getRotation() - v3f_t( 0.f, 0.01f, 0.f ) );
+			if( mainSystem->isKeyPressed( gtKey::K_E ) ) camera->setRotation( camera->getRotation() + v3f_t( 0.f, 0.01f, 0.f ) );
+			if( mainSystem->isKeyPressed( gtKey::K_W ) ) camera->setRotation( camera->getRotation() - v3f_t( 0.01f, 0.0f, 0.f ) );
+			if( mainSystem->isKeyPressed( gtKey::K_S ) ) camera->setRotation( camera->getRotation() + v3f_t( 0.01f, 0.0f, 0.f ) );
+			if( mainSystem->isKeyPressed( gtKey::K_A ) ) camera->setRotation( camera->getRotation() - v3f_t( 0.0f, 0.0f, 0.01f ) );
+			if( mainSystem->isKeyPressed( gtKey::K_D ) ) camera->setRotation( camera->getRotation() + v3f_t( 0.0f, 0.0f, 0.01f ) );
+			
+			if( mainSystem->isKeyPressed( gtKey::K_UP ) ) camera->setPosition( camera->getPosition() + v3f_t( 0.0f, 0.0f, 0.1f ) );
+			if( mainSystem->isKeyPressed( gtKey::K_DOWN ) ) camera->setPosition( camera->getPosition() - v3f_t( 0.0f, 0.0f, 0.1f ) );
+			if( mainSystem->isKeyPressed( gtKey::K_LEFT ) ) camera->setPosition( camera->getPosition() - v3f_t( 0.1f, 0.0f, 0.0f ) );
+			if( mainSystem->isKeyPressed( gtKey::K_RIGHT ) ) camera->setPosition( camera->getPosition() + v3f_t( 0.1f, 0.0f, 0.0f ) );
 
 
 			driver->beginRender( true, gtColor( 0.2f, 0.2f, 0.2f, 1.f ) ); /// RGBA.

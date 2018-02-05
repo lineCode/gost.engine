@@ -119,6 +119,13 @@ namespace gost{
 				m_data[ o ] /= static_cast<T>( v[ o ] );
 		}
 
+		T summ( void ){
+			T r = static_cast<T>(0);
+			for( u32 o{0u}; o < i; ++o )
+				r += static_cast<T>( m_data[ o ] );
+			return r;
+		}
+
 			///	Сложение векторов
 			/// \param v: вектор
 			///	\return сумма двух векторов
@@ -260,6 +267,8 @@ namespace gost{
 			return false;
 		}
 
+		
+
 			///	получить длину вектора
 			/// \return длина вектора (от центра координат)
 		T		lengthSqrt( void ){
@@ -285,6 +294,10 @@ namespace gost{
 			m_data[0u] = v[0u];
 			m_data[1u] = v[1u];
 			m_data[2u] = v[2u];
+		}
+
+		gtVector<T,3u> getXYZ( void ){
+			return gtVector<T,3u>({m_data[0u],m_data[1u],m_data[2u]});
 		}
 
 	};

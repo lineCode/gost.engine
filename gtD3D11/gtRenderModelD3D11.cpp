@@ -80,6 +80,7 @@ bool	gtRenderModelD3D11::init( gtModel* m ){
 		m_subs.push_back( s );
 	}
 
+	m_aabb = m->getAabb();
 
 	return true;
 }
@@ -102,4 +103,8 @@ gtMaterial*	gtRenderModelD3D11::getMaterial( u32 id ){
 	//	нарисует gtRenderModel
 void		gtRenderModelD3D11::render( void ){
 	this->m_driver->drawModel( this );
+}
+
+gtAabb* gtRenderModelD3D11::getAabb( void ){
+	return &m_aabb;
 }

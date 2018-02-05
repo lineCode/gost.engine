@@ -41,6 +41,10 @@ void				gtDummyObjectImpl::setRotation( const v3f& rotation ){
 	}
 }
 
+gtAabb*				gtDummyObjectImpl::getAabb( void ){
+	return nullptr;
+}
+
 void				gtDummyObjectImpl::update( void ){
 	gtMatrix4 translationMatrix;
 	math::makeTranslationMatrix( translationMatrix, m_position );

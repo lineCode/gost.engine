@@ -18,6 +18,8 @@ namespace gost{
 
 		gtDriverD3D11* m_driver;
 
+		gtAabb m_aabb;
+
 	public:
 
 		gtRenderModelD3D11( gtDriverD3D11* );
@@ -47,6 +49,8 @@ namespace gost{
 		gtArray<gtRenderModelD3D11_sub> m_subs;
 
 		u32 m_stride;
+
+		gtAabb*				getAabb( void );
 	};
 
 }

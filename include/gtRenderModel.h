@@ -26,6 +26,7 @@ namespace gost{
 			///	нарисует gtRenderModel
 		virtual void		render( void ) = 0;
 
+		virtual gtAabb*				getAabb( void ) = 0;
 	};
 
 }
