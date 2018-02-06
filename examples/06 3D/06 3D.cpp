@@ -13,7 +13,6 @@ using namespace gost;
 #include <Windows.h>
 int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR /*lpCmdLine*/, int /*nCmdShow*/ ){
 #endif
-
 	gtDeviceCreationParameters params;
 	gtPtr_t(gtMainSystem,mainSystem,InitializeGoSTEngine(params));
 	
@@ -36,9 +35,12 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 	gtStaticObject * room = scene->addStaticObject( driver->getModel(u"../media/room.obj") );
 	room->getModel()->getMaterial(0)->textureLayer[0].texture = driver->getTexture(u"../media/room.png");
 	
+	gtModel * cube = mainSystem->getModelSystem()->createCube(0.125f);
+	gtRenderModel * rcube = driver->createModel( cube );
+
 	f32 x = 0.f, y = 0.f;
 	for( int i = 0; i < 100; ++i ){
-		scene->addStaticObject( driver->getModel(u"../media/sh_chair.obj"), v3f_t( x, 0.f, y ) );
+		scene->addStaticObject( rcube, v3f_t( x, 0.f, y ) );
 		x += 1.f;
 		if( x > 10.f ){
 			x = 0.f;

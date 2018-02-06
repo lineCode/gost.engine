@@ -56,6 +56,7 @@ namespace gost{
 
 			/// Индекс первой координаты позиции в вершине
 			///	Если, подразумевается что позиция в вершине стоит не на первом месте, то нужно изменить это значение
+			///	Index of the first position coordinate in the vertex.
 		u32 m_vertexPosition;
 
 			/// Индекс первой координаты нормали в вершине
@@ -119,6 +120,23 @@ namespace gost{
 			}
 
 			calculate_normals();
+		}
+
+		void	move( const v3f& newPos ){
+			u32 i1 = m_vertexPosition;
+			u32 i2 = m_vertexPosition + 1u;
+			u32 i3 = m_vertexPosition + 2u;
+
+			u8 * p8 = &m_vertices[0u];
+			for(u32 i = 0u; i < m_vCount; ++i){
+				f32 * p32 = reinterpret_cast<f32*>(p8);
+
+				p32[ i1 ] += newPos[ 0u ];
+				p32[ i2 ] += newPos[ 1u ];
+				p32[ i3 ] += newPos[ 2u ];
+
+				p8 += m_stride;
+			}
 		}
 
 			///TEST
