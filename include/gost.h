@@ -92,6 +92,13 @@
 #include <gtShader.h>
 #include <gtMaterial.h>
 
+
+#ifdef GT_DEBUG
+#define GT_USE_STACK_TRACE
+#endif 
+#include <gtStackTrace.h>
+
+
 #include <gtSubModel.h>
 #include <gtModel.h>
 #include <gtRenderModel.h>
@@ -116,15 +123,7 @@
 
 
 
-//! \cond
-#ifdef GT_DEBUG
-//! \endcond
-//! \brief Используется чтобы включить функцию вывода стека вызовов функций
-#define GT_USE_STACK_TRACE
-//! \cond
-#endif 
-//! \endcond
-#include <gtStackTrace.h>
+
 
 namespace gost{
 
@@ -141,7 +140,7 @@ extern "C" GT_API gtMainSystem* GT_CDECL InitializeGoSTEngine( const gtDeviceCre
 #endif
 
 /*
-Copyright (c) 2017, 2018 532235
+Copyright (c) 2017-2018 532235
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
 and associated documentation files (the "Software"), to deal in the Software without restriction, 

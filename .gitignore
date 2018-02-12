@@ -52,3 +52,7 @@ log.txt
 *.idb
 *.log
 *.suo
+/build/vs2017/.vs/slnx.sqlite
+/build/vs2017/.vs/ProjectSettings.json
+/build/vs2017/.vs/tasks.vs.json
+/build/vs2017/.vs/VSWorkspaceState.json

@@ -184,6 +184,10 @@ void	gtOutputWindowWin32::print( const gtString& text ){
 	}
 }
 
+bool	gtOutputWindowWin32::isShow( void ){
+	return m_isShown;
+}
+
 //	Установит заголовок
 void	gtOutputWindowWin32::setWindowText( const gtString& text ){
 	if( m_isInit )

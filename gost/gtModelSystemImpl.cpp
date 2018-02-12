@@ -150,12 +150,19 @@ gtModel*	gtModelSystemImpl::createCube( f32 sz ){
 
 	gtPtr_t(gtModel,cube,createEmpty( gtStrideStandart, vt ));
 	
-	cube->addSubModel( up->getSubModel(0u) );
-	cube->addSubModel( down->getSubModel(0u) );
+	auto * sub = up->getSubModel(0u);
+	sub->append(down->getSubModel(0u));
+	sub->append(right->getSubModel(0u));
+	sub->append(left->getSubModel(0u));
+	sub->append(front->getSubModel(0u));
+	sub->append(back->getSubModel(0u));
+
+	cube->addSubModel( sub );
+	/*cube->addSubModel( down->getSubModel(0u) );
 	cube->addSubModel( right->getSubModel(0u) );
 	cube->addSubModel( left->getSubModel(0u) );
 	cube->addSubModel( front->getSubModel(0u) );
-	cube->addSubModel( back->getSubModel(0u) );
+	cube->addSubModel( back->getSubModel(0u) );*/
 
 	cube->updateAabb();
 

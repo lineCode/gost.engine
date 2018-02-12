@@ -18,8 +18,9 @@ namespace gost{
 			m_vCount( 0u ),
 			m_iCount( 0u ),
 			m_stride( 0u ),
-			m_vertexPosition( 0u ),
-			m_normalPosition( 6u ) // в стандартном stride, pos[0,1,2,3] uv[4,5] normal[6,7,8]
+			m_vertexPosition( 0 ),
+			m_uvPosition( 4 ),
+			m_normalPosition( 6 ) // в стандартном stride, pos[0,1,2,3] uv[4,5] normal[6,7,8]
 		{}
 
 			/// d-tor
@@ -57,11 +58,14 @@ namespace gost{
 			/// Индекс первой координаты позиции в вершине
 			///	Если, подразумевается что позиция в вершине стоит не на первом месте, то нужно изменить это значение
 			///	Index of the first position coordinate in the vertex.
-		u32 m_vertexPosition;
+		s32 m_vertexPosition;
+
+		s32 m_uvPosition;
 
 			/// Индекс первой координаты нормали в вершине
 			/// Аналогия как и с m_vertexPosition
-		u32 m_normalPosition;
+		s32 m_normalPosition;
+
 
 			/// заполняет индексный массив индексами
 			/// \param array: index array
@@ -89,8 +93,62 @@ namespace gost{
 			for(u32 i = 0u; i < m_vCount; ++i){
 				f32 * p32 = reinterpret_cast<f32*>(p8);
 
-				m_box.add( v3f( IL_BEGIN p32[ m_vertexPosition ], p32[ m_vertexPosition + 1u ], p32[ m_vertexPosition + 2u ] IL_END ) );
+				m_box.add( v3f( IL_BEGIN p32[ m_vertexPosition ], p32[ m_vertexPosition + 1 ], p32[ m_vertexPosition + 2 ] IL_END ) );
 				p8 += m_stride;
+			}
+		}
+
+		void	append( gtSubModel * model ){
+			GT_ASSERT3(model);
+			if( model ){
+
+				u16 maxIndex = 0u;
+				for( u32 i = 0; i < m_iCount; ++i ){
+					if( m_indices[ i ] > maxIndex ) maxIndex = m_indices[ i ];
+				}
+
+			//	maxIndex--;
+
+				u32 newIndexCount = m_iCount + model->m_iCount;
+				u16 * newInds = new u16[ newIndexCount ];
+
+				memcpy( newInds, m_indices, m_iCount * sizeof( u16 ) );
+				for( u32 i = 0; i < model->m_iCount; ++i ){
+					newInds[ maxIndex + i -1u ] = model->m_indices[ i ] + maxIndex-1; /// < возможно ошибка
+				}
+
+				delete []m_indices;
+				m_indices = newInds;
+				m_iCount = newIndexCount;
+
+				u32 newVertsCount = m_vCount + model->m_vCount;
+				u8 * newVerts = new u8[ m_stride * newVertsCount ];
+				memcpy( newVerts, m_vertices, m_stride * m_vCount );
+
+				u8 * p8 = &newVerts[m_vCount*m_stride];
+				u8 * otherp8 = &model->m_vertices[0u];
+				/*for( u32 i = 0; i < model->m_vCount; ++i ){
+					f32 * p32 = reinterpret_cast<f32*>(p8);
+					f32 * otherp32 = reinterpret_cast<f32*>(otherp8);
+
+					p32[ m_vertexPosition	] = otherp32[ model->m_vertexPosition	];
+					p32[ m_vertexPosition+1 ] = otherp32[ model->m_vertexPosition+1 ];
+					p32[ m_vertexPosition+2 ] = otherp32[ model->m_vertexPosition+2 ];
+					p32[ m_uvPosition		] = otherp32[ model->m_uvPosition		];
+					p32[ m_uvPosition+1		] = otherp32[ model->m_uvPosition+1     ];
+					p32[ m_normalPosition	] = otherp32[ model->m_normalPosition   ];
+					p32[ m_normalPosition+1 ] = otherp32[ model->m_normalPosition+1 ];
+					p32[ m_normalPosition+2 ] = otherp32[ model->m_normalPosition+2 ];
+
+
+					p8 += m_stride;
+					otherp8 += model->m_stride;
+				}*/
+
+				delete []m_vertices;
+				m_vertices = newVerts;
+				m_vCount = newVertsCount;
+
 			}
 		}
 
