@@ -12,6 +12,7 @@
 
 namespace gost{
 	
+	//	Some helper functions here
 	namespace util{
 		
 			///	изменяет символ \ на /
@@ -105,6 +106,35 @@ namespace gost{
 
 		}
 
+			///	" asd " -> "asd"
+		template<typename Type>
+		inline void stringTrimSpace( Type& str ){
+			
+			while( true ){
+				if( str.isSpace( 0u ) )
+					str.pop_front();
+				else break;
+			}
+
+			while( true ){
+				if( str.isSpace( str.size() - 1u ) )
+					str.pop_back();
+				else break;
+			}
+
+		}
+
+		template<typename Type>
+		inline void stringTrimFrontSpace( Type& str ){
+			
+			while( true ){
+				if( str.isSpace( 0u ) )
+					str.pop_front();
+				else break;
+			}
+
+		}
+
 			///	добаляет к str строку иного типа
 			///	\param str: строка в которую нужно добавить
 			///	\param other: строка которую нужно добавить
@@ -117,6 +147,8 @@ namespace gost{
 			for( u32 i = 0u; i < sz; ++i )
 				str += static_cast<charType>( other[ i ] );
 		}
+
+
 
 		template<typename array = gtArray<gtString>>
 		inline void getSupportedImportImageFormats( array& _array ){

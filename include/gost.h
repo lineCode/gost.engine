@@ -14,17 +14,17 @@
 	\warning Made in Russia
 	\attention Документация должна быть написана полностью на английском языке(дополнительно на русском). Автор не знаток english, по этому могут быть ошибки.
 
-	Изучать движок лучше начиная с файла \ref gost.h\n
+	Изучать движок лучше начиная с файла \ref gost.h
 
-	\b Наименование \b плагинов:\n
-	стандартные плагины должны начинаться с "gt"\n
-	далее идут буквы обозначающие что это за плагин\n
-	"ii" - import image\n
-	"im" - import model\n
-	"ei" - export image\n
-	"em" - export model\n
-	"r" - renderer\n
-	"a" - audio\n
+	\b Наименование \b плагинов:
+	стандартные плагины должны начинаться с "gt"
+	далее идут буквы обозначающие что это за плагин
+	"ii" - import image
+	"im" - import model
+	"ei" - export image
+	"em" - export model
+	"r" - renderer
+	"a" - audio
 
 */
 
@@ -120,22 +120,40 @@
 #include <gtOutputWindow.h>
 
 
+//	Base namespace for GoST
+//	All GoST objects here
+namespace gost {
 
+	namespace gost2{
+	
+		namespace gost3{
 
+			namespace gost3_a = gost3;
 
+		}
 
+	}
 
-namespace gost{
+/*
+	GoST initialization
 
-	/*!	\brief GoST initialization
-
-		\param params: параметры запуска движка
-		\return gtMainSystem
-	*/
+	\param params: gtDeviceCreationParameters
+	\return gtMainSystem
+*/
 extern "C" GT_API gtMainSystem* GT_CDECL InitializeGoSTEngine( const gtDeviceCreationParameters& params );
+
 
 }
 
+namespace gost2_ODD{
+	
+	namespace gost3_ODD{
+
+		namespace gost3_a_ODD = gost3_ODD;
+
+	}
+
+}
 
 #endif
 

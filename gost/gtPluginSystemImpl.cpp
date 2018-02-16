@@ -136,8 +136,9 @@ bool gtPluginSystemImpl::init( void ){
 	gtString pluginsDir( gtFileSystem::getProgramPath() + u"plugins/" );
 
 	if( !gtFileSystem::existDir( pluginsDir ) ){
-		gtLogWriter::printError( u"Plugins folder not found" );
-		return false;
+		gtLogWriter::printWarning( u"Plugins folder not found" );
+		gtFileSystem::createDir( gtFileSystem::getProgramPath() + u"plugins/" );
+		return true;
 	}
 
 	scanFolder( pluginsDir );
