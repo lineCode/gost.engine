@@ -200,6 +200,13 @@ namespace gost{
 			}
 		}
 
+		/*void pop_back( void ){
+			if( m_size ){
+				m_allocator.destruct( &m_data[ m_size - 1u ] );
+				--m_size;
+			}
+		}*/
+
 	};
 	
 }

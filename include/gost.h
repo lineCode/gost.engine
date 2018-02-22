@@ -124,36 +124,20 @@
 //	All GoST objects here
 namespace gost {
 
-	namespace gost2{
-	
-		namespace gost3{
-
-			namespace gost3_a = gost3;
-
-		}
-
-	}
-
 /*
 	GoST initialization
 
 	\param params: gtDeviceCreationParameters
 	\return gtMainSystem
 */
+
 extern "C" GT_API gtMainSystem* GT_CDECL InitializeGoSTEngine( const gtDeviceCreationParameters& params );
 
 
 }
+	//namespace new_nwame::cpp17{};		// c++17
 
-namespace gost2_ODD{
-	
-	namespace gost3_ODD{
 
-		namespace gost3_a_ODD = gost3_ODD;
-
-	}
-
-}
 
 #endif
 

@@ -102,12 +102,6 @@ void gtFileSystemWin32::deleteFolder( const gtString& dir ){
 
 bool gtFileSystemWin32::deleteDir( const gtString& dir ){
 	deleteFolder( dir );
-
-	if( RemoveDirectory( (wchar_t*)dir.data() ) == FALSE ){
-		gtLogWriter::printWarning( u"Can not remove directory [%s]. Error code [%u]", 
-			dir.data(), GetLastError() );
-		return false;
-	}
 	return true;
 }
 
