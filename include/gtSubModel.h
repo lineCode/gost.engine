@@ -107,14 +107,14 @@ namespace gost{
 					if( m_indices[ i ] > maxIndex ) maxIndex = m_indices[ i ];
 				}
 
-			//	maxIndex--;
+			////	maxIndex--;
 
 				u32 newIndexCount = m_iCount + model->m_iCount;
 				u16 * newInds = new u16[ newIndexCount ];
 
 				memcpy( newInds, m_indices, m_iCount * sizeof( u16 ) );
 				for( u32 i = 0; i < model->m_iCount; ++i ){
-					newInds[ maxIndex + i -1u ] = model->m_indices[ i ] + maxIndex-1; /// < возможно ошибка
+					newInds[ m_iCount + i ] = model->m_indices[ i ] + maxIndex + 1u; /// < возможно ошибка
 				}
 
 				delete []m_indices;
@@ -125,9 +125,11 @@ namespace gost{
 				u8 * newVerts = new u8[ m_stride * newVertsCount ];
 				memcpy( newVerts, m_vertices, m_stride * m_vCount );
 
+				
 				u8 * p8 = &newVerts[m_vCount*m_stride];
+
 				u8 * otherp8 = &model->m_vertices[0u];
-				/*for( u32 i = 0; i < model->m_vCount; ++i ){
+				for( u32 i = 0; i < model->m_vCount; ++i ){
 					f32 * p32 = reinterpret_cast<f32*>(p8);
 					f32 * otherp32 = reinterpret_cast<f32*>(otherp8);
 
@@ -143,7 +145,7 @@ namespace gost{
 
 					p8 += m_stride;
 					otherp8 += model->m_stride;
-				}*/
+				}
 
 				delete []m_vertices;
 				m_vertices = newVerts;
