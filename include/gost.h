@@ -14,17 +14,17 @@
 	\warning Made in Russia
 	\attention Документация должна быть написана полностью на английском языке(дополнительно на русском). Автор не знаток english, по этому могут быть ошибки.
 
-	Изучать движок лучше начиная с файла \ref gost.h\n
+	Изучать движок лучше начиная с файла \ref gost.h
 
-	\b Наименование \b плагинов:\n
-	стандартные плагины должны начинаться с "gt"\n
-	далее идут буквы обозначающие что это за плагин\n
-	"ii" - import image\n
-	"im" - import model\n
-	"ei" - export image\n
-	"em" - export model\n
-	"r" - renderer\n
-	"a" - audio\n
+	\b Наименование \b плагинов:
+	стандартные плагины должны начинаться с "gt"
+	далее идут буквы обозначающие что это за плагин
+	"ii" - import image
+	"im" - import model
+	"ei" - export image
+	"em" - export model
+	"r" - renderer
+	"a" - audio
 
 */
 
@@ -92,6 +92,13 @@
 #include <gtShader.h>
 #include <gtMaterial.h>
 
+
+#ifdef GT_DEBUG
+#define GT_USE_STACK_TRACE
+#endif 
+#include <gtStackTrace.h>
+
+
 #include <gtSubModel.h>
 #include <gtModel.h>
 #include <gtRenderModel.h>
@@ -113,35 +120,29 @@
 #include <gtOutputWindow.h>
 
 
+//	Base namespace for GoST
+//	All GoST objects here
+namespace gost {
 
+/*
+	GoST initialization
 
+	\param params: gtDeviceCreationParameters
+	\return gtMainSystem
+*/
 
-//! \cond
-#ifdef GT_DEBUG
-//! \endcond
-//! \brief Используется чтобы включить функцию вывода стека вызовов функций
-#define GT_USE_STACK_TRACE
-//! \cond
-#endif 
-//! \endcond
-#include <gtStackTrace.h>
-
-namespace gost{
-
-	/*!	\brief GoST initialization
-
-		\param params: параметры запуска движка
-		\return gtMainSystem
-	*/
 extern "C" GT_API gtMainSystem* GT_CDECL InitializeGoSTEngine( const gtDeviceCreationParameters& params );
 
+
 }
+	//namespace new_nwame::cpp17{};		// c++17
+
 
 
 #endif
 
 /*
-Copyright (c) 2017, 2018 532235
+Copyright (c) 2017-2018 532235
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
 and associated documentation files (the "Software"), to deal in the Software without restriction, 

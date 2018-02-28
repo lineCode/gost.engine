@@ -20,12 +20,10 @@ enum{
 
 #include "iSqrt_table.hpp"
 
-/*
-	//	по большей части код взят у Doom 3
-*/
 
 namespace gost{
 
+	// Here math functions and declarations
 	namespace math{
 
 #define PI	3.14159265358979323846f

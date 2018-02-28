@@ -330,6 +330,11 @@ namespace gost{
 			return gtFileSystem::createFile( fileName, gtFileSystem::FileMode::EFM_BINARY, gtFileSystem::FileAccessMode::EFAM_WRITE, 
 				gtFileSystem::FileAction::EFA_OPEN );
 		}
+
+		GT_FORCE_INLINE gtPtrNew<gtFile> createFileForWriteBin( const gtString& fileName ){
+			return gtFileSystem::createFile( fileName, gtFileSystem::FileMode::EFM_BINARY, gtFileSystem::FileAccessMode::EFAM_WRITE, 
+				gtFileSystem::FileAction::EFA_OPEN_NEW );
+		}
 	}
 
 

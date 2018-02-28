@@ -36,6 +36,8 @@ namespace gost{
 			/// \param title: title
 		virtual void	setWindowText( const gtString& title ) = 0;
 		
+			///
+		virtual bool	isShow( void ) = 0;
 	};
 
 }

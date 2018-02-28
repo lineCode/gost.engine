@@ -68,12 +68,40 @@ bool gtFileSystemWin32::existDir( const gtString& dir ){
          (dwAttrib & FILE_ATTRIBUTE_DIRECTORY));
 }
 
-bool gtFileSystemWin32::deleteDir( const gtString& dir ){
+void gtFileSystemWin32::deleteFolder( const gtString& dir ){
+	gtArray<gtFileSystem::DirObject> objs;
+	gtFileSystem::scanDirBegin( dir );
+ 	gtFileSystem::DirObject ob;
+ 	while( gtFileSystem::getDirObject( &ob ) ){
+ 		objs.push_back( ob );
+ 	}
+ 	gtFileSystem::scanDirEnd();
+	u32 sz = objs.size();
+
+ 	for( u32 i = 0u; i < sz; ++i ){
+ 		auto * o = &objs[ i ];
+  		if( o->type == gtFileSystem::DirObjectType::info ){
+  			continue;
+
+		}else if( o->type == gtFileSystem::DirObjectType::folder ){
+			deleteFolder( (char16_t*)o->path );
+		}else if( o->type == gtFileSystem::DirObjectType::file ){
+			gtString path( (char16_t*)o->path );
+			if( DeleteFile( o->path ) == FALSE ){
+				gtLogWriter::printWarning( u"Can not delete file [%s]. Error code [%u]", 
+					o->path, GetLastError() );
+			}
+		}
+	}
+
 	if( RemoveDirectory( (wchar_t*)dir.data() ) == FALSE ){
 		gtLogWriter::printWarning( u"Can not remove directory [%s]. Error code [%u]", 
 			dir.data(), GetLastError() );
-		return false;
 	}
+}
+
+bool gtFileSystemWin32::deleteDir( const gtString& dir ){
+	deleteFolder( dir );
 	return true;
 }
 

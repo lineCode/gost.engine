@@ -24,6 +24,9 @@ namespace gost{
 			/// \return плоскость
 		virtual gtModel*	createPlane( f32 x = 1.f, f32 y = 1.f, gtSide side = gtSide::DOWN ) = 0;
 
+
+		virtual gtModel*	createCube( f32 sz = 1.f ) = 0;
+
 			/// загружает модель из файла
 			/// \param fileName: путь к файлу
 			/// \return модель

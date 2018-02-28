@@ -63,6 +63,7 @@ namespace gost{
 		//	Установит заголовок
 		void	setWindowText( const gtString& ) GT_FINAL;
 
+		bool	isShow( void );
 
 		HWND m_hWndBuffer;
 		HBRUSH m_hbrEditBackground;

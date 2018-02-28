@@ -21,6 +21,8 @@ namespace gost{
 
 		gtString m_exePath, m_systemPath;
 
+		void deleteFolder( const gtString& dir );
+
 	public:
 
 		gtFileSystemWin32( void );

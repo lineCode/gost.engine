@@ -341,6 +341,10 @@ namespace gost{
 			}
 		}
 
+		void setSize( u32 size ){
+			m_size = size;
+		}
+
 		void erase( u32 begin, u32 end ){
 			GT_ASSERT3(m_size);
 			GT_ASSERT3(begin<=end);
@@ -364,6 +368,14 @@ namespace gost{
 
 			m_size -= numCharsToDelete;
 			m_data[ m_size ] = 0;
+		}
+
+		void pop_front( void ){
+			erase( 0u, 0u );
+		}
+
+		bool isSpace( u32 index ){
+			return (bool)std::isspace( (int)m_data[ index ] );
 		}
 	};
 

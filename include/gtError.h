@@ -1,4 +1,4 @@
-﻿/**	GOST
+﻿	/**	GOST
 	\file gtError.h
 	\brief Some macros for error handling
 */
@@ -59,6 +59,7 @@ namespace gost{
 #define GT_ERROR_NEW_STYLE
 #endif
 
+//	Here errors for old style static assert
 namespace gtError{
 
 		///	используется для определения ошибок на этапе компиляции

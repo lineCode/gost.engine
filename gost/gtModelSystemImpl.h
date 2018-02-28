@@ -15,8 +15,8 @@ namespace gost{
 		// גûהוכÿוע ןאלÿעü
 		gtModel*	createEmpty( u32, gtVertexType* ) final;
 	
-	//	lptIModel*			CreateBox( f32 size = 1.f ) final;
 		gtModel*	createPlane( f32 x = 1.f, f32 y = 1.f, gtSide side = gtSide::DOWN );
+		gtModel*	createCube( f32 sz = 1.f );
 
 		gtModel*	createFromFile( const gtString& fileName );
 	};

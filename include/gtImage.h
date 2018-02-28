@@ -5,16 +5,17 @@
 
 #pragma once
 #ifndef __GT_IMAGE_H__
-#define __GT_IMAGE_H__ ///< include guard
+#define __GT_IMAGE_H__ // include guard
+
 
 namespace gost{
 
 	class gtMainSystem;
 
-		/// software image
+		// software image
 	struct gtImage : public gtRefObject{
 
-			/// c-tor
+			// c-tor
 		gtImage( void ):
 			format( Format::FMT_R8G8B8A8 ),
 			width( 0u ),
@@ -27,7 +28,7 @@ namespace gost{
 			frames( 1u )
 		{}
 
-			/// d-tor
+			// d-tor
 		virtual ~gtImage( void ){
 			if( data ){
 					gtMainSystem::getInstance()->freeMemory( (void**)&data );
@@ -38,53 +39,53 @@ namespace gost{
 
 		enum Format{
 
-			FMT_ONE_BIT,	///< white or black
-			FMT_A1R5G5B5,	///< 1 11111 11111 11111
-			FMT_X1R5G5B5,	///< x 11111 11111 11111
-			FMT_A4R4G4B4,	///< 1111 1111 1111 1111
-			FMT_X4R4G4B4,	///< xxxx 1111 1111 1111
-			FMT_R5G6B5,		///< 11111 111111 11111
-			FMT_X8R8G8B8,	///< u8 u8 u8 u8
-			FMT_A8R8G8B8,	///< u8 u8 u8 u8
+			FMT_ONE_BIT,	// white or black
+			FMT_A1R5G5B5,	// 1 11111 11111 11111
+			FMT_X1R5G5B5,	// x 11111 11111 11111
+			FMT_A4R4G4B4,	// 1111 1111 1111 1111
+			FMT_X4R4G4B4,	// xxxx 1111 1111 1111
+			FMT_R5G6B5,		// 11111 111111 11111
+			FMT_X8R8G8B8,	// u8 u8 u8 u8
+			FMT_A8R8G8B8,	// u8 u8 u8 u8
 
-			FMT_R8G8B8A8,	///< u8 u8 u8 u8
+			FMT_R8G8B8A8,	// u8 u8 u8 u8
 
-			FMT_R8G8B8,		///< u8 u8 u8
+			FMT_R8G8B8,		// u8 u8 u8
 
 
 			//	OpenGL
-			FMT_COMPRESSED_RGBA_S3TC_DXT1 = 0x83F1, ///< dds dxt1
-			FMT_COMPRESSED_RGBA_S3TC_DXT3 = 0x83F2, ///< dds dxt3
-			FMT_COMPRESSED_RGBA_S3TC_DXT5 = 0x83F3	///< dds dxt5
+			FMT_COMPRESSED_RGBA_S3TC_DXT1 = 0x83F1, // dds dxt1
+			FMT_COMPRESSED_RGBA_S3TC_DXT3 = 0x83F2, // dds dxt3
+			FMT_COMPRESSED_RGBA_S3TC_DXT5 = 0x83F3	// dds dxt5
 
 		}format;
 
-			///	ширина
+			//	ширина
 		u32		width;
 
-			///	высота
+			//	высота
 		u32		height;
 
-			///	биты на пиксель
+			//	биты на пиксель
 		u32		bits;
 
-			///	количество mipMap. 1 - основная картинка
+			//	количество mipMap. 1 - основная картинка
 		u32		mipCount;
 
-			/// массив пикселей
+			// массив пикселей
 		u8	*	data;
 			
-			/// размер массива в байтах
+			// размер массива в байтах
 		u32		dataSize;
 
-			/// широта картинки в пикселях
+			// широта картинки в пикселях
 		u32		pitch;
 
-			///	кадры (пока не реализовано)
+			//	кадры (пока не реализовано)
 		u32		frames;
 
-			///	конвертирует не сжатый формат в указанный
-			/// \param newFormat: новый формат
+			//	конвертирует не сжатый формат в указанный
+			// \param newFormat: новый формат
 		void	convert( Format newFormat ){
 			if( newFormat == format ) return;
 
@@ -746,6 +747,7 @@ namespace gost{
 
 	};
 
+	//	Helper functions for gtImage edit
 	namespace image{
 
 			/// планируется написать функцию изменения масштаба картинки

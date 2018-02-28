@@ -126,6 +126,51 @@ gtModel*	gtModelSystemImpl::createPlane( f32 x, f32 y, gtSide side ){
 	return model.data();
 }
 
+gtModel*	gtModelSystemImpl::createCube( f32 sz ){
+	gtPtr_t(gtModel,up,createPlane( sz, sz, gtSide::DOWN ));
+	gtPtr_t(gtModel,down,createPlane( sz, sz, gtSide::UP ));
+	gtPtr_t(gtModel,right,createPlane( sz, sz, gtSide::LEFT ));
+	gtPtr_t(gtModel,left,createPlane( sz, sz, gtSide::RIGHT ));
+	gtPtr_t(gtModel,front,createPlane( sz, sz, gtSide::BACK ));
+	gtPtr_t(gtModel,back,createPlane( sz, sz, gtSide::FRONT ));
+
+	up->getSubModel( 0u )->move(   v3f_t( 0.f, sz, 0.f ) );
+	down->getSubModel( 0u )->move( v3f_t( 0.f, -sz, 0.f ) );
+	left->getSubModel( 0u )->move( v3f_t( sz, 0.f, 0.f ) );
+	right->getSubModel( 0u )->move( v3f_t( -sz, 0.f, 0.f ) );
+	front->getSubModel( 0u )->move( v3f_t( 0.f, 0.f, sz ) );
+	back->getSubModel( 0u )->move( v3f_t( 0.f, 0.f, -sz ) );
+
+	gtVertexType vt[ 4 ] = {
+		gtVertexType::position,
+		gtVertexType::uv,
+		gtVertexType::normal,
+		gtVertexType::end
+	};
+
+	gtPtr_t(gtModel,cube,createEmpty( gtStrideStandart, vt ));
+	
+	auto * sub = up->getSubModel(0u);
+	sub->append(down->getSubModel(0u));
+	sub->append(right->getSubModel(0u));
+	sub->append(left->getSubModel(0u));
+	sub->append(front->getSubModel(0u));
+	sub->append(back->getSubModel(0u));
+
+	cube->addSubModel( sub );
+	/*cube->addSubModel( down->getSubModel(0u) );
+	cube->addSubModel( right->getSubModel(0u) );
+	cube->addSubModel( left->getSubModel(0u) );
+	cube->addSubModel( front->getSubModel(0u) );
+	cube->addSubModel( back->getSubModel(0u) );*/
+
+	cube->updateAabb();
+
+	cube->addRef();
+
+	return cube.data();
+}
+
 gtModel*	gtModelSystemImpl::createFromFile( const gtString& fileName ){
 	return m_pluginSystem->importModel( fileName );
 }
