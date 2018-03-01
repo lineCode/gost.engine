@@ -21,7 +21,8 @@ gtDriverD3D11::gtDriverD3D11( /*gtMainSystem* System,*/ gtDriverInfo params ):
 	m_blendStateAlphaDisabled( nullptr ),
 	m_shader2DStandart( nullptr ),
 	m_shader3DStandart( nullptr ),
-	m_shaderSprite( nullptr )
+	m_shaderSprite( nullptr ),
+	m_shaderLine( nullptr )
 {
 
 	m_system = gtMainSystem::getInstance();
@@ -30,8 +31,8 @@ gtDriverD3D11::gtDriverD3D11( /*gtMainSystem* System,*/ gtDriverInfo params ):
 	m_params =  params;
 	
 	if( params.m_outWindow ){
-		m_currentWindowSize.x_ = params.m_outWindow->getRect().getComponent( 2u );
-		m_currentWindowSize.y_ = params.m_outWindow->getRect().getComponent( 3u );
+		m_currentWindowSize.x = params.m_outWindow->getRect().z;
+		m_currentWindowSize.y = params.m_outWindow->getRect().w;
 	}
 
 #ifdef GT_DEBUG
@@ -57,6 +58,9 @@ gtDriverD3D11::~gtDriverD3D11( void ){
 
 	if( m_standartTexture.data() )
 		m_standartTexture->release();
+
+	if( m_shaderLine )
+		m_shaderLine->release();
 
 	if( m_shaderSprite )
 		m_shaderSprite->release();
@@ -142,9 +146,9 @@ bool gtDriverD3D11::initialize( void ){
 	DXGI_MODE_DESC	bufferDesc;
 	ZeroMemory( &bufferDesc, sizeof(bufferDesc) );
 	//	A value that describes the resolution width
-	bufferDesc.Width	=	m_params.m_backBufferSize[0u];
+	bufferDesc.Width	=	m_params.m_backBufferSize.x;
 	//	A value describing the resolution height
-	bufferDesc.Height	=	m_params.m_backBufferSize[1u];
+	bufferDesc.Height	=	m_params.m_backBufferSize.y;
 	//	refresh rate in hertz
 	if( m_params.m_vSync )
 		bufferDesc.RefreshRate.Numerator	=	60;
@@ -258,8 +262,8 @@ bool gtDriverD3D11::initialize( void ){
 
 	D3D11_TEXTURE2D_DESC	DSD;
 	ZeroMemory( &DSD, sizeof(DSD) );
-	DSD.Width	=	m_params.m_backBufferSize[0u];
-	DSD.Height	=	m_params.m_backBufferSize[1u];
+	DSD.Width	=	m_params.m_backBufferSize.x;
+	DSD.Height	=	m_params.m_backBufferSize.y;
 	DSD.MipLevels	=	1;
 	DSD.ArraySize	=	1;
 	DSD.Format	=	DXGI_FORMAT_D32_FLOAT;
@@ -372,8 +376,8 @@ bool gtDriverD3D11::initialize( void ){
 
 
 	D3D11_VIEWPORT viewport;
-	viewport.Width		=	(f32)m_params.m_backBufferSize[0u];
-	viewport.Height		=	(f32)m_params.m_backBufferSize[1u];
+	viewport.Width		=	(f32)m_params.m_backBufferSize.x;
+	viewport.Height		=	(f32)m_params.m_backBufferSize.y;
 	viewport.MinDepth	=	0.0f;
 	viewport.MaxDepth	=	1.0f;
 	viewport.TopLeftX	=	0.0f;
@@ -472,13 +476,13 @@ void gtDriverD3D11::draw2DImage( const v4i& rect, const gtMaterial& m ){
 	//	region - координаты левого верхнего и правого нижнего углов области картинки которую нужно нарисовать
 void gtDriverD3D11::draw2DImage( const v4i& rect, const v4i& region, const gtMaterial& m ){
 
-	v2i center( { m_currentWindowSize.x_ / 2, m_currentWindowSize.y_ / 2 } );
+	v2i center( m_currentWindowSize.x / 2, m_currentWindowSize.y / 2  );
 
 	v4f realRect;
-	realRect.x_ = f32(rect.x_ - center.x_ ) / (f32)center.x_;
-	realRect.y_ = (f32(rect.y_ - center.y_ ) * -1.f )/(f32)center.y_;
-	realRect.z_ = (rect.z_ - center.x_ ) / (f32)center.x_;
-	realRect.w_ = (f32(rect.w_ - center.y_ ) * -1.f )/(f32)center.y_;
+	realRect.x = f32(rect.x - center.x ) / (f32)center.x;
+	realRect.y = (f32(rect.y - center.y ) * -1.f )/(f32)center.y;
+	realRect.z = (rect.z - center.x ) / (f32)center.x;
+	realRect.w = (f32(rect.w - center.y ) * -1.f )/(f32)center.y;
 
 
 	/*
@@ -492,10 +496,10 @@ void gtDriverD3D11::draw2DImage( const v4i& rect, const v4i& region, const gtMat
 	v2f lt, rb;
 
 	if( v4i() == region ){ // сравнение с пустым вектором. если пустой то координаты по умолчанию.
-		lt.x_ = 0.f;
-		lt.y_ = 0.f;
-		rb.x_ = 1.f;
-		rb.y_ = 1.f;
+		lt.x = 0.f;
+		lt.y = 0.f;
+		rb.x = 1.f;
+		rb.y = 1.f;
 
 	}else{
 		GT_ASSERT2( m.textureLayer[ 0u ].texture, "texture != nullptr" );
@@ -509,26 +513,26 @@ void gtDriverD3D11::draw2DImage( const v4i& rect, const v4i& region, const gtMat
 		f32 mulX = 1.f / (f32)width;
 		f32 mulY = 1.f / (f32)height;
 
-		lt.x_ = region.x_ * mulX;
-		lt.y_ = region.y_ * mulY;
-		rb.x_ = region.z_ * mulX;
-		rb.y_ = region.w_ * mulY;
+		lt.x = region.x * mulX;
+		lt.y = region.y * mulY;
+		rb.x = region.z * mulX;
+		rb.y = region.w * mulY;
 
 	
 	}
 
 	v8f uvs;
-	uvs.x_ = lt.x_; // 1
-	uvs.y_ = rb.y_;
+	uvs.x = lt.x; // 1
+	uvs.y = rb.y;
 
-	uvs.z_ = lt.x_; // 2
-	uvs.w_ = lt.y_;
+	uvs.z = lt.x; // 2
+	uvs.w = lt.y;
 
-	uvs[ 4u ] = rb.x_; // 3
-	uvs[ 5u ] = lt.y_;
+	uvs.a = rb.x; // 3
+	uvs.b = lt.y;
 
-	uvs[ 6u ] = rb.x_; // 4
-	uvs[ 7u ] = rb.y_;
+	uvs.c = rb.x; // 4
+	uvs.d = rb.y;
 	
 	_draw2DImage( realRect, uvs, m );
 }
@@ -554,33 +558,33 @@ void gtDriverD3D11::_draw2DImage( const v4f& rect, const v8f& region, const gtMa
 		v2f t4;
 	}cb;
 
-	cb.v1.x_ = rect.x_;	//x		
-	cb.v1.y_ = rect.w_;	//y		
-	cb.v1.z_ = 0.f;	//z		*
-	cb.v1.w_ = 1.f;
-	cb.t1.x_ = region.x_;	//u
-	cb.t1.y_ = region.y_;	//v
+	cb.v1.x = rect.x;	//x		
+	cb.v1.y = rect.w;	//y		
+	cb.v1.z = 0.f;	//z		*
+	cb.v1.w = 1.f;
+	cb.t1.x = region.x;	//u
+	cb.t1.y = region.y;	//v
 
-	cb.v2.x_ = rect.x_;	//x		*
-	cb.v2.y_ = rect.y_;	//y		|
-	cb.v2.z_ = 0.f;	//z			*
-	cb.v2.w_ = 1.f;
-	cb.t2.x_ = region.z_;	//u
-	cb.t2.y_ = region.w_;	//v
+	cb.v2.x = rect.x;	//x		*
+	cb.v2.y = rect.y;	//y		|
+	cb.v2.z = 0.f;	//z			*
+	cb.v2.w = 1.f;
+	cb.t2.x = region.z;	//u
+	cb.t2.y = region.w;	//v
 
-	cb.v3.x_ = rect.z_;	//x		*-----*
-	cb.v3.y_ = rect.y_;	//y		|	/
-	cb.v3.z_ = 0.f;	//z			*/
-	cb.v3.w_ = 1.f;
-	cb.t3.x_ = region[ 4u ];	//u
-	cb.t3.y_ = region[ 5u ];	//v
+	cb.v3.x = rect.z;	//x		*-----*
+	cb.v3.y = rect.y;	//y		|	/
+	cb.v3.z = 0.f;	//z			*/
+	cb.v3.w = 1.f;
+	cb.t3.x = region.a;	//u
+	cb.t3.y = region.b;	//v
 
-	cb.v4.x_ = rect.z_;	//x		*-----*
-	cb.v4.y_ = rect.w_;	//y		|	/
-	cb.v4.z_ = 0.f;		//z		*/    *
-	cb.v4.w_ = 1.f;
-	cb.t4.x_ = region[ 6u ];	//u
-	cb.t4.y_ = region[ 7u ];	//v
+	cb.v4.x = rect.z;	//x		*-----*
+	cb.v4.y = rect.w;	//y		|	/
+	cb.v4.z = 0.f;		//z		*/    *
+	cb.v4.w = 1.f;
+	cb.t4.x = region.c;	//u
+	cb.t4.y = region.d;	//v
 
 	m_d3d11DevCon->IASetInputLayout( 0 );
 	m_d3d11DevCon->VSSetShader( ((gtShaderImpl*)shader)->m_vShader, 0, 0 );
@@ -706,6 +710,20 @@ void gtDriverD3D11::drawModel( gtRenderModel* model ){
 		}
 		m_d3d11DevCon->DrawIndexed( rm->m_subs[ i ].iCount, 0, 0 );
 	}
+}
+
+void gtDriverD3D11::drawLine( const v3f& start, const v3f& end ){
+	gtShader * shader = m_shaderLine;
+	m_shaderProcessing->setShader( shader );
+	m_shaderProcessing->setMaterial( nullptr );
+	m_shaderLineCallback->s = start;
+	m_shaderLineCallback->e = end;
+	//m_d3d11DevCon->IASetInputLayout( ((gtShaderImpl*)shader)->m_vLayout );
+	m_d3d11DevCon->VSSetShader( ((gtShaderImpl*)shader)->m_vShader, 0, 0 );
+	m_d3d11DevCon->PSSetShader( ((gtShaderImpl*)shader)->m_pShader, 0, 0 );
+	m_d3d11DevCon->IASetPrimitiveTopology( D3D11_PRIMITIVE_TOPOLOGY_LINELIST );
+	m_d3d11DevCon->VSSetConstantBuffers( 0, 1, &((gtShaderImpl*)shader)->m_constantBuffers[ 0u ] );
+	m_d3d11DevCon->Draw( 2, 0 );
 }
 
 	//	компилировать либо получить ранее скомпилированный шейдер
@@ -950,14 +968,18 @@ bool	gtDriverD3D11::createShaders( void ){
 
 	m_shader3DStandartCallback = gtPtrNew<gtD3D11StandartShaderCallback>( new gtD3D11StandartShaderCallback );
 	m_shaderSpriteCallback = gtPtrNew<gtD3D11SpriteShaderCallback>( new gtD3D11SpriteShaderCallback );
+	//m_shaderLineCallback = gtPtrNew<gtD3D11LineShaderCallback>( new gtD3D11LineShaderCallback );
 
 	m_shader3DStandart = getShader( m_shader3DStandartCallback.data(), u"../shaders/3d_basic.hlsl", "VSMain",
 		u"../shaders/3d_basic.hlsl", "PSMain", shaderModel, vertexType3D );
 	m_shaderSprite = getShader( m_shaderSpriteCallback.data(), u"../shaders/sprite.hlsl", "VSMain",
 		u"../shaders/sprite.hlsl", "PSMain", shaderModel, vertexType3D );
+	//m_shaderLine = getShader( m_shaderLineCallback.data(), u"../shaders/line.hlsl", "VSMain",
+	//	u"../shaders/line.hlsl", "PSMain", shaderModel, vertexType3D );
 
 	if( m_shader3DStandart ) if( !m_shader3DStandart->createShaderObject( 16u * sizeof(f32) ) ) return false;
 	if( m_shaderSprite ) if( !m_shaderSprite->createShaderObject( 24u * sizeof(f32) ) ) return false;
+	//if( m_shaderLine ) if( !m_shaderLine->createShaderObject( 24u * sizeof(f32) ) ) return false;
 
 	return true;
 }

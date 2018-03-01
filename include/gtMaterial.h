@@ -64,7 +64,7 @@ namespace gost{
 
 			///	основной цвет. Зависит от шейдера. 
 			///	В стандартных шейдерах будет применяться к текстуре.
-			///	Например если текстура белая, то diffuseColor({1.f,0.f,0.f,1.f}) покрасит её в красный.
+			///	Например если текстура белая, то diffuseColor(1.f,0.f,0.f,1.f) покрасит её в красный.
 			///	Вычисление такое. 1 * 1 = 1 красный компонент. 1 * 0 = 0 синий. 1 * 0 = 0 зелёный.
 		gtColor	diffuseColor;
 
@@ -97,8 +97,8 @@ namespace gost{
 			specularLevel( 1.f ),
 			glossiness( 0.f ),
 			opacity( 1.f ),
-			fresnel( 1.f ),
 			roughness( 0.f ),
+			fresnel( 1.f ),
 			flags( 0u ),
 			type( gtMaterialType::Standart ),
 			owner( nullptr )

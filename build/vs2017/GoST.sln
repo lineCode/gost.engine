@@ -10,28 +10,66 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "plugins", "plugins", "{7F8B7901-1ED4-4FA6-89DB-8A509E0411D6}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gtiiBMP", "gtiiBMP.vcxproj", "{86418530-751D-4671-8E3F-915BDDD8BC01}"
+	ProjectSection(ProjectDependencies) = postProject
+		{69097B78-4444-4EC8-B1E5-802DE16C3AD8} = {69097B78-4444-4EC8-B1E5-802DE16C3AD8}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gtiiPNG", "gtiiPNG.vcxproj", "{80B2F4CB-0F68-41F2-B964-49A212F59960}"
+	ProjectSection(ProjectDependencies) = postProject
+		{69097B78-4444-4EC8-B1E5-802DE16C3AD8} = {69097B78-4444-4EC8-B1E5-802DE16C3AD8}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gtimOBJ", "gtimOBJ.vcxproj", "{48599ADE-4664-4036-BA64-475C14BAD535}"
+	ProjectSection(ProjectDependencies) = postProject
+		{69097B78-4444-4EC8-B1E5-802DE16C3AD8} = {69097B78-4444-4EC8-B1E5-802DE16C3AD8}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gtrD3D11", "gtrD3D11.vcxproj", "{064C91A3-BC6A-4F86-A71B-238B0BAF12BE}"
+	ProjectSection(ProjectDependencies) = postProject
+		{69097B78-4444-4EC8-B1E5-802DE16C3AD8} = {69097B78-4444-4EC8-B1E5-802DE16C3AD8}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{B4849655-E784-4D96-90F7-530F37D28B2C}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "01 Initialization", "01 Initialization.vcxproj", "{C28F405D-C1CA-4FF7-903C-63559AE61501}"
+	ProjectSection(ProjectDependencies) = postProject
+		{69097B78-4444-4EC8-B1E5-802DE16C3AD8} = {69097B78-4444-4EC8-B1E5-802DE16C3AD8}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "02 2d image", "02 2d image.vcxproj", "{1A8A6C24-C849-4FE2-BD89-675E64EDFAC7}"
+	ProjectSection(ProjectDependencies) = postProject
+		{69097B78-4444-4EC8-B1E5-802DE16C3AD8} = {69097B78-4444-4EC8-B1E5-802DE16C3AD8}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "03 Sprite", "03 Sprite.vcxproj", "{C9875A1C-062B-4C72-9097-B117A22A0BD4}"
+	ProjectSection(ProjectDependencies) = postProject
+		{69097B78-4444-4EC8-B1E5-802DE16C3AD8} = {69097B78-4444-4EC8-B1E5-802DE16C3AD8}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "04 Sprite animation", "04 Sprite animation.vcxproj", "{A654397F-22DD-4051-8F78-02195D506562}"
+	ProjectSection(ProjectDependencies) = postProject
+		{69097B78-4444-4EC8-B1E5-802DE16C3AD8} = {69097B78-4444-4EC8-B1E5-802DE16C3AD8}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gtaXAudio2", "gtaXAudio2.vcxproj", "{63E1A72E-31DD-4B7C-9B13-B7D8C3443845}"
+	ProjectSection(ProjectDependencies) = postProject
+		{69097B78-4444-4EC8-B1E5-802DE16C3AD8} = {69097B78-4444-4EC8-B1E5-802DE16C3AD8}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "05 Play sound", "05 Play sound.vcxproj", "{25293E4F-D8CF-432D-936A-49CD1DE70FEF}"
+	ProjectSection(ProjectDependencies) = postProject
+		{69097B78-4444-4EC8-B1E5-802DE16C3AD8} = {69097B78-4444-4EC8-B1E5-802DE16C3AD8}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "06 3D", "06 3D.vcxproj", "{8E0F0F61-D33D-4118-B56A-46947CC20C6F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shaders", "Shaders", "{8672BE0E-B5BF-4807-9C24-BE5716249AD3}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\shaders\2d_basic.hlsl = ..\..\shaders\2d_basic.hlsl
+		..\..\shaders\3d_basic.hlsl = ..\..\shaders\3d_basic.hlsl
+		..\..\shaders\line.hlsl = ..\..\shaders\line.hlsl
+		..\..\shaders\sprite.hlsl = ..\..\shaders\sprite.hlsl
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

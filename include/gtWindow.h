@@ -14,7 +14,7 @@ namespace gost{
 			/// c-tor
 		gtWindowInfo( void ){
 			m_title.assign( u"GoST window" );
-			m_rect.set({ 0, 0, 800, 600 });
+			m_rect.set( 0, 0, 800, 600 );
 			m_style = 0u;
 		}
 		

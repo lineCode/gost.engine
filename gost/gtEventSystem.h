@@ -21,7 +21,7 @@ namespace gost{
 		u32 m_currentEvent;
 
 		bool m_keysDown[ 256u ];
-		gtVector<u16,2u> m_cursorPosition;
+		gtVector2<u16> m_cursorPosition;
 		gtByte m_mouseState;
 
 	public:
@@ -42,7 +42,7 @@ namespace gost{
 		bool isLMBDown( void );
 		bool isRMBDown( void );
 		bool isMMBDown( void );
-		const gtVector<u16,2u>& getCursorPosition( void );
+		const gtVector2<u16>& getCursorPosition( void );
 	};
 
 	//	=============================================================

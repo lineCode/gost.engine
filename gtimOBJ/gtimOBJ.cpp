@@ -215,13 +215,12 @@ extern "C"{
 					ZeroMemory( &vertex, sizeof( VERTEX ) );
 
 
-					iPosition = f.m_pos[ iFace  ];
-					iTexCoord = f.m_tcoord[ iFace  ];
-					iNormal   = f.m_nor[ iFace ];
+					iPosition = f.m_pos.getComponent( iFace  );
+					iTexCoord = f.m_tcoord.getComponent( iFace  );
+					iNormal   = f.m_nor.getComponent( iFace );
 
 
-					vertex.position.setXYZ( position[ iPosition - 1 ] );
-					vertex.position.w_ = 0.f;
+					vertex.position.set( position[ iPosition - 1 ] );
 					
 					if( uv.size() )
 						vertex.texcoord = uv[ iTexCoord - 1 ];
@@ -230,7 +229,7 @@ extern "C"{
 						vertex.normal	= normal[ iNormal - 1 ];
 					else{
 						auto * pv = &position[ iPosition - 1];
-						vertex.normal = math::cross((pv->y_-pv->x_),(pv->z_-pv->x_));
+						vertex.normal = math::cross((pv->y-pv->x),(pv->z-pv->x));
 					}
 
 					// If a duplicate vertex doesn't exist, add this vertex to the Vertices
@@ -462,9 +461,9 @@ extern "C"{
 			ptr = readFloat( ptr, z );
 			ptr = nextLine( ptr );
 			
-			vec3[ 0u ] = x;
-			vec3[ 1u ] = y;
-			vec3[ 2u ] = z;
+			vec3.x = x;
+			vec3.y = y;
+			vec3.z = z;
 		}
 
 		return ptr;
@@ -484,8 +483,8 @@ extern "C"{
 			ptr = readFloat( ptr, y );
 			ptr = nextLine( ptr );
 
-			vec2[ 0u ] = x;
-			vec2[ 1u ] = 1.f-y;
+			vec2.x = x;
+			vec2.y = 1.f-y;
 
 		}
 

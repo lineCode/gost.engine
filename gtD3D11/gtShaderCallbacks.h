@@ -28,6 +28,19 @@ namespace gost{
 
 	};
 
+	class gtD3D11LineShaderCallback : public gtShaderCallback{
+
+		gtMainSystem * m_system;
+
+	public:
+		gtD3D11LineShaderCallback();
+		virtual ~gtD3D11LineShaderCallback();
+
+		void onShader( const gtMaterial&, gtShaderProcessing* );
+
+		v4f s, e;
+	};
+
 }
 
 #endif

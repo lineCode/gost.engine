@@ -80,8 +80,8 @@ gtCamera*		gtSceneSystemImpl::addCamera2D( const v4f& viewport, s32 id, bool set
 	
 	if( camera ){
 		camera->setCameraType( gtCameraType::CT_2D );
-		camera->setPosition( v3f_t( 0.f, 0.f, 0.f ) );
-		camera->setRotation( v3f_t( 0.f, PI, 0.f ) );
+		camera->setPosition( v3f( 0.f, 0.f, 0.f ) );
+		camera->setRotation( v3f( 0.f, PI, 0.f ) );
 		camera->setNear( 0.1f );
 		camera->setFar( 1000.f );
 		camera->setViewPort( viewport );
@@ -224,8 +224,8 @@ void gtSceneSystemImpl::sortTransparent(  gtArray<gtGameObject*>& opaque, gtArra
 
 			bool isTransparent = false;
 
-			for( u32 i = 0u; i < smc; ++i ){
-				if( model->getMaterial( i )->flags & gtMaterialFlag::MF_BLEND ){
+			for( u32 i2 = 0u; i2 < smc; ++i2 ){
+				if( model->getMaterial( i2 )->flags & gtMaterialFlag::MF_BLEND ){
 					transparent.push_back( var );
 					isTransparent = true;
 					break;

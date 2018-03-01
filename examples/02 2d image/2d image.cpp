@@ -183,7 +183,7 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 
 				f32 x2 = tw * (600.f/th);
 				f32 y2 = th * (600.f/th);
-				driver->draw2DImage( v4i_t( 0, 0, (s32)x2, (s32)y2 ), texture );
+				driver->draw2DImage( v4i( 0, 0, (s32)x2, (s32)y2 ), texture );
 
 				/// You can draw region of image. Use overloaded function for this.
 				/// driver->draw2DImage( v4i_t( 0, 0, (s32)x2, (s32)y2 ), v4i_t( 30, 30, 60, 60 ), texture );

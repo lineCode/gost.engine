@@ -6,8 +6,8 @@ gtCameraImpl::gtCameraImpl( void ):
 	m_far( 100.f ),
 	m_aspect( 1.333333333f ),
 	m_type( gtObjectType::CAMERA ),
-	m_cameraType( gtCameraType::CT_LOOK_AT ),
-	m_up({0.f,1.f,0.f})
+	m_up( 0.f, 1.f, 0.f ),
+	m_cameraType( gtCameraType::CT_LOOK_AT )
 {
 #ifdef GT_DEBUG
 	m_debugName.assign(u"gtCamera");
@@ -86,15 +86,15 @@ void				gtCameraImpl::render( void ){
 	case gost::gtCameraType::CT_2D:{
 		math::makeOrthoRHMatrix(
 			m_projectionMatrix,
-			m_viewPort.z_ * 0.02f * m_fov,
-			m_viewPort.w_ * 0.02f * m_fov,
+			m_viewPort.z * 0.02f * m_fov,
+			m_viewPort.w * 0.02f * m_fov,
 			m_near,
 			m_far
 		);
 		
-		gtQuaternion qPitch( v3f_t( m_rotation.x_, 0.f, 0.f ) );
-		gtQuaternion qYaw( v3f_t( 0.f, m_rotation.y_, 0.f ) );
-		gtQuaternion qRoll( v3f_t( 0.f, 0.f, m_rotation.z_ ) );
+		gtQuaternion qPitch( v3f( m_rotation.x, 0.f, 0.f ) );
+		gtQuaternion qYaw( v3f( 0.f, m_rotation.y, 0.f ) );
+		gtQuaternion qRoll( v3f( 0.f, 0.f, m_rotation.z ) );
 		
 		m_orientation = qYaw * qPitch * qRoll;
 
@@ -112,9 +112,9 @@ void				gtCameraImpl::render( void ){
 			m_near,
 			m_far );
 
-		gtQuaternion qPitch( v3f_t( m_rotation.x_, 0.f, 0.f ) );
-		gtQuaternion qYaw( v3f_t( 0.f, m_rotation.y_, 0.f ) );
-		gtQuaternion qRoll( v3f_t( 0.f, 0.f, m_rotation.z_ ) );
+		gtQuaternion qPitch( v3f( m_rotation.x, 0.f, 0.f ) );
+		gtQuaternion qYaw( v3f( 0.f, m_rotation.y, 0.f ) );
+		gtQuaternion qRoll( v3f( 0.f, 0.f, m_rotation.z ) );
 		
 		m_orientation = qYaw * qPitch * qRoll;
 
@@ -221,10 +221,10 @@ void gtCameraImpl::calculateFrustum( void ){
 	f32 _far = m_far * (m_fov*0.5f);
 	f32 _near = m_near * (m_fov*0.5f);
 
-	v3f farX  = v3f_t(  _far,  _far,   -m_far );
-	v3f farY  = v3f_t( -_far,  -_far,  -m_far );
-	v3f nearX = v3f_t(  _near,  _near, -m_near );
-	v3f nearY = v3f_t( -_near, -_near, -m_near );
+	v3f farX  = v3f(  _far,  _far,   -m_far );
+	v3f farY  = v3f( -_far,  -_far,  -m_far );
+	v3f nearX = v3f(  _near,  _near, -m_near );
+	v3f nearY = v3f( -_near, -_near, -m_near );
 
 	switch( m_cameraType ){
 	case gost::gtCameraType::CT_LOOK_AT:

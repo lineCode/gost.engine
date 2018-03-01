@@ -59,7 +59,7 @@ namespace gost{
 			///	get quaternion in gtVector4f form
 			///	\return vector
 		v4f	get( void ) const {
-			return v4f_t(x,y,z,w);
+			return v4f( x, y, z, w );
 		}
 
 			///	get real part
@@ -83,7 +83,7 @@ namespace gost{
 			///	set quaternion from Euler angles
 			/// \param v: vector with angles	
 		void set( const v3f& v ){
-			set( v[ 0u ], v[ 1u ], v[ 2u ] );
+			set( v.x, v.y, v.z );
 		}
 
 			///	set quaternion from Euler angles

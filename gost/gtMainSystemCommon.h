@@ -114,7 +114,7 @@ namespace gost{
 		bool isLMBDown( void );
 		bool isRMBDown( void );
 		bool isMMBDown( void );
-		const gtVector<u16,2u>& getCursorPosition( void );
+		const gtVector2<u16>& getCursorPosition( void );
 		const gtDeviceCreationParameters& getDeviceCreationParameters( void );
 	};
 

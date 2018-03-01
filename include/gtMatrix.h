@@ -130,10 +130,10 @@ namespace gost{
 			/// \return new matrix
 		gtMatrix4 operator*( const gtMatrix4& m ) const {
 			return gtMatrix4(
-				m_data[ 0 ] * m[0][0] + m_data[ 1 ] * m[0][1] + m_data[ 2 ] * m[0][2] + m_data[ 3 ] * m[0][3],
-				m_data[ 0 ] * m[1][0] + m_data[ 1 ] * m[1][1] + m_data[ 2 ] * m[1][2] + m_data[ 3 ] * m[1][3],
-				m_data[ 0 ] * m[2][0] + m_data[ 1 ] * m[2][1] + m_data[ 2 ] * m[2][2] + m_data[ 3 ] * m[2][3],
-				m_data[ 0 ] * m[3][0] + m_data[ 1 ] * m[3][1] + m_data[ 2 ] * m[3][2] + m_data[ 3 ] * m[3][3]
+				m_data[ 0 ] * m[0].x + m_data[ 1 ] * m[0].y + m_data[ 2 ] * m[0].z + m_data[ 3 ] * m[0].w,
+				m_data[ 0 ] * m[1].x + m_data[ 1 ] * m[1].y + m_data[ 2 ] * m[1].z + m_data[ 3 ] * m[1].w,
+				m_data[ 0 ] * m[2].x + m_data[ 1 ] * m[2].y + m_data[ 2 ] * m[2].z + m_data[ 3 ] * m[2].w,
+				m_data[ 0 ] * m[3].x + m_data[ 1 ] * m[3].y + m_data[ 2 ] * m[3].z + m_data[ 3 ] * m[3].w
 			);
 		}
 
@@ -198,25 +198,25 @@ namespace gost{
 			///	transpose
 		void transpose( void ){
 			gtMatrix4 tmp;
-			tmp[ 0 ][ 0 ] = this->m_data[ 0 ][ 0 ]; //0
-			tmp[ 0 ][ 1 ] = this->m_data[ 1 ][ 0 ]; //1
-			tmp[ 0 ][ 2 ] = this->m_data[ 2 ][ 0 ]; //2
-			tmp[ 0 ][ 3 ] = this->m_data[ 3 ][ 0 ]; //3
+			tmp[ 0 ].x = this->m_data[ 0 ].x; //0
+			tmp[ 0 ].y = this->m_data[ 1 ].x; //1
+			tmp[ 0 ].z = this->m_data[ 2 ].x; //2
+			tmp[ 0 ].w = this->m_data[ 3 ].x; //3
 
-			tmp[ 1 ][ 0 ] = this->m_data[ 0 ][ 1 ]; //4
-			tmp[ 1 ][ 1 ] = this->m_data[ 1 ][ 1 ]; //5
-			tmp[ 1 ][ 2 ] = this->m_data[ 2 ][ 1 ]; //6
-			tmp[ 1 ][ 3 ] = this->m_data[ 3 ][ 1 ]; //7
+			tmp[ 1 ].x = this->m_data[ 0 ].y; //4
+			tmp[ 1 ].y = this->m_data[ 1 ].y; //5
+			tmp[ 1 ].z = this->m_data[ 2 ].y; //6
+			tmp[ 1 ].w = this->m_data[ 3 ].y; //7
 
-			tmp[ 2 ][ 0 ] = this->m_data[ 0 ][ 2 ]; //8
-			tmp[ 2 ][ 1 ] = this->m_data[ 1 ][ 2 ]; //9
-			tmp[ 2 ][ 2 ] = this->m_data[ 2 ][ 2 ]; //10
-			tmp[ 2 ][ 3 ] = this->m_data[ 3 ][ 2 ]; //11
+			tmp[ 2 ].x = this->m_data[ 0 ].z; //8
+			tmp[ 2 ].y = this->m_data[ 1 ].z; //9
+			tmp[ 2 ].z = this->m_data[ 2 ].z; //10
+			tmp[ 2 ].w = this->m_data[ 3 ].z; //11
 
-			tmp[ 3 ][ 0 ] = this->m_data[ 0 ][ 3 ]; //12
-			tmp[ 3 ][ 1 ] = this->m_data[ 1 ][ 3 ]; //13
-			tmp[ 3 ][ 2 ] = this->m_data[ 2 ][ 3 ]; //14
-			tmp[ 3 ][ 3 ] = this->m_data[ 3 ][ 3 ]; //15
+			tmp[ 3 ].x = this->m_data[ 0 ].w; //12
+			tmp[ 3 ].y = this->m_data[ 1 ].w; //13
+			tmp[ 3 ].z = this->m_data[ 2 ].w; //14
+			tmp[ 3 ].w = this->m_data[ 3 ].w; //15
 			this->m_data[ 0 ] = tmp[ 0 ];
 			this->m_data[ 1 ] = tmp[ 1 ];
 			this->m_data[ 2 ] = tmp[ 2 ];
@@ -238,10 +238,10 @@ namespace gost{
 			f32 C	=	std::cos( 0.5f * FOV );
 			f32 H = C / S;
 			f32 W = H / aspect;
-			in_out[0] = v4f(IL_BEGIN W, 0.f, 0.f, 0.f IL_END);
-			in_out[1] = v4f(IL_BEGIN 0.f, H, 0.f, 0.f IL_END);
-			in_out[2] = v4f(IL_BEGIN 0.f, 0.f, Far / (Near - Far), 1.f IL_END);
-			in_out[3] = v4f(IL_BEGIN 0.f, 0.f, -in_out[2][2] * Near, 0.f IL_END);
+			in_out[0] = v4f( W, 0.f, 0.f, 0.f );
+			in_out[1] = v4f( 0.f, H, 0.f, 0.f );
+			in_out[2] = v4f( 0.f, 0.f, Far / (Near - Far), 1.f );
+			in_out[3] = v4f( 0.f, 0.f, -in_out[2].z * Near, 0.f );
 		}
 
 			///	create perspective matrix for right hand coordinate system
@@ -256,24 +256,24 @@ namespace gost{
 			f32 C	=	std::cos( 0.5f * FOV );
 			f32 H = C / S;
 			f32 W = H / aspect;
-			in_out[0] = v4f(IL_BEGIN W, 0.f, 0.f, 0.f IL_END);
-			in_out[1] = v4f(IL_BEGIN 0.f, H, 0.f, 0.f IL_END);
-			in_out[2] = v4f(IL_BEGIN 0.f, 0.f, Far / (Near - Far), -1.f IL_END);
-			in_out[3] = v4f(IL_BEGIN 0.f, 0.f, in_out[2][2] * Near, 0.f IL_END);
+			in_out[0] = v4f( W, 0.f, 0.f, 0.f );
+			in_out[1] = v4f( 0.f, H, 0.f, 0.f );
+			in_out[2] = v4f( 0.f, 0.f, Far / (Near - Far), -1.f );
+			in_out[3] = v4f( 0.f, 0.f, in_out[2].z * Near, 0.f );
 		}
 
-			///	create orthogonal matrix for right hand coordinate system
-			/// \param in_out: projection matrix
-			/// \param width: width of viewport
-			/// \param height: height of viewport
-			/// \param Near: near clip plane
-			/// \param Far: far clip plane
+			//	create orthogonal matrix for right hand coordinate system
+			// \param in_out: projection matrix
+			// \param width: width of viewport
+			// \param height: height of viewport
+			// \param Near: near clip plane
+			// \param Far: far clip plane
 		GT_FORCE_INLINE void  makeOrthoRHMatrix( gtMatrix4& in_out, f32 width, f32 height,
 			f32& Near, f32 Far ){
-			in_out[0] = v4f(IL_BEGIN 2.f / width, 0.f, 0.f, 0.f IL_END);
-			in_out[1] = v4f(IL_BEGIN 0.f, 2.f / height, 0.f, 0.f IL_END);
-			in_out[2] = v4f(IL_BEGIN 0.f, 0.f, 1.f / (Near - Far), 0.f IL_END);
-			in_out[3] = v4f(IL_BEGIN 0.f, 0.f, in_out[2][2] * Near, 1.f IL_END);
+			in_out[0] = v4f( 2.f / width, 0.f, 0.f, 0.f );
+			in_out[1] = v4f( 0.f, 2.f / height, 0.f, 0.f );
+			in_out[2] = v4f( 0.f, 0.f, 1.f / (Near - Far), 0.f );
+			in_out[3] = v4f( 0.f, 0.f, in_out[2].z * Near, 1.f );
 		}
 		
 			///	create \a look \a at matrix for right hand coordinate system
@@ -292,18 +292,18 @@ namespace gost{
 
 			in_out.identity();
 
-			in_out[0][0] = s.x_;
-			in_out[1][0] = s.y_;
-			in_out[2][0] = s.z_;
-			in_out[0][1] = u.x_;
-			in_out[1][1] = u.y_;
-			in_out[2][1] = u.z_;
-			in_out[0][2] =-f.x_;
-			in_out[1][2] =-f.y_;
-			in_out[2][2] =-f.z_;
-			in_out[3][0] =-math::dot( s, eye );
-			in_out[3][1] =-math::dot( u, eye );
-			in_out[3][2] = math::dot( f, eye );
+			in_out[0].x = s.x;
+			in_out[1].x = s.y;
+			in_out[2].x = s.z;
+			in_out[0].y = u.x;
+			in_out[1].y = u.y;
+			in_out[2].y = u.z;
+			in_out[0].z =-f.x;
+			in_out[1].z =-f.y;
+			in_out[2].z =-f.z;
+			in_out[3].x =-math::dot( s, eye );
+			in_out[3].y =-math::dot( u, eye );
+			in_out[3].z = math::dot( f, eye );
 		}
 
 			///	create \a look \a at matrix for left hand coordinate system
@@ -322,33 +322,33 @@ namespace gost{
 
 			in_out.identity();
 
-			in_out[0][0] = s.x_;
-			in_out[1][0] = s.y_;
-			in_out[2][0] = s.z_;
-			in_out[0][1] = u.x_;
-			in_out[1][1] = u.y_;
-			in_out[2][1] = u.z_;
-			in_out[0][2] = f.x_;
-			in_out[1][2] = f.y_;
-			in_out[2][2] = f.z_;
-			in_out[3][0] =-math::dot( s, eye );
-			in_out[3][1] =-math::dot( u, eye );
-			in_out[3][2] =-math::dot( f, eye );
+			in_out[0].x = s.x;
+			in_out[1].x = s.y;
+			in_out[2].x = s.z;
+			in_out[0].y = u.x;
+			in_out[1].y = u.y;
+			in_out[2].y = u.z;
+			in_out[0].z = f.x;
+			in_out[1].z = f.y;
+			in_out[2].z = f.z;
+			in_out[3].x =-math::dot( s, eye );
+			in_out[3].y =-math::dot( u, eye );
+			in_out[3].z =-math::dot( f, eye );
 		}
 
-			///	create translation matrix
-			/// \param in_out: translation matrix
-			/// \param position: position
-			///	нужно чтобы у матрицы была главная диагональ = 1
+			//	create translation matrix
+			// \param in_out: translation matrix
+			// \param position: position
+			//	нужно чтобы у матрицы была главная диагональ = 1
 		GT_FORCE_INLINE void makeTranslationMatrix( gtMatrix4& in_out, const v3f& position ){
-			in_out[ 3 ][ 0 ] = position.x_;
-			in_out[ 3 ][ 1 ] = position.y_;
-			in_out[ 3 ][ 2 ] = position.z_;
+			in_out[ 3 ].x = position.x;
+			in_out[ 3 ].y = position.y;
+			in_out[ 3 ].z = position.z;
 		}
 
-			///	create rotation matrix
-			/// \param in_out: rotation matrix
-			/// \param p: orientation
+			//	create rotation matrix
+			// \param in_out: rotation matrix
+			// \param p: orientation
 		GT_FORCE_INLINE void makeRotationMatrix( gtMatrix4& in_out, const gtQuaternion& p ){
 			
 			f32	wx, wy, wz;
@@ -372,30 +372,30 @@ namespace gost{
 			wy = p.w * y2;
 			wz = p.w * z2;
 
-			in_out[ 0 ][ 0 ] = 1.0f - ( yy + zz );
-			in_out[ 0 ][ 1 ] = xy - wz;
-			in_out[ 0 ][ 2 ] = xz + wy;
+			in_out[ 0 ].x = 1.0f - ( yy + zz );
+			in_out[ 0 ].y = xy - wz;
+			in_out[ 0 ].z = xz + wy;
 
-			in_out[ 1 ][ 0 ] = xy + wz;
-			in_out[ 1 ][ 1 ] = 1.0f - ( xx + zz );
-			in_out[ 1 ][ 2 ] = yz - wx;
+			in_out[ 1 ].x = xy + wz;
+			in_out[ 1 ].y = 1.0f - ( xx + zz );
+			in_out[ 1 ].z = yz - wx;
 
-			in_out[ 2 ][ 0 ] = xz - wy;
-			in_out[ 2 ][ 1 ] = yz + wx;
-			in_out[ 2 ][ 2 ] = 1.0f - ( xx + yy );
+			in_out[ 2 ].x = xz - wy;
+			in_out[ 2 ].y = yz + wx;
+			in_out[ 2 ].z = 1.0f - ( xx + yy );
 
 
-			in_out[0][3]	=	in_out[1][3] = in_out[2][3] = in_out[3][0] = in_out[3][1] = in_out[3][2] = 0;
-			in_out[3][3]  = 1;
+			in_out[0].w	=	in_out[1].w = in_out[2].w = in_out[3].x = in_out[3].y = in_out[3].z = 0.f;
+			in_out[3].w  = 1.f;
 		}
 
 			///Vector-matrix product
 		GT_FORCE_INLINE v3f mul( const v3f& vector, const gtMatrix4& matrix ){
 			v3f result;
 			
-			result[ 0u ] = math::dot(matrix[ 0u ], vector);
-			result[ 1u ] = math::dot(matrix[ 1u ], vector);
-			result[ 2u ] = math::dot(matrix[ 2u ], vector);
+			result.x = math::dot(matrix[ 0u ], vector);
+			result.y = math::dot(matrix[ 1u ], vector);
+			result.z = math::dot(matrix[ 2u ], vector);
 
 			return result;
 		}

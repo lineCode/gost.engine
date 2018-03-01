@@ -71,9 +71,9 @@ namespace gost{
 
 			/// Default constructor
 		gtString_base( void ):
-			m_size( 0u ),
+			m_data( nullptr ),
 			m_allocated( StringWordSize ),
-			m_data( nullptr )
+			m_size( 0u )
 		{
 			reallocate( m_allocated );
 		}
@@ -92,9 +92,9 @@ namespace gost{
 			/// Construct from other (copy c-tor)
 			/// \param str: Other gtString
 		gtString_base( this_const_reference str ):
-			m_size(0u),
 			m_allocated(StringWordSize),
-			m_data(nullptr)
+			m_data(nullptr),
+			m_size(0u)
 		{
 			reallocate( m_allocated );
 			assign( str );

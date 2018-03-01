@@ -58,6 +58,7 @@
 
 #include <gtSceneSystem.h>
 #include <gtAudioSystem.h>
+#include <gtGUISystem.h>
 
 #include <gtMainSystem.h>
 

@@ -93,7 +93,7 @@ namespace gost{
 			for(u32 i = 0u; i < m_vCount; ++i){
 				f32 * p32 = reinterpret_cast<f32*>(p8);
 
-				m_box.add( v3f( IL_BEGIN p32[ m_vertexPosition ], p32[ m_vertexPosition + 1 ], p32[ m_vertexPosition + 2 ] IL_END ) );
+				m_box.add( v3f( p32[ m_vertexPosition ], p32[ m_vertexPosition + 1 ], p32[ m_vertexPosition + 2 ] ) );
 				p8 += m_stride;
 			}
 		}
@@ -168,13 +168,13 @@ namespace gost{
 			for(u32 i = 0u; i < m_vCount; ++i){
 				f32 * p32 = reinterpret_cast<f32*>(p8);
 
-				v3f vector(IL_BEGIN p32[ i1 ], p32[ i2 ], p32[ i3 ] IL_END);
+				v3f vector( p32[ i1 ], p32[ i2 ], p32[ i3 ] );
 
 				vector = math::mul( vector, m );
 
-				p32[ i1 ] = vector[ 0u ];
-				p32[ i2 ] = vector[ 1u ];
-				p32[ i3 ] = vector[ 2u ];
+				p32[ i1 ] = vector.x;
+				p32[ i2 ] = vector.y;
+				p32[ i3 ] = vector.z;
 
 				p8 += m_stride;
 			}
@@ -191,9 +191,9 @@ namespace gost{
 			for(u32 i = 0u; i < m_vCount; ++i){
 				f32 * p32 = reinterpret_cast<f32*>(p8);
 
-				p32[ i1 ] += newPos[ 0u ];
-				p32[ i2 ] += newPos[ 1u ];
-				p32[ i3 ] += newPos[ 2u ];
+				p32[ i1 ] += newPos.x;
+				p32[ i2 ] += newPos.y;
+				p32[ i3 ] += newPos.z;
 
 				p8 += m_stride;
 			}
@@ -220,25 +220,25 @@ namespace gost{
 			for(u32 i = 0u; i < m_vCount; ++i){
 				f32 * p32 = reinterpret_cast<f32*>(p8);
 
-				v3f vector_p1(IL_BEGIN p32[ i1 ], p32[ i2 ], p32[ i3 ] IL_END);
-				v3f vector_p2(IL_BEGIN p32[ i4 ], p32[ i5 ], p32[ i6 ] IL_END);
-				v3f vector_p3(IL_BEGIN p32[ i7 ], p32[ i8 ], p32[ i9 ] IL_END);
+				v3f vector_p1( p32[ i1 ], p32[ i2 ], p32[ i3 ] );
+				v3f vector_p2( p32[ i4 ], p32[ i5 ], p32[ i6 ] );
+				v3f vector_p3( p32[ i7 ], p32[ i8 ], p32[ i9 ] );
 
-				v3f vector_U(IL_BEGIN vector_p2 - vector_p1 IL_END);
-				v3f vector_V(IL_BEGIN vector_p3 - vector_p1 IL_END);
+				v3f vector_U( vector_p2 - vector_p1 );
+				v3f vector_V( vector_p3 - vector_p1 );
 
 
 				v3f normal;
 
-				normal[ 0u ] = (vector_U[ 1u ] * vector_V[ 2u ]) - (vector_U[ 2u ] * vector_V[ 1u ]);
-				normal[ 1u ] = (vector_U[ 2u ] * vector_V[ 0u ]) - (vector_U[ 0u ] * vector_V[ 2u ]);
-				normal[ 2u ] = (vector_U[ 0u ] * vector_V[ 1u ]) - (vector_U[ 1u ] * vector_V[ 0u ]);
+				normal.x = (vector_U.y * vector_V.z) - (vector_U.z * vector_V.y);
+				normal.y = (vector_U.z * vector_V.x) - (vector_U.x * vector_V.z);
+				normal.z = (vector_U.x * vector_V.y) - (vector_U.y * vector_V.x);
 				
 				normal.normalize();
 
-				p32[ in1 ] = normal[ 0u ];
-				p32[ in2 ] = normal[ 1u ];
-				p32[ in3 ] = normal[ 2u ];
+				p32[ in1 ] = normal.x;
+				p32[ in2 ] = normal.y;
+				p32[ in3 ] = normal.z;
 
 				p8 += m_stride;
 			}

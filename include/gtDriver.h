@@ -23,7 +23,7 @@ namespace gost{
 			m_adapterID( 0u ),
 			m_outWindow( nullptr )
 		{
-			m_backBufferSize.set({800,600});
+			m_backBufferSize.set( 800, 600 );
 		}
 
 			///	разрешение экрана
@@ -87,6 +87,8 @@ namespace gost{
 			/// \param m: материал с текстурой
 		virtual void draw2DImage( const v4i& rect, const v4i& region, const gtMaterial& m ) = 0;
 		virtual void draw2DImage( const v4i& rect, const v4i& region, gtTexture* texture ) = 0;
+
+		virtual void drawLine( const v3f& start, const v3f& end ) = 0;
 
 			///	компилировать либо получить ранее скомпилированный шейдер
 			/// \param callback: callback для установки параметров шейдера

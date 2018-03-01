@@ -27,7 +27,7 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 
 	gtSceneSystem * scene = mainSystem->getSceneSystem();
 
-	gtCamera * camera = scene->addCamera( v3f_t(0.f,0.f,0.f) );
+	gtCamera * camera = scene->addCamera( v3f(0.f,0.f,0.f) );
 	camera->setCameraType( gtCameraType::CT_FPS );
 	camera->setFar( 30.f );
 	camera->setAspect( 1.f );
@@ -40,7 +40,7 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 
 	f32 x = 0.f, y = 0.f;
 	for( int i = 0; i < 100; ++i ){
-		scene->addStaticObject( rcube, v3f_t( x, 0.f, y ) );
+		scene->addStaticObject( rcube, v3f( x, 0.f, y ) );
 		x += 1.f;
 		if( x > 10.f ){
 			x = 0.f;
@@ -82,22 +82,25 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 			/// Camera zoom
 			if( mainSystem->isKeyPressed( gtKey::K_X ) ) camera->setFOV( camera->getFOV() + 10.f * delta );
 			if( mainSystem->isKeyPressed( gtKey::K_Z ) ) camera->setFOV( camera->getFOV() - 10.f * delta );
-			if( mainSystem->isKeyPressed( gtKey::K_Q ) ) camera->setRotation( camera->getRotation() - v3f_t( 0.f, 0.01f, 0.f ) );
-			if( mainSystem->isKeyPressed( gtKey::K_E ) ) camera->setRotation( camera->getRotation() + v3f_t( 0.f, 0.01f, 0.f ) );
-			if( mainSystem->isKeyPressed( gtKey::K_W ) ) camera->setRotation( camera->getRotation() - v3f_t( 0.01f, 0.0f, 0.f ) );
-			if( mainSystem->isKeyPressed( gtKey::K_S ) ) camera->setRotation( camera->getRotation() + v3f_t( 0.01f, 0.0f, 0.f ) );
-			if( mainSystem->isKeyPressed( gtKey::K_A ) ) camera->setRotation( camera->getRotation() - v3f_t( 0.0f, 0.0f, 0.01f ) );
-			if( mainSystem->isKeyPressed( gtKey::K_D ) ) camera->setRotation( camera->getRotation() + v3f_t( 0.0f, 0.0f, 0.01f ) );
+			if( mainSystem->isKeyPressed( gtKey::K_Q ) ) camera->setRotation( camera->getRotation() - v3f( 0.f, 0.01f, 0.f ) );
+			if( mainSystem->isKeyPressed( gtKey::K_E ) ) camera->setRotation( camera->getRotation() + v3f( 0.f, 0.01f, 0.f ) );
+			if( mainSystem->isKeyPressed( gtKey::K_W ) ) camera->setRotation( camera->getRotation() - v3f( 0.01f, 0.0f, 0.f ) );
+			if( mainSystem->isKeyPressed( gtKey::K_S ) ) camera->setRotation( camera->getRotation() + v3f( 0.01f, 0.0f, 0.f ) );
+			if( mainSystem->isKeyPressed( gtKey::K_A ) ) camera->setRotation( camera->getRotation() - v3f( 0.0f, 0.0f, 0.01f ) );
+			if( mainSystem->isKeyPressed( gtKey::K_D ) ) camera->setRotation( camera->getRotation() + v3f( 0.0f, 0.0f, 0.01f ) );
 			
-			if( mainSystem->isKeyPressed( gtKey::K_UP ) ) camera->setPosition( camera->getPosition() + v3f_t( 0.0f, 0.0f, 0.1f ) );
-			if( mainSystem->isKeyPressed( gtKey::K_DOWN ) ) camera->setPosition( camera->getPosition() - v3f_t( 0.0f, 0.0f, 0.1f ) );
-			if( mainSystem->isKeyPressed( gtKey::K_LEFT ) ) camera->setPosition( camera->getPosition() - v3f_t( 0.1f, 0.0f, 0.0f ) );
-			if( mainSystem->isKeyPressed( gtKey::K_RIGHT ) ) camera->setPosition( camera->getPosition() + v3f_t( 0.1f, 0.0f, 0.0f ) );
+			if( mainSystem->isKeyPressed( gtKey::K_UP ) ) camera->setPosition( camera->getPosition() + v3f( 0.0f, 0.0f, 0.1f ) );
+			if( mainSystem->isKeyPressed( gtKey::K_DOWN ) ) camera->setPosition( camera->getPosition() - v3f( 0.0f, 0.0f, 0.1f ) );
+			if( mainSystem->isKeyPressed( gtKey::K_LEFT ) ) camera->setPosition( camera->getPosition() - v3f( 0.1f, 0.0f, 0.0f ) );
+			if( mainSystem->isKeyPressed( gtKey::K_RIGHT ) ) camera->setPosition( camera->getPosition() + v3f( 0.1f, 0.0f, 0.0f ) );
 
 
 			driver->beginRender( true, gtColor( 0.2f, 0.2f, 0.2f, 1.f ) ); /// RGBA.
 
+
 			scene->renderScene(); /// Draw all
+
+	//		driver->drawLine( v3f(0.f,10.f,0.1f), v3f(0.f,-10.f,0.1f) );
 
 			driver->endRender();
 

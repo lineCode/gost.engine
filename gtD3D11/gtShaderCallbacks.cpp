@@ -64,24 +64,57 @@ void gtD3D11SpriteShaderCallback::onShader( const gtMaterial& material, gtShader
 	const v8f * coords = &sprite->getFrame( currentFrame );
 	
 	if( sprite->isInverseHorizontal() ){
-		cbPerObject.t1.x_ = 1-coords->x_;
-		cbPerObject.t2.x_ = 1-coords->z_;
-		cbPerObject.t3.x_ = 1-coords->a_;
-		cbPerObject.t4.x_ = 1-coords->c_;
+		cbPerObject.t1.x = 1-coords->x;
+		cbPerObject.t2.x = 1-coords->z;
+		cbPerObject.t3.x = 1-coords->a;
+		cbPerObject.t4.x = 1-coords->c;
 	}else{
-		cbPerObject.t1.x_ = coords->x_;
-		cbPerObject.t2.x_ = coords->z_;
-		cbPerObject.t3.x_ = coords->a_;
-		cbPerObject.t4.x_ = coords->c_;
+		cbPerObject.t1.x = coords->x;
+		cbPerObject.t2.x = coords->z;
+		cbPerObject.t3.x = coords->a;
+		cbPerObject.t4.x = coords->c;
 	}
 
-	cbPerObject.t1.y_ = coords->y_;
-	cbPerObject.t2.y_ = coords->w_;
-	cbPerObject.t3.y_ = coords->b_;
-	cbPerObject.t4.y_ = coords->d_;
+	cbPerObject.t1.y = coords->y;
+	cbPerObject.t2.y = coords->w;
+	cbPerObject.t3.y = coords->b;
+	cbPerObject.t4.y = coords->d;
 
 	sp->sendDataVS( &cbPerObject, 0, 0u );
 
 	/* в D3D11 главное правильно установить слот, uniformName не нужен */
 	sp->setTexture( "", 0 );
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+gtD3D11LineShaderCallback::gtD3D11LineShaderCallback():
+m_system( nullptr ){
+	m_system = gtMainSystem::getInstance();
+}
+
+gtD3D11LineShaderCallback::~gtD3D11LineShaderCallback(){
+}
+
+void gtD3D11LineShaderCallback::onShader( const gtMaterial& material, gtShaderProcessing* sp ){
+
+	struct cbPerObject_t{
+		gtMatrix4 WVP;
+		v4f p1;
+		v4f p2;
+	}cbPerObject;
+
+	gtMatrix4 W = m_system->getMatrixWorld();
+	gtMatrix4 V = m_system->getMatrixView();
+	gtMatrix4 P = m_system->getMatrixProjection();
+
+	cbPerObject.WVP =  P * V * W;
+	cbPerObject.WVP.transpose();
+
+	cbPerObject.p1 = s;
+	cbPerObject.p2 = e;
+
+	sp->sendDataVS( &cbPerObject, 0, 0u );
+
 }

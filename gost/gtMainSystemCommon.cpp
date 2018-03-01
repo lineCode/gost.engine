@@ -200,7 +200,7 @@ bool gtMainSystemCommon::isMMBDown( void ){
 	return m_events->isMMBDown();
 }
 
-const gtVector<u16,2u>& gtMainSystemCommon::getCursorPosition( void ){
+const gtVector2<u16>& gtMainSystemCommon::getCursorPosition( void ){
 	return m_events->getCursorPosition();
 }
 

@@ -45,26 +45,26 @@ gtModel*	gtModelSystemImpl::createPlane( f32 x, f32 y, gtSide side ){
 
 	switch( side ){
 		case gost::gtSide::LEFT:
-		q.set( v3f_t( 0.f, 0.f, PI/2.f ) );
+		q.set( v3f( 0.f, 0.f, PI/2.f ) );
 		break;
 		case gost::gtSide::RIGHT:
-		q.set( v3f_t( 0.f, 0.f, -PI/2.f ) );
-		q = q * gtQuaternion( v3f_t( 0.f, PI, 0.f ) );
+		q.set( v3f( 0.f, 0.f, -PI/2.f ) );
+		q = q * gtQuaternion( v3f( 0.f, PI, 0.f ) );
 		break;
 		case gost::gtSide::UP:
-		q.set( v3f_t( PI, 0.f, 0.f ) );
+		q.set( v3f( PI, 0.f, 0.f ) );
 		break;
 		default:
 		case gost::gtSide::DOWN:
-		q.set( v3f_t( 0.f, 0.f, 0.f ) );
+		q.set( v3f( 0.f, 0.f, 0.f ) );
 		break;
 		case gost::gtSide::FRONT:
-		q.set( v3f_t( -PI/2.f, 0.f, 0.f ) );
-		q = q * gtQuaternion( v3f_t( 0.f, -PI/2.f, 0.f ) );
+		q.set( v3f( -PI/2.f, 0.f, 0.f ) );
+		q = q * gtQuaternion( v3f( 0.f, -PI/2.f, 0.f ) );
 		break;
 		case gost::gtSide::BACK:
-		q.set( v3f_t( PI/2.f, 0.f, 0.f ) );
-		q = q * gtQuaternion( v3f_t( 0.f, PI/2.f, 0.f ) );
+		q.set( v3f( PI/2.f, 0.f, 0.f ) );
+		q = q * gtQuaternion( v3f( 0.f, PI/2.f, 0.f ) );
 		break;
 	}
 
@@ -96,21 +96,21 @@ gtModel*	gtModelSystemImpl::createPlane( f32 x, f32 y, gtSide side ){
 
 	vert_t vert[ 4u ];
 
-	vert[ 0u ].pos.set({ x1, y1, z1, 1.f });
-	vert[ 1u ].pos.set({ x2, y2, z2, 1.f });
-	vert[ 2u ].pos.set({ x3, y3, z3, 1.f });
-	vert[ 3u ].pos.set({ x4, y4, z4, 1.f });
+	vert[ 0u ].pos.set( x1, y1, z1, 1.f );
+	vert[ 1u ].pos.set( x2, y2, z2, 1.f );
+	vert[ 2u ].pos.set( x3, y3, z3, 1.f );
+	vert[ 3u ].pos.set( x4, y4, z4, 1.f );
 
 
-	vert[ 0u ].nor.set({ 0.f, 1.f, 0.f });
-	vert[ 1u ].nor.set({ 0.f, 1.f, 0.f });
-	vert[ 2u ].nor.set({ 0.f, 1.f, 0.f });
-	vert[ 3u ].nor.set({ 0.f, 1.f, 0.f });
+	vert[ 0u ].nor.set( 0.f, 1.f, 0.f );
+	vert[ 1u ].nor.set( 0.f, 1.f, 0.f );
+	vert[ 2u ].nor.set( 0.f, 1.f, 0.f );
+	vert[ 3u ].nor.set( 0.f, 1.f, 0.f );
 
-	vert[ 0u ].uv.set({ 0.f, 1.f });
-	vert[ 1u ].uv.set({ 0.f, 0.f });
-	vert[ 2u ].uv.set({ 1.f, 0.f });
-	vert[ 3u ].uv.set({ 1.f, 1.f });
+	vert[ 0u ].uv.set( 0.f, 1.f );
+	vert[ 1u ].uv.set( 0.f, 0.f );
+	vert[ 2u ].uv.set( 1.f, 0.f );
+	vert[ 3u ].uv.set( 1.f, 1.f );
 
 	memcpy( v, &vert[0u], gtStrideStandart * 4u );
 
@@ -134,12 +134,12 @@ gtModel*	gtModelSystemImpl::createCube( f32 sz ){
 	gtPtr_t(gtModel,front,createPlane( sz, sz, gtSide::BACK ));
 	gtPtr_t(gtModel,back,createPlane( sz, sz, gtSide::FRONT ));
 
-	up->getSubModel( 0u )->move(   v3f_t( 0.f, sz, 0.f ) );
-	down->getSubModel( 0u )->move( v3f_t( 0.f, -sz, 0.f ) );
-	left->getSubModel( 0u )->move( v3f_t( sz, 0.f, 0.f ) );
-	right->getSubModel( 0u )->move( v3f_t( -sz, 0.f, 0.f ) );
-	front->getSubModel( 0u )->move( v3f_t( 0.f, 0.f, sz ) );
-	back->getSubModel( 0u )->move( v3f_t( 0.f, 0.f, -sz ) );
+	up->getSubModel( 0u )->move(   v3f( 0.f, sz, 0.f ) );
+	down->getSubModel( 0u )->move( v3f( 0.f, -sz, 0.f ) );
+	left->getSubModel( 0u )->move( v3f( sz, 0.f, 0.f ) );
+	right->getSubModel( 0u )->move( v3f( -sz, 0.f, 0.f ) );
+	front->getSubModel( 0u )->move( v3f( 0.f, 0.f, sz ) );
+	back->getSubModel( 0u )->move( v3f( 0.f, 0.f, -sz ) );
 
 	gtVertexType vt[ 4 ] = {
 		gtVertexType::position,

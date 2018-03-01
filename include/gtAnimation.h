@@ -32,7 +32,7 @@ namespace gost{
 
 			///	c-tor
 		gtAnimation( void ):
-			m_loopSegment({0u,0u}),
+			m_loopSegment(0u,0u),
 			m_frames( 0u ),
 			m_currentFrame( 0u ),
 			m_frameRate( 60.f ),
@@ -62,13 +62,13 @@ namespace gost{
 		void stepFrame( void ){
 
 			if( m_reverse ){
-				if( m_currentFrame == 0u || m_currentFrame == m_loopSegment.x_ ){
-					m_currentFrame = m_loopSegment.y_;
+				if( m_currentFrame == 0u || m_currentFrame == m_loopSegment.x ){
+					m_currentFrame = m_loopSegment.y;
 				}else --m_currentFrame;
 			}else{
 				++m_currentFrame;
-				if( m_currentFrame > m_loopSegment.y_ ){
-					m_currentFrame = m_loopSegment.x_;
+				if( m_currentFrame > m_loopSegment.y ){
+					m_currentFrame = m_loopSegment.x;
 				}
 			}
 		}
@@ -89,8 +89,8 @@ namespace gost{
 			/// \param frame: id
 		void setCurrentFrame( u32 frame ){
 			m_currentFrame = frame;
-			if( m_currentFrame > m_loopSegment.y_ )
-				m_currentFrame = m_loopSegment.y_;
+			if( m_currentFrame > m_loopSegment.y )
+				m_currentFrame = m_loopSegment.y;
 		}
 
 			/// get frame rate
@@ -128,8 +128,8 @@ namespace gost{
 			/// \param end: end id
 		void setLoopSegment( u32 begin, u32 end ){
 			m_currentFrame = begin;
-			m_loopSegment.x_ = begin;
-			m_loopSegment.y_ = end;
+			m_loopSegment.x = begin;
+			m_loopSegment.y = end;
 		}
 
 			/// play animation
@@ -155,7 +155,7 @@ namespace gost{
 			m_frameRate = 60.f;
 			m_isLoop = false;
 			m_isPlay = false;
-			m_loopSegment = v2u({0u,0u});
+			m_loopSegment = v2u(0u,0u);
 		}
 
 			/// get loop segment

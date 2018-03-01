@@ -11,390 +11,861 @@
 
 namespace gost{
 		
-#define x_ at(0u)
-#define y_ at(1u)
-#define z_ at(2u)
-#define w_ at(3u)
-#define a_ at(4u)
-#define b_ at(5u)
-#define c_ at(6u)
-#define d_ at(7u)
 
-#define GT_INITIALIZER_LIST
-#ifdef GT_INITIALIZER_LIST
-#define IL_BEGIN {
-#define IL_END }
-#else
-#define IL_BEGIN
-#define IL_END
-#endif
-
-		///	Вектор
-	template<typename T, u32 i >
-	class gtVector{
+	template< typename Type > struct gtVector3;
+	template< typename Type > struct gtVector4;
 	
-			///	массив с данными
-		T	m_data[ i ];
+		//	Вектор
+	template< typename Type >
+	struct gtVector2{
 
-	public:
+		Type x, y;
 
-			///	ctor по умолчанию
-		gtVector( void ){
-			GT_STATIC_ASSERT( i > 1u, gtError::GT_VECTOR_BAD_SIZE );
-			fill( 0u );
+		Type getComponent( u32 index ){
+			switch( index ){
+			case 0u:
+				return x;
+			case 1u:
+				return y;
+			default:
+				gtStackTrace::dumpStackTrace();
+				break;
+			}
 		}
 
-			/// создаёт из готового вектора
-			/// \param v: вектор для копирования
-		gtVector( const gtVector<T,i>& v ){
+			//	ctor по умолчанию
+		gtVector2( void ):
+			x( static_cast< Type >( 0u ) ),
+			y( static_cast< Type >( 0u ) ){
+		}
+
+			// Создать из готового вектора
+			// \param v: вектор для копирования
+		gtVector2( const gtVector2< Type >& v ){
 			*this = v;
 		}
 
-			///	такая инициализация
-			///	vector<f32, 4> v = {1.f,2.1f,1.3f,5.14f};
-			///	или vector<f32, 4>{21.f,32.1f,41.3f,55.14f}
-			/// \param l: список значений
-		gtVector( const std::initializer_list<T>& l ){
-			set( l );
+			// \param l: список значений
+		gtVector2( Type X, Type Y ):
+			x( static_cast< Type >( X ) ),
+			y( static_cast< Type >( Y ) ){
 		}
 
-			///	создаёт с указанием одной величины (все компоненты будут равнятся этой величине)
-			/// \param v: значение которым должен инициализироваться вектор
-		gtVector( T v ){
-			fill( v );
+			//	Создать с указанием одной величины (все компоненты будут равнятся этой величине)
+			// \param v: значение которым должен инициализироваться вектор
+		gtVector2( Type v ):
+			x( static_cast< Type >( v ) ),
+			y( static_cast< Type >( v ) ){
 		}
 
-			///	установит каждый компонент равным 0
+			//	Установить каждый компонент равным 0
 		void zero( void ){
-			fill( 0u );
+			x = y = static_cast< Type >( 0u );
 		}
 
-			///	заполнит вектор указанным значением
-			/// \param val: значение которым должен инициализироваться вектор
-		void fill( T val ){
-			for( u32 o{0u}; o < i; ++o )
-				m_data[ o ] = static_cast<T>( val );
+			//	Заполнить вектор указанным значением
+			// \param val: значение которым должен инициализироваться вектор
+		void fill( Type val ){
+			x = y = static_cast< Type >( val );
 		}
 
-			///	установить значение компонента
-			/// \param id: номер компонента
-			/// \param value: новое значение компонента
-		void setComponent( u32 id, T value ){
-			GT_ASSERT( id < i, "Bad component id", "id < i", id, i );
-			m_data[ id ] = value;
+			//	установить значение компонента X
+			// \param value: новое значение компонента
+		void setX( Type value ){
+			x = value;
 		}
 
-			///	Сложение векторов
-			/// \param v: вектор
-		void operator+=( const gtVector<T,i>& v ){
-			for( u32 o{0u}; o < i; ++o )
-				m_data[ o ] += static_cast<T>( v[ o ] );
+		void setY( Type value ){
+			y = value;
 		}
 
-			///	Вычитание векторов
-			/// \param v: вектор
-		void operator-=( const gtVector<T,i>& v ){
-			for( u32 o{0u}; o < i; ++o )
-				m_data[ o ] -= static_cast<T>( v[ o ] );
+			//	Сложение векторов
+			// \param v: вектор
+		void operator+=( const gtVector2< Type >& v ){
+			x += v.x;
+			y += v.y;
 		}
 
-			///	Умножение векторов
-			/// \param v: вектор
-		void operator*=( const gtVector<T,i>& v ){
-			for( u32 o{0u}; o < i; ++o )
-				m_data[ o ] *= static_cast<T>( v[ o ] );
+			//	Вычитание векторов
+			// \param v: вектор
+		void operator-=( const gtVector2< Type >& v ){
+			x -= v.x;
+			y -= v.y;
 		}
 
-			///	Умножить компоненты вектора на заданное число
-			/// \param v: число
-		void operator*=( T v ){
-			for( u32 o{0u}; o < i; ++o )
-				m_data[ o ] *= v;
+			//	Умножение векторов
+			// \param v: вектор
+		void operator*=( const gtVector2< Type >& v ){
+			x *= v.x;
+			y *= v.y;
 		}
 
-			///	Разделить на вектор
-			/// \param v: вектор
-		void operator/=( const gtVector<T,i>& v ){
-			for( u32 o{0u}; o < i; ++o )
-				m_data[ o ] /= static_cast<T>( v[ o ] );
+			//	Умножить компоненты вектора на заданное число
+			// \param v: число
+		void operator*=( Type v ){
+			x *= v;
+			y *= v;
 		}
 
-		T summ( void ){
-			T r = static_cast<T>(0);
-			for( u32 o{0u}; o < i; ++o )
-				r += static_cast<T>( m_data[ o ] );
-			return r;
+			//	Разделить на вектор
+			// \param v: вектор
+		void operator/=( const gtVector2< Type >& v ){
+			x /= v.x;
+			y /= v.y;
 		}
 
-			///	Сложение векторов
-			/// \param v: вектор
-			///	\return сумма двух векторов
-		gtVector<T,i> operator+( const gtVector<T,i>& v ) const {
-			gtVector<T,i> r(*this);
-			for( u32 o{0u}; o < i; ++o )
-				r.m_data[ o ] += v[ o ];
-			return r;
+		Type summ( void ){
+			return x + y;
 		}
 
-			///	Вычитание векторов
-			/// \param v: вектор
-			///	\return разность двух векторов
-		gtVector<T,i> operator-( const gtVector<T,i>& v ) const {
-			gtVector<T,i> r(*this);
-			for( u32 o{0u}; o < i; ++o )
-				r[ o ] -= v[ o ];
-			return r;
+			//	Сложение векторов
+			// \param v: вектор
+			//	\return сумма двух векторов
+		gtVector2< Type > operator+( const gtVector2< Type >& v ) const {
+			return gtVector2( x + v.x, y + v.y );
 		}
 
-			///	Изменение знака векта
-			///	\return Новый вектор с противоположным знаком
-		gtVector<T,i> operator-( void ) const {
-			gtVector<T,i> r(*this);
-			for( u32 o{0u}; o < i; ++o )
-				r.m_data[ o ] = -r.m_data[ o ];
-			return r;
+			//	Вычитание векторов
+			// \param v: вектор
+			//	\return разность двух векторов
+		gtVector2< Type > operator-( const gtVector2< Type >& v ) const {
+			return gtVector2( x - v.x, y - v.y );
 		}
 
-			///	Умножение векторов
-			/// \param v: вектор
-			///	\return произведение двух векторов
-		gtVector<T,i> operator*( const gtVector<T,i>& v ) const {
-			gtVector<T,i> r(*this);
-			for( u32 o{0u}; o < i; ++o )
-				r.m_data[ o ] *= v[ o ];
-			return r;
+			//	Изменение знака векта
+			//	\return Новый вектор с противоположным знаком
+		gtVector2< Type > operator-( void ) const {
+			return gtVector2( -x, -y );
 		}
 
-			///	Вычитание векторов
-			/// \param v: вектор
-			///	\return отношение двух векторов
-		gtVector<T,i> operator/( const gtVector<T,i>& v ) const {
-			gtVector<T,i> r(*this);
-			for( u32 o{0u}; o < i; ++o )
-				r.m_data[ o ] /= v[ o ];
-			return r;
+			//	Умножение векторов
+			// \param v: вектор
+			//	\return произведение двух векторов
+		gtVector2< Type > operator*( const gtVector2< Type >& v ) const {
+			return gtVector2( x * v.x, y * v.y );
 		}
 
-			///	даёт доступ к компоненту вектора
-			///	\param id: номер компонента
-			/// \return значение компонента
-		T&	operator()( u32 id ){
-			GT_ASSERT( id < i, "Bad component id", "id < i", id, i );
-			return m_data[ id ];
+			//	Отношение векторов
+			// \param v: вектор
+			//	\return отношение двух векторов
+		gtVector2< Type > operator/( const gtVector2< Type >& v ) const {
+			return gtVector2( x / v.x, y / v.y );
 		}
 
-			///	даёт доступ к компоненту вектора. только чтение
-			///	\param id: номер компонента
-			/// \return значение компонента
-		const T&	operator()( u32 id ) const {
-			GT_ASSERT( id < i, "Bad component id", "id < i", id, i );
-			return m_data[ id ];
+			//	получить значение компонента
+			//	\param id: номер компонента
+			// \return значение компонента
+		const Type	getX( void ) const {
+			return x;
 		}
 
-			///	даёт доступ к компоненту вектора
-			///	\param id: номер компонента
-			/// \return значение компонента
-		T&	operator[]( u32 id ){
-			GT_ASSERT( id < i, "Bad component id", "id < i", id, i );
-			return m_data[ id ];
-		}
-
-			///	даёт доступ к компоненту вектора. только чтение
-			///	\param id: номер компонента
-			/// \return значение компонента
-		const T&	operator[]( u32 id ) const {
-			GT_ASSERT( id < i, "Bad component id", "id < i", id, i );
-			return m_data[ id ];
-		}
-
-			///	даёт доступ к компоненту вектора
-			///	\param id: номер компонента
-			/// \return значение компонента
-		T&	at( u32 id ){
-			GT_ASSERT( id < i, "Bad component id", "id < i", id, i );
-			return m_data[ id ];
-		}
-
-			///	даёт доступ к компоненту вектора. только чтение
-			///	\param id: номер компонента
-			/// \return значение компонента
-		const T&	at( u32 id ) const {
-			GT_ASSERT( id < i, "Bad component id", "id < i", id, i );
-			return m_data[ id ];
-		}
-			///	получить значение компонента
-			///	\param id: номер компонента
-			/// \return значение компонента
-		const T	getComponent( u32 id ) const {
-			GT_ASSERT( id < i, "Bad component id", "id < i", id, i );
-			return m_data[ id ];
+		const Type	getY( void ) const {
+			return y;
 		}
 		
-			///	установка компонентов
-			///	v.set( {3.14f, 6.28f, 9.81f} );
-			///	\param l: список компонентов
-		void	set( const std::initializer_list<T>& l ){
-			GT_ASSERT2( l.size() <= i, "l.size() <= i" );
-			auto * p = &m_data[0u];
-			for each( auto var in l ){
-				*p++ = var;
-			}
+			//	установка компонентов
+			//	\param l: список компонентов
+		void	set( Type X, Type Y ){
+			x = X;
+			y = Y;
 		}
 
-			///	возвратит размер вектора
-			/// \return размер вектора
-		u32	getSize( void ){
-			return i;
-		}
-
-			///	сравнит вектор
-			///	\param v: вектор для сравнение
-			/// \return \b true если вектора равны
-		bool	operator==( const gtVector<T, i>& v ) const {
-			for( u32 o{ 0u }; o < i; ++o ){
-				if( m_data[ o ] != v.m_data[ o ] ) return false;
-			}
+			//	сравнит вектор
+			//	\param v: вектор для сравнение
+			// \return \b true если вектора равны
+		bool	operator==( const gtVector2< Type >& v ) const {
+			if( x != v.x ) return false;
+			if( y != v.y ) return false;
 			return true;
 		}
 
-			///	сравнит вектор
-			///	\param v: вектор для сравнение
-			/// \return \b true если вектора \b не равны
-		bool	operator!=( const gtVector<T, i>& v ) const {
-			for( u32 o{ 0u }; o < i; ++o ){
-				if( m_data[ o ] != v.m_data[ o ] ) return true;
-			}
+			//	сравнит вектор
+			//	\param v: вектор для сравнение
+			// \return \b true если вектора \b не равны
+		bool	operator!=( const gtVector2< Type >& v ) const {
+			if( x != v.x ) return true;
+			if( y != v.y ) return true;
 			return false;
 		}
 
 		
 
-			///	получить длину вектора
-			/// \return длина вектора (от центра координат)
-		T		lengthSqrt( void ){
-			T r = static_cast<T>(0u);
-			for( u32 o{ 0u }; o < i; ++o )
-				r += (m_data[ o ] * m_data[ o ]);
-			return r;
+			//	получить длину вектора
+			// \return длина вектора (от центра координат)
+		Type	lengthSqrt( void ){
+			return ( x * x ) + ( y * y );
 		}
 
-			///	нормализовать вектор - нормализация означает приведение значений в формат от 0 до 1, или от -1 до 1
+			//	нормализовать вектор - нормализация означает приведение значений в формат от 0 до 1, или от -1 до 1
 		void	normalize( void ){
 			f32 sqLen, invLen;
 			sqLen = lengthSqrt();
 			invLen = math::invSqrt( sqLen );
-			for( u32 o{ 0u }; o < i; ++o )
-				m_data[ o ] *= invLen;
+			x *= invLen;
+			y *= invLen;
 		}
 
-			///	установит первые три значения \b для \b трёхкомпонентного вектора. Например можно для v4f установть значения xyz из v3f
-			///	\param v: трёхкомпонентный вектор
-		void	setXYZ( const gtVector<T, 3u>& v ){
-			GT_STATIC_ASSERT(i>2u,gtError::GT_VECTOR_BAD_SIZE);
-			m_data[0u] = v[0u];
-			m_data[1u] = v[1u];
-			m_data[2u] = v[2u];
+
+		gtVector3< Type > getV3( void ){
+			return gtVector3< Type >( x, y, static_cast< Type >( 0u ) );
 		}
 
-		gtVector<T,3u> getXYZ( void ){
-			return gtVector<T,3u>({m_data[0u],m_data[1u],m_data[2u]});
+		gtVector4< Type > getV4( void ){
+			return gtVector4< Type >( x, y, static_cast< Type >( 0u ), static_cast< Type >( 0u ) );
 		}
 
 	};
 
-	using v2f = gtVector<f32, 2u>;	///< синоним для gtVector<f32, 2u>
-	using v3f = gtVector<f32, 3u>;	///< синоним для gtVector<f32, 3u>
-	using v4f = gtVector<f32, 4u>;	///< синоним для gtVector<f32, 4u>
-	using v5f = gtVector<f32, 5u>;	///< синоним для gtVector<f32, 5u>
-	using v6f = gtVector<f32, 6u>;	///< синоним для gtVector<f32, 6u>
-	using v7f = gtVector<f32, 7u>;	///< синоним для gtVector<f32, 7u>
-	using v8f = gtVector<f32, 8u>;	///< синоним для gtVector<f32, 8u>
-	using v2i = gtVector<s32, 2u>;	///< синоним для gtVector<s32, 2u>
-	using v3i = gtVector<s32, 3u>;	///< синоним для gtVector<s32, 3u>
-	using v4i = gtVector<s32, 4u>;	///< синоним для gtVector<s32, 4u>
-	using v5i = gtVector<s32, 5u>;	///< синоним для gtVector<s32, 5u>
-	using v6i = gtVector<s32, 6u>;	///< синоним для gtVector<s32, 6u>
-	using v7i = gtVector<s32, 7u>;	///< синоним для gtVector<s32, 7u>
-	using v8i = gtVector<s32, 8u>;	///< синоним для gtVector<s32, 8u>
-	using v2u = gtVector<u32, 2u>;	///< синоним для gtVector<u32, 2u>
-	using v3u = gtVector<u32, 3u>;	///< синоним для gtVector<u32, 3u>
-	using v4u = gtVector<u32, 4u>;	///< синоним для gtVector<u32, 4u>
-	using v5u = gtVector<u32, 5u>;	///< синоним для gtVector<u32, 5u>
-	using v6u = gtVector<u32, 6u>;	///< синоним для gtVector<u32, 6u>
-	using v7u = gtVector<u32, 7u>;	///< синоним для gtVector<u32, 7u>
-	using v8u = gtVector<u32, 8u>;	///< синоним для gtVector<u32, 8u>
+	template< typename Type >
+	struct gtVector3{
 
-/// \anchor ox_gtvector_v2f_t
-#define v2f_t(x,y) v2f({(x),(y)})	///< скращённая версия записи с initializer_list
-#define v2i_t(x,y) v2i({(x),(y)})   ///< \ref ox_gtvector_v2f_t "смотрите это"
-#define v2u_t(x,y) v2u({(x),(y)})	///< \ref ox_gtvector_v2f_t "смотрите это"
-#define v3f_t(x,y,z) v3f({(x),(y),(z)})	///< \ref ox_gtvector_v2f_t "смотрите это"
-#define v3i_t(x,y,z) v3i({(x),(y),(z)})	///< \ref ox_gtvector_v2f_t "смотрите это"
-#define v3u_t(x,y,z) v3u({(x),(y),(z)})	///< \ref ox_gtvector_v2f_t "смотрите это"
-#define v4f_t(x,y,z,w) v4f({(x),(y),(z),(w)})	///< \ref ox_gtvector_v2f_t "смотрите это"
-#define v4i_t(x,y,z,w) v4i({(x),(y),(z),(w)})	///< \ref ox_gtvector_v2f_t "смотрите это"
-#define v4u_t(x,y,z,w) v4u({(x),(y),(z),(w)})	///< \ref ox_gtvector_v2f_t "смотрите это"
-#define v8f_t(x,y,z,w,x2,y2,z2,w2) v8f({(x),(y),(z),(w),(x2),(y2),(z2),(w2)})	///< \ref ox_gtvector_v2f_t "смотрите это"
+		Type x, y, z;
+
+		Type getComponent( u32 index ){
+			switch( index ){
+			case 0u:
+				return x;
+			case 1u:
+				return y;
+			case 2u:
+				return z;
+			default:
+				gtStackTrace::dumpStackTrace();
+				break;
+			}
+		}
+
+		gtVector3( void ):
+			x( static_cast< Type >( 0u ) ),
+			y( static_cast< Type >( 0u ) ),
+			z( static_cast< Type >( 0u ) ){
+		}
+
+		gtVector3( const gtVector3< Type >& v ){
+			*this = v;
+		}
+
+		gtVector3( const gtVector2< Type >& v ):
+			x( v.x ),
+			y( v.y ),
+			z( static_cast< Type >( 0u ) ){ 
+		}
+
+		gtVector3( Type X, Type Y, Type Z ):
+			x( X ),
+			y( Y ),
+			z( Z ){
+		}
+
+		gtVector3( Type v ):
+			x( v ),
+			y( v ),
+			z( v ){
+		}
+
+		void zero( void ){
+			x = y = z = static_cast< Type >( 0u ); 
+		}
+
+		void fill( Type val ){
+			x = y = z = static_cast< Type >( val );
+		}
+
+		void setZ( Type value ){ 
+			z = value; 
+		}
+
+		void operator+=( const gtVector3< Type >& v ){ 
+			x += v.x; 
+			y += v.y; 
+			z += v.z; 
+		}
+
+		void operator-=( const gtVector3< Type >& v ){ 
+			x -= v.x; 
+			y -= v.y; 
+			z -= v.z; 
+		}
+
+		void operator*=( const gtVector3< Type >& v ){ 
+			x *= v.x; 
+			y *= v.y; 
+			z *= v.z; 
+		}
+
+		void operator*=( Type v ){ 
+			x *= v; 
+			y *= v; 
+			z *= v; 
+		}
+
+		void operator/=( const gtVector3< Type >& v ){ 
+			x /= v.x; 
+			y /= v.y; 
+			z /= v.z;
+		}
+
+		Type summ( void ){ 
+			return x + y + z; 
+		}
+
+		gtVector3< Type > operator+( const gtVector3< Type >& v ) const { 
+			return gtVector3( x + v.x, y + v.y, z + v.z );
+		}
+
+		gtVector3< Type > operator-( const gtVector3< Type >& v ) const { 
+			return gtVector3( x - v.x, y - v.y, z - v.z ); 
+		}
+
+		gtVector3< Type > operator-( void ) const { 
+			return gtVector3( -x, -y, -z ); 
+		}
+
+		gtVector3< Type > operator*( const gtVector3< Type >& v ) const { 
+			return gtVector3( x * v.x, y * v.y, z * v.z ); 
+		}
+
+		gtVector3< Type > operator/( const gtVector3< Type >& v ) const { 
+			return gtVector3( x / v.x, y / v.y, z / v.z ); 
+		}
+
+		const Type	getZ( void ) const { 
+			return z; 
+		}
+
+		void	set( Type X, Type Y, Type Z ){ 
+			x = X; 
+			y = Y; 
+			z = Z; 
+		}
+
+		bool	operator==( const gtVector3< Type >& v ) const { 
+			if( x != v.x ) 
+				return false; 
+			if( y != v.y ) 
+				return false; 
+			if( z != v.z ) 
+				return false; 
+			return true; 
+		}
+
+		bool	operator!=( const gtVector3< Type >& v ) const { 
+			if( x != v.x ) 
+				return true; 
+			if( y != v.y ) 
+				return true; 
+			if( z != v.z ) 
+				return true; 
+			return false; 
+		}
+
+		Type	lengthSqrt( void ){ 
+			return ( x * x ) + ( y * y ) + ( z * z );
+		}
+
+		void	normalize( void ){
+			f32 sqLen, invLen;
+			sqLen = lengthSqrt();
+			invLen = math::invSqrt( sqLen );
+			x *= invLen;
+			y *= invLen;
+			z *= invLen;
+		}
+
+		gtVector2< Type > getV2( void ){ 
+			return gtVector2< Type >( x, y );
+		}
+
+		gtVector4< Type > getV4( void ){ 
+			return gtVector4< Type >( x, y, z, static_cast< Type >( 0u ) );
+		}
+
+		Type& operator[]( u32 i ){
+			switch( i ){
+			case 0u:
+				return x;
+			case 1u:
+				return y;
+			case 2u:
+				return z;
+			default:
+				gtStackTrace::dumpStackTrace();
+			}
+		}
+
+	};
+
+	template< typename Type >
+	struct gtVector4{
+
+		Type x, y, z, w;
+
+		Type getComponent( u32 index ){
+			switch( index ){
+			case 0u:
+				return x;
+			case 1u:
+				return y;
+			case 2u:
+				return z;
+			case 3u:
+				return w;
+			default:
+				gtStackTrace::dumpStackTrace();
+				break;
+			}
+		}
+
+		gtVector4( void ):
+			x( static_cast< Type >( 0u ) ),
+			y( static_cast< Type >( 0u ) ),
+			z( static_cast< Type >( 0u ) ),
+			w( static_cast< Type >( 0u ) ){
+		}
+
+		gtVector4( const gtVector4< Type >& v ){
+			*this = v; 
+		}
+
+		gtVector4( const gtVector3< Type >& v ):
+			x( v.x ), 
+			y( v.y ),
+			z( v.z ),
+			w( static_cast< Type >( 0u ) ){
+		}
+
+		gtVector4( Type X, Type Y, Type Z, Type W ):
+			x( X ),
+			y( Y ),
+			z( Z ),
+			w( W ){
+		}
+
+		gtVector4( Type v ):
+			x( v ),
+			y( v ),
+			z( v ),
+			w( v ){
+		}
+
+		void zero( void ){ 
+			x = y = z = w = static_cast< Type >( 0u ); 
+		}
+
+		void fill( Type val ){ 
+			x = y = z = w = static_cast< Type >( val ); 
+		}
+
+		void setW( Type value ){
+			w = value; 
+		}
+
+		void operator+=( const gtVector4< Type >& v ){ 
+			x += v.x;
+			y += v.y; 
+			z += v.z; 
+			w += v.w; 
+		}
+
+		void operator-=( const gtVector4< Type >& v ){ 
+			x -= v.x;
+			y -= v.y; 
+			z -= v.z; 
+			w -= v.w; 
+		}
+
+		void operator*=( const gtVector4< Type >& v ){ 
+			x *= v.x; 
+			y *= v.y; 
+			z *= v.z; 
+			w *= v.w; 
+		}
+
+		void operator*=( Type v ){ 
+			x *= v; 
+			y *= v; 
+			z *= v; 
+			w *= v; 
+		}
+
+		void operator/=( const gtVector4< Type >& v ){
+			x /= v.x;
+			y /= v.y; 
+			z /= v.z; 
+			w /= v.w; 
+		}
+
+		Type summ( void ){ 
+			return x + y + z + w; 
+		}
+
+		gtVector4< Type > operator+( const gtVector4< Type >& v ) const { 
+			return gtVector4( x + v.x, y + v.y, z + v.z, w + v.w ); 
+		}
+
+		gtVector4< Type > operator-( const gtVector4< Type >& v ) const { 
+			return gtVector4( x - v.x, y - v.y, z - v.z, w - v.w );
+		}
+
+		gtVector4< Type > operator-( void ) const { 
+			return gtVector4( -x, -y, -z, -w ); 
+		}
+
+		gtVector4< Type > operator*( const gtVector4< Type >& v ) const { 
+			return gtVector4( x * v.x, y * v.y, z * v.z, w * v.w ); 
+		}
+
+		gtVector4< Type > operator/( const gtVector4< Type >& v ) const { 
+			return gtVector4( x / v.x, y / v.y, z / v.z, w / v.w );
+		}
+
+		const Type	getW( void ) const { 
+			return w; 
+		}
+
+		void	set( Type X, Type Y, Type Z, Type W ){ 
+			x = X; 
+			y = Y; 
+			z = Z; 
+			w = W; 
+		}
+
+		void	set( Type val ){ 
+			x = y = z = w = val;
+		}
+
+		void	set( const gtVector3< Type >& v ){ 
+			x = v.x;
+			y = v.y;
+			z = v.z;
+			w = static_cast< Type >( 0u );
+		}
+
+		void	setXYZ( Type val ){ 
+			x = y = z = val;
+		}
+
+		bool	operator==( const gtVector4< Type >& v ) const {
+			if( x != v.x ) 
+				return false;
+			if( y != v.y ) 
+				return false;
+			if( z != v.z ) 
+				return false;
+			if( w != v.w ) 
+				return false;
+			return true;
+		}
+
+		bool	operator!=( const gtVector4< Type >& v ) const {
+			if( x != v.x ) 
+				return true;
+			if( y != v.y ) 
+				return true;
+			if( z != v.z ) 
+				return true;
+			if( w != v.w ) 
+				return true;
+			return false;
+		}
+
+		Type	lengthSqrt( void ){
+			return ( x * x ) + ( y * y ) + ( z * z ) + ( w * w );
+		}
+
+		void	normalize( void ){
+			f32 sqLen, invLen;
+			sqLen = lengthSqrt();
+			invLen = math::invSqrt( sqLen );
+			x *= invLen;
+			y *= invLen;
+			z *= invLen;
+			w *= invLen;
+		}
+
+		gtVector2< Type > getV2( void ){ return gtVector2< Type >( x, y ); }
+		gtVector3< Type > getV3( void ){ return gtVector3< Type >( x, y, z ); }
+	};
+
+	template< typename Type >
+	struct gtVector5{
+
+		Type x, y, z, w, a;
+
+		Type getComponent( u32 index ){
+			switch( index ){
+			case 0u:
+				return x;
+			case 1u:
+				return y;
+			case 2u:
+				return z;
+			case 3u:
+				return w;
+			case 4u:
+				return a;
+			default:
+				gtStackTrace::dumpStackTrace();
+				break;
+			}
+		}
+
+		gtVector5( void ):
+			x( static_cast< Type >( 0u ) ),
+			y( static_cast< Type >( 0u ) ),
+			z( static_cast< Type >( 0u ) ),
+			w( static_cast< Type >( 0u ) ),
+			a( static_cast< Type >( 0u ) ){
+		}
+
+		gtVector5( Type X, Type Y, Type Z, Type W, Type A ):
+			x( X ),
+			y( Y ),
+			z( Z ),
+			w( W ),
+			a( A ){
+		}
+
+	};
+
+	template< typename Type >
+	struct gtVector6{
+
+		Type x, y, z, w, a, b;
+
+		Type getComponent( u32 index ){
+			switch( index ){
+			case 0u:
+				return x;
+			case 1u:
+				return y;
+			case 2u:
+				return z;
+			case 3u:
+				return w;
+			case 4u:
+				return a;
+			case 5u:
+				return b;
+			default:
+				gtStackTrace::dumpStackTrace();
+				break;
+			}
+		}
+
+		gtVector6( void ):
+			x( static_cast< Type >( 0u ) ),
+			y( static_cast< Type >( 0u ) ),
+			z( static_cast< Type >( 0u ) ),
+			w( static_cast< Type >( 0u ) ),
+			a( static_cast< Type >( 0u ) ),
+			b( static_cast< Type >( 0u ) ){
+		}
+
+		gtVector6( Type X, Type Y, Type Z, Type W, Type A, Type B ):
+			x( X ),
+			y( Y ),
+			z( Z ),
+			w( W ),
+			a( A ),
+			b( B ){
+		}
+
+	};
+
+	template< typename Type >
+	struct gtVector7{
+
+		Type x, y, z, w, a, b, c;
+
+		Type getComponent( u32 index ){
+			switch( index ){
+			case 0u:
+				return x;
+			case 1u:
+				return y;
+			case 2u:
+				return z;
+			case 3u:
+				return w;
+			case 4u:
+				return a;
+			case 5u:
+				return b;
+			case 6u:
+				return c;
+			default:
+				gtStackTrace::dumpStackTrace();
+				break;
+			}
+		}
+
+		gtVector7( void ):
+			x( static_cast< Type >( 0u ) ),
+			y( static_cast< Type >( 0u ) ),
+			z( static_cast< Type >( 0u ) ),
+			w( static_cast< Type >( 0u ) ),
+			a( static_cast< Type >( 0u ) ),
+			b( static_cast< Type >( 0u ) ),
+			c( static_cast< Type >( 0u ) ){
+		}
+
+		gtVector7( Type X, Type Y, Type Z, Type W, Type A, Type B, Type C ):
+			x( X ),
+			y( Y ),
+			z( Z ),
+			w( W ),
+			a( A ),
+			b( B ),
+			c( C ){
+		}
+
+	};
+
+	template< typename Type >
+	struct gtVector8{
+
+		Type x, y, z, w, a, b, c, d;
+
+		Type getComponent( u32 index ){
+			switch( index ){
+			case 0u:
+				return x;
+			case 1u:
+				return y;
+			case 2u:
+				return z;
+			case 3u:
+				return w;
+			case 4u:
+				return a;
+			case 5u:
+				return b;
+			case 6u:
+				return c;
+			case 7u:
+				return d;
+			default:
+				gtStackTrace::dumpStackTrace();
+				break;
+			}
+		}
+
+		gtVector8( void ):
+			x( static_cast< Type >( 0u ) ),
+			y( static_cast< Type >( 0u ) ),
+			z( static_cast< Type >( 0u ) ),
+			w( static_cast< Type >( 0u ) ),
+			a( static_cast< Type >( 0u ) ),
+			b( static_cast< Type >( 0u ) ),
+			c( static_cast< Type >( 0u ) ),
+			d( static_cast< Type >( 0u ) ){
+		}
+
+		gtVector8( Type X, Type Y, Type Z, Type W, Type A, Type B, Type C, Type D ){
+			x = X;
+			y = Y;
+			z = Z;
+			w = W;
+			a = A;
+			b = B;
+			c = C;
+			d = D;
+		}
+
+	};
+
+	using v2f = gtVector2<f32>;	///< синоним для gtVector3<f32>
+	using v2i = gtVector2<s32>;	///< синоним для gtVector3<s32>
+	using v2u = gtVector2<u32>;	///< синоним для gtVector3<u32>
+
+	using v3f = gtVector3<f32>;	///< синоним для gtVector3<f32>
+	using v3i = gtVector3<s32>;	///< синоним для gtVector3<s32>
+	using v3u = gtVector3<u32>;	///< синоним для gtVector3<u32>
+
+	using v4f = gtVector4<f32>;	///< синоним для gtVector4<f32>
+	using v4i = gtVector4<s32>;	///< синоним для gtVector4<s32>
+	using v4u = gtVector4<u32>;	///< синоним для gtVector4<u32>
+
+	using v5f = gtVector5<f32>;	///< синоним для gtVector5<f32>
+	using v5i = gtVector5<s32>;	///< синоним для gtVector5<s32>
+	using v5u = gtVector5<u32>;	///< синоним для gtVector5<u32>
+
+	using v6f = gtVector6<f32>;	///< синоним для gtVector6<f32>
+	using v6i = gtVector6<s32>;	///< синоним для gtVector6<s32>
+	using v6u = gtVector6<u32>;	///< синоним для gtVector6<u32>
+
+	using v7f = gtVector7<f32>;	///< синоним для gtVector7<f32>
+	using v7i = gtVector7<s32>;	///< синоним для gtVector7<s32>
+	using v7u = gtVector7<u32>;	///< синоним для gtVector7<u32>
+
+	using v8f = gtVector8<f32>;	///< синоним для gtVector8<f32>
+	using v8i = gtVector8<s32>;	///< синоним для gtVector8<s32>
+	using v8u = gtVector8<u32>;	///< синоним для gtVector8<u32>
 
 	namespace math{
 
-			///	cross product of s with a /векторное произедение
-			///	\param s: first vector
-			///	\param a: second vector
-			///	\return cross product
+			//	cross product of s with a /векторное произедение
+			//	\param s: first vector
+			//	\param a: second vector
+			//	\return cross product
 		GT_FORCE_INLINE v3f cross( const v3f& s, const v3f& a ){
 			v3f r;
-			r.x_ = (s.y_ * a.z_) - (s.z_ * a.y_);
-			r.y_ = (s.z_ * a.x_) - (s.x_ * a.z_);
-			r.z_ = (s.x_ * a.y_) - (s.y_ * a.x_);
+			r.x = (s.y * a.z) - (s.z * a.y);
+			r.y = (s.z * a.x) - (s.x * a.z);
+			r.z = (s.x * a.y) - (s.y * a.x);
 			return r;
 		}
 
-			///	dot product of s with a /скалярное произедение
-			///	\param s: first vector
-			///	\param a: second vector
-			///	\return dot product
+			//	dot product of s with a /скалярное произедение
+			//	\param s: first vector
+			//	\param a: second vector
+			//	\return dot product
 		GT_FORCE_INLINE f32 dot( const v3f& s, const v3f& a ){
 			f32 r;
-			r =  (s.x_ * a.x_);
-			r += (s.y_ * a.y_);
-			r += (s.z_ * a.z_);
+			r =  (s.x * a.x);
+			r += (s.y * a.y);
+			r += (s.z * a.z);
 			return r;
 		}
 
-			///	dot product of s with a /скалярное произедение
-			///	\param s: first vector
-			///	\param a: second vector
-			///	\return dot product
+			//	dot product of s with a /скалярное произедение
+			//	\param s: first vector
+			//	\param a: second vector
+			//	\return dot product
 		GT_FORCE_INLINE f32 dot( const v4f& s, const v3f& a ){
 			f32 r;
-			r =  (s.x_ * a.x_);
-			r += (s.y_ * a.y_);
-			r += (s.z_ * a.z_);
+			r =  (s.x * a.x);
+			r += (s.y * a.y);
+			r += (s.z * a.z);
 			return r;
 		}
 
-			///	dot product of s with a /скалярное произедение
-			///	\param s: first vector
-			///	\param a: second vector
-			///	\return dot product
+			//	dot product of s with a /скалярное произедение
+			//	\param s: first vector
+			//	\param a: second vector
+			//	\return dot product
 		GT_FORCE_INLINE f32 dot( const v4f& s, const v4f& a ){
 			f32 r;
-			r =  (s.x_ * a.x_);
-			r += (s.y_ * a.y_);
-			r += (s.z_ * a.z_);
+			r =  (s.x * a.x);
+			r += (s.y * a.y);
+			r += (s.z * a.z);
 			return r;
 		}
 	}
 
 	namespace util{
 
-			///	print vector in output window
-		template<typename T, u32 i>
-		void printVector( const gtVector<T, i>& v ){
+			//	print vector in output window
+		GT_FORCE_INLINE void printVector( const v2f& v ){
 			gtLogWriter::printInfo( u"Vector:" );
-			for( u32 o{ 0u }; o < i; ++o )
-				gtLogWriter::printInfo( u"\t\t%f", v.getComponent( o ) );
+			gtLogWriter::printInfo( u"\t\t%f %f", v.x, v.y );
+		}
+
+			//	print vector in output window
+		GT_FORCE_INLINE void printVector( const v3f& v ){
+			gtLogWriter::printInfo( u"Vector:" );
+			gtLogWriter::printInfo( u"\t\t%f %f %f", v.x, v.y, v.z );
 		}
 
 	}
