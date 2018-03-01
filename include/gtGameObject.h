@@ -79,7 +79,7 @@ namespace gost{
 		}
 
 		virtual v3f			getPositionInSpace( void ){
-			return m_worldMatrixAbsolute[ 3 ].getXYZ();
+			return m_worldMatrixAbsolute[ 3 ].getV3();
 		}
 
 			///	Установит позицию

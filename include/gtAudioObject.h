@@ -77,8 +77,8 @@ namespace gost{
 	public:
 
 		gtAudioObjectCommon( void ):
-			m_state( gtAudioState::stop ),
 			m_isLoop( false ),
+			m_state( gtAudioState::stop ),
 			m_time( 0. )
 		{
 #ifdef GT_DEBUG

@@ -69,9 +69,9 @@ void				gtStaticObjectImpl::update( void ){
 	math::makeRotationMatrix( rotationMatrix, m_quaternion );
 
 	gtMatrix4	scaleMatrix;
-	scaleMatrix[ 0u ] *= m_scale[ 0u ];
-	scaleMatrix[ 1u ] *= m_scale[ 1u ];
-	scaleMatrix[ 2u ] *= m_scale[ 2u ];
+	scaleMatrix[ 0u ] *= m_scale.x;
+	scaleMatrix[ 1u ] *= m_scale.y;
+	scaleMatrix[ 2u ] *= m_scale.z;
 
 	m_worldMatrix = translationMatrix * rotationMatrix * scaleMatrix;
 

@@ -1,33 +1,8 @@
-﻿/*!	GOST
-	\file gost.h
-	\brief GoST starts here
-*/
-
-#pragma once
+﻿#pragma once
 #ifndef __GOST_H__
 #define __GOST_H__ ///< include guard
 
 #pragma warning(disable : 4582)
-
-/*!
-	\mainpage GoST 0.x API \a documentation
-	\warning Made in Russia
-	\attention Документация должна быть написана полностью на английском языке(дополнительно на русском). Автор не знаток english, по этому могут быть ошибки.
-
-	Изучать движок лучше начиная с файла \ref gost.h
-
-	\b Наименование \b плагинов:
-	стандартные плагины должны начинаться с "gt"
-	далее идут буквы обозначающие что это за плагин
-	"ii" - import image
-	"im" - import model
-	"ei" - export image
-	"em" - export model
-	"r" - renderer
-	"a" - audio
-
-*/
-
 
 //C++
 #include <cctype> //isalpha
@@ -83,6 +58,7 @@
 
 #include <gtSceneSystem.h>
 #include <gtAudioSystem.h>
+#include <gtGUISystem.h>
 
 #include <gtMainSystem.h>
 
@@ -135,8 +111,6 @@ extern "C" GT_API gtMainSystem* GT_CDECL InitializeGoSTEngine( const gtDeviceCre
 
 
 }
-	//namespace new_nwame::cpp17{};		// c++17
-
 
 
 #endif

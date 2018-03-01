@@ -43,22 +43,22 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 	gtSprite * tank = scene->addSprite(
 		texture_tank.data(),
 		driver.data(),
-		v2f_t( (f32)texture_tank->getWidth() / 100.f,
+		v2f( (f32)texture_tank->getWidth() / 100.f,
 		(f32)texture_tank->getHeight() / 100.f ));
 
 	gtSprite * cannon = scene->addSprite(
 		texture_cannon.data(),
 		driver.data(),
-		v2f_t( (f32)texture_cannon->getWidth() / 100.f,
+		v2f( (f32)texture_cannon->getWidth() / 100.f,
 		(f32)texture_cannon->getHeight() / 100.f ),
-		v3f_t(0.f,0.f,-1.1f) // set closer to camera
+		v3f(0.f,0.f,-1.1f) // set closer to camera
 	);
 
 	///	Attach the gun to the tank
 	cannon->setParent( tank );
 
 	///	Add 2D camera
-	gtCamera * camera = scene->addCamera2D( v4f_t( 0.f, 0.f, 800.f, 600.f ) );
+	gtCamera * camera = scene->addCamera2D( v4f( 0.f, 0.f, 800.f, 600.f ) );
 
 	
 	///	for pollEvent
@@ -92,28 +92,28 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 
 
 			if( mainSystem->isKeyPressed( gtKey::K_W ) ){
-				tank->setPosition( tank->getPosition() + v3f_t( 0.f, move_speed * delta, 0.f ) );
-				tank->setRotation( v3f_t( 0.f, 0.f, -PI/2.f ) ); /// use math::radToDeg if you need
+				tank->setPosition( tank->getPosition() + v3f( 0.f, move_speed * delta, 0.f ) );
+				tank->setRotation( v3f( 0.f, 0.f, -PI/2.f ) ); /// use math::radToDeg if you need
 
 			}else if( mainSystem->isKeyPressed( gtKey::K_S ) ){
-				tank->setPosition( tank->getPosition() - v3f_t( 0.f, move_speed * delta, 0.f ) );
-				tank->setRotation( v3f_t( 0.f, 0.f, PI/2.f ) );
+				tank->setPosition( tank->getPosition() - v3f( 0.f, move_speed * delta, 0.f ) );
+				tank->setRotation( v3f( 0.f, 0.f, PI/2.f ) );
 
 			}else if( mainSystem->isKeyPressed( gtKey::K_A ) ){
-				tank->setPosition( tank->getPosition() + v3f_t( move_speed * delta, 0.f, 0.f ) );
-				tank->setRotation( v3f_t( 0.f, 0.f, 0.f ) );
+				tank->setPosition( tank->getPosition() + v3f( move_speed * delta, 0.f, 0.f ) );
+				tank->setRotation( v3f( 0.f, 0.f, 0.f ) );
 
 			}else if( mainSystem->isKeyPressed( gtKey::K_D ) ){
-				tank->setPosition( tank->getPosition() - v3f_t( move_speed * delta, 0.f, 0.f ) );
-				tank->setRotation( v3f_t( 0.f, 0.f, PI ) );
+				tank->setPosition( tank->getPosition() - v3f( move_speed * delta, 0.f, 0.f ) );
+				tank->setRotation( v3f( 0.f, 0.f, PI ) );
 			}
 
 
 			if( mainSystem->isKeyPressed( gtKey::K_Q ) )
-				cannon->setRotation( cannon->getRotation() + v3f_t( 0.f, 0.f, 10.f * delta ) );
+				cannon->setRotation( cannon->getRotation() + v3f( 0.f, 0.f, 10.f * delta ) );
         
 			if( mainSystem->isKeyPressed( gtKey::K_E ) )
-				cannon->setRotation( cannon->getRotation() - v3f_t( 0.f, 0.f, 10.f * delta ) );
+				cannon->setRotation( cannon->getRotation() - v3f( 0.f, 0.f, 10.f * delta ) );
 
 			driver->beginRender( true, gtColor( 0.7372549019607843f, 0.8901960784313725f, 1.f, 1.f ) ); /// RGBA.
 

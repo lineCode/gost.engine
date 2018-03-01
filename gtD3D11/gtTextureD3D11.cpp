@@ -84,8 +84,8 @@ bool gtTextureD3D11::init( gtImage* image, gtTextureFilterType filter ){
 		return false;
 	}
 
-	m_size[ 0u ] = image->width;
-	m_size[ 1u ] = image->height;
+	m_size.x = image->width;
+	m_size.y = image->height;
 
 	return true;
 }
@@ -122,11 +122,11 @@ gtTextureType	gtTextureD3D11::getType( void ){
 }
 	//	получить ширину
 u32				gtTextureD3D11::getWidth( void ){
-	return this->m_size[ 0u ];
+	return this->m_size.x;
 }
 	//	получить высоту
 u32				gtTextureD3D11::getHeight( void ){
-	return this->m_size[ 1u ];
+	return this->m_size.y;
 }
 
 /*

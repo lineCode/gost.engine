@@ -225,7 +225,7 @@ namespace gost{
 
 			///	Get cursor position
 			///	\return position
-		virtual const gtVector<u16,2u>& getCursorPosition( void ) = 0;
+		virtual const gtVector2<u16>& getCursorPosition( void ) = 0;
 
 			///	Get params
 		virtual const gtDeviceCreationParameters& getDeviceCreationParameters( void ) = 0;

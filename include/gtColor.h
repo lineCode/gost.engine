@@ -38,11 +38,11 @@ namespace gost{
 			m_data[ 3u ] = 1.f;
 		}
 
-			///	устанавливает цвет указанными значениями
-			/// \param r: red component
-			/// \param g: green component
-			/// \param b: blue component
-			/// \param a: alpha component
+			//	устанавливает цвет указанными значениями
+			// \param r: red component
+			// \param g: green component
+			// \param b: blue component
+			// \param a: alpha component
 		gtColor( f32 r, f32 g, f32 b, f32 a = 1.f ){
 			m_data[ 0u ] = r;
 			m_data[ 1u ] = g;
@@ -50,13 +50,13 @@ namespace gost{
 			m_data[ 3u ] = a;
 		}
 
-			///	устанавливает цвет указанными значениями
-			///	для избежания неоднозначности можно сделать так
-			///	gtColor c( u8(255), 255,255,255);
-			/// \param r: red component
-			/// \param g: green component
-			/// \param b: blue component
-			/// \param a: alpha component
+			//	устанавливает цвет указанными значениями
+			//	для избежания неоднозначности можно сделать так
+			//	gtColor c( u8(255), 255,255,255);
+			// \param r: red component
+			// \param g: green component
+			// \param b: blue component
+			// \param a: alpha component
 		gtColor( s32 r, s32 g, s32 b, s32 a = 255 ){
 			this->setAsByteAlpha( a );
 			this->setAsByteRed( r );

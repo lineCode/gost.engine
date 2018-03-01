@@ -52,8 +52,8 @@ bool gtEventSystem::pollEvent( gtEvent& event ){
 			m_mouseState.bits.b0 = event.mouseEvent.state.bits.b0;
 			m_mouseState.bits.b1 = event.mouseEvent.state.bits.b2;
 			m_mouseState.bits.b2 = event.mouseEvent.state.bits.b4;
-			m_cursorPosition[ 0u ] = event.mouseEvent.x;
-			m_cursorPosition[ 1u ] = event.mouseEvent.y;
+			m_cursorPosition.x = event.mouseEvent.x;
+			m_cursorPosition.y = event.mouseEvent.y;
 		}break;
 	}
 
@@ -100,7 +100,7 @@ bool gtEventSystem::isMMBDown( void ){
 	return m_mouseState.bits.b2;
 }
 
-const gtVector<u16,2u>& gtEventSystem::getCursorPosition( void ){
+const gtVector2<u16>& gtEventSystem::getCursorPosition( void ){
 	return m_cursorPosition;
 }
 

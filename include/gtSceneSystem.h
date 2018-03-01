@@ -63,7 +63,7 @@ namespace gost{
 			/// \param position: position
 			/// \param asBillboard: \b true if you need billboard
 			///	\return created sprite
-		virtual gtSprite*		addSprite( gtTexture * texture, gtDriver * driver, const v2f& size, const v3f& position = v3f({0.f,0.f,5.f}), bool asBillboard = false ) = 0;
+		virtual gtSprite*		addSprite( gtTexture * texture, gtDriver * driver, const v2f& size, const v3f& position = v3f(0.f,0.f,5.f), bool asBillboard = false ) = 0;
 
 			/// Get active camera
 			/// \return active camera

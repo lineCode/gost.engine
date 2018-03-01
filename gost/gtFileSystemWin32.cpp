@@ -5,8 +5,8 @@
 
 gtFileSystemWin32::gtFileSystemWin32( void ):
 	m_dirScanBegin( false ),
-	hFind( nullptr ),
-	m_firstCall( false )
+	m_firstCall( false ),
+	hFind( nullptr )
 {
 	TCHAR szFileName[MAX_PATH];
 	GetModuleFileName( NULL, szFileName, MAX_PATH );

@@ -37,25 +37,25 @@ namespace gost{
 			///	Если точка удовлетворяет условию, aabb растёт
 			///	\param point: vertex position for add
 		void add( const v3f& point ){
-			if( point.x_ < m_min.x_ ) m_min.x_ = point.x_;
-			if( point.y_ < m_min.y_ ) m_min.y_ = point.y_;
-			if( point.z_ < m_min.z_ ) m_min.z_ = point.z_;
+			if( point.x < m_min.x ) m_min.x = point.x;
+			if( point.y < m_min.y ) m_min.y = point.y;
+			if( point.z < m_min.z ) m_min.z = point.z;
 
-			if( point.x_ > m_max.x_ ) m_max.x_ = point.x_;
-			if( point.y_ > m_max.y_ ) m_max.y_ = point.y_;
-			if( point.z_ > m_max.z_ ) m_max.z_ = point.z_;
+			if( point.x > m_max.x ) m_max.x = point.x;
+			if( point.y > m_max.y ) m_max.y = point.y;
+			if( point.z > m_max.z ) m_max.z = point.z;
 		}
 
 			///	Если размер коробки удовлетворяет условию, aabb растёт
 			///	\param box: other aabb
 		void add( const gtAabb& box ){
-			if( box.m_min.x_ < m_min.x_ ) m_min.x_ = box.m_min.x_;
-			if( box.m_min.y_ < m_min.y_ ) m_min.y_ = box.m_min.y_;
-			if( box.m_min.z_ < m_min.z_ ) m_min.z_ = box.m_min.z_;
+			if( box.m_min.x < m_min.x ) m_min.x = box.m_min.x;
+			if( box.m_min.y < m_min.y ) m_min.y = box.m_min.y;
+			if( box.m_min.z < m_min.z ) m_min.z = box.m_min.z;
 
-			if( box.m_max.x_ > m_max.x_ ) m_max.x_ = box.m_max.x_;
-			if( box.m_max.y_ > m_max.y_ ) m_max.y_ = box.m_max.y_;
-			if( box.m_max.z_ > m_max.z_ ) m_max.z_ = box.m_max.z_;
+			if( box.m_max.x > m_max.x ) m_max.x = box.m_max.x;
+			if( box.m_max.y > m_max.y ) m_max.y = box.m_max.y;
+			if( box.m_max.z > m_max.z ) m_max.z = box.m_max.z;
 		}
 
 			///	размер коробки

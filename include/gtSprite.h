@@ -64,7 +64,7 @@ namespace gost{
 			m_debugName.assign(u"gtSprite");
 #endif
 			m_system = gtMainSystem::getInstance();
-			gtModel* model = m_system->getModelSystem()->createPlane( size[ 1u ], size[ 0u ], gtSide::FRONT );
+			gtModel* model = m_system->getModelSystem()->createPlane( size.y, size.x, gtSide::FRONT );
 
 			model->getSubModel( 0u )->m_material.textureLayer[ 0u ].texture = t;
 			model->getSubModel( 0u )->m_material.type = gtMaterialType::Sprite;
@@ -87,7 +87,7 @@ namespace gost{
 		//	m_quaternion.set(v3f_t(0.f,0.f,-PI/2.f));
 		//	m_quaternion = m_quaternion * gtQuaternion(v3f_t(0.f,0.f,-PI/2.f));
 
-			m_position.z_ = -1.f;
+			m_position.z = -1.f;
 
 			resetAnimation( true );
 
@@ -156,9 +156,9 @@ namespace gost{
 			math::makeRotationMatrix( rotationMatrix, m_quaternion );
 
 			gtMatrix4	scaleMatrix;
-			scaleMatrix[ 0u ] *= m_scale[ 0u ];
-			scaleMatrix[ 1u ] *= m_scale[ 1u ];
-			scaleMatrix[ 2u ] *= m_scale[ 2u ];
+			scaleMatrix[ 0u ] *= m_scale.x;
+			scaleMatrix[ 1u ] *= m_scale.y;
+			scaleMatrix[ 2u ] *= m_scale.z;
 
 			m_worldMatrix = translationMatrix * rotationMatrix * scaleMatrix;
 
@@ -212,27 +212,27 @@ namespace gost{
 			f32 mulX = 1.f / (f32)width;
 			f32 mulY = 1.f / (f32)height;
 
-			lt.x_ = rect.x_ * mulX;
-			lt.y_ = rect.y_ * mulY;
-			rb.x_ = rect.z_ * mulX;
-			rb.y_ = rect.w_ * mulY;
+			lt.x = rect.x * mulX;
+			lt.y = rect.y * mulY;
+			rb.x = rect.z * mulX;
+			rb.y = rect.w * mulY;
 			
 			m_frames.push_back(
-				v8f_t(
-					lt.x_,
-					rb.y_,
-					lt.x_,
-					lt.y_,
-					rb.x_,
-					lt.y_,
-					rb.x_,
-					rb.y_
+				v8f(
+					lt.x,
+					rb.y,
+					lt.x,
+					lt.y,
+					rb.x,
+					lt.y,
+					rb.x,
+					rb.y
 				)
 			);
 
 			m_animation.addFrame();
 			auto * ls = &m_animation.getLoopSegment();
-			m_animation.setLoopSegment( ls->x_, m_frames.size() - 1u );
+			m_animation.setLoopSegment( ls->x, m_frames.size() - 1u );
 		}
 
 			/// Удалит анимацию и установит текущий кадр
@@ -243,7 +243,7 @@ namespace gost{
 			m_frames.clear();
 			
 			if( full ){
-				v4u rect2({ 0u, 0u, m_texture->getWidth(), m_texture->getHeight() });
+				v4u rect2( 0u, 0u, m_texture->getWidth(), m_texture->getHeight() );
 				addFrame( rect2 );
 			}
 			else
@@ -345,17 +345,17 @@ namespace gost{
 			m_frames.clear();
 
 			u32 x1 = 0u, y1 = 0u;
-			u32 x2 = size.x_, y2 = size.y_;
+			u32 x2 = size.x, y2 = size.y;
 			if( directionIsHorizontal ){
 				for( u32 i = 0u; i < numOfFrames; ++i ){
-					addFrame( v4u_t( x1, y1, x2, y2 ) );
-					x1 += size.x_;
-					x2 += size.x_;
+					addFrame( v4u( x1, y1, x2, y2 ) );
+					x1 += size.x;
+					x2 += size.x;
 					if( x2 > width ){
 						x1 = 0u;
-						x2 = size.x_;
-						y1 += size.y_;
-						y2 += size.y_;
+						x2 = size.x;
+						y1 += size.y;
+						y2 += size.y;
 					}
 				}
 			}
