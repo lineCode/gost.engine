@@ -719,7 +719,7 @@ void gtDriverD3D11::drawLine( const v3f& start, const v3f& end, const gtColor& c
 
 	m_shaderLineCallback->s = start;
 	m_shaderLineCallback->e = end;
-	m_shaderLineCallback->c.x = 1.f;
+	m_shaderLineCallback->c.x = color.getRed();
 	m_shaderLineCallback->c.y = color.getGreen();
 	m_shaderLineCallback->c.z = color.getBlue();
 	m_shaderLineCallback->c.w = color.getAlpha();
