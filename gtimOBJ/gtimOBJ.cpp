@@ -379,7 +379,7 @@ extern "C"{
 			delete m_VertexCache_trash[vi];
 		}
 		
-		model->updateAabb();
+		model->updateBoundingVolume();
 
 		model->addRef();
 		return model.data();

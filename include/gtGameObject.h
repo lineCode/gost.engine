@@ -37,8 +37,11 @@ namespace gost{
 			/// матрицы трансформаций
 		gtMatrix4		m_worldMatrix, m_worldMatrixAbsolute;
 
-			/// позиция
+			// позиция
 		v3f				m_position;
+		v3f				m_rotation, m_old_rotation;
+		v3f				m_scale;
+		gtQuaternion	m_orientation;
 
 			/// виден ли объект
 		bool			m_isVisible;
@@ -52,6 +55,7 @@ namespace gost{
 			m_id( -1 ),
 			m_parent( nullptr ),
 			m_scene( nullptr ),
+			m_scale(1.f),
 			m_isVisible( true ),
 			m_isShowAabb( false )
 		{
@@ -89,6 +93,43 @@ namespace gost{
 		virtual void				setPosition( const v3f& p ){
 			m_position = p;
 		}
+
+		virtual void				setRotation( const v3f& rotation ){
+			if( m_old_rotation != rotation ){
+				this->m_rotation = rotation; 
+
+				v3f r =  rotation - m_old_rotation;
+
+				gtQuaternion q(r);
+
+				m_orientation = q * m_orientation;
+				m_orientation.normalize();
+
+				m_old_rotation = rotation;
+			}
+		}
+
+		virtual const v3f&			getRotation( void ){
+			return m_rotation;
+		}
+
+		virtual const v3f&			getScale( void ){
+			return m_scale;
+		}
+
+		virtual void				setScale( const v3f& s ){
+			m_scale = s;
+		}
+
+		virtual void				setOrientation( const gtQuaternion& q ){
+			m_orientation = q;
+			m_orientation.normalize();
+		}
+
+		virtual const gtQuaternion& getOrientation( void ){
+			return m_orientation;
+		}
+
 
 			///	Получить матрицу с трансформациями относительно мира
 			///	\return Матрица с трансформациями относительно мира
@@ -222,24 +263,6 @@ namespace gost{
 #include "gtSprite.h"
 #include "gtDummyObject.h"
 
-
-namespace gost{
-
-	namespace util{
-
-		GT_FORCE_INLINE const v3f& getObjectRotation( gtGameObject * x ){
-			switch( x->getType() ){
-			case gtObjectType::SPRITE:
-				return ((gtSprite*)x)->getRotation();
-			case gtObjectType::STATIC:
-				return ((gtStaticObject*)x)->getRotation();
-			}
-			return x->getPosition();
-		}
-
-	}
-
-}
 /*
 Copyright (c) 2017
 

@@ -12,7 +12,6 @@ namespace gost{
 
 		v4f				m_viewPort;
 
-		v3f				m_rotation;
 		v3f				m_target;
 		v3f				m_up;
 
@@ -25,7 +24,6 @@ namespace gost{
 		
 		gtCameraFrustum m_frustum;
 
-		gtQuaternion	m_orientation;
 
 		void			calculateFrustum( void );
 
@@ -41,18 +39,6 @@ namespace gost{
 			//	Возвратит тип объекта
 		gtObjectType		getType( void );
 		
-			//	Возвратит масштаб
-		const v3f&			getScale( void );
-
-			//	Возвратит вращение
-		const v3f&			getRotation( void );
-
-			//	Установит масштаб
-		void				setScale( const v3f& );
-
-			//	Установит вращение
-		void				setRotation( const v3f& );
-
 			//	Обновит информацию о позиции/вращении/масштабе
 		void				update( void );
 

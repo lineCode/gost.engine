@@ -64,7 +64,8 @@ gtSubModel*	gtModelImpl::addSubModel( gtSubModel* s ){
 		memcpy( subModel->m_vertices, s->m_vertices, subModel->m_vCount * subModel->m_stride );
 		memcpy( subModel->m_indices, s->m_indices, subModel->m_iCount * sizeof( u16 ) );
 
-		subModel->m_box = s->m_box;
+		subModel->m_aabb = s->m_aabb;
+		subModel->m_obb = s->m_obb;
 		subModel->m_material = s->m_material;
 		subModel->m_name = s->m_name;
 		
@@ -97,27 +98,36 @@ gtVertexType*	gtModelImpl::getTypeArray( void ){
 
 	//	Вернёт габаритную коробку
 const gtAabb&	gtModelImpl::getAabb( void ){
-	return m_box;
+	return m_aabb;
 }
 
 	//	Установит габаритную коробку
 void			gtModelImpl::setAabb( const gtAabb& box ){
-	m_box = box;
+	m_aabb = box;
 }
 
 	//	Вычислит Aabb всех субмоделей и на их основе
 	//	построит Aabb целой модели
-void			gtModelImpl::updateAabb( void ){
+void			gtModelImpl::updateBoundingVolume( void ){
 	u32 sz = m_submodels.size();
 	if( sz ){
 
-		m_box.reset();
+		m_aabb.reset();
 
 		auto msz = m_submodels.size();
 		for( u32 i = 0u; i < msz; ++i ){
-			m_submodels[ i ]->updateAabb();
-			m_box.add( m_submodels[ i ]->m_box );
+			m_submodels[ i ]->buildObb();
+			//m_submodels[ i ]->updateAabb();
+			//m_aabb.add( m_submodels[ i ]->m_aabb );
 		}
 
 	}
+}
+
+const gtObb&	gtModelImpl::getObb( void ){
+	return m_obb;
+}
+
+void			gtModelImpl::setObb( const gtObb& obb ){
+	m_obb = obb;
 }

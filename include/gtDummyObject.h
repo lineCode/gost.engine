@@ -12,14 +12,6 @@ namespace gost{
 	class gtDummyObject : public gtGameObject{
 	public:
 
-			/// Установит ориентацию
-			/// \param quaternion: ориентация
-		virtual void			setQuaternion( const gtQuaternion& quaternion ) = 0;
-
-			/// Получить ориентацию
-			/// \return вернёт ориентацию
-		virtual const gtQuaternion&			getQuaternion( void ) = 0;
-
 		virtual gtAabb*				getAabb( void ) = 0;
 	};
 

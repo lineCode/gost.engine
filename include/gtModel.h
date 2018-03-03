@@ -44,16 +44,20 @@ namespace gost{
 			*/
 		virtual gtVertexType*	getTypeArray( void ) = 0;
 
-			///	Вернёт габаритную коробку
-			/// \return aabb
+			//	Вернёт габаритную коробку
+			// \return aabb
 		virtual const gtAabb&	getAabb( void ) = 0;
 
-			///	Установит габаритную коробку
-			/// \param aabb: aabb
+			//	Установит габаритную коробку
+			// \param aabb: aabb
 		virtual void			setAabb( const gtAabb& aabb ) = 0;
 
-			///	Вычислит Aabb всех субмоделей и на их основе построит Aabb целой модели
-		virtual void			updateAabb( void ) = 0;
+		virtual const gtObb&	getObb( void ) = 0;
+		virtual void			setObb( const gtObb& obb ) = 0;
+
+
+			//	Вычислит obb/aabb всех субмоделей и на их основе построит obb/aabb целой модели
+		virtual void			updateBoundingVolume( void ) = 0;
 	};
 
 }

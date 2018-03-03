@@ -25,24 +25,6 @@ gtObjectType		gtCameraImpl::getType( void ){
 }
 
 
-			//	Возвратит масштаб
-const v3f&			gtCameraImpl::getScale( void ){
-	return m_position;
-}
-
-			//	Возвратит вращение
-const v3f&	gtCameraImpl::getRotation( void ){
-	return m_rotation;
-}
-
-			//	Установит масштаб
-void				gtCameraImpl::setScale( const v3f& ){}
-
-			//	Установит вращение
-void				gtCameraImpl::setRotation( const v3f& q ){
-	m_rotation = q;
-}
-
 	//	Обновит информацию о позиции/вращении/масштабе
 void				gtCameraImpl::update( void ){
 

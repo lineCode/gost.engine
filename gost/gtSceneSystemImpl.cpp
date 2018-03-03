@@ -311,7 +311,7 @@ void gtSceneSystemImpl::drawObject( gtGameObject * object ){
 		v3f mx = aabb->m_max + pos;
 		v3f mn = aabb->m_min + pos;
 
-		gtQuaternion q( util::getObjectRotation( object ) );
+		gtQuaternion q( object->getRotation() );
 		q.normalize();
 		gtMatrix4 R;
 		math::makeRotationMatrix( R, q );

@@ -18,11 +18,6 @@ namespace gost{
 
 		gtObjectType m_type;			///< тип объекта
 		 
-		gtQuaternion	m_quaternion;	///< ориентация
-
-		v3f			m_scale;			///< масштаб
-		v3f			m_rotation;			///< углы поворота
-
 		gtAnimation m_animation;		///< объект для работы анимации
 		gtArray<v8f> m_frames;			///< кадры анимации
 
@@ -52,7 +47,6 @@ namespace gost{
 			/// \param d: видео драйвер который будет создавать спрайт
 		gtSprite( gtTexture * t, const v2f& size, gtDriver * d ):
 			m_type( gtObjectType::SPRITE ),
-			m_scale( 1.f ),
 			m_rModel( nullptr ),
 			m_driver( d ),
 			m_firstFrame( true ),
@@ -116,31 +110,7 @@ namespace gost{
 			return m_type;
 		}
 
-			///	Получить масштаб
-			///	\return Возвратит масштаб
-		const v3f& getScale( void ){
-			return m_scale;
-		}
-
-			///	Получить вращение
-			///	\return Вернёт вращение
-		const v3f& getRotation( void ){
-			return m_rotation;
-		}
-
-			///	Установить масштаб
-			/// \param s: масштаб
-		void setScale( const v3f& s ){
-			m_scale = s;
-		}
-
-			///	Установить вращение
-			/// \param r: вращение (углы Эйлера в радианах)
-		void setRotation( const v3f& r ){
-			m_rotation = r;
-			m_quaternion.set( r );
-		}
-
+		
 			/// Получить текстуру
 			/// \return Вернёт текстуру
 		gtTexture*	getTexture( void ){
@@ -153,7 +123,7 @@ namespace gost{
 			math::makeTranslationMatrix( translationMatrix, m_position );
 
 			gtMatrix4 rotationMatrix;
-			math::makeRotationMatrix( rotationMatrix, m_quaternion );
+			math::makeRotationMatrix( rotationMatrix, m_orientation );
 
 			gtMatrix4	scaleMatrix;
 			scaleMatrix[ 0u ] *= m_scale.x;

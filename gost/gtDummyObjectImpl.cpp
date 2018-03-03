@@ -8,37 +8,8 @@ gtDummyObjectImpl::gtDummyObjectImpl( void ):
 gtDummyObjectImpl::~gtDummyObjectImpl( void ){
 }
 
-void gtDummyObjectImpl::setQuaternion( const gtQuaternion& quaternion ){
-	m_quaternion = quaternion;
-	m_quaternion.normalize();
-}
-
-const gtQuaternion&			gtDummyObjectImpl::getQuaternion( void ){
-	return m_quaternion;
-}
-
 gtObjectType		gtDummyObjectImpl::getType( void ){
 	return m_type;
-}
-
-
-const v3f&			gtDummyObjectImpl::getRotation( void ){
-	return m_rotation;
-}
-
-void				gtDummyObjectImpl::setRotation( const v3f& rotation ){
-	if( m_old_rotation != rotation ){
-		this->m_rotation = rotation; 
-
-		v3f r =  rotation - m_old_rotation;
-
-		gtQuaternion q(r);
-
-		m_quaternion = q * m_quaternion;
-		m_quaternion.normalize();
-
-		m_old_rotation = rotation;
-	}
 }
 
 gtAabb*				gtDummyObjectImpl::getAabb( void ){
@@ -50,7 +21,7 @@ void				gtDummyObjectImpl::update( void ){
 	math::makeTranslationMatrix( translationMatrix, m_position );
 
 	gtMatrix4 rotationMatrix;
-	math::makeRotationMatrix( rotationMatrix, m_quaternion );
+	math::makeRotationMatrix( rotationMatrix, m_orientation );
 
 	gtMatrix4	scaleMatrix;
 	scaleMatrix[ 0u ].fill(1.f);

@@ -289,6 +289,7 @@
     <ClInclude Include="..\..\include\gtMatrix.h" />
     <ClInclude Include="..\..\include\gtModel.h" />
     <ClInclude Include="..\..\include\gtModelSystem.h" />
+    <ClInclude Include="..\..\include\gtOBB.h" />
     <ClInclude Include="..\..\include\gtOutputWindow.h" />
     <ClInclude Include="..\..\include\gtPlugin.h" />
     <ClInclude Include="..\..\include\gtPluginSystem.h" />

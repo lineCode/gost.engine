@@ -1,9 +1,4 @@
-﻿/*!	GOST
-	\file gtAABB.h
-	\brief Axis-Aligned Bounding Box
-*/
-
-#pragma once
+﻿#pragma once
 #ifndef __GT_AABB_H__
 #define __GT_AABB_H__ ///< include guard
 
@@ -81,7 +76,7 @@ namespace gost{
 #endif
 
 /*
-Copyright (c) 2017, 2018 532235
+Copyright (c) 2017-2018 532235
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
 and associated documentation files (the "Software"), to deal in the Software without restriction, 
