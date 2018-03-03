@@ -29,12 +29,12 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 
 	gtCamera * camera = scene->addCamera( v3f(0.f,0.f,0.f) );
 	camera->setCameraType( gtCameraType::CT_FPS );
-	camera->setFar( 30.f );
+	//camera->setFar( 30.f );
 	camera->setAspect( 1.f );
 
-	gtStaticObject * room = scene->addStaticObject( driver->getModel(u"../media/room.obj") );
+	gtStaticObject * room = scene->addStaticObject( driver->getModel(u"../media/m9.obj") );
 	room->showAabb( true );
-	room->getModel()->getMaterial(0)->textureLayer[0].texture = driver->getTexture(u"../media/room.png");
+	room->getModel()->getMaterial(0)->textureLayer[0].texture = driver->getTexture(u"../media/Tex_0009_1.png");
 	
 	gtModel * cube = mainSystem->getModelSystem()->createCube(0.125f);
 	gtRenderModel * rcube = driver->createModel( cube );
