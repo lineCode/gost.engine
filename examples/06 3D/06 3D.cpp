@@ -100,7 +100,7 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 
 			scene->renderScene(); /// Draw all
 
-	//		driver->drawLine( v3f(0.f,10.f,0.1f), v3f(0.f,-10.f,0.1f) );
+			driver->drawLine( v3f(2.f,10.f,0.1f), v3f(-6.f,-10.f,0.1f), gtColor( 1.f, 0.f, 0.f ) );
 
 			driver->endRender();
 

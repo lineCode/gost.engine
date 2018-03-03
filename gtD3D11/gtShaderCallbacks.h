@@ -38,7 +38,7 @@ namespace gost{
 
 		void onShader( const gtMaterial&, gtShaderProcessing* );
 
-		v4f s, e;
+		v4f s, e, c;
 	};
 
 }

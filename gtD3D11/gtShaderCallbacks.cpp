@@ -103,17 +103,18 @@ void gtD3D11LineShaderCallback::onShader( const gtMaterial& material, gtShaderPr
 		gtMatrix4 WVP;
 		v4f p1;
 		v4f p2;
+		v4f color;
 	}cbPerObject;
 
-	gtMatrix4 W = m_system->getMatrixWorld();
 	gtMatrix4 V = m_system->getMatrixView();
 	gtMatrix4 P = m_system->getMatrixProjection();
 
-	cbPerObject.WVP =  P * V * W;
+	cbPerObject.WVP =  P * V * gtMatrix4();
 	cbPerObject.WVP.transpose();
 
 	cbPerObject.p1 = s;
 	cbPerObject.p2 = e;
+	cbPerObject.color = c;
 
 	sp->sendDataVS( &cbPerObject, 0, 0u );
 

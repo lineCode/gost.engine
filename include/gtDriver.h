@@ -88,7 +88,7 @@ namespace gost{
 		virtual void draw2DImage( const v4i& rect, const v4i& region, const gtMaterial& m ) = 0;
 		virtual void draw2DImage( const v4i& rect, const v4i& region, gtTexture* texture ) = 0;
 
-		virtual void drawLine( const v3f& start, const v3f& end ) = 0;
+		virtual void drawLine( const v3f& start, const v3f& end, const gtColor& color = gtColor( 1.f, 1.f, 1.f, 1.f ) ) = 0;
 
 			///	компилировать либо получить ранее скомпилированный шейдер
 			/// \param callback: callback для установки параметров шейдера
