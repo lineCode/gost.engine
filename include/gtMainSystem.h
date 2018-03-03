@@ -173,9 +173,9 @@ namespace gost{
 			/// \return plugin system
 		virtual gtPluginSystem*	getPluginSystem( void ) = 0;
 
-			/// get scene system
-			/// \return scene system
-		virtual gtSceneSystem*	getSceneSystem( void ) = 0;
+			// get scene system
+			// \return scene system
+		virtual gtSceneSystem*	getSceneSystem( gtDriver * currentRenderDriver ) = 0;
 
 			/// get world matrix
 			/// \return world matrix

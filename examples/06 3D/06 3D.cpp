@@ -25,7 +25,7 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 	di.m_vSync = true;
 	gtPtr_t(gtDriver,driver,mainSystem->createVideoDriver( di, GT_UID_RENDER_D3D11 ));
 
-	gtSceneSystem * scene = mainSystem->getSceneSystem();
+	gtSceneSystem * scene = mainSystem->getSceneSystem( driver.data() );
 
 	gtCamera * camera = scene->addCamera( v3f(0.f,0.f,0.f) );
 	camera->setCameraType( gtCameraType::CT_FPS );
@@ -33,6 +33,7 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 	camera->setAspect( 1.f );
 
 	gtStaticObject * room = scene->addStaticObject( driver->getModel(u"../media/room.obj") );
+	room->showAabb( true );
 	room->getModel()->getMaterial(0)->textureLayer[0].texture = driver->getTexture(u"../media/room.png");
 	
 	gtModel * cube = mainSystem->getModelSystem()->createCube(0.125f);
@@ -62,6 +63,8 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 		f32 sn = std::sinf( angle )/180.f*PI;
 		f32 cs = std::cosf( angle )/180.f*PI;
 		angle += 10.f * delta; if( angle > 360.f ) angle = 0.f;
+
+		room->setRotation( v3f( 0.f, angle, 0.f ) );
 
 		//camera->setPosition( v3f_t( pos*sn, 5.f, pos*cs ) );
 
@@ -99,10 +102,6 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 
 
 			scene->renderScene(); /// Draw all
-
-			driver->drawLine( v3f(0.f,1.f,0.1f), v3f(0.f,-1.f,0.1f), gtColor( 1.f, 0.f, 0.f ) );
-			driver->drawLine( v3f(0.2f,1.f,0.1f), v3f(0.2f,-1.f,0.1f), gtColor( 0.f, 1.f, 0.f ) );
-			driver->drawLine( v3f(0.4f,1.f,0.1f), v3f(0.4f,-1.f,0.1f), gtColor( 0.f, 0.f, 1.f ) );
 
 			driver->endRender();
 

@@ -111,6 +111,7 @@ namespace gost{
 
 		HMODULE getD3DLibraryHandle( void );
 		ID3D11Device * getD3DDevice( void );
+		ID3D11DeviceContext * getD3DDeviceContext( void );
 
 
 		void beginRender( bool clearRenderTarget = true, const gtColor& color = gtColor(0.f) );

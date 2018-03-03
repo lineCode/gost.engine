@@ -28,7 +28,7 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 
 
 	///	Get scene system
-	gtSceneSystem * scene = mainSystem->getSceneSystem();
+	gtSceneSystem * scene = mainSystem->getSceneSystem( driver.data() );
 
 	///	Load images and create textures
 	///	Use gtPtr_t for automatic deletion
@@ -38,13 +38,11 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 
 	gtSprite * Frog = scene->addSprite(
 		texture_Frog.data(),
-		driver.data(),
 		v2f( 25 / 100.f, 25 / 100.f ));
 
 	///	Add another sprite for test z-order.
 	gtSprite * Frog2 = scene->addSprite(
 		texture_Frog.data(),
-		driver.data(),
 		v2f( 25 / 100.f, 25 / 100.f ));
 
 	///	Move up
@@ -74,7 +72,6 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 
 	gtSprite * background = scene->addSprite(
 		texture_bg.data(),
-		driver.data(),
 		v2f( 511 / 100.f, 503 / 100.f ));
 	background->setPosition( v3f( 0.f, 0.f, 10.f ) );
 	

@@ -43,6 +43,7 @@ namespace gost{
 			/// виден ли объект
 		bool			m_isVisible;
 
+		bool			m_isShowAabb;
 
 	public:
 
@@ -51,9 +52,10 @@ namespace gost{
 			m_id( -1 ),
 			m_parent( nullptr ),
 			m_scene( nullptr ),
-			m_isVisible( true )
+			m_isVisible( true ),
+			m_isShowAabb( false )
 		{
-			m_scene = gtMainSystem::getInstance()->getSceneSystem();
+			m_scene = gtMainSystem::getInstance()->getSceneSystem( nullptr );
 		}
 
 			/// d-tor
@@ -202,6 +204,13 @@ namespace gost{
 			m_isVisible = v;
 		}
 
+		virtual void showAabb( bool v ){
+			m_isShowAabb = v;
+		}
+
+		virtual bool isShowAabb( void ){
+			return m_isShowAabb;
+		}
 	};
 
 }
@@ -213,6 +222,24 @@ namespace gost{
 #include "gtSprite.h"
 #include "gtDummyObject.h"
 
+
+namespace gost{
+
+	namespace util{
+
+		GT_FORCE_INLINE const v3f& getObjectRotation( gtGameObject * x ){
+			switch( x->getType() ){
+			case gtObjectType::SPRITE:
+				return ((gtSprite*)x)->getRotation();
+			case gtObjectType::STATIC:
+				return ((gtStaticObject*)x)->getRotation();
+			}
+			return x->getPosition();
+		}
+
+	}
+
+}
 /*
 Copyright (c) 2017
 

@@ -151,7 +151,9 @@ gtPluginSystem*	gtMainSystemCommon::getPluginSystem( void ){
 	return m_pluginSystem.data();
 }
 
-gtSceneSystem*	gtMainSystemCommon::getSceneSystem( void ){
+gtSceneSystem*	gtMainSystemCommon::getSceneSystem( gtDriver * currentRenderDriver ){
+	if( currentRenderDriver )
+		m_sceneSystem->setCurrentRenderDriver( currentRenderDriver );
 	return m_sceneSystem.data();
 }
 

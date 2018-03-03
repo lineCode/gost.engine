@@ -80,7 +80,6 @@ void				gtStaticObjectImpl::update( void ){
 
 	m_worldMatrixAbsolute = m_worldMatrix;
 
-
 	auto * childs = &getChildList();
 	{
 		auto it = childs->begin();

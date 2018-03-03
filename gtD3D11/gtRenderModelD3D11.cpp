@@ -25,8 +25,9 @@ bool	gtRenderModelD3D11::init( gtModel* m ){
 	ZeroMemory( &vbd, sizeof( D3D11_BUFFER_DESC ) );
 	ZeroMemory( &ibd, sizeof( D3D11_BUFFER_DESC ) );
 
-	vbd.Usage		=	D3D11_USAGE_DEFAULT;
+	vbd.Usage		=	D3D11_USAGE_DYNAMIC;
 	vbd.BindFlags	=	D3D11_BIND_VERTEX_BUFFER;
+	vbd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 
 
 	D3D11_SUBRESOURCE_DATA	vData, iData;

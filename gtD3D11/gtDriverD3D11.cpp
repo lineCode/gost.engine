@@ -127,6 +127,10 @@ ID3D11Device * gtDriverD3D11::getD3DDevice( void ){
 	return m_d3d11Device;
 }
 
+ID3D11DeviceContext * gtDriverD3D11::getD3DDeviceContext( void ){
+	return m_d3d11DevCon;
+}
+
 void gtDriverD3D11::setActiveShader( gtShader* shader ){
 	m_d3d11DevCon->IASetInputLayout( ((gtShaderImpl*)shader)->m_vLayout );
 	m_d3d11DevCon->VSSetShader( ((gtShaderImpl*)shader)->m_vShader, 0, 0 );

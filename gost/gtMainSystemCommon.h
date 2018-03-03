@@ -100,7 +100,7 @@ namespace gost{
 
 		gtModelSystem*	getModelSystem( void );
 		gtPluginSystem*	getPluginSystem( void );
-		gtSceneSystem*	getSceneSystem( void );
+		gtSceneSystem*	getSceneSystem( gtDriver * currentRenderDriver );
 
 		const gtMatrix4& getMatrixWorld( void );
 		const gtMatrix4& getMatrixView( void );
