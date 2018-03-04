@@ -155,6 +155,21 @@ namespace gost{
 				obb->v6 = math::mul( obb->v6z, R );
 				obb->v7 = math::mul( obb->v7z, R );
 				obb->v8 = math::mul( obb->v8z, R );
+
+				gtAabb * aabb = getAabb();
+				if( aabb ){
+					aabb->reset();
+
+					aabb->add( obb->v1 );
+					aabb->add( obb->v2 );
+					aabb->add( obb->v3 );
+					aabb->add( obb->v4 );
+					aabb->add( obb->v5 );
+					aabb->add( obb->v6 );
+					aabb->add( obb->v7 );
+					aabb->add( obb->v8 );
+				}
+
 			}
 		}
 

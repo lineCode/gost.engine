@@ -25,8 +25,7 @@ namespace gost{
 
 			/// reset
 		void reset( void ){
-			m_max = v3f();
-			m_min = m_max;
+			m_min = m_max = v3f();
 		}
 
 			///	Если точка удовлетворяет условию, aabb растёт
