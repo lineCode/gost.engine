@@ -107,15 +107,8 @@ namespace gost{
 			/// \param v: вектор хранящий координаты левого верхнего и правого нижнего углов
 		virtual void				setViewPort( const v4f& v ) = 0;
 		
-			///	Получить вращение
-			///	\return Возвратит вращение
-		virtual const v3f&			getRotation( void ) = 0;
-		
-			///	Установит вращение
-			/// \param v: вращение
-		virtual void				setRotation( const v3f& v ) = 0;
-
 		virtual gtAabb*				getAabb( void ) = 0;
+		virtual gtObb*				getObb( void ) = 0;
 	};
 
 }

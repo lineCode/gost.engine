@@ -10,10 +10,7 @@ namespace gost{
 
 		/// object with transformation matrices
 	class gtDummyObjectImpl : public gtDummyObject{
-
-		gtQuaternion m_quaternion;
-		v3f			 m_rotation, m_old_rotation;
-
+		
 		gtObjectType m_type;
 
 	public:
@@ -21,16 +18,11 @@ namespace gost{
 		gtDummyObjectImpl( void );
 		~gtDummyObjectImpl( void );
 
-		void setQuaternion( const gtQuaternion& quaternion );
-		const gtQuaternion&			getQuaternion( void );
 		gtObjectType		getType( void );
-		//const v3f&			getScale( void ) = delete;
-		const v3f&			getRotation( void );
-		void				setScale( const v3f& v );
-		void				setRotation( const v3f& v );
 		void				update( void );
 		void				render( void );
 		gtAabb*				getAabb( void );
+		gtObb*				getObb( void );
 	};
 
 }

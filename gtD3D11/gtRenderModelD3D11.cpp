@@ -25,8 +25,9 @@ bool	gtRenderModelD3D11::init( gtModel* m ){
 	ZeroMemory( &vbd, sizeof( D3D11_BUFFER_DESC ) );
 	ZeroMemory( &ibd, sizeof( D3D11_BUFFER_DESC ) );
 
-	vbd.Usage		=	D3D11_USAGE_DEFAULT;
+	vbd.Usage		=	D3D11_USAGE_DYNAMIC;
 	vbd.BindFlags	=	D3D11_BIND_VERTEX_BUFFER;
+	vbd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 
 
 	D3D11_SUBRESOURCE_DATA	vData, iData;
@@ -81,6 +82,7 @@ bool	gtRenderModelD3D11::init( gtModel* m ){
 	}
 
 	m_aabb = m->getAabb();
+	m_obb  = m->getObb();
 
 	return true;
 }
@@ -107,4 +109,8 @@ void		gtRenderModelD3D11::render( void ){
 
 gtAabb* gtRenderModelD3D11::getAabb( void ){
 	return &m_aabb;
+}
+
+gtObb* gtRenderModelD3D11::getObb( void ){
+	return &m_obb;
 }

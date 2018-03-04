@@ -17,33 +17,10 @@ namespace gost{
 			///	Вернёт модель которую рисует
 			/// \return модель
 		virtual gtRenderModel*	getModel( void ) = 0;
-
-			/// Установит ориентацию
-			/// \param quaternion: ориентация
-		virtual void			setQuaternion( const gtQuaternion& quaternion ) = 0;
-
-			/// Получить ориентацию
-			/// \return вернёт ориентацию
-		virtual const gtQuaternion&			getQuaternion( void ) = 0;
-
-			///	Получить масштаб
-			///	\return Возвратит масштаб
-		virtual const v3f&			getScale( void ) = 0;
-
-			///	Получить вращение
-			///	\return Возвратит вращение
-		virtual const v3f&			getRotation( void ) = 0;
-
-			///	Установить масштаб
-			/// \param v: масштаб
-		virtual void				setScale( const v3f& v ) = 0;
-
-			///	Установит вращение
-			/// \param v: вращение
-		virtual void				setRotation( const v3f& v ) = 0;
-
+				
 
 		virtual gtAabb*				getAabb( void ) = 0;
+		virtual gtObb*				getObb( void ) = 0;
 	};
 
 }

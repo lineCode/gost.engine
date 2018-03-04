@@ -19,6 +19,7 @@ namespace gost{
 		gtDriverD3D11* m_driver;
 
 		gtAabb m_aabb;
+		gtObb  m_obb;
 
 	public:
 
@@ -51,6 +52,7 @@ namespace gost{
 		u32 m_stride;
 
 		gtAabb*				getAabb( void );
+		gtObb*				getObb( void );
 	};
 
 }

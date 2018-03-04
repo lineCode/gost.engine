@@ -9,9 +9,6 @@
 #ifndef __GT_INFO_H__
 #define __GT_INFO_H__ ///< include guard
 
-
-
-
 	/*! \brief для того чтобы в макрос вставлялись кавычки
 	
 		например
@@ -69,15 +66,6 @@
 	//! \endcond
 	//! \brief Microsoft Visual C++ compiler
 	#	define GT_COMPILER_MSVC
-	#pragma warning(disable : 4002)	//	to many actual parameters for macro
-	#pragma warning(disable : 4091) // dbghelp.h 
-	#pragma warning(disable : 4668)
-	#pragma warning(disable : 4710)
-	#pragma warning(disable : 4777) // _snprintf %i
-	#pragma warning(disable : 4477) // _snprintf %#010x
-	#pragma warning(disable : 4820)
-	#pragma warning(disable : 4826)	//	conversion from 'unsigned long *' to DWORD64 is sign-extended
-	#pragma warning(disable : 4917)
 	#include <SDKDDKVer.h>
 	#include <windows.h>
 	#include <shlobj.h>

@@ -9,9 +9,16 @@
 
 namespace gost{
 
-	enum class gtSide{
+	enum class gtSide : unsigned int{
 	  /*POSX, NEGX, POSY,NEGY, POSZ	, NEGZ*/
 		LEFT, RIGHT, UP, DOWN, FRONT, BACK
+	};
+
+	enum class gtBoundingVolumeType : unsigned int{
+		sphere,
+		obb,
+		aabb,
+		convex
 	};
 
 	//! \cond

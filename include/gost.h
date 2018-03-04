@@ -52,6 +52,7 @@
 #include <gtVertex.h>
 
 #include <gtAABB.h>
+#include <gtOBB.h>
 
 #include <gtThread.h>
 

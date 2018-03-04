@@ -120,7 +120,7 @@ gtModel*	gtModelSystemImpl::createPlane( f32 x, f32 y, gtSide side ){
 
 	subModel->fillIndices( u );
 
-	model->updateAabb();
+	model->updateBoundingVolume();
 
 	model->addRef();
 	return model.data();
@@ -164,7 +164,7 @@ gtModel*	gtModelSystemImpl::createCube( f32 sz ){
 	cube->addSubModel( front->getSubModel(0u) );
 	cube->addSubModel( back->getSubModel(0u) );*/
 
-	cube->updateAabb();
+	cube->updateBoundingVolume();
 
 	cube->addRef();
 

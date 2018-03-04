@@ -49,8 +49,9 @@ namespace gost{
 			/// имя
 		gtStringA m_name;
 
-			/// aabb
-		gtAabb m_box;
+			// aabb
+		gtAabb m_aabb;
+		gtObb  m_obb;
 		
 			/// размер вершины в байтах
 		u32 m_stride;
@@ -85,17 +86,32 @@ namespace gost{
 				m_indices  = new u16[ m_iCount ];
 		}
 
-			///	обновит aabb
-		void	updateAabb( void ){
-			m_box.reset();
+			//	Построит obb. Изначально выглядит как aabb, но повернётся вместе с объектом.
+		void	buildObb( void ){
+			m_obb.reset();
 
 			u8 * p8 = &m_vertices[0u];
 			for(u32 i = 0u; i < m_vCount; ++i){
 				f32 * p32 = reinterpret_cast<f32*>(p8);
 
-				m_box.add( v3f( p32[ m_vertexPosition ], p32[ m_vertexPosition + 1 ], p32[ m_vertexPosition + 2 ] ) );
+				m_obb.add( v3f( p32[ m_vertexPosition ], p32[ m_vertexPosition + 1 ], p32[ m_vertexPosition + 2 ] ) );
 				p8 += m_stride;
 			}
+
+		}
+
+			//	Обновит aabb. Должна делаться из obb
+		void	updateAabb( void ){
+			m_aabb.reset();
+
+			m_aabb.add( m_obb.v1 );
+			m_aabb.add( m_obb.v2 );
+			m_aabb.add( m_obb.v3 );
+			m_aabb.add( m_obb.v4 );
+			m_aabb.add( m_obb.v5 );
+			m_aabb.add( m_obb.v6 );
+			m_aabb.add( m_obb.v7 );
+			m_aabb.add( m_obb.v8 );
 		}
 
 		void	append( gtSubModel * model ){

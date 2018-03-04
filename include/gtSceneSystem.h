@@ -63,7 +63,7 @@ namespace gost{
 			/// \param position: position
 			/// \param asBillboard: \b true if you need billboard
 			///	\return created sprite
-		virtual gtSprite*		addSprite( gtTexture * texture, gtDriver * driver, const v2f& size, const v3f& position = v3f(0.f,0.f,5.f), bool asBillboard = false ) = 0;
+		virtual gtSprite*		addSprite( gtTexture * texture, const v2f& size, const v3f& position = v3f(0.f,0.f,5.f), bool asBillboard = false ) = 0;
 
 			/// Get active camera
 			/// \return active camera
@@ -86,11 +86,12 @@ namespace gost{
 			///	Render all objects, which added by method with "add" prefix
 		virtual void renderScene( void ) = 0;
 
-			///	Remove objects from scene
+			//	Remove objects from scene
 		virtual void clearScene( void ) = 0;
 
-	};
+		virtual void setCurrentRenderDriver( gtDriver * driver ) = 0;
 
+	};
 }
 
 #endif

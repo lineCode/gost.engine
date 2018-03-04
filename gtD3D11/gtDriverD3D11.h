@@ -111,6 +111,7 @@ namespace gost{
 
 		HMODULE getD3DLibraryHandle( void );
 		ID3D11Device * getD3DDevice( void );
+		ID3D11DeviceContext * getD3DDeviceContext( void );
 
 
 		void beginRender( bool clearRenderTarget = true, const gtColor& color = gtColor(0.f) );
@@ -128,7 +129,8 @@ namespace gost{
 			//	нарисует gtRenderModel
 		void drawModel( gtRenderModel* );
 
-		void drawLine( const v3f& start, const v3f& end );
+		void drawLine( const v3f& start, const v3f& end, const gtColor& color );
+		
 
 			//	компилировать либо получить ранее скомпилированный шейдер
 		gtShader *	getShader( 

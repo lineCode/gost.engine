@@ -30,7 +30,7 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 
 
 	///	Get scene system
-	gtSceneSystem * scene = mainSystem->getSceneSystem();
+	gtSceneSystem * scene = mainSystem->getSceneSystem( driver.data() );
 
 	///	Load images and create textures
 	///	Use gtPtr_t for automatic deletion
@@ -42,13 +42,11 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 
 	gtSprite * tank = scene->addSprite(
 		texture_tank.data(),
-		driver.data(),
 		v2f( (f32)texture_tank->getWidth() / 100.f,
 		(f32)texture_tank->getHeight() / 100.f ));
 
 	gtSprite * cannon = scene->addSprite(
 		texture_cannon.data(),
-		driver.data(),
 		v2f( (f32)texture_cannon->getWidth() / 100.f,
 		(f32)texture_cannon->getHeight() / 100.f ),
 		v3f(0.f,0.f,-1.1f) // set closer to camera

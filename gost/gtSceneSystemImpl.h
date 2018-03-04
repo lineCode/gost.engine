@@ -8,6 +8,8 @@ namespace gost{
 
 		gtMainSystem * m_mainSystem;
 
+		gtDriver * m_driver;
+
 		gtGameObject * m_rootNode;
 
 		gtCamera * m_activeCamera;
@@ -26,7 +28,7 @@ namespace gost{
 		gtStaticObject*	addStaticObject( gtRenderModel* model, const v3f& position = v3f(), const gtStringA& name = gtStringA(), s32 id = -1 );
 		gtCamera*		addCamera( const v3f& position = v3f(), const v3f& target = v3f(), s32 id = -1, bool setActive = true );
 		gtCamera*		addCamera2D( const v4f& viewport, s32 id = -1, bool setActive = true );
-		gtSprite*		addSprite( gtTexture * texture, gtDriver * driver, const v2f& size, const v3f& position = v3f(0.f,0.f,5.f), bool asBillboard = false );
+		gtSprite*		addSprite( gtTexture * texture, const v2f& size, const v3f& position = v3f(0.f,0.f,5.f), bool asBillboard = false );
 
 		gtCamera*		getActiveCamera( void );
 		void			setActiveCamera( gtCamera* camera );
@@ -35,6 +37,8 @@ namespace gost{
 		void removeObject( gtGameObject* object );
 		void renderScene( void );
 		void clearScene( void );
+
+		void setCurrentRenderDriver( gtDriver * driver );
 	};
 
 }

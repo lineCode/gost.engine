@@ -1,7 +1,6 @@
 #include "common.h"
 
 gtStaticObjectImpl::gtStaticObjectImpl( gtRenderModel* model ):
-	m_scale(1.f),
 	m_type( gtObjectType::STATIC ),
 	m_model( model )
 {
@@ -18,68 +17,23 @@ gtObjectType		gtStaticObjectImpl::getType( void ){
 }
 
 
-		//	Возвратит масштаб
-const v3f&			gtStaticObjectImpl::getScale( void ){
-	return m_scale;
-}
-
-		//	Возвратит вращение
-const gtQuaternion&	gtStaticObjectImpl::getQuaternion( void ){
-	return m_quaternion;
-}
-
-		//	Установит масштаб
-void				gtStaticObjectImpl::setScale( const v3f& scale ){
-	m_scale = scale;
-}
-
-		//	Установит вращение
-void				gtStaticObjectImpl::setQuaternion( const gtQuaternion& q ){
-	m_quaternion = q;
-	m_quaternion.normalize();
-}
-
-void				gtStaticObjectImpl::setRotation( const v3f& rotation ){
-	if( m_old_rotation != rotation ){
-		this->m_rotation = rotation; 
-
-		v3f r =  rotation - m_old_rotation;
-
-		gtQuaternion q(r);
-
-		m_quaternion = q * m_quaternion;
-		m_quaternion.normalize();
-
-		m_old_rotation = rotation;
-	}
-}
-
-const v3f&			gtStaticObjectImpl::getRotation( void ){
-	return m_rotation;
-}
-
-
 	//	Обновит информацию о позиции/вращении/масштабе
 void				gtStaticObjectImpl::update( void ){
 
 	gtMatrix4 translationMatrix;
 	math::makeTranslationMatrix( translationMatrix, m_position );
 
-	gtMatrix4 rotationMatrix;
-	math::makeRotationMatrix( rotationMatrix, m_quaternion );
+	math::makeRotationMatrix( m_rotationMatrix, m_orientation );
 
 	gtMatrix4	scaleMatrix;
-	scaleMatrix[ 0u ] *= m_scale.x;
-	scaleMatrix[ 1u ] *= m_scale.y;
-	scaleMatrix[ 2u ] *= m_scale.z;
+	math::makeScaleMatrix( scaleMatrix, m_scale );
 
-	m_worldMatrix = translationMatrix * rotationMatrix * scaleMatrix;
+	m_worldMatrix = translationMatrix * m_rotationMatrix * scaleMatrix;
 
 	if( m_parent )
 		m_worldMatrix = m_parent->getAbsoluteWorldMatrix() * m_worldMatrix;
 
 	m_worldMatrixAbsolute = m_worldMatrix;
-
 
 	auto * childs = &getChildList();
 	{
@@ -108,4 +62,8 @@ gtRenderModel*	gtStaticObjectImpl::getModel( void ){
 
 gtAabb* gtStaticObjectImpl::getAabb( void ){
 	return m_model->getAabb();
+}
+
+gtObb* gtStaticObjectImpl::getObb( void ){
+	return m_model->getObb();
 }

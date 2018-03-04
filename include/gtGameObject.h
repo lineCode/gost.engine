@@ -36,13 +36,18 @@ namespace gost{
 
 			/// матрицы трансформаций
 		gtMatrix4		m_worldMatrix, m_worldMatrixAbsolute;
+		gtMatrix4		m_rotationMatrix;
 
-			/// позиция
+			// позиция
 		v3f				m_position;
+		v3f				m_rotation, m_old_rotation;
+		v3f				m_scale;
+		gtQuaternion	m_orientation;
 
 			/// виден ли объект
 		bool			m_isVisible;
 
+		bool			m_isBV;
 
 	public:
 
@@ -51,9 +56,11 @@ namespace gost{
 			m_id( -1 ),
 			m_parent( nullptr ),
 			m_scene( nullptr ),
-			m_isVisible( true )
+			m_scale(1.f),
+			m_isVisible( true ),
+			m_isBV( false )
 		{
-			m_scene = gtMainSystem::getInstance()->getSceneSystem();
+			m_scene = gtMainSystem::getInstance()->getSceneSystem( nullptr );
 		}
 
 			/// d-tor
@@ -71,6 +78,7 @@ namespace gost{
 		virtual void				render( void ) = 0;
 
 		virtual gtAabb*				getAabb( void ) = 0;
+		virtual gtObb*				getObb( void ) = 0;
 
 			///	Получить позицию
 			///	\return Возвратит позицию
@@ -82,11 +90,89 @@ namespace gost{
 			return m_worldMatrixAbsolute[ 3 ].getV3();
 		}
 
-			///	Установит позицию
-			/// \param p: позиция
+			//	Установить позицию
+			// \param p: позиция
 		virtual void				setPosition( const v3f& p ){
 			m_position = p;
 		}
+
+		virtual void				setRotation( const v3f& rotation ){
+			if( m_old_rotation != rotation ){
+				this->m_rotation = rotation; 
+
+				v3f r =  rotation - m_old_rotation;
+
+				gtQuaternion q(r);
+				m_orientation = q * m_orientation;
+				m_orientation.normalize();
+
+				m_old_rotation = rotation;
+
+				recalculateBV();
+			}
+		}
+
+		virtual const v3f&			getRotation( void ){
+			return m_rotation;
+		}
+
+		virtual const v3f&			getScale( void ){
+			return m_scale;
+		}
+
+		virtual void				setScale( const v3f& s ){
+			m_scale = s;
+		}
+
+		virtual void				setOrientation( const gtQuaternion& q ){
+			m_orientation = q;
+			m_orientation.normalize();
+			recalculateBV();
+		}
+
+		virtual const gtQuaternion& getOrientation( void ){
+			return m_orientation;
+		}
+
+		virtual void recalculateBV( void ){
+			gtObb * obb = getObb();
+			if( obb ){
+				gtQuaternion q( -getRotation() );
+				q.normalize();
+				
+				gtMatrix4 R, S;
+
+				math::makeRotationMatrix( R, q );
+				math::makeScaleMatrix( S, getScale() );
+
+				R = R * S;
+
+				obb->v1 = math::mul( obb->v1z, R );
+				obb->v2 = math::mul( obb->v2z, R );
+				obb->v3 = math::mul( obb->v3z, R );
+				obb->v4 = math::mul( obb->v4z, R );
+				obb->v5 = math::mul( obb->v5z, R );
+				obb->v6 = math::mul( obb->v6z, R );
+				obb->v7 = math::mul( obb->v7z, R );
+				obb->v8 = math::mul( obb->v8z, R );
+
+				gtAabb * aabb = getAabb();
+				if( aabb ){
+					aabb->reset();
+
+					aabb->add( obb->v1 );
+					aabb->add( obb->v2 );
+					aabb->add( obb->v3 );
+					aabb->add( obb->v4 );
+					aabb->add( obb->v5 );
+					aabb->add( obb->v6 );
+					aabb->add( obb->v7 );
+					aabb->add( obb->v8 );
+				}
+
+			}
+		}
+
 
 			///	Получить матрицу с трансформациями относительно мира
 			///	\return Матрица с трансформациями относительно мира
@@ -202,6 +288,13 @@ namespace gost{
 			m_isVisible = v;
 		}
 
+		virtual void showBV( bool v ){
+			m_isBV = v;
+		}
+
+		virtual bool isShowBV( void ){
+			return m_isBV;
+		}
 	};
 
 }

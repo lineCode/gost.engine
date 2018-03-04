@@ -2,6 +2,7 @@
 
 gtSceneSystemImpl::gtSceneSystemImpl( void ):
 	m_mainSystem( nullptr ),
+	m_driver( nullptr ),
 	m_rootNode( nullptr ),
 	m_activeCamera( nullptr )
 {
@@ -43,8 +44,12 @@ void gtSceneSystemImpl::clearScene( void ){
 	m_activeCamera = nullptr;
 }
 
-gtSprite*		gtSceneSystemImpl::addSprite( gtTexture * texture, gtDriver * driver, const v2f& size, const v3f& position, bool /*asBillboard*/ ){
-	gtSprite * sprite = new gtSprite( texture, size, driver );
+void gtSceneSystemImpl::setCurrentRenderDriver( gtDriver * driver ){
+	m_driver = driver;
+}
+
+gtSprite*		gtSceneSystemImpl::addSprite( gtTexture * texture, const v2f& size, const v3f& position, bool /*asBillboard*/ ){
+	gtSprite * sprite = new gtSprite( texture, size, m_driver );
 
 	if( !sprite ) return nullptr;
 
@@ -298,4 +303,84 @@ void gtSceneSystemImpl::drawObject( gtGameObject * object ){
 	auto name = object->getName();
 	m_mainSystem->setMatrixWorld( object->getAbsoluteWorldMatrix() );
 	object->render();
+
+	if( object->isShowBV() ){
+
+		gtObb * obb = object->getObb();
+
+		if( obb ){
+
+			auto& pos = object->getPositionInSpace();
+
+			gtColor red( 1.f, 0.f, 0.f );
+
+			m_driver->drawLineBox( 
+				obb->v1,
+				obb->v2,
+				obb->v3,
+				obb->v4,
+				obb->v5,
+				obb->v6,
+				obb->v7,
+				obb->v8,
+				pos,
+				red
+			);
+
+			gtAabb * aabb = object->getAabb();
+			if( aabb ){
+				gtColor green( 0.f, 1.f, 0.f );
+
+				v3f v1 = aabb->m_min;					
+				v3f v2 = aabb->m_max;					
+				v3f v3 = v3f( v1.x, v1.y, v2.z );	
+				v3f v4 = v3f( v2.x, v1.y, v1.z );	
+				v3f v5 = v3f( v1.x, v2.y, v1.z );	
+				v3f v6 = v3f( v1.x, v2.y, v2.z );	
+				v3f v7 = v3f( v2.x, v1.y, v2.z );	
+				v3f v8 = v3f( v2.x, v2.y, v1.z );	
+
+				m_driver->drawLineBox( v1, v2, v3, v4, v5, v6, v7, v8, pos, green  );
+			}
+		}
+	}
 }
+/*if( object->isShowBV() ){
+		auto aabb = object->getAabb();
+		auto& pos = object->getPositionInSpace();
+
+		v3f mx = aabb->m_max + pos;
+		v3f mn = aabb->m_min + pos;
+
+		gtQuaternion q( object->getRotation() );
+		q.normalize();
+		gtMatrix4 R;
+		math::makeRotationMatrix( R, q );
+		
+		v3f v1 = math::mul( mx, R );
+		v3f v2 = math::mul( mn, R );
+		v3f v3 = math::mul( v3f( mx.x, mn.y, mn.z ), R );
+		v3f v4 = math::mul( v3f( mn.x, mx.y, mn.z ), R );
+		v3f v5 = math::mul( v3f( mx.x, mx.y, mn.z ), R );
+		v3f v6 = math::mul( v3f( mn.x, mn.y, mx.z ), R );
+		v3f v7 = math::mul( v3f( mn.x, mx.y, mx.z ), R );
+		v3f v8 = math::mul( v3f( mx.x, mn.y, mx.z ), R );
+		
+		m_driver->drawLine( v2, v3 );
+		m_driver->drawLine( v4, v5 );
+
+		m_driver->drawLine( v2, v4 );
+		m_driver->drawLine( v3, v5 );
+
+		m_driver->drawLine( v2, v6 );
+		m_driver->drawLine( v4, v7 );
+
+		m_driver->drawLine( v1, v7 );
+		m_driver->drawLine( v8, v6 );
+
+		m_driver->drawLine( v1, v8 );
+		m_driver->drawLine( v7, v6 );
+
+		m_driver->drawLine( v1, v5 );
+		m_driver->drawLine( v8, v3 );
+	}*/

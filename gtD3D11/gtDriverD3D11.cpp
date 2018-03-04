@@ -127,6 +127,10 @@ ID3D11Device * gtDriverD3D11::getD3DDevice( void ){
 	return m_d3d11Device;
 }
 
+ID3D11DeviceContext * gtDriverD3D11::getD3DDeviceContext( void ){
+	return m_d3d11DevCon;
+}
+
 void gtDriverD3D11::setActiveShader( gtShader* shader ){
 	m_d3d11DevCon->IASetInputLayout( ((gtShaderImpl*)shader)->m_vLayout );
 	m_d3d11DevCon->VSSetShader( ((gtShaderImpl*)shader)->m_vShader, 0, 0 );
@@ -712,19 +716,30 @@ void gtDriverD3D11::drawModel( gtRenderModel* model ){
 	}
 }
 
-void gtDriverD3D11::drawLine( const v3f& start, const v3f& end ){
+void gtDriverD3D11::drawLine( const v3f& start, const v3f& end, const gtColor& color ){
 	gtShader * shader = m_shaderLine;
 	m_shaderProcessing->setShader( shader );
 	m_shaderProcessing->setMaterial( nullptr );
+
 	m_shaderLineCallback->s = start;
 	m_shaderLineCallback->e = end;
-	//m_d3d11DevCon->IASetInputLayout( ((gtShaderImpl*)shader)->m_vLayout );
+	m_shaderLineCallback->c.x = color.getRed();
+	m_shaderLineCallback->c.y = color.getGreen();
+	m_shaderLineCallback->c.z = color.getBlue();
+	m_shaderLineCallback->c.w = color.getAlpha();
+	m_shaderLineCallback->s.w = 1.f;
+	m_shaderLineCallback->e.w = 1.f;
+
+	if( ((gtShaderImpl*)shader)->m_callback )
+			((gtShaderImpl*)shader)->m_callback->onShader( gtMaterial(), m_shaderProcessing.data() );
+
+	m_d3d11DevCon->IASetInputLayout( 0 );
 	m_d3d11DevCon->VSSetShader( ((gtShaderImpl*)shader)->m_vShader, 0, 0 );
 	m_d3d11DevCon->PSSetShader( ((gtShaderImpl*)shader)->m_pShader, 0, 0 );
-	m_d3d11DevCon->IASetPrimitiveTopology( D3D11_PRIMITIVE_TOPOLOGY_LINELIST );
-	m_d3d11DevCon->VSSetConstantBuffers( 0, 1, &((gtShaderImpl*)shader)->m_constantBuffers[ 0u ] );
+	m_d3d11DevCon->IASetPrimitiveTopology( D3D11_PRIMITIVE_TOPOLOGY_LINELIST  );
 	m_d3d11DevCon->Draw( 2, 0 );
 }
+
 
 	//	компилировать либо получить ранее скомпилированный шейдер
 gtShader *	gtDriverD3D11::getShader( 
@@ -965,21 +980,21 @@ bool	gtDriverD3D11::createShaders( void ){
 		{ gtVertexType::normal },
 		{ gtVertexType::end }
 	};
-
+	
 	m_shader3DStandartCallback = gtPtrNew<gtD3D11StandartShaderCallback>( new gtD3D11StandartShaderCallback );
 	m_shaderSpriteCallback = gtPtrNew<gtD3D11SpriteShaderCallback>( new gtD3D11SpriteShaderCallback );
-	//m_shaderLineCallback = gtPtrNew<gtD3D11LineShaderCallback>( new gtD3D11LineShaderCallback );
+	m_shaderLineCallback = gtPtrNew<gtD3D11LineShaderCallback>( new gtD3D11LineShaderCallback );
 
 	m_shader3DStandart = getShader( m_shader3DStandartCallback.data(), u"../shaders/3d_basic.hlsl", "VSMain",
 		u"../shaders/3d_basic.hlsl", "PSMain", shaderModel, vertexType3D );
 	m_shaderSprite = getShader( m_shaderSpriteCallback.data(), u"../shaders/sprite.hlsl", "VSMain",
 		u"../shaders/sprite.hlsl", "PSMain", shaderModel, vertexType3D );
-	//m_shaderLine = getShader( m_shaderLineCallback.data(), u"../shaders/line.hlsl", "VSMain",
-	//	u"../shaders/line.hlsl", "PSMain", shaderModel, vertexType3D );
+	m_shaderLine = getShader( m_shaderLineCallback.data(), u"../shaders/line.hlsl", "VSMain",
+		u"../shaders/line.hlsl", "PSMain", shaderModel, vertexType2D );
 
 	if( m_shader3DStandart ) if( !m_shader3DStandart->createShaderObject( 16u * sizeof(f32) ) ) return false;
 	if( m_shaderSprite ) if( !m_shaderSprite->createShaderObject( 24u * sizeof(f32) ) ) return false;
-	//if( m_shaderLine ) if( !m_shaderLine->createShaderObject( 24u * sizeof(f32) ) ) return false;
+	if( m_shaderLine ) if( !m_shaderLine->createShaderObject( 28u * sizeof(f32) ) ) return false;
 
 	return true;
 }

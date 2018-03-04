@@ -346,6 +346,12 @@ namespace gost{
 			in_out[ 3 ].z = position.z;
 		}
 
+		GT_FORCE_INLINE void makeScaleMatrix( gtMatrix4& in_out, const v3f& scale ){
+			in_out[ 0 ].x = scale.x;
+			in_out[ 1 ].y = scale.y;
+			in_out[ 2 ].z = scale.z;
+		}
+
 			//	create rotation matrix
 			// \param in_out: rotation matrix
 			// \param p: orientation
@@ -389,7 +395,7 @@ namespace gost{
 			in_out[3].w  = 1.f;
 		}
 
-			///Vector-matrix product
+			//Vector-matrix product
 		GT_FORCE_INLINE v3f mul( const v3f& vector, const gtMatrix4& matrix ){
 			v3f result;
 			

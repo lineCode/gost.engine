@@ -333,7 +333,7 @@ LRESULT CALLBACK gtWindowWin32::WndProc(HWND hWnd, UINT message, WPARAM wParam, 
 	case WM_QUIT:
 	case WM_CLOSE:
 	case WM_DESTROY:
-		gtMainSystem::getInstance()->getSceneSystem()->clearScene();
+		gtMainSystem::getInstance()->getSceneSystem( nullptr )->clearScene();
 		PostQuitMessage( 0 );
 	break;
 
