@@ -27,6 +27,7 @@ namespace gost{
 		virtual void		render( void ) = 0;
 
 		virtual gtAabb*				getAabb( void ) = 0;
+		virtual gtObb*				getObb( void ) = 0;
 	};
 
 }

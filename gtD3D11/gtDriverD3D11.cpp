@@ -740,6 +740,7 @@ void gtDriverD3D11::drawLine( const v3f& start, const v3f& end, const gtColor& c
 	m_d3d11DevCon->Draw( 2, 0 );
 }
 
+
 	//	компилировать либо получить ранее скомпилированный шейдер
 gtShader *	gtDriverD3D11::getShader( 
 	gtShaderCallback * callback,

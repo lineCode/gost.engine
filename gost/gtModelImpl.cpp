@@ -113,13 +113,17 @@ void			gtModelImpl::updateBoundingVolume( void ){
 	if( sz ){
 
 		m_aabb.reset();
+		m_obb.reset();
 
 		auto msz = m_submodels.size();
 		for( u32 i = 0u; i < msz; ++i ){
 			m_submodels[ i ]->buildObb();
+			m_obb.add(m_submodels[ i ]->m_obb);
+
 			//m_submodels[ i ]->updateAabb();
 			//m_aabb.add( m_submodels[ i ]->m_aabb );
 		}
+		m_obb.calculateBaseInfo();
 
 	}
 }

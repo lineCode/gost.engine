@@ -31,6 +31,7 @@ namespace gost{
 		gtRenderModel*	getModel( void );
 
 		gtAabb*				getAabb( void );
+		gtObb*				getObb( void );
 	};
 
 }

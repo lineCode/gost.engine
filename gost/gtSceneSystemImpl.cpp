@@ -304,43 +304,47 @@ void gtSceneSystemImpl::drawObject( gtGameObject * object ){
 	m_mainSystem->setMatrixWorld( object->getAbsoluteWorldMatrix() );
 	object->render();
 
-	if( object->isShowAabb() ){
-		auto aabb = object->getAabb();
-		auto& pos = object->getPositionInSpace();
+	if( object->isShowBV() ){
 
-		v3f mx = aabb->m_max + pos;
-		v3f mn = aabb->m_min + pos;
+		gtObb * obb = object->getObb();
 
-		gtQuaternion q( object->getRotation() );
-		q.normalize();
-		gtMatrix4 R;
-		math::makeRotationMatrix( R, q );
-		
-		v3f v1 = math::mul( mx, R );
-		v3f v2 = math::mul( mn, R );
-		v3f v3 = math::mul( v3f( mx.x, mn.y, mn.z ), R );
-		v3f v4 = math::mul( v3f( mn.x, mx.y, mn.z ), R );
-		v3f v5 = math::mul( v3f( mx.x, mx.y, mn.z ), R );
-		v3f v6 = math::mul( v3f( mn.x, mn.y, mx.z ), R );
-		v3f v7 = math::mul( v3f( mn.x, mx.y, mx.z ), R );
-		v3f v8 = math::mul( v3f( mx.x, mn.y, mx.z ), R );
-		
-		m_driver->drawLine( v2, v3 );
-		m_driver->drawLine( v4, v5 );
+		if( obb ){
 
-		m_driver->drawLine( v2, v4 );
-		m_driver->drawLine( v3, v5 );
+			auto& pos = object->getPositionInSpace();
 
-		m_driver->drawLine( v2, v6 );
-		m_driver->drawLine( v4, v7 );
+			gtColor red( 1.f, 0.f, 0.f );
 
-		m_driver->drawLine( v1, v7 );
-		m_driver->drawLine( v8, v6 );
+			m_driver->drawLineBox( 
+				obb->v1,
+				obb->v2,
+				obb->v3,
+				obb->v4,
+				obb->v5,
+				obb->v6,
+				obb->v7,
+				obb->v8,
+				pos,
+				red
+			);
+			/*m_driver->drawLine( obb->v1 + pos, obb->v4 + pos, red );
+			m_driver->drawLine( obb->v5 + pos, obb->v8 + pos, red );
+			m_driver->drawLine( obb->v1 + pos, obb->v5 + pos, red );
+			m_driver->drawLine( obb->v4 + pos, obb->v8 + pos, red );
+			m_driver->drawLine( obb->v3 + pos, obb->v7 + pos, red );
+			m_driver->drawLine( obb->v6 + pos, obb->v2 + pos, red );
+			m_driver->drawLine( obb->v3 + pos, obb->v6 + pos, red );
+			m_driver->drawLine( obb->v7 + pos, obb->v2 + pos, red );
+			m_driver->drawLine( obb->v2 + pos, obb->v8 + pos, red );
+			m_driver->drawLine( obb->v4 + pos, obb->v7 + pos, red );
+			m_driver->drawLine( obb->v5 + pos, obb->v6 + pos, red );
+			m_driver->drawLine( obb->v1 + pos, obb->v3 + pos, red );*/
 
-		m_driver->drawLine( v1, v8 );
-		m_driver->drawLine( v7, v6 );
+			gtAabb * aabb = object->getAabb();
+			if( aabb ){
+				gtColor green( 0.f, 1.f, 0.f );
 
-		m_driver->drawLine( v1, v5 );
-		m_driver->drawLine( v8, v3 );
+
+			}
+		}
 	}
 }

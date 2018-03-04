@@ -22,6 +22,7 @@ namespace gost{
 		void				update( void );
 		void				render( void );
 		gtAabb*				getAabb( void );
+		gtObb*				getObb( void );
 	};
 
 }

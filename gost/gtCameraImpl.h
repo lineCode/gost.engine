@@ -99,6 +99,7 @@ namespace gost{
 		//void					setZoom( f32 v );
 
 		gtAabb*				getAabb( void );
+		gtObb*				getObb( void );
 	};
 
 }

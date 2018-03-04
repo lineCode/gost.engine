@@ -16,6 +16,10 @@ gtAabb*				gtDummyObjectImpl::getAabb( void ){
 	return nullptr;
 }
 
+gtObb*				gtDummyObjectImpl::getObb( void ){
+	return nullptr;
+}
+
 void				gtDummyObjectImpl::update( void ){
 	gtMatrix4 translationMatrix;
 	math::makeTranslationMatrix( translationMatrix, m_position );

@@ -98,7 +98,6 @@ namespace gost{
 				p8 += m_stride;
 			}
 
-			m_obb.calculateExtentAndCenter();
 		}
 
 			//	Обновит aabb. Должна делаться из obb

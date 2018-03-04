@@ -104,6 +104,10 @@ namespace gost{
 			return m_rModel->getAabb();
 		}
 
+		gtObb*				getObb( void ){
+			return m_rModel->getObb();
+		}
+
 			/// Получить тип объекта
 			/// \return Вернёт тип объекта
 		gtObjectType getType( void ){

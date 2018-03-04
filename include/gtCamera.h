@@ -108,6 +108,7 @@ namespace gost{
 		virtual void				setViewPort( const v4f& v ) = 0;
 		
 		virtual gtAabb*				getAabb( void ) = 0;
+		virtual gtObb*				getObb( void ) = 0;
 	};
 
 }

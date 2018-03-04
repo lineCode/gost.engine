@@ -90,6 +90,23 @@ namespace gost{
 
 		virtual void drawLine( const v3f& start, const v3f& end, const gtColor& color = gtColor( 1.f, 1.f, 1.f, 1.f ) ) = 0;
 
+		/*
+			//       v6-----------v2
+			//      /|			/ |
+			//	   / |         /  |
+			//	  /  |        /   |
+			//	 /   v3______/____v7
+			//	v5--/-------v8   /
+			//	|  /		|   /
+			//	| /			|  /
+			//	|/			| /
+			//	/			|/
+			//	v1----------v4
+		*/
+		virtual void drawLineBox( const v3f& v1, const v3f& v2, const v3f& v3, const v3f& v4,
+			const v3f& v5, const v3f& v6, const v3f& v7, const v3f& v8,
+			const v3f& positionOffset = v3f(), const gtColor& color = gtColor( 1.f, 1.f, 1.f, 1.f ) ) = 0;
+
 			///	компилировать либо получить ранее скомпилированный шейдер
 			/// \param callback: callback для установки параметров шейдера
 			/// \param vertexShader: путь к файлу хранящем вершинный шейдер
@@ -340,6 +357,22 @@ namespace gost{
 			return remove_texture( texture );
 		}
 
+		virtual void drawLineBox( const v3f& v1, const v3f& v2, const v3f& v3, const v3f& v4,
+			const v3f& v5, const v3f& v6, const v3f& v7, const v3f& v8,
+			const v3f& positionOffset, const gtColor& color ){
+				drawLine( v1 + positionOffset, v4 + positionOffset, color );
+				drawLine( v5 + positionOffset, v8 + positionOffset, color );
+				drawLine( v1 + positionOffset, v5 + positionOffset, color );
+				drawLine( v4 + positionOffset, v8 + positionOffset, color );
+				drawLine( v3 + positionOffset, v7 + positionOffset, color );
+				drawLine( v6 + positionOffset, v2 + positionOffset, color );
+				drawLine( v3 + positionOffset, v6 + positionOffset, color );
+				drawLine( v7 + positionOffset, v2 + positionOffset, color );
+				drawLine( v2 + positionOffset, v8 + positionOffset, color );
+				drawLine( v4 + positionOffset, v7 + positionOffset, color );
+				drawLine( v5 + positionOffset, v6 + positionOffset, color );
+				drawLine( v1 + positionOffset, v3 + positionOffset, color );
+		}
 	};
 
 }

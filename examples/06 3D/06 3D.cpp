@@ -33,7 +33,7 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 	camera->setAspect( 1.f );
 
 	gtStaticObject * room = scene->addStaticObject( driver->getModel(u"../media/m9.obj") );
-	room->showAabb( true );
+	room->showBV( true );
 	room->getModel()->getMaterial(0)->textureLayer[0].texture = driver->getTexture(u"../media/Tex_0009_1.png");
 	
 	gtModel * cube = mainSystem->getModelSystem()->createCube(0.125f);
@@ -41,13 +41,15 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 
 	f32 x = 0.f, y = 0.f;
 	for( int i = 0; i < 100; ++i ){
-		scene->addStaticObject( rcube, v3f( x, 0.f, y ) );
+	//	scene->addStaticObject( rcube, v3f( x, 0.f, y ) );
 		x += 1.f;
 		if( x > 10.f ){
 			x = 0.f;
 			y += 1.f;
 		}
 	}
+
+	room->setScale( v3f( 0.25f ) );
 
 	gtEvent event;
 

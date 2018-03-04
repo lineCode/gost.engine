@@ -13,6 +13,7 @@ namespace gost{
 	public:
 
 		virtual gtAabb*				getAabb( void ) = 0;
+		virtual gtObb*				getObb( void ) = 0;
 	};
 
 }

@@ -130,6 +130,7 @@ namespace gost{
 		void drawModel( gtRenderModel* );
 
 		void drawLine( const v3f& start, const v3f& end, const gtColor& color );
+		
 
 			//	компилировать либо получить ранее скомпилированный шейдер
 		gtShader *	getShader( 

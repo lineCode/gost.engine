@@ -227,3 +227,6 @@ void gtCameraImpl::calculateFrustum( void ){
 gtAabb*	gtCameraImpl::getAabb( void ){
 	return nullptr;
 }
+gtObb*	gtCameraImpl::getObb( void ){
+	return nullptr;
+}

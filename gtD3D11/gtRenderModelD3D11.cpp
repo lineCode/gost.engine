@@ -82,6 +82,7 @@ bool	gtRenderModelD3D11::init( gtModel* m ){
 	}
 
 	m_aabb = m->getAabb();
+	m_obb  = m->getObb();
 
 	return true;
 }
@@ -108,4 +109,8 @@ void		gtRenderModelD3D11::render( void ){
 
 gtAabb* gtRenderModelD3D11::getAabb( void ){
 	return &m_aabb;
+}
+
+gtObb* gtRenderModelD3D11::getObb( void ){
+	return &m_obb;
 }

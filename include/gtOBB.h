@@ -45,13 +45,34 @@ namespace gost{
 
 			//	размер коробки
 			// \param v: [\b in/out] vector for size
-		void calculateExtentAndCenter( void ){
+		void calculateBaseInfo( void ){
 			m_extent = m_max - m_min;
-			m_center = m_min + m_max;
-			m_center *= 0.5f;
+			m_center = m_min + m_max;       //       v6-----------v2
+			m_center *= 0.5f;				//      /|			/ |
+											//	   / |         /  |
+			v1 = m_min;						//	  /  |        /   |
+			v2 = m_max;						//	 /   v3______/____v7
+			v3.set( v1.x, v1.y, v2.z );		//	v5--/-------v8   /
+			v4.set( v2.x, v1.y, v1.z );		//	|  /		|   /
+			v5.set( v1.x, v2.y, v1.z );		//	| /			|  /
+			v6.set( v1.x, v2.y, v2.z );		//	|/			| /
+			v7.set( v2.x, v1.y, v2.z );		//	/			|/
+			v8.set( v2.x, v2.y, v1.z );		//	v1----------v4
+
+			v1z = v1;
+			v2z = v2;
+			v3z = v3;
+			v4z = v4;
+			v5z = v5;
+			v6z = v6;
+			v7z = v7;
+			v8z = v8;
 		}
 
 		v3f m_min, m_max, m_extent, m_center; ///< components
+
+		v3f v1, v2, v3, v4, v5, v6, v7, v8;			
+		v3f v1z, v2z, v3z, v4z, v5z, v6z, v7z, v8z; // original position (fixed)
 
 	};
 

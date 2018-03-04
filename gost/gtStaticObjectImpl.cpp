@@ -23,15 +23,12 @@ void				gtStaticObjectImpl::update( void ){
 	gtMatrix4 translationMatrix;
 	math::makeTranslationMatrix( translationMatrix, m_position );
 
-	gtMatrix4 rotationMatrix;
-	math::makeRotationMatrix( rotationMatrix, m_orientation );
+	math::makeRotationMatrix( m_rotationMatrix, m_orientation );
 
 	gtMatrix4	scaleMatrix;
-	scaleMatrix[ 0u ] *= m_scale.x;
-	scaleMatrix[ 1u ] *= m_scale.y;
-	scaleMatrix[ 2u ] *= m_scale.z;
+	math::makeScaleMatrix( scaleMatrix, m_scale );
 
-	m_worldMatrix = translationMatrix * rotationMatrix * scaleMatrix;
+	m_worldMatrix = translationMatrix * m_rotationMatrix * scaleMatrix;
 
 	if( m_parent )
 		m_worldMatrix = m_parent->getAbsoluteWorldMatrix() * m_worldMatrix;
@@ -65,4 +62,8 @@ gtRenderModel*	gtStaticObjectImpl::getModel( void ){
 
 gtAabb* gtStaticObjectImpl::getAabb( void ){
 	return m_model->getAabb();
+}
+
+gtObb* gtStaticObjectImpl::getObb( void ){
+	return m_model->getObb();
 }

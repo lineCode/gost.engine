@@ -36,6 +36,7 @@ namespace gost{
 
 			/// матрицы трансформаций
 		gtMatrix4		m_worldMatrix, m_worldMatrixAbsolute;
+		gtMatrix4		m_rotationMatrix;
 
 			// позиция
 		v3f				m_position;
@@ -46,7 +47,7 @@ namespace gost{
 			/// виден ли объект
 		bool			m_isVisible;
 
-		bool			m_isShowAabb;
+		bool			m_isBV;
 
 	public:
 
@@ -57,7 +58,7 @@ namespace gost{
 			m_scene( nullptr ),
 			m_scale(1.f),
 			m_isVisible( true ),
-			m_isShowAabb( false )
+			m_isBV( false )
 		{
 			m_scene = gtMainSystem::getInstance()->getSceneSystem( nullptr );
 		}
@@ -77,6 +78,7 @@ namespace gost{
 		virtual void				render( void ) = 0;
 
 		virtual gtAabb*				getAabb( void ) = 0;
+		virtual gtObb*				getObb( void ) = 0;
 
 			///	Получить позицию
 			///	\return Возвратит позицию
@@ -88,8 +90,8 @@ namespace gost{
 			return m_worldMatrixAbsolute[ 3 ].getV3();
 		}
 
-			///	Установит позицию
-			/// \param p: позиция
+			//	Установить позицию
+			// \param p: позиция
 		virtual void				setPosition( const v3f& p ){
 			m_position = p;
 		}
@@ -101,11 +103,12 @@ namespace gost{
 				v3f r =  rotation - m_old_rotation;
 
 				gtQuaternion q(r);
-
 				m_orientation = q * m_orientation;
 				m_orientation.normalize();
 
 				m_old_rotation = rotation;
+
+				recalculateBV();
 			}
 		}
 
@@ -124,10 +127,35 @@ namespace gost{
 		virtual void				setOrientation( const gtQuaternion& q ){
 			m_orientation = q;
 			m_orientation.normalize();
+			recalculateBV();
 		}
 
 		virtual const gtQuaternion& getOrientation( void ){
 			return m_orientation;
+		}
+
+		virtual void recalculateBV( void ){
+			gtObb * obb = getObb();
+			if( obb ){
+				gtQuaternion q( -getRotation() );
+				q.normalize();
+				
+				gtMatrix4 R, S;
+
+				math::makeRotationMatrix( R, q );
+				math::makeScaleMatrix( S, getScale() );
+
+				R = R * S;
+
+				obb->v1 = math::mul( obb->v1z, R );
+				obb->v2 = math::mul( obb->v2z, R );
+				obb->v3 = math::mul( obb->v3z, R );
+				obb->v4 = math::mul( obb->v4z, R );
+				obb->v5 = math::mul( obb->v5z, R );
+				obb->v6 = math::mul( obb->v6z, R );
+				obb->v7 = math::mul( obb->v7z, R );
+				obb->v8 = math::mul( obb->v8z, R );
+			}
 		}
 
 
@@ -245,12 +273,12 @@ namespace gost{
 			m_isVisible = v;
 		}
 
-		virtual void showAabb( bool v ){
-			m_isShowAabb = v;
+		virtual void showBV( bool v ){
+			m_isBV = v;
 		}
 
-		virtual bool isShowAabb( void ){
-			return m_isShowAabb;
+		virtual bool isShowBV( void ){
+			return m_isBV;
 		}
 	};
 
