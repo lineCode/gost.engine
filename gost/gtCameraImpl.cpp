@@ -198,7 +198,7 @@ gtCameraFrustum* gtCameraImpl::getFrustum( void ){
 }
 
 void gtCameraImpl::calculateFrustum( void ){
-	v3f pos = getPositionInSpace();
+	/*v3f pos = getPositionInSpace();
 
 	f32 _far = m_far * (m_fov*0.5f);
 	f32 _near = m_near * (m_fov*0.5f);
@@ -220,7 +220,52 @@ void gtCameraImpl::calculateFrustum( void ){
 		break;
 	}
 
-	m_frustum.m_farY  -= pos;
+	m_frustum.m_farY  -= pos;*/
+
+	f32 zMinimum, r;
+
+	zMinimum = m_projectionMatrix[ 3u ].z / m_projectionMatrix[ 2u ].z;
+	r = m_far / ( m_far - zMinimum );
+	//m_projectionMatrix[ 2u ].z = r;
+	//m_projectionMatrix[ 3u ].z = r * zMinimum;
+
+	gtMatrix4 matrix = m_viewMatrix * m_projectionMatrix;
+
+	m_frustum.m_planes[ 0u ].x = matrix[ 0u ].w + matrix[ 0u ].z;
+	m_frustum.m_planes[ 0u ].y = matrix[ 1u ].w + matrix[ 1u ].z;
+	m_frustum.m_planes[ 0u ].z = matrix[ 2u ].w + matrix[ 2u ].z;
+	m_frustum.m_planes[ 0u ].w = matrix[ 3u ].w + matrix[ 3u ].z;
+	m_frustum.m_planes[ 0u ].normalize();
+
+	m_frustum.m_planes[ 1u ].x = matrix[ 0u ].w - matrix[ 0u ].z;
+	m_frustum.m_planes[ 1u ].y = matrix[ 1u ].w - matrix[ 1u ].z;
+	m_frustum.m_planes[ 1u ].z = matrix[ 2u ].w - matrix[ 2u ].z;
+	m_frustum.m_planes[ 1u ].w = matrix[ 3u ].w - matrix[ 3u ].z;
+	m_frustum.m_planes[ 1u ].normalize();
+
+	m_frustum.m_planes[ 2u ].x = matrix[ 0u ].w + matrix[ 0u ].x;
+	m_frustum.m_planes[ 2u ].y = matrix[ 1u ].w + matrix[ 1u ].x;
+	m_frustum.m_planes[ 2u ].z = matrix[ 2u ].w + matrix[ 2u ].x;
+	m_frustum.m_planes[ 2u ].w = matrix[ 3u ].w + matrix[ 3u ].x;
+	m_frustum.m_planes[ 2u ].normalize();
+
+	m_frustum.m_planes[ 3u ].x = matrix[ 0u ].w - matrix[ 0u ].x;
+	m_frustum.m_planes[ 3u ].y = matrix[ 1u ].w - matrix[ 1u ].x;
+	m_frustum.m_planes[ 3u ].z = matrix[ 2u ].w - matrix[ 2u ].x;
+	m_frustum.m_planes[ 3u ].w = matrix[ 3u ].w - matrix[ 3u ].x;
+	m_frustum.m_planes[ 3u ].normalize();
+
+	m_frustum.m_planes[ 4u ].x = matrix[ 0u ].w - matrix[ 0u ].y;
+	m_frustum.m_planes[ 4u ].y = matrix[ 1u ].w - matrix[ 1u ].y;
+	m_frustum.m_planes[ 4u ].z = matrix[ 2u ].w - matrix[ 2u ].y;
+	m_frustum.m_planes[ 4u ].w = matrix[ 3u ].w - matrix[ 3u ].y;
+	m_frustum.m_planes[ 4u ].normalize();
+
+	m_frustum.m_planes[ 5u ].x = matrix[ 0u ].w + matrix[ 0u ].y;
+	m_frustum.m_planes[ 5u ].y = matrix[ 1u ].w + matrix[ 1u ].y;
+	m_frustum.m_planes[ 5u ].z = matrix[ 2u ].w + matrix[ 2u ].y;
+	m_frustum.m_planes[ 5u ].w = matrix[ 3u ].w + matrix[ 3u ].y;
+	m_frustum.m_planes[ 5u ].normalize();
 
 }
 

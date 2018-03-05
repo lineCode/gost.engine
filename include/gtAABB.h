@@ -52,14 +52,14 @@ namespace gost{
 			if( box.m_max.z > m_max.z ) m_max.z = box.m_max.z;
 		}
 
-			///	размер коробки
-			/// \param v: [\b in/out] vector for size
+			//	размер коробки
+			// \param v: [\b in/out] vector for size
 		void extent( v3f& v ){
 			v = v3f( m_max - m_min );
 		}
 
-			/// центр коробки
-			/// \param v: [\b in/out] center
+			// центр коробки
+			// \param v: [\b in/out] center
 		void center( v3f& v ){
 			v = v3f( m_min + m_max );
 			v *= 0.5f;

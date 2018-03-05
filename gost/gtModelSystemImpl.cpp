@@ -42,10 +42,14 @@ gtModel*	gtModelSystemImpl::createPlane( f32 x, f32 y, gtSide side ){
 		return nullptr;
 
 	gtQuaternion q;
+	
 
+
+	// down
+	// up
 	switch( side ){
 		case gost::gtSide::LEFT:
-		q.set( v3f( 0.f, 0.f, PI/2.f ) );
+		q.set( v3f( 0.f, PI, PI/2.f ) );
 		break;
 		case gost::gtSide::RIGHT:
 		q.set( v3f( 0.f, 0.f, -PI/2.f ) );
@@ -55,16 +59,16 @@ gtModel*	gtModelSystemImpl::createPlane( f32 x, f32 y, gtSide side ){
 		q.set( v3f( PI, 0.f, 0.f ) );
 		break;
 		default:
-		case gost::gtSide::DOWN:
+		case gost::gtSide::DOWN:						
 		q.set( v3f( 0.f, 0.f, 0.f ) );
 		break;
 		case gost::gtSide::FRONT:
 		q.set( v3f( -PI/2.f, 0.f, 0.f ) );
-		q = q * gtQuaternion( v3f( 0.f, -PI/2.f, 0.f ) );
+		q = q * gtQuaternion( v3f( 0.f, -PI, 0.f ) );
 		break;
 		case gost::gtSide::BACK:
 		q.set( v3f( PI/2.f, 0.f, 0.f ) );
-		q = q * gtQuaternion( v3f( 0.f, PI/2.f, 0.f ) );
+		q = q * gtQuaternion( v3f( 0.f, PI, 0.f ) );
 		break;
 	}
 

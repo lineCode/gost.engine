@@ -276,11 +276,11 @@ namespace gost{
 			in_out[3] = v4f( 0.f, 0.f, in_out[2].z * Near, 1.f );
 		}
 		
-			///	create \a look \a at matrix for right hand coordinate system
-			/// \param in_out: view matrix
-			/// \param eye: camera position
-			/// \param center: camera target
-			/// \param up: up vector
+			//	create \a look \a at matrix for right hand coordinate system
+			// \param in_out: view matrix
+			// \param eye: camera position
+			// \param center: camera target
+			// \param up: up vector
 		GT_FORCE_INLINE void  makeLookAtRHMatrix( gtMatrix4& in_out, const v3f& eye, const v3f& center, const v3f& up ){
 			v3f f( center - eye );
 			f.normalize();
@@ -306,11 +306,11 @@ namespace gost{
 			in_out[3].z = math::dot( f, eye );
 		}
 
-			///	create \a look \a at matrix for left hand coordinate system
-			/// \param in_out: view matrix
-			/// \param eye: camera position
-			/// \param center: camera target
-			/// \param up: up vector
+			//	create \a look \a at matrix for left hand coordinate system
+			// \param in_out: view matrix
+			// \param eye: camera position
+			// \param center: camera target
+			// \param up: up vector
 		GT_FORCE_INLINE void  makeLookAtLHMatrix( gtMatrix4& in_out, const v3f& eye, const v3f& center,const v3f& up){
 			v3f f( center - eye );
 			f.normalize();
@@ -396,14 +396,12 @@ namespace gost{
 		}
 
 			//Vector-matrix product
-		GT_FORCE_INLINE v3f mul( const v3f& vector, const gtMatrix4& matrix ){
-			v3f result;
-			
-			result.x = math::dot(matrix[ 0u ], vector);
-			result.y = math::dot(matrix[ 1u ], vector);
-			result.z = math::dot(matrix[ 2u ], vector);
-
-			return result;
+		GT_FORCE_INLINE v3f mul( const v3f& vec, const gtMatrix4& mat ){
+			return v3f(
+				mat[ 0u ].x * vec.x + mat[ 1u ].x * vec.y + mat[ 2u ].x * vec.z,
+				mat[ 0u ].y * vec.x + mat[ 1u ].y * vec.y + mat[ 2u ].y * vec.z,
+				mat[ 0u ].z * vec.x + mat[ 1u ].z * vec.y + mat[ 2u ].z * vec.z
+			);
 		}
 
 

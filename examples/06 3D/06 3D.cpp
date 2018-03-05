@@ -40,8 +40,10 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 	gtRenderModel * rcube = driver->createModel( cube );
 
 	f32 x = 0.f, y = 0.f;
+	gtStaticObject * cubs[100];
 	for( int i = 0; i < 100; ++i ){
-	//	scene->addStaticObject( rcube, v3f( x, 0.f, y ) );
+		cubs[ i ] = scene->addStaticObject( rcube, v3f( x, 0.f, y ) );
+		cubs[ i ]->showBV( true );
 		x += 1.f;
 		if( x > 10.f ){
 			x = 0.f;
@@ -66,7 +68,11 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 		f32 cs = std::cosf( angle )/180.f*PI;
 		angle += 10.f * delta; if( angle > 360.f ) angle = 0.f;
 
-		room->setRotation( v3f( 0.f, angle, 0.f ) );
+		//room->setRotation( v3f( 0.0f, angle, 0.0f ) );
+		room->setRotation( v3f( angle - 0.01f, angle, angle + 0.01f ) );
+		for( int i = 0; i < 100; ++i ){
+			cubs[ i ]->setRotation( v3f( 0.f, angle, 0.f ) );
+		}
 
 		//camera->setPosition( v3f_t( pos*sn, 5.f, pos*cs ) );
 

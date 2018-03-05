@@ -107,6 +107,9 @@ namespace gost{
 			const v3f& v5, const v3f& v6, const v3f& v7, const v3f& v8,
 			const v3f& positionOffset = v3f(), const gtColor& color = gtColor( 1.f, 1.f, 1.f, 1.f ) ) = 0;
 
+		virtual void drawLineSphere( const v3f& position, f32 radius, u32 smoothLevel = 1u, const gtColor& color = gtColor( 1.f, 1.f, 1.f, 1.f ) ) = 0;
+
+
 			///	компилировать либо получить ранее скомпилированный шейдер
 			/// \param callback: callback для установки параметров шейдера
 			/// \param vertexShader: путь к файлу хранящем вершинный шейдер
@@ -372,6 +375,21 @@ namespace gost{
 				drawLine( v4 + positionOffset, v7 + positionOffset, color );
 				drawLine( v5 + positionOffset, v6 + positionOffset, color );
 				drawLine( v1 + positionOffset, v3 + positionOffset, color );
+		}
+
+		/*
+		
+					1
+				   /||\
+				  / || \
+				 / /| \ \
+			   2//  |c  \\
+				 \  |   /
+				   \| /
+				    3
+		*/
+		virtual void drawLineSphere( const v3f& position, f32 radius, u32 smoothLevel, const gtColor& color ){
+
 		}
 	};
 

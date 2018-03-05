@@ -363,6 +363,10 @@ namespace gost{
 			return ( x * x ) + ( y * y ) + ( z * z );
 		}
 
+		Type	length( void ){
+			return std::sqrtf( lengthSqrt() );
+		}
+
 		void	normalize( void ){
 			f32 sqLen, invLen;
 			sqLen = lengthSqrt();
