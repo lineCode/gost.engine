@@ -81,7 +81,7 @@ namespace gost{
 			/// Послать в шейдер вектор4
 			/// \param un: uniform name
 			/// \param v: value
-		virtual void	setVec4f( const gtStringA& /*un*/, v4f& /*v*/ ){}
+		virtual void	setVec4f( const gtStringA& /*un*/, v3f& /*v*/ ){}
 
 			/// Послать в шейдер текстуру
 			/// \param un: uniform name

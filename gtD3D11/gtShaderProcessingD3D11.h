@@ -31,7 +31,7 @@ namespace gost{
 		void	setVec3f( const gtStringA& uniformName, v3f& vec3 );
 
 			// ѕослать в шейдер вектор4
-		void	setVec4f( const gtStringA& uniformName, v4f& vec4 );
+		void	setVec4f( const gtStringA& uniformName, v3f& vec4 );
 
 			// ѕослать в шейдер текстуру
 			// id - номер текстуры в материале

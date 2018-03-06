@@ -95,6 +95,7 @@ namespace gost{
 		GT_FORCE_INLINE T lerp( const T& a, const T& b, const f32 t ){
 			return (T)(a*(1.f-t)) + (b*t);
 		}
+
 	}
 
 }

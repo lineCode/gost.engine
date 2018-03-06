@@ -28,7 +28,7 @@ void	gtShaderProcessingD3D11::setVec3f( const gtStringA&, v3f& ){
 }
 
 			// Послать в шейдер вектор4
-void	gtShaderProcessingD3D11::setVec4f( const gtStringA&, v4f& ){
+void	gtShaderProcessingD3D11::setVec4f( const gtStringA&, v3f& ){
 }
 
 			// Послать в шейдер текстуру

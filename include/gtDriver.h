@@ -10,7 +10,7 @@ namespace gost{
 
 	class gtWindow;
 
-		///	параметры запуска драйвера
+		//	параметры запуска драйвера
 	struct gtDriverInfo{
 
 			/// c-tor
@@ -389,6 +389,17 @@ namespace gost{
 				    3
 		*/
 		virtual void drawLineSphere( const v3f& position, f32 radius, u32 smoothLevel, const gtColor& color ){
+			v3f v1, v2, v3;
+
+			v1.set( 0.f, radius, 0.f );
+			v2.set( radius, 0.f, 0.f );
+			v3.set( 0.f, 0.f, radius );
+
+			f32 step = v1.length();
+
+			for( u32 i = 0u; i < smoothLevel; ++i ){
+
+			}
 
 		}
 	};

@@ -367,6 +367,10 @@ namespace gost{
 			return std::sqrtf( lengthSqrt() );
 		}
 
+		Type	distance( const gtVector< Type >& from ){
+			return gtVector3< Type >( x - from.x, y - from.y, z - from.z ).length();
+		}
+
 		void	normalize( void ){
 			f32 sqLen, invLen;
 			sqLen = lengthSqrt();
@@ -855,6 +859,10 @@ namespace gost{
 			r += (s.y * a.y);
 			r += (s.z * a.z);
 			return r;
+		}
+
+		GT_FORCE_INLINE v3f planeDotCoord( const v4f& plane, const v3f& coord ){
+			return v3f( plane.x * coord.x + plane.y * coord.y + plane.z * coord.z + plane.w );
 		}
 	}
 
