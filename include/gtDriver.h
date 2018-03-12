@@ -395,9 +395,20 @@ namespace gost{
 			v2.set( radius, 0.f, 0.f );
 			v3.set( 0.f, 0.f, radius );
 
-			f32 step = v1.length();
+			gtArray< v3f > verts;
+			verts.push_back( v3f( 0.f, radius, 0.f ) );
 
-			for( u32 i = 0u; i < smoothLevel; ++i ){
+			f32 step = v1.distance( v3f( radius, 0.f, 0.f ) ) / static_cast<f32>( smoothLevel + 1u );
+
+
+			u32 num_of_triangles = 1u;
+			for( u32 i = 0u, o = 0u; i < smoothLevel; ++i, o += 2u ){
+				num_of_triangles += 3u + o;
+			}
+
+			for( u32 i = 0u; i < num_of_triangles; ++i ){
+
+				verts.push_back( v3f() );
 
 			}
 

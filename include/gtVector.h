@@ -367,7 +367,7 @@ namespace gost{
 			return std::sqrtf( lengthSqrt() );
 		}
 
-		Type	distance( const gtVector< Type >& from ){
+		Type	distance( const gtVector3< Type >& from ){
 			return gtVector3< Type >( x - from.x, y - from.y, z - from.z ).length();
 		}
 

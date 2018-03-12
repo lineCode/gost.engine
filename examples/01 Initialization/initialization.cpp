@@ -8,6 +8,7 @@
 
 using namespace gost;
 
+
 #if defined( GT_PLATFORM_WIN32 )
 #include <Windows.h>
 int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR /*lpCmdLine*/, int /*nCmdShow*/ ){

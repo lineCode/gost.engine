@@ -257,6 +257,13 @@ namespace gost{
 			return operator+(str.data());
 		}
 
+		this_type operator+( u32 num ){
+			this_type r( *this );
+			r.append( num );
+			return r;
+		}
+
+
 
 		const_reference operator[]( u32 i ) const {
 			return m_data[ i ];
@@ -296,7 +303,6 @@ namespace gost{
 		void operator+=( this_const_reference str ){
 			append( str );
 		}
-
 
 		bool operator==( this_const_reference other ) const {
 			if( other.size() != m_size ) return false;
