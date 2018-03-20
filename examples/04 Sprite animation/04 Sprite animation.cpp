@@ -143,8 +143,8 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 
 			///	The camera follows the player
 			v3f camera_position = camera->getPosition();
-			camera_position.x = -Frog->getPosition().x;
-			camera_position.y = -Frog->getPosition().y;
+			camera_position.x = Frog->getPosition().x;
+			camera_position.y = Frog->getPosition().y;
 			camera->setPosition(  camera_position  );
 
 			driver->beginRender( true, gtColor( 0.7372549019607843f, 0.8901960784313725f, 1.f, 1.f ) ); /// RGBA.

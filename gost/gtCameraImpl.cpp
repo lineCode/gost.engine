@@ -29,7 +29,7 @@ gtObjectType		gtCameraImpl::getType( void ){
 void				gtCameraImpl::update( void ){
 
 	gtMatrix4 translationMatrix;
-	math::makeTranslationMatrix( translationMatrix, m_position );
+	math::makeTranslationMatrix( translationMatrix, -m_position );
 
 	m_worldMatrix = translationMatrix;
 

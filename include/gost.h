@@ -3,11 +3,8 @@
 #define __GOST_H__ ///< include guard
 
 #pragma warning(disable : 4582)
-#define D1
-#define D1
-#define D1
-#define D1
-//C++
+
+//C++ 🖙🖏
 #include <cctype> //isalpha
 #include <fstream>
 #include <sstream>

@@ -67,6 +67,7 @@ namespace gost{
 			v6z = v6;
 			v7z = v7;
 			v8z = v8;
+
 		}
 
 		v3f m_min, m_max, m_extent, m_center; ///< components

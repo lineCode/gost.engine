@@ -27,7 +27,7 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 
 	gtSceneSystem * scene = mainSystem->getSceneSystem( driver.data() );
 
-	gtCamera * camera = scene->addCamera( v3f(0.f,0.f,0.f) );
+	gtCamera * camera = scene->addCamera( v3f(0.f,1.f,0.f) );
 	camera->setCameraType( gtCameraType::CT_FPS );
 	//camera->setFar( 30.f );
 	camera->setAspect( 1.f );
@@ -41,7 +41,7 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 
 	f32 x = 0.f, y = 0.f;
 	gtStaticObject * cubs[100];
-	for( int i = 0; i < 100; ++i ){
+	/*for( int i = 0; i < 100; ++i ){
 		cubs[ i ] = scene->addStaticObject( rcube, v3f( x, 0.f, y ) );
 		cubs[ i ]->showBV( true );
 		x += 1.f;
@@ -49,7 +49,7 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 			x = 0.f;
 			y += 1.f;
 		}
-	}
+	}*/
 
 	room->setScale( v3f( 0.25f ) );
 
@@ -71,7 +71,7 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 		//room->setRotation( v3f( 0.0f, angle, 0.0f ) );
 		room->setRotation( v3f( angle - 0.01f, angle, angle + 0.01f ) );
 		for( int i = 0; i < 100; ++i ){
-			cubs[ i ]->setRotation( v3f( 0.f, angle, 0.f ) );
+		//	cubs[ i ]->setRotation( v3f( 0.f, angle, 0.f ) );
 		}
 
 		//camera->setPosition( v3f_t( pos*sn, 5.f, pos*cs ) );
@@ -110,6 +110,9 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 
 
 			scene->renderScene(); /// Draw all
+
+
+			
 
 			driver->endRender();
 

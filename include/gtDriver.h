@@ -107,7 +107,9 @@ namespace gost{
 			const v3f& v5, const v3f& v6, const v3f& v7, const v3f& v8,
 			const v3f& positionOffset = v3f(), const gtColor& color = gtColor( 1.f, 1.f, 1.f, 1.f ) ) = 0;
 
-		virtual void drawLineSphere( const v3f& position, f32 radius, u32 smoothLevel = 1u, const gtColor& color = gtColor( 1.f, 1.f, 1.f, 1.f ) ) = 0;
+		virtual void drawLineSphere( const v3f& position, f32 radius, u32 smoothLevel = 1u, const gtColor& color1 = gtColor( 1.f, 1.f, 1.f, 1.f ),
+			const gtColor& color2 = gtColor( 1.f, 1.f, 1.f, 1.f ),
+			const gtColor& color3 = gtColor( 1.f, 1.f, 1.f, 1.f )) = 0;
 
 
 			///	компилировать либо получить ранее скомпилированный шейдер
@@ -377,42 +379,58 @@ namespace gost{
 				drawLine( v1 + positionOffset, v3 + positionOffset, color );
 		}
 
-		/*
-		
-					1
-				   /||\
-				  / || \
-				 / /| \ \
-			   2//  |c  \\
-				 \  |   /
-				   \| /
-				    3
-		*/
-		virtual void drawLineSphere( const v3f& position, f32 radius, u32 smoothLevel, const gtColor& color ){
-			v3f v1, v2, v3;
+		virtual void drawLineSphere( const v3f& position, f32 radius, u32 smoothLevel, const gtColor& color1, const gtColor& color2, const gtColor& color3 ){
 
-			v1.set( 0.f, radius, 0.f );
-			v2.set( radius, 0.f, 0.f );
-			v3.set( 0.f, 0.f, radius );
+			gtArray< v3f > points1;
+			gtArray< v3f > points2;
+			gtArray< v3f > points3;
+			f32 x, y;
 
-			gtArray< v3f > verts;
-			verts.push_back( v3f( 0.f, radius, 0.f ) );
+			u32 q = smoothLevel;
 
-			f32 step = v1.distance( v3f( radius, 0.f, 0.f ) ) / static_cast<f32>( smoothLevel + 1u );
+			if( !q ) q = 1u;
 
-
-			u32 num_of_triangles = 1u;
-			for( u32 i = 0u, o = 0u; i < smoothLevel; ++i, o += 2u ){
-				num_of_triangles += 3u + o;
+			u32 s = 9u * q + 1u;
+			f32 m = 40.f / q;
+			for( u32 i = 0u; i < s; ++i ){
+				f32 a = (f32)i * m / 180.f * PI;
+				x = std::sinf( a );
+				y = std::cosf( a );
+				points1.push_back( v3f( x * radius, 0.f, y * radius ) + position );
 			}
 
-			for( u32 i = 0u; i < num_of_triangles; ++i ){
+			for( u32 i = 0u; i < s; ++i ){
+				f32 a = (f32)i * m / 180.f * PI;
+				x = std::sinf( a );
+				y = std::cosf( a );
+				points2.push_back( v3f( x * radius, y * radius, 0.f ) + position );
+			}
 
-				verts.push_back( v3f() );
+			for( u32 i = 0u; i < s; ++i ){
+				f32 a = (f32)i * m / 180.f * PI;
+				x = std::sinf( a );
+				y = std::cosf( a );
+				points3.push_back( v3f( 0.f, x * radius, y * radius ) + position );
+			}
 
+			u32 sz = points1.size();
+			for( u32 i = 1u; i < sz; ++i ){
+				drawLine( points1[ i ], points1[ i - 1u ], color1 );
+			}
+
+			sz = points2.size();
+			for( u32 i = 1u; i < sz; ++i ){
+				drawLine( points2[ i ], points2[ i - 1u ], color2 );
+			}
+
+			sz = points3.size();
+			for( u32 i = 1u; i < sz; ++i ){
+				drawLine( points3[ i ], points3[ i - 1u ], color3 );
 			}
 
 		}
+
+
 	};
 
 }

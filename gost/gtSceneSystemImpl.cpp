@@ -308,11 +308,13 @@ void gtSceneSystemImpl::drawObject( gtGameObject * object ){
 
 		gtObb * obb = object->getObb();
 
+		auto& pos = object->getPositionInSpace();
+		
 		if( obb ){
 
-			auto& pos = object->getPositionInSpace();
-
 			gtColor red( 1.f, 0.f, 0.f );
+			gtColor green( 0.f, 1.f, 0.f );
+			gtColor blue( 0.f, 0.f, 1.f );
 
 			m_driver->drawLineBox( 
 				obb->v1,
@@ -329,7 +331,6 @@ void gtSceneSystemImpl::drawObject( gtGameObject * object ){
 
 			gtAabb * aabb = object->getAabb();
 			if( aabb ){
-				gtColor green( 0.f, 1.f, 0.f );
 
 				v3f v1 = aabb->m_min;					
 				v3f v2 = aabb->m_max;					
@@ -342,7 +343,9 @@ void gtSceneSystemImpl::drawObject( gtGameObject * object ){
 
 				m_driver->drawLineBox( v1, v2, v3, v4, v5, v6, v7, v8, pos, green  );
 			}
+			m_driver->drawLineSphere( pos, object->getBVSphereRadius(), 1u, red, green, blue );
 		}
+
 	}
 }
 /*if( object->isShowBV() ){

@@ -170,8 +170,12 @@ namespace gost{
 					aabb->add( obb->v7 );
 					aabb->add( obb->v8 );
 				}
-
-				m_sphereRadius = obb->m_extent.length();
+				obb->m_min = obb->v1;
+				obb->m_max = obb->v2;
+				//obb->calculateBaseInfo();
+				v3f c;
+				aabb->center( c );
+				m_sphereRadius = aabb->m_max.distance( c );
 			}
 		}
 
@@ -296,6 +300,10 @@ namespace gost{
 
 		virtual bool isShowBV( void ){
 			return m_isBV;
+		}
+
+		virtual const f32& getBVSphereRadius( void ) const {
+			return m_sphereRadius;
 		}
 	};
 
