@@ -10,7 +10,7 @@ namespace gost{
 
 	class gtWindow;
 
-		///	параметры запуска драйвера
+		//	параметры запуска драйвера
 	struct gtDriverInfo{
 
 			/// c-tor
@@ -106,6 +106,11 @@ namespace gost{
 		virtual void drawLineBox( const v3f& v1, const v3f& v2, const v3f& v3, const v3f& v4,
 			const v3f& v5, const v3f& v6, const v3f& v7, const v3f& v8,
 			const v3f& positionOffset = v3f(), const gtColor& color = gtColor( 1.f, 1.f, 1.f, 1.f ) ) = 0;
+
+		virtual void drawLineSphere( const v3f& position, f32 radius, u32 smoothLevel = 1u, const gtColor& color1 = gtColor( 1.f, 1.f, 1.f, 1.f ),
+			const gtColor& color2 = gtColor( 1.f, 1.f, 1.f, 1.f ),
+			const gtColor& color3 = gtColor( 1.f, 1.f, 1.f, 1.f )) = 0;
+
 
 			///	компилировать либо получить ранее скомпилированный шейдер
 			/// \param callback: callback для установки параметров шейдера
@@ -373,6 +378,59 @@ namespace gost{
 				drawLine( v5 + positionOffset, v6 + positionOffset, color );
 				drawLine( v1 + positionOffset, v3 + positionOffset, color );
 		}
+
+		virtual void drawLineSphere( const v3f& position, f32 radius, u32 smoothLevel, const gtColor& color1, const gtColor& color2, const gtColor& color3 ){
+
+			gtArray< v3f > points1;
+			gtArray< v3f > points2;
+			gtArray< v3f > points3;
+			f32 x, y;
+
+			u32 q = smoothLevel;
+
+			if( !q ) q = 1u;
+
+			u32 s = 9u * q + 1u;
+			f32 m = 40.f / q;
+			for( u32 i = 0u; i < s; ++i ){
+				f32 a = (f32)i * m / 180.f * PI;
+				x = std::sinf( a );
+				y = std::cosf( a );
+				points1.push_back( v3f( x * radius, 0.f, y * radius ) + position );
+			}
+
+			for( u32 i = 0u; i < s; ++i ){
+				f32 a = (f32)i * m / 180.f * PI;
+				x = std::sinf( a );
+				y = std::cosf( a );
+				points2.push_back( v3f( x * radius, y * radius, 0.f ) + position );
+			}
+
+			for( u32 i = 0u; i < s; ++i ){
+				f32 a = (f32)i * m / 180.f * PI;
+				x = std::sinf( a );
+				y = std::cosf( a );
+				points3.push_back( v3f( 0.f, x * radius, y * radius ) + position );
+			}
+
+			u32 sz = points1.size();
+			for( u32 i = 1u; i < sz; ++i ){
+				drawLine( points1[ i ], points1[ i - 1u ], color1 );
+			}
+
+			sz = points2.size();
+			for( u32 i = 1u; i < sz; ++i ){
+				drawLine( points2[ i ], points2[ i - 1u ], color2 );
+			}
+
+			sz = points3.size();
+			for( u32 i = 1u; i < sz; ++i ){
+				drawLine( points3[ i ], points3[ i - 1u ], color3 );
+			}
+
+		}
+
+
 	};
 
 }

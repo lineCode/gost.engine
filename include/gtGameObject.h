@@ -49,6 +49,9 @@ namespace gost{
 
 		bool			m_isBV;
 
+		f32				m_sphereRadius;
+
+		gtBoundingVolumeType m_BVType;
 	public:
 
 			/// c-tor
@@ -58,7 +61,9 @@ namespace gost{
 			m_scene( nullptr ),
 			m_scale(1.f),
 			m_isVisible( true ),
-			m_isBV( false )
+			m_isBV( false ),
+			m_sphereRadius( 1.f ),
+			m_BVType( gtBoundingVolumeType::sphere )
 		{
 			m_scene = gtMainSystem::getInstance()->getSceneSystem( nullptr );
 		}
@@ -122,6 +127,7 @@ namespace gost{
 
 		virtual void				setScale( const v3f& s ){
 			m_scale = s;
+			recalculateBV();
 		}
 
 		virtual void				setOrientation( const gtQuaternion& q ){
@@ -136,14 +142,11 @@ namespace gost{
 
 		virtual void recalculateBV( void ){
 			gtObb * obb = getObb();
-			if( obb ){
-				gtQuaternion q( -getRotation() );
-				q.normalize();
-				
+			if( obb ){				
 				gtMatrix4 R, S;
 
-				math::makeRotationMatrix( R, q );
-				math::makeScaleMatrix( S, getScale() );
+				math::makeRotationMatrix( R, m_orientation );
+				math::makeScaleMatrix( S, m_scale );
 
 				R = R * S;
 
@@ -169,7 +172,12 @@ namespace gost{
 					aabb->add( obb->v7 );
 					aabb->add( obb->v8 );
 				}
-
+				obb->m_min = obb->v1;
+				obb->m_max = obb->v2;
+				//obb->calculateBaseInfo();
+				v3f c;
+				aabb->center( c );
+				m_sphereRadius = aabb->m_max.distance( c );
 			}
 		}
 
@@ -294,6 +302,18 @@ namespace gost{
 
 		virtual bool isShowBV( void ){
 			return m_isBV;
+		}
+
+		virtual const f32& getBVSphereRadius( void ) const {
+			return m_sphereRadius;
+		}
+
+		virtual gtBoundingVolumeType getBVType( void ) const {
+			return m_BVType;
+		}
+
+		virtual void setBVType( gtBoundingVolumeType type ){
+			m_BVType = type;
 		}
 	};
 

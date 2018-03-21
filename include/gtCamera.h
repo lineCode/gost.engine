@@ -27,11 +27,11 @@ namespace gost{
 	y_____|/
 	*/
 	struct gtCameraFrustum{
-		v3f m_farX;
+		/*v3f m_farX;
 		v3f m_farY;
 		v3f m_nearX;
-		v3f m_nearY;
-
+		v3f m_nearY;*/
+		v4f m_planes[ 6u ];
 	};
 
 		///	camera

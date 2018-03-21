@@ -142,6 +142,8 @@ gtStaticObject*	gtSceneSystemImpl::addStaticObject( gtRenderModel* model, const 
 
 	object->addRef();
 
+	object->recalculateBV();
+
 	return object.data();
 }
 
@@ -176,13 +178,16 @@ bool aabbInFrustum( gtCameraFrustum * frustum, gtAabb* aabb, const v3f& position
 	v3f _min = aabb->m_min + position;
 	v3f _max = aabb->m_max + position;
 
-	/*if( max <= frustum->m_farX && max > frustum->m_nearX )
-		return true;
-	if( min >= frustum->m_nearY && min <= frustum->m_farY )
-		return true;*/
+	return true;
+}
 
-
-
+bool sphereInFrustum( gtCameraFrustum * frustum, f32 radius, const v3f& position ){
+	for( u32 i = 0u; i < 6u; ++i ){
+		if( ( frustum->m_planes[ i ].x * position.x + frustum->m_planes[ i ].y * position.y + frustum->m_planes[ i ].z * position.z
+			+ frustum->m_planes[ i ].w ) <= -radius){
+			return false;
+		}
+	}
 	return true;
 }
 
@@ -201,15 +206,29 @@ void gtSceneSystemImpl::frustumCull( gtGameObject* root, gtArray<gtGameObject*>&
 	for(; it != childs->end(); ++it){
 		auto * var = *it;
 
-		gtAabb * aabb = var->getAabb();
+		switch( var->getBVType() ){
+		case gost::gtBoundingVolumeType::sphere:
+			if( sphereInFrustum( frustum, var->getBVSphereRadius(), var->getPositionInSpace() ) ){
+				outArray.push_back( var );
+		//		addChildsInArray( var, outArray );
+			}
+			break;
+		case gost::gtBoundingVolumeType::obb:
+		case gost::gtBoundingVolumeType::aabb:
+		case gost::gtBoundingVolumeType::convex:
+		default:
+				frustumCull( var, outArray, frustum );
+			break;
+		}
+
+		/*gtAabb * aabb = var->getAabb();
 		if( aabb ){
 			if( aabbInFrustum( frustum, aabb, var->getPositionInSpace() ) ){
 				outArray.push_back( var );
 				addChildsInArray( var, outArray );
 			}else{
-				frustumCull( var, outArray, frustum );
 			}
-		}
+		}*/
 
 	}
 }
@@ -301,6 +320,8 @@ void gtSceneSystemImpl::renderScene( void ){
 
 void gtSceneSystemImpl::drawObject( gtGameObject * object ){
 	auto name = object->getName();
+	//gtLogWriter::printInfo( u"Draw: %s", (name.to_utf16String()).data() );
+
 	m_mainSystem->setMatrixWorld( object->getAbsoluteWorldMatrix() );
 	object->render();
 
@@ -308,11 +329,13 @@ void gtSceneSystemImpl::drawObject( gtGameObject * object ){
 
 		gtObb * obb = object->getObb();
 
+		auto& pos = object->getPositionInSpace();
+		
 		if( obb ){
 
-			auto& pos = object->getPositionInSpace();
-
 			gtColor red( 1.f, 0.f, 0.f );
+			gtColor green( 0.f, 1.f, 0.f );
+			gtColor blue( 0.f, 0.f, 1.f );
 
 			m_driver->drawLineBox( 
 				obb->v1,
@@ -329,7 +352,6 @@ void gtSceneSystemImpl::drawObject( gtGameObject * object ){
 
 			gtAabb * aabb = object->getAabb();
 			if( aabb ){
-				gtColor green( 0.f, 1.f, 0.f );
 
 				v3f v1 = aabb->m_min;					
 				v3f v2 = aabb->m_max;					
@@ -342,7 +364,9 @@ void gtSceneSystemImpl::drawObject( gtGameObject * object ){
 
 				m_driver->drawLineBox( v1, v2, v3, v4, v5, v6, v7, v8, pos, green  );
 			}
+			m_driver->drawLineSphere( pos, object->getBVSphereRadius(), 1u, red, green, blue );
 		}
+
 	}
 }
 /*if( object->isShowBV() ){

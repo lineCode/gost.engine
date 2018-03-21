@@ -52,14 +52,29 @@ namespace gost{
 
 	public:
 		
-			/// Constructor.
-			///	\param addSize: 
+			// Constructor.
+			//	\param addSize: 
 		gtArray( u32 addSize = 8u ):
 			m_data( nullptr ),
 			m_size( 0u ),
 			m_allocated( 0u ),
 			m_addMemory( addSize )
 		{}
+
+		gtArray( const gtArray& other ):
+			m_data( nullptr ),
+			m_size( 0u ),
+			m_allocated( 0u ),
+			m_addMemory( addSize ){
+
+			u32 sz = other.size();
+
+			reserve( sz );
+
+			for( u32 i = 0u; i < sz; ++i ){
+				push_back( other[ i ] );
+			}
+		}
 
 		~gtArray( void ){
 			clear();

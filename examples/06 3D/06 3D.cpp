@@ -27,29 +27,25 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 
 	gtSceneSystem * scene = mainSystem->getSceneSystem( driver.data() );
 
-	gtCamera * camera = scene->addCamera( v3f(0.f,0.f,0.f) );
+	gtCamera * camera = scene->addCamera( v3f(0.f,1.f,0.f) );
 	camera->setCameraType( gtCameraType::CT_FPS );
 	//camera->setFar( 30.f );
 	camera->setAspect( 1.f );
 
-	gtStaticObject * room = scene->addStaticObject( driver->getModel(u"../media/m9.obj") );
-	room->showBV( true );
-	room->getModel()->getMaterial(0)->textureLayer[0].texture = driver->getTexture(u"../media/Tex_0009_1.png");
-	
 	gtModel * cube = mainSystem->getModelSystem()->createCube(0.125f);
 	gtRenderModel * rcube = driver->createModel( cube );
 
 	f32 x = 0.f, y = 0.f;
-	for( int i = 0; i < 100; ++i ){
-	//	scene->addStaticObject( rcube, v3f( x, 0.f, y ) );
+	gtStaticObject * cubs[1000];
+	for( int i = 0; i < 1000; ++i ){
+		cubs[ i ] = scene->addStaticObject( rcube, v3f( x, 0.f, y ) );
+		cubs[ i ]->showBV( true );
 		x += 1.f;
-		if( x > 10.f ){
+		if( x > 100.f ){
 			x = 0.f;
 			y += 1.f;
 		}
 	}
-
-	room->setScale( v3f( 0.25f ) );
 
 	gtEvent event;
 
@@ -66,7 +62,9 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 		f32 cs = std::cosf( angle )/180.f*PI;
 		angle += 10.f * delta; if( angle > 360.f ) angle = 0.f;
 
-		room->setRotation( v3f( 0.f, angle, 0.f ) );
+		for( int i = 0; i < 1000; ++i ){
+			cubs[ i ]->setRotation( v3f( angle - 0.01f, angle, angle + 0.01f ) );
+		}
 
 		//camera->setPosition( v3f_t( pos*sn, 5.f, pos*cs ) );
 
@@ -104,6 +102,9 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 
 
 			scene->renderScene(); /// Draw all
+
+
+			
 
 			driver->endRender();
 

@@ -4,7 +4,7 @@
 
 #pragma warning(disable : 4582)
 
-//C++
+//C++ 🖙🖏
 #include <cctype> //isalpha
 #include <fstream>
 #include <sstream>
@@ -40,9 +40,9 @@
 #include <gtList.h>
 #include <gtPriorQueue.h>
 
-#include <gtMath.h>
 
 #include <gtVector.h>
+#include <gtMath.h>
 #include <gtQuaternion.h>
 #include <gtMatrix.h>
 #include <gtColor.h>

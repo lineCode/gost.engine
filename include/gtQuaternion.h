@@ -9,20 +9,20 @@
 
 namespace gost{
 	
-		///	quaternion
+		//	quaternion
 	class gtQuaternion{
 	public:
 
-			///	component
+			//	component
 		f32 x, y, z, w;
 
-			///	c-tor
+			//	c-tor
 		gtQuaternion( void ){
 			identity();
 		}
 
-			///	c-tor with other quaternion
-			///	\param o: other quaternion
+			//	c-tor with other quaternion
+			//	\param o: other quaternion
 		gtQuaternion( const gtQuaternion& o ):
 			x(o.x),
 			y(o.y),
@@ -30,11 +30,11 @@ namespace gost{
 			w(o.w)
 		{}
 
-			///	c-tor with components
-			///	\param i1: imagine1, first component
-			///	\param i2: imagine2, second component
-			///	\param i3: imagine3, third component
-			///	\param real: real part, fourth component
+			//	c-tor with components
+			//	\param i1: imagine1, first component
+			//	\param i2: imagine2, second component
+			//	\param i3: imagine3, third component
+			//	\param real: real part, fourth component
 		gtQuaternion( f32 i1, f32 i2, f32 i3, f32 real ):
 			x(i1),
 			y(i2),
@@ -42,16 +42,16 @@ namespace gost{
 			w(real)
 		{}
 
-			///	create quaternion from Euler angles
-			/// \param Euler_x: x angle
-			/// \param Euler_y: y angle
-			/// \param Euler_z: z angle
+			//	create quaternion from Euler angles
+			// \param Euler_x: x angle
+			// \param Euler_y: y angle
+			// \param Euler_z: z angle
 		gtQuaternion( f32 Euler_x, f32 Euler_y, f32 Euler_z ){
 			set( Euler_x, Euler_y, Euler_z );
 		}
 
-			///	create quaternion from Euler angles
-			/// \param v: vector with angles
+			//	create quaternion from Euler angles
+			// \param v: vector with angles
 		gtQuaternion( const v3f& v ){
 			set( v );
 		}
@@ -86,10 +86,10 @@ namespace gost{
 			set( v.x, v.y, v.z );
 		}
 
-			///	set quaternion from Euler angles
-			/// \param Euler_x: x angle
-			/// \param Euler_y: y angle
-			/// \param Euler_z: z angle
+			//	set quaternion from Euler angles
+			// \param Euler_x: x angle
+			// \param Euler_y: y angle
+			// \param Euler_z: z angle
 		void set( f32 Euler_x, f32 Euler_y, f32 Euler_z ){
 			f32 c1 = cos( Euler_x * 0.5f );
 			f32 c2 = cos( Euler_y * 0.5f );

@@ -29,7 +29,7 @@ gtObjectType		gtCameraImpl::getType( void ){
 void				gtCameraImpl::update( void ){
 
 	gtMatrix4 translationMatrix;
-	math::makeTranslationMatrix( translationMatrix, m_position );
+	math::makeTranslationMatrix( translationMatrix, -m_position );
 
 	m_worldMatrix = translationMatrix;
 
@@ -198,29 +198,67 @@ gtCameraFrustum* gtCameraImpl::getFrustum( void ){
 }
 
 void gtCameraImpl::calculateFrustum( void ){
-	v3f pos = getPositionInSpace();
 
-	f32 _far = m_far * (m_fov*0.5f);
-	f32 _near = m_near * (m_fov*0.5f);
+	f32 *proj = m_projectionMatrix.getPtr();
+	f32 *modl = m_viewMatrix.getPtr();
+	float   clip[16]; //clipping planes
 
-	v3f farX  = v3f(  _far,  _far,   -m_far );
-	v3f farY  = v3f( -_far,  -_far,  -m_far );
-	v3f nearX = v3f(  _near,  _near, -m_near );
-	v3f nearY = v3f( -_near, -_near, -m_near );
+	clip[0] = modl[0] * proj[0] + modl[1] * proj[4] + modl[2] * proj[8] + modl[3] * proj[12];
+	clip[1] = modl[0] * proj[1] + modl[1] * proj[5] + modl[2] * proj[9] + modl[3] * proj[13];
+	clip[2] = modl[0] * proj[2] + modl[1] * proj[6] + modl[2] * proj[10] + modl[3] * proj[14];
+	clip[3] = modl[0] * proj[3] + modl[1] * proj[7] + modl[2] * proj[11] + modl[3] * proj[15];
 
-	switch( m_cameraType ){
-	case gost::gtCameraType::CT_LOOK_AT:
-		break;
-	case gost::gtCameraType::CT_FPS:
-	case gost::gtCameraType::CT_2D:
-		m_frustum.m_farX  = math::mul( farX, m_rotationMatrix );
-		m_frustum.m_farY  = math::mul( farY, m_rotationMatrix );
-		m_frustum.m_nearX = math::mul( nearX,m_rotationMatrix );
-		m_frustum.m_nearY = math::mul( nearY,m_rotationMatrix );
-		break;
-	}
+	clip[4] = modl[4] * proj[0] + modl[5] * proj[4] + modl[6] * proj[8] + modl[7] * proj[12];
+	clip[5] = modl[4] * proj[1] + modl[5] * proj[5] + modl[6] * proj[9] + modl[7] * proj[13];
+	clip[6] = modl[4] * proj[2] + modl[5] * proj[6] + modl[6] * proj[10] + modl[7] * proj[14];
+	clip[7] = modl[4] * proj[3] + modl[5] * proj[7] + modl[6] * proj[11] + modl[7] * proj[15];
 
-	m_frustum.m_farY  -= pos;
+	clip[8] = modl[8] * proj[0] + modl[9] * proj[4] + modl[10] * proj[8] + modl[11] * proj[12];
+	clip[9] = modl[8] * proj[1] + modl[9] * proj[5] + modl[10] * proj[9] + modl[11] * proj[13];
+	clip[10] = modl[8] * proj[2] + modl[9] * proj[6] + modl[10] * proj[10] + modl[11] * proj[14];
+	clip[11] = modl[8] * proj[3] + modl[9] * proj[7] + modl[10] * proj[11] + modl[11] * proj[15];
+
+	clip[12] = modl[12] * proj[0] + modl[13] * proj[4] + modl[14] * proj[8] + modl[15] * proj[12];
+	clip[13] = modl[12] * proj[1] + modl[13] * proj[5] + modl[14] * proj[9] + modl[15] * proj[13];
+	clip[14] = modl[12] * proj[2] + modl[13] * proj[6] + modl[14] * proj[10] + modl[15] * proj[14];
+	clip[15] = modl[12] * proj[3] + modl[13] * proj[7] + modl[14] * proj[11] + modl[15] * proj[15];
+
+
+	m_frustum.m_planes[ 0u ].x = clip[ 3u ] - clip[ 0u ];
+	m_frustum.m_planes[ 0u ].y = clip[ 7u ] - clip[ 4u ];
+	m_frustum.m_planes[ 0u ].z = clip[ 11u ] - clip[ 8u ];
+	m_frustum.m_planes[ 0u ].w = clip[ 15u ] - clip[ 12u ];
+	m_frustum.m_planes[ 0u ].normalize();
+
+	m_frustum.m_planes[ 1u ].x = clip[ 3u ] + clip[ 0u ];
+	m_frustum.m_planes[ 1u ].y = clip[ 7u ] + clip[ 4u ];
+	m_frustum.m_planes[ 1u ].z = clip[ 11u ] + clip[ 8u ];
+	m_frustum.m_planes[ 1u ].w = clip[ 15u ] + clip[ 12u ];
+	m_frustum.m_planes[ 1u ].normalize();
+
+	m_frustum.m_planes[ 2u ].x = clip[ 3u ] + clip[ 1u ];
+	m_frustum.m_planes[ 2u ].y = clip[ 7u ] + clip[ 5u ];
+	m_frustum.m_planes[ 2u ].z = clip[ 11u ] + clip[ 9u ];
+	m_frustum.m_planes[ 2u ].w = clip[ 15u ] + clip[ 13u ];
+	m_frustum.m_planes[ 2u ].normalize();
+
+	m_frustum.m_planes[ 3u ].x = clip[ 3u ] - clip[ 1u ];
+	m_frustum.m_planes[ 3u ].y = clip[ 7u ] - clip[ 5u ];
+	m_frustum.m_planes[ 3u ].z = clip[ 11u ] - clip[ 9u ];
+	m_frustum.m_planes[ 3u ].w = clip[ 15u ] - clip[ 13u ];
+	m_frustum.m_planes[ 3u ].normalize();
+
+	m_frustum.m_planes[ 4u ].x = clip[ 3u ] - clip[ 2u ];
+	m_frustum.m_planes[ 4u ].y = clip[ 7u ] - clip[ 6u ];
+	m_frustum.m_planes[ 4u ].z = clip[ 11u ] - clip[ 10u ];
+	m_frustum.m_planes[ 4u ].w = clip[ 15u ] - clip[ 14u ];
+	m_frustum.m_planes[ 4u ].normalize();
+
+	m_frustum.m_planes[ 5u ].x = clip[ 3u ] + clip[ 2u ];
+	m_frustum.m_planes[ 5u ].y = clip[ 7u ] + clip[ 6u ];
+	m_frustum.m_planes[ 5u ].z = clip[ 11u ] + clip[ 10u ];
+	m_frustum.m_planes[ 5u ].w = clip[ 15u ] + clip[ 14u ];
+	m_frustum.m_planes[ 5u ].normalize();
 
 }
 
