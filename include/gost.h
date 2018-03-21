@@ -40,9 +40,9 @@
 #include <gtList.h>
 #include <gtPriorQueue.h>
 
-#include <gtMath.h>
 
 #include <gtVector.h>
+#include <gtMath.h>
 #include <gtQuaternion.h>
 #include <gtMatrix.h>
 #include <gtColor.h>

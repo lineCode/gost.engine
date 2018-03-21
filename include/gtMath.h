@@ -96,6 +96,14 @@ namespace gost{
 			return (T)(a*(1.f-t)) + (b*t);
 		}
 
+		/*GT_FORCE_INLINE f32 planeDotCoord( const v3f& plane, const v3f& coord ){
+			return
+				plane.x * coord.x
+				+
+				plane.y * coord.y
+				+
+				plane.z * coord.z;
+		}*/
 	}
 
 }

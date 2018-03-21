@@ -51,6 +51,7 @@ namespace gost{
 
 		f32				m_sphereRadius;
 
+		gtBoundingVolumeType m_BVType;
 	public:
 
 			/// c-tor
@@ -61,7 +62,8 @@ namespace gost{
 			m_scale(1.f),
 			m_isVisible( true ),
 			m_isBV( false ),
-			m_sphereRadius( 1.f )
+			m_sphereRadius( 1.f ),
+			m_BVType( gtBoundingVolumeType::sphere )
 		{
 			m_scene = gtMainSystem::getInstance()->getSceneSystem( nullptr );
 		}
@@ -304,6 +306,14 @@ namespace gost{
 
 		virtual const f32& getBVSphereRadius( void ) const {
 			return m_sphereRadius;
+		}
+
+		virtual gtBoundingVolumeType getBVType( void ) const {
+			return m_BVType;
+		}
+
+		virtual void setBVType( gtBoundingVolumeType type ){
+			m_BVType = type;
 		}
 	};
 
