@@ -300,7 +300,7 @@ void writeName( gtString& outText, const gtString& inText ){
 	outText += inText;
 }
 
-u32 writeNodes( gtString& outText, const gtXMLNode& node, u32 tabCount ){
+bool writeNodes( gtString& outText, const gtXMLNode& node, u32 tabCount ){
 	for( u32 i = 0u; i < tabCount; ++i ){
 		outText += u"\t";
 	}
@@ -309,8 +309,6 @@ u32 writeNodes( gtString& outText, const gtXMLNode& node, u32 tabCount ){
 
 	writeName( outText, node.name );
 	
-	u32 TC = 0u;
-
 	u32 sz = node.attributeList.size();
 	if( sz ){
 		for( u32 i = 0u; i < sz; ++i ){
@@ -325,31 +323,33 @@ u32 writeNodes( gtString& outText, const gtXMLNode& node, u32 tabCount ){
 
 	if( !node.nodeList.size() && !node.text.size() ){
 		outText += u"/>\r\n";
+		return true;
 	}else if( node.text.size() ){
 		outText += u">";
 		writeText( outText, node.text );
-		TC = tabCount-1u;
-	//	outText += u"</";
-	//	outText += node.name;
-	//	outText += u">\r\n";
+		outText += u"</";
+		outText += node.name;
+		outText += u">\r\n";
+		return true;
 
 	}else{
 		outText += u">\r\n";
 		sz = node.nodeList.size();
 		for( u32 i = 0u; i < sz; ++i ){
-			u32 tc = writeNodes( outText, node.nodeList[ i ], tabCount );
-			for( u32 o = 0u; o < tabCount - tc; ++o ){
-				outText += u"\t";
+			if( !writeNodes( outText, node.nodeList[ i ], tabCount ) ){
+				for( u32 o = 0u; o < tabCount; ++o ){
+					outText += u"\t";
+				}
+				outText += u"</";
+				outText += node.nodeList[ i ].name;
+				outText += u">\r\n";
 			}
-			outText += u"</";
-			outText += node.nodeList[ i ].name;
-			outText += u">\r\n";
 		}
 	}
 
 	--tabCount;
 
-	return TC;
+	return false;
 }
 
 void gtMainSystemCommon::XMLWrite( const gtString& file, const gtXMLNode& rootNode, bool utf8 ){

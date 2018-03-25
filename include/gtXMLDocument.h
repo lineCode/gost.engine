@@ -16,6 +16,9 @@ namespace gost{
 
 	struct gtXMLNode{
 		gtXMLNode( void ){}
+		gtXMLNode( const gtString& Name ):
+			name( Name )
+		{}
 		gtXMLNode( const gtXMLNode& node ){
 			name = node.name;
 			text = node.text;

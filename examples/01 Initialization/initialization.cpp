@@ -71,44 +71,8 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 		output->print( supportedModels[ i ].c_str() );
 	}
 
-	gtXMLNode rootNode;
-	rootNode.name = u"bookstore";
-	rootNode.addAttribute( u"Name", u"Koob.ru" );
 
-	gtXMLNode cooking;
-	cooking.name = u"book";
-	cooking.addAttribute( u"category", u"cooking" );
-
-	gtXMLNode cooking_title;
-	cooking_title.name = u"title";
-	cooking_title.addAttribute( u"lang", u"en" );
-	cooking_title.text = u"Everyday Italian";
-	
-	cooking.addNode( cooking_title );
-
-	gtXMLNode cooking_author;
-	cooking_author.name = u"author";
-	cooking_author.text = u"Giada De Laurentiis";
-	
-	cooking.addNode( cooking_author );
-
-	gtXMLNode cooking_year;
-	cooking_year.name = u"year";
-	cooking_year.text = u"2005";
-	
-	cooking.addNode( cooking_year );
-
-	gtXMLNode cooking_price;
-	cooking_price.name = u"price";
-	cooking_price.text = u"30.00";
-	
-	cooking.addNode( cooking_price );
-
-	rootNode.addNode( cooking );
-
-	mainSystem->XMLWrite( u"test.xml", rootNode, true );
-
-	//gtXMLDocument * xml = mainSystem->XMLRead(  )
+	gtXMLDocument * xml = mainSystem->XMLRead( u"compiler_dmd.xml" );
 
 	while( mainSystem->update() ){
 
