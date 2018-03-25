@@ -4,13 +4,14 @@
 
 #pragma warning(disable : 4582)
 
-//C++ 🖙🖏
+//C++
 #include <cctype> //isalpha
 #include <fstream>
 #include <sstream>
 #include <string>
 #include <vector>
 #include <typeinfo>
+#include <codecvt>
 
 //	GOST 
 #include <gtInfo.h>
@@ -40,6 +41,7 @@
 #include <gtList.h>
 #include <gtPriorQueue.h>
 
+#include <gtXMLDocument.h>
 
 #include <gtVector.h>
 #include <gtMath.h>
@@ -55,7 +57,9 @@
 #include <gtOBB.h>
 
 #include <gtThread.h>
+#include <gtMutex.h>
 
+#include <gtGUIObject.h>
 
 #include <gtSceneSystem.h>
 #include <gtAudioSystem.h>

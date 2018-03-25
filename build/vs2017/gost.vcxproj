@@ -135,6 +135,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <OutputFile>../../bin32/$(TargetName)$(TargetExt)</OutputFile>
+      <ProgramDatabaseFile>$(OutDir)$(TargetName).pdb</ProgramDatabaseFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -220,11 +221,14 @@
     <ClCompile Include="..\..\gost\gtFileSystemImpl.cpp" />
     <ClCompile Include="..\..\gost\gtFileSystemWin32.cpp" />
     <ClCompile Include="..\..\gost\gtFileWin32.cpp" />
+    <ClCompile Include="..\..\gost\gtGUIFontImpl.cpp" />
+    <ClCompile Include="..\..\gost\gtGUISystemImpl.cpp" />
     <ClCompile Include="..\..\gost\gtLogerImpl.cpp" />
     <ClCompile Include="..\..\gost\gtMainSystemCommon.cpp" />
     <ClCompile Include="..\..\gost\gtMainSystemWin32.cpp" />
     <ClCompile Include="..\..\gost\gtModelImpl.cpp" />
     <ClCompile Include="..\..\gost\gtModelSystemImpl.cpp" />
+    <ClCompile Include="..\..\gost\gtMutexWin32.cpp" />
     <ClCompile Include="..\..\gost\gtOutputWindowWin32.cpp" />
     <ClCompile Include="..\..\gost\gtPluginImportImage.cpp" />
     <ClCompile Include="..\..\gost\gtPluginImportModel.cpp" />
@@ -236,6 +240,7 @@
     <ClCompile Include="..\..\gost\gtTimerWin32.cpp" />
     <ClCompile Include="..\..\gost\gtWindowCommon.cpp" />
     <ClCompile Include="..\..\gost\gtWindowWin32.cpp" />
+    <ClCompile Include="..\..\gost\gtXMLDocumentImpl.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\gost\gtCameraImpl.h" />
@@ -245,11 +250,14 @@
     <ClInclude Include="..\..\gost\gtFileSystemCommon.h" />
     <ClInclude Include="..\..\gost\gtFileSystemWin32.h" />
     <ClInclude Include="..\..\gost\gtFileWin32.h" />
+    <ClInclude Include="..\..\gost\gtGUIFontImpl.h" />
+    <ClInclude Include="..\..\gost\gtGUISystemImpl.h" />
     <ClInclude Include="..\..\gost\gtLogerImpl.h" />
     <ClInclude Include="..\..\gost\gtMainSystemCommon.h" />
     <ClInclude Include="..\..\gost\gtMainSystemWin32.h" />
     <ClInclude Include="..\..\gost\gtModelImpl.h" />
     <ClInclude Include="..\..\gost\gtModelSystemImpl.h" />
+    <ClInclude Include="..\..\gost\gtMutexWin32.h" />
     <ClInclude Include="..\..\gost\gtOutputWindowWin32.h" />
     <ClInclude Include="..\..\gost\gtPluginSystemImpl.h" />
     <ClInclude Include="..\..\gost\gtSceneSystemImpl.h" />
@@ -259,6 +267,7 @@
     <ClInclude Include="..\..\gost\gtWindowCommon.h" />
     <ClInclude Include="..\..\gost\gtWindowWin32.h" />
     <ClInclude Include="..\..\gost\common.h" />
+    <ClInclude Include="..\..\gost\gtXMLDocumentImpl.h" />
     <ClInclude Include="..\..\include\gost.h" />
     <ClInclude Include="..\..\include\gtAABB.h" />
     <ClInclude Include="..\..\include\gtAllocator.h" />
@@ -277,6 +286,8 @@
     <ClInclude Include="..\..\include\gtEvent.h" />
     <ClInclude Include="..\..\include\gtFileSystem.h" />
     <ClInclude Include="..\..\include\gtGameObject.h" />
+    <ClInclude Include="..\..\include\gtGUIFont.h" />
+    <ClInclude Include="..\..\include\gtGUIObject.h" />
     <ClInclude Include="..\..\include\gtGUISystem.h" />
     <ClInclude Include="..\..\include\gtImage.h" />
     <ClInclude Include="..\..\include\gtInfo.h" />
@@ -289,6 +300,7 @@
     <ClInclude Include="..\..\include\gtMatrix.h" />
     <ClInclude Include="..\..\include\gtModel.h" />
     <ClInclude Include="..\..\include\gtModelSystem.h" />
+    <ClInclude Include="..\..\include\gtMutex.h" />
     <ClInclude Include="..\..\include\gtOBB.h" />
     <ClInclude Include="..\..\include\gtOutputWindow.h" />
     <ClInclude Include="..\..\include\gtPlugin.h" />
@@ -313,6 +325,7 @@
     <ClInclude Include="..\..\include\gtVector.h" />
     <ClInclude Include="..\..\include\gtVertex.h" />
     <ClInclude Include="..\..\include\gtWindow.h" />
+    <ClInclude Include="..\..\include\gtXMLDocument.h" />
     <ClInclude Include="..\..\include\iSqrt_table.hpp" />
   </ItemGroup>
   <ItemGroup>

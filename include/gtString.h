@@ -397,6 +397,33 @@ namespace gost{
 	//! \brief Строка с ANSI текстом
 	GT_TYPE( gtStringA, gtString_base<char>); ///< See \ref _GT_TYPE
 
+	namespace util{
+		GT_FORCE_INLINE void changeEndian( gtString_base<char16_t>& string ){
+			u32 sz = string.size();
+			for( u32 i = 0u; i < sz; ++i ){
+				u8* p1 = reinterpret_cast<u8*>( &string.data()[ i ]);
+				u8* p2 = p1 + 1u;
+				u8 c1 = *p1;
+				*p1 = *p2;
+				*p2 = c1;
+			}
+		}
+
+		GT_FORCE_INLINE void utf16_to_utf8( gtString_base<char16_t>& utf16, gtString_base<char>& utf8 ){
+			u32 sz = utf16.size();
+			for( u32 i = 0u; i < sz; ++i ){
+				char16_t ch16 = utf16[ i ];
+				
+				if( ch16 < 0x80 ){
+					utf8 += (char)ch16;
+				}else if( ch16 < 0x800 ){
+					utf8 += (char)((ch16>>6)|0xc0);
+					utf8 += (char)((ch16&0x3f)|0x80);
+				}
+			}
+		}
+	}
+
 }
 
 #endif

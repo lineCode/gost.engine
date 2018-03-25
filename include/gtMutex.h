@@ -1,13 +1,19 @@
-﻿#pragma once
-#ifndef __GT_GUI_SYSTEM_H__
-#define __GT_GUI_SYSTEM_H__ ///< include guard
+﻿/*!	GOST
+	\file gtMutex.h
+	\brief 
+*/
+#pragma once
+#ifndef __GT_MUTEX_H__
+#define __GT_MUTEX_H__ //< include guard
 
 namespace gost{
 
-	class gtGUISystem : public gtRefObject{
+	class gtMutex : public gtRefObject{
 	public:
+	
+		virtual void lock( void ) = 0;
 
-		virtual gtGUIFont * createFont( gtString fontName ) = 0;
+		virtual void unlock( void ) = 0;
 
 	};
 

@@ -27,17 +27,8 @@ namespace gost{
 #define GT_EVENT_MASK_MOUSE_LMB_DBL 32u		///< была ли нажата левая кнопка мыши два раза подряд
 #define GT_EVENT_MASK_MOUSE_RMB_DBL 64u		///< была ли нажата правая кнопка мыши два раза подряд
 
-	struct gtBits{
-		bool b0:1, b1:1, b2:1, b3:1, b4:1, b5:1, b6:1, b7:1;
-	};
-
-	union gtByte{
-		gtByte( void ):byte( 0u ){}
-		gtBits bits;
-		u8 byte;
-	};
-
-		///	Тип события
+	
+		//	Тип события
 	enum class gtEventType : u32 {
 		none,		///< для завершения обработки массива событий
 		keyboard,

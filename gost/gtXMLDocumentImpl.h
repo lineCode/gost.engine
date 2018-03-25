@@ -1,14 +1,27 @@
-﻿#pragma once
-#ifndef __GT_GUI_SYSTEM_H__
-#define __GT_GUI_SYSTEM_H__ ///< include guard
+//	GOST
+
+#pragma once
+#ifndef __GT_XML_DOCUMENT_IMPL_H__
+#define __GT_XML_DOCUMENT_IMPL_H__
 
 namespace gost{
 
-	class gtGUISystem : public gtRefObject{
+
+	class gtXMLDocumentImpl GT_FINAL : public gtXMLDocument{
+
+		gtByte m_state;
+
+		gtXMLNode m_root;
+
 	public:
 
-		virtual gtGUIFont * createFont( gtString fontName ) = 0;
+		gtXMLDocumentImpl( void );
+		~gtXMLDocumentImpl( void );
 
+
+		bool good( void );
+		void clear();
+		void setRootNode( const gtXMLNode& node );
 	};
 
 }

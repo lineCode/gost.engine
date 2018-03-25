@@ -1,41 +1,22 @@
 #include "common.h"
 
-gtThreadWin32::gtThreadWin32( void ):
-	m_handle( nullptr )
-{}
 
-gtThreadWin32::~gtThreadWin32( void ){
-	join();
+gtMutexWin32::gtMutexWin32( void ){
+	m_isInitialized = true;
+	InitializeCriticalSection( &m_cSection );
 }
 
-bool gtThreadWin32::start( StartFunction f, void* args, u32 stackSize ){
-
-	m_handle = (HANDLE)_beginthreadex( NULL, stackSize, (_beginthreadex_proc_type)f, args, 0, &m_id );
-
-	if( !m_handle ) return false;
-
-	m_status = gtThreadStatus::running;
-
-	return true;
+gtMutexWin32::~gtMutexWin32( void ){
+	m_isInitialized = false;
+	DeleteCriticalSection( &m_cSection );
+}
+	
+void gtMutexWin32::lock( void ){
+	EnterCriticalSection( &m_cSection );
 }
 
-void gtThreadWin32::join( void ){
-
-	if( m_handle ){
-
-		WaitForSingleObject( m_handle, INFINITE );
-
-		m_status = gtThreadStatus::terminated;
-
-		
-		CloseHandle( m_handle );
-		m_handle = nullptr;
-
-	}
-}
-
-void * gtThreadWin32::getHandle( void ){
-	return (void*)m_handle;
+void gtMutexWin32::unlock( void ){
+	LeaveCriticalSection( &m_cSection );
 }
 
 

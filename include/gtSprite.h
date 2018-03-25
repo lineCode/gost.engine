@@ -16,26 +16,29 @@ namespace gost{
 		///	2D картинка с возможностью создания анимации
 	class gtSprite : public gtGameObject{
 
-		gtObjectType m_type;			///< тип объекта
+		gtObjectType m_type;			//< тип объекта
 		 
-		gtAnimation m_animation;		///< объект для работы анимации
-		gtArray<v8f> m_frames;			///< кадры анимации
+		gtAnimation m_animation;		//< объект для работы анимации
+		gtArray<v8f> m_frames;			//< кадры анимации
 
-		gtMaterial	 m_material;		///< материал
-		gtTexture *  m_texture;			///< текстура
+		gtMaterial	 m_material;		//< материал
+		gtTexture *  m_texture;			//< текстура
 
-		gtRenderModel* m_rModel;		///< модель
+		gtRenderModel* m_rModel;		//< модель
 
-		gtMainSystem * m_system;		///< указатель на главную систему
-		gtDriver * m_driver;			///< указатель на видео драйвер, который владеет hardware буферами данного спрайта
+		gtMainSystem * m_system;		//< указатель на главную систему
+		gtDriver * m_driver;			//< указатель на видео драйвер, который владеет hardware буферами данного спрайта
 
-		bool m_firstFrame;				///< для того чтобы правильно создавать анимацию
-		bool m_inverseHorizontal;		///< изменять UV координаты по горизонтали
+		bool m_firstFrame;				//< для того чтобы правильно создавать анимацию
+		bool m_inverseHorizontal;		//< изменять UV координаты по горизонтали
 
-		u32 width, height;				///< ширина и высота указанной текстуры
+		u32 width, height;				//< ширина и высота указанной текстуры
 
-		f32 m_timer;					///< таймер
-		f32 m_timerLimit;				///< лимит таймера, после которого таймер сбрасывается до нуля
+		f32 m_timer;					//< таймер
+		f32 m_timerLimit;				//< лимит таймера, после которого таймер сбрасывается до нуля
+
+		gtAabb m_aabb;
+		gtObb  m_obb;
 
 		gtSprite( void ){};
 
@@ -71,6 +74,8 @@ namespace gost{
 
 			m_rModel = d->createModel( model );
 
+			m_aabb = *m_rModel->getAabb();
+			m_obb = *m_rModel->getObb();
 
 			width = 1u, height = 1u;
 			if( m_material.textureLayer[ 0u ].texture ){
@@ -101,11 +106,11 @@ namespace gost{
 		}
 
 		gtAabb*				getAabb( void ){
-			return m_rModel->getAabb();
+			return &m_aabb;
 		}
 
 		gtObb*				getObb( void ){
-			return m_rModel->getObb();
+			return &m_obb;
 		}
 
 			/// Получить тип объекта

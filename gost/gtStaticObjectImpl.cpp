@@ -4,6 +4,8 @@ gtStaticObjectImpl::gtStaticObjectImpl( gtRenderModel* model ):
 	m_type( gtObjectType::STATIC ),
 	m_model( model )
 {
+	m_aabb = *m_model->getAabb();
+	m_obb = *m_model->getObb();
 }
 
 gtStaticObjectImpl::~gtStaticObjectImpl( void ){
@@ -61,9 +63,9 @@ gtRenderModel*	gtStaticObjectImpl::getModel( void ){
 }
 
 gtAabb* gtStaticObjectImpl::getAabb( void ){
-	return m_model->getAabb();
+	return &m_aabb;
 }
 
 gtObb* gtStaticObjectImpl::getObb( void ){
-	return m_model->getObb();
+	return &m_obb;
 }

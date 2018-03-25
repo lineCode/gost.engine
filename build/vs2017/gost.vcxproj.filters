@@ -28,6 +28,12 @@
     <Filter Include="Source\Objects">
       <UniqueIdentifier>{7419d657-c89c-4e40-bd67-e3fa455391a3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\GUI">
+      <UniqueIdentifier>{fad21781-0e89-4f10-8ccd-e213c0e064af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headers\GUI">
+      <UniqueIdentifier>{73abb785-ca2b-42ee-af62-4c88cb587af1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\gost\dllmain.cpp">
@@ -109,6 +115,18 @@
       <Filter>Source\Objects</Filter>
     </ClCompile>
     <ClCompile Include="..\..\gost\gtThreadWin32.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\gost\gtXMLDocumentImpl.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\gost\gtGUIFontImpl.cpp">
+      <Filter>Source\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\gost\gtGUISystemImpl.cpp">
+      <Filter>Source\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\gost\gtMutexWin32.cpp">
       <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>
@@ -340,6 +358,30 @@
     </ClInclude>
     <ClInclude Include="..\..\include\gtOBB.h">
       <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\gtGUIObject.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\gtXMLDocument.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\gost\gtXMLDocumentImpl.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\gost\gtGUISystemImpl.h">
+      <Filter>Headers\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\gost\gtGUIFontImpl.h">
+      <Filter>Headers\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\gtGUIFont.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\gtMutex.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\gost\gtMutexWin32.h">
+      <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -30,6 +30,8 @@ namespace gost{
 			///	для вывода текста
 		gtPtr<gtLoger> m_log;
 
+		gtMutex * m_mutex;
+
 			///	нельзя создать объект с таким конструктором
 		gtStackTrace( void ){}
 
@@ -39,28 +41,28 @@ namespace gost{
 		void shutdown( void );
 
 	public:
-			///	конструирует объект и инициализирует логер
-		gtStackTrace( gtMainSystem* s ) : m_is_initialized( false ){
+
+		gtStackTrace( gtMainSystem* s ):m_is_initialized( false ){
 			m_log = gtPtrNew<gtLoger>( s->getLoger() );
 			m_log->setOutputWindow( s->getOutputWindow() );
 			m_log->addRef();
 		}
-			///	dtor
+
 		virtual ~gtStackTrace( void ){
 			m_log->release();
 		}
 
-			///	skip_begin	- пропуск с начала\n
-			///	skip_end	- пропуск с конца\n
-			///	если skip_begin = 0 то будет показан gtStackTrace::printStackTrace()\n
-			///	что очевидно, по этому по умолчанию стоит 1\n
-			///	skip_end = 7 значит не напечатает последние 7
+			//	skip_begin	- пропуск с начала\n
+			//	skip_end	- пропуск с конца\n
+			//	если skip_begin = 0 то будет показан gtStackTrace::printStackTrace()\n
+			//	что очевидно, по этому по умолчанию стоит 1\n
+			//	skip_end = 7 значит не напечатает последние 7
 		void printStackTrace( u32 skip_begin = 1u, u32 skip_end = 7u );
 
-			///	движок имеет свой объект gtStackTrace\n
-			///	данной функцией можно вызывать printStackTrace()\n
-			///	всего лишь 1м предложением gtStackTrace::dumpStackTrace()\n
-			///	создан специально чтобы не плодить объекты gtStackTrace в разных модулях (.exe, .dll)
+			//	движок имеет свой объект gtStackTrace\n
+			//	данной функцией можно вызывать printStackTrace()\n
+			//	всего лишь 1м предложением gtStackTrace::dumpStackTrace()\n
+			//	создан специально чтобы не плодить объекты gtStackTrace в разных модулях (.exe, .dll)
 		GT_API static	void dumpStackTrace( void );
 
 	};

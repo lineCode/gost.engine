@@ -1,19 +1,44 @@
-﻿#pragma once
-#ifndef __GT_GUI_SYSTEM_H__
-#define __GT_GUI_SYSTEM_H__ ///< include guard
+#include "common.h"
 
-namespace gost{
+gtThreadWin32::gtThreadWin32( void ):
+	m_handle( nullptr )
+{}
 
-	class gtGUISystem : public gtRefObject{
-	public:
-
-		virtual gtGUIFont * createFont( gtString fontName ) = 0;
-
-	};
-
+gtThreadWin32::~gtThreadWin32( void ){
+	join();
 }
 
-#endif
+bool gtThreadWin32::start( StartFunction f, void* args, u32 stackSize ){
+
+	m_handle = (HANDLE)_beginthreadex( NULL, stackSize, (_beginthreadex_proc_type)f, args, 0, &m_id );
+
+	if( !m_handle ) return false;
+
+	m_status = gtThreadStatus::running;
+
+	return true;
+}
+
+void gtThreadWin32::join( void ){
+
+	if( m_handle ){
+
+		WaitForSingleObject( m_handle, INFINITE );
+
+		m_status = gtThreadStatus::terminated;
+
+		
+		CloseHandle( m_handle );
+		m_handle = nullptr;
+
+	}
+}
+
+void * gtThreadWin32::getHandle( void ){
+	return (void*)m_handle;
+}
+
+
 
 /*
 Copyright (c) 2018 532235

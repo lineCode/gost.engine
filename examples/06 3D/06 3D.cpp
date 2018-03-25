@@ -13,6 +13,8 @@ using namespace gost;
 #include <Windows.h>
 int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR /*lpCmdLine*/, int /*nCmdShow*/ ){
 #endif
+
+
 	gtDeviceCreationParameters params;
 	gtPtr_t(gtMainSystem,mainSystem,InitializeGoSTEngine(params));
 	
@@ -27,17 +29,22 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 
 	gtSceneSystem * scene = mainSystem->getSceneSystem( driver.data() );
 
+	gtStaticObject * room = scene->addStaticObject( driver->getModel(u"../media/m9.obj") );
+	room->showBV( true );
+	room->getModel()->getMaterial(0)->textureLayer[0].texture = driver->getTexture(u"../media/Tex_0009_1.png");
+
 	gtCamera * camera = scene->addCamera( v3f(0.f,1.f,0.f) );
 	camera->setCameraType( gtCameraType::CT_FPS );
 	//camera->setFar( 30.f );
 	camera->setAspect( 1.f );
+	camera->setFar( 250.f );
 
 	gtModel * cube = mainSystem->getModelSystem()->createCube(0.125f);
 	gtRenderModel * rcube = driver->createModel( cube );
 
 	f32 x = 0.f, y = 0.f;
-	gtStaticObject * cubs[1000];
-	for( int i = 0; i < 1000; ++i ){
+	gtStaticObject * cubs[10000];
+	for( int i = 0; i < 10000; ++i ){
 		cubs[ i ] = scene->addStaticObject( rcube, v3f( x, 0.f, y ) );
 		cubs[ i ]->showBV( true );
 		x += 1.f;
@@ -96,6 +103,8 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 			if( mainSystem->isKeyPressed( gtKey::K_DOWN ) ) camera->setPosition( camera->getPosition() - v3f( 0.0f, 0.0f, 0.1f ) );
 			if( mainSystem->isKeyPressed( gtKey::K_LEFT ) ) camera->setPosition( camera->getPosition() - v3f( 0.1f, 0.0f, 0.0f ) );
 			if( mainSystem->isKeyPressed( gtKey::K_RIGHT ) ) camera->setPosition( camera->getPosition() + v3f( 0.1f, 0.0f, 0.0f ) );
+			if( mainSystem->isKeyPressed( gtKey::K_PGUP ) ) camera->setPosition( camera->getPosition() + v3f( 0.f, 0.1f, 0.0f ) );
+			if( mainSystem->isKeyPressed( gtKey::K_PGDOWN ) ) camera->setPosition( camera->getPosition() - v3f( 0.f, 0.1f, 0.0f ) );
 
 
 			driver->beginRender( true, gtColor( 0.2f, 0.2f, 0.2f, 1.f ) ); /// RGBA.

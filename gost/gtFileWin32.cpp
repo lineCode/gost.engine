@@ -68,6 +68,11 @@ m_pointerPosition( 0u )
 		}
 	}
 
+	if( mode == gtFileSystem::FileMode::EFM_TEXT ){
+		m_isTextFile = true;
+
+	}
+
 	m_handle = CreateFileW( (wchar_t*)fileName.data(), m_desiredAccess, ShareMode, NULL,
 		CreationDisposition, FlagsAndAttributes, NULL );
 
@@ -76,9 +81,6 @@ m_pointerPosition( 0u )
 			fileName.data(), GetLastError() );
 	}
 
-	if( mode == gtFileSystem::FileMode::EFM_TEXT ){
-		m_isTextFile = true;
-	}
 
 }
 
@@ -95,8 +97,54 @@ gtFileWin32::~gtFileWin32( void ){
 }
 
 
-gtFile::TextFileInfo	gtFileWin32::getTextFileInfo( void ){
+gtTextFileInfo	gtFileWin32::getTextFileInfo( void ){
 	return this->m_textInfo;
+}
+
+void	gtFileWin32::setTextFileInfo( gtTextFileInfo info ){
+	m_textInfo = info;
+
+	this->seek( 0u, gtFile::SeekPos::ESP_BEGIN );
+
+	if( info.m_hasBOM ){
+
+		gtStringA str;
+		str.reserve( 256u );
+
+		switch( info.m_format ){
+			case gtTextFileInfo::format::utf_8:{
+				str.data()[ 0u ] = 0xEF;
+				str.data()[ 1u ] = 0xBB;
+				str.data()[ 2u ] = 0xBF;
+				str.setSize( 3u );
+			}break;
+			case gtTextFileInfo::format::utf_16:{
+				if( info.m_endian == gtTextFileInfo::endian::big ){
+					str.data()[ 0u ] = 0xFE;
+					str.data()[ 1u ] = 0xFF;
+				}else{
+					str.data()[ 0u ] = 0xFF;
+					str.data()[ 1u ] = 0xFE;
+				}
+				str.setSize( 2u );
+			}break;
+			case gtTextFileInfo::format::utf_32:{
+				if( info.m_endian == gtTextFileInfo::endian::big ){
+					str.data()[ 0u ] = 0x00;
+					str.data()[ 1u ] = 0x00;
+					str.data()[ 2u ] = 0xFE;
+					str.data()[ 3u ] = 0xFF;
+				}else{
+					str.data()[ 0u ] = 0xFF;
+					str.data()[ 1u ] = 0xFE;
+					str.data()[ 2u ] = 0x00;
+					str.data()[ 3u ] = 0x00;
+				}
+				str.setSize( 4u );
+			}break;
+		}
+		this->write( str );
+	}
 }
 
 //	дл€ двоичной записи
@@ -121,7 +169,7 @@ u32	gtFileWin32::write( u8 * data, u32 size ){
 //	дл€ текста. –аботает если файл открыт в текстовом режиме.
 void	gtFileWin32::write( const gtStringA& string ){
 	GT_ASSERT1( m_isTextFile, "This file opened in binary mode", "m_isTextFile == true" );
-	GT_ASSERT1( (m_desiredAccess & FILE_APPEND_DATA), "Can not write to file.", "File open in binary mode" );
+//	GT_ASSERT1( (m_desiredAccess & FILE_APPEND_DATA), "Can not write to file.", "File open in binary mode" );
 	if( !m_handle ){
 		gtLogWriter::printWarning( u"Can not write text to file. m_handle == nullptr" );
 		return;
@@ -136,7 +184,7 @@ void	gtFileWin32::write( const gtStringA& string ){
 
 void	gtFileWin32::write( const gtString& string ){
 	GT_ASSERT1( m_isTextFile, "This file opened in binary mode", "m_isTextFile == true" );
-	GT_ASSERT1( (m_desiredAccess & FILE_APPEND_DATA), "Can not write to file.", "File open in binary mode" );
+//	GT_ASSERT1( (m_desiredAccess & FILE_APPEND_DATA), "Can not write to file.", "File open in binary mode" );
 	if( !m_handle ){
 		gtLogWriter::printWarning( u"Can not write text to file. m_handle == nullptr" );
 		return;
@@ -151,7 +199,7 @@ void	gtFileWin32::write( const gtString& string ){
 
 void	gtFileWin32::write( const gtString32& string ){
 	GT_ASSERT1( m_isTextFile, "This file opened in binary mode", "m_isTextFile == true" );
-	GT_ASSERT1( (m_desiredAccess & FILE_APPEND_DATA), "Can not write to file.", "File open in binary mode" );
+//	GT_ASSERT1( (m_desiredAccess & FILE_APPEND_DATA), "Can not write to file.", "File open in binary mode" );
 	if( !m_handle ){
 		gtLogWriter::printWarning( u"Can not write text to file. m_handle == nullptr" );
 		return;

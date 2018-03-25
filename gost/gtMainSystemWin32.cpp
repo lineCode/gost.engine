@@ -150,6 +150,10 @@ gtThread*	gtMainSystemWin32::createThread( void ){
 	return new gtThreadWin32;
 }
 
+gtMutex*	gtMainSystemWin32::createMutex( void ){
+	return new gtMutexWin32;
+}
+
 #endif
 
 /*

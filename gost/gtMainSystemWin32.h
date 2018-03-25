@@ -47,6 +47,8 @@ namespace gost{
 		gtTimer*	getTimer( void );
 
 		gtThread*	createThread( void );
+
+		gtMutex*	createMutex( void );
 	};
 
 }

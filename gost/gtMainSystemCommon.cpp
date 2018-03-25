@@ -257,6 +257,134 @@ gtAudioSystem* gtMainSystemCommon::createAudioSystem( const gtString& uid ){
 	return pluginAudio->loadAudioDriver();
 }
 
+gtXMLDocument* gtMainSystemCommon::XMLRead( const gtString& file ){
+
+	if( !gtFileSystem::existFile( file ) ){
+		gtLogWriter::printWarning( u"Can not read XML document. File not exist. [%s]", file.data() );
+		return nullptr;
+	}
+
+	gtPtr_t( gtXMLDocumentImpl, xml, new gtXMLDocumentImpl() );
+
+	if( !xml.data() ){
+		gtLogWriter::printWarning( u"Can not create XML document." );
+		return nullptr;
+	}
+
+
+	xml->addRef();
+	return xml.data();
+}
+
+void writeText( gtString& outText, const gtString& inText ){
+	u32 sz = inText.size();
+	for( u32 i = 0u; i < sz; ++i ){
+		if( inText[ i ] == u'\'' ){
+			outText += u"&apos;";
+		}else if( inText[ i ] == u'\"' ){
+			outText += u"&quot;";
+		}else if( inText[ i ] == u'<' ){
+			outText += u"&lt;";
+		}else if( inText[ i ] == u'>' ){
+			outText += u"&gt;";
+		}else if( inText[ i ] == u'&' ){
+			outText += u"&amp;";
+		}else{
+			outText += inText[ i ];
+		}
+	}
+}
+
+void writeName( gtString& outText, const gtString& inText ){
+	outText += "<";
+	outText += inText;
+}
+
+u32 writeNodes( gtString& outText, const gtXMLNode& node, u32 tabCount ){
+	for( u32 i = 0u; i < tabCount; ++i ){
+		outText += u"\t";
+	}
+
+	++tabCount;
+
+	writeName( outText, node.name );
+	
+	u32 TC = 0u;
+
+	u32 sz = node.attributeList.size();
+	if( sz ){
+		for( u32 i = 0u; i < sz; ++i ){
+			outText += u" ";
+			outText += node.attributeList[ i ].name;
+			outText += u"=";
+			outText += u"\"";
+			writeText( outText, node.attributeList[ i ].value );
+			outText += u"\"";
+		}
+	}
+
+	if( !node.nodeList.size() && !node.text.size() ){
+		outText += u"/>\r\n";
+	}else if( node.text.size() ){
+		outText += u">";
+		writeText( outText, node.text );
+		TC = tabCount-1u;
+	//	outText += u"</";
+	//	outText += node.name;
+	//	outText += u">\r\n";
+
+	}else{
+		outText += u">\r\n";
+		sz = node.nodeList.size();
+		for( u32 i = 0u; i < sz; ++i ){
+			u32 tc = writeNodes( outText, node.nodeList[ i ], tabCount );
+			for( u32 o = 0u; o < tabCount - tc; ++o ){
+				outText += u"\t";
+			}
+			outText += u"</";
+			outText += node.nodeList[ i ].name;
+			outText += u">\r\n";
+		}
+	}
+
+	--tabCount;
+
+	return TC;
+}
+
+void gtMainSystemCommon::XMLWrite( const gtString& file, const gtXMLNode& rootNode, bool utf8 ){
+
+	gtString outText( u"<?xml version=\"1.0\"" );
+	if( utf8 ) outText += " encoding=\"UTF-8\"";
+	outText += " ?>\r\n";
+
+	writeNodes( outText, rootNode, 0 );
+	outText += u"</";
+	outText += rootNode.name;
+	outText += u">\r\n";
+
+	gtFile_t out = util::createFileForWriteText( file );
+
+	gtTextFileInfo ti;
+	ti.m_hasBOM = true;
+	if( utf8 ){
+		ti.m_format = ti.utf_8;
+		out->setTextFileInfo( ti );
+		
+		gtStringA mbstr;
+		util::utf16_to_utf8( outText, mbstr );
+
+		out->write( mbstr );
+
+	}else{
+		ti.m_endian = ti.little;
+		ti.m_format = ti.utf_16;
+		out->setTextFileInfo( ti );
+		out->write( outText );
+	}
+
+}
+
 /*
 Copyright (c) 2017, 2018 532235
 

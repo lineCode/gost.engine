@@ -8,7 +8,7 @@ namespace gost{
 
 	class gtFileWin32 GT_FINAL : public gtFile{
 
-		gtFile::TextFileInfo m_textInfo;
+		gtTextFileInfo m_textInfo;
 
 		HANDLE m_handle;
 
@@ -27,8 +27,8 @@ namespace gost{
 		virtual ~gtFileWin32( void );
 
 
-		TextFileInfo	getTextFileInfo( void );
-
+		gtTextFileInfo	getTextFileInfo( void );
+		void	setTextFileInfo( gtTextFileInfo info );
 
 			//	для двоичной записи
 		u32		write( u8 * data, u32 size );

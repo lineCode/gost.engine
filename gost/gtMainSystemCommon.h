@@ -116,6 +116,9 @@ namespace gost{
 		bool isMMBDown( void );
 		const gtVector2<u16>& getCursorPosition( void );
 		const gtDeviceCreationParameters& getDeviceCreationParameters( void );
+
+		gtXMLDocument* XMLRead( const gtString& file );
+		void XMLWrite( const gtString& file, const gtXMLNode& rootNode, bool utf8 = false );
 	};
 
 #define gtLog gtMainSystemCommon::s_loger

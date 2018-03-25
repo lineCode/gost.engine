@@ -1,19 +1,25 @@
-﻿#pragma once
-#ifndef __GT_GUI_SYSTEM_H__
-#define __GT_GUI_SYSTEM_H__ ///< include guard
+#include "common.h"
 
-namespace gost{
 
-	class gtGUISystem : public gtRefObject{
-	public:
+gtGUIFont * gtGUISystemImpl::createFont( gtString fontName ){
 
-		virtual gtGUIFont * createFont( gtString fontName ) = 0;
+	gtPtr_t( gtGUIFontImpl, font, new gtGUIFontImpl() );
 
-	};
+	if( !font.data() )
+		return nullptr;
 
+	if( !font->init( fontName ) ){
+		gtLogWriter::printWarning( u"Can not create font \"%s\"", fontName.c_str() );
+		return nullptr;
+	}
+
+
+	font->addRef();
+
+	return font.data();
 }
 
-#endif
+
 
 /*
 Copyright (c) 2018 532235
