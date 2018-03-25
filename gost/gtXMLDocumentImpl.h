@@ -9,19 +9,17 @@ namespace gost{
 
 	class gtXMLDocumentImpl GT_FINAL : public gtXMLDocument{
 
-		gtByte m_state;
-
 		gtXMLNode m_root;
+
+		gtString m_fileName;
 
 	public:
 
-		gtXMLDocumentImpl( void );
+		gtXMLDocumentImpl( const gtString& fileName );
 		~gtXMLDocumentImpl( void );
 
 
-		bool good( void );
-		void clear();
-		void setRootNode( const gtXMLNode& node );
+		gtXMLNode* getRootNode( void );
 	};
 
 }

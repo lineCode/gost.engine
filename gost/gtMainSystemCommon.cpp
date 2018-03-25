@@ -264,7 +264,7 @@ gtXMLDocument* gtMainSystemCommon::XMLRead( const gtString& file ){
 		return nullptr;
 	}
 
-	gtPtr_t( gtXMLDocumentImpl, xml, new gtXMLDocumentImpl() );
+	gtPtr_t( gtXMLDocumentImpl, xml, new gtXMLDocumentImpl(file) );
 
 	if( !xml.data() ){
 		gtLogWriter::printWarning( u"Can not create XML document." );

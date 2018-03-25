@@ -60,13 +60,7 @@ namespace gost{
 	class gtXMLDocument : public gtRefObject{
 	public:
 
-			// Return `true` if all ok
-		virtual bool good( void ) = 0;
-
-		virtual void clear( void ) = 0;
-
-			// Clear all and set root node
-		virtual void setRootNode( const gtXMLNode& node ) = 0;
+		virtual gtXMLNode* getRootNode( void ) = 0;
 	};
 
 }

@@ -1,30 +1,15 @@
 #include "common.h"
 
-gtXMLDocumentImpl::gtXMLDocumentImpl( void ){
-
+gtXMLDocumentImpl::gtXMLDocumentImpl( const gtString& fileName ){
+	m_fileName = fileName;
 }
 
 gtXMLDocumentImpl::~gtXMLDocumentImpl( void ){
 
 }
 
-bool gtXMLDocumentImpl::good( void ){
-	return m_state.bits.b0;
-}
-
-void gtXMLDocumentImpl::clear( void ){
-	m_state.byte = 0u;
-
-	m_root.attributeList.clear();
-	m_root.nodeList.clear();
-	m_root.name.clear();
-	m_root.text.clear();
-}
-
-void gtXMLDocumentImpl::setRootNode( const gtXMLNode& node ){
-	clear();
-
-	m_root = node;
+gtXMLNode* gtXMLDocumentImpl::getRootNode( void ){
+	return &m_root;
 }
 
 /*
