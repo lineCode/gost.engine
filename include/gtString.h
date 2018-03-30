@@ -110,6 +110,18 @@ namespace gost{
 			assign( str );
 		}
 	
+		gtString_base( char_type c ):
+			m_size( 0u ),
+			m_allocated( StringWordSize ),
+			m_data( nullptr )
+		{
+			u32 new_size = 1u;
+			reallocate( (new_size + 1u) + StringWordSize );
+			m_data[ 0u ] = c;
+			m_size = new_size;
+			m_data[ m_size ] = 0x0;
+		}
+
 			/// Destructor
 		~gtString_base( void ){
 			if( m_data )
@@ -163,8 +175,8 @@ namespace gost{
 			append( str.data() );
 		}
 
-			/// Add char
-			/// \param c: char
+			// Add char
+			// \param c: char
 		void append( char_type c ){
 			u32 new_size = m_size + 1u;
 			if( (new_size + 1u) > m_allocated )
@@ -230,7 +242,7 @@ namespace gost{
 			return m_size;
 		}
 
-			///	Assign
+			//	Assign
 		this_type& operator=( this_const_reference str ){
 			assign( str );
 			return *this;
@@ -398,6 +410,7 @@ namespace gost{
 	GT_TYPE( gtStringA, gtString_base<char>); ///< See \ref _GT_TYPE
 
 	namespace util{
+
 		GT_FORCE_INLINE void changeEndian( gtString_base<char16_t>& string ){
 			u32 sz = string.size();
 			for( u32 i = 0u; i < sz; ++i ){
@@ -413,12 +426,65 @@ namespace gost{
 			u32 sz = utf16.size();
 			for( u32 i = 0u; i < sz; ++i ){
 				char16_t ch16 = utf16[ i ];
-				
 				if( ch16 < 0x80 ){
 					utf8 += (char)ch16;
 				}else if( ch16 < 0x800 ){
 					utf8 += (char)((ch16>>6)|0xc0);
 					utf8 += (char)((ch16&0x3f)|0x80);
+				}
+			}
+		}
+
+		GT_FORCE_INLINE void utf8_to_utf16( gtString_base<char16_t>& utf16, gtString_base<char>& utf8 ){
+			gtArray<u32> unicode;
+			u32 i = 0u;
+			auto sz = utf8.size();
+			while( i < sz ){
+				u32 uni = 0u;
+				u32 todo = 0u;
+//				bool error = false;
+				u8 ch = utf8[i++];
+				if( ch <= 0x7F ){
+					uni = ch;
+					todo = 0;
+				}else if( ch <= 0xBF ){
+					//throw std::logic_error("not a UTF-8 string");
+				}else if ( ch <= 0xDF ){
+					uni = ch&0x1F;
+					todo = 1;
+				}else if( ch <= 0xEF ){
+					uni = ch&0x0F;
+					todo = 2;
+				}else if( ch <= 0xF7 ){
+					uni = ch&0x07;
+					todo = 3;
+				}else{
+					//throw std::logic_error("not a UTF-8 string");
+				}
+				for( u32 j = 0; j < todo; ++j ){
+					//if( i == utf8.size() )
+						//throw std::logic_error("not a UTF-8 string");
+					u8 ch2 = utf8[i++];
+					//if( ch < 0x80 || ch > 0xBF )
+						//throw std::logic_error("not a UTF-8 string");
+					uni <<= 6;
+					uni += ch2 & 0x3F;
+				}
+				//if( uni >= 0xD800 && uni <= 0xDFFF )
+					//throw std::logic_error("not a UTF-8 string");
+				//if( uni > 0x10FFFF )
+					//throw std::logic_error("not a UTF-8 string");
+				unicode.push_back(uni);
+			}
+			auto sz2 = unicode.size();
+			for( u32 o = 0u; o < sz2; ++o ){
+				u32 uni = unicode[o];
+				if( uni <= 0xFFFF ){
+					utf16 += (char16_t)uni;
+				}else{
+					uni -= 0x10000;
+					utf16 += (wchar_t)((uni >> 10) + 0xD800);
+					utf16 += (wchar_t)((uni & 0x3FF) + 0xDC00);
 				}
 			}
 		}

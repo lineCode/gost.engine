@@ -5,6 +5,7 @@
 namespace gost{
 
 	struct gtXMLAttribute{
+		gtXMLAttribute(){}
 		gtXMLAttribute( const gtString& Name,
 			const gtString& Value ):
 			name( Name ),
@@ -36,6 +37,10 @@ namespace gost{
 			attributeList.push_back( gtXMLAttribute( Name, Value ) );
 		}
 
+		void addAttribute( const gtXMLAttribute& a ){
+			attributeList.push_back( a );
+		}
+
 		void addNode( const gtXMLNode& node ){
 			nodeList.push_back( node );
 		}
@@ -61,6 +66,8 @@ namespace gost{
 	public:
 
 		virtual gtXMLNode* getRootNode( void ) = 0;
+
+		virtual void print( void ) = 0;
 	};
 
 }

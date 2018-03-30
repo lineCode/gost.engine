@@ -265,12 +265,14 @@ gtXMLDocument* gtMainSystemCommon::XMLRead( const gtString& file ){
 	}
 
 	gtPtr_t( gtXMLDocumentImpl, xml, new gtXMLDocumentImpl(file) );
-
 	if( !xml.data() ){
 		gtLogWriter::printWarning( u"Can not create XML document." );
 		return nullptr;
 	}
 
+	if( !xml->init() ){
+		return nullptr;
+	}
 
 	xml->addRef();
 	return xml.data();
@@ -329,7 +331,7 @@ bool writeNodes( gtString& outText, const gtXMLNode& node, u32 tabCount ){
 		writeText( outText, node.text );
 		outText += u"</";
 		outText += node.name;
-		outText += u">\r\n";
+		outText += u">\n";
 		return true;
 
 	}else{
@@ -342,7 +344,7 @@ bool writeNodes( gtString& outText, const gtXMLNode& node, u32 tabCount ){
 				}
 				outText += u"</";
 				outText += node.nodeList[ i ].name;
-				outText += u">\r\n";
+				outText += u">\n";
 			}
 		}
 	}
@@ -361,7 +363,7 @@ void gtMainSystemCommon::XMLWrite( const gtString& file, const gtXMLNode& rootNo
 	writeNodes( outText, rootNode, 0 );
 	outText += u"</";
 	outText += rootNode.name;
-	outText += u">\r\n";
+	outText += u">\n";
 
 	gtFile_t out = util::createFileForWriteText( file );
 

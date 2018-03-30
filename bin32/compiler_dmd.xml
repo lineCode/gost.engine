@@ -1,40 +1,22 @@
-﻿<?xml version="1.0"?>
-<!DOCTYPE CodeBlocks_compiler>
-<CodeBlocks_compiler name="Digital Mars D Compiler"
-                     id="dmd"
-                     weight="84">
-    <Path type="master">
-        <Search envVar="PATH"
-                for="C"/>
-        <if platform="windows">
-            <Fallback path="C:\dmd"/>
-        </if>
-        <else>
-            <Search path="/usr/local/bin"
-                    for="C"/>
-            <Fallback path="/usr"/>
-        </else>
-    </Path>
-    <Path type="include">
-        <if platform="windows">
-            <Add><master/>\src\phobos</Add>
-        </if>
-        <else>
-            <Add><master/>/lib/phobos</Add>
-        </else>
-    </Path>
-    <Path type="lib">
-        <Add><master/><separator/>lib</Add>
-    </Path>
-    <if platform="windows">
-        <Add lib="phobos2.lib"/>
-        <Path type="extra">
-            <Add>C:\dm\bin</Add>
-        </Path>
-    </if>
-    <else>
-        <Add lib="pthread"/>
-        <Add lib="m"/>
-        <Add lib="phobos2"/>
-    </else>
-</CodeBlocks_compiler>
+﻿<?xml version="1.0" encoding="utf-8"?>
+<note>
+ <test at="123"><modeX/>info</test>
+ <ha title="Hahaaa!!!">
+ </ha>
+	<SINGLE />
+	<SINGLE_ATTRIBUTE attr="value"/>
+	<SINGLE_ATTRIBUTES attr1="value"
+	attr2="another value"/>
+	<to>Tove</to>
+	<from>Jani</from>
+	<heading>Reminder</heading>
+	<ONE />
+	<H1>
+	<TWO />
+		<H2 title="Hello">
+		<THREE />
+			<H3 >333</H3>
+		</H2>
+	</H1>
+	<body>Don't forget me this weekend!</body>
+</note>

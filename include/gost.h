@@ -20,6 +20,10 @@
 
 #include <gtError.h>
 
+#include <gtAllocator.h>
+#include <gtArray.h>
+#include <gtList.h>
+#include <gtPriorQueue.h>
 #include <gtString.h>
 
 #include <gtBaseObject.h>
@@ -28,18 +32,13 @@
 
 #include <gtLoger.h>
 
-#include <gtAllocator.h>
 
 #include <gtInput.h>
 #include <gtEvent.h>
 
 
-#include <gtUtilities.h>
 
 
-#include <gtArray.h>
-#include <gtList.h>
-#include <gtPriorQueue.h>
 
 #include <gtXMLDocument.h>
 
@@ -100,6 +99,7 @@
 
 #include <gtOutputWindow.h>
 
+#include <gtUtilities.h>
 
 //	Base namespace for GoST
 //	All GoST objects here

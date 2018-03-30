@@ -35,7 +35,7 @@ namespace gost{
 		}
 	}
 
-	GT_FORCE_INLINE void gtStackTrace::printStackTrace( u32 skip_begin, u32 skip_end ){
+	GT_FORCE_INLINE void gtStackTrace::printStackTrace( u32 /*skip_begin*/, u32 /*skip_end*/ ){
 		DWORD symOpt = SymGetOptions();
 		symOpt |= SYMOPT_LOAD_LINES | SYMOPT_DEBUG | SYMOPT_DEFERRED_LOADS;
 		SymSetOptions( symOpt );
@@ -51,7 +51,6 @@ namespace gost{
 		SetErrorMode( prevErrMode );
 
 
-		const unsigned int gtMaxStackFrames = 1024u;
 
 		HANDLE proc = GetCurrentProcess();
 
@@ -94,7 +93,7 @@ namespace gost{
 			}
 
 			char trace[2048];
-			sprintf_s( trace, 2048, "%s(%i):'%s' - %#010x", line.FileName, line.LineNumber, sip.si.Name, sip.si.Address );
+			sprintf_s( trace, 2048, "%s(%i):'%s' - %llu", line.FileName, line.LineNumber, sip.si.Name, sip.si.Address );
 			
 			//	char â chart16_t
 			std::string message;
