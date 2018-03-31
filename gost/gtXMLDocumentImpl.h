@@ -23,13 +23,20 @@ namespace gost{
 		gtString m_expect_sub;
 		gtString m_expect_ex;
 
+		u32 m_cursor, m_sz;
+
+		enum _toke_type{
+			tt_default,
+			tt_string
+		};
 		struct _token{
-			_token( gtString N, u32 R, u32 C ):
-				name( N ), line( R ), col( C )
+			_token( gtString N, u32 R, u32 C, _toke_type t = _toke_type::tt_default ):
+				name( N ), line( R ), col( C ), type( t )
 			{}
 			gtString name;
 			u32 line;
 			u32 col;
+			_toke_type type;
 		};
 
 		gtArray<_token> m_tokens;
@@ -46,25 +53,29 @@ namespace gost{
 		bool charIsSymbol( char16_t * ptr );
 
 		bool analyzeTokens( void );
-		bool buildXMLDocument( u32& cursor, u32 sz );
-		bool getSubNode( u32& cursor, u32 sz, gtXMLNode * node );
-		bool getAttributes( u32& cursor, u32 sz, gtXMLNode * node );
-		bool tokenIsName( u32 cursor );
-		bool nextToken( u32& cursor, u32 sz );
+		bool buildXMLDocument( void );
+		bool getSubNode( gtXMLNode * node );
+		bool getAttributes( gtXMLNode * node );
+		bool tokenIsName( void );
+		bool nextToken( void );
 		bool unexpectedToken( const _token& token, gtString expected );
 
-		void skipPrologAndDTD( u32& cursor );
+		void skipPrologAndDTD( void );
 
-		void printNode( const gtXMLNode& node, u32 indent );
+		void printNode( gtXMLNode* node, u32 indent );
+
+		bool tokenIsString( void );
+
 	public:
 
 		gtXMLDocumentImpl( const gtString& fileName );
-		~gtXMLDocumentImpl( void );
+		virtual ~gtXMLDocumentImpl( void );
 
 		bool init( void );
 
 		gtXMLNode* getRootNode( void );
 		void print( void );
+		const gtString& getText( void );
 	};
 
 }

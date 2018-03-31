@@ -165,12 +165,12 @@ namespace gost{
 		virtual void		addEvent( const gtEvent& ev, u8 prior = 0u ) = 0;
 
 
-			/// get model system
-			/// \return moedl system
+			// get model system
+			// \return moedl system
 		virtual gtModelSystem*	getModelSystem( void ) = 0;
 
-			/// get plugin system
-			/// \return plugin system
+			// get plugin system
+			// \return plugin system
 		virtual gtPluginSystem*	getPluginSystem( void ) = 0;
 
 			// get scene system
@@ -216,7 +216,7 @@ namespace gost{
 		virtual bool isLMBDown( void ) = 0;
 
 			//	Right mouse button down
-			///	\return \b true if down
+			//	\return \b true if down
 		virtual bool isRMBDown( void ) = 0;
 
 			///	Middle mouse button down
@@ -237,7 +237,7 @@ namespace gost{
 
 		virtual gtXMLDocument* XMLRead( const gtString& file ) = 0;
 
-		virtual void XMLWrite( const gtString& file, const gtXMLNode& rootNode, bool utf8 = false ) = 0;
+		virtual void XMLWrite( const gtString& file, gtXMLNode* rootNode, bool utf8 = false ) = 0;
 
 			///	возвратит указатель на gtMainSystem, альтернатива this так как this не работает в статических методах
 			/// \return gtMainSystem

@@ -30,7 +30,7 @@ namespace gost{
 			///	для вывода текста
 		gtPtr<gtLoger> m_log;
 
-		gtMutex * m_mutex;
+		//gtMutex * m_mutex;
 
 			///	нельзя создать объект с таким конструктором
 		gtStackTrace( void ){}

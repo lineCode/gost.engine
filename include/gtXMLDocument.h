@@ -4,7 +4,7 @@
 
 namespace gost{
 
-	struct gtXMLAttribute{
+	struct gtXMLAttribute : public gtRefObject {
 		gtXMLAttribute(){}
 		gtXMLAttribute( const gtString& Name,
 			const gtString& Value ):
@@ -15,7 +15,7 @@ namespace gost{
 		gtString value;
 	};
 
-	struct gtXMLNode{
+	struct gtXMLNode : public gtRefObject {
 		gtXMLNode( void ){}
 		gtXMLNode( const gtString& Name ):
 			name( Name )
@@ -27,21 +27,25 @@ namespace gost{
 			nodeList = node.nodeList;
 		}
 
+		~gtXMLNode( void ){
+			clear();
+		}
+
 		gtString name;
 		gtString text;
-		gtArray<gtXMLAttribute> attributeList;
-		gtArray<gtXMLNode> nodeList;
+		gtArray<gtXMLAttribute*> attributeList;
+		gtArray<gtXMLNode*> nodeList;
 
 		void addAttribute( const gtString& Name,
 			const gtString& Value ){
-			attributeList.push_back( gtXMLAttribute( Name, Value ) );
+			attributeList.push_back( new gtXMLAttribute( Name, Value ) );
 		}
 
-		void addAttribute( const gtXMLAttribute& a ){
+		void addAttribute( gtXMLAttribute* a ){
 			attributeList.push_back( a );
 		}
 
-		void addNode( const gtXMLNode& node ){
+		void addNode( gtXMLNode* node ){
 			nodeList.push_back( node );
 		}
 
@@ -57,6 +61,14 @@ namespace gost{
 		void clear( void ){
 			name.clear();
 			text.clear();
+			u32 sz = attributeList.size();
+			for( u32 i = 0u; i < sz; ++i ){
+				delete attributeList[ i ];
+			}
+			sz = nodeList.size();
+			for( u32 i = 0u; i < sz; ++i ){
+				delete nodeList[ i ];
+			}
 			attributeList.clear();
 			nodeList.clear();
 		}
@@ -68,6 +80,8 @@ namespace gost{
 		virtual gtXMLNode* getRootNode( void ) = 0;
 
 		virtual void print( void ) = 0;
+
+		virtual const gtString& getText( void ) = 0;
 	};
 
 }

@@ -1,5 +1,5 @@
 #include "common.h"
-
+//gtString NAME;
 gtXMLDocumentImpl::gtXMLDocumentImpl( const gtString& fileName ){
 	m_fileName = fileName;
 	m_expect_apos = u"\'";
@@ -10,6 +10,9 @@ gtXMLDocumentImpl::gtXMLDocumentImpl( const gtString& fileName ){
 	m_expect_gt   = u">";
 	m_expect_sub  = u"-";
 	m_expect_ex   = u"!";
+	m_cursor = m_sz = 0u;
+	m_tokens.setAddMemoryValue( 2048u );
+	m_tokens.reserve( 2048u );
 }
 
 gtXMLDocumentImpl::~gtXMLDocumentImpl( void ){
@@ -29,36 +32,37 @@ bool gtXMLDocumentImpl::init( void ){
 	return false;
 }
 
-void gtXMLDocumentImpl::skipPrologAndDTD( u32& cursor ){
+void gtXMLDocumentImpl::skipPrologAndDTD( void ){
 	u32 sz = m_tokens.size();
-	while( cursor < sz ){
-		if( m_tokens[ cursor ].name == m_expect_gt ){
-			++cursor;
+	while( m_cursor < sz ){
+		if( m_tokens[ m_cursor ].name == m_expect_gt ){
+			++m_cursor;
 			return;
 		}else{
-			++cursor;
+			++m_cursor;
 		}
 	}
 }
 
-bool gtXMLDocumentImpl::tokenIsName( u32 cursor ){
-	if( m_tokens[ cursor ].name == m_expect_lt ) return false;
-	if( m_tokens[ cursor ].name == m_expect_gt ) return false;
-	if( m_tokens[ cursor ].name == m_expect_sub ) return false;
-	if( m_tokens[ cursor ].name == m_expect_ex ) return false;
-	if( m_tokens[ cursor ].name == m_expect_eq ) return false;
-	if( m_tokens[ cursor ].name == m_expect_apos ) return false;
-	if( m_tokens[ cursor ].name == m_expect_quot ) return false;
-	if( m_tokens[ cursor ].name == m_expect_slash ) return false;
+bool gtXMLDocumentImpl::tokenIsName( void ){
+	if( m_tokens[ m_cursor ].name == m_expect_lt ) return false;
+	if( m_tokens[ m_cursor ].name == m_expect_gt ) return false;
+	if( m_tokens[ m_cursor ].name == m_expect_sub ) return false;
+	if( m_tokens[ m_cursor ].name == m_expect_ex ) return false;
+	if( m_tokens[ m_cursor ].name == m_expect_eq ) return false;
+	if( m_tokens[ m_cursor ].name == m_expect_apos ) return false;
+	if( m_tokens[ m_cursor ].name == m_expect_quot ) return false;
+	if( m_tokens[ m_cursor ].name == m_expect_slash ) return false;
 	return true;
 }
 
-bool gtXMLDocumentImpl::nextToken( u32& cursor, u32 sz ){
-	++cursor;
-	if( cursor >= sz ){
+bool gtXMLDocumentImpl::nextToken( void ){
+	++m_cursor;
+	if( m_cursor >= m_sz ){
 		gtLogWriter::printError( u"End of XML" );
 		return true;
 	}
+//	NAME = m_tokens[ m_cursor ].name;
 	return false;
 }
 
@@ -68,188 +72,202 @@ bool gtXMLDocumentImpl::unexpectedToken( const _token& token, gtString expected 
 	return false;
 }
 
-bool gtXMLDocumentImpl::getAttributes( u32& cursor, u32 sz, gtXMLNode * node ){
+bool gtXMLDocumentImpl::tokenIsString( void ){
+	return m_tokens[ m_cursor ].type == gtXMLDocumentImpl::_toke_type::tt_string;
+}
+
+bool gtXMLDocumentImpl::getAttributes( gtXMLNode * node ){
 	for(;;){
-		gtXMLAttribute at;
-		if( nextToken( cursor, sz ) ) return false;
-		if( tokenIsName( cursor ) ){
-			at.name = m_tokens[ cursor ].name;
+		gtPtr<gtXMLAttribute> at = gtPtrNew<gtXMLAttribute>( new gtXMLAttribute );
+		if( nextToken() ) return false;
+		if( tokenIsName() ){
+			at->name = m_tokens[ m_cursor ].name;
 		
-			if( nextToken( cursor, sz ) ) return false;
-			if( m_tokens[ cursor ].name == m_expect_eq ){
-				if( nextToken( cursor, sz ) ) return false;
-				if( m_tokens[ cursor ].name == m_expect_apos ){
-					if( nextToken( cursor, sz ) ) return false;
-					if( tokenIsName( cursor ) ){
-						at.value = m_tokens[ cursor ].name;
-						if( nextToken( cursor, sz ) ) return false;
-						if( m_tokens[ cursor ].name == m_expect_apos ){
-							node->addAttribute( at );
+			if( nextToken() ) return false;
+			if( m_tokens[ m_cursor ].name == m_expect_eq ){
+				if( nextToken() ) return false;
+				if( m_tokens[ m_cursor ].name == m_expect_apos ){
+					if( nextToken() ) return false;
+					//if( tokenIsName() ){
+					if( tokenIsString() ){
+						at->value = m_tokens[ m_cursor ].name;
+						if( nextToken() ) return false;
+						if( m_tokens[ m_cursor ].name == m_expect_apos ){
+							at->addRef();
+							node->addAttribute( at.data() );
 							continue;
 						}else{
-							return unexpectedToken( m_tokens[ cursor ], m_expect_apos );
+							return unexpectedToken( m_tokens[ m_cursor ], m_expect_apos );
 						}
 					}
-				}else if( m_tokens[ cursor ].name == m_expect_quot ){
-					if( nextToken( cursor, sz ) ) return false;
-					if( tokenIsName( cursor ) ){
-						at.value = m_tokens[ cursor ].name;
-						if( nextToken( cursor, sz ) ) return false;
-						if( m_tokens[ cursor ].name == m_expect_quot ){
-							node->addAttribute( at );
+				}else if( m_tokens[ m_cursor ].name == m_expect_quot ){
+					if( nextToken() ) return false;
+					//if( tokenIsName() ){ //is string
+					if( tokenIsString() ){
+						at->value = m_tokens[ m_cursor ].name;
+						if( nextToken() ) return false;
+						if( m_tokens[ m_cursor ].name == m_expect_quot ){
+							at->addRef();
+							node->addAttribute( at.data() );
 							continue;
 						}else{
-							return unexpectedToken( m_tokens[ cursor ], m_expect_quot );
+							return unexpectedToken( m_tokens[ m_cursor ], m_expect_quot );
 						}
 					}
 				}else{
-					return unexpectedToken( m_tokens[ cursor ], u"\' or \"" );
+					return unexpectedToken( m_tokens[ m_cursor ], u"\' or \"" );
 				}
 			}else{
-				return unexpectedToken( m_tokens[ cursor ], m_expect_eq );
+				return unexpectedToken( m_tokens[ m_cursor ], m_expect_eq );
 			}
-		}else if( m_tokens[ cursor ].name == m_expect_gt 
-			|| m_tokens[ cursor ].name == m_expect_slash ){
+		}else if( m_tokens[ m_cursor ].name == m_expect_gt 
+			|| m_tokens[ m_cursor ].name == m_expect_slash ){
 			return true;
 		}else{
-			return unexpectedToken( m_tokens[ cursor ], u"attribute or / or >" );
+			return unexpectedToken( m_tokens[ m_cursor ], u"attribute or / or >" );
 		}
 	}
 	return false;
 }
 
-bool gtXMLDocumentImpl::getSubNode( u32& cursor, u32 sz, gtXMLNode * node ){
+bool gtXMLDocumentImpl::getSubNode( gtXMLNode * node ){
 	
-	gtXMLNode subNode;
+	gtPtr<gtXMLNode> subNode = gtPtrNew<gtXMLNode>( new gtXMLNode );
 
 	gtString name;
 
 	bool next = false;
-	while( cursor < sz ){
+	while( m_cursor < m_sz ){
 
-		if( m_tokens[ cursor ].name == m_expect_lt ){
+		if( m_tokens[ m_cursor ].name == m_expect_lt ){
 
-			if( nextToken( cursor, sz ) ) return false;
+			if( nextToken() ) return false;
 
-			if( tokenIsName( cursor ) ){
-				name = m_tokens[ cursor ].name;
+			if( tokenIsName() ){
+				name = m_tokens[ m_cursor ].name;
 				node->name = name;
-				if( nextToken( cursor, sz ) ) return false;
+				if( nextToken() ) return false;
 
 				// First - attributes
-				if( tokenIsName( cursor ) ){
-					--cursor;
-					if( !getAttributes( cursor, sz, node ) ){
+				if( tokenIsName() ){
+					--m_cursor;
+					if( !getAttributes( node ) ){
 						return false;
 					}
 				}
 
-				if( m_tokens[ cursor ].name == m_expect_gt ){
-					if( nextToken( cursor, sz ) ) return false;
-					if( tokenIsName( cursor ) ){
-						node->text = m_tokens[ cursor ].name;
+				if( m_tokens[ m_cursor ].name == m_expect_gt ){
+					if( nextToken() ) return false;
+					if( tokenIsName() ){
+						node->text = m_tokens[ m_cursor ].name;
 
-						if( nextToken( cursor, sz ) ) return false;
+						if( nextToken() ) return false;
 
 closeNode:
-						if( m_tokens[ cursor ].name == m_expect_lt ){
-							if( nextToken( cursor, sz ) ) return false;
-							if( m_tokens[ cursor ].name == m_expect_slash ){
-								if( nextToken( cursor, sz ) ) return false;
-								if( m_tokens[ cursor ].name == name ){
-									if( nextToken( cursor, sz ) ) return false;
-									if( m_tokens[ cursor ].name == m_expect_gt ){
-										++cursor;
+						if( m_tokens[ m_cursor ].name == m_expect_lt ){
+							if( nextToken() ) return false;
+							if( m_tokens[ m_cursor ].name == m_expect_slash ){
+								if( nextToken() ) return false;
+								if( m_tokens[ m_cursor ].name == name ){
+									if( nextToken() ) return false;
+									if( m_tokens[ m_cursor ].name == m_expect_gt ){
+										++m_cursor;
 										return true;
 									}else{
-										return unexpectedToken( m_tokens[ cursor ], m_expect_gt );
+										return unexpectedToken( m_tokens[ m_cursor ], m_expect_gt );
 									}
 								}else{
-									return unexpectedToken( m_tokens[ cursor ], name );
+									return unexpectedToken( m_tokens[ m_cursor ], name );
 								}
 							}else{
-								return unexpectedToken( m_tokens[ cursor ], m_expect_slash );
+								return unexpectedToken( m_tokens[ m_cursor ], m_expect_slash );
 							}
 						}else{
-							return unexpectedToken( m_tokens[ cursor ], m_expect_lt );
+							return unexpectedToken( m_tokens[ m_cursor ], m_expect_lt );
 						}
-					}else if( m_tokens[ cursor ].name == m_expect_lt ){ // next or </
-						if( nextToken( cursor, sz ) ) return false;
-						if( tokenIsName( cursor ) ){ // next node
+					}else if( m_tokens[ m_cursor ].name == m_expect_lt ){ // next or </
+						if( nextToken() ) return false;
+						if( tokenIsName() ){ // next node
 							next = true;
-							--cursor;
-						}else if( m_tokens[ cursor ].name == m_expect_slash ){ // return true
-							if( nextToken( cursor, sz ) ) return false;
-							if( m_tokens[ cursor ].name == name ){
-								if( nextToken( cursor, sz ) ) return false;
-								if( m_tokens[ cursor ].name == m_expect_gt ){
-									++cursor;// NAME = m_tokens[ cursor ].name;
+							--m_cursor;
+						}else if( m_tokens[ m_cursor ].name == m_expect_slash ){ // return true
+							if( nextToken() ) return false;
+							if( m_tokens[ m_cursor ].name == name ){
+								if( nextToken() ) return false;
+								if( m_tokens[ m_cursor ].name == m_expect_gt ){
+									++m_cursor;
 									return true;
 								}else{
-									return unexpectedToken( m_tokens[ cursor ], m_expect_gt );
+									return unexpectedToken( m_tokens[ m_cursor ], m_expect_gt );
 								}
 							}else{
-								return unexpectedToken( m_tokens[ cursor ], name );
+								return unexpectedToken( m_tokens[ m_cursor ], name );
 							}
 						}else{
-							return unexpectedToken( m_tokens[ cursor ], u"/ or <entity>" );
+							return unexpectedToken( m_tokens[ m_cursor ], u"/ or <entity>" );
 						}
 					}else{
-						return unexpectedToken( m_tokens[ cursor ], u"\"text\" or <entity>" );
+						return unexpectedToken( m_tokens[ m_cursor ], u"\"text\" or <entity>" );
 					}
-				}else if( m_tokens[ cursor ].name == m_expect_slash ){
-					if( nextToken( cursor, sz ) ) return false;
-					if( m_tokens[ cursor ].name == m_expect_gt ){
-						++cursor;
+				}else if( m_tokens[ m_cursor ].name == m_expect_slash ){
+					if( nextToken() ) return false;
+					if( m_tokens[ m_cursor ].name == m_expect_gt ){
+						++m_cursor;
 						return true;
 					}else{
-						return unexpectedToken( m_tokens[ cursor ], m_expect_gt );
+						return unexpectedToken( m_tokens[ m_cursor ], m_expect_gt );
 					}
 				}else{
-					return unexpectedToken( m_tokens[ cursor ], u"> or /" );
+					return unexpectedToken( m_tokens[ m_cursor ], u"> or /" );
 				}
 			}else{
-				return unexpectedToken( m_tokens[ cursor ], u"name" );
+				return unexpectedToken( m_tokens[ m_cursor ], u"name" );
 			}
 
 		}else{
-			return unexpectedToken( m_tokens[ cursor ], m_expect_lt );
+			return unexpectedToken( m_tokens[ m_cursor ], m_expect_lt );
 		}
 
 		if( next ){
 newNode:
-			if( getSubNode( cursor, sz, &subNode ) ){
-				node->addNode( subNode );
+			if( getSubNode( subNode.data() ) ){
+				subNode->addRef();
+				node->addNode( subNode.data() );
 
-				if( m_tokens[ cursor ].name == m_expect_lt ){
-					if( nextToken( cursor, sz ) ) return false;
-					if( m_tokens[ cursor ].name == m_expect_slash ){
-						--cursor;
+				--m_cursor;
+				if( nextToken() ) return false;
+
+				if( m_tokens[ m_cursor ].name == m_expect_lt ){
+					if( nextToken() ) return false;
+					if( m_tokens[ m_cursor ].name == m_expect_slash ){
+						--m_cursor;
 						goto closeNode;
-					}else if( tokenIsName( cursor ) ){
-						--cursor;
-						subNode.clear();
+					}else if( tokenIsName() ){
+						--m_cursor;
+						//subNode->clear();
+						subNode = gtPtrNew<gtXMLNode>( new gtXMLNode );
 						goto newNode;
 					}else{
-						return unexpectedToken( m_tokens[ cursor ], u"</close tag> or <new tag>" );
+						return unexpectedToken( m_tokens[ m_cursor ], u"</close tag> or <new tag>" );
 					}
-				}else if( tokenIsName( cursor ) ){
-					node->text = m_tokens[ cursor ].name;
-					if( nextToken( cursor, sz ) ) return false;
-					if( m_tokens[ cursor ].name == m_expect_lt ){
-						if( nextToken( cursor, sz ) ) return false;
-						if( m_tokens[ cursor ].name == m_expect_slash ){
-							--cursor;
+				}else if( tokenIsName() ){
+					node->text = m_tokens[ m_cursor ].name;
+					if( nextToken() ) return false;
+					if( m_tokens[ m_cursor ].name == m_expect_lt ){
+						if( nextToken() ) return false;
+						if( m_tokens[ m_cursor ].name == m_expect_slash ){
+							--m_cursor;
 							goto closeNode;
-						}else if( tokenIsName( cursor ) ){
-							--cursor;
-							subNode.clear();
+						}else if( tokenIsName() ){
+							--m_cursor;
+							//subNode.clear();
+							subNode = gtPtrNew<gtXMLNode>( new gtXMLNode );
 							goto newNode;
 						}else{
-							return unexpectedToken( m_tokens[ cursor ], u"</close tag> or <new tag>" );
+							return unexpectedToken( m_tokens[ m_cursor ], u"</close tag> or <new tag>" );
 						}
 					}else{
-						return unexpectedToken( m_tokens[ cursor ], m_expect_lt );
+						return unexpectedToken( m_tokens[ m_cursor ], m_expect_lt );
 					}
 				}
 
@@ -269,24 +287,25 @@ bool gtXMLDocumentImpl::analyzeTokens( void ){
 		return false;
 	}
 
-	u32 cursor = 0u;
+	m_cursor = 0u;
 	if( m_tokens[ 0u ].name == u"<" )
 		if( m_tokens[ 1u ].name == u"?" )
 			if( m_tokens[ 2u ].name == u"xml" ){
-				cursor = 2u;
-				skipPrologAndDTD( cursor );
+				m_cursor = 2u;
+				skipPrologAndDTD();
 			}
 
-	if( m_tokens[ cursor ].name == u"<" )
-		if( m_tokens[ cursor + 1u ].name == u"!" )
-			if( m_tokens[ cursor + 2u ].name == u"DOCTYPE" )
-				skipPrologAndDTD( cursor );
+	if( m_tokens[ m_cursor ].name == u"<" )
+		if( m_tokens[ m_cursor + 1u ].name == u"!" )
+			if( m_tokens[ m_cursor + 2u ].name == u"DOCTYPE" )
+				skipPrologAndDTD();
 
-	return buildXMLDocument( cursor, sz );
+	return buildXMLDocument();
 }
 
-bool gtXMLDocumentImpl::buildXMLDocument( u32& cursor, u32 sz ){
-	return getSubNode( cursor, sz, &m_root);
+bool gtXMLDocumentImpl::buildXMLDocument( void ){
+	m_sz = m_tokens.size();
+	return getSubNode( &m_root);
 }
 
 gtXMLNode* gtXMLDocumentImpl::getRootNode( void ){
@@ -447,7 +466,7 @@ void gtXMLDocumentImpl::getTokens( void ){
 					if( *ptr == u'\'' )
 					{
 						decodeEnts( str );
-						m_tokens.push_back( _token( str, line, oldCol+1u ) );
+						m_tokens.push_back( _token( str, line, oldCol+1u, gtXMLDocumentImpl::_toke_type::tt_string ) );
 						m_tokens.push_back( _token( gtString( *ptr ), line, col ) );
 						str.clear();
 						isString = false;
@@ -457,7 +476,7 @@ void gtXMLDocumentImpl::getTokens( void ){
 					if( *ptr == u'\"' )
 					{
 						decodeEnts( str );
-						m_tokens.push_back( _token( str, line, oldCol+1u ) );
+						m_tokens.push_back( _token( str, line, oldCol+1u, gtXMLDocumentImpl::_toke_type::tt_string ) );
 						m_tokens.push_back( _token( gtString( *ptr ), line, col ) );
 						str.clear();
 						isString = false;
@@ -474,8 +493,8 @@ chponk:
 	}
 }
 
-void gtXMLDocumentImpl::printNode( const gtXMLNode& node, u32 indent ){
-	if( node.name.size() ){
+void gtXMLDocumentImpl::printNode( gtXMLNode* node, u32 indent ){
+	if( node->name.size() ){
 
 		gtString line;
 
@@ -484,21 +503,23 @@ void gtXMLDocumentImpl::printNode( const gtXMLNode& node, u32 indent ){
 		}
 		
 		line += u"<";
-		line += node.name;
+		line += node->name;
 		line += u">";
 
-		if( node.attributeList.size() ){
+		if( node->attributeList.size() ){
 
 			line += u" ( ";
 
-			for( u32 i = 0u; i < node.attributeList.size(); ++i ){
-				const gtXMLAttribute * at = &node.attributeList[ i ];
+			for( u32 i = 0u; i < node->attributeList.size(); ++i ){
+				const gtXMLAttribute * at = node->attributeList[ i ];
 
 				if( at->name.size() ){
 					line += at->name;
 					line += u":";
 					if( at->value.size() ){
+						line += u"\"";
 						line += at->value;
+						line += u"\"";
 						line += u" ";
 					}else{
 						line += u"ERROR ";
@@ -511,15 +532,15 @@ void gtXMLDocumentImpl::printNode( const gtXMLNode& node, u32 indent ){
 
 		}
 
-		if( node.text.size() ){
+		if( node->text.size() ){
 			line += u" = ";
-			line += node.text;
+			line += node->text;
 		}
 		gtLogWriter::printInfo( u"%s", line.data() );
 
-		if( node.nodeList.size() ){
-			for( u32 i = 0u; i < node.nodeList.size(); ++i ){
-				printNode( node.nodeList[ i ], ++indent );
+		if( node->nodeList.size() ){
+			for( u32 i = 0u; i < node->nodeList.size(); ++i ){
+				printNode( node->nodeList[ i ], ++indent );
 				--indent;
 			}
 		}
@@ -529,7 +550,11 @@ void gtXMLDocumentImpl::printNode( const gtXMLNode& node, u32 indent ){
 
 void gtXMLDocumentImpl::print( void ){
 	gtLogWriter::printInfo( u"XML:" );
-	printNode( m_root, 0u );
+	printNode( &m_root, 0u );
+}
+
+const gtString& gtXMLDocumentImpl::getText( void ){
+	return m_text;
 }
 
 /*

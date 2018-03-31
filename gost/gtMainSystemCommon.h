@@ -118,7 +118,7 @@ namespace gost{
 		const gtDeviceCreationParameters& getDeviceCreationParameters( void );
 
 		gtXMLDocument* XMLRead( const gtString& file );
-		void XMLWrite( const gtString& file, const gtXMLNode& rootNode, bool utf8 = false );
+		void XMLWrite( const gtString& file, gtXMLNode* rootNode, bool utf8 = false );
 	};
 
 #define gtLog gtMainSystemCommon::s_loger

@@ -91,6 +91,10 @@ namespace gost{
 			return m_allocated;
 		}
 
+		void setAddMemoryValue( u32 v ){
+			m_addMemory = v;
+		}
+
 			///	Check is empty
 			///	\return \b true if empty
 		bool empty( void ) const {

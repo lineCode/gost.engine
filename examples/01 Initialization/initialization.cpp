@@ -71,12 +71,6 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 		output->print( supportedModels[ i ].c_str() );
 	}
 
-
-	gtXMLDocument * xml = mainSystem->XMLRead( u"compiler_dmd.xml" );
-	if( xml ){
-		xml->print();
-	}
-
 	while( mainSystem->update() ){
 
 		//	If you do not use gtEventConsumer, use this method.

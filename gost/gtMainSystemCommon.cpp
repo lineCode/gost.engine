@@ -302,48 +302,48 @@ void writeName( gtString& outText, const gtString& inText ){
 	outText += inText;
 }
 
-bool writeNodes( gtString& outText, const gtXMLNode& node, u32 tabCount ){
+bool writeNodes( gtString& outText, gtXMLNode* node, u32 tabCount ){
 	for( u32 i = 0u; i < tabCount; ++i ){
 		outText += u"\t";
 	}
 
 	++tabCount;
 
-	writeName( outText, node.name );
+	writeName( outText, node->name );
 	
-	u32 sz = node.attributeList.size();
+	u32 sz = node->attributeList.size();
 	if( sz ){
 		for( u32 i = 0u; i < sz; ++i ){
 			outText += u" ";
-			outText += node.attributeList[ i ].name;
+			outText += node->attributeList[ i ]->name;
 			outText += u"=";
 			outText += u"\"";
-			writeText( outText, node.attributeList[ i ].value );
+			writeText( outText, node->attributeList[ i ]->value );
 			outText += u"\"";
 		}
 	}
 
-	if( !node.nodeList.size() && !node.text.size() ){
+	if( !node->nodeList.size() && !node->text.size() ){
 		outText += u"/>\r\n";
 		return true;
-	}else if( node.text.size() ){
+	}else if( node->text.size() ){
 		outText += u">";
-		writeText( outText, node.text );
+		writeText( outText, node->text );
 		outText += u"</";
-		outText += node.name;
+		outText += node->name;
 		outText += u">\n";
 		return true;
 
 	}else{
 		outText += u">\r\n";
-		sz = node.nodeList.size();
+		sz = node->nodeList.size();
 		for( u32 i = 0u; i < sz; ++i ){
-			if( !writeNodes( outText, node.nodeList[ i ], tabCount ) ){
+			if( !writeNodes( outText, node->nodeList[ i ], tabCount ) ){
 				for( u32 o = 0u; o < tabCount; ++o ){
 					outText += u"\t";
 				}
 				outText += u"</";
-				outText += node.nodeList[ i ].name;
+				outText += node->nodeList[ i ]->name;
 				outText += u">\n";
 			}
 		}
@@ -354,7 +354,7 @@ bool writeNodes( gtString& outText, const gtXMLNode& node, u32 tabCount ){
 	return false;
 }
 
-void gtMainSystemCommon::XMLWrite( const gtString& file, const gtXMLNode& rootNode, bool utf8 ){
+void gtMainSystemCommon::XMLWrite( const gtString& file, gtXMLNode* rootNode, bool utf8 ){
 
 	gtString outText( u"<?xml version=\"1.0\"" );
 	if( utf8 ) outText += " encoding=\"UTF-8\"";
@@ -362,7 +362,7 @@ void gtMainSystemCommon::XMLWrite( const gtString& file, const gtXMLNode& rootNo
 
 	writeNodes( outText, rootNode, 0 );
 	outText += u"</";
-	outText += rootNode.name;
+	outText += rootNode->name;
 	outText += u">\n";
 
 	gtFile_t out = util::createFileForWriteText( file );

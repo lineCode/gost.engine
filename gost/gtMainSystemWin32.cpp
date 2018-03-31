@@ -42,7 +42,7 @@ namespace gost{
 			}
 			
 			gtLog->setOutputWindow( m_output_window.data() );
-			m_output_window->release();
+			//m_output_window->release();
 
 			this->initStackTracer();
 			this->initEventSystem();

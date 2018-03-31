@@ -219,7 +219,10 @@ namespace gost{
 			}else if( bom[ 0u ] == 0xFF ){
 				file->seek( 2u, gtFile::SeekPos::ESP_BEGIN );
 				sz -= 2u;
-			}// else - utf8 w/o bom
+			}else{
+				// else - utf8 w/o bom
+				isUTF8 = true;
+			}
 
 			gtStringA textBytes;
 			textBytes.reserve( (u32)sz );
@@ -227,9 +230,12 @@ namespace gost{
 			file->read( (u8*)textBytes.data(), sz );
 
 			if( !isUTF8 ){
-
+				union{
+					char16_t unicode;
+					char b[ 2u ];
+				}un;
 				for( u32 i = 0u; i < sz; i += 2u ){
-					char16_t ch16 = textBytes[ i ];
+					/*char16_t ch16 = textBytes[ i ];
 
 					if( isBE ){
 						ch16 <<= 8u;
@@ -238,9 +244,17 @@ namespace gost{
 						char16_t ch16_2 = textBytes[ i + 1u ];
 						ch16_2 <<= 8u;
 						ch16 |= ch16_2;
+					}*/
+
+					if( isBE ){
+						un.b[ 0u ] = textBytes[ i + 1u ];
+						un.b[ 1u ] = textBytes[ i ];
+					}else{
+						un.b[ 0u ] = textBytes[ i ];
+						un.b[ 1u ] = textBytes[ i + 1u ];
 					}
 
-					utf16 += ch16;
+					utf16 += un.unicode;
 				}
 
 			}else{
