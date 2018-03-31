@@ -4,13 +4,14 @@
 
 #pragma warning(disable : 4582)
 
-//C++ 🖙🖏
+//C++
 #include <cctype> //isalpha
 #include <fstream>
 #include <sstream>
 #include <string>
 #include <vector>
 #include <typeinfo>
+#include <codecvt>
 
 //	GOST 
 #include <gtInfo.h>
@@ -19,6 +20,10 @@
 
 #include <gtError.h>
 
+#include <gtAllocator.h>
+#include <gtArray.h>
+#include <gtList.h>
+#include <gtPriorQueue.h>
 #include <gtString.h>
 
 #include <gtBaseObject.h>
@@ -27,19 +32,15 @@
 
 #include <gtLoger.h>
 
-#include <gtAllocator.h>
 
 #include <gtInput.h>
 #include <gtEvent.h>
 
 
-#include <gtUtilities.h>
 
 
-#include <gtArray.h>
-#include <gtList.h>
-#include <gtPriorQueue.h>
 
+#include <gtXMLDocument.h>
 
 #include <gtVector.h>
 #include <gtMath.h>
@@ -55,7 +56,9 @@
 #include <gtOBB.h>
 
 #include <gtThread.h>
+#include <gtMutex.h>
 
+#include <gtGUIObject.h>
 
 #include <gtSceneSystem.h>
 #include <gtAudioSystem.h>
@@ -96,6 +99,7 @@
 
 #include <gtOutputWindow.h>
 
+#include <gtUtilities.h>
 
 //	Base namespace for GoST
 //	All GoST objects here

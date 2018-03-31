@@ -1,13 +1,20 @@
-﻿#pragma once
-#ifndef __GT_GUI_SYSTEM_H__
-#define __GT_GUI_SYSTEM_H__ ///< include guard
+#pragma once
+#ifndef __GT_GUI_FONT_IMPL_H__
+#define __GT_GUI_FONT_IMPL_H__
 
 namespace gost{
 
-	class gtGUISystem : public gtRefObject{
+	class gtGUIFontImpl : public gtGUIFont{
+
+		bool initFromFile( const gtString& font );
+		bool initFromSystem( const gtString& font );
+
 	public:
 
-		virtual gtGUIFont * createFont( gtString fontName ) = 0;
+		gtGUIFontImpl( void );
+		~gtGUIFontImpl( void );
+
+		bool init( gtString font );
 
 	};
 

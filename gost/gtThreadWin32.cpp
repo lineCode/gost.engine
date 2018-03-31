@@ -1,5 +1,6 @@
 #include "common.h"
 
+
 gtThreadWin32::gtThreadWin32( void ):
 	m_handle( nullptr )
 {}
@@ -37,7 +38,6 @@ void gtThreadWin32::join( void ){
 void * gtThreadWin32::getHandle( void ){
 	return (void*)m_handle;
 }
-
 
 
 /*

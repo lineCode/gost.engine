@@ -42,7 +42,7 @@ namespace gost{
 			}
 			
 			gtLog->setOutputWindow( m_output_window.data() );
-			m_output_window->release();
+			//m_output_window->release();
 
 			this->initStackTracer();
 			this->initEventSystem();
@@ -148,6 +148,10 @@ namespace gost{
 
 gtThread*	gtMainSystemWin32::createThread( void ){
 	return new gtThreadWin32;
+}
+
+gtMutex*	gtMainSystemWin32::createMutex( void ){
+	return new gtMutexWin32;
 }
 
 #endif

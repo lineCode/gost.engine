@@ -36,7 +36,11 @@ using namespace gost;
 #include "gtEventSystem.h"
 
 #include "gtThreadWin32.h"
+#include "gtMutexWin32.h"
 
+#include "gtXMLDocumentImpl.h"
+
+#include "gtGUISystemImpl.h"
 
 #include "gtMainSystemCommon.h"
 #include "gtMainSystemWin32.h"

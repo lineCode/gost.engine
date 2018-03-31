@@ -31,7 +31,7 @@ namespace gost{
 
 			new_capacity += m_addMemory;
 
-			pointer new_data = m_allocator.allocate( new_capacity );
+			pointer new_data = m_allocator.allocate( new_capacity * sizeof( type ) );
 
 			if( m_data ){
 					
@@ -65,15 +65,11 @@ namespace gost{
 			m_data( nullptr ),
 			m_size( 0u ),
 			m_allocated( 0u ),
-			m_addMemory( addSize ){
-
-			u32 sz = other.size();
-
-			reserve( sz );
-
-			for( u32 i = 0u; i < sz; ++i ){
-				push_back( other[ i ] );
-			}
+			m_addMemory( 8u ){
+			m_size = other.size();
+			m_allocated = other.capacity();
+			reallocate( m_allocated );
+			memcpy( m_data, other.data(), m_size * sizeof( type ) );
 		}
 
 		~gtArray( void ){
@@ -93,6 +89,10 @@ namespace gost{
 			///	Get allocated
 		u32 capacity( void ) const {
 			return m_allocated;
+		}
+
+		void setAddMemoryValue( u32 v ){
+			m_addMemory = v;
 		}
 
 			///	Check is empty
@@ -213,6 +213,17 @@ namespace gost{
 
 				m_size = m_size - 1u - len;
 			}
+		}
+
+		gtArray<type>& operator=( const gtArray<type>& other ){
+			clear();
+			m_size = other.size();
+			m_allocated = other.capacity();
+			reallocate( m_allocated );
+			for( u32 i = 0u; i < m_size; ++i ){
+				m_allocator.construct( &m_data[ i ], other.m_data[ i ] );
+			}
+			return *this;
 		}
 
 		/*void pop_back( void ){

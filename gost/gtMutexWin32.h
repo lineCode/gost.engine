@@ -1,19 +1,32 @@
-﻿#pragma once
-#ifndef __GT_GUI_SYSTEM_H__
-#define __GT_GUI_SYSTEM_H__ ///< include guard
+#pragma once
+#ifndef __GT_MUTEX_WIN32_H__
+#define __GT_MUTEX_WIN32_H__
 
 namespace gost{
 
-	class gtGUISystem : public gtRefObject{
+	class gtMutexWin32 : public gtMutex{
+
+		bool m_isInitialized;
+
+		CRITICAL_SECTION m_cSection;
+
 	public:
 
-		virtual gtGUIFont * createFont( gtString fontName ) = 0;
+		gtMutexWin32( void );
+		~gtMutexWin32( void );
+	
+		void lock( void );
+
+		void unlock( void );
 
 	};
+
+
 
 }
 
 #endif
+
 
 /*
 Copyright (c) 2018 532235

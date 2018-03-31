@@ -53,9 +53,9 @@ namespace gost{
 				}
 		}
 
-			///	возвратит расширение - последнюю часть строки после точки (слэши должны быть такими /)
-			///	\param str: строка содержащая часть с точкой
-			///	\return Строка содержащая расширение
+			//	возвратит расширение - последнюю часть строки после точки (слэши должны быть такими /)
+			//	\param str: строка содержащая часть с точкой
+			//	\return Строка содержащая расширение
 		template<typename Type>
 		inline Type stringGetExtension( const Type& str ){
 			
@@ -76,8 +76,8 @@ namespace gost{
 			return ret;
 		}
 
-			///	"AbC" -> "abc"
-			///	\param str: строка для изменения
+			//	"AbC" -> "abc"
+			//	\param str: строка для изменения
 		template<typename Type>
 		inline void stringToLower( Type& str ){
 			
@@ -188,8 +188,125 @@ namespace gost{
 			}
 		}
 
+		GT_FORCE_INLINE bool readTextFromFileForUnicode( const gtString& fileName, gtString& utf16 ){
+			gtFile_t file = util::openFileForReadBin( fileName );
+			if( !file.data() ){
+				gtLogWriter::printWarning( u"Can not open file %s.", fileName.data() );
+				return false;
+			}
 
+			u64 sz = file->size();
+			if( sz < 4u ){
+				gtLogWriter::printWarning( u"Bad file %s.", fileName.data() );
+				return false;
+			}
 
+			u8 bom[ 3u ];
+			file->read( bom, 3u );
+			file->seek( 0u, gtFile::SeekPos::ESP_BEGIN );
+
+			bool isUTF8 = false;
+			bool isBE = false;
+
+			if( bom[ 0u ] == 0xEF ){
+				file->seek( 3u, gtFile::SeekPos::ESP_BEGIN );
+				isUTF8 = true;
+				sz -= 3u;
+			}else if( bom[ 0u ] == 0xFE ){ // utf16 BE
+				file->seek( 2u, gtFile::SeekPos::ESP_BEGIN );
+				isBE = true;
+				sz -= 2u;
+			}else if( bom[ 0u ] == 0xFF ){
+				file->seek( 2u, gtFile::SeekPos::ESP_BEGIN );
+				sz -= 2u;
+			}else{
+				// else - utf8 w/o bom
+				isUTF8 = true;
+			}
+
+			gtStringA textBytes;
+			textBytes.reserve( (u32)sz );
+			textBytes.setSize( (u32)sz );
+			file->read( (u8*)textBytes.data(), sz );
+
+			if( !isUTF8 ){
+				union{
+					char16_t unicode;
+					char b[ 2u ];
+				}un;
+				for( u32 i = 0u; i < sz; i += 2u ){
+					/*char16_t ch16 = textBytes[ i ];
+
+					if( isBE ){
+						ch16 <<= 8u;
+						ch16 |= textBytes[ i + 1u ];
+					}else{
+						char16_t ch16_2 = textBytes[ i + 1u ];
+						ch16_2 <<= 8u;
+						ch16 |= ch16_2;
+					}*/
+
+					if( isBE ){
+						un.b[ 0u ] = textBytes[ i + 1u ];
+						un.b[ 1u ] = textBytes[ i ];
+					}else{
+						un.b[ 0u ] = textBytes[ i ];
+						un.b[ 1u ] = textBytes[ i + 1u ];
+					}
+
+					utf16 += un.unicode;
+				}
+
+			}else{
+				util::utf8_to_utf16( utf16, textBytes );
+			}
+			return true;
+		}
+
+		template<typename T>
+		void stringReplaseSubString( gtString_base<T>& source, const gtString_base<T>& target, const gtString_base<T>& text ){
+
+			gtString_base<T> result;
+
+			u32 source_sz = source.size();
+			u32 target_sz = target.size();
+			u32 text_sz   = text.size();
+
+			for( u32 i = 0u; i < source_sz; ++i ){
+				if( (source_sz - i) < target_sz ){
+					for( u32 i2 = i; i2 < source_sz; ++i2 ){
+						result += source[ i2 ];
+					}
+					break;
+				}
+
+				bool comp = false;
+				for( u32 o = 0u; o < target_sz; ++o ){
+					if( source[ i + o ] == target[ o ] ){
+						if( !comp ){
+							comp = true;
+						}
+					}else{
+						comp = false;
+						break;
+					}
+				}
+
+				if( comp ){
+					for( u32 o = 0u; o < text_sz; ++o ){
+						result += text[ o ];
+					}
+					i += target_sz - 1u;
+				}else{
+					result += source[ i ];
+				}
+			}
+
+			if( result.size() ){
+				source.clear();
+				source.assign( result );
+			}
+		}
 	}
 
 }

@@ -4,7 +4,7 @@
 */
 #pragma once
 #ifndef __GT_THREAD_H__
-#define __GT_THREAD_H__ ///< include guard
+#define __GT_THREAD_H__ //< include guard
 
 namespace gost{
 
@@ -14,14 +14,14 @@ namespace gost{
 		terminated
 	};
 
-		///	Thread
+		//	Thread
 	class gtThread : public gtRefObject{
 	protected:
 
-			///	Currecnt status
+			//	Currecnt status
 		gtThreadStatus m_status;
 
-			///	Thread id
+			//	Thread id
 		u32 m_id;
 
 	public:

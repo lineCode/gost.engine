@@ -71,11 +71,10 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 		output->print( supportedModels[ i ].c_str() );
 	}
 
-
 	while( mainSystem->update() ){
 
-		///	If you do not use gtEventConsumer, use this method.
-		///	This method update all events in event queue.
+		//	If you do not use gtEventConsumer, use this method.
+		//	This method update all events in event queue.
 		while( mainSystem->pollEvent( gtEvent() ) );
 
 		///	This 'if' will help when program terminated

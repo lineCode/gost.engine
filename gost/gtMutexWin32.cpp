@@ -1,19 +1,24 @@
-﻿#pragma once
-#ifndef __GT_GUI_SYSTEM_H__
-#define __GT_GUI_SYSTEM_H__ ///< include guard
+#include "common.h"
 
-namespace gost{
-
-	class gtGUISystem : public gtRefObject{
-	public:
-
-		virtual gtGUIFont * createFont( gtString fontName ) = 0;
-
-	};
-
+gtMutexWin32::gtMutexWin32( void ){
+	m_isInitialized = true;
+	InitializeCriticalSection( &m_cSection );
 }
 
-#endif
+gtMutexWin32::~gtMutexWin32( void ){
+	m_isInitialized = false;
+	DeleteCriticalSection( &m_cSection );
+}
+	
+void gtMutexWin32::lock( void ){
+	EnterCriticalSection( &m_cSection );
+}
+
+void gtMutexWin32::unlock( void ){
+	LeaveCriticalSection( &m_cSection );
+}
+
+
 
 /*
 Copyright (c) 2018 532235

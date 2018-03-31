@@ -174,7 +174,7 @@ void gtSceneSystemImpl::removeObject( gtGameObject* object ){
 }
 
 
-bool aabbInFrustum( gtCameraFrustum * frustum, gtAabb* aabb, const v3f& position ){
+bool aabbInFrustum( gtCameraFrustum * /*frustum*/, gtAabb* aabb, const v3f& position ){
 	v3f _min = aabb->m_min + position;
 	v3f _max = aabb->m_max + position;
 
@@ -329,7 +329,7 @@ void gtSceneSystemImpl::drawObject( gtGameObject * object ){
 
 		gtObb * obb = object->getObb();
 
-		auto& pos = object->getPositionInSpace();
+		const auto& pos = object->getPositionInSpace();
 		
 		if( obb ){
 

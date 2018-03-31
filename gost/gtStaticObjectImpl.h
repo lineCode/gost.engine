@@ -9,7 +9,8 @@ namespace gost{
 		gtObjectType	m_type;
 
 		gtRenderModel*	m_model;
-
+		gtAabb m_aabb;
+		gtObb  m_obb;
 	public:
 
 		gtStaticObjectImpl( gtRenderModel* model );

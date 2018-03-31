@@ -1,17 +1,29 @@
 ﻿#pragma once
-#ifndef __GT_GUI_SYSTEM_H__
-#define __GT_GUI_SYSTEM_H__ ///< include guard
+#ifndef __GT_GUI_OBJECT_H__
+#define __GT_GUI_OBJECT_H__ //< include guard
 
 namespace gost{
 
-	class gtGUISystem : public gtRefObject{
+	enum class gtGUIObjectType{
+		font,
+		text,
+		button,
+		rect
+	};
+
+	class gtGUIObject : public gtRefObject{
+		gtGUIObjectType m_type;
 	public:
 
-		virtual gtGUIFont * createFont( gtString fontName ) = 0;
+		virtual gtGUIObjectType getType( void ){
+			return m_type;
+		}
 
 	};
 
 }
+
+#include <gtGUIFont.h>
 
 #endif
 

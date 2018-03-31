@@ -1,13 +1,16 @@
 ﻿#pragma once
-#ifndef __GT_GUI_SYSTEM_H__
-#define __GT_GUI_SYSTEM_H__ ///< include guard
+#ifndef __GT_GUI_FONT_H__
+#define __GT_GUI_FONT_H__ //< include guard
 
 namespace gost{
 
-	class gtGUISystem : public gtRefObject{
-	public:
+	class gtTexture;
+	class gtGUIFont : public gtGUIObject{
 
-		virtual gtGUIFont * createFont( gtString fontName ) = 0;
+		gtArray< gtTexture* > m_fontTextures;
+//		gtArray< gtSprite* > m_fontTextures;
+
+	public:
 
 	};
 

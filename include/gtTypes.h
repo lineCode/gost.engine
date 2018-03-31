@@ -149,6 +149,17 @@ namespace gost{
 	#	define GT_FORCE_INLINE inline
 	#endif
 	
+
+	struct gtBits{
+		bool b0:1, b1:1, b2:1, b3:1, b4:1, b5:1, b6:1, b7:1;
+	};
+
+	union gtByte{
+		gtByte( void ):byte( 0u ){}
+		gtBits bits;
+		u8 byte;
+	};
+
 }
 
 

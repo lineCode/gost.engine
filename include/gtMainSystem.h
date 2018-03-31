@@ -136,41 +136,41 @@ namespace gost{
 			*/
 		virtual void		freeMemory( void** data ) = 0;
 
-			///	Загрузит gtImage, если расширение поддерживается хоть каким-то плагином
-			///	\param fileName: path to the file
-			/// \return image
+			//	Загрузит gtImage, если расширение поддерживается хоть каким-то плагином
+			//	\param fileName: path to the file
+			// \return image
 		virtual gtImage*	loadImage( const gtString& fileName ) = 0;
 
-			///	Загрузит gtImage плагином имеющим указанный код
-			///	\param fileName: path to the file
-			///	\param pluginGUID: unique ID of plugin
-			/// \return image
+			//	Загрузит gtImage плагином имеющим указанный код
+			//	\param fileName: path to the file
+			//	\param pluginGUID: unique ID of plugin
+			// \return image
 		virtual gtImage*	loadImage( const gtString& fileName, const gtString& pluginGUID ) = 0;
 
-			///	Удаляет картинку из памяти.
-			///	\attention Я не уверен, но, так как метод loadImage создаёт картинку в gost.dll, то она должна там же и удаляться. Быть может допустимо вызвать и \b release , я не проверял
+			//	Удаляет картинку из памяти.
+			//	\attention Я не уверен, но, так как метод loadImage создаёт картинку в gost.dll, то она должна там же и удаляться. Быть может допустимо вызвать и \b release , я не проверял
 		virtual void		removeImage( gtImage* ) = 0;
 
-			///	получит время прошедшее с момента запуска движка
-			/// \return time in millisecons
+			//	получит время прошедшее с момента запуска движка
+			// \return time in millisecons
 		virtual u32			getTime( void ) = 0;
 
-			///	получит указатель на таймер
-			/// \return timer
+			//	получит указатель на таймер
+			// \return timer
 		virtual gtTimer*	getTimer( void ) = 0;
 
-			///	добавить событие. prior - приоритет - 0 обычный, 1 самый важный
-			/// \param ev: event
-			/// \param prior: not imlemeted
+			//	добавить событие. prior - приоритет - 0 обычный, 1 самый важный
+			// \param ev: event
+			// \param prior: not imlemeted
 		virtual void		addEvent( const gtEvent& ev, u8 prior = 0u ) = 0;
 
 
-			/// get model system
-			/// \return moedl system
+			// get model system
+			// \return moedl system
 		virtual gtModelSystem*	getModelSystem( void ) = 0;
 
-			/// get plugin system
-			/// \return plugin system
+			// get plugin system
+			// \return plugin system
 		virtual gtPluginSystem*	getPluginSystem( void ) = 0;
 
 			// get scene system
@@ -193,30 +193,30 @@ namespace gost{
 			/// \param m: world matrix
 		virtual void setMatrixWorld( const gtMatrix4& m ) = 0;
 
-			/// set view matrix
-			/// \param m: view matrix
+			// set view matrix
+			// \param m: view matrix
 		virtual void setMatrixView( const gtMatrix4& m ) = 0;
 
-			/// set projection matrix
-			/// \param m: projection matrix
+			// set projection matrix
+			// \param m: projection matrix
 		virtual void setMatrixProjection( const gtMatrix4& m ) = 0;
 
-			///	Update events
-			///	\param event[out]: event truct
-			///	\return \b true if have event
+			//	Update events
+			//	\param event[out]: event truct
+			//	\return \b true if have event
 		virtual bool pollEvent( gtEvent& event ) = 0;
 
-			///	Check pressed key
-			///	\param key: key code
-			///	\return \b true if pressed
+			//	Check pressed key
+			//	\param key: key code
+			//	\return \b true if pressed
 		virtual bool isKeyPressed( gtKey key ) = 0;
 
-			///	Left mouse button down
+			//	Left mouse button down
 			///	\return \b true if down
 		virtual bool isLMBDown( void ) = 0;
 
-			///	Right mouse button down
-			///	\return \b true if down
+			//	Right mouse button down
+			//	\return \b true if down
 		virtual bool isRMBDown( void ) = 0;
 
 			///	Middle mouse button down
@@ -227,11 +227,17 @@ namespace gost{
 			///	\return position
 		virtual const gtVector2<u16>& getCursorPosition( void ) = 0;
 
-			///	Get params
+			//	Get params
 		virtual const gtDeviceCreationParameters& getDeviceCreationParameters( void ) = 0;
 
-			///	Create thread object
+			//	Create thread object
 		virtual gtThread*	createThread( void ) = 0;
+		
+		virtual gtMutex*	createMutex( void ) = 0;
+
+		virtual gtXMLDocument* XMLRead( const gtString& file ) = 0;
+
+		virtual void XMLWrite( const gtString& file, gtXMLNode* rootNode, bool utf8 = false ) = 0;
 
 			///	возвратит указатель на gtMainSystem, альтернатива this так как this не работает в статических методах
 			/// \return gtMainSystem
