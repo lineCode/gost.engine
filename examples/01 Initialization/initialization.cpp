@@ -71,6 +71,18 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 		output->print( supportedModels[ i ].c_str() );
 	}
 
+	gtPtr_t( gtXMLDocument, xml, mainSystem->XMLRead( gtFileSystem::getProgramPath() + u"compiler_dmd.xml" ) );
+	if( xml.data() ){
+		gtArray<gtXMLNode*> arr = xml->selectNodes( u"/CodeBlocks_compiler/Path" );
+		u32 sz = arr.size();
+		if( sz ){
+			gtLogWriter::printInfo( u"Nodes:" );
+			for( u32 i = 0u; i < sz; ++i ){
+				gtLogWriter::printInfo( u"%s", arr[ i ]->attributeList[0u]->value.data() );
+			}
+		}
+	}
+
 	while( mainSystem->update() ){
 
 		//	If you do not use gtEventConsumer, use this method.

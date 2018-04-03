@@ -8,7 +8,7 @@ namespace gost{
 
 
 	class gtXMLDocumentImpl GT_FINAL : public gtXMLDocument{
-
+		bool	  m_isInit;
 		gtXMLNode m_root;
 
 		gtString m_fileName;
@@ -66,6 +66,11 @@ namespace gost{
 
 		bool tokenIsString( void );
 
+		bool XPath_getTokens( gtArray<gtXPathToken> * arr, const gtString& XPath_expression );
+		bool XPath_isName( char16_t * ptr );
+
+		char16_t* XPath_getName( char16_t*ptr, gtString * name );
+		void XPathGetNodes( u32 level, u32 maxLevel, gtArray<gtString*> elements, gtXMLNode* node, gtArray<gtXMLNode*>* outArr );
 	public:
 
 		gtXMLDocumentImpl( const gtString& fileName );
@@ -76,6 +81,7 @@ namespace gost{
 		gtXMLNode* getRootNode( void );
 		void print( void );
 		const gtString& getText( void );
+		gtArray<gtXMLNode*> selectNodes( const gtString& XPath_expression );
 	};
 
 }
