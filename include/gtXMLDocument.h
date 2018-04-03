@@ -4,6 +4,70 @@
 
 namespace gost{
 
+	enum class gtXPathTokenType{
+		slash,
+		double_slash,
+		name,
+		equal,			// price=9.80
+		not_equal,		// price!=9.80
+		more,			// price>9.80
+		less,			// price<9.80
+		more_eq,		// price>=9.80
+		less_eq,		// price<=9.80
+		apos,
+		number,
+		comma, //,
+		function,
+		function_open,  //(
+		function_close, //)
+		attribute,
+		bit_or,			// //book | //cd
+		sq_open,		// [
+		sq_close,		// ]
+		div,			// 8 div 4
+		mod,			// 5 mod 2
+		add,			// 6 + 4
+		sub,			// 6 - 4
+		mul,			// 6 * 4
+		and,			// price>9.00 and price<9.90
+		or,				// price=9.80 or price=9.70,
+		axis_namespace,	//::
+		axis,
+		NONE = 0xFFFFFFF
+	};
+
+	enum class gtXPathAxis{
+		ancestor,			// parent, grandparent, etc.
+		ancestor_or_self,	// parent, grandparent, etc. + current node
+		attribute,		
+		child,
+		descendant,			// children, grandchildren, etc.
+		descendant_or_self,	// children, grandchildren, etc. + current node
+		following,
+		following_sibling,
+		namespace_,
+		parent,
+		preceding,
+		preceding_sibling,
+		self,
+		NONE = 0xFFFFFFF
+	};
+
+	struct gtXPathToken{
+		gtXPathToken( void ):m_type( gtXPathTokenType::NONE ),m_number( 0.f ),m_axis(gtXPathAxis::NONE){}
+		gtXPathToken( gtXPathTokenType type,
+			gtString string,
+			f32 number )
+		: m_type( type ), m_string( string ), m_number( number ),
+		m_axis(gtXPathAxis::NONE)
+		{}
+
+		gtXPathTokenType m_type;
+		gtXPathAxis m_axis;
+		gtString m_string;
+		f32 m_number;
+	};
+
 	struct gtXMLAttribute : public gtRefObject {
 		gtXMLAttribute(){}
 		gtXMLAttribute( const gtString& Name,
@@ -82,6 +146,8 @@ namespace gost{
 		virtual void print( void ) = 0;
 
 		virtual const gtString& getText( void ) = 0;
+
+		virtual gtArray<gtXMLNode*> selectNodes( const gtString& XPath_expression ) = 0;
 	};
 
 }

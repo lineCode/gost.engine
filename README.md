@@ -19,6 +19,8 @@ Wiki for samples https://github.com/532235/GoST/wiki
 
 http://www.imsoftworks.info/contributing.php
 
+Блог на руском http://www.cyberforum.ru/blogs/1100206/
+
 
 [![Support](http://www.imsoftworks.info/gost/support.png)](https://www.paypal.me/supportgost)
 
