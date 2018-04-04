@@ -1,7 +1,22 @@
 #include "common.h"
 
+gtGUISystemImpl::gtGUISystemImpl( void ):
+m_driver( nullptr ){
 
-gtGUIFont * gtGUISystemImpl::createFont( gtString fontName ){
+#ifdef GT_DEBUG
+	m_debugName.assign(u"gtGUISystem");
+#endif
+
+}
+
+gtGUISystemImpl::~gtGUISystemImpl( void ){
+}
+
+void gtGUISystemImpl::setCurrentRenderDriver( gtDriver * driver ){
+	m_driver = driver;
+}
+
+gtGUIFont * gtGUISystemImpl::createFont( const gtString& fontName ){
 
 	gtPtr_t( gtGUIFontImpl, font, new gtGUIFontImpl() );
 

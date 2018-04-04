@@ -5,10 +5,15 @@
 namespace gost{
 
 	class gtGUISystemImpl : public gtGUISystem{
+		gtDriver * m_driver;
 	public:
 
-		gtGUIFont * createFont( gtString fontName );
+		gtGUISystemImpl( void );
+		~gtGUISystemImpl( void );
 
+		gtGUIFont * createFont( const gtString& fontName );
+
+		void setCurrentRenderDriver( gtDriver * driver );
 	};
 
 }

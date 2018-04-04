@@ -36,6 +36,7 @@ namespace gost{
 		gtPtr<gtPluginSystemImpl>	m_pluginSystem;
 		gtPtr<gtModelSystemImpl>	m_modelSystem;
 		gtPtr<gtSceneSystemImpl>	m_sceneSystem;
+		gtPtr<gtGUISystemImpl>		m_GUISystem;
 
 
 	//	gtEngineEventConsumer m_engineConsumer;
@@ -101,6 +102,7 @@ namespace gost{
 		gtModelSystem*	getModelSystem( void );
 		gtPluginSystem*	getPluginSystem( void );
 		gtSceneSystem*	getSceneSystem( gtDriver * currentRenderDriver );
+		gtGUISystem*	getGUISystem( gtDriver * currentRenderDriver );
 
 		const gtMatrix4& getMatrixWorld( void );
 		const gtMatrix4& getMatrixView( void );

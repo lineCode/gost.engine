@@ -71,7 +71,9 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 		output->print( supportedModels[ i ].c_str() );
 	}
 
-	gtPtr_t( gtXMLDocument, xml, mainSystem->XMLRead( gtFileSystem::getProgramPath() + u"compiler_dmd.xml" ) );
+	//gtGUIFont * font = 
+
+	/*gtPtr_t( gtXMLDocument, xml, mainSystem->XMLRead( gtFileSystem::getProgramPath() + u"compiler_dmd.xml" ) );
 	if( xml.data() ){
 		xml->print();
 		mainSystem->XMLWrite( u"out.xml", xml->getRootNode() );
@@ -83,7 +85,7 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 				gtLogWriter::printInfo( u"%s", arr[ i ]->attributeList[0u]->value.data() );
 			}
 		}
-	}
+	}*/
 
 	while( mainSystem->update() ){
 

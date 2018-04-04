@@ -22,6 +22,7 @@ gtMainSystemCommon::gtMainSystemCommon( void ) : m_isRun( true ),
 	m_pluginSystem	= gtPtrNew<gtPluginSystemImpl>( new gtPluginSystemImpl );
 	m_modelSystem = gtPtrNew<gtModelSystemImpl>( new gtModelSystemImpl );
 	m_sceneSystem = gtPtrNew<gtSceneSystemImpl>( new gtSceneSystemImpl );
+	m_GUISystem = gtPtrNew<gtGUISystemImpl>( new gtGUISystemImpl );
 
 #ifdef GT_DEBUG
 	m_debugName.assign(u"gtMainSystem");
@@ -155,6 +156,12 @@ gtSceneSystem*	gtMainSystemCommon::getSceneSystem( gtDriver * currentRenderDrive
 	if( currentRenderDriver )
 		m_sceneSystem->setCurrentRenderDriver( currentRenderDriver );
 	return m_sceneSystem.data();
+}
+
+gtGUISystem*	gtMainSystemCommon::getGUISystem( gtDriver * currentRenderDriver ){
+	if( currentRenderDriver )
+		m_GUISystem->setCurrentRenderDriver( currentRenderDriver );
+	return m_GUISystem.data();
 }
 
 const gtMatrix4& gtMainSystemCommon::getMatrixWorld( void ){

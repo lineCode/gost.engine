@@ -177,8 +177,10 @@ namespace gost{
 			// \return scene system
 		virtual gtSceneSystem*	getSceneSystem( gtDriver * currentRenderDriver ) = 0;
 
-			/// get world matrix
-			/// \return world matrix
+		virtual gtGUISystem*	getGUISystem( gtDriver * currentRenderDriver ) = 0;
+		
+			// get world matrix
+			// \return world matrix
 		virtual const gtMatrix4& getMatrixWorld( void ) = 0;
 
 			/// get view matrix
