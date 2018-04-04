@@ -7,6 +7,7 @@
 * .png .bmp image import
 * 2D sprite with animation
 * audio loading/audio streaming (.wav .ogg)
+* XML read/write
 
 ## Documentation
 Current version (most on russian) http://imsoftworks.info/gost/doc/beta1/html/index.html

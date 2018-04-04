@@ -73,6 +73,8 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 
 	gtPtr_t( gtXMLDocument, xml, mainSystem->XMLRead( gtFileSystem::getProgramPath() + u"compiler_dmd.xml" ) );
 	if( xml.data() ){
+		xml->print();
+		mainSystem->XMLWrite( u"out.xml", xml->getRootNode() );
 		gtArray<gtXMLNode*> arr = xml->selectNodes( u"/CodeBlocks_compiler/Path" );
 		u32 sz = arr.size();
 		if( sz ){

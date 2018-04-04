@@ -326,13 +326,13 @@ bool writeNodes( gtString& outText, gtXMLNode* node, u32 tabCount ){
 	if( !node->nodeList.size() && !node->text.size() ){
 		outText += u"/>\r\n";
 		return true;
-	}else if( node->text.size() ){
+	/*}else if( node->text.size() ){
 		outText += u">";
 		writeText( outText, node->text );
 		outText += u"</";
 		outText += node->name;
 		outText += u">\n";
-		return true;
+		return true;*/
 
 	}else{
 		outText += u">\r\n";
@@ -349,6 +349,13 @@ bool writeNodes( gtString& outText, gtXMLNode* node, u32 tabCount ){
 		}
 	}
 
+	if( node->text.size() ){
+		for( u32 o = 0u; o < tabCount; ++o ){
+			outText += u"\t";
+		}
+		writeText( outText, node->text );
+		outText += u"\n";
+	}
 	--tabCount;
 
 	return false;

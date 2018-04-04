@@ -21,7 +21,6 @@ gtXMLDocumentImpl::~gtXMLDocumentImpl( void ){
 
 bool gtXMLDocumentImpl::init( void ){
 	if( util::readTextFromFileForUnicode( m_fileName, m_text ) ){
-		
 		getTokens();
 
 		if( !analyzeTokens() ) return false;
@@ -30,7 +29,6 @@ bool gtXMLDocumentImpl::init( void ){
 		m_isInit = true;
 		return true;
 	}
-
 	return false;
 }
 
@@ -181,6 +179,10 @@ closeNode:
 								}else{
 									return unexpectedToken( m_tokens[ m_cursor ], name );
 								}
+							}else if( tokenIsName() ){
+								--m_cursor;
+								subNode = gtPtrNew<gtXMLNode>( new gtXMLNode );
+								goto newNode;
 							}else{
 								return unexpectedToken( m_tokens[ m_cursor ], m_expect_slash );
 							}
@@ -246,7 +248,6 @@ newNode:
 						goto closeNode;
 					}else if( tokenIsName() ){
 						--m_cursor;
-						//subNode->clear();
 						subNode = gtPtrNew<gtXMLNode>( new gtXMLNode );
 						goto newNode;
 					}else{
@@ -448,6 +449,7 @@ void gtXMLDocumentImpl::getTokens( void ){
 						oldCol = col;
 						ptr = getString( ptr, str, line, col );
 						if( str.size() ){
+							util::stringTrimSpace( str );
 							decodeEnts( str );
 							m_tokens.push_back( _token( str, line, oldCol ) );
 							str.clear();
@@ -769,45 +771,8 @@ gtArray<gtXMLNode*> gtXMLDocumentImpl::selectNodes( const gtString& XPath_expres
 
 	if( elements.size() ){
 		sz = elements.size();
-	//	u32 tg_nameId = sz - 1u;
-
 		XPathGetNodes( 0u, sz - 1u, elements, &m_root, &a );
 
-		/*
-		gtXMLNode * nextNode = &m_root;
-
-		for( u32 i = 0u; i < sz; ++i ){ // elements
-			u32 nsz = nextNode->nodeList.size();
-			u32 next = i + 1u;
-
-			if( next == sz ) break;
-
-			if( i == 0u ){
-				if( m_root.name != *elements[ i ] ){
-					gtLogWriter::printError( u"Bad XPath expression \"%s\". Wrong root element name `%s`. Name must be `%s`",
-						XPath_expression.data(), 
-						elements[ i ]->data(),
-						m_root.name.data() );
-					return a;
-				}
-
-				if( tg_nameId == 0u ){ // ....
-					a.push_back( &m_root );
-					return a;
-				}
-
-			}
-
-			for( u32 o = 0u; o < nsz; ++o ){
-				if( nextNode->nodeList[ o ]->name == *elements[ next ] ){
-					if( tg_nameId == next ){
-						a.push_back( nextNode->nodeList[ o ] );
-					}
-				}
-			}
-
-		}
-		*/
 	}
 
 	return a;
