@@ -1,46 +1,28 @@
-#pragma once
-#ifndef __GT_GUI_FONT_IMPL_H__
-#define __GT_GUI_FONT_IMPL_H__
+#include "common.h"
 
-namespace gost{
-
-	class gtGUIFontImpl : public gtGUIFont{
-
-		struct character_base{
-			char16_t		c;
-			gtVector4<u16>	coords;
-		};
-			
-
-		struct character{
-			character():ch(nullptr){}
-			~character(){
-				if(ch)
-					delete ch;
-			}
-			character_base * ch;
-		}/***m_chars*/;
-		gtArray<character*> m_chars;
-
-		gtDriver * m_driver;
-
-		gtArray<gtPtr<gtTexture>> m_textureArray;
-
-		bool initFromFile( const gtString& font );
-		bool initFromSystem( const gtString& font );
-
-	public:
-
-		gtGUIFontImpl( gtDriver * d );
-		~gtGUIFontImpl( void );
-
-		bool init( const gtString& font );
-
-	};
-
+gtGUIStaticTextImpl::gtGUIStaticTextImpl( void ):
+	m_font( nullptr )
+{
 }
 
-#endif
+gtGUIStaticTextImpl::~gtGUIStaticTextImpl( void ){
+}
+
+void gtGUIStaticTextImpl::setFont( gtGUIFont * font ){
+	m_font = font;
+	setText( m_text );
+}
+
+bool gtGUIStaticTextImpl::init( const gtString& text, s32 positionX, s32 positionY ){
+	setText( text );
+	return true;
+}
+
+void gtGUIStaticTextImpl::setText( const gtString& text ){
+	m_text = text;
+	if( m_font ){
+	}
+}
 
 /*
 Copyright (c) 2018 532235

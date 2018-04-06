@@ -15,8 +15,6 @@ namespace gost{
 		//	деструктор
 	gtMainSystemWin32::~gtMainSystemWin32( void ){
 		this->m_isRun = false;
-
-
 	}
 
 		//	возвратит укозатель на окно вывода
@@ -102,7 +100,7 @@ namespace gost{
 		}
 	}
 
-	gtWindow*	gtMainSystemWin32::createSystemWindow( const gtWindowInfo& wi ){
+	gtPtr<gtWindow>	gtMainSystemWin32::createSystemWindow( const gtWindowInfo& wi ){
 		gtPtr< gtWindow > window( gtPtrNew< gtWindow >( new gtWindowWin32( wi ) ) );
 
 		if( !((gtWindowWin32*)window.data())->init( ++m_systemWindowCount ) ){
@@ -120,7 +118,7 @@ namespace gost{
 		window->setDebugName( u"SystemWindow" );
 #endif
 
-		return window.data();
+		return window;
 	}
 
 	u32			gtMainSystemWin32::getTime( void ){
@@ -146,12 +144,12 @@ namespace gost{
 	}
 }
 
-gtThread*	gtMainSystemWin32::createThread( void ){
-	return new gtThreadWin32;
+gtPtr<gtThread>	gtMainSystemWin32::createThread( void ){
+	return gtPtr<gtThread>( gtPtrNew<gtThread>( new gtThreadWin32 ) );
 }
 
-gtMutex*	gtMainSystemWin32::createMutex( void ){
-	return new gtMutexWin32;
+gtPtr<gtMutex>	gtMainSystemWin32::createMutex( void ){
+	return gtPtr<gtMutex>( gtPtrNew<gtMutex>( new gtMutexWin32 ) );
 }
 
 #endif

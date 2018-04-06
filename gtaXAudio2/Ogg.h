@@ -33,7 +33,7 @@ struct Ogg{
 	gtFile	  * m_file		= nullptr;
 	gtString	m_fileName;
 	OggStream	m_stream;
-	gtThread*	m_thread = nullptr;
+	gtPtr<gtThread>	m_thread = nullptr;
 	PlayBackCommand	m_playBackCommand = PBC_NONE;
 	u8			m_isLoop;
 	f64			m_position;

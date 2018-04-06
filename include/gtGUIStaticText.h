@@ -1,40 +1,14 @@
-#pragma once
-#ifndef __GT_GUI_FONT_IMPL_H__
-#define __GT_GUI_FONT_IMPL_H__
+﻿#pragma once
+#ifndef __GT_GUI_STATIC_TEXT_H__
+#define __GT_GUI_STATIC_TEXT_H__ //< include guard
 
 namespace gost{
 
-	class gtGUIFontImpl : public gtGUIFont{
-
-		struct character_base{
-			char16_t		c;
-			gtVector4<u16>	coords;
-		};
-			
-
-		struct character{
-			character():ch(nullptr){}
-			~character(){
-				if(ch)
-					delete ch;
-			}
-			character_base * ch;
-		}/***m_chars*/;
-		gtArray<character*> m_chars;
-
-		gtDriver * m_driver;
-
-		gtArray<gtPtr<gtTexture>> m_textureArray;
-
-		bool initFromFile( const gtString& font );
-		bool initFromSystem( const gtString& font );
-
+	class gtGUIStaticText : public gtGUIObject{
 	public:
 
-		gtGUIFontImpl( gtDriver * d );
-		~gtGUIFontImpl( void );
-
-		bool init( const gtString& font );
+		virtual void setFont( gtGUIFont * font ) = 0;
+		virtual void setText( const gtString& text ) = 0;
 
 	};
 

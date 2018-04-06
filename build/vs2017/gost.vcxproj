@@ -130,7 +130,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>false</SDLCheck>
       <AdditionalIncludeDirectories>../../include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_DEBUG;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>GOSTDLL;_DEBUG;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -144,7 +144,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>false</SDLCheck>
       <AdditionalIncludeDirectories>../../include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_DEBUG;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>GOSTDLL;_DEBUG;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <OutputFile>../../bin64/$(TargetName)$(TargetExt)</OutputFile>
@@ -158,6 +158,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>false</SDLCheck>
       <AdditionalIncludeDirectories>../../include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>GOSTDLL;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -173,6 +174,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>false</SDLCheck>
       <AdditionalIncludeDirectories>../../include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>GOSTDLL;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -188,6 +190,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>false</SDLCheck>
       <AdditionalIncludeDirectories>../../include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>GOSTDLL;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -202,6 +205,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <AdditionalIncludeDirectories>../../include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>GOSTDLL;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -222,6 +226,7 @@
     <ClCompile Include="..\..\gost\gtFileSystemWin32.cpp" />
     <ClCompile Include="..\..\gost\gtFileWin32.cpp" />
     <ClCompile Include="..\..\gost\gtGUIFontImpl.cpp" />
+    <ClCompile Include="..\..\gost\gtGUIStaticTextImpl.cpp" />
     <ClCompile Include="..\..\gost\gtGUISystemImpl.cpp" />
     <ClCompile Include="..\..\gost\gtLogerImpl.cpp" />
     <ClCompile Include="..\..\gost\gtMainSystemCommon.cpp" />
@@ -251,6 +256,7 @@
     <ClInclude Include="..\..\gost\gtFileSystemWin32.h" />
     <ClInclude Include="..\..\gost\gtFileWin32.h" />
     <ClInclude Include="..\..\gost\gtGUIFontImpl.h" />
+    <ClInclude Include="..\..\gost\gtGUIStaticTextImpl.h" />
     <ClInclude Include="..\..\gost\gtGUISystemImpl.h" />
     <ClInclude Include="..\..\gost\gtLogerImpl.h" />
     <ClInclude Include="..\..\gost\gtMainSystemCommon.h" />
@@ -288,6 +294,7 @@
     <ClInclude Include="..\..\include\gtGameObject.h" />
     <ClInclude Include="..\..\include\gtGUIFont.h" />
     <ClInclude Include="..\..\include\gtGUIObject.h" />
+    <ClInclude Include="..\..\include\gtGUIStaticText.h" />
     <ClInclude Include="..\..\include\gtGUISystem.h" />
     <ClInclude Include="..\..\include\gtImage.h" />
     <ClInclude Include="..\..\include\gtInfo.h" />

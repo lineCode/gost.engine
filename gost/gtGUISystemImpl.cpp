@@ -1,9 +1,24 @@
 #include "common.h"
 
+gtGUISystemImpl::gtGUISystemImpl( void ):
+m_driver( nullptr ){
 
-gtGUIFont * gtGUISystemImpl::createFont( gtString fontName ){
+#ifdef GT_DEBUG
+	m_debugName.assign(u"gtGUISystem");
+#endif
 
-	gtPtr_t( gtGUIFontImpl, font, new gtGUIFontImpl() );
+}
+
+gtGUISystemImpl::~gtGUISystemImpl( void ){
+}
+
+void gtGUISystemImpl::setCurrentRenderDriver( gtDriver * driver ){
+	m_driver = driver;
+}
+
+gtPtr<gtGUIFont> gtGUISystemImpl::createFont( const gtString& fontName ){
+
+	gtPtr_t( gtGUIFontImpl, font, new gtGUIFontImpl( m_driver ) );
 
 	if( !font.data() )
 		return nullptr;
@@ -13,12 +28,26 @@ gtGUIFont * gtGUISystemImpl::createFont( gtString fontName ){
 		return nullptr;
 	}
 
+	//font->addRef();
 
-	font->addRef();
-
-	return font.data();
+	return gtPtr<gtGUIFont>( font.data() );
 }
 
+gtPtr<gtGUIStaticText> gtGUISystemImpl::createStaticText( const gtString& text, s32 positionX, s32 positionY ){
+	gtPtr_t( gtGUIStaticTextImpl, st, new gtGUIStaticTextImpl() );
+
+	if( !st.data() )
+		return nullptr;
+
+	if( !st->init( text, positionX, positionY ) ){
+		gtLogWriter::printWarning( u"Can not create static text " );
+		return nullptr;
+	}
+
+//	st->addRef();
+
+	return gtPtr<gtGUIStaticText>( st.data() );
+}
 
 
 /*

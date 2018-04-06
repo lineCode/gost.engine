@@ -1,32 +1,12 @@
 #include <gost.h>
 
-#ifdef _DEBUG
-#pragma comment(lib, "gost_d.lib")
-#else 
-#pragma comment(lib, "gost.lib")
-#endif
-
 using namespace gost;
 
-
 #if defined( GT_PLATFORM_WIN32 )
-#include <Windows.h>
 int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR /*lpCmdLine*/, int /*nCmdShow*/ ){
 #endif
 
-	gtDeviceCreationParameters params;
-	/// params.m_device_type = gtDeviceType::windows; /// Default - windows.
-	/// params.m_fontName = "myFont.ttf"; /// Your font. Default - consolas.ttf, or Courier new.
-
-	///	About this, see code in bottom.
-	///	gtPtr_t( CustomOutput, output, new CustomOutput );
-	///	params.m_outputWindow = output.data(); /// If you want create your own output window, set this parameter.
-	
-	/// Like EventReceiver in IrrLicht. Handle engine events in special class with callback method.
-	///	Use it if you don't want use gtMainSystem::pollEvent.
-	///	params.m_consumer = &eventConsumer;
-
-	gtPtr<gtMainSystem> mainSystem( gtPtrNew<gtMainSystem>( InitializeGoSTEngine(params) ) );
+	auto mainSystem = InitializeGoSTEngine();
 	/// Alternative version. Use helper macros.
 	/// gtPtr_t(gtMainSystem,mainSystem,InitializeGoSTEngine(params));
 
@@ -39,7 +19,7 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
     wi.m_style |= gtWindowInfo::maximize;
     wi.m_style |= gtWindowInfo::resize;
 	
-	gtPtr_t(gtWindow,window,mainSystem->createSystemWindow( wi ));
+	auto window = mainSystem->createSystemWindow( wi );
 
 
 	///	Set up render plugin parameters.
@@ -50,7 +30,7 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 	di.m_outWindow = window.data(); /// Set output window for rendering.
 
 	///	Initialize graphics engine.
-	gtPtr_t(gtDriver,driver,mainSystem->createVideoDriver( di, GT_UID_RENDER_D3D11 ));
+	auto driver = mainSystem->createVideoDriver( di, GT_UID_RENDER_D3D11 );
 	
 
 	gtArray<gtString> supportedImages;
@@ -71,7 +51,14 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 		output->print( supportedModels[ i ].c_str() );
 	}
 
-	gtPtr_t( gtXMLDocument, xml, mainSystem->XMLRead( gtFileSystem::getProgramPath() + u"compiler_dmd.xml" ) );
+	gtGUISystem * guiSystem = mainSystem->getGUISystem( driver.data() );
+
+
+	auto font = guiSystem->createFont( u"../media/myfont.xml" );
+	auto text = guiSystem->createStaticText( u"test", 0, 0 );
+	text->setFont( font.data() );
+
+	/*gtPtr_t( gtXMLDocument, xml, mainSystem->XMLRead( gtFileSystem::getProgramPath() + u"compiler_dmd.xml" ) );
 	if( xml.data() ){
 		xml->print();
 		mainSystem->XMLWrite( u"out.xml", xml->getRootNode() );
@@ -83,7 +70,7 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 				gtLogWriter::printInfo( u"%s", arr[ i ]->attributeList[0u]->value.data() );
 			}
 		}
-	}
+	}*/
 
 	while( mainSystem->update() ){
 

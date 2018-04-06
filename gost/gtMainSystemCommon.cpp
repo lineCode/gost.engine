@@ -22,6 +22,7 @@ gtMainSystemCommon::gtMainSystemCommon( void ) : m_isRun( true ),
 	m_pluginSystem	= gtPtrNew<gtPluginSystemImpl>( new gtPluginSystemImpl );
 	m_modelSystem = gtPtrNew<gtModelSystemImpl>( new gtModelSystemImpl );
 	m_sceneSystem = gtPtrNew<gtSceneSystemImpl>( new gtSceneSystemImpl );
+	m_GUISystem = gtPtrNew<gtGUISystemImpl>( new gtGUISystemImpl );
 
 #ifdef GT_DEBUG
 	m_debugName.assign(u"gtMainSystem");
@@ -69,7 +70,7 @@ void gtStackTrace::dumpStackTrace( void ){
 }
 
 	//	Инициализирует видео драйвер
-gtDriver* gtMainSystemCommon::createVideoDriver( /*gtPlugin* videoDriverPlugin,*/ const gtDriverInfo& params, const gtString& uid ){
+gtPtr<gtDriver> gtMainSystemCommon::createVideoDriver( /*gtPlugin* videoDriverPlugin,*/ const gtDriverInfo& params, const gtString& uid ){
 
 	//GT_ASSERT2( videoDriverPlugin, "videoDriverPlugin was nullptr" );
 
@@ -95,7 +96,7 @@ gtDriver* gtMainSystemCommon::createVideoDriver( /*gtPlugin* videoDriverPlugin,*
 		return nullptr;
 	}
 
-	return ((gtPluginRender*)plugin)->loadDriver( params );
+	return gtPtr<gtDriver>(((gtPluginRender*)plugin)->loadDriver( params ));
 }
 
 	//	Выделяет память размером size. Для освобождения нужно вызвать freeMemory
@@ -103,12 +104,19 @@ gtDriver* gtMainSystemCommon::createVideoDriver( /*gtPlugin* videoDriverPlugin,*
 bool gtMainSystemCommon::allocateMemory( void** data, u32 size ){
 	GT_ASSERT1( !(*data), "Memory block is not free or pointer not set nullptr", "*data==nullptr" );
 	*data = std::malloc( size );
-	return (*data)?true:false;
+
+	if( (*data) ){
+		//m_memTable.add( data, size );
+		return true;
+	}
+
+	return false;
 }
 
 	//	Освобождает память, выделенную с помощью allocateMemory
 void gtMainSystemCommon::freeMemory( void** data ){
 	GT_ASSERT1( *data, "Memory block is not allocated or set nullptr", "*data!=nullptr" );
+	//m_memTable.remove( data );
 	std::free( *data );
 	*data = nullptr;
 }
@@ -155,6 +163,12 @@ gtSceneSystem*	gtMainSystemCommon::getSceneSystem( gtDriver * currentRenderDrive
 	if( currentRenderDriver )
 		m_sceneSystem->setCurrentRenderDriver( currentRenderDriver );
 	return m_sceneSystem.data();
+}
+
+gtGUISystem*	gtMainSystemCommon::getGUISystem( gtDriver * currentRenderDriver ){
+	if( currentRenderDriver )
+		m_GUISystem->setCurrentRenderDriver( currentRenderDriver );
+	return m_GUISystem.data();
 }
 
 const gtMatrix4& gtMainSystemCommon::getMatrixWorld( void ){
@@ -214,7 +228,7 @@ bool gtMainSystemCommon::isRun( void ){
 	return m_isRun;
 }
 
-gtAudioSystem* gtMainSystemCommon::createAudioSystem( const gtString& uid ){
+gtPtr<gtAudioSystem> gtMainSystemCommon::createAudioSystem( const gtString& uid ){
 	/*
 	auto plugin = this->getPluginSystem()->getPlugin( uid );
 
@@ -245,19 +259,23 @@ gtAudioSystem* gtMainSystemCommon::createAudioSystem( const gtString& uid ){
 			
 				pluginAudio = ps->getAsPluginAudio( pl );
 
-				auto * ret = pluginAudio->loadAudioDriver();
+				auto ret = pluginAudio->loadAudioDriver();
 
-				if( ret ) return ret;
+				if( ret ){
 
+				//	return ret;
+					return gtPtr<gtAudioSystem>( ret );
+				}
 			}
 		}
 	}
 
 	pluginAudio = ps->getAsPluginAudio( plugin );
-	return pluginAudio->loadAudioDriver();
+	//return pluginAudio->loadAudioDriver();
+	return gtPtr<gtAudioSystem>( pluginAudio->loadAudioDriver() );
 }
 
-gtXMLDocument* gtMainSystemCommon::XMLRead( const gtString& file ){
+gtPtr<gtXMLDocument> gtMainSystemCommon::XMLRead( const gtString& file ){
 
 	if( !gtFileSystem::existFile( file ) ){
 		gtLogWriter::printWarning( u"Can not read XML document. File not exist. [%s]", file.data() );
@@ -274,8 +292,8 @@ gtXMLDocument* gtMainSystemCommon::XMLRead( const gtString& file ){
 		return nullptr;
 	}
 
-	xml->addRef();
-	return xml.data();
+	//xml->addRef();
+	return gtPtr<gtXMLDocument>( xml.data() );
 }
 
 void writeText( gtString& outText, const gtString& inText ){

@@ -6,10 +6,6 @@ namespace gost{
 
 	class gtTexture;
 	class gtGUIFont : public gtGUIObject{
-
-		gtArray< gtTexture* > m_fontTextures;
-//		gtArray< gtSprite* > m_fontTextures;
-
 	public:
 
 	};

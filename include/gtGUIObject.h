@@ -24,6 +24,7 @@ namespace gost{
 }
 
 #include <gtGUIFont.h>
+#include <gtGUIStaticText.h>
 
 #endif
 

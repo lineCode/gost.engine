@@ -39,16 +39,16 @@ namespace gost{
 
 		bool	update( void ) GT_FINAL;
 
-		gtWindow*	createSystemWindow( const gtWindowInfo& );
+		gtPtr<gtWindow>	createSystemWindow( const gtWindowInfo& );
 
 			//	получит время прошедшее с момента запуска движка
 		u32			getTime( void );
 			//	получит указатель на таймер
 		gtTimer*	getTimer( void );
 
-		gtThread*	createThread( void );
+		gtPtr<gtThread>	createThread( void );
 
-		gtMutex*	createMutex( void );
+		gtPtr<gtMutex>	createMutex( void );
 	};
 
 }

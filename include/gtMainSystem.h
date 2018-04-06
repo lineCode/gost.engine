@@ -28,22 +28,22 @@ namespace gost{
 	class gtCamera;
 	class gtPlugin;
 
-		///	Перечисление ОС
+		//	Перечисление ОС
 	enum class gtDeviceType{
-		android,	///< not implemented
-		ios,		///< not implemented
-        linux,		///< not implemented
-		osx,		///< not implemented
-		windows,	///< конечно же будет реализован пока только он
-		xbox,		///< not implemented
-		playstation,///< not implemented
-		wii			///< not implemented
+		android,	//< not implemented
+		ios,		//< not implemented
+        linux,		//< not implemented
+		osx,		//< not implemented
+		windows,	//< конечно же будет реализован пока только он
+		xbox,		//< not implemented
+		playstation,//< not implemented
+		wii			//< not implemented
 	};
 
-		///	В этой структуре будут находится параметры для запуска главной системы
+		//	В этой структуре будут находится параметры для запуска главной системы
 	struct gtDeviceCreationParameters{
 
-			/// c-tor
+			// c-tor
 		gtDeviceCreationParameters( void ):
 			m_outputWindow( nullptr ),
 			m_consumer( nullptr )
@@ -79,44 +79,45 @@ namespace gost{
 	class gtMainSystem : public gtRefObject{
 	public:
 
-			///	send command for stop engine
+			//	send command for stop engine
 		virtual void shutdown( void ) = 0;
 
-			/// check is engine run
-			///	\return \b true if run
+			// check is engine run
+			//	\return \b true if run
 		virtual bool isRun( void ) = 0;
 
-			///	get output window
-			///	\return output window
+			//	get output window
+			//	\return output window
 		virtual gtOutputWindow* getOutputWindow( void ) = 0;
 
-			///	Получить логер
-			///	\return logger
+			//	Получить логер
+			//	\return logger
 		virtual gtLoger*		getLoger( void ) = 0;
 
-			///	Используется для главного цикла. Возвращает true если всё впорядке, или не был послан сигнал о завершении работы
-			///	\return \b true if engine run
+			//	Используется для главного цикла. Возвращает true если всё впорядке, или не был послан сигнал о завершении работы
+			//	\return \b true if engine run
 		virtual	bool	update( void ) = 0;
 			
-			/// Инициализирует аудио плагин.
-			/// \param giud: id плагина.
-			/// \remark если guid == empty(), загрузится первый попавшийся аудио плагин
-		virtual gtAudioSystem* createAudioSystem( const gtString& uid = gtString() ) = 0;
+			// Инициализирует аудио плагин.
+			// \param giud: id плагина.
+			// \remark если guid == empty(), загрузится первый попавшийся аудио плагин
+		//virtual gtAudioSystem* createAudioSystem( const gtString& uid = gtString() ) = 0;
+		virtual gtPtr<gtAudioSystem> createAudioSystem( const gtString& uid = gtString() ) = 0;
 
-			///	Создаёт окно, которое можно использовать для рисования 3D сцены
-			/// \param wi: window info
-			///	\return GoST window
-		virtual gtWindow*	createSystemWindow( const gtWindowInfo& wi ) = 0;
+			//	Создаёт окно, которое можно использовать для рисования 3D сцены
+			// \param wi: window info
+			//	\return GoST window
+		virtual gtPtr<gtWindow>		createSystemWindow( const gtWindowInfo& wi ) = 0;
 
-			///	Инициализирует видео драйвер
-			/// \param di: driver info
-			/// \return video driver
-		virtual gtDriver*	createVideoDriver( /*gtPlugin* videoDriverPlugin, */const gtDriverInfo& di, const gtString& uid ) = 0;
+			//	Инициализирует видео драйвер
+			// \param di: driver info
+			// \return video driver
+		virtual gtPtr<gtDriver>		createVideoDriver( /*gtPlugin* videoDriverPlugin, */const gtDriverInfo& di, const gtString& uid ) = 0;
 
-			///	Выделяет память размером size. Для освобождения нужно вызвать freeMemory
-			///	\param data: pointer to data
-			///	\param size: size of data in bytes
-			///	\return \b true if OK
+			//	Do not use it for gtRefObject
+			//	\param data: pointer to data
+			//	\param size: size of data in bytes
+			//	\return \b true if OK
 			/**
 				\code {.cpp}
 				if( !gtMainSystem::getInstance()->allocateMemory( (void**)&image->data, image->dataSize ) ){
@@ -127,8 +128,8 @@ namespace gost{
 			*/
 		virtual bool		allocateMemory( void** data, u32 size ) = 0;
 
-			///	Освобождает память, выделенную с помощью allocateMemory
-			///	\param data: pointer to data
+			//	Освобождает память, выделенную с помощью allocateMemory
+			//	\param data: pointer to data
 			/**
 				\code {.cpp}
 				gtMainSystem::getInstance()->freeMemory( (void**)&image->data );
@@ -177,20 +178,22 @@ namespace gost{
 			// \return scene system
 		virtual gtSceneSystem*	getSceneSystem( gtDriver * currentRenderDriver ) = 0;
 
-			/// get world matrix
-			/// \return world matrix
+		virtual gtGUISystem*	getGUISystem( gtDriver * currentRenderDriver ) = 0;
+		
+			// get world matrix
+			// \return world matrix
 		virtual const gtMatrix4& getMatrixWorld( void ) = 0;
 
-			/// get view matrix
-			/// \return view matrix
+			// get view matrix
+			// \return view matrix
 		virtual const gtMatrix4& getMatrixView( void ) = 0;
 
-			/// get projection matrix
-			/// \return projection matrix
+			// get projection matrix
+			// \return projection matrix
 		virtual const gtMatrix4& getMatrixProjection( void ) = 0;
 
-			/// set world matrix
-			/// \param m: world matrix
+			// set world matrix
+			// \param m: world matrix
 		virtual void setMatrixWorld( const gtMatrix4& m ) = 0;
 
 			// set view matrix
@@ -212,35 +215,35 @@ namespace gost{
 		virtual bool isKeyPressed( gtKey key ) = 0;
 
 			//	Left mouse button down
-			///	\return \b true if down
+			//	\return \b true if down
 		virtual bool isLMBDown( void ) = 0;
 
 			//	Right mouse button down
 			//	\return \b true if down
 		virtual bool isRMBDown( void ) = 0;
 
-			///	Middle mouse button down
-			///	\return \b true if down
+			//	Middle mouse button down
+			//	\return \b true if down
 		virtual bool isMMBDown( void ) = 0;
 
-			///	Get cursor position
-			///	\return position
+			//	Get cursor position
+			//	\return position
 		virtual const gtVector2<u16>& getCursorPosition( void ) = 0;
 
 			//	Get params
 		virtual const gtDeviceCreationParameters& getDeviceCreationParameters( void ) = 0;
 
 			//	Create thread object
-		virtual gtThread*	createThread( void ) = 0;
+		virtual gtPtr<gtThread>	createThread( void ) = 0;
 		
-		virtual gtMutex*	createMutex( void ) = 0;
+		virtual gtPtr<gtMutex>	createMutex( void ) = 0;
 
-		virtual gtXMLDocument* XMLRead( const gtString& file ) = 0;
+		virtual gtPtr<gtXMLDocument> XMLRead( const gtString& file ) = 0;
 
 		virtual void XMLWrite( const gtString& file, gtXMLNode* rootNode, bool utf8 = false ) = 0;
 
-			///	возвратит указатель на gtMainSystem, альтернатива this так как this не работает в статических методах
-			/// \return gtMainSystem
+			//	возвратит указатель на gtMainSystem, альтернатива this так как this не работает в статических методах
+			// \return gtMainSystem
 		GT_API static gtMainSystem* getInstance( void );
 
 

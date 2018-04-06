@@ -107,6 +107,12 @@ namespace gost{
 	GT_TYPE( f32, float );				///< See \ref _GT_TYPE
 	GT_TYPE( f64, double );				///< See \ref _GT_TYPE
 
+	#if defined(GT_32)
+	GT_TYPE( gtAddressType, u32 );
+	#else
+	GT_TYPE( gtAddressType, u64 );
+	#endif
+
 
 	//! \cond
 	#if defined(GT_REAL_64)

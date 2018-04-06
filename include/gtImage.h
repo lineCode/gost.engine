@@ -224,7 +224,7 @@ namespace gost{
 
 			///	отразит по вертикали (для почти всех форматов (кроме однобайтового))
 		void flipVertical( void ){
-			u8 * line;
+			u8 * line = nullptr;
 			gtMainSystem::getInstance()->allocateMemory( (void**)&line, pitch );
 
 			u8 * p_Up = &data[ 0u ];

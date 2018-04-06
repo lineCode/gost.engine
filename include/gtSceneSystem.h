@@ -65,18 +65,18 @@ namespace gost{
 			///	\return created sprite
 		virtual gtSprite*		addSprite( gtTexture * texture, const v2f& size, const v3f& position = v3f(0.f,0.f,5.f), bool asBillboard = false ) = 0;
 
-			/// Get active camera
-			/// \return active camera
+			// Get active camera
+			// \return active camera
 		virtual gtCamera*		getActiveCamera( void ) = 0;
 
-			/// Set active camera
-			/// \param camera: new active camera
+			// Set active camera
+			// \param camera: new active camera
 		virtual void			setActiveCamera( gtCamera* camera ) = 0;
 
-			/// Get main object on scene. All objects added with "add" methods are childs of rootObject.
-			///	You can change transformation, and all childs change transformations too
-			/// \return Main object in virtual scene
-			/// \remark do not release or use gtPtr
+			// Get main object on scene. All objects added with "add" methods are childs of rootObject.
+			//	You can change transformation, and all childs change transformations too
+			// \return Main object in virtual scene
+			// \remark do not release or use gtPtr
 		virtual gtGameObject*	getRootObject( void ) = 0;
 
 			/// Remove object from scene. Also remove all childs.

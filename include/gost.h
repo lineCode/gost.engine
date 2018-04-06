@@ -101,6 +101,17 @@
 
 #include <gtUtilities.h>
 
+#if defined(GT_PLATFORM_WIN32)
+#ifndef GOSTDLL
+#include <Windows.h>
+#ifdef GT_DEBUG
+#pragma comment(lib, "gost_d.lib")
+#else 
+#pragma comment(lib, "gost.lib")
+#endif
+#endif
+#endif
+
 //	Base namespace for GoST
 //	All GoST objects here
 namespace gost {
@@ -112,7 +123,11 @@ namespace gost {
 	\return gtMainSystem
 */
 
-extern "C" GT_API gtMainSystem* GT_CDECL InitializeGoSTEngine( const gtDeviceCreationParameters& params );
+	extern "C" GT_API gtMainSystem* GT_CDECL InitializeGoSTEngine_internal( const gtDeviceCreationParameters& params );
+
+	GT_FORCE_INLINE gtPtr<gtMainSystem> InitializeGoSTEngine( const gtDeviceCreationParameters& params = gtDeviceCreationParameters() ){
+		return gtPtr<gtMainSystem>( InitializeGoSTEngine_internal( params ) );
+	}
 
 
 }
