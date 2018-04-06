@@ -122,6 +122,16 @@ namespace gost{
 			return *this;
 		}
 
+		gtXMLAttribute*	getAttribute( const gtString& Name ){
+			u32 sz = attributeList.size();
+			for( u32 i = 0u; i < sz; ++i ){
+				if( attributeList[ i ]->name == Name ){
+					return attributeList[ i ];
+				}
+			}
+			return nullptr;
+		}
+
 		void clear( void ){
 			name.clear();
 			text.clear();

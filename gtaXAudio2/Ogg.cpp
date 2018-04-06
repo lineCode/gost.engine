@@ -243,7 +243,7 @@ bool	Ogg::prepareToStreaming(
 	m_stream.currentPosition	=	&m_position;
 
 
-	if( !m_thread )
+	if( !m_thread.data() )
 		m_thread = gtMainSystem::getInstance()->createThread();
 	m_thread->join();
 	m_thread->start( (gtThread::StartFunction)OggStreamFunc, (void*)&m_stream );
@@ -253,7 +253,7 @@ bool	Ogg::prepareToStreaming(
 
 void	Ogg::closeStream( void ){
 	m_playBackCommand = PlayBackCommand::PBC_STOP;
-	if( m_thread ){
+	if( m_thread.data() ){
 		m_thread->join();
 		m_thread->release();
 		m_thread = nullptr;

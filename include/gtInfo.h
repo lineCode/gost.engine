@@ -459,9 +459,7 @@
 	#	define GT_FINAL_OVERRIDE
 	#endif
 
-	//! \cond
 	#if defined(GT_PLATFORM_WIN32)
-	//! \endcond
 	//! \brief Library handle. Windows version.
 	#	define GT_LIBRARY_HANDLE HMODULE
 	//! \brief Load library. Windows version.
@@ -471,7 +469,6 @@
 	#	define GT_LOAD_FUNCTION GetProcAddress
 	//! \brief Free library. Windows version.
 	#	define GT_FREE_LIBRARY FreeLibrary
-	//! \cond
 	#elif GT_PLATFORM_LINUX
 	//! \endcond
 	//! \brief Library handle. Linux version.
@@ -484,7 +481,13 @@
 	//! \brief Free library. Linux version.
 	#	define GT_FREE_LIBRARY dlclose
 	#endif
-	
+
+	#if defined(GT_PLATFORM_WIN32)
+	#	define GT_32
+	#else
+	#	define GT_64
+	#endif
+
 	//! \brief Load function with safe pointer casting
 	//! \param type: function type
 	//! \param handle: library handle

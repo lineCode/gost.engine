@@ -15,6 +15,42 @@ namespace gost{
 	class gtLogerImpl;
 
 	class gtMainSystemCommon : public gtMainSystem{
+
+		struct gtMemoryTableNode{
+			gtMemoryTableNode():m_address(nullptr), m_size( 0u ){}
+			gtMemoryTableNode(gtAddressType*A,gtAddressType S):m_address(A), m_size(S){}
+			gtAddressType*m_address;
+			gtAddressType m_size;
+		};
+
+		struct gtMemoryTable{
+			gtMemoryTable():m_used(0u){}
+
+			gtList<gtMemoryTableNode> m_table;
+			gtAddressType m_used;
+
+			void add( void ** address, gtAddressType size ){
+				m_table.push_back( gtMemoryTableNode( (gtAddressType*)*address, size ) );
+				m_used += size;
+				gtLogWriter::printInfo( u"Mem: %u", m_used );
+			}
+
+			void remove( void ** address ){
+				gtAddressType* ad = (gtAddressType*)*address;
+
+				auto it = m_table.begin();
+				for(; it != m_table.end(); ++it){
+					if( (*it).m_address == ad ){
+						break;
+					}
+				}
+
+				m_used -= (*it).m_size;
+				m_table.erase( it );
+			}
+
+		}m_memTable;
+
 	protected:
 
 		gtPtr<gtOutputWindow>	m_output_window;
@@ -80,10 +116,10 @@ namespace gost{
 		gtStackTrace*	getStackTracer( void );
 
 		
-		gtAudioSystem* createAudioSystem( const gtString& uid = gtString() );
+		gtPtr<gtAudioSystem> createAudioSystem( const gtString& uid = gtString() );
 
 
-		gtDriver* createVideoDriver( /*gtPlugin* videoDriverPlugin,*/ const gtDriverInfo&, const gtString& uid );
+		gtPtr<gtDriver> createVideoDriver( /*gtPlugin* videoDriverPlugin,*/ const gtDriverInfo&, const gtString& uid );
 
 		bool	allocateMemory( void** data, u32 size );
 
@@ -119,7 +155,7 @@ namespace gost{
 		const gtVector2<u16>& getCursorPosition( void );
 		const gtDeviceCreationParameters& getDeviceCreationParameters( void );
 
-		gtXMLDocument* XMLRead( const gtString& file );
+		gtPtr<gtXMLDocument> XMLRead( const gtString& file );
 		void XMLWrite( const gtString& file, gtXMLNode* rootNode, bool utf8 = false );
 	};
 

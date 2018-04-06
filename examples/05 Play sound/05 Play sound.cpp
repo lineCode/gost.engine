@@ -1,44 +1,34 @@
 #include <gost.h>
 
-#ifdef _DEBUG
-#pragma comment(lib, "gost_d.lib")
-#else 
-#pragma comment(lib, "gost.lib")
-#endif
-
 using namespace gost;
 
 #if defined( GT_PLATFORM_WIN32 )
-#include <Windows.h>
 int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR /*lpCmdLine*/, int /*nCmdShow*/ ){
 #endif
 
-	
-	gtDeviceCreationParameters params;
-	gtPtr_t(gtMainSystem,mainSystem,InitializeGoSTEngine(params));
-//	mainSystem->getOutputWindow()->hide();
+	auto mainSystem = InitializeGoSTEngine();
 
-	gtPtr_t(gtWindow,window,mainSystem->createSystemWindow( gtWindowInfo() ));
+	auto window = mainSystem->createSystemWindow( gtWindowInfo() );
 
 	window->setWindowTitle( u"05 Play sound" );
 
 	gtDriverInfo di;
 	di.m_outWindow = window.data();
 	di.m_vSync = true;
-	gtPtr_t(gtDriver,driver,mainSystem->createVideoDriver( di, GT_UID_RENDER_D3D11 ));
+	auto driver = mainSystem->createVideoDriver( di, GT_UID_RENDER_D3D11 );
 
 
-	gtPtr_t( gtAudioSystem, audioSystem, mainSystem->createAudioSystem( GT_UID_AUDIO_XADUDIO2 ) );
+	auto audioSystem = mainSystem->createAudioSystem( GT_UID_AUDIO_XADUDIO2 );
 
-	/// Without `gtPtr_t` `audioSource` will be removed automatically( when destroy `audio` )
-	///	If you need audioSource, add `audioSource->addRef();`
+	// Without `gtPtr_t` `audioSource` will be removed automatically( when destroy `audio` )
+	//	If you need audioSource, add `audioSource->addRef();`
 	gtAudioSource* audioSource = audioSystem->loadAudioSource( u"../media/escapade.wav" );
 
-		///	Try load full music file. Very slow decoding (in Debug), and it takes a lot of memory. 
+		//	Try load full music file. Very slow decoding (in Debug), and it takes a lot of memory. 
 	//gtAudioSource* audioSource = audioSystem->loadAudioSource( u"../media/Static-X - The Only.ogg" );
 
-		///	Create audio object. Run this example, press F1 multiple times, see result. Go back here, 
-		///	uncomment second argument and see what happens if you try press F1 again.
+		//	Create audio object. Run this example, press F1 multiple times, see result. Go back here, 
+		//	uncomment second argument and see what happens if you try press F1 again.
 	gtPtr_t( gtAudioObject, audio, audioSystem->createAudioObject( audioSource /*,2*/ ) );
 	audio->play();
 	//audio->setLoop( true );

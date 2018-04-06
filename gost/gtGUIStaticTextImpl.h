@@ -1,41 +1,25 @@
 #pragma once
-#ifndef __GT_GUI_FONT_IMPL_H__
-#define __GT_GUI_FONT_IMPL_H__
+#ifndef __GT_GUI_STATIC_TEXT_IMPL_H__
+#define __GT_GUI_STATIC_TEXT_IMPL_H__
 
 namespace gost{
 
-	class gtGUIFontImpl : public gtGUIFont{
+	class gtGUIStaticTextImpl : public gtGUIStaticText{
 
-		struct character_base{
-			char16_t		c;
-			gtVector4<u16>	coords;
-		};
-			
+		gtString m_text;
+		gtGUIFont * m_font;
 
-		struct character{
-			character():ch(nullptr){}
-			~character(){
-				if(ch)
-					delete ch;
-			}
-			character_base * ch;
-		}/***m_chars*/;
-		gtArray<character*> m_chars;
-
-		gtDriver * m_driver;
-
-		gtArray<gtPtr<gtTexture>> m_textureArray;
-
-		bool initFromFile( const gtString& font );
-		bool initFromSystem( const gtString& font );
+		gtArray<gtRenderModel*> m_buffers; //то что идёт на отрисовку. Зависит от используемого символа и количества текстур для gtGUIFont
 
 	public:
 
-		gtGUIFontImpl( gtDriver * d );
-		~gtGUIFontImpl( void );
+		gtGUIStaticTextImpl( void );
+		~gtGUIStaticTextImpl( void );
+		bool init( const gtString& text, s32 positionX, s32 positionY );
 
-		bool init( const gtString& font );
 
+		void setFont( gtGUIFont * font );
+		void setText( const gtString& text );
 	};
 
 }

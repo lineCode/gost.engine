@@ -227,21 +227,21 @@ namespace gost{
 			/// \return \b true если доступна, \b false если не доступна
 		GT_API static bool existDir( const gtString& dir );
 
-			///	Создать папку
-			/// \param dir: путь к новой папке
-			/// \return \b true если успех
+			//	Создать папку
+			// \param dir: путь к новой папке
+			// \return \b true если успех
 		GT_API static bool createDir( const gtString& dir );
 
-			///	тип объекта. нужно для сканирования папки
+			//	тип объекта. нужно для сканирования папки
 		enum class DirObjectType{
 			
-				/// для точек . ..
+				// для точек . ..
 			info,
 
-				///	папка
+				//	папка
 			folder, 
 
-				///	файл
+				//	файл
 			file 
 		};
 
@@ -290,7 +290,7 @@ namespace gost{
 			/// \return Вернёт путь к системной папке
 		GT_API static gtString getSystemPath( void );
 
-			///	Переведёт путь вида например '../media/file.ext' в полный путь
+			//	Переведёт путь вида например '../media/file.ext' в полный путь
 		GT_API static gtString getRealPath( const gtString& in );
 
 	};

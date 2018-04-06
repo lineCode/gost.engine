@@ -5,12 +5,12 @@
 */
 #include "common.h"
 
-gtMatrix4 g_matrix_identity;
+//gtMatrix4 g_matrix_identity;
 
 
 extern "C"{
 
-	GT_API gtMainSystem* InitializeGoSTEngine( const gtDeviceCreationParameters& params ){
+	GT_API gtMainSystem* InitializeGoSTEngine_internal( const gtDeviceCreationParameters& params ){
 
 		gtMainSystem*	main_system( nullptr );
 

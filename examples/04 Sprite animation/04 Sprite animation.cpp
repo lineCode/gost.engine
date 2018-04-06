@@ -1,30 +1,22 @@
 #include <gost.h>
 
-#ifdef _DEBUG
-#pragma comment(lib, "gost_d.lib")
-#else 
-#pragma comment(lib, "gost.lib")
-#endif
-
 using namespace gost;
 
 
 #if defined( GT_PLATFORM_WIN32 )
-#include <Windows.h>
 int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR /*lpCmdLine*/, int /*nCmdShow*/ ){
 #endif
 
-	gtDeviceCreationParameters params;
-	gtPtr_t(gtMainSystem,mainSystem,InitializeGoSTEngine(params));
+	auto mainSystem = InitializeGoSTEngine();
 
 	gtWindowInfo wi;
-	gtPtr_t(gtWindow,window,mainSystem->createSystemWindow( wi ));
+	auto window = mainSystem->createSystemWindow( wi );
 
 	
 	gtDriverInfo di;
 	di.m_vSync		= true;
 	di.m_outWindow	= window.data(); /// Set output window for rendering.
-	gtPtr_t(gtDriver,driver,mainSystem->createVideoDriver( di, GT_UID_RENDER_D3D11 ));
+	auto driver = mainSystem->createVideoDriver( di, GT_UID_RENDER_D3D11 );
 
 
 	///	Get scene system

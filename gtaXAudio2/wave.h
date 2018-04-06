@@ -42,7 +42,7 @@ struct Wave{
 	WaveHeader	m_header;
 	gtString	m_fileName;
 	WaveStream	m_stream;
-	gtThread*	m_thread = nullptr;
+	gtPtr<gtThread>	m_thread = nullptr;
 	PlayBackCommand	m_playBackCommand = PBC_NONE;
 	u8			m_isLoop;
 	DWORD		m_position = 44;

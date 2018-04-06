@@ -1,11 +1,5 @@
 #include <gost.h>
 
-#ifdef _DEBUG
-#pragma comment(lib, "gost_d.lib")
-#else 
-#pragma comment(lib, "gost.lib")
-#endif
-
 using namespace gost;
 
 ///	Scan 'media' folder for search images
@@ -52,20 +46,17 @@ void getImagesFromMediaFolder( gtArray<gtString>& out_array, gtArray<gtString>& 
 }
 
 #if defined( GT_PLATFORM_WIN32 )
-#include <Windows.h>
 int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR /*lpCmdLine*/, int /*nCmdShow*/ ){
 #endif
 
-	gtDeviceCreationParameters params;
-
-	gtPtr_t(gtMainSystem,mainSystem,InitializeGoSTEngine(params));
+	auto mainSystem = InitializeGoSTEngine();
 
 	///	Create main window.
 	gtWindowInfo wi;
     wi.m_style |= gtWindowInfo::maximize;
     wi.m_style |= gtWindowInfo::resize;
 	
-	gtPtr_t(gtWindow,window,mainSystem->createSystemWindow( wi ));
+	auto window = mainSystem->createSystemWindow( wi );
 
 
 	gtPluginSystem * pluginSystem = mainSystem->getPluginSystem();

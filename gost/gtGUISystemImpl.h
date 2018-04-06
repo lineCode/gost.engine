@@ -10,8 +10,10 @@ namespace gost{
 
 		gtGUISystemImpl( void );
 		~gtGUISystemImpl( void );
+		
 
-		gtGUIFont * createFont( const gtString& fontName );
+		gtPtr<gtGUIFont>		createFont( const gtString& fontName );
+		gtPtr<gtGUIStaticText>  createStaticText( const gtString& text, s32 positionX, s32 positionY );
 
 		void setCurrentRenderDriver( gtDriver * driver );
 	};
@@ -19,6 +21,7 @@ namespace gost{
 }
 
 #include "gtGUIFontImpl.h"
+#include "gtGUIStaticTextImpl.h"
 
 #endif
 

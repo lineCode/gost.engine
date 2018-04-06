@@ -7,7 +7,9 @@ namespace gost{
 	class gtGUISystem : public gtRefObject{
 	public:
 
-		virtual gtGUIFont * createFont( const gtString& fontName ) = 0;
+		virtual gtPtr<gtGUIFont> createFont( const gtString& fontName ) = 0;
+
+		virtual gtPtr<gtGUIStaticText> createStaticText( const gtString& text, s32 positionX, s32 positionY ) = 0;
 
 		virtual void setCurrentRenderDriver( gtDriver * driver ) = 0;
 	};

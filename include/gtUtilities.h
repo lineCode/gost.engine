@@ -307,6 +307,22 @@ namespace gost{
 				source.assign( result );
 			}
 		}
+	
+		GT_FORCE_INLINE bool memoryAllocate_f( void** data, u32 size ){
+			bool ret = gtMainSystem::getInstance()->allocateMemory( data, size );
+			if( !ret ){
+				gtLogWriter::printError( u"Can not allocate memory" );
+			}
+			return ret;
+		}
+
+		GT_FORCE_INLINE void memoryFree_f( void** data ){
+			gtMainSystem::getInstance()->freeMemory( data );
+		}
+
+#define memoryAllocate(ptr,sz) memoryAllocate_f((void**)&ptr,sz)
+#define memoryFree(ptr) memoryFree_f((void**)&ptr)
+
 	}
 
 }

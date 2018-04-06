@@ -179,7 +179,13 @@ gtPlugin*	gtPluginSystemImpl::getPlugin( u32 id ){
 	//	загружает картинку
 gtImage * gtPluginSystemImpl::importImage( const gtString& fileName, const gtString& guid, bool useguid ){
 
-	gtString realPath = gtFileSystem::getRealPath( fileName );
+	gtString realPath;
+	
+	if( !gtFileSystem::existFile( fileName ) ){
+		realPath = gtFileSystem::getRealPath( fileName );
+	}else{
+		realPath = fileName;
+	}
 
 	if( !gtFileSystem::existFile( realPath ) ){
 		gtLogWriter::printWarning( u"Can not load image [%s]. File not exist.", realPath.data() );

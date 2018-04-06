@@ -182,7 +182,7 @@ bool	Wave::prepareToStreaming(
 	m_stream.currentPosition	=	&m_position;
 
 
-	if( !m_thread )
+	if( !m_thread.data() )
 		m_thread = gtMainSystem::getInstance()->createThread();
 	m_thread->join();
 	m_thread->start( (gtThread::StartFunction)WavStreamFunc, (void*)&m_stream );
@@ -191,7 +191,7 @@ bool	Wave::prepareToStreaming(
 }
 
 void	Wave::closeStream( void ){
-	if( m_thread ){
+	if( m_thread.data() ){
 		m_thread->join();
 		m_thread->release();
 		m_thread = nullptr;
