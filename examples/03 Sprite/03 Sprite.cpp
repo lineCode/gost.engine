@@ -19,37 +19,37 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 	auto driver = mainSystem->createVideoDriver( di, GT_UID_RENDER_D3D11 );
 
 
-	///	Get scene system
+	//	Get scene system
 	gtSceneSystem * scene = mainSystem->getSceneSystem( driver.data() );
 
-	///	Load images and create textures
-	///	Use gtPtr_t for automatic deletion
-	gtPtr_t( gtImage, image_tank, mainSystem->loadImage( u"../media/tank_a.png" ));
-	gtPtr_t( gtImage, image_cannon, mainSystem->loadImage( u"../media/tank_b.png" ));
-	gtPtr_t( gtTexture, texture_tank, driver->createTexture( image_tank.data(), gtTextureFilterType::FILTER_PPP ));
-	gtPtr_t( gtTexture, texture_cannon, driver->createTexture( image_cannon.data(), gtTextureFilterType::FILTER_PPP ));
+	//	Load images and create textures
+	auto image_tank = mainSystem->loadImage( u"../media/tank_a.png" );
+	auto image_cannon = mainSystem->loadImage( u"../media/tank_b.png" );
+	auto texture_tank = driver->createTexture( image_tank.data(), gtTextureFilterType::FILTER_PPP );
+	auto texture_cannon = driver->createTexture( image_cannon.data(), gtTextureFilterType::FILTER_PPP );
 
 
 	gtSprite * tank = scene->addSprite(
 		texture_tank.data(),
 		v2f( (f32)texture_tank->getWidth() / 100.f,
-		(f32)texture_tank->getHeight() / 100.f ));
+		(f32)texture_tank->getHeight() / 100.f ),
+		v3f(0.f,0.f,10.f));
 
 	gtSprite * cannon = scene->addSprite(
 		texture_cannon.data(),
 		v2f( (f32)texture_cannon->getWidth() / 100.f,
 		(f32)texture_cannon->getHeight() / 100.f ),
-		v3f(0.f,0.f,-1.1f) // set closer to camera
+		v3f(0.f,0.f,-0.1f) // set closer to camera, like v3f(0.f,0.f, 10.f - 0.1f )
 	);
 
-	///	Attach the gun to the tank
+	//	Attach the gun to the tank
 	cannon->setParent( tank );
 
-	///	Add 2D camera
+	//	Add 2D camera
 	gtCamera * camera = scene->addCamera2D( v4f( 0.f, 0.f, 800.f, 600.f ) );
 
 	
-	///	for pollEvent
+	//	for pollEvent
 	gtEvent event;
 
 	f32 delta = 0.f;

@@ -4,7 +4,8 @@
 
 
 gtLogerImpl::gtLogerImpl( void )
-: m_msgType(msgType::info){
+: m_msgType(msgType::info),
+m_out( nullptr ){
 #ifdef GT_DEBUG
 	m_debugName.assign(u"gtLogerImpl");
 #endif
@@ -48,7 +49,7 @@ void gtLogerImpl::print( msgType type, char16_t* str, void * p ){
 		file->write( message );
 		file->write( gtString(u"\r\n") );
 
-		if( m_out.data() )
+		if( m_out )
 			m_out->print( message );
 	}
 }

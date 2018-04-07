@@ -1,15 +1,25 @@
 #include "common.h"
 
 gtGUIStaticTextImpl::gtGUIStaticTextImpl( void ):
-	m_font( nullptr )
+	m_font( nullptr ),
+	m_mainSystem( nullptr ),
+	m_modelSystem( nullptr )
 {
+	m_type = gtGUIObjectType::text;
+	m_mainSystem = gtMainSystem::getInstance();
+	m_modelSystem= m_mainSystem->getModelSystem();
 }
 
 gtGUIStaticTextImpl::~gtGUIStaticTextImpl( void ){
 }
 
 void gtGUIStaticTextImpl::setFont( gtGUIFont * font ){
-	m_font = font;
+	m_font = (gtGUIFontImpl*)font;
+	setText( m_text );
+}
+
+void gtGUIStaticTextImpl::setFont( const gtPtr<gtGUIFont>& font ){
+	m_font = (gtGUIFontImpl*)font.data();
 	setText( m_text );
 }
 
@@ -21,6 +31,13 @@ bool gtGUIStaticTextImpl::init( const gtString& text, s32 positionX, s32 positio
 void gtGUIStaticTextImpl::setText( const gtString& text ){
 	m_text = text;
 	if( m_font ){
+
+		if( m_text.size() ){
+			//auto soft = m_modelSystem->createPlane( 0.2f, 0.2f, gtSide::BACK );
+		}
+
+	//	m_font->
+
 	}
 }
 

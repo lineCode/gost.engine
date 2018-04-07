@@ -8,6 +8,8 @@ namespace gost{
 	public:
 
 		virtual void setFont( gtGUIFont * font ) = 0;
+		virtual void setFont( const gtPtr<gtGUIFont>& font ) = 0;
+
 		virtual void setText( const gtString& text ) = 0;
 
 	};

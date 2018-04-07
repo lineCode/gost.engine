@@ -7,8 +7,10 @@ namespace gost{
 	class gtGUIFontImpl : public gtGUIFont{
 
 		struct character_base{
+			character_base():c(0),texture_id(0u){}
 			char16_t		c;
 			gtVector4<u16>	coords;
+			s16 texture_id; 
 		};
 			
 
@@ -19,7 +21,8 @@ namespace gost{
 					delete ch;
 			}
 			character_base * ch;
-		}/***m_chars*/;
+		};
+
 		gtArray<character*> m_chars;
 
 		gtDriver * m_driver;

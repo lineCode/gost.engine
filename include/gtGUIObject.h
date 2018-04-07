@@ -12,6 +12,7 @@ namespace gost{
 	};
 
 	class gtGUIObject : public gtRefObject{
+	protected:
 		gtGUIObjectType m_type;
 	public:
 

@@ -126,7 +126,7 @@ namespace gost {
 	extern "C" GT_API gtMainSystem* GT_CDECL InitializeGoSTEngine_internal( const gtDeviceCreationParameters& params );
 
 	GT_FORCE_INLINE gtPtr<gtMainSystem> InitializeGoSTEngine( const gtDeviceCreationParameters& params = gtDeviceCreationParameters() ){
-		return gtPtr<gtMainSystem>( InitializeGoSTEngine_internal( params ) );
+		return gtPtrNew<gtMainSystem>( InitializeGoSTEngine_internal( params ) );
 	}
 
 

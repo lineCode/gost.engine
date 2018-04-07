@@ -51,34 +51,34 @@ namespace gost{
 		gtWindow * m_outWindow;
 	};
 
-		///	видео драйвер
+		//	видео драйвер
 	class gtDriver : public gtRefObject{
 	public:
 
-			///	получить параметры
-			/// \return gtDriverInfo
+			//	получить параметры
+			// \return gtDriverInfo
 		virtual const gtDriverInfo&	getParams( void ) = 0;
 			
-			/// начало рисования. Перед рисованием нужно вызвать этот метод. в конце рисования нужно вызвать метод endRender
-			/// \param clearRenderTarget: \b true если нужно очистить render target
-			/// \param color: цвет очистки render target
+			// начало рисования. Перед рисованием нужно вызвать этот метод. в конце рисования нужно вызвать метод endRender
+			// \param clearRenderTarget: \b true если нужно очистить render target
+			// \param color: цвет очистки render target
 		virtual void beginRender( bool clearRenderTarget = true, const gtColor& color = gtColor(0.f) ) = 0;
 
-			/// завершение рисования. Нужно вызывать после вызова beginRender
+			// завершение рисования. Нужно вызывать после вызова beginRender
 		virtual void endRender( void ) = 0;
 
-			///	нарисует картинку. В материале можно указать шейдер
-			///	\param rect: координаты левого верхнего и правого нижнего углов
-			///	\param m: материал с текстурой
+			//	нарисует картинку. В материале можно указать шейдер
+			//	\param rect: координаты левого верхнего и правого нижнего углов
+			//	\param m: материал с текстурой
 		virtual void draw2DImage( const v4i& rect, const gtMaterial& m ) = 0;
 
-			///	нарисует картинку. Используется стандартный шейдер
-			///	\param rect: координаты левого верхнего и правого нижнего углов
-			///	\param m: материал с текстурой
+			//	нарисует картинку. Используется стандартный шейдер
+			//	\param rect: координаты левого верхнего и правого нижнего углов
+			//	\param m: материал с текстурой
 		virtual void draw2DImage( const v4i& rect, gtTexture* texture ) = 0;
 
-			///	нарисует gtRenderModel
-			/// \param model: модель для рисования
+			//	нарисует gtRenderModel
+			// \param model: модель для рисования
 		virtual void drawModel( gtRenderModel* model ) = 0;
 
 			///	Render 2d image using region of texture. Нарисует картинку с выбранной областью текстуры
@@ -112,15 +112,15 @@ namespace gost{
 			const gtColor& color3 = gtColor( 1.f, 1.f, 1.f, 1.f )) = 0;
 
 
-			///	компилировать либо получить ранее скомпилированный шейдер
-			/// \param callback: callback для установки параметров шейдера
-			/// \param vertexShader: путь к файлу хранящем вершинный шейдер
-			/// \param vertexShaderMain: главная функция вершинного шейдера, точка входа
-			/// \param pixelShader: путь к файлу хранящем пиксельный/фрагментный шейдер
-			/// \param pixelShaderMain: главная функция пиксельного/фрагментного шейдера, точка входа
-			/// \param shaderModel: тип шейдерного языка
-			/// \param vertexType: тип вершины (должен быть массив)
-			/// \return созданный шейдер
+			//	компилировать либо получить ранее скомпилированный шейдер
+			// \param callback: callback для установки параметров шейдера
+			// \param vertexShader: путь к файлу хранящем вершинный шейдер
+			// \param vertexShaderMain: главная функция вершинного шейдера, точка входа
+			// \param pixelShader: путь к файлу хранящем пиксельный/фрагментный шейдер
+			// \param pixelShaderMain: главная функция пиксельного/фрагментного шейдера, точка входа
+			// \param shaderModel: тип шейдерного языка
+			// \param vertexType: тип вершины (должен быть массив)
+			// \return созданный шейдер
 		virtual gtShader *	getShader(
 			gtShaderCallback * callback,
 			const gtString& vertexShader,
@@ -132,16 +132,16 @@ namespace gost{
 			) = 0;
 
 
-			///	Создаёт текстуру из gtImage. Обязательно нужно в ручную удалить вызвав release()
-			/// \param sourceImage: картинка из которой создаётся текстура
-			/// \param filter: фильтр
-			/// \return созданная текстура
-		virtual gtTexture*	createTexture( gtImage* sourceImage, gtTextureFilterType filter = gtTextureFilterType::FILTER_ANISOTROPIC ) = 0;
+			//	Создаёт текстуру из gtImage. Обязательно нужно в ручную удалить вызвав release()
+			// \param sourceImage: картинка из которой создаётся текстура
+			// \param filter: фильтр
+			// \return созданная текстура
+		virtual gtPtr<gtTexture>	createTexture( gtImage* sourceImage, gtTextureFilterType filter = gtTextureFilterType::FILTER_ANISOTROPIC ) = 0;
 
 			///	Создаёт модель для рисования
 			/// \param software_model: обычная модель
 			/// \return созданная модель
-		virtual gtRenderModel*	createModel( gtModel* software_model ) = 0;
+		virtual gtPtr<gtRenderModel>	createModel( gtModel* software_model ) = 0;
 
 			///	Get texture from texture cache, or load new texture to the cache
 			///	\param fileName: path to the file
@@ -186,7 +186,10 @@ namespace gost{
 		struct cache{
 			cache(void):m_object(nullptr){}
 			cache(type obj,const gtString&path):m_object(obj),m_path(path){}
-			~cache(){if(m_object)m_object->release();}
+			~cache(){
+				if(m_object.data())
+					m_object->release();
+			}
 
 			type		m_object;
 			gtString	m_path;
@@ -194,24 +197,24 @@ namespace gost{
 
 		};
 
-		gtArray<cache<gtTexture*>>		m_textures;
-		gtArray<cache<gtRenderModel*>>	m_models;
+		gtArray<cache<gtPtr<gtTexture>>>		m_textures;
+		gtArray<cache<gtPtr<gtRenderModel>>>	m_models;
 
 		gtTexture* get_texture( const gtString& path, gtTextureFilterType filter, gtImage** im ){
 			u32 sz = m_textures.size();
 			for( u32 i = 0u; i < sz; ++i ){
 				if( path == m_textures[ i ].m_path )
-					return m_textures[ i ].m_object;
+					return m_textures[ i ].m_object.data();
 			}
 
-			gtPtr_t(gtImage,img,gtMainSystem::getInstance()->loadImage( path ));
+			auto img  = gtMainSystem::getInstance()->loadImage( path );
 			if( !img.data() ){
 				gtLogWriter::printWarning( u"Can not load image. %s", path.data() );
 				return nullptr;
 			}
 
-			gtTexture * texture = createTexture( img.data(), filter );
-			if( !texture ){
+			auto texture = createTexture( img.data(), filter );
+			if( !texture.data() ){
 				gtLogWriter::printWarning( u"Can not create texture. %s", path.data() );
 				return nullptr;
 			}
@@ -222,16 +225,16 @@ namespace gost{
 			}
 
 			texture->addRef();
-			m_textures.push_back(cache<gtTexture*>(texture,path));
+			m_textures.push_back(cache<gtPtr<gtTexture>>(texture,path));
 
-			return texture;
+			return texture.data();
 		}
 
 		gtRenderModel* get_model( const gtString& path, gtModel** m ){
 			u32 sz = m_models.size();
 			for( u32 i = 0u; i < sz; ++i ){
 				if( path == m_models[ i ].m_path )
-					return m_models[ i ].m_object;
+					return m_models[ i ].m_object.data();
 			}
 
 			gtPtr_t(gtModel,mdl,gtMainSystem::getInstance()->getModelSystem()->createFromFile( path ));
@@ -240,8 +243,8 @@ namespace gost{
 				return nullptr;
 			}
 
-			gtRenderModel * model = createModel( mdl.data() );
-			if( !model ){
+			auto model = createModel( mdl.data() );
+			if( !model.data() ){
 				gtLogWriter::printWarning( u"Can not create model. %s", path.data() );
 				return nullptr;
 			}
@@ -252,15 +255,15 @@ namespace gost{
 			}
 
 			model->addRef();
-			m_models.push_back(cache<gtRenderModel*>(model,path));
+			m_models.push_back(cache<gtPtr<gtRenderModel>>(model,path));
 
-			return model;
+			return model.data();
 		}
 
 		bool remove_model( gtRenderModel* model ){
 			u32 sz = m_models.size();
 			for( u32 i = 0u; i < sz; ++i ){
-				if( model == m_models[ i ].m_object ){
+				if( model == m_models[ i ].m_object.data() ){
 			//		model->release();
 					m_models.erase(i);
 					return true;
@@ -273,7 +276,7 @@ namespace gost{
 		bool remove_texture( gtTexture* texture ){
 			u32 sz = m_textures.size();
 			for( u32 i = 0u; i < sz; ++i ){
-				if( texture == m_textures[ i ].m_object ){
+				if( texture == m_textures[ i ].m_object.data() ){
 					texture->release();
 					m_textures.erase(i);
 					return true;

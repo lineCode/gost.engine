@@ -413,7 +413,7 @@ void	gtDriverD3D11::createStandartTexture( void ){
 
 	image::fillCheckerBoard( i, false, gtColor(u8(255),48,224), gtColor(u8(0),0,0) );
 
-	m_standartTexture = gtPtrNew<gtTexture>( this->createTexture( i, gtTextureFilterType::FILTER_PPP ) );
+	m_standartTexture = this->createTexture( i, gtTextureFilterType::FILTER_PPP );
 
 	gtMainSystem::getInstance()->freeMemory( (void**)&i->data );
 	delete i;
@@ -915,28 +915,30 @@ gtShader *	gtDriverD3D11::getShader(
 }
 
 	//	Создаёт текстуру из gtImage
-gtTexture*	gtDriverD3D11::createTexture( gtImage* image, gtTextureFilterType filter ){
+gtPtr<gtTexture>	gtDriverD3D11::createTexture( gtImage* image, gtTextureFilterType filter ){
 	GT_ASSERT2( image, "image!=nullptr" );
 
-	gtPtr<gtTextureD3D11> texture = gtPtrNew<gtTextureD3D11>( new gtTextureD3D11( this ) );
+	auto ptr = new gtTextureD3D11( this );
+	gtPtr<gtTexture> texture = gtPtrNew<gtTexture>( ptr );
 
-	if( !texture->init( image, filter ) ){
+	if( !ptr->init( image, filter ) ){
 		gtLogWriter::printWarning( u"Can not init D3D11 texture" );
 		return nullptr;
 	}
 
-	texture->addRef();
+//	texture->addRef();
 
-	return texture.data();
+	return texture;
 }
 
 	//	Создаёт модель для рисования
-gtRenderModel*	gtDriverD3D11::createModel( gtModel* m ){
+gtPtr<gtRenderModel>	gtDriverD3D11::createModel( gtModel* m ){
 	GT_ASSERT2( m, "gtModel != nullptr" );
 
-	gtPtr<gtRenderModelD3D11> model = gtPtrNew<gtRenderModelD3D11>( new gtRenderModelD3D11( this ) );
+	auto ptr = new gtRenderModelD3D11( this );
+	gtPtr<gtRenderModel> model = gtPtrNew<gtRenderModel>( ptr );
 
-	if( !model->init( m ) ){
+	if( !ptr->init( m ) ){
 		gtLogWriter::printWarning( u"Can not init D3D11 model" );
 		return nullptr;
 	}

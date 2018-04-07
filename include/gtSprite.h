@@ -72,7 +72,7 @@ namespace gost{
 
 			m_texture = t;
 
-			m_rModel = d->createModel( model );
+			m_rModel = d->createModel( model ).data();
 
 			m_aabb = *m_rModel->getAabb();
 			m_obb = *m_rModel->getObb();

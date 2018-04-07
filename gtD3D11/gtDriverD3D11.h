@@ -150,10 +150,10 @@ namespace gost{
 			);
 
 			//	Создаёт текстуру из gtImage
-		gtTexture*	createTexture( gtImage*, gtTextureFilterType filter );
+		gtPtr<gtTexture>	createTexture( gtImage*, gtTextureFilterType filter );
 
 			//	Создаёт модель для рисования
-		gtRenderModel*	createModel( gtModel* );
+		gtPtr<gtRenderModel>	createModel( gtModel* );
 
 
 		static gtDriverD3D11*	getInstance( void );

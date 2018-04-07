@@ -140,23 +140,21 @@ namespace gost{
 			//	Загрузит gtImage, если расширение поддерживается хоть каким-то плагином
 			//	\param fileName: path to the file
 			// \return image
-		virtual gtImage*	loadImage( const gtString& fileName ) = 0;
+		virtual gtPtr<gtImage>	loadImage( const gtString& fileName ) = 0;
 
 			//	Загрузит gtImage плагином имеющим указанный код
 			//	\param fileName: path to the file
 			//	\param pluginGUID: unique ID of plugin
 			// \return image
-		virtual gtImage*	loadImage( const gtString& fileName, const gtString& pluginGUID ) = 0;
+		virtual gtPtr<gtImage>	loadImage( const gtString& fileName, const gtString& pluginGUID ) = 0;
 
-			//	Удаляет картинку из памяти.
-			//	\attention Я не уверен, но, так как метод loadImage создаёт картинку в gost.dll, то она должна там же и удаляться. Быть может допустимо вызвать и \b release , я не проверял
-		virtual void		removeImage( gtImage* ) = 0;
+		//virtual void		removeImage( gtImage* ) = 0;
 
-			//	получит время прошедшее с момента запуска движка
+			//	получить время прошедшее с момента запуска движка
 			// \return time in millisecons
 		virtual u32			getTime( void ) = 0;
 
-			//	получит указатель на таймер
+			//	получить указатель на таймер
 			// \return timer
 		virtual gtTimer*	getTimer( void ) = 0;
 

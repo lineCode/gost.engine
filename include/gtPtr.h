@@ -76,13 +76,13 @@ namespace gost{
 			m_pointer = nullptr;
 		}
 
-			/// Get ptr
-			///	\return Указатель который хранит
+			// Get ptr
+			//	\return Указатель который хранит
 		Type* operator->() const {
 			return m_pointer;
 		}
 
-			///	присваивание
+			//	присваивание
 		void operator=( Type* e ) {
 			if( e ){
 				e->addRef();

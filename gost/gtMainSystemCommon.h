@@ -126,11 +126,11 @@ namespace gost{
 		void	freeMemory( void** data );
 
 		
-		gtImage*	loadImage( const gtString& fileName );
+		gtPtr<gtImage>	loadImage( const gtString& fileName );
 
-		gtImage*	loadImage( const gtString& fileName, const gtString& pluginGUID );
+		gtPtr<gtImage>	loadImage( const gtString& fileName, const gtString& pluginGUID );
 
-		void		removeImage( gtImage* );
+	//	void		removeImage( gtImage* );
 
 		void		addEvent( const gtEvent&, u8 prior = 0u );
 

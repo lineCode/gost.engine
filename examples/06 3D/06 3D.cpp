@@ -32,13 +32,13 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 	camera->setFar( 250.f );
 
 	gtModel * cube = mainSystem->getModelSystem()->createCube(0.125f);
-	gtRenderModel * rcube = driver->createModel( cube );
+	auto rcube = driver->createModel( cube );
 
 	f32 x = 0.f, y = 0.f;
 	gtStaticObject * cubs[10000];
 	for( int i = 0; i < 10000; ++i ){
-		cubs[ i ] = scene->addStaticObject( rcube, v3f( x, 0.f, y ) );
-		cubs[ i ]->showBV( true );
+		cubs[ i ] = scene->addStaticObject( rcube.data(), v3f( x, 0.f, y ) );
+	//	cubs[ i ]->showBV( true );
 		x += 1.f;
 		if( x > 100.f ){
 			x = 0.f;

@@ -157,13 +157,14 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 			}
 
 			if( !texture ){
-				if( !image ){
-					window->setWindowTitle( gtString(u"2D image: ") + images[ current_image_index ] );
-					image	= mainSystem->loadImage( images[ current_image_index ] );
-					texture = driver->createTexture( image, filter );
-					image->release();
-					image = nullptr;
-				}
+				window->setWindowTitle( gtString(u"2D image: ") + images[ current_image_index ] );
+					
+				auto i = mainSystem->loadImage( images[ current_image_index ] );
+				auto t = driver->createTexture( i.data(), filter );
+
+				texture = t.data();
+				t->addRef();
+
 			}
 
 			driver->beginRender( true, gtColor( 0.7372549019607843f, 0.8901960784313725f, 1.f, 1.f ) ); /// RGBA.
@@ -184,8 +185,8 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 		}
 	}
 
-	if( texture )
-		texture->release();
+//	if( texture )
+//		texture->release();
 
 	return 0;
 }

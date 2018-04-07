@@ -24,8 +24,8 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 
 	///	Load images and create textures
 	///	Use gtPtr_t for automatic deletion
-	gtPtr_t( gtImage, image_Frog, mainSystem->loadImage( u"../media/Frog.png" ));
-	gtPtr_t( gtTexture, texture_Frog, driver->createTexture( image_Frog.data(), gtTextureFilterType::FILTER_PPP ));
+	auto image_Frog = mainSystem->loadImage( u"../media/Frog.png" );
+	auto texture_Frog = driver->createTexture( image_Frog.data(), gtTextureFilterType::FILTER_PPP );
 
 
 	gtSprite * Frog = scene->addSprite(
@@ -58,8 +58,8 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 	gtCamera * camera = scene->addCamera2D( v4f( 0.f, 0.f, 800.f, 600.f ) );
 
 	/// Add background
-	gtPtr_t( gtImage, image_bg, mainSystem->loadImage( u"../media/Kajar.png" ));
-	gtPtr_t( gtTexture, texture_bg, driver->createTexture( image_bg.data(), gtTextureFilterType::FILTER_PPP ));
+	auto image_bg = mainSystem->loadImage( u"../media/Kajar.png" );
+	auto texture_bg = driver->createTexture( image_bg.data(), gtTextureFilterType::FILTER_PPP );
 
 
 	gtSprite * background = scene->addSprite(

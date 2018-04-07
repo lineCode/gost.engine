@@ -112,7 +112,7 @@ namespace gost{
 			//	при завершении, так как вставляются gtPtr
 			//	удалится всё (должно)
 	//	this->m_windowCache.add( gtPtr< gtWindow >(window) );
-		window->addRef();
+	//	window->addRef();
 
 #ifdef GT_DEBUG
 		window->setDebugName( u"SystemWindow" );

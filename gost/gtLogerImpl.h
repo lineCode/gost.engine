@@ -9,7 +9,7 @@ namespace gost{
 	class gtLogerImpl GT_FINAL : public gtLoger{
 			 
 			///	окно вывода
-		gtPtr<gtOutputWindow>	m_out;
+		gtOutputWindow*	m_out;
 
 			///	текущий уровень вывода информации
 		msgType m_msgType;

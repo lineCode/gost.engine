@@ -26,8 +26,8 @@ namespace gost{
 			}
 		}
 
-			///	переворачивает строку (abc -> cba)
-			///	\param str: строка для переворачивания
+			//	abc -> cba
+			//	\param str: строка для переворачивания
 		template<typename Type>
 		inline void stringFlip( Type& str ){
 			Type flippedStr;
@@ -322,6 +322,98 @@ namespace gost{
 
 #define memoryAllocate(ptr,sz) memoryAllocate_f((void**)&ptr,sz)
 #define memoryFree(ptr) memoryFree_f((void**)&ptr)
+
+		template<typename type>
+		type getIntFromString( const gtString& str ){
+			
+			type Integer = 0u;
+
+			gtString s = str;
+			util::stringFlip( s );
+			
+			u32 mul = 1u;
+
+			auto * ptr = s.data();
+
+			while( *ptr ){
+				u32 code = *ptr - 48u;
+
+				if( code >= 0u && code <= 9u ){
+					Integer += mul * code;
+					mul *= 10u;
+				}
+				++ptr;
+			}
+
+			return Integer;
+		}
+
+
+		template<typename CharType>
+		bool isSpace( CharType c ){
+			if( c == (CharType)' ' ) return true;
+			if( c == (CharType)'\r' ) return true;
+			if( c == (CharType)'\n' ) return true;
+			if( c == (CharType)'\t' ) return true;
+			return false;
+		}
+
+		template<typename SourceType, typename TargetType>
+		SourceType* getWordFromString( SourceType* source, gtString_base<TargetType>* target ){
+
+			while( *source ){
+				if( isSpace( *source ) || *source == (SourceType)',' ){
+					++source;
+				}else break;
+			}
+
+			while( *source ){
+
+				if( isSpace( *source ) || *source == (SourceType)',' ){
+					++source;
+					break;
+				}
+
+				*target += (TargetType)*source;
+
+				++source;
+			}
+			return source;
+		}
+
+		template<typename type>
+		void getVec4iFromString( const gtString& str, type* vec ){
+			auto * ptr = str.data();
+
+			gtString word;
+
+			u32 i = 0u;
+
+			while( *ptr ){
+
+				word.clear();
+
+				ptr = getWordFromString( ptr, &word );
+
+				if( word.size() ){
+					switch( i ){
+					case 0u:
+						vec->x = getIntFromString<u32>( word );
+						break;
+					case 1u:
+						vec->y = getIntFromString<u32>( word );
+						break;
+					case 2u:
+						vec->z = getIntFromString<u32>( word );
+						break;
+					case 3u:
+						vec->w = getIntFromString<u32>( word );
+						break;
+					}
+					++i;
+				}
+			}
+		}
 
 	}
 

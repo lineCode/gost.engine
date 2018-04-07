@@ -2,6 +2,7 @@
 
 gtGUIFontImpl::gtGUIFontImpl( gtDriver * d ):
 m_driver( d ){
+	m_type = gtGUIObjectType::font;
 }
 
 gtGUIFontImpl::~gtGUIFontImpl( void ){
@@ -75,19 +76,16 @@ bool gtGUIFontImpl::initFromFile( const gtString& font ){
 					return false;
 				}
 
-				gtPtr_t( gtTexture, texure, m_driver->getTexture( textureFilePath ) );
-				if( !texure.data() ){
+				gtTexture * texure = m_driver->getTexture( textureFilePath );
+				if( !texure ){
 					return false;
 				}
 
-				texure->addRef();
+			//	texure->addRef();
 				m_textureArray.push_back( texure );
 			}
 		}
 	}
-
-	//m_chars = new character[ 0xffff ];
-	//GT_ASSERT3(m_chars);
 
 	m_chars.reserve( 0xffff );
 	for( u32 i = 0u; i < 0xffff; ++i ){
@@ -101,6 +99,8 @@ bool gtGUIFontImpl::initFromFile( const gtString& font ){
 	}
 
 	sz = arr_nodes.size();
+
+
 	for( u32 i = 0u; i < sz; ++i ){
 
 		gtXMLNode * n = arr_nodes[ i ];
@@ -113,8 +113,22 @@ bool gtGUIFontImpl::initFromFile( const gtString& font ){
 				if( val >= 0xffff ) continue;
 
 				m_chars[ val ] = new character;
+
 				m_chars[ val ]->ch = new character_base;
 				m_chars[ val ]->ch->c = a->value[ 0u ];
+
+				a = n->getAttribute( u"r" );
+				if( a ){
+					util::getVec4iFromString( a->value, &m_chars[ val ]->ch->coords );
+				}
+
+				a = n->getAttribute( u"i" );
+				if( a ){
+					m_chars[ val ]->ch->texture_id = util::getIntFromString<s32>( a->value );
+				}else{
+					m_chars[ val ]->ch->texture_id = 0;
+				}
+
 			}
 		}
 	}
