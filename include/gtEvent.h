@@ -5,32 +5,32 @@
 
 #pragma once
 #ifndef __GT_EVENT_H__
-#define __GT_EVENT_H__ ///< include guard
+#define __GT_EVENT_H__ //< include guard
 
 namespace gost{
 
-#define GT_EVENT_WINDOW_SIZING   1u		///< ID сообщения. Окно меняет размер.
-#define GT_EVENT_WINDOW_RESTORE  2u		///< ID сообщения. Окно восстановлено.
-#define GT_EVENT_WINDOW_MAXIMIZE 3u		///< ID сообщения. Окно развернуто во весь экран.
-#define GT_EVENT_WINDOW_MINIMIZE 4u		///< ID сообщения. Окно свёрнуто.
-#define GT_EVENT_WINDOW_MOVE     5u		///< ID сообщения. Окно меняет позицию.
-#define GT_EVENT_WINDOW_PAINT    6u		///< ID сообщения. Окно рисует содержимое.
+#define GT_EVENT_WINDOW_SIZING   1u		//< ID сообщения. Окно меняет размер.
+#define GT_EVENT_WINDOW_RESTORE  2u		//< ID сообщения. Окно восстановлено.
+#define GT_EVENT_WINDOW_MAXIMIZE 3u		//< ID сообщения. Окно развернуто во весь экран.
+#define GT_EVENT_WINDOW_MINIMIZE 4u		//< ID сообщения. Окно свёрнуто.
+#define GT_EVENT_WINDOW_MOVE     5u		//< ID сообщения. Окно меняет позицию.
+#define GT_EVENT_WINDOW_PAINT    6u		//< ID сообщения. Окно рисует содержимое.
 
-//#define GT_EVENT_MASK_KEY_PRESS 0x80000000	///< самый левый бит хранит состояние нажатия клавиши
-//#define GT_EVENT_MASK_KEYS		0x7FFFFFFF  ///< этим макросом игнорируется самый левый бит, получая только код клавиши.
+//#define GT_EVENT_MASK_KEY_PRESS 0x80000000	//< самый левый бит хранит состояние нажатия клавиши
+//#define GT_EVENT_MASK_KEYS		0x7FFFFFFF  //< этим макросом игнорируется самый левый бит, получая только код клавиши.
 
-#define GT_EVENT_MASK_MOUSE_LMB	1u			///< была ли нажата левая кнопка мыши
-#define GT_EVENT_MASK_MOUSE_RMB	2u			///< была ли нажата правая кнопка мыши
-#define GT_EVENT_MASK_MOUSE_MMB	4u			///< была ли нажата средняя кнопка мыши
-#define GT_EVENT_MASK_MOUSE_EXTRA1 8u		///< была ли нажата дополнительная кнопка мыши
-#define GT_EVENT_MASK_MOUSE_EXTRA2 16u		///< была ли нажата дополнительная кнопка мыши
-#define GT_EVENT_MASK_MOUSE_LMB_DBL 32u		///< была ли нажата левая кнопка мыши два раза подряд
-#define GT_EVENT_MASK_MOUSE_RMB_DBL 64u		///< была ли нажата правая кнопка мыши два раза подряд
+#define GT_EVENT_MASK_MOUSE_LMB	1u			//< была ли нажата левая кнопка мыши
+#define GT_EVENT_MASK_MOUSE_RMB	2u			//< была ли нажата правая кнопка мыши
+#define GT_EVENT_MASK_MOUSE_MMB	4u			//< была ли нажата средняя кнопка мыши
+#define GT_EVENT_MASK_MOUSE_EXTRA1 8u		//< была ли нажата дополнительная кнопка мыши
+#define GT_EVENT_MASK_MOUSE_EXTRA2 16u		//< была ли нажата дополнительная кнопка мыши
+#define GT_EVENT_MASK_MOUSE_LMB_DBL 32u		//< была ли нажата левая кнопка мыши два раза подряд
+#define GT_EVENT_MASK_MOUSE_RMB_DBL 64u		//< была ли нажата правая кнопка мыши два раза подряд
 
 	
 		//	Тип события
 	enum class gtEventType : u32 {
-		none,		///< для завершения обработки массива событий
+		none,		//< для завершения обработки массива событий
 		keyboard,
 		mouse,
 		joystick,
@@ -63,10 +63,10 @@ namespace gost{
 							b5 - ex2_2x
 					   */
 
-		u16	x;	///< Cursor position on X
-		u16 y;	///< Cursor position on Y
+		u16	x;	//< Cursor position on X
+		u16 y;	//< Cursor position on Y
 
-		u16 wheel;	///< Wheel
+		u16 wheel;	//< Wheel
 
 		bool	isLeftButtonDown( void ){	return state.bits.b0;	}
 		bool	isLeftButtonUp( void )	{	return state.bits.b1;	}
@@ -105,7 +105,7 @@ namespace gost{
 		gtEventKeyboard( void ){}
 	};
 
-		///	Структура описывающая событие
+		//	Структура описывающая событие
 	struct gtEvent{
 
 		gtEvent( void ){};
@@ -117,16 +117,16 @@ namespace gost{
 
 		gtEventType type = gtEventType::none;
 		
-		u32 dataSize	= 0u;		///< размер пользовательских данных
-		void* data		= nullptr;	///< пользовательские данные
+		u32 dataSize	= 0u;		//< размер пользовательских данных
+		void* data		= nullptr;	//< пользовательские данные
 
 	};
 	
-		///	Класс-обработчик событий
+		//	Класс-обработчик событий
 	class gtEventConsumer{
 	public:
 			
-			///	Вызывается внутри движка, если есть события
+			//	Вызывается внутри движка, если есть события
 		virtual void processEvent( const gtEvent& ev ) = 0;
 
 	};

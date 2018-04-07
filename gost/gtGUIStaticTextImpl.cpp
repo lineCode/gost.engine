@@ -33,7 +33,7 @@ void gtGUIStaticTextImpl::setText( const gtString& text ){
 	if( m_font ){
 
 		if( m_text.size() ){
-			//auto soft = m_modelSystem->createPlane( 0.2f, 0.2f, gtSide::BACK );
+			auto soft = m_modelSystem->createPlane( 0.2f, 0.2f, gtSide::BACK );
 		}
 
 	//	m_font->

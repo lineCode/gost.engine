@@ -92,7 +92,7 @@ namespace gost{
 		return m_isRun;
 	}
 
-		///	завершает работу
+		//	завершает работу
 	void gtMainSystemWin32::quit( void ){
 		if( m_isRun ){
 			m_isRun = false;

@@ -4,33 +4,33 @@
 */
 #pragma once
 #ifndef __GT_MODEL_SYSTEM_H__
-#define __GT_MODEL_SYSTEM_H__ ///< include guard
+#define __GT_MODEL_SYSTEM_H__ //< include guard
 
 namespace gost{
 
-		/// выполняет функции связанные с моделями
+		// выполняет функции связанные с моделями
 	class gtModelSystem : public gtRefObject{
 	public:
 			
-			/// создаёт пустую, выделяя память для gtVertexType
-			/// \param stride: размер вершины в байтах
-			/// \param type: массив gtVertexType
-			/// \return пустая модель
-		virtual gtModel*	createEmpty( u32 stride, gtVertexType* type ) = 0;
+			// создаёт пустую, выделяя память для gtVertexType
+			// \param stride: размер вершины в байтах
+			// \param type: массив gtVertexType
+			// \return пустая модель
+		virtual gtPtr<gtModel>	createEmpty( u32 stride, gtVertexType* type ) = 0;
 
-			/// создаёт плоскость
-			/// \param x: ширина
-			/// \param y: высота
-			/// \return плоскость
-		virtual gtModel*	createPlane( f32 x = 1.f, f32 y = 1.f, gtSide side = gtSide::DOWN ) = 0;
+			// создаёт плоскость
+			// \param x: ширина
+			// \param y: высота
+			// \return плоскость
+		virtual gtPtr<gtModel>	createPlane( f32 x = 1.f, f32 y = 1.f, gtSide side = gtSide::DOWN ) = 0;
 
 
-		virtual gtModel*	createCube( f32 sz = 1.f ) = 0;
+		virtual gtPtr<gtModel>	createCube( f32 sz = 1.f ) = 0;
 
-			/// загружает модель из файла
-			/// \param fileName: путь к файлу
-			/// \return модель
-		virtual gtModel*	createFromFile( const gtString& fileName ) = 0;
+			// загружает модель из файла
+			// \param fileName: путь к файлу
+			// \return модель
+		virtual gtPtr<gtModel>	createFromFile( const gtString& fileName ) = 0;
 
 	};
 

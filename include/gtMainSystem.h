@@ -5,7 +5,7 @@
 
 #pragma once
 #ifndef __GT_MAIN_SYSTEM_H__
-#define __GT_MAIN_SYSTEM_H__ ///< include guard
+#define __GT_MAIN_SYSTEM_H__ //< include guard
 
 namespace gost{
 
@@ -58,24 +58,24 @@ namespace gost{
 			m_fontName = u"consola.ttf";
 		}
 
-			/// d-tor
+			// d-tor
 		~gtDeviceCreationParameters( void ){}
 
-			/// Font for output window
+			// Font for output window
 		gtString			m_fontName;
 
-			///	Тип Операционной системы на которой будет работать программа
+			//	Тип Операционной системы на которой будет работать программа
 		gtDeviceType		m_device_type;
 
-			///	если nullptr то будет создано стандартное окно вывода
+			//	если nullptr то будет создано стандартное окно вывода
 		gtOutputWindow*		m_outputWindow;
 
-			/// user event consumer
+			// user event consumer
 		gtEventConsumer*	m_consumer;
 
 	};
 
-		///	Основной класс движка
+		//	Основной класс движка
 	class gtMainSystem : public gtRefObject{
 	public:
 

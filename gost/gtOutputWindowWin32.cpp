@@ -162,7 +162,7 @@ void	gtOutputWindowWin32::hide( void ){
 	m_isShown = false;
 }
 
-	///	Напечатает текст
+	//	Напечатает текст
 void	gtOutputWindowWin32::print( const gtString& text ){
 	if( m_isShown ){
 

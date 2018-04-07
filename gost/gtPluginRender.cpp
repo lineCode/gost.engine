@@ -45,7 +45,7 @@ bool gtPluginRender::checkLibraryFunctions(){
 	return true;
 }
 
-	///	загрузить плагин
+	//	загрузить плагин
 void gtPluginRender::load( void ){
 
 	if( !m_isLoad ){

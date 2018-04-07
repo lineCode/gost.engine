@@ -31,8 +31,8 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 	camera->setAspect( 1.f );
 	camera->setFar( 250.f );
 
-	gtModel * cube = mainSystem->getModelSystem()->createCube(0.125f);
-	auto rcube = driver->createModel( cube );
+	auto cube = mainSystem->getModelSystem()->createCube(0.125f);
+	auto rcube = driver->createModel( cube.data() );
 
 	f32 x = 0.f, y = 0.f;
 	gtStaticObject * cubs[10000];
@@ -73,7 +73,7 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 			switch( event.type ){
 				case gtEventType::keyboard:
 				if( event.keyboardEvent.isReleased( gtKey::K_ESCAPE ) ){
-					mainSystem->shutdown(); /// exit when key released
+					mainSystem->shutdown(); // exit when key released
 				}
 				break;
 			}
@@ -81,7 +81,7 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 
 		if( mainSystem->isRun() ){
 
-			/// Camera zoom
+			// Camera zoom
 			if( mainSystem->isKeyPressed( gtKey::K_X ) ) camera->setFOV( camera->getFOV() + 10.f * delta );
 			if( mainSystem->isKeyPressed( gtKey::K_Z ) ) camera->setFOV( camera->getFOV() - 10.f * delta );
 			if( mainSystem->isKeyPressed( gtKey::K_Q ) ) camera->setRotation( camera->getRotation() - v3f( 0.f, 0.01f, 0.f ) );
@@ -99,10 +99,10 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 			if( mainSystem->isKeyPressed( gtKey::K_PGDOWN ) ) camera->setPosition( camera->getPosition() - v3f( 0.f, 0.1f, 0.0f ) );
 
 
-			driver->beginRender( true, gtColor( 0.2f, 0.2f, 0.2f, 1.f ) ); /// RGBA.
+			driver->beginRender( true, gtColor( 0.2f, 0.2f, 0.2f, 1.f ) ); // RGBA.
 
 
-			scene->renderScene(); /// Draw all
+			scene->renderScene(); // Draw all
 
 
 			

@@ -10,16 +10,11 @@ gtModelSystemImpl::gtModelSystemImpl(){
 gtModelSystemImpl::~gtModelSystemImpl(){
 }
 
-gtModel*	gtModelSystemImpl::createEmpty( u32 stride, gtVertexType* vt ){
-	gtPtr<gtModelImpl> m = gtPtrNew<gtModelImpl>(new gtModelImpl( stride, vt ) );
-
-	if( m.data() )
-		m->addRef();
-
-	return m.data();
+gtPtr<gtModel>	gtModelSystemImpl::createEmpty( u32 stride, gtVertexType* vt ){
+	return gtPtrNew<gtModel>(new gtModelImpl( stride, vt ) );
 }
 
-gtModel*	gtModelSystemImpl::createPlane( f32 x, f32 y, gtSide side ){
+gtPtr<gtModel>	gtModelSystemImpl::createPlane( f32 x, f32 y, gtSide side ){
 
 	gtVertexType vt[ 4 ] = {
 		gtVertexType::position,
@@ -28,7 +23,7 @@ gtModel*	gtModelSystemImpl::createPlane( f32 x, f32 y, gtSide side ){
 		gtVertexType::end
 	};
 
-	gtPtr<gtModel> model = gtPtrNew<gtModel>( createEmpty( gtStrideStandart, &vt[ 0u ] ) );
+	gtPtr<gtModel> model = createEmpty( gtStrideStandart, &vt[ 0u ] );
 	if( !model.data() ){
 		gtLogWriter::printWarning( u"Can not allocate memory for gtModel");
 		return nullptr;
@@ -126,17 +121,16 @@ gtModel*	gtModelSystemImpl::createPlane( f32 x, f32 y, gtSide side ){
 
 	model->updateBoundingVolume();
 
-	model->addRef();
-	return model.data();
+	return model;
 }
 
-gtModel*	gtModelSystemImpl::createCube( f32 sz ){
-	gtPtr_t(gtModel,up,createPlane( sz, sz, gtSide::DOWN ));
-	gtPtr_t(gtModel,down,createPlane( sz, sz, gtSide::UP ));
-	gtPtr_t(gtModel,right,createPlane( sz, sz, gtSide::LEFT ));
-	gtPtr_t(gtModel,left,createPlane( sz, sz, gtSide::RIGHT ));
-	gtPtr_t(gtModel,front,createPlane( sz, sz, gtSide::BACK ));
-	gtPtr_t(gtModel,back,createPlane( sz, sz, gtSide::FRONT ));
+gtPtr<gtModel>	gtModelSystemImpl::createCube( f32 sz ){
+	auto up = createPlane( sz, sz, gtSide::DOWN );
+	auto down = createPlane( sz, sz, gtSide::UP );
+	auto right = createPlane( sz, sz, gtSide::LEFT );
+	auto left = createPlane( sz, sz, gtSide::RIGHT );
+	auto front = createPlane( sz, sz, gtSide::BACK );
+	auto back = createPlane( sz, sz, gtSide::FRONT );
 
 	up->getSubModel( 0u )->move(   v3f( 0.f, sz, 0.f ) );
 	down->getSubModel( 0u )->move( v3f( 0.f, -sz, 0.f ) );
@@ -152,7 +146,7 @@ gtModel*	gtModelSystemImpl::createCube( f32 sz ){
 		gtVertexType::end
 	};
 
-	gtPtr_t(gtModel,cube,createEmpty( gtStrideStandart, vt ));
+	auto cube = createEmpty( gtStrideStandart, vt );
 	
 	auto * sub = up->getSubModel(0u);
 	sub->append(down->getSubModel(0u));
@@ -172,9 +166,9 @@ gtModel*	gtModelSystemImpl::createCube( f32 sz ){
 
 	cube->addRef();
 
-	return cube.data();
+	return cube;
 }
 
-gtModel*	gtModelSystemImpl::createFromFile( const gtString& fileName ){
+gtPtr<gtModel>	gtModelSystemImpl::createFromFile( const gtString& fileName ){
 	return m_pluginSystem->importModel( fileName );
 }

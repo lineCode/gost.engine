@@ -6,7 +6,7 @@
 
 #pragma once
 #ifndef __GT_LIST_H__
-#define __GT_LIST_H__ ///< include guard
+#define __GT_LIST_H__ //< include guard
 
 namespace gost{
 
@@ -166,13 +166,13 @@ namespace gost{
 			++m_size;
 		}
 
-			/// Insert before
+			// Insert before
 			/**
 				\code
-					///Insert in m_first
+					//Insert in m_first
 					list.insert( list.begin(), val );
 
-					///Insert after m_first
+					//Insert after m_first
 					list.insert( list.begin() + 1, val );
 				\endcode
 			*/

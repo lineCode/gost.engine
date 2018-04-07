@@ -7,7 +7,7 @@
 
 #pragma once
 #ifndef __GT_UTILITIES_H__
-#define __GT_UTILITIES_H__ ///< include guard
+#define __GT_UTILITIES_H__ //< include guard
 
 
 namespace gost{
@@ -15,8 +15,8 @@ namespace gost{
 	//	Some helper functions here
 	namespace util{
 		
-			///	изменяет символ \ на /
-			///	\param str: строка в котором нужно изменить символ
+			//	изменяет символ \ на /
+			//	\param str: строка в котором нужно изменить символ
 		template<typename Type>
 		inline void stringFlipSlash( Type& str ){
 			u32 sz = str.size();
@@ -38,9 +38,9 @@ namespace gost{
 			str = flippedStr;
 		}
 
-			///	удаляет последний символ пока не встретится указанный
-			///	\param str: строка в которой нужно удалять символы
-			///	\param с: символ, который остановит удаление
+			//	удаляет последний символ пока не встретится указанный
+			//	\param str: строка в которой нужно удалять символы
+			//	\param с: символ, который остановит удаление
 		template<typename Type>
 		inline void stringPopBackBefore( Type& str, s8 c ){
 			if( str.size() )
@@ -91,8 +91,8 @@ namespace gost{
 
 		}
 
-			///	"AbC" -> "ABC"
-			///	\param str: строка для изменения
+			//	"AbC" -> "ABC"
+			//	\param str: строка для изменения
 		template<typename Type>
 		inline void stringToUpper( Type& str ){
 			
@@ -106,7 +106,7 @@ namespace gost{
 
 		}
 
-			///	" asd " -> "asd"
+			//	" asd " -> "asd"
 		template<typename Type>
 		inline void stringTrimSpace( Type& str ){
 			
@@ -135,10 +135,10 @@ namespace gost{
 
 		}
 
-			///	добаляет к str строку иного типа
-			///	\param str: строка в которую нужно добавить
-			///	\param other: строка которую нужно добавить
-			///	\param c: указывается для приведения типа
+			//	добаляет к str строку иного типа
+			//	\param str: строка в которую нужно добавить
+			//	\param other: строка которую нужно добавить
+			//	\param c: указывается для приведения типа
 		template<typename Type, typename AnotherType, typename charType>
 		inline void stringAppend( Type& str, AnotherType& other, charType /*c*/ ){
 			u32 sz = 0u;

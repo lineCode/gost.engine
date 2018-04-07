@@ -5,33 +5,33 @@
 
 #pragma once
 #ifndef __GT_MATRIX_H__
-#define __GT_MATRIX_H__ ///< include guard
+#define __GT_MATRIX_H__ //< include guard
 
 namespace gost{
 	
-		///	matrix with 4 components
+		//	matrix with 4 components
 	class gtMatrix4{
 
-		v4f m_data[ 4u ]; ///< components
+		v4f m_data[ 4u ]; //< components
 
 	public:
 
-			/// c-tor
+			// c-tor
 		gtMatrix4( void ){
 			identity();
 		}
 
-			/// c-tor with other matrix
+			// c-tor with other matrix
 		gtMatrix4( const gtMatrix4& m ){
 			*this = m;
 		}
 
-			///	fill matrix with one value
+			//	fill matrix with one value
 		gtMatrix4( f32 v ){
 			fill( v );
 		}
 
-			///	set matrix 4 vectors
+			//	set matrix 4 vectors
 		gtMatrix4( const v4f& x, const v4f& y, const v4f& z, const v4f& w ){
 			m_data[ 0 ] = x;
 			m_data[ 1 ] = y;
@@ -39,7 +39,7 @@ namespace gost{
 			m_data[ 3 ] = w;
 		}
 
-			///	fill matrix with one value
+			//	fill matrix with one value
 		void		fill( f32 v ){
 			m_data[ 0u ].fill( v );
 			m_data[ 1u ].fill( v );
@@ -47,12 +47,12 @@ namespace gost{
 			m_data[ 3u ].fill( v );
 		}
 
-			/// set all components = 0
+			// set all components = 0
 		void		zero( void ){
 			fill( 0.f );
 		}
 
-			///	main diagonal - главная диагональ = 1
+			//	main diagonal - главная диагональ = 1
 		void		identity( void ){
 			auto * p = this->getPtr();
 			p[ 0u ] = 1.f;
@@ -77,29 +77,29 @@ namespace gost{
 
 		}
 
-			/// get pointer
-			///	\return pointer
+			// get pointer
+			//	\return pointer
 		f32 *		getPtr( void ){
 			return reinterpret_cast<f32*>(&m_data);
 		}
 
-			///	get/set row
-			/// \param i: component id
-			/// \return vector
+			//	get/set row
+			// \param i: component id
+			// \return vector
 		v4f& operator[]( u32 i ){
 			return m_data[ i ];
 		}
 
-			///	get row
-			/// \param i: component id
-			/// \return vector
+			//	get row
+			// \param i: component id
+			// \return vector
 		const v4f& operator[]( u32 i ) const {
 			return m_data[ i ];
 		}
 
-			///	add
-			/// \param m: other matrix
-			/// \return new matrix
+			//	add
+			// \param m: other matrix
+			// \return new matrix
 		gtMatrix4 operator+( const gtMatrix4& m ) const {
 			gtMatrix4 out = *this;
 
@@ -111,9 +111,9 @@ namespace gost{
 			return out;
 		}
 
-			///	substract
-			/// \param m: other matrix
-			/// \return new matrix
+			//	substract
+			// \param m: other matrix
+			// \return new matrix
 		gtMatrix4 operator-( const gtMatrix4& m ) const {
 			gtMatrix4 out = *this;
 
@@ -125,9 +125,9 @@ namespace gost{
 			return out;
 		}
 
-			///	multiplication
-			/// \param m: other matrix
-			/// \return new matrix
+			//	multiplication
+			// \param m: other matrix
+			// \return new matrix
 		gtMatrix4 operator*( const gtMatrix4& m ) const {
 			return gtMatrix4(
 				m_data[ 0 ] * m[0].x + m_data[ 1 ] * m[0].y + m_data[ 2 ] * m[0].z + m_data[ 3 ] * m[0].w,
@@ -137,9 +137,9 @@ namespace gost{
 			);
 		}
 
-			///	divide
-			/// \param m: other matrix
-			/// \return new matrix
+			//	divide
+			// \param m: other matrix
+			// \return new matrix
 		gtMatrix4 operator/( const gtMatrix4& m ) const {
 			gtMatrix4 out = *this;
 
@@ -151,9 +151,9 @@ namespace gost{
 			return out;
 		}
 
-			///	add
-			/// \param m: other matrix
-			/// \return this matrix
+			//	add
+			// \param m: other matrix
+			// \return this matrix
 		gtMatrix4& operator+=( const gtMatrix4& m ){
 			m_data[ 0u ] += m[ 0u ];
 			m_data[ 1u ] += m[ 1u ];
@@ -162,9 +162,9 @@ namespace gost{
 			return *this;
 		}
 
-			///	substract
-			/// \param m: other matrix
-			/// \return this matrix
+			//	substract
+			// \param m: other matrix
+			// \return this matrix
 		gtMatrix4& operator-=( const gtMatrix4& m ){
 			m_data[ 0u ] -= m[ 0u ];
 			m_data[ 1u ] -= m[ 1u ];
@@ -173,9 +173,9 @@ namespace gost{
 			return *this;
 		}
 
-			///	multiplication
-			/// \param m: other matrix
-			/// \return this matrix
+			//	multiplication
+			// \param m: other matrix
+			// \return this matrix
 		gtMatrix4& operator*=( const gtMatrix4& m ){
 			m_data[ 0u ] *= m[ 0u ];
 			m_data[ 1u ] *= m[ 1u ];
@@ -184,9 +184,9 @@ namespace gost{
 			return *this;
 		}
 
-			///	divide
-			/// \param m: other matrix
-			/// \return this matrix
+			//	divide
+			// \param m: other matrix
+			// \return this matrix
 		gtMatrix4& operator/=( const gtMatrix4& m ){
 			m_data[ 0u ] /= m[ 0u ];
 			m_data[ 1u ] /= m[ 1u ];
@@ -195,7 +195,7 @@ namespace gost{
 			return *this;
 		}
 
-			///	transpose
+			//	transpose
 		void transpose( void ){
 			gtMatrix4 tmp;
 			tmp[ 0 ].x = this->m_data[ 0 ].x; //0
@@ -226,12 +226,12 @@ namespace gost{
 
 	namespace math{
 
-			///	create perspective matrix for left hand coordinate system
-			/// \param in_out: projection matrix
-			/// \param FOV: field of view
-			/// \param aspect: aspect ratio
-			/// \param Near: near clip plane
-			/// \param Far: far clip plane
+			//	create perspective matrix for left hand coordinate system
+			// \param in_out: projection matrix
+			// \param FOV: field of view
+			// \param aspect: aspect ratio
+			// \param Near: near clip plane
+			// \param Far: far clip plane
 		GT_FORCE_INLINE void  makePerspectiveLHMatrix( gtMatrix4& in_out, f32 FOV, f32 aspect,
 			f32 Near, f32 Far){
 			f32 S	=	std::sin( 0.5f * FOV );
@@ -244,12 +244,12 @@ namespace gost{
 			in_out[3] = v4f( 0.f, 0.f, -in_out[2].z * Near, 0.f );
 		}
 
-			///	create perspective matrix for right hand coordinate system
-			/// \param in_out: projection matrix
-			/// \param FOV: field of view
-			/// \param aspect: aspect ratio
-			/// \param Near: near clip plane
-			/// \param Far: far clip plane
+			//	create perspective matrix for right hand coordinate system
+			// \param in_out: projection matrix
+			// \param FOV: field of view
+			// \param aspect: aspect ratio
+			// \param Near: near clip plane
+			// \param Far: far clip plane
 		GT_FORCE_INLINE void  makePerspectiveRHMatrix( gtMatrix4& in_out, f32 FOV, f32 aspect,
 			f32 Near, f32 Far){
 			f32 S	=	std::sin( 0.5f * FOV );

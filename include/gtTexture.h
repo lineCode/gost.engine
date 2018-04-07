@@ -5,17 +5,17 @@
 
 #pragma once
 #ifndef __GT_TEXTURE_H__
-#define __GT_TEXTURE_H__ ///< include guard
+#define __GT_TEXTURE_H__ //< include guard
 
 namespace gost{
 
-		///	тип текстуры
+		//	тип текстуры
 	enum gtTextureType : u32 {
 
-		///	обычная
+		//	обычная
 		TEXTURE_TYPE_2D,
 
-		///	cubemap
+		//	cubemap
 		TEXTURE_TYPE_CUBE
 	};
 
@@ -25,31 +25,31 @@ namespace gost{
 			в соответствии с D3D11
 		*/
 	enum gtTextureFilterType : u32 {
-		FILTER_PPP	= 0,				///< D3D11_FILTER_MIN_MAG_MIP_POINT
-        FILTER_PPL	= 0x1,				///< D3D11_FILTER_MIN_MAG_POINT_MIP_LINEAR
-        FILTER_PLP	= 0x4,				///< D3D11_FILTER_MIN_POINT_MAG_LINEAR_MIP_POINT
-        FILTER_PLL	= 0x5,				///< D3D11_FILTER_MIN_POINT_MAG_MIP_LINEAR
-        FILTER_LPP	= 0x10,				///< D3D11_FILTER_MIN_LINEAR_MAG_MIP_POINT
-        FILTER_LPL	= 0x11,				///< D3D11_FILTER_MIN_LINEAR_MAG_POINT_MIP_LINEAR
-        FILTER_LLP	= 0x14,				///< D3D11_FILTER_MIN_MAG_LINEAR_MIP_POINT
-        FILTER_LLL	= 0x15,				///< D3D11_FILTER_MIN_MAG_MIP_LINEAR
-        FILTER_ANISOTROPIC	= 0x55,		///< D3D11_FILTER_ANISOTROPIC
+		FILTER_PPP	= 0,				//< D3D11_FILTER_MIN_MAG_MIP_POINT
+        FILTER_PPL	= 0x1,				//< D3D11_FILTER_MIN_MAG_POINT_MIP_LINEAR
+        FILTER_PLP	= 0x4,				//< D3D11_FILTER_MIN_POINT_MAG_LINEAR_MIP_POINT
+        FILTER_PLL	= 0x5,				//< D3D11_FILTER_MIN_POINT_MAG_MIP_LINEAR
+        FILTER_LPP	= 0x10,				//< D3D11_FILTER_MIN_LINEAR_MAG_MIP_POINT
+        FILTER_LPL	= 0x11,				//< D3D11_FILTER_MIN_LINEAR_MAG_POINT_MIP_LINEAR
+        FILTER_LLP	= 0x14,				//< D3D11_FILTER_MIN_MAG_LINEAR_MIP_POINT
+        FILTER_LLL	= 0x15,				//< D3D11_FILTER_MIN_MAG_MIP_LINEAR
+        FILTER_ANISOTROPIC	= 0x55,		//< D3D11_FILTER_ANISOTROPIC
 	};
 
-		///	текстура
+		//	текстура
 	class gtTexture : public gtRefObject {
 	public:
 
-			///	возвратит тип текстуры
-			/// \return type
+			//	возвратит тип текстуры
+			// \return type
 		virtual gtTextureType	getType( void ) = 0;
 
-			///	получить ширину
-			/// \return width
+			//	получить ширину
+			// \return width
 		virtual u32				getWidth( void ) = 0;
 
-			///	получить высоту
-			/// \return height
+			//	получить высоту
+			// \return height
 		virtual u32				getHeight( void ) = 0;
 
 	};

@@ -7,7 +7,7 @@
 
 #pragma once
 #ifndef __GT_VECTOR_H__
-#define __GT_VECTOR_H__ ///< include guard
+#define __GT_VECTOR_H__ //< include guard
 
 namespace gost{
 		
@@ -783,33 +783,33 @@ namespace gost{
 
 	};
 
-	using v2f = gtVector2<f32>;	///< синоним для gtVector3<f32>
-	using v2i = gtVector2<s32>;	///< синоним для gtVector3<s32>
-	using v2u = gtVector2<u32>;	///< синоним для gtVector3<u32>
+	using v2f = gtVector2<f32>;	//< синоним для gtVector3<f32>
+	using v2i = gtVector2<s32>;	//< синоним для gtVector3<s32>
+	using v2u = gtVector2<u32>;	//< синоним для gtVector3<u32>
 
-	using v3f = gtVector3<f32>;	///< синоним для gtVector3<f32>
-	using v3i = gtVector3<s32>;	///< синоним для gtVector3<s32>
-	using v3u = gtVector3<u32>;	///< синоним для gtVector3<u32>
+	using v3f = gtVector3<f32>;	//< синоним для gtVector3<f32>
+	using v3i = gtVector3<s32>;	//< синоним для gtVector3<s32>
+	using v3u = gtVector3<u32>;	//< синоним для gtVector3<u32>
 
-	using v4f = gtVector4<f32>;	///< синоним для gtVector4<f32>
-	using v4i = gtVector4<s32>;	///< синоним для gtVector4<s32>
-	using v4u = gtVector4<u32>;	///< синоним для gtVector4<u32>
+	using v4f = gtVector4<f32>;	//< синоним для gtVector4<f32>
+	using v4i = gtVector4<s32>;	//< синоним для gtVector4<s32>
+	using v4u = gtVector4<u32>;	//< синоним для gtVector4<u32>
 
-	using v5f = gtVector5<f32>;	///< синоним для gtVector5<f32>
-	using v5i = gtVector5<s32>;	///< синоним для gtVector5<s32>
-	using v5u = gtVector5<u32>;	///< синоним для gtVector5<u32>
+	using v5f = gtVector5<f32>;	//< синоним для gtVector5<f32>
+	using v5i = gtVector5<s32>;	//< синоним для gtVector5<s32>
+	using v5u = gtVector5<u32>;	//< синоним для gtVector5<u32>
 
-	using v6f = gtVector6<f32>;	///< синоним для gtVector6<f32>
-	using v6i = gtVector6<s32>;	///< синоним для gtVector6<s32>
-	using v6u = gtVector6<u32>;	///< синоним для gtVector6<u32>
+	using v6f = gtVector6<f32>;	//< синоним для gtVector6<f32>
+	using v6i = gtVector6<s32>;	//< синоним для gtVector6<s32>
+	using v6u = gtVector6<u32>;	//< синоним для gtVector6<u32>
 
-	using v7f = gtVector7<f32>;	///< синоним для gtVector7<f32>
-	using v7i = gtVector7<s32>;	///< синоним для gtVector7<s32>
-	using v7u = gtVector7<u32>;	///< синоним для gtVector7<u32>
+	using v7f = gtVector7<f32>;	//< синоним для gtVector7<f32>
+	using v7i = gtVector7<s32>;	//< синоним для gtVector7<s32>
+	using v7u = gtVector7<u32>;	//< синоним для gtVector7<u32>
 
-	using v8f = gtVector8<f32>;	///< синоним для gtVector8<f32>
-	using v8i = gtVector8<s32>;	///< синоним для gtVector8<s32>
-	using v8u = gtVector8<u32>;	///< синоним для gtVector8<u32>
+	using v8f = gtVector8<f32>;	//< синоним для gtVector8<f32>
+	using v8i = gtVector8<s32>;	//< синоним для gtVector8<s32>
+	using v8u = gtVector8<u32>;	//< синоним для gtVector8<u32>
 
 	namespace math{
 

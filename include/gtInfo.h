@@ -7,7 +7,7 @@
 
 #pragma once
 #ifndef __GT_INFO_H__
-#define __GT_INFO_H__ ///< include guard
+#define __GT_INFO_H__ //< include guard
 
 	/*! \brief для того чтобы в макрос вставлялись кавычки
 	

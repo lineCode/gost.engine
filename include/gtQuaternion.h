@@ -5,7 +5,7 @@
 
 #pragma once
 #ifndef __GT_QUATERNION_H__
-#define __GT_QUATERNION_H__ ///< include guard
+#define __GT_QUATERNION_H__ //< include guard
 
 namespace gost{
 	
@@ -56,23 +56,23 @@ namespace gost{
 			set( v );
 		}
 
-			///	get quaternion in gtVector4f form
-			///	\return vector
+			//	get quaternion in gtVector4f form
+			//	\return vector
 		v4f	get( void ) const {
 			return v4f( x, y, z, w );
 		}
 
-			///	get real part
-			///	\return real part
+			//	get real part
+			//	\return real part
 		f32	getReal( void ) const {
 			return w;
 		}
 
-			///	set quaternion with components
-			///	\param i1: imagine1, first component
-			///	\param i2: imagine2, second component
-			///	\param i3: imagine3, third component
-			///	\param real: real part, fourth component
+			//	set quaternion with components
+			//	\param i1: imagine1, first component
+			//	\param i2: imagine2, second component
+			//	\param i3: imagine3, third component
+			//	\param real: real part, fourth component
 		void set( f32 i1, f32 i2, f32 i3, f32 real ){
 			x = i1;
 			y = i2;
@@ -80,8 +80,8 @@ namespace gost{
 			w = real;
 		}
 
-			///	set quaternion from Euler angles
-			/// \param v: vector with angles	
+			//	set quaternion from Euler angles
+			// \param v: vector with angles	
 		void set( const v3f& v ){
 			set( v.x, v.y, v.z );
 		}
@@ -103,13 +103,13 @@ namespace gost{
 			z	=	(c1 * c2 * s3) - (s1 * s2 * c3);
 		}
 
-			///	set real part
-			///	\param r: real part
+			//	set real part
+			//	\param r: real part
 		void setReal( f32 r ){
 			w = r;
 		}
 
-			///	reset quaternion
+			//	reset quaternion
 		void identity( void ){
 			x = 0.f;
 			y = 0.f;
@@ -117,8 +117,8 @@ namespace gost{
 			w = 1.f;
 		}
 
-			///	assing other
-			///	\return this quaternion
+			//	assing other
+			//	\return this quaternion
 		gtQuaternion& operator=( const gtQuaternion& o ){
 			x = o.x;
 			y = o.y;
@@ -127,9 +127,9 @@ namespace gost{
 			return *this;
 		}
 
-			///	multiplication with other
-			///	\param q: other quaternion
-			///	\return new quaternion
+			//	multiplication with other
+			//	\param q: other quaternion
+			//	\return new quaternion
 		gtQuaternion operator*( const gtQuaternion& q )const{
 			return gtQuaternion(
 				w * q.x + x * q.w + y * q.z - z * q.y,
@@ -138,8 +138,8 @@ namespace gost{
 				w * q.w - x * q.x - y * q.y - z * q.z);
 		}
 
-			///	multiplication with other
-			///	\param q: other quaternion
+			//	multiplication with other
+			//	\param q: other quaternion
 		void operator*=( const gtQuaternion& q ){
 			x = w * q.x + x * q.w + y * q.z - z * q.y;
 			y = w * q.y + y * q.w + z * q.x - x * q.z;
@@ -147,9 +147,9 @@ namespace gost{
 			w = w * q.w - x * q.x - y * q.y - z * q.z;
 		}
 
-			///	compare
-			///	\param q: other quaternion
-			/// \return \b true if not equal
+			//	compare
+			//	\param q: other quaternion
+			// \return \b true if not equal
 		bool operator!=( const gtQuaternion& q )const{
 			if( x != q.x ) return true;
 			if( y != q.y ) return true;
@@ -158,9 +158,9 @@ namespace gost{
 			return false;
 		}
 
-			///	compare
-			///	\param q: other quaternion
-			/// \return \b true if equal
+			//	compare
+			//	\param q: other quaternion
+			// \return \b true if equal
 		bool operator==( const gtQuaternion& q )const{
 			if( x != q.x ) return false;
 			if( y != q.y ) return false;
@@ -169,9 +169,9 @@ namespace gost{
 			return true;
 		}
 
-			///	add other
-			///	\param q: other quaternion
-			/// \return new quaternion
+			//	add other
+			//	\param q: other quaternion
+			// \return new quaternion
 		gtQuaternion operator+( const gtQuaternion& o ) const {
 			return gtQuaternion( 
 				x + o.x,
@@ -180,9 +180,9 @@ namespace gost{
 				w + o.w );
 		}
 
-			///	substract other
-			///	\param q: other quaternion
-			/// \return new quaternion
+			//	substract other
+			//	\param q: other quaternion
+			// \return new quaternion
 		gtQuaternion operator-( const gtQuaternion& o ) const {
 			return gtQuaternion( 
 				x - o.x,
@@ -191,8 +191,8 @@ namespace gost{
 				w - o.w );
 		}
 
-			///	invert
-			/// \return new quaternion
+			//	invert
+			// \return new quaternion
 		gtQuaternion operator-( void ){
 			x = -x;
 			y = -y;
@@ -200,14 +200,14 @@ namespace gost{
 			return gtQuaternion( x, y, z, w );
 		}
 
-			///	length
-			/// \return length
+			//	length
+			// \return length
 		f32	getLength( void ){
 			return std::sqrtf( x*x+y*y+z*z+w*w );
 		}
 
-			///	normalize
-			/// \return normalized quaternion
+			//	normalize
+			// \return normalized quaternion
 		gtQuaternion& normalize( void ){
 			f32 len = this->getLength();
 			if( len ){
@@ -220,7 +220,7 @@ namespace gost{
 			return *this;
 		}
 
-			///	invert
+			//	invert
 		void invert( void ){
 			x = -x;
 			y = -y;

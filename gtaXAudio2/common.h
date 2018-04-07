@@ -20,8 +20,8 @@
 //#pragma comment( lib, "dxerr.lib" )
 //#pragma comment( lib, "xapobase.lib" )
 
-#include <XAudio2.h> /// from DXSDK
-#include <XAudio2fx.h> /// from DXSDK
+#include <XAudio2.h> // from DXSDK
+#include <XAudio2fx.h> // from DXSDK
 
 #include <gost.h>
 

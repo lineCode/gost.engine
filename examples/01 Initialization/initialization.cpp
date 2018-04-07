@@ -66,21 +66,21 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 		//	This method update all events in event queue.
 		while( mainSystem->pollEvent( gtEvent() ) );
 
-		///	This 'if' will help when program terminated
+		//	This 'if' will help when program terminated
 		if( mainSystem->isRun() ){
 
-			///	After 'pollEvent', you can get key state.
+			//	After 'pollEvent', you can get key state.
 			if( mainSystem->isKeyPressed( gtKey::K_ESCAPE ) ){
-				mainSystem->shutdown(); /// mainSystem->update() return false
+				mainSystem->shutdown(); // mainSystem->update() return false
 			}
 
-			///	Before starts rendering, call driver->beginRender
-			///	true - clear back buffer
-			driver->beginRender( true, gtColor( 0.7372549019607843f, 0.8901960784313725f, 1.f, 1.f ) ); /// RGBA.
-			// driver->beginRender( true, gtColor( 188, 227, 255, 255 ) ); /// RGBA
-			// driver->beginRender( true, gtColor( 0xFFBCE3FF ) ); /// ARGB
+			//	Before starts rendering, call driver->beginRender
+			//	true - clear back buffer
+			driver->beginRender( true, gtColor( 0.7372549019607843f, 0.8901960784313725f, 1.f, 1.f ) ); // RGBA.
+			// driver->beginRender( true, gtColor( 188, 227, 255, 255 ) ); // RGBA
+			// driver->beginRender( true, gtColor( 0xFFBCE3FF ) ); // ARGB
 
-			///	After rendering, call driver->endRender
+			//	After rendering, call driver->endRender
 			driver->endRender();
 		}
 	}
@@ -88,8 +88,8 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 	return 0;
 }
 
-///	If you want use your own output window, or want use printf family functions, this class show you how to do it.
-/// Put this code after line with #include <Windows.h>
+//	If you want use your own output window, or want use printf family functions, this class show you how to do it.
+// Put this code after line with #include <Windows.h>
 
 /*
 class CustomOutput : public gtOutputWindow {

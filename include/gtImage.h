@@ -177,7 +177,7 @@ namespace gost{
 			format = newFormat;
 		}
 
-			/// перевернёт пиксель. из rgb сделает bgr, из rgba - abgr, из rgbx - bgrx и т.д. Реализовывать функции нужно по мере необходимости.
+			// перевернёт пиксель. из rgb сделает bgr, из rgba - abgr, из rgbx - bgrx и т.д. Реализовывать функции нужно по мере необходимости.
 		void	flipPixel( void ){
 			if( !data ) return;
 			switch( format ){
@@ -222,7 +222,7 @@ namespace gost{
 			}
 		}
 
-			///	отразит по вертикали (для почти всех форматов (кроме однобайтового))
+			//	отразит по вертикали (для почти всех форматов (кроме однобайтового))
 		void flipVertical( void ){
 			u8 * line = nullptr;
 			gtMainSystem::getInstance()->allocateMemory( (void**)&line, pitch );
@@ -750,14 +750,14 @@ namespace gost{
 	//	Helper functions for gtImage edit
 	namespace image{
 
-			/// планируется написать функцию изменения масштаба картинки
+			// планируется написать функцию изменения масштаба картинки
 		GT_FORCE_INLINE void scale( gtImage * /*i*/, f32 /*factor*/ ){
 		}
 
-			/// закрасит картинку сплошным цветом
-			/// \param i: картинка для закрашивания
-			/// \param saveAlpha: если \b true то альфа не закрасится
-			/// \param color: цвет
+			// закрасит картинку сплошным цветом
+			// \param i: картинка для закрашивания
+			// \param saveAlpha: если \b true то альфа не закрасится
+			// \param color: цвет
 		GT_FORCE_INLINE void fillSolid( gtImage * i, bool saveAlpha, const gtColor& color ){
 			if( i->format != gtImage::Format::FMT_R8G8B8 &&
 				i->format != gtImage::Format::FMT_R8G8B8A8 )
@@ -786,11 +786,11 @@ namespace gost{
 		}
 
 		/*нужно написать проверки*/
-			///	Закрасит картинку квадратам в виде шахматной доски
-			/// \param i: картинка для закрашивания
-			/// \param saveAlpha: если \b true то альфа не закрасится
-			/// \param firstColor: первый цвет
-			/// \param secondColor: второй цвет
+			//	Закрасит картинку квадратам в виде шахматной доски
+			// \param i: картинка для закрашивания
+			// \param saveAlpha: если \b true то альфа не закрасится
+			// \param firstColor: первый цвет
+			// \param secondColor: второй цвет
 		GT_FORCE_INLINE void fillCheckerBoard(
 			gtImage * i,
 			bool saveAlpha,

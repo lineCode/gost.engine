@@ -4,39 +4,39 @@
 */
 #pragma once
 #ifndef __GT_OUTPUT_WINDOW_H__
-#define __GT_OUTPUT_WINDOW_H__ ///< include guard
+#define __GT_OUTPUT_WINDOW_H__ //< include guard
 
 namespace gost{
 
-		///	Окно для вывода текстовой информации
+		//	Окно для вывода текстовой информации
 	class gtOutputWindow : public gtRefObject {
 	public:
 
-			///	Прежде чем использовать нужно вызвать Init
+			//	Прежде чем использовать нужно вызвать Init
 		virtual	void	init( void ) = 0;
 
-			///	При завершении работы нужно вызвать этот метод
+			//	При завершении работы нужно вызвать этот метод
 		virtual void	shutdown( void ) = 0;
 
-			///	Инициализировано ли
-			/// \return Вернёт \b true если инициализировано
+			//	Инициализировано ли
+			// \return Вернёт \b true если инициализировано
 		virtual bool	isInit( void ) = 0;
 
-			///	Если окно невидимо, покажет его
+			//	Если окно невидимо, покажет его
 		virtual void	show( void ) = 0;
 
-			///	Сделать окно невидимым (спрячет, или сделает прозрачным, зависит от реализации)
+			//	Сделать окно невидимым (спрячет, или сделает прозрачным, зависит от реализации)
 		virtual void	hide( void ) = 0;
 
-			///	Напечатать текст
-			/// \param text: text
+			//	Напечатать текст
+			// \param text: text
 		virtual void	print( const gtString& text ) = 0;
 
-			///	Установить заголовок
-			/// \param title: title
+			//	Установить заголовок
+			// \param title: title
 		virtual void	setWindowText( const gtString& title ) = 0;
 		
-			///
+			//
 		virtual bool	isShow( void ) = 0;
 	};
 

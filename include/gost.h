@@ -1,6 +1,6 @@
 ﻿#pragma once
 #ifndef __GOST_H__
-#define __GOST_H__ ///< include guard
+#define __GOST_H__ //< include guard
 
 #pragma warning(disable : 4582)
 

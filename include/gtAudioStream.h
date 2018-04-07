@@ -4,28 +4,28 @@
 */
 #pragma once
 #ifndef __GT_AUDIO_STREAM_H__
-#define __GT_AUDIO_STREAM_H__ ///< include guard
+#define __GT_AUDIO_STREAM_H__ //< include guard
 
 namespace gost{
 
 	class gtAudioStream : public gtAudioObjectCommon{
 	public:
 
-			///	Close stream
-			///	\return \b true if done
+			//	Close stream
+			//	\return \b true if done
 		virtual bool	close( void ) = 0;
 
-			/// Open file for streaming
-			///	\param fileName: target file
-			/// \return \b true if done
+			// Open file for streaming
+			//	\param fileName: target file
+			// \return \b true if done
 		virtual bool	open( const gtString& fileName ) = 0;
 
-			///	setPlaybackPosition
-			///	\param position: Value from 0 to 1
+			//	setPlaybackPosition
+			//	\param position: Value from 0 to 1
 		virtual void	setPlaybackPosition( f32 position ) = 0;
 
-			///	Get playback position
-			///	\return Value from 0 to 1 (begin-end)
+			//	Get playback position
+			//	\return Value from 0 to 1 (begin-end)
 		virtual f32		getPlaybackPosition( void ) = 0;
 	};
 

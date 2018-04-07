@@ -13,12 +13,12 @@ namespace gost{
 		virtual ~gtModelSystemImpl();
 
 		// גûהוכÿוע ןאלÿעü
-		gtModel*	createEmpty( u32, gtVertexType* ) final;
+		gtPtr<gtModel>	createEmpty( u32, gtVertexType* ) final;
 	
-		gtModel*	createPlane( f32 x = 1.f, f32 y = 1.f, gtSide side = gtSide::DOWN );
-		gtModel*	createCube( f32 sz = 1.f );
+		gtPtr<gtModel>	createPlane( f32 x = 1.f, f32 y = 1.f, gtSide side = gtSide::DOWN );
+		gtPtr<gtModel>	createCube( f32 sz = 1.f );
 
-		gtModel*	createFromFile( const gtString& fileName );
+		gtPtr<gtModel>	createFromFile( const gtString& fileName );
 	};
 
 }

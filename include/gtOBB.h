@@ -1,6 +1,6 @@
 ﻿#pragma once
 #ifndef __GT_OBB_H__
-#define __GT_OBB_H__ ///< include guard
+#define __GT_OBB_H__ //< include guard
 
 namespace gost{
 
@@ -31,8 +31,8 @@ namespace gost{
 			if( point.z > m_max.z ) m_max.z = point.z;
 		}
 
-			///	Если размер коробки удовлетворяет условию, aabb растёт
-			///	\param box: other aabb
+			//	Если размер коробки удовлетворяет условию, aabb растёт
+			//	\param box: other aabb
 		void add( const gtObb& box ){
 			if( box.m_min.x < m_min.x ) m_min.x = box.m_min.x;
 			if( box.m_min.y < m_min.y ) m_min.y = box.m_min.y;
@@ -70,7 +70,7 @@ namespace gost{
 
 		}
 
-		v3f m_min, m_max, m_extent, m_center; ///< components
+		v3f m_min, m_max, m_extent, m_center; //< components
 
 		v3f v1, v2, v3, v4, v5, v6, v7, v8;			
 		v3f v1z, v2z, v3z, v4z, v5z, v6z, v7z, v8z; // original position (fixed)

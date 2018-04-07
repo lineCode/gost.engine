@@ -8,41 +8,41 @@ namespace gost{
 
 	class gtLogerImpl GT_FINAL : public gtLoger{
 			 
-			///	окно вывода
+			//	окно вывода
 		gtOutputWindow*	m_out;
 
-			///	текущий уровень вывода информации
+			//	текущий уровень вывода информации
 		msgType m_msgType;
 
-			///	расшифровывает сообщение
+			//	расшифровывает сообщение
 		void	deformat( const char16_t* fmt, gt_va_list& args, gtString& );
 			
 
 	public:
-			///	конструктор
+			//	конструктор
 		gtLogerImpl( void );
 
-			///	деструктор
+			//	деструктор
 		virtual ~gtLogerImpl( void );
 
-			///	напечатает форматированную строку
-			///	%f - float
-			///	%i - int
-			///	%u - unsigned
-			///	%s - char16_t*
-			///	%c - char16_t
+			//	напечатает форматированную строку
+			//	%f - float
+			//	%i - int
+			//	%u - unsigned
+			//	%s - char16_t*
+			//	%c - char16_t
 		void print( msgType, char16_t* str, ... ) GT_FINAL;
 			
-			///	через указатель void передаются все аргументы
-			///	удобное решение. другого не придумал
+			//	через указатель void передаются все аргументы
+			//	удобное решение. другого не придумал
 		void print( msgType, char16_t* str, void * );
 
-			///	установка окна, в которое будет выводится текст
+			//	установка окна, в которое будет выводится текст
 		void setOutputWindow( gtOutputWindow* ) GT_FINAL;
 
-			///	info - будут все сообщения
-			///	warning - warning и error
-			///	error - только error
+			//	info - будут все сообщения
+			//	warning - warning и error
+			//	error - только error
 		void setInfoType( msgType = msgType::info ) GT_FINAL;
 	};
 

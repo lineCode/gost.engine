@@ -5,7 +5,7 @@
 
 #pragma once
 #ifndef __GT_TYPES_H__
-#define __GT_TYPES_H__ ///< include guard
+#define __GT_TYPES_H__ //< include guard
 
 namespace gost{
 
@@ -89,23 +89,23 @@ namespace gost{
     #endif
 
 	//	для краткости записи
-	GT_TYPE( c8,	char );				///< See \ref _GT_TYPE
-	GT_TYPE( word,	unsigned short );	///< See \ref _GT_TYPE
-	GT_TYPE( dword, unsigned int );		///< See \ref _GT_TYPE
-	GT_TYPE( uint,	unsigned int );		///< See \ref _GT_TYPE
-	GT_TYPE( ulong, unsigned long );	///< See \ref _GT_TYPE
+	GT_TYPE( c8,	char );				//< See \ref _GT_TYPE
+	GT_TYPE( word,	unsigned short );	//< See \ref _GT_TYPE
+	GT_TYPE( dword, unsigned int );		//< See \ref _GT_TYPE
+	GT_TYPE( uint,	unsigned int );		//< See \ref _GT_TYPE
+	GT_TYPE( ulong, unsigned long );	//< See \ref _GT_TYPE
 
 	//	имена подобны irrlicht
-	GT_TYPE( u8,  GT_UCHAR );			///< See \ref _GT_TYPE
-	GT_TYPE( s8,  GT_CHAR );			///< See \ref _GT_TYPE
-	GT_TYPE( u16, GT_USHORT );			///< See \ref _GT_TYPE
-	GT_TYPE( s16, GT_SHORT );			///< See \ref _GT_TYPE
-	GT_TYPE( u32, GT_UINT );			///< See \ref _GT_TYPE
-	GT_TYPE( s32, GT_INT );				///< See \ref _GT_TYPE
-	GT_TYPE( u64, GT_ULONGLONG );		///< See \ref _GT_TYPE
-	GT_TYPE( s64, GT_LONGLONG );		///< See \ref _GT_TYPE
-	GT_TYPE( f32, float );				///< See \ref _GT_TYPE
-	GT_TYPE( f64, double );				///< See \ref _GT_TYPE
+	GT_TYPE( u8,  GT_UCHAR );			//< See \ref _GT_TYPE
+	GT_TYPE( s8,  GT_CHAR );			//< See \ref _GT_TYPE
+	GT_TYPE( u16, GT_USHORT );			//< See \ref _GT_TYPE
+	GT_TYPE( s16, GT_SHORT );			//< See \ref _GT_TYPE
+	GT_TYPE( u32, GT_UINT );			//< See \ref _GT_TYPE
+	GT_TYPE( s32, GT_INT );				//< See \ref _GT_TYPE
+	GT_TYPE( u64, GT_ULONGLONG );		//< See \ref _GT_TYPE
+	GT_TYPE( s64, GT_LONGLONG );		//< See \ref _GT_TYPE
+	GT_TYPE( f32, float );				//< See \ref _GT_TYPE
+	GT_TYPE( f64, double );				//< See \ref _GT_TYPE
 
 	#if defined(GT_32)
 	GT_TYPE( gtAddressType, u32 );
@@ -117,11 +117,11 @@ namespace gost{
 	//! \cond
 	#if defined(GT_REAL_64)
 	//! \endcond
-	GT_TYPE( gtReal, f64 );				///< See \ref _GT_TYPE
+	GT_TYPE( gtReal, f64 );				//< See \ref _GT_TYPE
 	//! \cond
 	#else
 	//! \endcond
-	GT_TYPE( gtReal, f32 );				///< See \ref _GT_TYPE
+	GT_TYPE( gtReal, f32 );				//< See \ref _GT_TYPE
 	#endif
 
 

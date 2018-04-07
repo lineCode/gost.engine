@@ -4,7 +4,7 @@
 */
 #pragma once
 #ifndef __GT_DRIVER_H__
-#define __GT_DRIVER_H__ ///< include guard
+#define __GT_DRIVER_H__ //< include guard
 
 namespace gost{
 
@@ -13,7 +13,7 @@ namespace gost{
 		//	параметры запуска драйвера
 	struct gtDriverInfo{
 
-			/// c-tor
+			// c-tor
 		gtDriverInfo( void ):
 			m_fullScreen( false ),
 			m_stencilBuffer( true ),
@@ -26,28 +26,28 @@ namespace gost{
 			m_backBufferSize.set( 800, 600 );
 		}
 
-			///	разрешение экрана
+			//	разрешение экрана
 		v2i		m_backBufferSize;
 
-			///	запускать ли программу в полноэкранном режиме
+			//	запускать ли программу в полноэкранном режиме
 		bool	m_fullScreen;
 
-			///	использовать ли стенсильный буффер. Нужен для OGL, в D3D по умолчанию есть.
+			//	использовать ли стенсильный буффер. Нужен для OGL, в D3D по умолчанию есть.
 		bool	m_stencilBuffer;
 
-			///	двойная буферизация
+			//	двойная буферизация
 		bool	m_doubleBuffer;
 
-			///	вертикльная синхронизация
+			//	вертикльная синхронизация
 		bool	m_vSync;
 
-			///	глубина цвета - биты на пиксель
+			//	глубина цвета - биты на пиксель
 		u8		m_colorDepth;
 
-			/// only for Direct3D
+			// only for Direct3D
 		u32		m_adapterID;
 
-			///	окно для рисования
+			//	окно для рисования
 		gtWindow * m_outWindow;
 	};
 
@@ -81,10 +81,10 @@ namespace gost{
 			// \param model: модель для рисования
 		virtual void drawModel( gtRenderModel* model ) = 0;
 
-			///	Render 2d image using region of texture. Нарисует картинку с выбранной областью текстуры
-			/// \param rect: координаты левого верхнего и правого нижнего углов
-			/// \param region: координаты левого верхнего и правого нижнего углов области картинки которую нужно нарисовать
-			/// \param m: материал с текстурой
+			//	Render 2d image using region of texture. Нарисует картинку с выбранной областью текстуры
+			// \param rect: координаты левого верхнего и правого нижнего углов
+			// \param region: координаты левого верхнего и правого нижнего углов области картинки которую нужно нарисовать
+			// \param m: материал с текстурой
 		virtual void draw2DImage( const v4i& rect, const v4i& region, const gtMaterial& m ) = 0;
 		virtual void draw2DImage( const v4i& rect, const v4i& region, gtTexture* texture ) = 0;
 
@@ -138,30 +138,30 @@ namespace gost{
 			// \return созданная текстура
 		virtual gtPtr<gtTexture>	createTexture( gtImage* sourceImage, gtTextureFilterType filter = gtTextureFilterType::FILTER_ANISOTROPIC ) = 0;
 
-			///	Создаёт модель для рисования
-			/// \param software_model: обычная модель
-			/// \return созданная модель
+			//	Создаёт модель для рисования
+			// \param software_model: обычная модель
+			// \return созданная модель
 		virtual gtPtr<gtRenderModel>	createModel( gtModel* software_model ) = 0;
 
-			///	Get texture from texture cache, or load new texture to the cache
-			///	\param fileName: path to the file
-			///	\param filter: filter type
-			///	\param outImage: Loaded gtImage. If set nullptr, gtImage will be removed.
-			///	\return texture
-			///	\remark If you get outImage, don't forget call outImage->release() for delete.
+			//	Get texture from texture cache, or load new texture to the cache
+			//	\param fileName: path to the file
+			//	\param filter: filter type
+			//	\param outImage: Loaded gtImage. If set nullptr, gtImage will be removed.
+			//	\return texture
+			//	\remark If you get outImage, don't forget call outImage->release() for delete.
 		virtual gtTexture*		getTexture( const gtString& fileName, gtTextureFilterType filter = gtTextureFilterType::FILTER_ANISOTROPIC, gtImage** outImage = nullptr ) = 0;
 
-			///	Get model from model cache, or load new model to the cache
-			///	\param fileName: path to the file
-			///	\param software_model: Loaded software_model. If set nullptr, gtMoel will be removed.
-			///	\return render model
-			///	\remark If you get software_model, don't forget call software_model->release() for delete.
+			//	Get model from model cache, or load new model to the cache
+			//	\param fileName: path to the file
+			//	\param software_model: Loaded software_model. If set nullptr, gtMoel will be removed.
+			//	\return render model
+			//	\remark If you get software_model, don't forget call software_model->release() for delete.
 		virtual gtRenderModel*	getModel( const gtString& fileName, gtModel** software_model = nullptr ) = 0;
 
-			///	clearTextureCache
+			//	clearTextureCache
 		virtual void	clearTextureCache( void ) = 0;
 		
-			/// clearModelCache
+			// clearModelCache
 		virtual void	clearModelCache( void ) = 0;
 
 		virtual bool	removeModel( gtRenderModel* model ) = 0;
@@ -171,15 +171,15 @@ namespace gost{
 
 	};
 
-		///	реализация драйвера в отдельных dll
-		///	по этому создавать общий класс вижу только таким способом
+		//	реализация драйвера в отдельных dll
+		//	по этому создавать общий класс вижу только таким способом
 	class gtDriverCommon : public gtDriver{
 	protected:
 
-			///	параметры запуска
+			//	параметры запуска
 		gtDriverInfo m_params;
 		
-			///	текущий размер окна
+			//	текущий размер окна
 		v2i			m_currentWindowSize;
 
 		template<typename type>
@@ -237,7 +237,7 @@ namespace gost{
 					return m_models[ i ].m_object.data();
 			}
 
-			gtPtr_t(gtModel,mdl,gtMainSystem::getInstance()->getModelSystem()->createFromFile( path ));
+			auto mdl = gtMainSystem::getInstance()->getModelSystem()->createFromFile( path );
 			if( !mdl.data() ){
 				gtLogWriter::printWarning( u"Can not load model. %s", path.data() );
 				return nullptr;
@@ -288,7 +288,7 @@ namespace gost{
 
 	public:
 
-			/// c-tor
+			// c-tor
 		gtDriverCommon( void )
 		{
 #ifdef GT_DEBUG
@@ -296,19 +296,19 @@ namespace gost{
 #endif
 		}
 
-			/// d-tor
+			// d-tor
 		virtual ~gtDriverCommon( void ){
 		}
 
 
-			///	получить параметры
-			/// \return gtDriverInfo
+			//	получить параметры
+			// \return gtDriverInfo
 		virtual const gtDriverInfo&	getParams( void ){
 			return m_params;
 		}
 
-			///	получить текущий размер окна
-			/// \return размер окна
+			//	получить текущий размер окна
+			// \return размер окна
 		virtual const v2i&	getСurrentWindowSize( void ) const {
 			return m_currentWindowSize;
 		}

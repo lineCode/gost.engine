@@ -10,10 +10,10 @@
 
 namespace gost{
 
-		/// чтобы постоянно не выделять память при добавлении символов
+		// чтобы постоянно не выделять память при добавлении символов
 	const u32 StringWordSize = 16u;
 
-		///String class
+		//String class
 	template<typename char_type>
 	class gtString_base{
 
@@ -24,10 +24,10 @@ namespace gost{
 		typedef gtString_base		this_type;
 		typedef const gtString_base& this_const_reference;
 
-			/// buffer
+			// buffer
 		pointer m_data;
 
-			/// num of allocated chars
+			// num of allocated chars
 		u32 m_allocated;
 
 		u32 m_size;
@@ -69,7 +69,7 @@ namespace gost{
 
 		public:
 
-			/// Default constructor
+			// Default constructor
 		gtString_base( void ):
 			m_data( nullptr ),
 			m_allocated( StringWordSize ),
@@ -78,8 +78,8 @@ namespace gost{
 			reallocate( m_allocated );
 		}
 
-			/// Construct from 'c' string
-			/// \param str: 'c' string
+			// Construct from 'c' string
+			// \param str: 'c' string
 		gtString_base( const_pointer str ):
 			m_size( 0u ),
 			m_allocated( StringWordSize ),
@@ -89,8 +89,8 @@ namespace gost{
 			assign( str );
 		}
 	
-			/// Construct from other (copy c-tor)
-			/// \param str: Other gtString
+			// Construct from other (copy c-tor)
+			// \param str: Other gtString
 		gtString_base( this_const_reference str ):
 			m_allocated(StringWordSize),
 			m_data(nullptr),
@@ -100,7 +100,7 @@ namespace gost{
 			assign( str );
 		}
 
-			/// move c-tor
+			// move c-tor
 		gtString_base( this_type&& str ):
 			m_size( 0u ),
 			m_allocated( StringWordSize ),
@@ -122,14 +122,14 @@ namespace gost{
 			m_data[ m_size ] = 0x0;
 		}
 
-			/// Destructor
+			// Destructor
 		~gtString_base( void ){
 			if( m_data )
 				delete []m_data;
 		}
 	
-			/// Allocate memory for chars
-			/// \param size: size in chars
+			// Allocate memory for chars
+			// \param size: size in chars
 		void reserve( u32 size ){
 			if( size > m_allocated ){
 				reallocate( size );
@@ -137,8 +137,8 @@ namespace gost{
 			}
 		}
 
-			/// Assign 'c' string
-			/// \param str: 'c' string
+			// Assign 'c' string
+			// \param str: 'c' string
 		template<typename other_type>
 		void assign( other_type str ){
 			m_size = 0u;
@@ -146,16 +146,16 @@ namespace gost{
 			append( str );
 		}
 
-			///	Assign other
-			/// \param str: Other gtString
+			//	Assign other
+			// \param str: Other gtString
 		void assign( this_const_reference str ){
 			m_size = 0u;
 			m_data[ m_size ] = 0x0;
 			append( str );
 		}
 
-			/// Add 'c' string to back
-			/// \param str: 'c' string
+			// Add 'c' string to back
+			// \param str: 'c' string
 		template<typename other_type>
 		void append( const other_type * str ){
 			u32 new_size = getlen( str ) + m_size;
@@ -169,8 +169,8 @@ namespace gost{
 			m_data[ m_size ] = 0x0;
 		}
 
-			/// Add other
-			/// \param str: Other gtString
+			// Add other
+			// \param str: Other gtString
 		void append( this_const_reference str ){
 			append( str.data() );
 		}
@@ -224,20 +224,20 @@ namespace gost{
 			return ret;
 		}
 
-			/// Get 'c' string
-			/// \return Pointer to first char of string
+			// Get 'c' string
+			// \return Pointer to first char of string
 		const_pointer c_str( void ) const {
 			return m_data;
 		}
 
-			/// Get string buffer
-			/// \return Pointer to first char of string
+			// Get string buffer
+			// \return Pointer to first char of string
 		pointer data( void ) const {
 			return m_data;
 		}
 
-			/// Get size
-			/// \return Size of string
+			// Get size
+			// \return Size of string
 		const u32 size( void ) const {
 			return m_size;
 		}
@@ -398,16 +398,16 @@ namespace gost{
 	};
 
 	//! \brief Строка с utf-16. gtString(u"asdasd")
-	GT_TYPE( gtString, gtString_base<char16_t>); ///< See \ref _GT_TYPE
+	GT_TYPE( gtString, gtString_base<char16_t>); //< See \ref _GT_TYPE
 
 	//! \brief Строка с wide char. gtString(L"asdasd")
-	GT_TYPE( gtStringW, gtString_base<wchar_t>); ///< See \ref _GT_TYPE
+	GT_TYPE( gtStringW, gtString_base<wchar_t>); //< See \ref _GT_TYPE
 
 	//! \brief Строка с utf-32. gtString(U"asdasd")
-	GT_TYPE( gtString32, gtString_base<char32_t>); ///< See \ref _GT_TYPE
+	GT_TYPE( gtString32, gtString_base<char32_t>); //< See \ref _GT_TYPE
 	
 	//! \brief Строка с ANSI текстом
-	GT_TYPE( gtStringA, gtString_base<char>); ///< See \ref _GT_TYPE
+	GT_TYPE( gtStringA, gtString_base<char>); //< See \ref _GT_TYPE
 
 	namespace util{
 

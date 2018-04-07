@@ -6,7 +6,7 @@
 
 #pragma once
 #ifndef __GT_VERTEX_H__
-#define __GT_VERTEX_H__ ///< include guard
+#define __GT_VERTEX_H__ //< include guard
 
 namespace gost{
 
@@ -23,7 +23,7 @@ namespace gost{
 	*/
 	constexpr u32 gtStrideStandart = sizeof( gtReal ) * 9u;
 
-		/// вроде не используется. надо проверить и удалить.
+		// вроде не используется. надо проверить и удалить.
 	struct gtVertex{
 
 			//	данные
@@ -54,13 +54,13 @@ namespace gost{
 		Он описывает в каком порядке что стоит в вершине.
 	*/
 	enum class gtVertexType{
-		position,	///< 4 * sizeof( gtReal )
-		normal,		///< 3 * sizeof( gtReal )
-		uv,			///< 2 * sizeof( gtReal )
-		color,		///< 4 * sizeof( gtReal )
-		binormal,	///< 3 * sizeof( gtReal )
-		tangent,	///< 3 * sizeof( gtReal )
-		end			///< типа завершающий ноль. должен стоять в конце.
+		position,	//< 4 * sizeof( gtReal )
+		normal,		//< 3 * sizeof( gtReal )
+		uv,			//< 2 * sizeof( gtReal )
+		color,		//< 4 * sizeof( gtReal )
+		binormal,	//< 3 * sizeof( gtReal )
+		tangent,	//< 3 * sizeof( gtReal )
+		end			//< типа завершающий ноль. должен стоять в конце.
 	};
 
 

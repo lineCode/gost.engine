@@ -4,43 +4,43 @@
 */
 #pragma once
 #ifndef __GT_PLUGIN_H__
-#define __GT_PLUGIN_H__ ///< include guard
+#define __GT_PLUGIN_H__ //< include guard
 
 namespace gost{
 
-		///	тип плагина
+		//	тип плагина
 	enum class gtPluginType{
 
-			///	плагины должны быть правильно инициализированы
+			//	плагины должны быть правильно инициализированы
 		unknown,
 
-			///	рендер
+			//	рендер
 		render,
 
-			///	импортёр картинок
+			//	импортёр картинок
 		import_image,
 
-			///	импортёр моделей
+			//	импортёр моделей
 		import_model,
 
-			/// аудио плагин
+			// аудио плагин
 		audio,
 
-			/// экспортёр картинок
+			// экспортёр картинок
 		export_image,
 
-			/// экспортёр моделей
+			// экспортёр моделей
 		export_model,
 
-			/// устройства ввода
+			// устройства ввода
 		input
 
 	};
 
-		///	общая информация о плагине
+		//	общая информация о плагине
 	struct gtPluginInfo{
 
-			/// c-tor
+			// c-tor
 		gtPluginInfo( void ):
 			m_type( gtPluginType::unknown ),
 			m_version( 0u ),
@@ -57,35 +57,35 @@ namespace gost{
 			m_GUID.reserve( 64u );
 		}
 
-			///	тип плагина
+			//	тип плагина
 		gtPluginType m_type;
 
-			///	название плагина
+			//	название плагина
 		gtString m_name;
 
-			///	автор
+			//	автор
 		gtString m_author;
 
-			///	ссылка на сайт
+			//	ссылка на сайт
 		gtString m_url;
 
-			///	контактный имейл
+			//	контактный имейл
 		gtString m_email;
 
-			///	имя компании если юр лицо
+			//	имя компании если юр лицо
 		gtString m_company;
 
-			///	описание
+			//	описание
 		gtString m_description;
 
-			///	уникальный ID. по сути любая строка.
-			///	имя по аналогии с GUID. {41B20362-9FC0-4C40-9903-B8D2FF98CF88}
+			//	уникальный ID. по сути любая строка.
+			//	имя по аналогии с GUID. {41B20362-9FC0-4C40-9903-B8D2FF98CF88}
 		gtString m_GUID;
 
-			/// Версия.
+			// Версия.
 		u32 m_version;
 
-			/// Номер сборки
+			// Номер сборки
 		u32 m_build;
 
 	};
@@ -97,18 +97,18 @@ namespace gost{
 	*/
 	struct gtPluginInfoDL{
 
-			/// c-tor
+			// c-tor
 		gtPluginInfoDL( void ):
 			m_handle( nullptr )
 		{}
 
-			/// d-tor
+			// d-tor
 		~gtPluginInfoDL( void ){}
 
-			///	путь к файлу
+			//	путь к файлу
 		gtString m_path;
 		
-			///	handle плагина
+			//	handle плагина
 #ifdef GT_EXPORTS
 		GT_LIBRARY_HANDLE
 #else
@@ -116,46 +116,46 @@ namespace gost{
 #endif
 			m_handle;
 
-			///	общая информация
+			//	общая информация
 		gtPluginInfo m_info;
 	};
 	
-		/// Плагин
+		// Плагин
 	class gtPlugin : public gtRefObject{
 	protected:
 
-			///	информация
+			//	информация
 		gtPluginInfoDL	m_info;
 
-			///	загружен ли плагин
+			//	загружен ли плагин
 		bool m_isLoad;
 
 	public:
 
-			/// c-tor
+			// c-tor
 		gtPlugin( void ):
 			m_isLoad( false )
 		{}
 
-			/// d-tor
+			// d-tor
 		virtual ~gtPlugin( void ){	}
 
-			/// Загружен ли плагин
-			/// \return \b true если загружен
+			// Загружен ли плагин
+			// \return \b true если загружен
 		bool isLoad( void ) const { return m_isLoad; }
 
-			///	Загрузить плагин
+			//	Загрузить плагин
 		virtual void load( void ) = 0;
 
-			///	Выгрузить плагин
+			//	Выгрузить плагин
 		virtual void unload( void ) = 0;
 
-			/// Получить информацию о плагине
-			/// \return Вернёт информацию о плагиен
+			// Получить информацию о плагине
+			// \return Вернёт информацию о плагиен
 		virtual const gtPluginInfoDL&	getInfo( void ) = 0;
 
-			///	Проверить, есть ли нужные функции в плагине
-			/// \return \b true если есть все нужные функции
+			//	Проверить, есть ли нужные функции в плагине
+			// \return \b true если есть все нужные функции
 		virtual bool checkLibraryFunctions( void ) = 0;
 
 	};

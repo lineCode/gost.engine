@@ -4,7 +4,7 @@
 */
 #pragma once
 #ifndef __GT_STACK_TRACE_H__
-#define __GT_STACK_TRACE_H__ ///< include guard
+#define __GT_STACK_TRACE_H__ //< include guard
 
 #if defined( GT_USE_STACK_TRACE )
 
@@ -20,24 +20,24 @@
 
 namespace gost{
 	
-		/// размер стека
+		// размер стека
 	constexpr u32 gtMaxStackFrames = 1024u;
 
-		///	Выводит цепочку вызовов функций от текущей до самого начала
-		///	По логике должен работать только в Debug версии 
+		//	Выводит цепочку вызовов функций от текущей до самого начала
+		//	По логике должен работать только в Debug версии 
 	class gtStackTrace{
 		
-			///	для вывода текста
+			//	для вывода текста
 		gtPtr<gtLoger> m_log;
 
 		//gtMutex * m_mutex;
 
-			///	нельзя создать объект с таким конструктором
+			//	нельзя создать объект с таким конструктором
 		gtStackTrace( void ){}
 
-			///	инициализация при первом вызове printStackTrace
+			//	инициализация при первом вызове printStackTrace
 		void initialize( void );	bool m_is_initialized;
-			///	производит зависимое от ОС операции по освобождению ранее взятой памяти
+			//	производит зависимое от ОС операции по освобождению ранее взятой памяти
 		void shutdown( void );
 
 	public:

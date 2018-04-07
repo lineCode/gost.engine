@@ -11,7 +11,7 @@
 namespace gost{
 
 	
-		///	Общий класс для конкретных реализаций gtMainSystem
+		//	Общий класс для конкретных реализаций gtMainSystem
 	class gtLogerImpl;
 
 	class gtMainSystemCommon : public gtMainSystem{
@@ -57,13 +57,13 @@ namespace gost{
 		gtList< gtPtr< gtWindow > > m_windowCache;
 
 
-			///	параметры главной системы
+			//	параметры главной системы
 		gtDeviceCreationParameters	m_params;
 
-			///	она возвращается в методе update
+			//	она возвращается в методе update
 		bool	m_isRun;
 		
-			///	объект для вывода стека вызова функций
+			//	объект для вывода стека вызова функций
 		gtStackTrace* m_stackTracer;
 		
 		u32 m_systemWindowCount;
@@ -101,18 +101,18 @@ namespace gost{
 
 		gtLoger*		getLoger( void );
 
-			///	так как трейсеру нужно окно вывода, а это окно создаётся чуть позже выделения памяти для него
-			///	то, после создания окна, вызывается эта функция, чтобы можно было дать трейсеру
-			///	инициализированный объект окна
+			//	так как трейсеру нужно окно вывода, а это окно создаётся чуть позже выделения памяти для него
+			//	то, после создания окна, вызывается эта функция, чтобы можно было дать трейсеру
+			//	инициализированный объект окна
 		void initStackTracer( void );
 
 		void initEventSystem( void );
 
-			///	возвратит указатель на gtMainSystem
-			///	альтернатива this так как this не работает в статических методах
+			//	возвратит указатель на gtMainSystem
+			//	альтернатива this так как this не работает в статических методах
 		static gtMainSystemCommon * getInstance( void );
 			
-			///	возвратит StackTracer
+			//	возвратит StackTracer
 		gtStackTrace*	getStackTracer( void );
 
 		
