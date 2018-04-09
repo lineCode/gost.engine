@@ -138,14 +138,14 @@ void gtGUIStaticTextImpl::setText( const gtString& text ){
 							sub->m_material.type = gtMaterialType::GUI;
 							sub->m_material.flags |= gtMaterialFlag::MF_BLEND;
 							sub->m_material.textureLayer[ 0u ].texture = m_font->getTexture( id );
-							m_bufferInfo.push_back( bufferInfo( id, sub ) );
+							m_bufferInfo.push_back( bufferInfo( id, mainsub ) );
 						}
 
 					}else{
 						sub->m_material.type = gtMaterialType::GUI;
 						sub->m_material.flags |= gtMaterialFlag::MF_BLEND;
 						sub->m_material.textureLayer[ 0u ].texture = m_font->getTexture( id );
-						m_bufferInfo.push_back( bufferInfo( id, sub ) );
+						m_bufferInfo.push_back( bufferInfo( id, mainsub ) );
 					}
 
 					u8* v = &sub->m_vertices[ 0u ];
@@ -170,7 +170,6 @@ void gtGUIStaticTextImpl::setText( const gtString& text ){
 					u16 width = 0u;
 					u16 height = 0u;
 
-					
 
 					if( rect ){
 					

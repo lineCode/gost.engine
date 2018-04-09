@@ -22,7 +22,7 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 	gtSceneSystem * scene = mainSystem->getSceneSystem( driver.data() );
 
 	gtStaticObject * room = scene->addStaticObject( driver->getModel(u"../media/room.obj") );
-	room->showBV( true );
+//	room->showBV( true );
 	room->getModel()->getMaterial(0)->textureLayer[0].texture = driver->getTexture(u"../media/room.png");
 
 	gtCamera * camera = scene->addCamera( v3f(0.f,1.f,0.f) );
@@ -38,7 +38,7 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 	gtStaticObject * cubs[1000];
 	for( int i = 0; i < 1000; ++i ){
 		cubs[ i ] = scene->addStaticObject( rcube.data(), v3f( x, 0.f, y ) );
-		//cubs[ i ]->showBV( true );
+		cubs[ i ]->showBV( true );
 		x += 1.f;
 		if( x > 100.f ){
 			x = 0.f;
@@ -51,7 +51,7 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 	f32 delta = 0.f;
 	f32 pos = 1000.f;
 	u32 time = mainSystem->getTime();
-
+	 
 	f32 angle = 0.f;
 
 	gtGUISystem * guiSystem = mainSystem->getGUISystem( driver.data() );
@@ -59,9 +59,7 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 	auto text = guiSystem->createStaticText( u"", 5, 25 );
 	text->setFont( font );
 
-	auto text2 = guiSystem->createStaticText( u"", 5, 50 );
-	text2->setFont( font );
-	text2->setText( u"\
+	auto text2 = guiSystem->createStaticText( u"\
 Azərbaycanca\n\
 Башҡортса\n\
 Čeština\n\
@@ -82,7 +80,9 @@ Türkçe\n\
 Татарча/tatarça\n\
 Українська\n\
 Tiếng Việt\n\
-中文" );
+中文",
+5, 50 );
+	text2->setFont( font );
 	
 	gtString s;
 	u32 i = 0;
@@ -161,8 +161,8 @@ Tiếng Việt\n\
 
 			fpstime += delta;
 
-			++fps_counter;
-			if( fpstime > 0.1f ){
+			fps_counter += 1 * 8;
+			if( fpstime > 0.0125f ){
 				fpstime = 0.f;
 				fps = fps_counter;
 				fps_counter = 0u;

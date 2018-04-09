@@ -19,15 +19,13 @@ void gtGUIFontImpl::render(){}
 
 gtVector4<u16>* gtGUIFontImpl::getRect( char16_t c ){
 	if( m_chars[ (u16)c ] )
-		if( m_chars[ (u16)c ]->ch )
-			return &m_chars[ (u16)c ]->ch->coords;
+			return &m_chars[ (u16)c ]->coords;
 	return nullptr;
 }
 
 u32 gtGUIFontImpl::getTextureID( char16_t c ){
 	if( m_chars[ (u16)c ] )
-		if( m_chars[ (u16)c ]->ch )
-			return m_chars[ (u16)c ]->ch->texture_id;
+			return m_chars[ (u16)c ]->texture_id;
 	return 0u;
 }
 
@@ -122,10 +120,11 @@ bool gtGUIFontImpl::initFromFile( const gtString& font ){
 
 
 	m_chars.reserve( 0xffff );
-	for( u32 i = 0u; i < 0xffff; ++i ){
-		m_chars.push_back( nullptr );
-	}
-
+	memset( m_chars.data(), 0, sizeof( gtAddressType ) * 0xffff );
+	//for( u32 i = 0u; i < 0xffff; ++i ){
+	//	m_chars.push_back( nullptr );
+	//}
+	 
 	arr_nodes = xml->selectNodes( u"/font/c" );
 	if( !arr_nodes.size() ){
 		gtLogWriter::printWarning( u"Can not get nodes from XML document" );
@@ -145,21 +144,27 @@ bool gtGUIFontImpl::initFromFile( const gtString& font ){
 				u32 val = (u32)a->value[ 0u ];
 				if( val >= 0xffff ) continue;
 
-				m_chars[ val ] = new character;
+				/*m_chars[ val ] = new character;
 
 				m_chars[ val ]->ch = new character_base;
-				m_chars[ val ]->ch->c = a->value[ 0u ];
+				m_chars[ val ]->ch->c = a->value[ 0u ];*/
+				m_chars[ val ] = new character_base;
+
+				//m_chars[ val ]->c = a->value[ 0u ];
 
 				a = n->getAttribute( u"r" );
 				if( a ){
-					util::getVec4iFromString( a->value, &m_chars[ val ]->ch->coords );
+					//util::getVec4iFromString( a->value, &m_chars[ val ]->ch->coords );
+					util::getVec4iFromString( a->value, &m_chars[ val ]->coords );
 				}
 
 				a = n->getAttribute( u"i" );
 				if( a ){
-					m_chars[ val ]->ch->texture_id = util::getIntFromString<s32>( a->value );
+					//m_chars[ val ]->ch->texture_id = util::getIntFromString<s32>( a->value );
+					m_chars[ val ]->texture_id = util::getIntFromString<s32>( a->value );
 				}else{
-					m_chars[ val ]->ch->texture_id = 0;
+					//m_chars[ val ]->ch->texture_id = 0;
+					m_chars[ val ]->texture_id = 0;
 				}
 
 			}
@@ -168,16 +173,18 @@ bool gtGUIFontImpl::initFromFile( const gtString& font ){
 
 	char16_t tab = u'\t';
 	if( !m_chars[ tab ] ){
-		m_chars[ tab ] = new character;
+		/*m_chars[ tab ] = new character;
 		m_chars[ tab ]->ch = new character_base;
-		m_chars[ tab ]->ch->c = tab;
+		m_chars[ tab ]->ch->c = tab;*/
+		m_chars[ tab ] = new character_base;
 	}
 
 	char16_t newline = u'\n';
 	if( !m_chars[ newline ] ){
-		m_chars[ newline ] = new character;
+		/*m_chars[ newline ] = new character;
 		m_chars[ newline ]->ch = new character_base;
-		m_chars[ newline ]->ch->c = newline;
+		m_chars[ newline ]->ch->c = newline;*/
+		m_chars[ newline ] = new character_base;
 	}
 
 	//.....
