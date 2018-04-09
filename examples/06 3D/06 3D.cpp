@@ -1,4 +1,4 @@
-#include <gost.h>
+﻿#include <gost.h>
 
 using namespace gost;
 
@@ -16,14 +16,14 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 
 	gtDriverInfo di;
 	di.m_outWindow = window.data();
-	di.m_vSync = true;
+
 	auto driver = mainSystem->createVideoDriver( di, GT_UID_RENDER_D3D11 );
 
 	gtSceneSystem * scene = mainSystem->getSceneSystem( driver.data() );
 
-	gtStaticObject * room = scene->addStaticObject( driver->getModel(u"../media/m9.obj") );
+	gtStaticObject * room = scene->addStaticObject( driver->getModel(u"../media/room.obj") );
 	room->showBV( true );
-	room->getModel()->getMaterial(0)->textureLayer[0].texture = driver->getTexture(u"../media/Tex_0009_1.png");
+	room->getModel()->getMaterial(0)->textureLayer[0].texture = driver->getTexture(u"../media/room.png");
 
 	gtCamera * camera = scene->addCamera( v3f(0.f,1.f,0.f) );
 	camera->setCameraType( gtCameraType::CT_FPS );
@@ -35,10 +35,10 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 	auto rcube = driver->createModel( cube.data() );
 
 	f32 x = 0.f, y = 0.f;
-	gtStaticObject * cubs[10000];
-	for( int i = 0; i < 10000; ++i ){
+	gtStaticObject * cubs[1000];
+	for( int i = 0; i < 1000; ++i ){
 		cubs[ i ] = scene->addStaticObject( rcube.data(), v3f( x, 0.f, y ) );
-	//	cubs[ i ]->showBV( true );
+		//cubs[ i ]->showBV( true );
 		x += 1.f;
 		if( x > 100.f ){
 			x = 0.f;
@@ -54,14 +54,57 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 
 	f32 angle = 0.f;
 
+	gtGUISystem * guiSystem = mainSystem->getGUISystem( driver.data() );
+	auto font = guiSystem->createFont( u"../media/myfont.xml" ); 
+	auto text = guiSystem->createStaticText( u"", 5, 25 );
+	text->setFont( font );
+
+	auto text2 = guiSystem->createStaticText( u"", 5, 50 );
+	text2->setFont( font );
+	text2->setText( u"\
+Azərbaycanca\n\
+Башҡортса\n\
+Čeština\n\
+Чӑвашла\n\
+Ελληνικά\n\
+English\n\
+Español\n\
+Français\n\
+Հայերեն\n\
+日本語\n\
+ქართული\n\
+Қазақша\n\
+한국어\n\
+Latviešu\n\
+Português\n\
+Română\n\
+Türkçe\n\
+Татарча/tatarça\n\
+Українська\n\
+Tiếng Việt\n\
+中文" );
+	
+	gtString s;
+	u32 i = 0;
+
+	f32 fpstime = 0.f;
+	u32 fps = 0u;
+	u32 fps_counter = 0u;
+
 	while( mainSystem->update() ){
 
+		text->clear();
+
+		s = u"FPS: ";
+		s += fps;
+
+		text->setText( s );
 
 		f32 sn = std::sinf( angle )/180.f*PI;
 		f32 cs = std::cosf( angle )/180.f*PI;
 		angle += 10.f * delta; if( angle > 360.f ) angle = 0.f;
 
-		for( int i = 0; i < 1000; ++i ){
+		for( int i = 0; i < 100; ++i ){
 			cubs[ i ]->setRotation( v3f( angle - 0.01f, angle, angle + 0.01f ) );
 		}
 
@@ -106,12 +149,24 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 
 
 			
+			driver->setDepthState( false );
+			text->render();
+			text2->render();
+			driver->setDepthState();
 
 			driver->endRender();
 
 			delta = (f32)(now - time)*0.0001f;
-					
 			time = now;
+
+			fpstime += delta;
+
+			++fps_counter;
+			if( fpstime > 0.1f ){
+				fpstime = 0.f;
+				fps = fps_counter;
+				fps_counter = 0u;
+			}
 		}
 
 	}

@@ -51,6 +51,9 @@ namespace gost{
 
 		}m_memTable;
 
+
+		gtArray<gtDriver*>	m_drivers;
+
 	protected:
 
 		gtPtr<gtOutputWindow>	m_output_window;
@@ -157,6 +160,8 @@ namespace gost{
 
 		gtPtr<gtXMLDocument> XMLRead( const gtString& file );
 		void XMLWrite( const gtString& file, gtXMLNode* rootNode, bool utf8 = false );
+		u32 getLoadedVideoDriverCount( void );
+		gtDriver* getLoadedVideoDriver( u32 id );
 	};
 
 #define gtLog gtMainSystemCommon::s_loger

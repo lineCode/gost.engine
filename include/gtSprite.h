@@ -24,7 +24,7 @@ namespace gost{
 		gtMaterial	 m_material;		//< материал
 		gtTexture *  m_texture;			//< текстура
 
-		gtRenderModel* m_rModel;		//< модель
+		gtPtr<gtRenderModel> m_rModel;		//< модель
 
 		gtMainSystem * m_system;		//< указатель на главную систему
 		gtDriver * m_driver;			//< указатель на видео драйвер, который владеет hardware буферами данного спрайта
@@ -94,13 +94,6 @@ namespace gost{
 
 			// d-tor
 		virtual ~gtSprite( void ){
-			
-			if( m_rModel ){
-				m_rModel->release();
-				m_rModel = nullptr;
-			}
-
-			
 		}
 
 		gtAabb*				getAabb( void ){
@@ -176,7 +169,7 @@ namespace gost{
 		void render( void ){
 			if( m_isVisible ){
 				updateAnimation();
-				m_driver->drawModel( m_rModel );
+				m_driver->drawModel( m_rModel.data() );
 			}
 		}
 

@@ -96,7 +96,25 @@ gtPtr<gtDriver> gtMainSystemCommon::createVideoDriver( /*gtPlugin* videoDriverPl
 		return nullptr;
 	}
 
-	return gtPtrNew<gtDriver>(((gtPluginRender*)plugin)->loadDriver( params ));
+
+	gtDriver * d = ((gtPluginRender*)plugin)->loadDriver( params );
+
+	if( d )
+		m_drivers.push_back( d );
+
+	return gtPtrNew<gtDriver>(d);
+}
+
+u32 gtMainSystemCommon::getLoadedVideoDriverCount( void ){
+	return m_drivers.size();
+}
+
+gtDriver* gtMainSystemCommon::getLoadedVideoDriver( u32 id ){
+	if( m_drivers.size() ){
+		GT_ASSERT2( id < m_drivers.size(), "id < m_drivers.size()" );
+		return m_drivers[ id ];
+	}
+	return nullptr;
 }
 
 	//	Выделяет память размером size. Для освобождения нужно вызвать freeMemory

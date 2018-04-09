@@ -177,6 +177,18 @@ namespace gost{
 			format = newFormat;
 		}
 
+		void	makeAlphaFromBlack( void ){
+			if( format == gost::gtImage::FMT_R8G8B8A8){
+				for( u32 i = 0u; i < dataSize; ){
+					u8 r = data[ i ];
+					u8 g = data[ i+1u ];
+					u8 b = data[ i+2u ];
+					data[ i+3u ] = (u8)std::ceilf((f32)(r+g+b)*0.33333f);
+					i += 4u;
+				}
+			}
+		}
+
 			// перевернёт пиксель. из rgb сделает bgr, из rgba - abgr, из rgbx - bgrx и т.д. Реализовывать функции нужно по мере необходимости.
 		void	flipPixel( void ){
 			if( !data ) return;

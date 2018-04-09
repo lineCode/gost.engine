@@ -4,13 +4,8 @@ gtD3D11StandartShaderCallback::gtD3D11StandartShaderCallback():
 m_system( nullptr ){
 	m_system = gtMainSystem::getInstance();
 }
-
-gtD3D11StandartShaderCallback::~gtD3D11StandartShaderCallback(){
-}
-
+gtD3D11StandartShaderCallback::~gtD3D11StandartShaderCallback(){}
 void gtD3D11StandartShaderCallback::onShader( const gtMaterial& /*m*/, gtShaderProcessing* sp ){
-	
-
 	/*в будущем в буфер можно добавить ещё поля, по этому сразу всё сунул в структуру*/
 	struct cbMatrix_t{
 		gtMatrix4 WVP;
@@ -27,6 +22,17 @@ void gtD3D11StandartShaderCallback::onShader( const gtMaterial& /*m*/, gtShaderP
 	sp->sendDataVS( &cbMatrix, 0, 0u );
 
 	/* в D3D11 главное правильно установить слот, uniformName не нужен */
+	sp->setTexture( "", 0 );
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////
+gtD3D11GUIShaderCallback::gtD3D11GUIShaderCallback():
+m_system( nullptr ){
+	m_system = gtMainSystem::getInstance();
+}
+gtD3D11GUIShaderCallback::~gtD3D11GUIShaderCallback(){}
+void gtD3D11GUIShaderCallback::onShader( const gtMaterial& /*m*/, gtShaderProcessing* sp ){
 	sp->setTexture( "", 0 );
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////

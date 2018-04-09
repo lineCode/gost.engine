@@ -100,7 +100,6 @@ gtPtr<gtModel>	gtModelSystemImpl::createPlane( f32 x, f32 y, gtSide side ){
 	vert[ 2u ].pos.set( x3, y3, z3, 1.f );
 	vert[ 3u ].pos.set( x4, y4, z4, 1.f );
 
-
 	vert[ 0u ].nor.set( 0.f, 1.f, 0.f );
 	vert[ 1u ].nor.set( 0.f, 1.f, 0.f );
 	vert[ 2u ].nor.set( 0.f, 1.f, 0.f );
@@ -164,11 +163,11 @@ gtPtr<gtModel>	gtModelSystemImpl::createCube( f32 sz ){
 
 	cube->updateBoundingVolume();
 
-	cube->addRef();
+	//cube->addRef();
 
 	return cube;
 }
 
 gtPtr<gtModel>	gtModelSystemImpl::createFromFile( const gtString& fileName ){
-	return m_pluginSystem->importModel( fileName );
+	return gtPtrNew<gtModel>(m_pluginSystem->importModel( fileName ));
 }

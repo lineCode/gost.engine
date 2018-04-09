@@ -168,6 +168,7 @@ namespace gost{
 		
 		virtual bool	removeTexture( gtTexture* texture ) = 0;
 
+		virtual void	setDepthState( bool state = true ) = 0;
 
 	};
 
@@ -187,8 +188,6 @@ namespace gost{
 			cache(void):m_object(nullptr){}
 			cache(type obj,const gtString&path):m_object(obj),m_path(path){}
 			~cache(){
-				if(m_object.data())
-					m_object->release();
 			}
 
 			type		m_object;
@@ -224,7 +223,7 @@ namespace gost{
 				img->addRef();
 			}
 
-			texture->addRef();
+			//texture->addRef();
 			m_textures.push_back(cache<gtPtr<gtTexture>>(texture,path));
 
 			return texture.data();
@@ -253,8 +252,8 @@ namespace gost{
 				*m = mdl.data();
 				mdl->addRef();
 			}
-
-			model->addRef();
+//
+	//		model->addRef();
 			m_models.push_back(cache<gtPtr<gtRenderModel>>(model,path));
 
 			return model.data();
@@ -277,7 +276,7 @@ namespace gost{
 			u32 sz = m_textures.size();
 			for( u32 i = 0u; i < sz; ++i ){
 				if( texture == m_textures[ i ].m_object.data() ){
-					texture->release();
+				//	texture->release();
 					m_textures.erase(i);
 					return true;
 				}

@@ -80,12 +80,16 @@ namespace gost{
 			//	стандартный шейдер для рисования 3Д
 		gtShader*			m_shader3DStandart;
 		
+			//	GUI, witout W*V*P
+		gtShader*			m_shaderGUI;
+
 		gtShader*			m_shaderLine;
 
 		gtShader*			m_shaderSprite;
 
 
 		gtPtr<gtD3D11StandartShaderCallback> m_shader3DStandartCallback;
+		gtPtr<gtD3D11GUIShaderCallback> m_shaderGUICallback;
 		gtPtr<gtD3D11SpriteShaderCallback>	 m_shaderSpriteCallback;
 		gtPtr<gtD3D11LineShaderCallback>	 m_shaderLineCallback;
 
@@ -158,6 +162,8 @@ namespace gost{
 
 		static gtDriverD3D11*	getInstance( void );
 		gtTexture * getStandartTexture( void );
+
+		void	setDepthState( bool state = true );
 	};
 
 }

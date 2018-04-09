@@ -16,6 +16,14 @@ namespace gost{
 
 	};
 
+	class gtD3D11GUIShaderCallback : public gtShaderCallback{
+		gtMainSystem * m_system;
+	public:
+		gtD3D11GUIShaderCallback();
+		virtual ~gtD3D11GUIShaderCallback();
+		void onShader( const gtMaterial&, gtShaderProcessing* );
+	};
+
 	class gtD3D11SpriteShaderCallback : public gtShaderCallback{
 
 		gtMainSystem * m_system;

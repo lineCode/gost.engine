@@ -39,6 +39,11 @@ namespace gost{
 
 		bool init( const gtString& font );
 
+		void render();
+
+		gtTexture *			getTexture( u32 id );
+		u32					getTextureID( char16_t c );
+		gtVector4<u16>*		getRect( char16_t c );
 	};
 
 }

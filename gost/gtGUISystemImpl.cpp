@@ -34,7 +34,7 @@ gtPtr<gtGUIFont> gtGUISystemImpl::createFont( const gtString& fontName ){
 }
 
 gtPtr<gtGUIStaticText> gtGUISystemImpl::createStaticText( const gtString& text, s32 positionX, s32 positionY ){
-	gtPtr_t( gtGUIStaticTextImpl, st, new gtGUIStaticTextImpl() );
+	gtPtr_t( gtGUIStaticTextImpl, st, new gtGUIStaticTextImpl( m_driver ) );
 
 	if( !st.data() )
 		return nullptr;

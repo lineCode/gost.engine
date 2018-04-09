@@ -126,7 +126,7 @@ void			gtModelImpl::updateBoundingVolume( void ){
 		for( u32 i = 0u; i < msz; ++i ){
 			m_submodels[ i ]->updateAabb();
 			m_aabb.add( m_submodels[ i ]->m_aabb );
-			util::printVector( m_submodels[ i ]->m_obb.m_max );
+	//		util::printVector( m_submodels[ i ]->m_obb.m_max );
 		}
 	}
 }

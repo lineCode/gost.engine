@@ -1,4 +1,4 @@
-#include <gost.h>
+﻿#include <gost.h>
 
 using namespace gost;
 
@@ -23,18 +23,20 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 	gtWindowInfo wi;
     wi.m_style |= gtWindowInfo::maximize;
     wi.m_style |= gtWindowInfo::resize;
+	//wi.m_rect.set( 0, 0, 1280, 1024 );
 	
 	auto window = mainSystem->createSystemWindow( wi );
 
-
+	 
 	//	Set up render plugin parameters.
 	gtDriverInfo di;
+//	di.m_backBufferSize.set( 1280, 1024 );
 	di.m_outWindow = window.data(); // Set output window for rendering.
 
 	//	Initialize graphics engine.
 	auto driver = mainSystem->createVideoDriver( di, GT_UID_RENDER_D3D11 );
 	
-
+	 
 	gtArray<gtString> supportedImages;
 	gtArray<gtString> supportedModels;
 
@@ -53,14 +55,12 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 		output->print( supportedModels[ i ].c_str() );
 	}
 
-	gtGUISystem * guiSystem = mainSystem->getGUISystem( driver.data() );
 
-
-	auto font = guiSystem->createFont( u"../media/myfont.xml" );
-	auto text = guiSystem->createStaticText( u"test", 0, 0 );
-	text->setFont( font );
+	
 
 	while( mainSystem->update() ){
+
+		
 
 		//	If you do not use gtEventConsumer, use this method.
 		//	This method update all events in event queue.
@@ -79,6 +79,7 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 			driver->beginRender( true, gtColor( 0.7372549019607843f, 0.8901960784313725f, 1.f, 1.f ) ); // RGBA.
 			// driver->beginRender( true, gtColor( 188, 227, 255, 255 ) ); // RGBA
 			// driver->beginRender( true, gtColor( 0xFFBCE3FF ) ); // ARGB
+
 
 			//	After rendering, call driver->endRender
 			driver->endRender();

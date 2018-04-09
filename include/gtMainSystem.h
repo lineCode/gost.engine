@@ -240,6 +240,8 @@ namespace gost{
 
 		virtual void XMLWrite( const gtString& file, gtXMLNode* rootNode, bool utf8 = false ) = 0;
 
+		virtual u32 getLoadedVideoDriverCount( void ) = 0;
+		virtual gtDriver* getLoadedVideoDriver( u32 id ) = 0;
 			//	возвратит указатель на gtMainSystem, альтернатива this так как this не работает в статических методах
 			// \return gtMainSystem
 		GT_API static gtMainSystem* getInstance( void );
