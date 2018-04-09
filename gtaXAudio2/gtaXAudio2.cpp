@@ -65,7 +65,7 @@ extern "C"{
 			break;
 			case XAudioVersion::XAudio_2_8:
 			break;
-			case XAudioVersion::XAudio_2_7:{ /// XAudio2 from DirectX SDK
+			case XAudioVersion::XAudio_2_7:{ // XAudio2 from DirectX SDK
 				gtPtr_t(gtAudioSystemXAudio2_7,driver,new gtAudioSystemXAudio2_7());
 				if( driver.data() ){
 

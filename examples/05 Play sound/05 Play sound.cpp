@@ -34,7 +34,7 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 	//audio->setLoop( true );
 
 
-		/// one line version
+		// one line version
 	//gtPtr_t( gtAudioObject, audio, audioSystem->createAudioObject( u"../media/Static-X - The Only.ogg" ) );
 
 
@@ -88,7 +88,7 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 				
 
 				if( event.keyboardEvent.isReleased( gtKey::K_ESCAPE ) ){
-					mainSystem->shutdown(); /// exit when key released
+					mainSystem->shutdown(); // exit when key released
 				}
 				break;
 			}
@@ -104,7 +104,7 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 			if( mainSystem->isKeyPressed( gtKey::K_ESCAPE ) )
 				mainSystem->shutdown();
 
-			driver->beginRender( true, gtColor( 0.7372549019607843f, 0.8901960784313725f, 1.f, 1.f ) ); /// RGBA.
+			driver->beginRender( true, gtColor( 0.7372549019607843f, 0.8901960784313725f, 1.f, 1.f ) ); // RGBA.
 			driver->endRender();
 		}
 

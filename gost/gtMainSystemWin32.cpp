@@ -92,7 +92,7 @@ namespace gost{
 		return m_isRun;
 	}
 
-		///	завершает работу
+		//	завершает работу
 	void gtMainSystemWin32::quit( void ){
 		if( m_isRun ){
 			m_isRun = false;
@@ -112,7 +112,7 @@ namespace gost{
 			//	при завершении, так как вставляются gtPtr
 			//	удалится всё (должно)
 	//	this->m_windowCache.add( gtPtr< gtWindow >(window) );
-		window->addRef();
+	//	window->addRef();
 
 #ifdef GT_DEBUG
 		window->setDebugName( u"SystemWindow" );

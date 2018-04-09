@@ -1,6 +1,6 @@
 ﻿#pragma once
 #ifndef __GOST_H__
-#define __GOST_H__ ///< include guard
+#define __GOST_H__ //< include guard
 
 #pragma warning(disable : 4582)
 
@@ -126,7 +126,7 @@ namespace gost {
 	extern "C" GT_API gtMainSystem* GT_CDECL InitializeGoSTEngine_internal( const gtDeviceCreationParameters& params );
 
 	GT_FORCE_INLINE gtPtr<gtMainSystem> InitializeGoSTEngine( const gtDeviceCreationParameters& params = gtDeviceCreationParameters() ){
-		return gtPtr<gtMainSystem>( InitializeGoSTEngine_internal( params ) );
+		return gtPtrNew<gtMainSystem>( InitializeGoSTEngine_internal( params ) );
 	}
 
 

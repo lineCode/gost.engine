@@ -10,27 +10,27 @@
 
 #pragma once
 #ifndef __GT_ANIMATION_H__
-#define __GT_ANIMATION_H__ ///< include guard
+#define __GT_ANIMATION_H__ //< include guard
 
 namespace gost{
 		
-		///	Описывает базовые функции для анимации
+		//	Описывает базовые функции для анимации
 	class gtAnimation{
 
-		v2u m_loopSegment;	///< loop segment
+		v2u m_loopSegment;	//< loop segment
 
-		u32 m_frames;		///< num of frames
-		u32 m_currentFrame; ///< current frame id
-		f32 m_frameRate;	///< frames on second
+		u32 m_frames;		//< num of frames
+		u32 m_currentFrame; //< current frame id
+		f32 m_frameRate;	//< frames on second
 
-		bool m_isLoop;		///< is loop
-		bool m_isPlay;		///< is play
-		bool m_reverse;		///< is reverse play
+		bool m_isLoop;		//< is loop
+		bool m_isPlay;		//< is play
+		bool m_reverse;		//< is reverse play
 
 
 	public:
 
-			///	c-tor
+			//	c-tor
 		gtAnimation( void ):
 			m_loopSegment(0u,0u),
 			m_frames( 0u ),
@@ -41,24 +41,24 @@ namespace gost{
 			m_reverse( false )
 		{}
 
-			///	is reverse play
-			/// \return \b true if reverse play
+			//	is reverse play
+			// \return \b true if reverse play
 		bool isReverse( void ) const {
 			return m_reverse;
 		}
 
-			///	set reverse play
-			///	\param v: \b true if reverse play
+			//	set reverse play
+			//	\param v: \b true if reverse play
 		void setReverse( bool v ){
 			m_reverse = v;
 		}
 
-			///	increase frame count
+			//	increase frame count
 		void addFrame( void ){
 			++m_frames;
 		}
 
-			///	set active next frame
+			//	set active next frame
 		void stepFrame( void ){
 
 			if( m_reverse ){
@@ -73,82 +73,82 @@ namespace gost{
 			}
 		}
 
-			///	get count of frames
-			/// \return count
+			//	get count of frames
+			// \return count
 		u32	getFrameCount( void ) const {
 			return m_frames;
 		}
 
-			/// get current frame id
-			///	\return current frame
+			// get current frame id
+			//	\return current frame
 		u32	getCurrentFrame( void ) const {
 			return m_currentFrame;
 		}
 
-			///	set current frame id
-			/// \param frame: id
+			//	set current frame id
+			// \param frame: id
 		void setCurrentFrame( u32 frame ){
 			m_currentFrame = frame;
 			if( m_currentFrame > m_loopSegment.y )
 				m_currentFrame = m_loopSegment.y;
 		}
 
-			/// get frame rate
-			/// \return frame rate
+			// get frame rate
+			// \return frame rate
 		f32	getFrameRate( void ) const {
 			return m_frameRate;
 		}
 
-			/// set frame rate
-			/// \param rate: new frame rate
+			// set frame rate
+			// \param rate: new frame rate
 		void	setFrameRate( f32 rate ){
 			m_frameRate = rate;
 		}
 
-			/// is loop
-			/// \return \b true if animation is looped
+			// is loop
+			// \return \b true if animation is looped
 		bool isLoop( void ) const {
 			return m_isLoop;
 		}
 
-			/// is play
-			/// \return \b true if animation is played
+			// is play
+			// \return \b true if animation is played
 		bool isPlay( void ) const {
 			return m_isPlay;
 		}
 
-			/// set loop
-			/// \param value: \b true if need for looping animation
+			// set loop
+			// \param value: \b true if need for looping animation
 		void setLoop( bool value ){
 			m_isLoop = value;
 		}
 
-			/// set loop segment
-			/// \param begin: start id
-			/// \param end: end id
+			// set loop segment
+			// \param begin: start id
+			// \param end: end id
 		void setLoopSegment( u32 begin, u32 end ){
 			m_currentFrame = begin;
 			m_loopSegment.x = begin;
 			m_loopSegment.y = end;
 		}
 
-			/// play animation
+			// play animation
 		void play( void ){
 			m_isPlay = true;
 		}
 		
-			/// pause animation
+			// pause animation
 		void pause( void ){
 			m_isPlay = false;
 		}
 
-			/// stop animation
+			// stop animation
 		void stop( void ){
 			m_isPlay = false;
 			m_currentFrame = 0u;
 		}
 
-			/// clear animation
+			// clear animation
 		void clear( void ){
 			m_frames = 0u;
 			m_currentFrame = 0u;
@@ -158,8 +158,8 @@ namespace gost{
 			m_loopSegment = v2u(0u,0u);
 		}
 
-			/// get loop segment
-			/// \return current loop segment
+			// get loop segment
+			// \return current loop segment
 		const v2u& getLoopSegment( void ){
 			return m_loopSegment;
 		}

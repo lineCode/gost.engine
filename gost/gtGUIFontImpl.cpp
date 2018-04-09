@@ -2,6 +2,7 @@
 
 gtGUIFontImpl::gtGUIFontImpl( gtDriver * d ):
 m_driver( d ){
+	m_type = gtGUIObjectType::font;
 }
 
 gtGUIFontImpl::~gtGUIFontImpl( void ){
@@ -14,10 +15,33 @@ gtGUIFontImpl::~gtGUIFontImpl( void ){
 	}
 }
 
+void gtGUIFontImpl::render(){}
+
+gtVector4<u16>* gtGUIFontImpl::getRect( char16_t c ){
+	if( m_chars[ (u16)c ] )
+			return &m_chars[ (u16)c ]->coords;
+	return nullptr;
+}
+
+u32 gtGUIFontImpl::getTextureID( char16_t c ){
+	if( m_chars[ (u16)c ] )
+			return m_chars[ (u16)c ]->texture_id;
+	return 0u;
+}
+
+gtTexture * gtGUIFontImpl::getTexture( u32 id ){
+	if( id < m_textureArray.size() ){
+		return m_textureArray[ id ].data();
+	}
+	return nullptr;
+}
+
 bool gtGUIFontImpl::init( const gtString& font ){
 
-	if( gtFileSystem::existFile( font ) ){
-		return initFromFile( font );
+	gtString filePath = gtFileSystem::getRealPath( font );
+
+	if( gtFileSystem::existFile( filePath ) ){
+		return initFromFile( filePath );
 	}
 
 	return initFromSystem( font );
@@ -25,10 +49,10 @@ bool gtGUIFontImpl::init( const gtString& font ){
 
 bool gtGUIFontImpl::initFromFile( const gtString& font ){
 
-	gtString filePath = gtFileSystem::getRealPath( font );
+	gtString filePath = font;
 	gtString folderPath = filePath;
 	util::stringPopBackBefore( folderPath, '/' );
-
+	
 	auto xml = gtMainSystem::getInstance()->XMLRead( filePath );
 	if( !xml.data() ) return false;
 
@@ -75,25 +99,32 @@ bool gtGUIFontImpl::initFromFile( const gtString& font ){
 					return false;
 				}
 
-				gtPtr_t( gtTexture, texure, m_driver->getTexture( textureFilePath ) );
+				auto image = gtMainSystem::getInstance()->loadImage( textureFilePath );
+				
+				if( image->format == gtImage::FMT_R8G8B8 ){
+					image->convert( gtImage::FMT_R8G8B8A8 );
+					image->makeAlphaFromBlack();
+				}
+
+				
+
+				auto texure = m_driver->createTexture( image.data(), gtTextureFilterType::FILTER_PPP );
 				if( !texure.data() ){
 					return false;
 				}
 
-				texure->addRef();
 				m_textureArray.push_back( texure );
 			}
 		}
 	}
 
-	//m_chars = new character[ 0xffff ];
-	//GT_ASSERT3(m_chars);
 
 	m_chars.reserve( 0xffff );
-	for( u32 i = 0u; i < 0xffff; ++i ){
-		m_chars.push_back( nullptr );
-	}
-
+	memset( m_chars.data(), 0, sizeof( gtAddressType ) * 0xffff );
+	//for( u32 i = 0u; i < 0xffff; ++i ){
+	//	m_chars.push_back( nullptr );
+	//}
+	 
 	arr_nodes = xml->selectNodes( u"/font/c" );
 	if( !arr_nodes.size() ){
 		gtLogWriter::printWarning( u"Can not get nodes from XML document" );
@@ -101,6 +132,7 @@ bool gtGUIFontImpl::initFromFile( const gtString& font ){
 	}
 
 	sz = arr_nodes.size();
+
 	for( u32 i = 0u; i < sz; ++i ){
 
 		gtXMLNode * n = arr_nodes[ i ];
@@ -112,12 +144,50 @@ bool gtGUIFontImpl::initFromFile( const gtString& font ){
 				u32 val = (u32)a->value[ 0u ];
 				if( val >= 0xffff ) continue;
 
-				m_chars[ val ] = new character;
+				/*m_chars[ val ] = new character;
+
 				m_chars[ val ]->ch = new character_base;
-				m_chars[ val ]->ch->c = a->value[ 0u ];
+				m_chars[ val ]->ch->c = a->value[ 0u ];*/
+				m_chars[ val ] = new character_base;
+
+				//m_chars[ val ]->c = a->value[ 0u ];
+
+				a = n->getAttribute( u"r" );
+				if( a ){
+					//util::getVec4iFromString( a->value, &m_chars[ val ]->ch->coords );
+					util::getVec4iFromString( a->value, &m_chars[ val ]->coords );
+				}
+
+				a = n->getAttribute( u"i" );
+				if( a ){
+					//m_chars[ val ]->ch->texture_id = util::getIntFromString<s32>( a->value );
+					m_chars[ val ]->texture_id = util::getIntFromString<s32>( a->value );
+				}else{
+					//m_chars[ val ]->ch->texture_id = 0;
+					m_chars[ val ]->texture_id = 0;
+				}
+
 			}
 		}
 	}
+
+	char16_t tab = u'\t';
+	if( !m_chars[ tab ] ){
+		/*m_chars[ tab ] = new character;
+		m_chars[ tab ]->ch = new character_base;
+		m_chars[ tab ]->ch->c = tab;*/
+		m_chars[ tab ] = new character_base;
+	}
+
+	char16_t newline = u'\n';
+	if( !m_chars[ newline ] ){
+		/*m_chars[ newline ] = new character;
+		m_chars[ newline ]->ch = new character_base;
+		m_chars[ newline ]->ch->c = newline;*/
+		m_chars[ newline ] = new character_base;
+	}
+
+	//.....
 
 	return true;
 }

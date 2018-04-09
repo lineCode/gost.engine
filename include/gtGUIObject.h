@@ -12,12 +12,17 @@ namespace gost{
 	};
 
 	class gtGUIObject : public gtRefObject{
+	protected:
 		gtGUIObjectType m_type;
 	public:
+
+		virtual void render( void ) = 0;
 
 		virtual gtGUIObjectType getType( void ){
 			return m_type;
 		}
+
+		
 
 	};
 

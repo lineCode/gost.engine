@@ -210,7 +210,7 @@ void gtSceneSystemImpl::frustumCull( gtGameObject* root, gtArray<gtGameObject*>&
 		case gost::gtBoundingVolumeType::sphere:
 			if( sphereInFrustum( frustum, var->getBVSphereRadius(), var->getPositionInSpace() ) ){
 				outArray.push_back( var );
-		//		addChildsInArray( var, outArray );
+				addChildsInArray( var, outArray );
 			}
 			break;
 		case gost::gtBoundingVolumeType::obb:

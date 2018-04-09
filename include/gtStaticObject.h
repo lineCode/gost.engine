@@ -4,18 +4,18 @@
 */
 #pragma once
 #ifndef __GT_STATIC_OBJECT_H__
-#define __GT_STATIC_OBJECT_H__ ///< include guard
+#define __GT_STATIC_OBJECT_H__ //< include guard
 
 namespace gost{
 
 	class gtRenderModel;
 
-		/// Статичный объект. Имеется ввиду что у модели нет анимации.
+		// Статичный объект. Имеется ввиду что у модели нет анимации.
 	class gtStaticObject : public gtGameObject{
 	public:
 
-			///	Вернёт модель которую рисует
-			/// \return модель
+			//	Вернёт модель которую рисует
+			// \return модель
 		virtual gtRenderModel*	getModel( void ) = 0;
 				
 

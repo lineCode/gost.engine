@@ -1,35 +1,35 @@
 ﻿#pragma once
 #ifndef __GT_AABB_H__
-#define __GT_AABB_H__ ///< include guard
+#define __GT_AABB_H__ //< include guard
 
 namespace gost{
 
-		/// Axis-Aligned Bounding Box
+		// Axis-Aligned Bounding Box
 	class gtAabb{
 	public:
 
-			///	default constructor
+			//	default constructor
 		gtAabb( void ){ }
 
-			///	Установить по значениям
-			/// \param min: minimum
-			/// \param max: maximum
+			//	Установить по значениям
+			// \param min: minimum
+			// \param max: maximum
 		gtAabb( const v3f& min, const v3f& max ):
 			m_min( min ), m_max( max ){ }
 
-			/// is empty
-			/// \return \b true if empty
+			// is empty
+			// \return \b true if empty
 		bool isEmpty( void ) const {
 			return (m_min == m_max);
 		}
 
-			/// reset
+			// reset
 		void reset( void ){
 			m_min = m_max = v3f();
 		}
 
-			///	Если точка удовлетворяет условию, aabb растёт
-			///	\param point: vertex position for add
+			//	Если точка удовлетворяет условию, aabb растёт
+			//	\param point: vertex position for add
 		void add( const v3f& point ){
 			if( point.x < m_min.x ) m_min.x = point.x;
 			if( point.y < m_min.y ) m_min.y = point.y;
@@ -40,8 +40,8 @@ namespace gost{
 			if( point.z > m_max.z ) m_max.z = point.z;
 		}
 
-			///	Если размер коробки удовлетворяет условию, aabb растёт
-			///	\param box: other aabb
+			//	Если размер коробки удовлетворяет условию, aabb растёт
+			//	\param box: other aabb
 		void add( const gtAabb& box ){
 			if( box.m_min.x < m_min.x ) m_min.x = box.m_min.x;
 			if( box.m_min.y < m_min.y ) m_min.y = box.m_min.y;
@@ -65,7 +65,7 @@ namespace gost{
 			v *= 0.5f;
 		}
 
-		v3f m_min, m_max; ///< components
+		v3f m_min, m_max; //< components
 
 	};
 

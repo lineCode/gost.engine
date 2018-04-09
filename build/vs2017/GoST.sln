@@ -62,6 +62,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "05 Play sound", "05 Play so
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "06 3D", "06 3D.vcxproj", "{8E0F0F61-D33D-4118-B56A-46947CC20C6F}"
+	ProjectSection(ProjectDependencies) = postProject
+		{69097B78-4444-4EC8-B1E5-802DE16C3AD8} = {69097B78-4444-4EC8-B1E5-802DE16C3AD8}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shaders", "Shaders", "{8672BE0E-B5BF-4807-9C24-BE5716249AD3}"
 	ProjectSection(SolutionItems) = preProject

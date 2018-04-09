@@ -252,10 +252,10 @@ gtAudioSource*	gtAudioSystemXAudio2_7::loadAudioSource( const gtString& fileName
 
 
 
-///	=========================================================
-///	=========================================================
-///	=========================================================
-///	=========================================================
+//	=========================================================
+//	=========================================================
+//	=========================================================
+//	=========================================================
 
 gtAudioSystemXAudio2_7::gtAudioObjectImpl::gtAudioObjectImpl( gtAudioSource * src ):
 	m_source( src ),
@@ -405,7 +405,7 @@ void gtAudioSystemXAudio2_7::gtAudioObjectImpl::setLoop( bool loop ){
 	m_sourceImpl->getXAUDIO2_BUFFER().LoopCount = loop ? XAUDIO2_LOOP_INFINITE : 0;
 }
 
-///???
+//???
 void gtAudioSystemXAudio2_7::gtAudioObjectImpl::setAudioSource( gtAudioSource* /*source*/ ){
 }
 

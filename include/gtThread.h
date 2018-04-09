@@ -26,39 +26,39 @@ namespace gost{
 
 	public:
 	
-			/// Constructor
+			// Constructor
 		gtThread( void ):
 			m_status( gtThreadStatus::not_started ),
 			m_id( 0u )
 		{};
 
-			///	Destructor
+			//	Destructor
 		virtual ~gtThread( void ){};
 
 
 		typedef void * (GT_CDECL *StartFunction)(void*);
 
 
-			///	Start new thread
-			///	\param f: Function for new thread
-			///	\param args: Arguments
-			///	\param stackSize: Stack size. 0 means default stack size.
-			///	\return \b true if done
+			//	Start new thread
+			//	\param f: Function for new thread
+			//	\param args: Arguments
+			//	\param stackSize: Stack size. 0 means default stack size.
+			//	\return \b true if done
 		virtual bool start( StartFunction f, void* args, u32 stackSize = 0 ) = 0;
 
-			///	Wait for the thread will be complete.
+			//	Wait for the thread will be complete.
 		virtual void join( void ) = 0;
 
-			///	Get handle
-			///	\return handle
+			//	Get handle
+			//	\return handle
 		virtual void * getHandle( void ) = 0;
 
-			///	Get current status
-			///	\return \see gtThreadStatus
+			//	Get current status
+			//	\return \see gtThreadStatus
 		gtThreadStatus status( void ){ return m_status; }
 
-			/// Get thread id
-			///	\return thread id
+			// Get thread id
+			//	\return thread id
 		u32	id( void ){ return m_id; }
 
 	};

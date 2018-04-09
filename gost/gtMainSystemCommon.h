@@ -11,7 +11,7 @@
 namespace gost{
 
 	
-		///	Общий класс для конкретных реализаций gtMainSystem
+		//	Общий класс для конкретных реализаций gtMainSystem
 	class gtLogerImpl;
 
 	class gtMainSystemCommon : public gtMainSystem{
@@ -51,19 +51,22 @@ namespace gost{
 
 		}m_memTable;
 
+
+		gtArray<gtDriver*>	m_drivers;
+
 	protected:
 
 		gtPtr<gtOutputWindow>	m_output_window;
 		gtList< gtPtr< gtWindow > > m_windowCache;
 
 
-			///	параметры главной системы
+			//	параметры главной системы
 		gtDeviceCreationParameters	m_params;
 
-			///	она возвращается в методе update
+			//	она возвращается в методе update
 		bool	m_isRun;
 		
-			///	объект для вывода стека вызова функций
+			//	объект для вывода стека вызова функций
 		gtStackTrace* m_stackTracer;
 		
 		u32 m_systemWindowCount;
@@ -101,18 +104,18 @@ namespace gost{
 
 		gtLoger*		getLoger( void );
 
-			///	так как трейсеру нужно окно вывода, а это окно создаётся чуть позже выделения памяти для него
-			///	то, после создания окна, вызывается эта функция, чтобы можно было дать трейсеру
-			///	инициализированный объект окна
+			//	так как трейсеру нужно окно вывода, а это окно создаётся чуть позже выделения памяти для него
+			//	то, после создания окна, вызывается эта функция, чтобы можно было дать трейсеру
+			//	инициализированный объект окна
 		void initStackTracer( void );
 
 		void initEventSystem( void );
 
-			///	возвратит указатель на gtMainSystem
-			///	альтернатива this так как this не работает в статических методах
+			//	возвратит указатель на gtMainSystem
+			//	альтернатива this так как this не работает в статических методах
 		static gtMainSystemCommon * getInstance( void );
 			
-			///	возвратит StackTracer
+			//	возвратит StackTracer
 		gtStackTrace*	getStackTracer( void );
 
 		
@@ -126,11 +129,11 @@ namespace gost{
 		void	freeMemory( void** data );
 
 		
-		gtImage*	loadImage( const gtString& fileName );
+		gtPtr<gtImage>	loadImage( const gtString& fileName );
 
-		gtImage*	loadImage( const gtString& fileName, const gtString& pluginGUID );
+		gtPtr<gtImage>	loadImage( const gtString& fileName, const gtString& pluginGUID );
 
-		void		removeImage( gtImage* );
+	//	void		removeImage( gtImage* );
 
 		void		addEvent( const gtEvent&, u8 prior = 0u );
 
@@ -157,6 +160,8 @@ namespace gost{
 
 		gtPtr<gtXMLDocument> XMLRead( const gtString& file );
 		void XMLWrite( const gtString& file, gtXMLNode* rootNode, bool utf8 = false );
+		u32 getLoadedVideoDriverCount( void );
+		gtDriver* getLoadedVideoDriver( u32 id );
 	};
 
 #define gtLog gtMainSystemCommon::s_loger

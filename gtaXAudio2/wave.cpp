@@ -102,7 +102,7 @@ void	WavStreamFunc( void * arg ){
 		args->sourceVoice->Start( 0, XAUDIO2_COMMIT_ALL );
 		while( *args->currentPosition < args->waveLength ){
 
-				///	Read-only operation
+				//	Read-only operation
 			if( !mainSystem->isRun() ) break;
 		
 			u32 reads = file->read( buffers[ args->currentDiskReadBuffer ], STREAMING_BUFFER_SIZE );
@@ -158,7 +158,7 @@ void Wave::setPos( f32 p ){
 	f32 res = (f64)m_header.subchunk2Size * p;
 	m_position = (DWORD)res;
 
-		///	align
+		//	align
 	if( m_position & 0x000001 ) m_position++;
 
 	m_playBackCommand	=	PlayBackCommand::PBC_SETPOS;

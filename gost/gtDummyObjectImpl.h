@@ -4,11 +4,11 @@
 */
 #pragma once
 #ifndef __GT_DUMMY_OBJECT_IMPL_H__
-#define __GT_DUMMY_OBJECT_IMPL_H__ ///< include guard
+#define __GT_DUMMY_OBJECT_IMPL_H__ //< include guard
 
 namespace gost{
 
-		/// object with transformation matrices
+		// object with transformation matrices
 	class gtDummyObjectImpl : public gtDummyObject{
 		
 		gtObjectType m_type;

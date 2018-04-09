@@ -96,7 +96,25 @@ gtPtr<gtDriver> gtMainSystemCommon::createVideoDriver( /*gtPlugin* videoDriverPl
 		return nullptr;
 	}
 
-	return gtPtr<gtDriver>(((gtPluginRender*)plugin)->loadDriver( params ));
+
+	gtDriver * d = ((gtPluginRender*)plugin)->loadDriver( params );
+
+	if( d )
+		m_drivers.push_back( d );
+
+	return gtPtrNew<gtDriver>(d);
+}
+
+u32 gtMainSystemCommon::getLoadedVideoDriverCount( void ){
+	return m_drivers.size();
+}
+
+gtDriver* gtMainSystemCommon::getLoadedVideoDriver( u32 id ){
+	if( m_drivers.size() ){
+		GT_ASSERT2( id < m_drivers.size(), "id < m_drivers.size()" );
+		return m_drivers[ id ];
+	}
+	return nullptr;
 }
 
 	//	Выделяет память размером size. Для освобождения нужно вызвать freeMemory
@@ -122,28 +140,22 @@ void gtMainSystemCommon::freeMemory( void** data ){
 }
 
 	//	Загрузит gtImage, если расширение поддерживается хоть каким-то плагином
-gtImage*	gtMainSystemCommon::loadImage( const gtString& fileName ){
-	gtPtr<gtImage> image = gtPtrNew<gtImage>( this->m_pluginSystem->importImage( fileName ) );
-	if( !image.data() ) return nullptr;
-	image->addRef();
-	return image.data();
+gtPtr<gtImage>	gtMainSystemCommon::loadImage( const gtString& fileName ){
+	return gtPtrNew<gtImage>( this->m_pluginSystem->importImage( fileName ) );
 }
 
 	//	Загрузит gtImage плагином имеющим указанный код
-gtImage*	gtMainSystemCommon::loadImage( const gtString& fileName, const gtString& pluginGUID ){
-	gtPtr<gtImage> image = gtPtrNew<gtImage>( this->m_pluginSystem->importImage( fileName, pluginGUID, true ) );
-	if( !image.data() ) return nullptr;
-	image->addRef();
-	return image.data();
+gtPtr<gtImage>	gtMainSystemCommon::loadImage( const gtString& fileName, const gtString& pluginGUID ){
+	return gtPtrNew<gtImage>( this->m_pluginSystem->importImage( fileName, pluginGUID, true ) );
 }
 
 	//	Удаляет картинку из памяти
-void		gtMainSystemCommon::removeImage( gtImage* image ){
-	if( image ){
-		image->release();
-		image = nullptr;
-	}
-}
+//void		gtMainSystemCommon::removeImage( gtImage* image ){
+//	if( image ){
+//		image->release();
+//		image = nullptr;
+//	}
+//}
 
 	//	добавить событие. inFront если вперёд.
 void		gtMainSystemCommon::addEvent( const gtEvent& ev, u8 prior ){
@@ -272,7 +284,7 @@ gtPtr<gtAudioSystem> gtMainSystemCommon::createAudioSystem( const gtString& uid 
 
 	pluginAudio = ps->getAsPluginAudio( plugin );
 	//return pluginAudio->loadAudioDriver();
-	return gtPtr<gtAudioSystem>( pluginAudio->loadAudioDriver() );
+	return gtPtrNew<gtAudioSystem>( pluginAudio->loadAudioDriver() );
 }
 
 gtPtr<gtXMLDocument> gtMainSystemCommon::XMLRead( const gtString& file ){
@@ -292,8 +304,8 @@ gtPtr<gtXMLDocument> gtMainSystemCommon::XMLRead( const gtString& file ){
 		return nullptr;
 	}
 
-	//xml->addRef();
-	return gtPtr<gtXMLDocument>( xml.data() );
+	xml->addRef();
+	return gtPtrNew<gtXMLDocument>( xml.data() );
 }
 
 void writeText( gtString& outText, const gtString& inText ){

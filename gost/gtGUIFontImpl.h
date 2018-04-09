@@ -7,20 +7,24 @@ namespace gost{
 	class gtGUIFontImpl : public gtGUIFont{
 
 		struct character_base{
-			char16_t		c;
+			character_base():/*c(0),*/texture_id(0u){}
+			//char16_t		c;
 			gtVector4<u16>	coords;
+			s16 texture_id; 
 		};
 			
 
-		struct character{
+		/*struct character{
 			character():ch(nullptr){}
 			~character(){
 				if(ch)
 					delete ch;
 			}
 			character_base * ch;
-		}/***m_chars*/;
-		gtArray<character*> m_chars;
+		};*/
+
+		//gtArray<character*> m_chars;
+		gtArray<character_base*> m_chars;
 
 		gtDriver * m_driver;
 
@@ -36,6 +40,11 @@ namespace gost{
 
 		bool init( const gtString& font );
 
+		void render();
+
+		gtTexture *			getTexture( u32 id );
+		u32					getTextureID( char16_t c );
+		gtVector4<u16>*		getRect( char16_t c );
 	};
 
 }

@@ -28,10 +28,10 @@ namespace gost{
 		static LRESULT CALLBACK
 			OutWndProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam );
 
-			///	очистить окно
+			//	очистить окно
 		void clear_buffer( void );
 
-			///	сохранить всё что есть в окне в файл
+			//	сохранить всё что есть в окне в файл
 		void save( void );
 
 	public:

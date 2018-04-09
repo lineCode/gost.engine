@@ -7,13 +7,13 @@
 
 #pragma once
 #ifndef __GT_SPRITE_H__
-#define __GT_SPRITE_H__ ///< include guard
+#define __GT_SPRITE_H__ //< include guard
 
 namespace gost{
 
 	class gtDriver;
 
-		///	2D картинка с возможностью создания анимации
+		//	2D картинка с возможностью создания анимации
 	class gtSprite : public gtGameObject{
 
 		gtObjectType m_type;			//< тип объекта
@@ -24,7 +24,7 @@ namespace gost{
 		gtMaterial	 m_material;		//< материал
 		gtTexture *  m_texture;			//< текстура
 
-		gtRenderModel* m_rModel;		//< модель
+		gtPtr<gtRenderModel> m_rModel;		//< модель
 
 		gtMainSystem * m_system;		//< указатель на главную систему
 		gtDriver * m_driver;			//< указатель на видео драйвер, который владеет hardware буферами данного спрайта
@@ -44,10 +44,10 @@ namespace gost{
 
 	public:
 
-			///	создаёт спрайт
-			/// \param t: текстура
-			/// \param size: ширина и высота
-			/// \param d: видео драйвер который будет создавать спрайт
+			//	создаёт спрайт
+			// \param t: текстура
+			// \param size: ширина и высота
+			// \param d: видео драйвер который будет создавать спрайт
 		gtSprite( gtTexture * t, const v2f& size, gtDriver * d ):
 			m_type( gtObjectType::SPRITE ),
 			m_rModel( nullptr ),
@@ -61,7 +61,7 @@ namespace gost{
 			m_debugName.assign(u"gtSprite");
 #endif
 			m_system = gtMainSystem::getInstance();
-			gtModel* model = m_system->getModelSystem()->createPlane( size.y, size.x, gtSide::FRONT );
+			auto model = m_system->getModelSystem()->createPlane( size.y, size.x, gtSide::FRONT );
 
 			model->getSubModel( 0u )->m_material.textureLayer[ 0u ].texture = t;
 			model->getSubModel( 0u )->m_material.type = gtMaterialType::Sprite;
@@ -72,7 +72,7 @@ namespace gost{
 
 			m_texture = t;
 
-			m_rModel = d->createModel( model );
+			m_rModel = d->createModel( model.data() ).data();
 
 			m_aabb = *m_rModel->getAabb();
 			m_obb = *m_rModel->getObb();
@@ -90,19 +90,10 @@ namespace gost{
 
 			resetAnimation( true );
 
-			if( model )	model->release();
-			
 		}
 
-			/// d-tor
+			// d-tor
 		virtual ~gtSprite( void ){
-			
-			if( m_rModel ){
-				m_rModel->release();
-				m_rModel = nullptr;
-			}
-
-			
 		}
 
 		gtAabb*				getAabb( void ){
@@ -113,20 +104,20 @@ namespace gost{
 			return &m_obb;
 		}
 
-			/// Получить тип объекта
-			/// \return Вернёт тип объекта
+			// Получить тип объекта
+			// \return Вернёт тип объекта
 		gtObjectType getType( void ){
 			return m_type;
 		}
 
 		
-			/// Получить текстуру
-			/// \return Вернёт текстуру
+			// Получить текстуру
+			// \return Вернёт текстуру
 		gtTexture*	getTexture( void ){
 			return m_material.textureLayer[ 0u ].texture;
 		}
 
-			/// Обновит матрицы
+			// Обновит матрицы
 		void update( void ){
 			gtMatrix4 translationMatrix;
 			math::makeTranslationMatrix( translationMatrix, m_position );
@@ -156,34 +147,34 @@ namespace gost{
 
 		}
 
-			/// Инвертирует по горизонтали
-			/// \param v: \b true если нужно инвертировать
+			// Инвертирует по горизонтали
+			// \param v: \b true если нужно инвертировать
 		void inverseHorizontal( bool v ){
 			m_inverseHorizontal = v;
 		}
 
-			/// Проиграть анимацию задом наперёд
-			/// \param v: \b true если нужно проиграть анимацию задом наперёд
+			// Проиграть анимацию задом наперёд
+			// \param v: \b true если нужно проиграть анимацию задом наперёд
 		void setReverse( bool v ){
 			m_animation.setReverse( v );
 		}
 
-			/// Инвертировано ли по горизонтали
-			/// \return \b true если инвертировано ли по горизонтали
+			// Инвертировано ли по горизонтали
+			// \return \b true если инвертировано ли по горизонтали
 		bool isInverseHorizontal( void ){
 			return m_inverseHorizontal;
 		}
 
-			/// Нарисует спрайт.
+			// Нарисует спрайт.
 		void render( void ){
 			if( m_isVisible ){
 				updateAnimation();
-				m_driver->drawModel( m_rModel );
+				m_driver->drawModel( m_rModel.data() );
 			}
 		}
 
-			/// Добавит кадр.
-			/// \param rect: координаты левого верхнего и правого нижнего углов
+			// Добавит кадр.
+			// \param rect: координаты левого верхнего и правого нижнего углов
 		void addFrame( const v4u& rect ){
 
 			v2f lt, rb;
@@ -214,9 +205,9 @@ namespace gost{
 			m_animation.setLoopSegment( ls->x, m_frames.size() - 1u );
 		}
 
-			/// Удалит анимацию и установит текущий кадр
-			/// \param full: если \b true то будет показана вся картинка
-			/// \param rect: если \b full == \b false то картинка будет указано по этим координатам. Левый верхний и правый нижний угол.
+			// Удалит анимацию и установит текущий кадр
+			// \param full: если \b true то будет показана вся картинка
+			// \param rect: если \b full == \b false то картинка будет указано по этим координатам. Левый верхний и правый нижний угол.
 		void resetAnimation( bool full = true, const v4u& rect = v4u() ){
 			m_animation.clear();
 			m_frames.clear();
@@ -229,71 +220,71 @@ namespace gost{
 				addFrame( rect );
 		}
 
-			/// Получить текущий кадр
-			/// \return Вернёт текущий кадр
+			// Получить текущий кадр
+			// \return Вернёт текущий кадр
 		u32 getCurrentFrame( void ){
 			return m_animation.getCurrentFrame();
 		}
 
-			/// Получить координаты текущего кадра
-			/// \return Координаты текущего кадра
+			// Получить координаты текущего кадра
+			// \return Координаты текущего кадра
 		const v8f& getFrame( u32 id ){
 			return m_frames[ id ];
 		}
 
-			/// Включено ли зацикливание анимации
-			/// \return Вернёт \b true если зацикливание включёно
+			// Включено ли зацикливание анимации
+			// \return Вернёт \b true если зацикливание включёно
 		bool isLoop( void ) const {
 			return m_animation.isLoop();
 		}
 
-			/// Воспроизводится ли анимация
-			/// \return Вернёт \b true если анимация воспроизводится
+			// Воспроизводится ли анимация
+			// \return Вернёт \b true если анимация воспроизводится
 		bool isPlay( void ) const {
 			return m_animation.isPlay();
 		}
 
-			/// Установить зацикливание анимации
-			/// \param value: \b true если нужно зациклить анимацию
+			// Установить зацикливание анимации
+			// \param value: \b true если нужно зациклить анимацию
 		void setLoop( bool value = true ){
 			m_animation.setLoop( value );
 		}
 
-			/// Установить сегмент анимации, начало и конец.
-			/// \param begin: начальный кадр
-			/// \param end: завершающий кадр
+			// Установить сегмент анимации, начало и конец.
+			// \param begin: начальный кадр
+			// \param end: завершающий кадр
 		void setLoopSegment( u32 begin, u32 end ){
 			m_animation.setLoopSegment( begin, end );
 		}
 
-			/// Получить номер текущего кадра
-			/// \return Вернёт номер текущего кадра
+			// Получить номер текущего кадра
+			// \return Вернёт номер текущего кадра
 		u32 getFrameID( void ) const {
 			return m_animation.getCurrentFrame();
 		}
 
-			/// Включить воспроизведение анимации
+			// Включить воспроизведение анимации
 		void playAnimation( void ){
 			m_animation.play();
 		}
 			
-			/// Приостановить анимацию
+			// Приостановить анимацию
 		void pauseAnimation( void ){
 			m_animation.pause();
 		}
 
-			/// Остановить анимацию
+			// Остановить анимацию
 		void stopAnimation( void ){
 			m_animation.stop();
 		}
 
-			/// Установить текущий кадр
-			/// \param frame: номер кадра
+			// Установить текущий кадр
+			// \param frame: номер кадра
 		void setFrame( u32 frame ){
 			m_animation.setCurrentFrame( frame );
 		}
 
-			/// Обновить анимацию
+			// Обновить анимацию
 		void updateAnimation( void ){
 			u32 t1 = 0u;
 			static u32 t2 = 0u;
@@ -314,10 +305,10 @@ namespace gost{
 			}
 		}
 
-			/// Создать анимацию
-			/// \param numOfFrames: количество кадров
-			/// \param size: размер кадра
-			/// \param directionIsHorizontal: анимация в атласе указана по горизонтали. Так как обычно она и так указана по горизонтали, то встаёт вопрос о нужности этого \b bool по этому не реализована функция прохода по вертикали
+			// Создать анимацию
+			// \param numOfFrames: количество кадров
+			// \param size: размер кадра
+			// \param directionIsHorizontal: анимация в атласе указана по горизонтали. Так как обычно она и так указана по горизонтали, то встаёт вопрос о нужности этого \b bool по этому не реализована функция прохода по вертикали
 		void createAnimation( u32 numOfFrames, const v2u& size, bool directionIsHorizontal = true ){
 
 			m_animation.clear();
@@ -340,14 +331,14 @@ namespace gost{
 			}
 		}
 
-			/// Получить количество кадров в секунду
-			/// \return Вернёт количество кадров в секунду
+			// Получить количество кадров в секунду
+			// \return Вернёт количество кадров в секунду
 		f32	getFrameRate( void ) const {
 			return m_animation.getFrameRate();
 		}
 
-			/// Установить кадры в секунду
-			/// \param rate: кадры в секунду
+			// Установить кадры в секунду
+			// \param rate: кадры в секунду
 		void	setFrameRate( f32 rate ){
 			if( rate == 0 )
 				rate = 1;

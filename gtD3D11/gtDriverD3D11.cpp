@@ -21,6 +21,7 @@ gtDriverD3D11::gtDriverD3D11( /*gtMainSystem* System,*/ gtDriverInfo params ):
 	m_blendStateAlphaDisabled( nullptr ),
 	m_shader2DStandart( nullptr ),
 	m_shader3DStandart( nullptr ),
+	m_shaderGUI( nullptr ),
 	m_shaderSprite( nullptr ),
 	m_shaderLine( nullptr )
 {
@@ -67,6 +68,9 @@ gtDriverD3D11::~gtDriverD3D11( void ){
 
 	if( m_shader3DStandart )
 		m_shader3DStandart->release();
+
+	if( m_shaderGUI )
+		m_shaderGUI->release();
 
 	if( m_shader2DStandart )
 		m_shader2DStandart->release();
@@ -125,6 +129,14 @@ HMODULE gtDriverD3D11::getD3DLibraryHandle( void ){
 
 ID3D11Device * gtDriverD3D11::getD3DDevice( void ){
 	return m_d3d11Device;
+}
+
+void	gtDriverD3D11::setDepthState( bool state ){
+	if( state ){
+		m_d3d11DevCon->OMSetDepthStencilState( this->m_depthStencilStateEnabled, 0 );
+	}else{
+		m_d3d11DevCon->OMSetDepthStencilState( this->m_depthStencilStateDisabled, 0 );
+	}
 }
 
 ID3D11DeviceContext * gtDriverD3D11::getD3DDeviceContext( void ){
@@ -413,7 +425,7 @@ void	gtDriverD3D11::createStandartTexture( void ){
 
 	image::fillCheckerBoard( i, false, gtColor(u8(255),48,224), gtColor(u8(0),0,0) );
 
-	m_standartTexture = gtPtrNew<gtTexture>( this->createTexture( i, gtTextureFilterType::FILTER_PPP ) );
+	m_standartTexture = this->createTexture( i, gtTextureFilterType::FILTER_PPP );
 
 	gtMainSystem::getInstance()->freeMemory( (void**)&i->data );
 	delete i;
@@ -670,6 +682,9 @@ void gtDriverD3D11::drawModel( gtRenderModel* model ){
 		if( !shader ){
 
 			switch( material->type ){
+			case gtMaterialType::GUI:
+				shader = m_shaderGUI;
+				break;
 			case gtMaterialType::Standart:
 			default:
 				shader = m_shader3DStandart;
@@ -915,34 +930,35 @@ gtShader *	gtDriverD3D11::getShader(
 }
 
 	//	Создаёт текстуру из gtImage
-gtTexture*	gtDriverD3D11::createTexture( gtImage* image, gtTextureFilterType filter ){
-	GT_ASSERT2( image, "image!=nullptr" );
+gtPtr<gtTexture>	gtDriverD3D11::createTexture( gtImage* image, gtTextureFilterType filter ){
+	GT_ASSERT2( image, "gtImage != nullptr" );
 
-	gtPtr<gtTextureD3D11> texture = gtPtrNew<gtTextureD3D11>( new gtTextureD3D11( this ) );
+	auto ptr = new gtTextureD3D11( this );
+	gtPtr<gtTexture> texture = gtPtrNew<gtTexture>( ptr );
 
-	if( !texture->init( image, filter ) ){
+	if( !ptr->init( image, filter ) ){
 		gtLogWriter::printWarning( u"Can not init D3D11 texture" );
 		return nullptr;
 	}
 
-	texture->addRef();
-
-	return texture.data();
+//	texture->addRef();
+	 
+	return texture;
 }
 
 	//	Создаёт модель для рисования
-gtRenderModel*	gtDriverD3D11::createModel( gtModel* m ){
+gtPtr<gtRenderModel>	gtDriverD3D11::createModel( gtModel* m ){
 	GT_ASSERT2( m, "gtModel != nullptr" );
 
-	gtPtr<gtRenderModelD3D11> model = gtPtrNew<gtRenderModelD3D11>( new gtRenderModelD3D11( this ) );
+	auto ptr = new gtRenderModelD3D11( this );
+	gtPtr<gtRenderModel> model = gtPtrNew<gtRenderModel>( ptr );
 
-	if( !model->init( m ) ){
+	if( !ptr->init( m ) ){
 		gtLogWriter::printWarning( u"Can not init D3D11 model" );
 		return nullptr;
 	}
 
-	model->addRef();
-	return model.data();
+	return model;
 }
 
 
@@ -982,13 +998,19 @@ bool	gtDriverD3D11::createShaders( void ){
 	};
 	
 	m_shader3DStandartCallback = gtPtrNew<gtD3D11StandartShaderCallback>( new gtD3D11StandartShaderCallback );
+	m_shaderGUICallback = gtPtrNew<gtD3D11GUIShaderCallback>( new gtD3D11GUIShaderCallback );
 	m_shaderSpriteCallback = gtPtrNew<gtD3D11SpriteShaderCallback>( new gtD3D11SpriteShaderCallback );
 	m_shaderLineCallback = gtPtrNew<gtD3D11LineShaderCallback>( new gtD3D11LineShaderCallback );
 
 	m_shader3DStandart = getShader( m_shader3DStandartCallback.data(), u"../shaders/3d_basic.hlsl", "VSMain",
 		u"../shaders/3d_basic.hlsl", "PSMain", shaderModel, vertexType3D );
+	
+	m_shaderGUI = getShader( m_shaderGUICallback.data(), u"../shaders/GUI.hlsl", "VSMain",
+		u"../shaders/GUI.hlsl", "PSMain", shaderModel, vertexType3D );
+
 	m_shaderSprite = getShader( m_shaderSpriteCallback.data(), u"../shaders/sprite.hlsl", "VSMain",
 		u"../shaders/sprite.hlsl", "PSMain", shaderModel, vertexType3D );
+
 	m_shaderLine = getShader( m_shaderLineCallback.data(), u"../shaders/line.hlsl", "VSMain",
 		u"../shaders/line.hlsl", "PSMain", shaderModel, vertexType2D );
 
@@ -1001,7 +1023,7 @@ bool	gtDriverD3D11::createShaders( void ){
 
 
 /*
-Copyright (c) 2017, 2018 532235
+Copyright (c) 2017-2018 532235
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
 and associated documentation files (the "Software"), to deal in the Software without restriction, 

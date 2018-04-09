@@ -5,34 +5,34 @@
 
 #pragma once
 #ifndef __GT_BASE_OBJECT_H__
-#define __GT_BASE_OBJECT_H__ ///< include guard
+#define __GT_BASE_OBJECT_H__ //< include guard
 
 namespace gost{
 
-	/// Все объекты движка наследуют его через gtRefObject
+	// Все объекты движка наследуют его через gtRefObject
 	class gtBaseObject{
 	protected:
 
-		///	ненужно создавать объект вручную
+		//	ненужно создавать объект вручную
 		GT_FORCE_INLINE gtBaseObject( void ){}
-		/// \cond
+		// \cond
 #if defined(GT_DEBUG)
-		/// \endcond
-		///	в дебагере, например в методе gtPtr::release может понадобится знать, какой объект уничтожается
+		// \endcond
+		//	в дебагере, например в методе gtPtr::release может понадобится знать, какой объект уничтожается
 		gtString m_debugName;
 #endif
 
 	public:
 
-			///	c-tor
+			//	c-tor
 		virtual ~gtBaseObject( void ){}
 			
-			///	d-tor
+			//	d-tor
 		virtual void first_vtable_function( void ){}
 
-		/// \cond
+		// \cond
 #if defined(GT_DEBUG)
-		/// \endcond
+		// \endcond
 
 		/**
 

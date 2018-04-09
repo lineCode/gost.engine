@@ -6,20 +6,44 @@ namespace gost{
 
 	class gtGUIStaticTextImpl : public gtGUIStaticText{
 
+		struct bufferInfo{
+			bufferInfo(u32 tid,gtSubModel*sm):texture_id(tid),sub(sm){}
+			u32 texture_id;
+			gtSubModel* sub;
+		};
+		 
+		gtArray<bufferInfo> m_bufferInfo;
+
 		gtString m_text;
-		gtGUIFont * m_font;
+		gtGUIFontImpl * m_font;
 
 		gtArray<gtRenderModel*> m_buffers; //то что идёт на отрисовку. Зависит от используемого символа и количества текстур для gtGUIFont
 
+		gtMainSystem * m_mainSystem;
+		gtModelSystem* m_modelSystem;
+		gtDriver*	   m_driver;	
+
+		v2i m_position;
+
 	public:
 
-		gtGUIStaticTextImpl( void );
+		gtGUIStaticTextImpl( gtDriver* d );
 		~gtGUIStaticTextImpl( void );
 		bool init( const gtString& text, s32 positionX, s32 positionY );
 
 
+
 		void setFont( gtGUIFont * font );
+		void setFont( const gtPtr<gtGUIFont>& font );
+
 		void setText( const gtString& text );
+
+		void clear( void );
+
+
+		void render( void );
+
+
 	};
 
 }

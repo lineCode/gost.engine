@@ -5,11 +5,11 @@
 
 #pragma once
 #ifndef __GT_INPUT_H__
-#define __GT_INPUT_H__ ///< include guard
+#define __GT_INPUT_H__ //< include guard
 
 namespace gost{
 
-		///	Некоторые клавиши клавиатуры. С понятными названиями.
+		//	Некоторые клавиши клавиатуры. С понятными названиями.
 	enum class gtKey : u32 {
 		K_NONE			=	0,
 		K_BACKSPACE		=	8,
@@ -113,7 +113,7 @@ namespace gost{
 		K_COMMA			=	188, //,<
 		K_SUB			=	189, //-_
 		K_DOT			=	190, //.>
-		K_SLASH			=	191, ///?
+		K_SLASH			=	191, //?
 		K_TILDE			=	192, //`~
 		K_FIGURE_OPEN	=	219, //[{
 		K_BACKSLASH		=	220, //\|

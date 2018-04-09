@@ -1,38 +1,42 @@
-#include <gost.h>
+﻿#include <gost.h>
 
 using namespace gost;
+
+union Xu{
+	int i;
+};
+
+struct X{
+};
 
 #if defined( GT_PLATFORM_WIN32 )
 int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR /*lpCmdLine*/, int /*nCmdShow*/ ){
 #endif
 
 	auto mainSystem = InitializeGoSTEngine();
-	/// Alternative version. Use helper macros.
-	/// gtPtr_t(gtMainSystem,mainSystem,InitializeGoSTEngine(params));
 
 	auto * output = mainSystem->getOutputWindow();
 	output->print( u"Hello world" );
 
 
-	///	Create main window.
+	//	Create main window.
 	gtWindowInfo wi;
     wi.m_style |= gtWindowInfo::maximize;
     wi.m_style |= gtWindowInfo::resize;
+	//wi.m_rect.set( 0, 0, 1280, 1024 );
 	
 	auto window = mainSystem->createSystemWindow( wi );
 
-
-	///	Set up render plugin parameters.
+	 
+	//	Set up render plugin parameters.
 	gtDriverInfo di;
-	/// di.m_fullScreen	=	true;
-	///	di.m_backBufferSize	=	v2i_t( 1600, 900 ); /// Or calculate from wi.rect if you need.
-	///	di.m_vSync = true;
-	di.m_outWindow = window.data(); /// Set output window for rendering.
+//	di.m_backBufferSize.set( 1280, 1024 );
+	di.m_outWindow = window.data(); // Set output window for rendering.
 
-	///	Initialize graphics engine.
+	//	Initialize graphics engine.
 	auto driver = mainSystem->createVideoDriver( di, GT_UID_RENDER_D3D11 );
 	
-
+	 
 	gtArray<gtString> supportedImages;
 	gtArray<gtString> supportedModels;
 
@@ -51,48 +55,33 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 		output->print( supportedModels[ i ].c_str() );
 	}
 
-	gtGUISystem * guiSystem = mainSystem->getGUISystem( driver.data() );
 
-
-	auto font = guiSystem->createFont( u"../media/myfont.xml" );
-	auto text = guiSystem->createStaticText( u"test", 0, 0 );
-	text->setFont( font.data() );
-
-	/*gtPtr_t( gtXMLDocument, xml, mainSystem->XMLRead( gtFileSystem::getProgramPath() + u"compiler_dmd.xml" ) );
-	if( xml.data() ){
-		xml->print();
-		mainSystem->XMLWrite( u"out.xml", xml->getRootNode() );
-		gtArray<gtXMLNode*> arr = xml->selectNodes( u"/CodeBlocks_compiler/Path" );
-		u32 sz = arr.size();
-		if( sz ){
-			gtLogWriter::printInfo( u"Nodes:" );
-			for( u32 i = 0u; i < sz; ++i ){
-				gtLogWriter::printInfo( u"%s", arr[ i ]->attributeList[0u]->value.data() );
-			}
-		}
-	}*/
+	
 
 	while( mainSystem->update() ){
+
+		
 
 		//	If you do not use gtEventConsumer, use this method.
 		//	This method update all events in event queue.
 		while( mainSystem->pollEvent( gtEvent() ) );
 
-		///	This 'if' will help when program terminated
+		//	This 'if' will help when program terminated
 		if( mainSystem->isRun() ){
 
-			///	After 'pollEvent', you can get key state.
+			//	After 'pollEvent', you can get key state.
 			if( mainSystem->isKeyPressed( gtKey::K_ESCAPE ) ){
-				mainSystem->shutdown(); /// mainSystem->update() return false
+				mainSystem->shutdown(); // mainSystem->update() return false
 			}
 
-			///	Before starts rendering, call driver->beginRender
-			///	true - clear back buffer
-			driver->beginRender( true, gtColor( 0.7372549019607843f, 0.8901960784313725f, 1.f, 1.f ) ); /// RGBA.
-			// driver->beginRender( true, gtColor( 188, 227, 255, 255 ) ); /// RGBA
-			// driver->beginRender( true, gtColor( 0xFFBCE3FF ) ); /// ARGB
+			//	Before starts rendering, call driver->beginRender
+			//	true - clear back buffer
+			driver->beginRender( true, gtColor( 0.7372549019607843f, 0.8901960784313725f, 1.f, 1.f ) ); // RGBA.
+			// driver->beginRender( true, gtColor( 188, 227, 255, 255 ) ); // RGBA
+			// driver->beginRender( true, gtColor( 0xFFBCE3FF ) ); // ARGB
 
-			///	After rendering, call driver->endRender
+
+			//	After rendering, call driver->endRender
 			driver->endRender();
 		}
 	}
@@ -100,8 +89,8 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 	return 0;
 }
 
-///	If you want use your own output window, or want use printf family functions, this class show you how to do it.
-/// Put this code after line with #include <Windows.h>
+//	If you want use your own output window, or want use printf family functions, this class show you how to do it.
+// Put this code after line with #include <Windows.h>
 
 /*
 class CustomOutput : public gtOutputWindow {

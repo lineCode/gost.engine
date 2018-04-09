@@ -4,11 +4,11 @@
 */
 #pragma once
 #ifndef __GT_AUDIO_SOURCE_H__
-#define __GT_AUDIO_SOURCE_H__ ///< include guard
+#define __GT_AUDIO_SOURCE_H__ //< include guard
 
 namespace gost{
 
-		///	Information about audio
+		//	Information about audio
 	struct gtAudioSourceInfo{
 		gtAudioSourceInfo( void ):
 			m_formatType( 0u ),
@@ -19,41 +19,41 @@ namespace gost{
 			m_bitsPerSample( 0u )
 		{}
 
-		u32		m_formatType;	///< for XAudio2 - 1 - PCM
-		u32		m_channels;		///< number of channels (i.e. mono, stereo...)
-		u32		m_sampleRate;	///< 44100 et.c.
-		u32		m_bytesPerSec;	///<
-		u32		m_blockAlign;	///<
-		u32		m_bitsPerSample;///< 16bits
+		u32		m_formatType;	//< for XAudio2 - 1 - PCM
+		u32		m_channels;		//< number of channels (i.e. mono, stereo...)
+		u32		m_sampleRate;	//< 44100 et.c.
+		u32		m_bytesPerSec;	//<
+		u32		m_blockAlign;	//<
+		u32		m_bitsPerSample;//< 16bits
 	};
 
-		///	Audio source
+		//	Audio source
 	class gtAudioSource : public gtRefObject{
 
-			///	Information
+			//	Information
 		gtAudioSourceInfo m_info;
 
-			///	Raw data
+			//	Raw data
 		u8	*	m_data;
 
-			///	Size
+			//	Size
 		u32		m_dataSize;
 	public:
 
-			///	Constructor
+			//	Constructor
 		gtAudioSource( void ):
 			m_data( nullptr ),
 			m_dataSize( 0u )
 		{}
 
-			///	Destructor
+			//	Destructor
 		virtual ~gtAudioSource( void ){
 			if( m_data ){
 				delete []m_data;
 			}
 		}
 
-			///	Allocate memory
+			//	Allocate memory
 		void allocate( u32 size ){
 			if( !m_data ){
 				m_data = new u8[ size ];
@@ -61,28 +61,28 @@ namespace gost{
 			}
 		}
 
-			///	Set data
+			//	Set data
 		void setRawData( u8 * data, u32 sz ){
 			m_data = data;
 			m_dataSize = sz;
 		}
 
-			///	Get info
+			//	Get info
 		const gtAudioSourceInfo& getInfo( void ) const {
 			return m_info;
 		}
 
-			///	Set info
+			//	Set info
 		void setInfo( const gtAudioSourceInfo& info ){
 			m_info = info;
 		}
 
-			/// Get raw data
+			// Get raw data
 		u8	*	getData( void ){
 			return m_data;
 		}
 
-			///	Get data size
+			//	Get data size
 		u32 getDataSize( void ){
 			return m_dataSize;
 		}

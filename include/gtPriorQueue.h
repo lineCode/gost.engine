@@ -4,7 +4,7 @@
 //#ifndef __GT_PRIOR_QUEUE_H__
 //#define __GT_PRIOR_QUEUE_H__
 //
-///*
+//*
 //*/
 //
 //namespace gost{

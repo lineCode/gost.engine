@@ -4,7 +4,8 @@
 
 
 gtLogerImpl::gtLogerImpl( void )
-: m_msgType(msgType::info){
+: m_msgType(msgType::info),
+m_out( nullptr ){
 #ifdef GT_DEBUG
 	m_debugName.assign(u"gtLogerImpl");
 #endif
@@ -13,12 +14,12 @@ gtLogerImpl::gtLogerImpl( void )
 gtLogerImpl::~gtLogerImpl( void ){
 }
 
-	///	напечатает форматированную строку
-	///	%f - float
-	///	%i - int
-	///	%u - unsigned
-	///	%s - char16_t*
-	///	%c - char16_t
+	//	напечатает форматированную строку
+	//	%f - float
+	//	%i - int
+	//	%u - unsigned
+	//	%s - char16_t*
+	//	%c - char16_t
 void gtLogerImpl::print( msgType type, char16_t* str, ... ){
 	gt_va_list args;
 	va_start( args, str );
@@ -48,7 +49,7 @@ void gtLogerImpl::print( msgType type, char16_t* str, void * p ){
 		file->write( message );
 		file->write( gtString(u"\r\n") );
 
-		if( m_out.data() )
+		if( m_out )
 			m_out->print( message );
 	}
 }
@@ -56,7 +57,7 @@ void gtLogerImpl::print( msgType type, char16_t* str, void * p ){
 void gtLogerImpl::deformat( const char16_t* fmt, 
 	gt_va_list& args, gtString& message ){
 
-	///	получаю размер строки fmt
+	//	получаю размер строки fmt
 	u32 len = 0U;
 	const char16_t* p = fmt;
 	do	{		++len;	} while(*p++);
@@ -109,19 +110,19 @@ void gtLogerImpl::deformat( const char16_t* fmt,
 
 }
 
-	///	установка окна, в которое будет выводится текст
+	//	установка окна, в которое будет выводится текст
 void gtLogerImpl::setOutputWindow( gtOutputWindow* out ){
 	m_out = out;
 }
 
-	///	info - будут все сообщения
-	///	warning - warning и error
-	///	error - только error
+	//	info - будут все сообщения
+	//	warning - warning и error
+	//	error - только error
 void gtLogerImpl::setInfoType( msgType type ){
 	m_msgType = type;
 }
 
-	///	Вывести сообщение об ошибке
+	//	Вывести сообщение об ошибке
 void gtLogWriter::printError( char16_t* str, ... ){
 	gt_va_list args;
 	va_start( args, str );
@@ -129,7 +130,7 @@ void gtLogWriter::printError( char16_t* str, ... ){
 	va_end( args );
 }
 
-	///	Вывести предупреждение
+	//	Вывести предупреждение
 void gtLogWriter::printWarning( char16_t* str, ... ){
 	gt_va_list args;
 	va_start( args, str );
@@ -137,7 +138,7 @@ void gtLogWriter::printWarning( char16_t* str, ... ){
 	va_end( args );
 }
 
-	///	Вывести информационное сообщение
+	//	Вывести информационное сообщение
 void gtLogWriter::printInfo( char16_t* str, ... ){
 	gt_va_list args;
 	va_start( args, str );

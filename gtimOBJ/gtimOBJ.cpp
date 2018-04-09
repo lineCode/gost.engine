@@ -130,7 +130,7 @@ extern "C"{
 			gtVertexType::end
 		};
 
-		gtPtr_t( gtModel, model, gtMainSystem::getInstance()->getModelSystem()->createEmpty( gtStrideStandart, &vt[ 0u ] ) );
+		auto model = gtMainSystem::getInstance()->getModelSystem()->createEmpty( gtStrideStandart, &vt[ 0u ] );
 
 		/*для удобства*/
 		struct vert_t{

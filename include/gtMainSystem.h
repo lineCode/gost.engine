@@ -5,7 +5,7 @@
 
 #pragma once
 #ifndef __GT_MAIN_SYSTEM_H__
-#define __GT_MAIN_SYSTEM_H__ ///< include guard
+#define __GT_MAIN_SYSTEM_H__ //< include guard
 
 namespace gost{
 
@@ -58,24 +58,24 @@ namespace gost{
 			m_fontName = u"consola.ttf";
 		}
 
-			/// d-tor
+			// d-tor
 		~gtDeviceCreationParameters( void ){}
 
-			/// Font for output window
+			// Font for output window
 		gtString			m_fontName;
 
-			///	Тип Операционной системы на которой будет работать программа
+			//	Тип Операционной системы на которой будет работать программа
 		gtDeviceType		m_device_type;
 
-			///	если nullptr то будет создано стандартное окно вывода
+			//	если nullptr то будет создано стандартное окно вывода
 		gtOutputWindow*		m_outputWindow;
 
-			/// user event consumer
+			// user event consumer
 		gtEventConsumer*	m_consumer;
 
 	};
 
-		///	Основной класс движка
+		//	Основной класс движка
 	class gtMainSystem : public gtRefObject{
 	public:
 
@@ -140,23 +140,21 @@ namespace gost{
 			//	Загрузит gtImage, если расширение поддерживается хоть каким-то плагином
 			//	\param fileName: path to the file
 			// \return image
-		virtual gtImage*	loadImage( const gtString& fileName ) = 0;
+		virtual gtPtr<gtImage>	loadImage( const gtString& fileName ) = 0;
 
 			//	Загрузит gtImage плагином имеющим указанный код
 			//	\param fileName: path to the file
 			//	\param pluginGUID: unique ID of plugin
 			// \return image
-		virtual gtImage*	loadImage( const gtString& fileName, const gtString& pluginGUID ) = 0;
+		virtual gtPtr<gtImage>	loadImage( const gtString& fileName, const gtString& pluginGUID ) = 0;
 
-			//	Удаляет картинку из памяти.
-			//	\attention Я не уверен, но, так как метод loadImage создаёт картинку в gost.dll, то она должна там же и удаляться. Быть может допустимо вызвать и \b release , я не проверял
-		virtual void		removeImage( gtImage* ) = 0;
+		//virtual void		removeImage( gtImage* ) = 0;
 
-			//	получит время прошедшее с момента запуска движка
+			//	получить время прошедшее с момента запуска движка
 			// \return time in millisecons
 		virtual u32			getTime( void ) = 0;
 
-			//	получит указатель на таймер
+			//	получить указатель на таймер
 			// \return timer
 		virtual gtTimer*	getTimer( void ) = 0;
 
@@ -242,6 +240,8 @@ namespace gost{
 
 		virtual void XMLWrite( const gtString& file, gtXMLNode* rootNode, bool utf8 = false ) = 0;
 
+		virtual u32 getLoadedVideoDriverCount( void ) = 0;
+		virtual gtDriver* getLoadedVideoDriver( u32 id ) = 0;
 			//	возвратит указатель на gtMainSystem, альтернатива this так как this не работает в статических методах
 			// \return gtMainSystem
 		GT_API static gtMainSystem* getInstance( void );

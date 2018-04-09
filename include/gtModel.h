@@ -4,35 +4,35 @@
 */
 #pragma once
 #ifndef __GT_MODEL_H__
-#define __GT_MODEL_H__ ///< include guard
+#define __GT_MODEL_H__ //< include guard
 
 namespace gost{
 	
-		///	software модель
+		//	software модель
 	class gtModel : public gtRefObject{
 	public:
 
-			///	создаст возвратит суб модель для редактирования
-			///	\param v_count: количество вершин
-			///	\param i_count: количество индексов
-			///	\param stride: размер вершины в байтах
+			//	создаст возвратит суб модель для редактирования
+			//	\param v_count: количество вершин
+			//	\param i_count: количество индексов
+			//	\param stride: размер вершины в байтах
 		virtual gtSubModel*	addSubModel( u32 v_count, u32 i_count, u32 stride ) = 0;
 
-			///	добавит новую суб модель (создаст, с выделением памяти)
-			/// \param subModel: sub model
+			//	добавит новую суб модель (создаст, с выделением памяти)
+			// \param subModel: sub model
 		virtual gtSubModel*	addSubModel( gtSubModel* subModel ) = 0;
 
-			/// Получить суб модель. Нужно учитывать количество суб моделей
-			/// \param id: sub model id
-			/// \return sub model
+			// Получить суб модель. Нужно учитывать количество суб моделей
+			// \param id: sub model id
+			// \return sub model
 		virtual gtSubModel*	getSubModel( u32 id ) = 0;
 
-			///	Вернёт количество мешбуфферов/субмоделей
-			/// \return sub model count
+			//	Вернёт количество мешбуфферов/субмоделей
+			// \return sub model count
 		virtual u32		getSubmodelsCount( void ) = 0;
 
-			///	Возврат количество байт на вершину
-			/// \return vertex size in bytes
+			//	Возврат количество байт на вершину
+			// \return vertex size in bytes
 		virtual u32		getStride( void ) = 0;
 
 
