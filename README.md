@@ -1,6 +1,8 @@
 # GoST
 2D/3D Game Engine based on plugins for C++11
 
+[![Imgur](https://i.imgur.com/HN7waAJ.gif)
+
 ## Features
 * D3D11 render plugin
 * .obj model import
