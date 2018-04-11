@@ -55,32 +55,11 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 	f32 angle = 0.f;
 
 	gtGUISystem * guiSystem = mainSystem->getGUISystem( driver.data() );
-	auto font = guiSystem->createFont( u"../media/myfont.xml" ); 
+	auto font = guiSystem->createFont( u"../media/fonts/NotoSans.xml" ); 
 	auto text = guiSystem->createStaticText( u"", 5, 25 );
 	text->setFont( font );
 
-	auto text2 = guiSystem->createStaticText( u"\
-Azərbaycanca\n\
-Башҡортса\n\
-Čeština\n\
-Чӑвашла\n\
-Ελληνικά\n\
-English\n\
-Español\n\
-Français\n\
-Հայերեն\n\
-日本語\n\
-ქართული\n\
-Қазақша\n\
-한국어\n\
-Latviešu\n\
-Português\n\
-Română\n\
-Türkçe\n\
-Татарча/tatarça\n\
-Українська\n\
-Tiếng Việt\n\
-中文",
+	auto text2 = guiSystem->createStaticText( u"Noto Sans Русский текст. きゃっかんてき<>",
 5, 50 );
 	text2->setFont( font );
 	

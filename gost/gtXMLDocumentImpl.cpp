@@ -13,7 +13,6 @@ m_isInit( false ){
 	m_expect_ex   = u"!";
 	m_cursor = m_sz = 0u;
 	m_tokens.setAddMemoryValue( 4096u );
-	m_tokens.reserve( 4096u );
 }
 
 gtXMLDocumentImpl::~gtXMLDocumentImpl( void ){
