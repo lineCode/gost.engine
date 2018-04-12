@@ -591,6 +591,14 @@ namespace gost{
 			w *= invLen;
 		}
 
+		Type getWidth( void ){
+			return z - x;
+		}
+
+		Type	getHeight( void ){
+			return w - y;
+		}
+
 		gtVector2< Type > getV2( void ){ return gtVector2< Type >( x, y ); }
 		gtVector3< Type > getV3( void ){ return gtVector3< Type >( x, y, z ); }
 	};

@@ -12,11 +12,12 @@ gtGUIStaticTextImpl::gtGUIStaticTextImpl( gtDriver* d ):
 }
 
 gtGUIStaticTextImpl::~gtGUIStaticTextImpl( void ){
+	clear();
 }
 
 void gtGUIStaticTextImpl::setFont( gtGUIFont * font ){
 	m_font = (gtGUIFontImpl*)font;
-	setText( m_text );
+	setText( gtString( m_text ) );
 }
 
 void gtGUIStaticTextImpl::setFont( const gtPtr<gtGUIFont>& font ){
@@ -24,9 +25,10 @@ void gtGUIStaticTextImpl::setFont( const gtPtr<gtGUIFont>& font ){
 	setText( gtString( m_text ) );
 }
 
-bool gtGUIStaticTextImpl::init( const gtString& text, s32 positionX, s32 positionY ){
-	setText( text );
+bool gtGUIStaticTextImpl::init( const gtString& text, s32 positionX, s32 positionY, gtGUIFont* font ){
 	m_position.set( positionX, positionY );
+	m_font = (gtGUIFontImpl*)font;
+	setText( text );
 	return true;
 }
 
@@ -62,10 +64,13 @@ void uvRectToUV( const rectType& rect, v2f * LT, v2f * RT, v2f * LB, v2f * RB, g
 }
 
 void gtGUIStaticTextImpl::setText( const gtString& text ){
+	GT_ASSERT3(m_driver);
+
+	clear();
 
 	m_text = text;
 
-	GT_ASSERT3(m_driver);
+	checkFont();
 
 	if( m_font ){
 
@@ -220,8 +225,8 @@ void gtGUIStaticTextImpl::setText( const gtString& text ){
 
 				u32 sz = m_bufferInfo.size();
 				for( u32 i = 0u; i < sz; ++i ){
-					auto * sub = m_bufferInfo[ i ].sub;
-					sub->move( v3f( move_x, move_y, 0.f ) );
+					auto * sub2 = m_bufferInfo[ i ].sub;
+					sub2->move( v3f( move_x, move_y, 0.f ) );
 				}
 
 				auto rm = m_driver->createModel( soft.data() );
@@ -240,7 +245,15 @@ void gtGUIStaticTextImpl::setText( const gtString& text ){
 	}
 }
 
+void gtGUIStaticTextImpl::checkFont( void ){
+	if( !m_font ){
+//		m_font = (gtGUIFontImpl*)((gtGUISystemImpl*)m_mainSystem->getGUISystem(m_driver))->getDefaultFont();
+		//m_font->setDriver( m_driver );
+	}
+}
+
 void gtGUIStaticTextImpl::render( void ){
+	checkFont();
 	u32 sz = m_buffers.size();
 	for( u32 i = 0u; i < sz; ++i ){
 		m_driver->drawModel( m_buffers[ i ] );

@@ -84,7 +84,7 @@ namespace gost{
 
 		gtMatrix4 m_WVP[ 3u ];
 
-		
+		gtDriver * m_driver;
 
 	public:
 
@@ -162,6 +162,8 @@ namespace gost{
 		void XMLWrite( const gtString& file, gtXMLNode* rootNode, bool utf8 = false );
 		u32 getLoadedVideoDriverCount( void );
 		gtDriver* getLoadedVideoDriver( u32 id );
+		gtDriver* getMainVideoDriver();
+		void setMainVideoDriver( gtDriver* d );
 	};
 
 #define gtLog gtMainSystemCommon::s_loger

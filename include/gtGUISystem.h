@@ -4,12 +4,16 @@
 
 namespace gost{
 
+	class gtImage;
 	class gtGUISystem : public gtRefObject{
 	public:
 
-		virtual gtPtr<gtGUIFont> createFont( const gtString& fontName ) = 0;
+			//	If `fromImage == true`, `fontName` must be full xml file in string
+		virtual gtPtr<gtGUIFont> createFont( const gtString& fontName, gtImage * fromImage = nullptr ) = 0;
+		virtual gtPtr<gtGUIFont> createBuiltInFont( void ) = 0;
 
-		virtual gtPtr<gtGUIStaticText> createStaticText( const gtString& text, s32 positionX, s32 positionY ) = 0;
+		virtual gtPtr<gtGUIStaticText> createStaticText( const gtString& text, s32 positionX, s32 positionY, gtGUIFont* font ) = 0;
+
 
 		virtual void setCurrentRenderDriver( gtDriver * driver ) = 0;
 	};

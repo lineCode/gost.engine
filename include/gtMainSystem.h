@@ -15,7 +15,6 @@ namespace gost{
 	struct gtWindowInfo;
 	class gtDriver;
 	struct gtDriverInfo;
-	struct gtImage;
 	class gtTimer;
 
 	class gtModel;
@@ -107,7 +106,7 @@ namespace gost{
 			//	Создаёт окно, которое можно использовать для рисования 3D сцены
 			// \param wi: window info
 			//	\return GoST window
-		virtual gtPtr<gtWindow>		createSystemWindow( const gtWindowInfo& wi ) = 0;
+		virtual gtPtr<gtWindow>		createSystemWindow( gtWindowInfo* wi ) = 0;
 
 			//	Инициализирует видео драйвер
 			// \param di: driver info
@@ -241,7 +240,13 @@ namespace gost{
 		virtual void XMLWrite( const gtString& file, gtXMLNode* rootNode, bool utf8 = false ) = 0;
 
 		virtual u32 getLoadedVideoDriverCount( void ) = 0;
+
 		virtual gtDriver* getLoadedVideoDriver( u32 id ) = 0;
+
+		virtual gtDriver* getMainVideoDriver( void ) = 0;
+
+		virtual void setMainVideoDriver( gtDriver* d ) = 0;
+
 			//	возвратит указатель на gtMainSystem, альтернатива this так как this не работает в статических методах
 			// \return gtMainSystem
 		GT_API static gtMainSystem* getInstance( void );

@@ -136,7 +136,8 @@ void	gtOutputWindowWin32::shutdown( void ){
 	DeleteObject( m_wc.hbrBackground );
 	DeleteObject( m_hbrEditBackground );
 	RemoveFontResource( L"consola.TTF" );
-	DestroyWindow( m_hWnd );	m_hWnd = nullptr;
+	DestroyWindow( m_hWnd );
+	m_hWnd = nullptr;
 	UnregisterClass( m_wc.lpszClassName, m_wc.hInstance );
 	m_isInit = false;
 }

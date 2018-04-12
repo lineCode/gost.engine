@@ -13,7 +13,8 @@ namespace gost{
 	class gtMainSystem;
 
 		// software image
-	struct gtImage : public gtRefObject{
+	class gtImage : public gtRefObject{
+	public:
 
 			// c-tor
 		gtImage( void ):
@@ -739,14 +740,14 @@ namespace gost{
 
 			u32 sz = newSize / 4u;
 			for( u32 i = 0u, count = 0u; i < sz; ){
-				data32[ i+7 ] = ((data[ count ] & 1u))?0x0:0xFFFFFFFF;
-				data32[ i+6u ] = ((data[ count ] & 2u)>>1u)?0x0:0xFFFFFFFF;
-				data32[ i+5u ] = ((data[ count ] & 4u)>>2u)?0x0:0xFFFFFFFF;
-				data32[ i+4u ] = ((data[ count ] & 8u)>>3u)?0x0:0xFFFFFFFF;
-				data32[ i+3u ] = ((data[ count ] & 16u)>>4u)?0x0:0xFFFFFFFF;
-				data32[ i+2u ] = ((data[ count ] & 32u)>>5u)?0x0:0xFFFFFFFF;
-				data32[ i+1u ] = ((data[ count ] & 64u)>>6u)?0x0:0xFFFFFFFF;
-				data32[ i+0u ] = ((data[ count ] & 128u)>>7u)?0x0:0xFFFFFFFF;
+				data32[ i+7 ] = ((data[ count ] & 1u))?0xFFFFFFFF:0x0;
+				data32[ i+6u ] = ((data[ count ] & 2u)>>1u)?0xFFFFFFFF:0x0;
+				data32[ i+5u ] = ((data[ count ] & 4u)>>2u)?0xFFFFFFFF:0x0;
+				data32[ i+4u ] = ((data[ count ] & 8u)>>3u)?0xFFFFFFFF:0x0;
+				data32[ i+3u ] = ((data[ count ] & 16u)>>4u)?0xFFFFFFFF:0x0;
+				data32[ i+2u ] = ((data[ count ] & 32u)>>5u)?0xFFFFFFFF:0x0;
+				data32[ i+1u ] = ((data[ count ] & 64u)>>6u)?0xFFFFFFFF:0x0;
+				data32[ i+0u ] = ((data[ count ] & 128u)>>7u)?0xFFFFFFFF:0x0;
 				count++;
 				i += 8u;
 			}

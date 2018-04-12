@@ -25,7 +25,7 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
     wi.m_style |= gtWindowInfo::resize;
 	//wi.m_rect.set( 0, 0, 1280, 1024 );
 	
-	auto window = mainSystem->createSystemWindow( wi );
+	auto window = mainSystem->createSystemWindow( &wi );
 
 	 
 	//	Set up render plugin parameters.

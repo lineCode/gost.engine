@@ -8,7 +8,8 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 
 	auto mainSystem = InitializeGoSTEngine();
 
-	auto window = mainSystem->createSystemWindow( gtWindowInfo() );
+	gtWindowInfo wi;
+	auto window = mainSystem->createSystemWindow( &wi );
 
 	window->setWindowTitle( u"05 Play sound" );
 

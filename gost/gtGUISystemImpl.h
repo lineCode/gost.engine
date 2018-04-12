@@ -4,21 +4,31 @@
 
 namespace gost{
 
+
 	class gtGUISystemImpl : public gtGUISystem{
 		gtDriver * m_driver;
+
 	public:
 
 		gtGUISystemImpl( void );
 		~gtGUISystemImpl( void );
 		
 
-		gtPtr<gtGUIFont>		createFont( const gtString& fontName );
-		gtPtr<gtGUIStaticText>  createStaticText( const gtString& text, s32 positionX, s32 positionY );
+		gtPtr<gtGUIFont>		createFont( const gtString& fontName, gtImage * fromImage = nullptr );
+		gtPtr<gtGUIFont>		createBuiltInFont( void );
+		gtPtr<gtGUIStaticText>  createStaticText( const gtString& text, s32 positionX, s32 positionY, gtGUIFont* font );
+
 
 		void setCurrentRenderDriver( gtDriver * driver );
+		
+		
+		void init( void );
+		void shutdown( void );
+
 	};
 
 }
+
 
 #include "gtGUIFontImpl.h"
 #include "gtGUIStaticTextImpl.h"

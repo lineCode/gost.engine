@@ -36,10 +36,6 @@
 #include <gtInput.h>
 #include <gtEvent.h>
 
-
-
-
-
 #include <gtXMLDocument.h>
 
 #include <gtVector.h>
@@ -59,6 +55,7 @@
 #include <gtMutex.h>
 
 #include <gtGUIObject.h>
+
 
 #include <gtSceneSystem.h>
 #include <gtAudioSystem.h>
@@ -88,6 +85,8 @@
 #include <gtTimer.h>
 
 #include <gtFileSystem.h>
+
+#include <gtWindowInfo.h>
 
 #include <gtDriver.h>
 

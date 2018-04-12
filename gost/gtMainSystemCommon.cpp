@@ -12,7 +12,8 @@ gtMainSystemCommon* gtMainSystemCommon::getInstance( void ){return s_instance;}
 
 gtMainSystemCommon::gtMainSystemCommon( void ) : m_isRun( true ),
 	m_stackTracer( nullptr ), 
-	m_systemWindowCount( 0u )
+	m_systemWindowCount( 0u ),
+	m_driver( nullptr )
 {
 //	s_fileSystem = nullptr;
 
@@ -72,35 +73,24 @@ void gtStackTrace::dumpStackTrace( void ){
 	//	Инициализирует видео драйвер
 gtPtr<gtDriver> gtMainSystemCommon::createVideoDriver( /*gtPlugin* videoDriverPlugin,*/ const gtDriverInfo& params, const gtString& uid ){
 
-	//GT_ASSERT2( videoDriverPlugin, "videoDriverPlugin was nullptr" );
+	auto plugin = this->getPluginSystem()->getPlugin( uid );
 
-	//if( !videoDriverPlugin ) return nullptr;
-
-	/*if( videoDriverPlugin->getInfo().m_info.m_type != gtPluginType::render ){
-
-		gtLogWriter::printError( u"Can not create video driver" );
-
-#ifdef GT_EDBUG
-		gtStackTrace::dumpStackTrace();
-#endif
-
+	if( !plugin ){
+		gtLogWriter::printError( u"Can not find video driver in `plugins` folder" );
 		return nullptr;
 	}
-
-	gtPluginRender* plugin = (gtPluginRender*)videoDriverPlugin;*/
-
-	auto plugin = this->getPluginSystem()->getPlugin( uid );
 
 	if( plugin->getInfo().m_info.m_type != gtPluginType::render ){
 		gtLogWriter::printError( u"Can not create video driver" );
 		return nullptr;
 	}
 
-
 	gtDriver * d = ((gtPluginRender*)plugin)->loadDriver( params );
 
 	if( d )
 		m_drivers.push_back( d );
+
+	m_driver = d;
 
 	return gtPtrNew<gtDriver>(d);
 }
@@ -115,6 +105,14 @@ gtDriver* gtMainSystemCommon::getLoadedVideoDriver( u32 id ){
 		return m_drivers[ id ];
 	}
 	return nullptr;
+}
+
+gtDriver* gtMainSystemCommon::getMainVideoDriver(){
+	return m_driver;
+}
+
+void gtMainSystemCommon::setMainVideoDriver( gtDriver* d ){
+	m_driver = d;
 }
 
 	//	Выделяет память размером size. Для освобождения нужно вызвать freeMemory
@@ -180,6 +178,7 @@ gtSceneSystem*	gtMainSystemCommon::getSceneSystem( gtDriver * currentRenderDrive
 gtGUISystem*	gtMainSystemCommon::getGUISystem( gtDriver * currentRenderDriver ){
 	if( currentRenderDriver )
 		m_GUISystem->setCurrentRenderDriver( currentRenderDriver );
+		m_GUISystem->init();
 	return m_GUISystem.data();
 }
 
@@ -237,6 +236,9 @@ const gtDeviceCreationParameters& gtMainSystemCommon::getDeviceCreationParameter
 }
 
 bool gtMainSystemCommon::isRun( void ){
+	if( !m_isRun ){
+		
+	}
 	return m_isRun;
 }
 
@@ -288,11 +290,6 @@ gtPtr<gtAudioSystem> gtMainSystemCommon::createAudioSystem( const gtString& uid 
 }
 
 gtPtr<gtXMLDocument> gtMainSystemCommon::XMLRead( const gtString& file ){
-
-	if( !gtFileSystem::existFile( file ) ){
-		gtLogWriter::printWarning( u"Can not read XML document. File not exist. [%s]", file.data() );
-		return nullptr;
-	}
 
 	gtPtr_t( gtXMLDocumentImpl, xml, new gtXMLDocumentImpl(file) );
 	if( !xml.data() ){

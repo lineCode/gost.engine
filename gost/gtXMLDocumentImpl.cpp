@@ -13,23 +13,29 @@ m_isInit( false ){
 	m_expect_ex   = u"!";
 	m_cursor = m_sz = 0u;
 	m_tokens.setAddMemoryValue( 4096u );
-	m_tokens.reserve( 4096u );
 }
 
 gtXMLDocumentImpl::~gtXMLDocumentImpl( void ){
 }
 
 bool gtXMLDocumentImpl::init( void ){
-	if( util::readTextFromFileForUnicode( m_fileName, m_text ) ){
-		getTokens();
 
-		if( !analyzeTokens() ) return false;
-
-		m_tokens.clear();
-		m_isInit = true;
-		return true;
+	if( gtFileSystem::existFile( m_fileName ) ){
+		if( !util::readTextFromFileForUnicode( m_fileName, m_text ) ){
+			return false;
+		}
+	}else{
+		m_text = m_fileName;
 	}
-	return false;
+
+	getTokens();
+
+	if( !analyzeTokens() ) return false;
+
+	m_tokens.clear();
+	m_isInit = true;
+
+	return true;
 }
 
 void gtXMLDocumentImpl::skipPrologAndDTD( void ){
@@ -611,64 +617,64 @@ bool gtXMLDocumentImpl::XPath_getTokens( gtArray<gtXPathToken> * arr, const gtSt
 			if( next ){
 				if( next == u'/' ){
 					++ptr;
-					token.m_type = gtXPathTokenType::double_slash;
+					token.m_type = gtXPathTokenType::Double_slash;
 				}else{
-					token.m_type = gtXPathTokenType::slash;
+					token.m_type = gtXPathTokenType::Slash;
 				}
 			}else{
-				token.m_type = gtXPathTokenType::slash;
+				token.m_type = gtXPathTokenType::Slash;
 			}
 		}else if( *ptr == u'*' ){
-			token.m_type = gtXPathTokenType::mul;
+			token.m_type = gtXPathTokenType::Mul;
 		}else if( *ptr == u'=' ){
-			token.m_type = gtXPathTokenType::equal;
+			token.m_type = gtXPathTokenType::Equal;
 		}else if( *ptr == u'\'' ){
-			token.m_type = gtXPathTokenType::apos;
+			token.m_type = gtXPathTokenType::Apos;
 		}else if( *ptr == u'@' ){
-			token.m_type = gtXPathTokenType::attribute;
+			token.m_type = gtXPathTokenType::Attribute;
 		}else if( *ptr == u'|' ){
-			token.m_type = gtXPathTokenType::bit_or;
+			token.m_type = gtXPathTokenType::Bit_or;
 		}else if( *ptr == u',' ){
-			token.m_type = gtXPathTokenType::comma;
+			token.m_type = gtXPathTokenType::Comma;
 		}else if( *ptr == u'+' ){
-			token.m_type = gtXPathTokenType::add;
+			token.m_type = gtXPathTokenType::Add;
 		}else if( *ptr == u'+' ){
-			token.m_type = gtXPathTokenType::sub;
+			token.m_type = gtXPathTokenType::Sub;
 		}else if( *ptr == u'[' ){
-			token.m_type = gtXPathTokenType::sq_open;
+			token.m_type = gtXPathTokenType::Sq_open;
 		}else if( *ptr == u']' ){
-			token.m_type = gtXPathTokenType::sq_close;
+			token.m_type = gtXPathTokenType::Sq_close;
 		}else if( *ptr == u'(' ){
-			token.m_type = gtXPathTokenType::function_open;
+			token.m_type = gtXPathTokenType::Function_open;
 		}else if( *ptr == u')' ){
-			token.m_type = gtXPathTokenType::function_close;
+			token.m_type = gtXPathTokenType::Function_close;
 		}else if( *ptr == u'<' ){
 			if( next ){
 				if( next == u'=' ){
 					++ptr;
-					token.m_type = gtXPathTokenType::less_eq;
+					token.m_type = gtXPathTokenType::Less_eq;
 				}else{
-					token.m_type = gtXPathTokenType::less;
+					token.m_type = gtXPathTokenType::Less;
 				}
 			}else{
-				token.m_type = gtXPathTokenType::less;
+				token.m_type = gtXPathTokenType::Less;
 			}
 		}else if( *ptr == u'>' ){
 			if( next ){
 				if( next == u'/' ){
 					++ptr;
-					token.m_type = gtXPathTokenType::more_eq;
+					token.m_type = gtXPathTokenType::More_eq;
 				}else{
-					token.m_type = gtXPathTokenType::more;
+					token.m_type = gtXPathTokenType::More;
 				}
 			}else{
-				token.m_type = gtXPathTokenType::more;
+				token.m_type = gtXPathTokenType::More;
 			}
 		}else if( *ptr == u':' ){
 			if( next ){
 				if( next == u':' ){
 					++ptr;
-					token.m_type = gtXPathTokenType::axis_namespace;
+					token.m_type = gtXPathTokenType::Axis_namespace;
 				}else{
 					gtLogWriter::printError( u"XPath: Bad token" );
 					return false;
@@ -681,7 +687,7 @@ bool gtXMLDocumentImpl::XPath_getTokens( gtArray<gtXPathToken> * arr, const gtSt
 			if( next ){
 				if( next == u'=' ){
 					++ptr;
-					token.m_type = gtXPathTokenType::not_equal;
+					token.m_type = gtXPathTokenType::Not_equal;
 				}else{
 					gtLogWriter::printError( u"XPath: Bad token" );
 					return false;
@@ -692,7 +698,7 @@ bool gtXMLDocumentImpl::XPath_getTokens( gtArray<gtXPathToken> * arr, const gtSt
 			}
 		}else if( XPath_isName( ptr ) ){
 			ptr = XPath_getName( ptr, &name );
-			token.m_type = gtXPathTokenType::name;
+			token.m_type = gtXPathTokenType::Name;
 			token.m_string = name;
 		}else{
 			gtLogWriter::printError( u"XPath: Bad token" );
@@ -741,20 +747,20 @@ gtArray<gtXMLNode*> gtXMLDocumentImpl::selectNodes( const gtString& XPath_expres
 	for( u32 i = 0u; i < sz; ++i ){
 		next = i + 1u;
 		if( i == 0u ){
-			if( XPathTokens[ i ].m_type != gtXPathTokenType::slash
-				&& XPathTokens[ i ].m_type != gtXPathTokenType::double_slash){
+			if( XPathTokens[ i ].m_type != gtXPathTokenType::Slash
+				&& XPathTokens[ i ].m_type != gtXPathTokenType::Double_slash){
 				gtLogWriter::printError( u"Bad XPath expression \"%s\". Expression must begin with `/`", XPath_expression.data() );
 				return a;
 			}
 		}
 
 		switch( XPathTokens[ i ].m_type ){
-			case gtXPathTokenType::slash:
+			case gtXPathTokenType::Slash:
 			if( next >= sz ){
 				gtLogWriter::printError( u"Bad XPath expression" );
 				return a;
 			}
-			if( XPathTokens[ next ].m_type == gtXPathTokenType::name ){
+			if( XPathTokens[ next ].m_type == gtXPathTokenType::Name ){
 				elements.push_back( &XPathTokens[ next ].m_string );
 				++i;
 			}else{
@@ -763,7 +769,7 @@ gtArray<gtXMLNode*> gtXMLDocumentImpl::selectNodes( const gtString& XPath_expres
 			}
 			break;
 
-			case gtXPathTokenType::double_slash:
+			case gtXPathTokenType::Double_slash:
 			break;
 		}
 

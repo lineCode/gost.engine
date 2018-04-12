@@ -12,6 +12,7 @@
 
 using namespace gost;
 
+
 //	GOST
 
 #include "gtCameraImpl.h"

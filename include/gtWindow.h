@@ -1,4 +1,5 @@
-﻿/*!	GOST
+﻿
+/*!	GOST
 	\file gtWindow.h
 	\brief Всё что связано с системным окном
 */
@@ -7,53 +8,8 @@
 #define __GT_WINDOW_H__ //< include guard
 
 namespace gost{
-		
-		//	Параметры окна
-	struct gtWindowInfo{
-
-			// c-tor
-		gtWindowInfo( void ){
-			m_title.assign( u"GoST window" );
-			m_rect.set( 0, 0, 800, 600 );
-			m_style = 0u;
-		}
-		
-			//	заголовок
-		gtString	m_title;
-
-			//	координаты левого верхнего и правого нижнего углов
-		v4i			m_rect;
-		
-			//	стиль окна.	если ничего не указано то будет стандартное окно - рамка, без изменения размера и без кнопки maximize
-		enum style{
-
-			standart,
-
-				//	если это, то будет только окно без рамки
-			popup = 1u,
-
-				//	это и далее работает без popup.	можно изменять размер окна
-			resize = 2u,
-
-				//	есть кнопка maximize
-			maximize = 4u
-		};
-
-			// стиль
-		u32 m_style;
-
-			// сравнение
-			// \param wi: другой gtWindowInfo для сравнения
-			// \return \b true если равны
-		bool	operator==( const gtWindowInfo& wi ){
-			if( m_title == wi.m_title )
-				if( m_rect == wi.m_rect )
-					if( m_style == m_style )
-						return true;
-
-			return false;
-		}
-	};
+	
+	
 	
 		//	System window
 	class gtWindow : public gtRefObject{

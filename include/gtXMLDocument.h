@@ -3,53 +3,53 @@
 #define __GT_XML_DOCUMENT_H__ //< include guard
 
 namespace gost{
-
+	
 	enum class gtXPathTokenType{
-		slash,
-		double_slash,
-		name,
-		equal,			// price=9.80
-		not_equal,		// price!=9.80
-		more,			// price>9.80
-		less,			// price<9.80
-		more_eq,		// price>=9.80
-		less_eq,		// price<=9.80
-		apos,
-		number,
-		comma, //,
-		function,
-		function_open,  //(
-		function_close, //)
-		attribute,
-		bit_or,			// //book | //cd
-		sq_open,		// [
-		sq_close,		// ]
-		div,			// 8 div 4
-		mod,			// 5 mod 2
-		add,			// 6 + 4
-		sub,			// 6 - 4
-		mul,			// 6 * 4
-		and,			// price>9.00 and price<9.90
-		or,				// price=9.80 or price=9.70,
-		axis_namespace,	//::
-		axis,
+		Slash,
+		Double_slash,
+		Name,
+		Equal,			// price=9.80
+		Not_equal,		// price!=9.80
+		More,			// price>9.80
+		Less,			// price<9.80
+		More_eq,		// price>=9.80
+		Less_eq,		// price<=9.80
+		Apos,
+		Number,
+		Comma, //,
+		Function,
+		Function_open,  //(
+		Function_close, //)
+		Attribute,
+		Bit_or,			// //book | //cd
+		Sq_open,		// [
+		Sq_close,		// ]
+		Div,			// 8 div 4
+		Mod,			// 5 mod 2
+		Add,			// 6 + 4
+		Sub,			// 6 - 4
+		Mul,			// 6 * 4
+		And,			// price>9.00 and price<9.90
+		Or,				// price=9.80 or price=9.70,
+		Axis_namespace,	//::
+		Axis,
 		NONE = 0xFFFFFFF
 	};
 
 	enum class gtXPathAxis{
-		ancestor,			// parent, grandparent, etc.
-		ancestor_or_self,	// parent, grandparent, etc. + current node
-		attribute,		
-		child,
-		descendant,			// children, grandchildren, etc.
-		descendant_or_self,	// children, grandchildren, etc. + current node
-		following,
-		following_sibling,
-		namespace_,
-		parent,
-		preceding,
-		preceding_sibling,
-		self,
+		Ancestor,			// parent, grandparent, etc.
+		Ancestor_or_self,	// parent, grandparent, etc. + current node
+		Attribute,		
+		Child,
+		Descendant,			// children, grandchildren, etc.
+		Descendant_or_self,	// children, grandchildren, etc. + current node
+		Following,
+		Following_sibling,
+		Namespace,
+		Parent,
+		Preceding,
+		Preceding_sibling,
+		Self,
 		NONE = 0xFFFFFFF
 	};
 

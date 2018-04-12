@@ -20,7 +20,7 @@ namespace gost{
 
 	public:
 			//	ctor
-		gtWindowWin32( const gtWindowInfo& );
+		gtWindowWin32( gtWindowInfo* );
 
 			//	dtor
 		virtual ~gtWindowWin32( void );
