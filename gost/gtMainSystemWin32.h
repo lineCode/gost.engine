@@ -39,7 +39,7 @@ namespace gost{
 
 		bool	update( void ) GT_FINAL;
 
-		gtPtr<gtWindow>	createSystemWindow( const gtWindowInfo& );
+		gtPtr<gtWindow>	createSystemWindow( gtWindowInfo* );
 
 			//	получит время прошедшее с момента запуска движка
 		u32			getTime( void );

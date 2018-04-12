@@ -158,19 +158,15 @@ bool gtDriverD3D11::initialize( void ){
 
 	HWND outWindow = (HWND)m_params.m_outWindow->getHandle();
 
-	//	Describes a display mode.
 	DXGI_MODE_DESC	bufferDesc;
 	ZeroMemory( &bufferDesc, sizeof(bufferDesc) );
-	//	A value that describes the resolution width
 	bufferDesc.Width	=	m_params.m_backBufferSize.x;
-	//	A value describing the resolution height
 	bufferDesc.Height	=	m_params.m_backBufferSize.y;
-	//	refresh rate in hertz
 	if( m_params.m_vSync )
 		bufferDesc.RefreshRate.Numerator	=	60;
 	else bufferDesc.RefreshRate.Numerator	=	0;
 	bufferDesc.RefreshRate.Denominator	=	1;
-	//	display format
+	
 	bufferDesc.Format	=	DXGI_FORMAT_R8G8B8A8_UNORM;
 	bufferDesc.ScanlineOrdering	=	DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
 	bufferDesc.Scaling	=	DXGI_MODE_SCALING_UNSPECIFIED;
@@ -183,7 +179,7 @@ bool gtDriverD3D11::initialize( void ){
 	swapChainDesc.SampleDesc.Count	=	1;
 	swapChainDesc.SampleDesc.Quality	=	0;
 	swapChainDesc.BufferCount	=	1;
-	swapChainDesc.Windowed	=	true;
+	swapChainDesc.Windowed	=	m_params.m_fullScreen ? false : true;
 	swapChainDesc.SwapEffect	=	DXGI_SWAP_EFFECT_DISCARD;
 	swapChainDesc.Flags	=	0;
 

@@ -11,16 +11,23 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 	auto mainSystem = InitializeGoSTEngine();
 	
 	gtWindowInfo wi;
-	auto window = mainSystem->createSystemWindow( wi );
+	wi.m_style |= gtWindowInfo::style::resize;
+	wi.m_style |= gtWindowInfo::style::maximize;
+	wi.m_style |= gtWindowInfo::style::center;
+	//wi.m_style |= gtWindowInfo::style::popup;
+	//wi.m_rect.set( 0, 0, 1280, 1024 );
+
+	auto window = mainSystem->createSystemWindow( &wi );
 
 
-	gtDriverInfo di;
-	di.m_outWindow = window.data();
+	gtDriverInfo di( &wi );
+	//di.m_outWindow = window.data();
+	//di.m_backBufferSize.set( wi.m_rect.getWidth(), wi.m_rect.getHeight() );
+	//di.m_fullScreen = true;
 
 	auto driver = mainSystem->createVideoDriver( di, GT_UID_RENDER_D3D11 );
 
 	gtSceneSystem * scene = mainSystem->getSceneSystem( driver.data() );
-
 	gtStaticObject * room = scene->addStaticObject( driver->getModel(u"../media/room.obj") );
 //	room->showBV( true );
 	room->getModel()->getMaterial(0)->textureLayer[0].texture = driver->getTexture(u"../media/room.png");
@@ -35,33 +42,39 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 	auto rcube = driver->createModel( cube.data() );
 
 	f32 x = 0.f, y = 0.f;
-	gtStaticObject * cubs[1000];
+	//gtStaticObject * cubs[1000];
 	for( int i = 0; i < 1000; ++i ){
-		cubs[ i ] = scene->addStaticObject( rcube.data(), v3f( x, 0.f, y ) );
-		cubs[ i ]->showBV( true );
+	//	cubs[ i ] = scene->addStaticObject( rcube.data(), v3f( x, 0.f, y ) );
+	//	cubs[ i ]->showBV( true );
 		x += 1.f;
 		if( x > 100.f ){
 			x = 0.f;
 			y += 1.f;
 		}
-	}
+	} 
 
+	//auto ii = mainSystem->loadImage( u"D:\\dev\\irrlicht-1.8.4\\bin\\Win32-VisualStudio\\noto.bmp" );
+	
+//	gtFile_t out = util::createFileForWriteBin( u"outFont.bin" );
+	////out->write( ii->data, ii->dataSize );
+	
 	gtEvent event;
 
 	f32 delta = 0.f;
 	f32 pos = 1000.f;
 	u32 time = mainSystem->getTime();
-	 
+	  
 	f32 angle = 0.f;
 
 	gtGUISystem * guiSystem = mainSystem->getGUISystem( driver.data() );
-	auto font = guiSystem->createFont( u"../media/fonts/NotoSans.xml" ); 
-	auto text = guiSystem->createStaticText( u"", 5, 25 );
-	text->setFont( font );
-
-	auto text2 = guiSystem->createStaticText( u"Noto Sans Русский текст. きゃっかんてき<>",
-5, 50 );
-	text2->setFont( font );
+	
+	auto font = guiSystem->createFont( u"../media/fonts/JapanSans.xml" ); 
+	auto text = guiSystem->createStaticText( u"オーディオシステム 概要", 5, 75, font.data() );
+	
+	auto builtInFont = guiSystem->createBuiltInFont();
+	auto text2 = guiSystem->createStaticText( u"Hello Привет", 5, 85, builtInFont.data() );
+	
+	auto fps_text = guiSystem->createStaticText( u"", 5, 25, builtInFont.data() );
 	
 	gtString s;
 	u32 i = 0;
@@ -72,20 +85,19 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 
 	while( mainSystem->update() ){
 
-		text->clear();
 
 		s = u"FPS: ";
 		s += fps;
 
-		text->setText( s );
+		fps_text->setText( s );
 
 		f32 sn = std::sinf( angle )/180.f*PI;
 		f32 cs = std::cosf( angle )/180.f*PI;
 		angle += 10.f * delta; if( angle > 360.f ) angle = 0.f;
 
-		for( int i = 0; i < 100; ++i ){
-			cubs[ i ]->setRotation( v3f( angle - 0.01f, angle, angle + 0.01f ) );
-		}
+	//	for( int i = 0; i < 100; ++i ){
+	//		cubs[ i ]->setRotation( v3f( angle - 0.01f, angle, angle + 0.01f ) );
+	//	}
 
 		//camera->setPosition( v3f_t( pos*sn, 5.f, pos*cs ) );
 
@@ -131,6 +143,8 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 			driver->setDepthState( false );
 			text->render();
 			text2->render();
+			fps_text->render();
+
 			driver->setDepthState();
 
 			driver->endRender();

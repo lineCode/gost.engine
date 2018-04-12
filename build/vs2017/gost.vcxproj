@@ -102,7 +102,7 @@
     <IntDir>$(Configuration)\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>../../bin32/</OutDir>
+    <OutDir>../../lib/x86/</OutDir>
     <IntDir>$(Configuration)\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Production|Win32'">
@@ -159,6 +159,7 @@
       <SDLCheck>false</SDLCheck>
       <AdditionalIncludeDirectories>../../include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>GOSTDLL;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -274,6 +275,8 @@
     <ClInclude Include="..\..\gost\gtWindowWin32.h" />
     <ClInclude Include="..\..\gost\common.h" />
     <ClInclude Include="..\..\gost\gtXMLDocumentImpl.h" />
+    <ClInclude Include="..\..\gost\resource.h" />
+    <ClInclude Include="..\..\include\DefaultFont.h" />
     <ClInclude Include="..\..\include\gost.h" />
     <ClInclude Include="..\..\include\gtAABB.h" />
     <ClInclude Include="..\..\include\gtAllocator.h" />
@@ -332,6 +335,7 @@
     <ClInclude Include="..\..\include\gtVector.h" />
     <ClInclude Include="..\..\include\gtVertex.h" />
     <ClInclude Include="..\..\include\gtWindow.h" />
+    <ClInclude Include="..\..\include\gtWindowInfo.h" />
     <ClInclude Include="..\..\include\gtXMLDocument.h" />
     <ClInclude Include="..\..\include\iSqrt_table.hpp" />
   </ItemGroup>

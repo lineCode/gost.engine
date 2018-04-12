@@ -283,7 +283,7 @@ extern "C"{
 			}
 
 
-
+			 
 		}else if( image->bits == 8u ){
 			
 			image->format = gtImage::Format::FMT_R8G8B8A8;
@@ -438,7 +438,7 @@ extern "C"{
 			}
 
 			//	фукнция отразить по вертикали не может работать с ONE_BIT по этому конвертация здесь.
-			image->convert( gtImage::Format::FMT_R8G8B8A8 );
+			return true;
 		}else{
 			return false;
 		}

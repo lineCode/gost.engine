@@ -6,7 +6,3 @@ Hiragana and Katakana
 Alphanumeric
 Symbols and punctuations
 http://webfontfan.com/japansans/
-
-Noto Sans
-SIL Open Font License
-https://www.google.com/get/noto/

@@ -10,7 +10,7 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 	auto mainSystem = InitializeGoSTEngine();
 
 	gtWindowInfo wi;
-	auto window = mainSystem->createSystemWindow( wi );
+	auto window = mainSystem->createSystemWindow( &wi );
 
 	
 	gtDriverInfo di;

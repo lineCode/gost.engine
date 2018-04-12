@@ -392,6 +392,15 @@
     <ClInclude Include="..\..\gost\gtGUIStaticTextImpl.h">
       <Filter>Headers\GUI</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\DefaultFont.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\gost\resource.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\gtWindowInfo.h">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\..\gost\ReadMe.txt">

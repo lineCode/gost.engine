@@ -46,6 +46,7 @@ namespace gost{
 			this->initEventSystem();
 
 			this->s_fileSystem = new gtFileSystemWin32;
+			//this->m_GUISystem->init();
 
 			if( this->s_fileSystem->existFile( u"log.txt" ) )
 				this->s_fileSystem->deleteFile( u"log.txt" );
@@ -100,7 +101,7 @@ namespace gost{
 		}
 	}
 
-	gtPtr<gtWindow>	gtMainSystemWin32::createSystemWindow( const gtWindowInfo& wi ){
+	gtPtr<gtWindow>	gtMainSystemWin32::createSystemWindow( gtWindowInfo* wi ){
 		gtPtr< gtWindow > window( gtPtrNew< gtWindow >( new gtWindowWin32( wi ) ) );
 
 		if( !((gtWindowWin32*)window.data())->init( ++m_systemWindowCount ) ){
@@ -117,10 +118,11 @@ namespace gost{
 #ifdef GT_DEBUG
 		window->setDebugName( u"SystemWindow" );
 #endif
+		wi->m_owner = window.data();
 
 		return window;
 	}
-
+	 
 	u32			gtMainSystemWin32::getTime( void ){
 		static bool isInit = false;
 		static u32 baseTime;

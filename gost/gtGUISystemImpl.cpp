@@ -1,8 +1,10 @@
 #include "common.h"
 
-gtGUISystemImpl::gtGUISystemImpl( void ):
-m_driver( nullptr ){
+#include "BuiltInFont.h"
 
+gtGUISystemImpl::gtGUISystemImpl( void ):
+m_driver( nullptr )
+{
 #ifdef GT_DEBUG
 	m_debugName.assign(u"gtGUISystem");
 #endif
@@ -12,18 +14,21 @@ m_driver( nullptr ){
 gtGUISystemImpl::~gtGUISystemImpl( void ){
 }
 
+void gtGUISystemImpl::init( void ){
+}
+
 void gtGUISystemImpl::setCurrentRenderDriver( gtDriver * driver ){
 	m_driver = driver;
 }
 
-gtPtr<gtGUIFont> gtGUISystemImpl::createFont( const gtString& fontName ){
+gtPtr<gtGUIFont> gtGUISystemImpl::createFont( const gtString& fontName, gtImage * fromImage ){
 
 	gtPtr_t( gtGUIFontImpl, font, new gtGUIFontImpl( m_driver ) );
-
-	if( !font.data() )
+	if( !font.data() ){
 		return nullptr;
+	}
 
-	if( !font->init( fontName ) ){
+	if( !font->init( fontName, fromImage ) ){
 		gtLogWriter::printWarning( u"Can not create font \"%s\"", fontName.c_str() );
 		return nullptr;
 	}
@@ -33,13 +38,42 @@ gtPtr<gtGUIFont> gtGUISystemImpl::createFont( const gtString& fontName ){
 	return gtPtr<gtGUIFont>( font.data() );
 }
 
-gtPtr<gtGUIStaticText> gtGUISystemImpl::createStaticText( const gtString& text, s32 positionX, s32 positionY ){
+gtPtr<gtGUIFont> gtGUISystemImpl::createBuiltInFont( void ){
+	gtImage * fontImage = new gtImage;
+
+	fontImage->bits = 1u;
+	fontImage->dataSize = 65536;
+		
+	util::memoryAllocate( fontImage->data, fontImage->dataSize );
+	memcpy( fontImage->data, gtBuiltInFontBytes, fontImage->dataSize);
+
+	fontImage->format = gtImage::FMT_ONE_BIT;
+	fontImage->height = 512u;
+	fontImage->width  = 1024u;
+	fontImage->pitch  = 1024u;
+	fontImage->convert( gtImage::FMT_R8G8B8A8 );
+	fontImage->flipVertical();
+
+	char16_t * xml = reinterpret_cast<char16_t *>( gtBuiltInFontXML );
+
+	auto font = createFont( gtString( xml ), fontImage );
+	fontImage->release();
+
+	if( !font.data() ){
+		gtLogWriter::printError( u"font == nullptr" );
+		return nullptr;
+	}
+
+	return font;
+}
+
+gtPtr<gtGUIStaticText> gtGUISystemImpl::createStaticText( const gtString& text, s32 positionX, s32 positionY, gtGUIFont* font ){
 	gtPtr_t( gtGUIStaticTextImpl, st, new gtGUIStaticTextImpl( m_driver ) );
 
 	if( !st.data() )
 		return nullptr;
 
-	if( !st->init( text, positionX, positionY ) ){
+	if( !st->init( text, positionX, positionY, font ) ){
 		gtLogWriter::printWarning( u"Can not create static text " );
 		return nullptr;
 	}
@@ -49,6 +83,13 @@ gtPtr<gtGUIStaticText> gtGUISystemImpl::createStaticText( const gtString& text, 
 	return gtPtr<gtGUIStaticText>( st.data() );
 }
 
+//gtImage * gtGUISystemImpl::getDefaultFontImage( void ){
+//	return m_defaultFontImage;
+//}
+//
+//gtGUIFont* gtGUISystemImpl::getDefaultFont( void ){
+//	return m_defaultFont;
+//}
 
 /*
 Copyright (c) 2018 532235

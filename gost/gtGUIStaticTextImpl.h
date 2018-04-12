@@ -25,11 +25,13 @@ namespace gost{
 
 		v2i m_position;
 
+		void checkFont( void );
+
 	public:
 
 		gtGUIStaticTextImpl( gtDriver* d );
 		~gtGUIStaticTextImpl( void );
-		bool init( const gtString& text, s32 positionX, s32 positionY );
+		bool init( const gtString& text, s32 positionX, s32 positionY, gtGUIFont* font );
 
 
 
@@ -43,6 +45,7 @@ namespace gost{
 
 		void render( void );
 
+		
 
 	};
 

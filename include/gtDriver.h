@@ -8,7 +8,6 @@
 
 namespace gost{
 
-	class gtWindow;
 
 		//	параметры запуска драйвера
 	struct gtDriverInfo{
@@ -24,6 +23,18 @@ namespace gost{
 			m_outWindow( nullptr )
 		{
 			m_backBufferSize.set( 800, 600 );
+		}
+
+		gtDriverInfo( gtWindowInfo * wi ):
+			m_fullScreen( false ),
+			m_stencilBuffer( true ),
+			m_doubleBuffer( true ),
+			m_vSync( false ),
+			m_colorDepth( 32u ),
+			m_adapterID( 0u ),
+			m_outWindow( wi->m_owner )
+		{
+			m_backBufferSize.set( wi->m_rect.getWidth(), wi->m_rect.getHeight() );
 		}
 
 			//	разрешение экрана

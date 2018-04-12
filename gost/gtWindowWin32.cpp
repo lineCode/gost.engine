@@ -2,10 +2,10 @@
 
 #include "common.h"
 
-gtWindowWin32::gtWindowWin32( const gtWindowInfo& wi )
+gtWindowWin32::gtWindowWin32( gtWindowInfo* wi )
 	:	m_hWnd( 0u ), m_isInit( false )
 {
-	m_params = wi;
+	m_params = *wi;
 
 }
 
@@ -32,8 +32,37 @@ bool	gtWindowWin32::init( u32 i ){
 			style |= WS_SIZEBOX;
 	}
 
-	
+	s32 windowLeft = m_params.m_rect.x;
+	s32 windowTop = m_params.m_rect.y;
+	s32 realWidth = m_params.m_rect.z;
+	s32 realHeight = m_params.m_rect.w;
 
+	if( m_params.m_style & gtWindowInfo::style::center ){
+
+		RECT clientSize;
+		clientSize.top = 0;
+		clientSize.left = 0;
+		clientSize.right = m_params.m_rect.z - m_params.m_rect.x;
+		clientSize.bottom = m_params.m_rect.w - m_params.m_rect.y;
+
+		AdjustWindowRect(&clientSize, style, FALSE);
+
+		realWidth = clientSize.right - clientSize.left;
+		realHeight = clientSize.bottom - clientSize.top;
+
+		windowLeft = (GetSystemMetrics(SM_CXSCREEN) - realWidth) / 2;
+		windowTop = (GetSystemMetrics(SM_CYSCREEN) - realHeight) / 2;
+
+		if ( windowLeft < 0 )
+			windowLeft = 0;
+		if ( windowTop < 0 )
+			windowTop = 0;
+
+		if( m_params.m_style & gtWindowInfo::style::popup ){
+			windowLeft = 0;
+			windowTop = 0;
+		}
+	}
 
 	m_className = u"GTWINDOW_";
 	m_className += static_cast<char16_t>(i);
@@ -60,10 +89,10 @@ bool	gtWindowWin32::init( u32 i ){
 	m_hWnd = CreateWindow( (wchar_t*)m_className.data(),
 		(wchar_t*)m_params.m_title.data(),
 		style,
-		m_params.m_rect.x,
-		m_params.m_rect.y,
-		m_params.m_rect.z,
-		m_params.m_rect.w,
+		windowLeft,
+		windowTop,
+		realWidth,
+		realHeight,
 		nullptr,
 		nullptr,
 		wc.hInstance,

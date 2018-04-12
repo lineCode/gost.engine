@@ -56,7 +56,7 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
     wi.m_style |= gtWindowInfo::maximize;
     wi.m_style |= gtWindowInfo::resize;
 	
-	auto window = mainSystem->createSystemWindow( wi );
+	auto window = mainSystem->createSystemWindow( &wi );
 
 
 	gtPluginSystem * pluginSystem = mainSystem->getPluginSystem();
@@ -160,6 +160,10 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 				window->setWindowTitle( gtString(u"2D image: ") + images[ current_image_index ] );
 					
 				auto i = mainSystem->loadImage( images[ current_image_index ] );
+				if( i->format == gtImage::FMT_ONE_BIT ){
+					i->convert( gtImage::FMT_R8G8B8A8 );
+					i->flipVertical();
+				}
 				auto t = driver->createTexture( i.data(), filter );
 
 				texture = t.data();
