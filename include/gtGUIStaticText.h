@@ -14,6 +14,8 @@ namespace gost{
 
 		virtual void setColor( const gtColor& color ) = 0;
 
+		virtual f32  getLength( void ) = 0;
+
 		virtual void clear( void ) = 0;
 	};
 

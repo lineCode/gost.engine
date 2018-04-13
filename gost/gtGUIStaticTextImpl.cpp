@@ -4,7 +4,8 @@ gtGUIStaticTextImpl::gtGUIStaticTextImpl( gtDriver* d ):
 	m_font( nullptr ),
 	m_mainSystem( nullptr ),
 	m_modelSystem( nullptr ),
-	m_driver( d )
+	m_driver( d ),
+	m_length( 0.f )
 {
 	m_type = gtGUIObjectType::Text;
 	m_mainSystem = gtMainSystem::getInstance();
@@ -33,6 +34,7 @@ bool gtGUIStaticTextImpl::init( const gtString& text, s32 positionX, s32 positio
 }
 
 void gtGUIStaticTextImpl::clear( void ){
+	m_length = 0.f;
 	m_text.clear();
 	u32 sz = m_buffers.size();
 	for( u32 i = 0u; i < sz; ++i ){
@@ -48,6 +50,10 @@ void gtGUIStaticTextImpl::updateMaterial( void ){
 		auto * m = m_buffers[ i ]->getMaterial( 0u );
 		m->textureLayer[ 0u ].diffuseColor = m_material.textureLayer[ 0u ].diffuseColor;
 	}
+}
+
+f32  gtGUIStaticTextImpl::getLength( void ){
+	return m_length;
 }
 
 void gtGUIStaticTextImpl::setColor( const gtColor& color ){
@@ -122,7 +128,9 @@ void gtGUIStaticTextImpl::setText( const gtString& text ){
 				f32 py = (2.f/bbsz->y);
 				f32 centerx = (bbsz->x*0.5f);
 				f32 centery = (bbsz->y*0.5f);
+				
 				u32 max_height = 0;
+	//			f32 length = 0.f;
 
 				for( u32 i = 0u; i < textSize; ++i ){
 				
@@ -212,16 +220,24 @@ void gtGUIStaticTextImpl::setText( const gtString& text ){
 						}
 					}
 
+					//length += (f32)width;
+
 					if( ch == u'\n' ){
+//						length = 0.f;
 						width = 0;
 						line_interval += max_height;
 						interval = 0u;
 					}
 
+
+					//if( length > m_length ) m_length = length;
+
 					sub->move( v3f( (f32)interval * px, -((f32)line_interval * py), 0.1f ) );
 
-					if( ch != u'\n' )
+					if( ch != u'\n' ){
 						interval += width + 2u;
+						m_length = (f32)(interval + width);
+					}
 
 					if( i ){
 						if( sub != mainsub ){

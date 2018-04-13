@@ -27,6 +27,8 @@ namespace gost{
 
 		v2i m_position;
 
+		f32 m_length;
+
 		void checkFont( void );
 
 		void updateMaterial( void );
@@ -44,6 +46,8 @@ namespace gost{
 
 		void setText( const gtString& text );
 		void setColor( const gtColor& color );
+
+		f32  getLength( void );
 
 		void clear( void );
 
