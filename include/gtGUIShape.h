@@ -1,56 +1,11 @@
-#pragma once
-#ifndef __GT_GUI_STATIC_TEXT_IMPL_H__
-#define __GT_GUI_STATIC_TEXT_IMPL_H__
+п»ї#pragma once
+#ifndef __GT_GUI_SHAPE_H__
+#define __GT_GUI_SHAPE_H__ //< include guard
 
 namespace gost{
 
-	class gtGUIStaticTextImpl : public gtGUIStaticText{
-
-		struct bufferInfo{
-			bufferInfo(u32 tid,gtSubModel*sm):texture_id(tid),sub(sm){}
-			u32 texture_id;
-			gtSubModel* sub;
-		};
-		 
-		gtArray<bufferInfo> m_bufferInfo;
-
-		gtString m_text;
-		gtGUIFontImpl * m_font;
-
-		gtArray<gtRenderModel*> m_buffers; //то что идёт на отрисовку. Зависит от используемого символа и количества текстур для gtGUIFont
-
-		gtMainSystem * m_mainSystem;
-		gtModelSystem* m_modelSystem;
-		gtDriver*	   m_driver;	
-
-		gtMaterial		m_material;
-
-		v2i m_position;
-
-		void checkFont( void );
-
-		void updateMaterial( void );
-
+	class gtGUIShape : public gtGUIObject{
 	public:
-
-		gtGUIStaticTextImpl( gtDriver* d );
-		~gtGUIStaticTextImpl( void );
-		bool init( const gtString& text, s32 positionX, s32 positionY, gtGUIFont* font );
-
-
-
-		void setFont( gtGUIFont * font );
-		void setFont( const gtPtr<gtGUIFont>& font );
-
-		void setText( const gtString& text );
-		void setColor( const gtColor& color );
-
-		void clear( void );
-
-
-		void render( void );
-
-		
 
 	};
 

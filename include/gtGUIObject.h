@@ -5,10 +5,10 @@
 namespace gost{
 
 	enum class gtGUIObjectType{
-		font,
-		text,
-		button,
-		rect
+		Font,	
+		Text,	
+		Button,	
+		Shape
 	};
 
 	class gtGUIObject : public gtRefObject{
@@ -27,6 +27,8 @@ namespace gost{
 	};
 
 }
+
+#include <gtGUIShape.h>
 
 #include <gtGUIFont.h>
 #include <gtGUIStaticText.h>

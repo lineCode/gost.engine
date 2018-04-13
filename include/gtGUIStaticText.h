@@ -12,6 +12,8 @@ namespace gost{
 
 		virtual void setText( const gtString& text ) = 0;
 
+		virtual void setColor( const gtColor& color ) = 0;
+
 		virtual void clear( void ) = 0;
 	};
 

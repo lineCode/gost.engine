@@ -2,8 +2,9 @@ Texture2D tex2d_1;
 SamplerState tex2D_sampler_1;
 
 cbuffer cbPixel{
-	float opacity;
-	float3 padding;
+	float4 diffuseColor;
+	//float opacity;
+	//float3 padding;
 };
 
 struct VSIn{
@@ -36,9 +37,7 @@ PSOut PSMain(VSOut input)
 {
     PSOut output;
 	
-	float4 diffuseColor = tex2d_1.Sample(tex2D_sampler_1, input.uv);
-	
-    output.color = diffuseColor;
+    output.color = tex2d_1.Sample(tex2D_sampler_1, input.uv) * diffuseColor;
 	
 //	if( output.color.a < opacity ) discard;
 	

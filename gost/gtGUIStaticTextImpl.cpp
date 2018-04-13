@@ -6,7 +6,7 @@ gtGUIStaticTextImpl::gtGUIStaticTextImpl( gtDriver* d ):
 	m_modelSystem( nullptr ),
 	m_driver( d )
 {
-	m_type = gtGUIObjectType::text;
+	m_type = gtGUIObjectType::Text;
 	m_mainSystem = gtMainSystem::getInstance();
 	m_modelSystem= m_mainSystem->getModelSystem();
 }
@@ -40,6 +40,19 @@ void gtGUIStaticTextImpl::clear( void ){
 	}
 	m_buffers.clear();
 	m_bufferInfo.clear();
+}
+
+void gtGUIStaticTextImpl::updateMaterial( void ){
+	u32 sz = m_buffers.size();
+	for( u32 i = 0u; i < sz; ++i ){
+		auto * m = m_buffers[ i ]->getMaterial( 0u );
+		m->textureLayer[ 0u ].diffuseColor = m_material.textureLayer[ 0u ].diffuseColor;
+	}
+}
+
+void gtGUIStaticTextImpl::setColor( const gtColor& color ){
+	m_material.textureLayer[ 0u ].diffuseColor = color;
+	updateMaterial();
 }
 
 template<typename rectType>

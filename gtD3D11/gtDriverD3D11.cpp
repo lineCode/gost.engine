@@ -1013,6 +1013,7 @@ bool	gtDriverD3D11::createShaders( void ){
 	if( m_shader3DStandart ) if( !m_shader3DStandart->createShaderObject( 16u * sizeof(f32) ) ) return false;
 	if( m_shaderSprite ) if( !m_shaderSprite->createShaderObject( 24u * sizeof(f32) ) ) return false;
 	if( m_shaderLine ) if( !m_shaderLine->createShaderObject( 28u * sizeof(f32) ) ) return false;
+	if( m_shaderGUI ) if( !m_shaderGUI->createShaderObject( 4u * sizeof(f32) ) ) return false;
 
 	return true;
 }
