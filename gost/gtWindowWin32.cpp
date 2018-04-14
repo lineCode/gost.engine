@@ -74,14 +74,13 @@ bool	gtWindowWin32::init( u32 i ){
 	wc.lpfnWndProc		= WndProc;
 	wc.hInstance		= GetModuleHandle( 0 );
 	wc.hIcon			= nullptr;
-	wc.hCursor			= nullptr; // LoadCursor(NULL, IDC_ARROW);
+	wc.hCursor			= LoadCursor(NULL, IDC_ARROW);
 	wc.hbrBackground	= (HBRUSH)(COLOR_MENU+1);
 	wc.lpszMenuName		= nullptr;
 	wc.lpszClassName	= (wchar_t*)m_className.data();
 	wc.hIconSm			= nullptr;
 
-	if( RegisterClassEx(&wc) == 0 ){
-		// MSDN: If the function fails, the return value is zero. 
+	if( !RegisterClassEx(&wc) ){
 		gtLogWriter::printError( u"Can not register window class. Error code[%u]", (u32)GetLastError() );
 		return false;
 	}
@@ -113,7 +112,6 @@ bool	gtWindowWin32::init( u32 i ){
 	return true;
 }
 
-	//	Установит заголовок окна
 void	gtWindowWin32::setWindowTitle( const gtString& title ){
 	if( !m_hWnd){
 		gtLogWriter::printWarning( u"Can not set window title" );

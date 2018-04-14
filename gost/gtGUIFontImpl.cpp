@@ -2,7 +2,7 @@
 
 gtGUIFontImpl::gtGUIFontImpl( gtDriver * d ):
 m_driver( d ){
-	m_type = gtGUIObjectType::font;
+	m_type = gtGUIObjectType::Font;
 }
 
 gtGUIFontImpl::~gtGUIFontImpl( void ){
@@ -16,6 +16,7 @@ gtGUIFontImpl::~gtGUIFontImpl( void ){
 }
 
 void gtGUIFontImpl::render(){}
+void gtGUIFontImpl::setOpacity( f32 ){}
 
 //void gtGUIFontImpl::setDriver( gtDriver* d ){
 //	m_driver = d;

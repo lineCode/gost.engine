@@ -274,6 +274,39 @@ void gtSceneSystemImpl::sortTransparent(  gtArray<gtGameObject*>& opaque, gtArra
 	}
 }
 
+struct object_distance{
+	object_distance( f32 d, gtGameObject* go ):
+		dist( d ), obj( go )
+	{}
+
+	f32 dist;
+	gtGameObject* obj;
+
+	bool operator<(const object_distance& other){
+		if( dist < other.dist ) return true;
+		return false;
+	}
+};
+
+void gtSceneSystemImpl::sortTransparentDistance( gtArray<gtGameObject*>& in, gtArray<gtGameObject*>& out ){
+	v3f * position = &m_activeCamera->getPositionInSpace();
+
+	gtArray<object_distance> dist;
+
+	auto sz = in.size();
+	for( u32 i = 0u; i < sz; ++i ){
+		dist.push_back( object_distance( position->distance( in[ i ]->getPositionInSpace() ), in[ i ] ) );
+	}
+
+	dist.sort();
+
+	sz = in.size();
+	for( u32 i = 0u; i < sz; ++i ){
+		out.push_back( dist[ i ].obj );
+	}
+
+}
+
 void gtSceneSystemImpl::renderScene( void ){
 
 	auto * childs = &m_rootNode->getChildList();
@@ -297,9 +330,11 @@ void gtSceneSystemImpl::renderScene( void ){
 
 
 	gtArray<gtGameObject*> opaqueObjects;
+	gtArray<gtGameObject*> transparentUnsortObjects;
 	gtArray<gtGameObject*> transparentObjects;
 	
-	sortTransparent(opaqueObjects,transparentObjects,objectsInFrustum);
+	sortTransparent( opaqueObjects, transparentUnsortObjects, objectsInFrustum );
+	sortTransparentDistance( transparentUnsortObjects, transparentObjects );
 
 	auto sz = opaqueObjects.size();
 

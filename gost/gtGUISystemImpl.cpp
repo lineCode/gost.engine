@@ -21,6 +21,10 @@ void gtGUISystemImpl::setCurrentRenderDriver( gtDriver * driver ){
 	m_driver = driver;
 }
 
+gtPtr<gtGUIShape> gtGUISystemImpl::createShapeRectangle( const v4i& rect, const gtColor& color ){
+	return nullptr;
+}
+
 gtPtr<gtGUIFont> gtGUISystemImpl::createFont( const gtString& fontName, gtImage * fromImage ){
 
 	gtPtr_t( gtGUIFontImpl, font, new gtGUIFontImpl( m_driver ) );

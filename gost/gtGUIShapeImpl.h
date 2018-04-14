@@ -1,22 +1,25 @@
-﻿#pragma once
-#ifndef __GT_GUI_SYSTEM_H__
-#define __GT_GUI_SYSTEM_H__ //< include guard
+#pragma once
+#ifndef __GT_GUI_SHAPE_IMPL_H__
+#define __GT_GUI_SHAPE_IMPL_H__
 
 namespace gost{
 
-	class gtImage;
-	class gtGUISystem : public gtRefObject{
+
+	class gtGUIShapeImpl : public gtGUIShape{
+		gtDriver*		m_driver;
+		gtRenderModel*	m_model;
+		gtMaterial*		m_material;
+
 	public:
 
-			//	If `fromImage == true`, `fontName` must be full xml file in string
-		virtual gtPtr<gtGUIFont> createFont( const gtString& fontName, gtImage * fromImage = nullptr ) = 0;
-		virtual gtPtr<gtGUIFont> createBuiltInFont( void ) = 0;
+		gtGUIShapeImpl( gtDriver * );
+		~gtGUIShapeImpl( void );
+		
 
-		virtual gtPtr<gtGUIStaticText> createStaticText( const gtString& text, s32 positionX, s32 positionY, gtGUIFont* font ) = 0;
+		void render( void );
+		void setOpacity( f32 opacity = 1.f );
 
-		virtual gtPtr<gtGUIShape>	createShapeRectangle( const v4i& rect, const gtColor& color ) = 0;
-
-		virtual void setCurrentRenderDriver( gtDriver * driver ) = 0;
+		void setColor( const gtColor& color );
 	};
 
 }

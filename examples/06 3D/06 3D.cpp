@@ -69,7 +69,9 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 	gtGUISystem * guiSystem = mainSystem->getGUISystem( driver.data() );
 	
 	auto font = guiSystem->createFont( u"../media/fonts/JapanSans.xml" ); 
-	auto text = guiSystem->createStaticText( u"オーディオシステム 概要", 5, 75, font.data() );
+	auto text = guiSystem->createStaticText( u"オーディオシステム", 5, 75, font.data() );
+	text->setColor( gtColor( 0xFFFFFA82 ) );
+	text->setOpacity( 0.13f );
 	
 	auto builtInFont = guiSystem->createBuiltInFont();
 	auto text2 = guiSystem->createStaticText( u"Hello Привет", 5, 85, builtInFont.data() );

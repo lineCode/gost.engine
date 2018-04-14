@@ -23,9 +23,15 @@ namespace gost{
 		gtModelSystem* m_modelSystem;
 		gtDriver*	   m_driver;	
 
+		gtMaterial		m_material;
+
 		v2i m_position;
 
+		f32 m_length;
+
 		void checkFont( void );
+
+		void updateMaterial( void );
 
 	public:
 
@@ -39,12 +45,15 @@ namespace gost{
 		void setFont( const gtPtr<gtGUIFont>& font );
 
 		void setText( const gtString& text );
+		void setColor( const gtColor& color );
+
+		f32  getLength( void );
 
 		void clear( void );
 
 
 		void render( void );
-
+		void setOpacity( f32 opacity = 1.f );
 		
 
 	};

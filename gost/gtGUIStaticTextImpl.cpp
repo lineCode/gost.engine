@@ -4,9 +4,10 @@ gtGUIStaticTextImpl::gtGUIStaticTextImpl( gtDriver* d ):
 	m_font( nullptr ),
 	m_mainSystem( nullptr ),
 	m_modelSystem( nullptr ),
-	m_driver( d )
+	m_driver( d ),
+	m_length( 0.f )
 {
-	m_type = gtGUIObjectType::text;
+	m_type = gtGUIObjectType::Text;
 	m_mainSystem = gtMainSystem::getInstance();
 	m_modelSystem= m_mainSystem->getModelSystem();
 }
@@ -33,6 +34,7 @@ bool gtGUIStaticTextImpl::init( const gtString& text, s32 positionX, s32 positio
 }
 
 void gtGUIStaticTextImpl::clear( void ){
+	m_length = 0.f;
 	m_text.clear();
 	u32 sz = m_buffers.size();
 	for( u32 i = 0u; i < sz; ++i ){
@@ -40,6 +42,24 @@ void gtGUIStaticTextImpl::clear( void ){
 	}
 	m_buffers.clear();
 	m_bufferInfo.clear();
+}
+
+void gtGUIStaticTextImpl::updateMaterial( void ){
+	u32 sz = m_buffers.size();
+	for( u32 i = 0u; i < sz; ++i ){
+		auto * m = m_buffers[ i ]->getMaterial( 0u );
+		m->textureLayer[ 0u ].diffuseColor = m_material.textureLayer[ 0u ].diffuseColor;
+		m->opacity = m_material.opacity;
+	}
+}
+
+f32  gtGUIStaticTextImpl::getLength( void ){
+	return m_length;
+}
+
+void gtGUIStaticTextImpl::setColor( const gtColor& color ){
+	m_material.textureLayer[ 0u ].diffuseColor = color;
+	updateMaterial();
 }
 
 template<typename rectType>
@@ -109,6 +129,7 @@ void gtGUIStaticTextImpl::setText( const gtString& text ){
 				f32 py = (2.f/bbsz->y);
 				f32 centerx = (bbsz->x*0.5f);
 				f32 centery = (bbsz->y*0.5f);
+				
 				u32 max_height = 0;
 
 				for( u32 i = 0u; i < textSize; ++i ){
@@ -199,6 +220,7 @@ void gtGUIStaticTextImpl::setText( const gtString& text ){
 						}
 					}
 
+
 					if( ch == u'\n' ){
 						width = 0;
 						line_interval += max_height;
@@ -207,8 +229,10 @@ void gtGUIStaticTextImpl::setText( const gtString& text ){
 
 					sub->move( v3f( (f32)interval * px, -((f32)line_interval * py), 0.1f ) );
 
-					if( ch != u'\n' )
+					if( ch != u'\n' ){
 						interval += width + 2u;
+						m_length = (f32)(interval + width);
+					}
 
 					if( i ){
 						if( sub != mainsub ){
@@ -246,10 +270,10 @@ void gtGUIStaticTextImpl::setText( const gtString& text ){
 }
 
 void gtGUIStaticTextImpl::checkFont( void ){
-	if( !m_font ){
+//	if( !m_font ){
 //		m_font = (gtGUIFontImpl*)((gtGUISystemImpl*)m_mainSystem->getGUISystem(m_driver))->getDefaultFont();
 		//m_font->setDriver( m_driver );
-	}
+//	}
 }
 
 void gtGUIStaticTextImpl::render( void ){
@@ -258,6 +282,11 @@ void gtGUIStaticTextImpl::render( void ){
 	for( u32 i = 0u; i < sz; ++i ){
 		m_driver->drawModel( m_buffers[ i ] );
 	}
+}
+
+void gtGUIStaticTextImpl::setOpacity( f32 opacity ){
+	m_material.opacity = opacity;
+	updateMaterial();
 }
 
 /*

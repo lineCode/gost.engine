@@ -18,6 +18,7 @@ namespace gost{
 		gtPtr<gtGUIFont>		createBuiltInFont( void );
 		gtPtr<gtGUIStaticText>  createStaticText( const gtString& text, s32 positionX, s32 positionY, gtGUIFont* font );
 
+		gtPtr<gtGUIShape>		createShapeRectangle( const v4i& rect, const gtColor& color );
 
 		void setCurrentRenderDriver( gtDriver * driver );
 		

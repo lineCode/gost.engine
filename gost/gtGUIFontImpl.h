@@ -42,7 +42,8 @@ namespace gost{
 
 		bool init( const gtString& font, gtImage * fromImage );
 
-		void render();
+		void render( void );
+		void setOpacity( f32 );
 
 		gtTexture *			getTexture( u32 id );
 		u32					getTextureID( char16_t c );

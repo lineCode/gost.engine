@@ -68,6 +68,7 @@ namespace gost{
 		ID3D11RasterizerState*	m_RasterizerWireframeNoBackFaceCulling;
 		ID3D11RasterizerState*	m_RasterizerWireframe;
 		ID3D11BlendState*		m_blendStateAlphaEnabled;
+		ID3D11BlendState*		m_blendStateAlphaEnabledWithATC;
 		ID3D11BlendState*		m_blendStateAlphaDisabled;
 
 		void clearRenderTarget( const gtColor& );
@@ -96,13 +97,14 @@ namespace gost{
 		gtPtr<gtShaderProcessingD3D11> m_shaderProcessing;
 
 		gtPtr<gtTexture>	m_standartTexture;
+		gtPtr<gtTexture>	m_standartTextureWhiteColor;
 
 		void	setActiveShader( gtShader* );
 
 			//	непосредственно рисует картинку
 		void	_draw2DImage( const v4f& rect, const v8f& region, const gtMaterial& );
 
-		void	enableBlending( bool );
+		void	enableBlending( bool, bool atc = false );
 
 		bool	createShaders( void );
 
@@ -162,6 +164,7 @@ namespace gost{
 
 		static gtDriverD3D11*	getInstance( void );
 		gtTexture * getStandartTexture( void );
+		gtTexture * getStandartTextureWhiteColor( void );
 
 		void	setDepthState( bool state = true );
 	};

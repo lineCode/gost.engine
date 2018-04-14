@@ -227,6 +227,7 @@
     <ClCompile Include="..\..\gost\gtFileSystemWin32.cpp" />
     <ClCompile Include="..\..\gost\gtFileWin32.cpp" />
     <ClCompile Include="..\..\gost\gtGUIFontImpl.cpp" />
+    <ClCompile Include="..\..\gost\gtGUIShapeImpl.cpp" />
     <ClCompile Include="..\..\gost\gtGUIStaticTextImpl.cpp" />
     <ClCompile Include="..\..\gost\gtGUISystemImpl.cpp" />
     <ClCompile Include="..\..\gost\gtLogerImpl.cpp" />
@@ -257,6 +258,7 @@
     <ClInclude Include="..\..\gost\gtFileSystemWin32.h" />
     <ClInclude Include="..\..\gost\gtFileWin32.h" />
     <ClInclude Include="..\..\gost\gtGUIFontImpl.h" />
+    <ClInclude Include="..\..\gost\gtGUIShapeImpl.h" />
     <ClInclude Include="..\..\gost\gtGUIStaticTextImpl.h" />
     <ClInclude Include="..\..\gost\gtGUISystemImpl.h" />
     <ClInclude Include="..\..\gost\gtLogerImpl.h" />
@@ -297,6 +299,7 @@
     <ClInclude Include="..\..\include\gtGameObject.h" />
     <ClInclude Include="..\..\include\gtGUIFont.h" />
     <ClInclude Include="..\..\include\gtGUIObject.h" />
+    <ClInclude Include="..\..\include\gtGUIShape.h" />
     <ClInclude Include="..\..\include\gtGUIStaticText.h" />
     <ClInclude Include="..\..\include\gtGUISystem.h" />
     <ClInclude Include="..\..\include\gtImage.h" />

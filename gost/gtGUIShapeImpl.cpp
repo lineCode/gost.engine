@@ -1,27 +1,29 @@
-﻿#pragma once
-#ifndef __GT_GUI_SYSTEM_H__
-#define __GT_GUI_SYSTEM_H__ //< include guard
+#include "common.h"
 
-namespace gost{
-
-	class gtImage;
-	class gtGUISystem : public gtRefObject{
-	public:
-
-			//	If `fromImage == true`, `fontName` must be full xml file in string
-		virtual gtPtr<gtGUIFont> createFont( const gtString& fontName, gtImage * fromImage = nullptr ) = 0;
-		virtual gtPtr<gtGUIFont> createBuiltInFont( void ) = 0;
-
-		virtual gtPtr<gtGUIStaticText> createStaticText( const gtString& text, s32 positionX, s32 positionY, gtGUIFont* font ) = 0;
-
-		virtual gtPtr<gtGUIShape>	createShapeRectangle( const v4i& rect, const gtColor& color ) = 0;
-
-		virtual void setCurrentRenderDriver( gtDriver * driver ) = 0;
-	};
-
+gtGUIShapeImpl::gtGUIShapeImpl( gtDriver * d ):
+m_driver( d ),
+m_model( nullptr ),
+m_material( nullptr ){
 }
 
-#endif
+gtGUIShapeImpl::~gtGUIShapeImpl( void ){
+	if( m_model ) m_model->release();
+}
+
+void gtGUIShapeImpl::render( void ){
+	if( m_model )
+	if( m_driver ){
+		m_driver->drawModel( m_model );
+	}
+}
+
+void gtGUIShapeImpl::setOpacity( f32 opacity ){
+	m_material->opacity = opacity;
+}
+
+void gtGUIShapeImpl::setColor( const gtColor& color ){
+	m_material->textureLayer[ 0u ].diffuseColor = color;
+}
 
 /*
 Copyright (c) 2018 532235

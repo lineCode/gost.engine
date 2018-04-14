@@ -3,12 +3,16 @@
 gtShaderProcessingD3D11::gtShaderProcessingD3D11( ID3D11DeviceContext*	d3d11DevCon ):
 	m_shaderD3D11( nullptr ),
 	m_material( nullptr ),
-	m_d3d11DevCon( d3d11DevCon )
+	m_d3d11DevCon( d3d11DevCon ),
+	m_standartTexture( nullptr )
 {
-	m_standartTexture = gtDriverD3D11::getInstance()->getStandartTexture();
 }
 
 gtShaderProcessingD3D11::~gtShaderProcessingD3D11(){
+}
+
+void gtShaderProcessingD3D11::setStandartTexture( gtTexture * t ){
+	m_standartTexture = t;
 }
 
 			// Послать в шейдер значение float

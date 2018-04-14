@@ -32,8 +32,21 @@ m_system( nullptr ){
 	m_system = gtMainSystem::getInstance();
 }
 gtD3D11GUIShaderCallback::~gtD3D11GUIShaderCallback(){}
-void gtD3D11GUIShaderCallback::onShader( const gtMaterial& /*m*/, gtShaderProcessing* sp ){
+void gtD3D11GUIShaderCallback::onShader( const gtMaterial& m, gtShaderProcessing* sp ){
 	sp->setTexture( "", 0 );
+	struct cbPixel_t{
+		v4f diffuseColor;
+		//f32 opacity;
+		//v3f padding;
+	}cbPixel;
+
+	cbPixel.diffuseColor.x = m.textureLayer[ 0u ].diffuseColor.getRed();
+	cbPixel.diffuseColor.y = m.textureLayer[ 0u ].diffuseColor.getGreen();
+	cbPixel.diffuseColor.z = m.textureLayer[ 0u ].diffuseColor.getBlue();
+	cbPixel.diffuseColor.w = m.opacity;
+
+
+	sp->sendDataPS( &cbPixel, 0, 0u );
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////

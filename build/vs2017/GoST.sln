@@ -70,6 +70,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shaders", "Shaders", "{8672
 	ProjectSection(SolutionItems) = preProject
 		..\..\shaders\2d_basic.hlsl = ..\..\shaders\2d_basic.hlsl
 		..\..\shaders\3d_basic.hlsl = ..\..\shaders\3d_basic.hlsl
+		..\..\shaders\GUI.hlsl = ..\..\shaders\GUI.hlsl
 		..\..\shaders\line.hlsl = ..\..\shaders\line.hlsl
 		..\..\shaders\sprite.hlsl = ..\..\shaders\sprite.hlsl
 	EndProjectSection
