@@ -37,9 +37,11 @@ PSOut PSMain(VSOut input)
 {
     PSOut output;
 	
-    output.color = tex2d_1.Sample(tex2D_sampler_1, input.uv) * diffuseColor;
+    output.color = tex2d_1.Sample(tex2D_sampler_1, input.uv) * float4( diffuseColor.r, diffuseColor.g, diffuseColor.b, 1.f);
 	
-//	if( output.color.a < opacity ) discard;
+	if( output.color.a < 0.5f ) discard;
+
+	output.color.a = diffuseColor.a;
 	
     return output;
 }

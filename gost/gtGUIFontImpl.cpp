@@ -16,6 +16,7 @@ gtGUIFontImpl::~gtGUIFontImpl( void ){
 }
 
 void gtGUIFontImpl::render(){}
+void gtGUIFontImpl::setOpacity( f32 ){}
 
 //void gtGUIFontImpl::setDriver( gtDriver* d ){
 //	m_driver = d;

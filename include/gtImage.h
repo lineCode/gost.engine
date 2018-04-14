@@ -85,8 +85,6 @@ namespace gost{
 			//	кадры (пока не реализовано)
 		u32		frames;
 
-			//	конвертирует не сжатый формат в указанный
-			// \param newFormat: новый формат
 		void	convert( Format newFormat ){
 			if( newFormat == format ) return;
 
@@ -190,7 +188,7 @@ namespace gost{
 			}
 		}
 
-			// перевернёт пиксель. из rgb сделает bgr, из rgba - abgr, из rgbx - bgrx и т.д. Реализовывать функции нужно по мере необходимости.
+			// rgb -> bgr, rgba -> abgr, rgbx -> bgrx...
 		void	flipPixel( void ){
 			if( !data ) return;
 			switch( format ){
@@ -760,14 +758,13 @@ namespace gost{
 
 	};
 
-	//	Helper functions for gtImage edit
+	//	Helper functions for gtImage 
 	namespace image{
 
 			// планируется написать функцию изменения масштаба картинки
 		GT_FORCE_INLINE void scale( gtImage * /*i*/, f32 /*factor*/ ){
 		}
 
-			// закрасит картинку сплошным цветом
 			// \param i: картинка для закрашивания
 			// \param saveAlpha: если \b true то альфа не закрасится
 			// \param color: цвет
@@ -798,8 +795,6 @@ namespace gost{
 			}
 		}
 
-		/*нужно написать проверки*/
-			//	Закрасит картинку квадратам в виде шахматной доски
 			// \param i: картинка для закрашивания
 			// \param saveAlpha: если \b true то альфа не закрасится
 			// \param firstColor: первый цвет
@@ -822,8 +817,6 @@ namespace gost{
 			bool white = true;
 			
 			const gtColor * col;
-
-			//u32 newLineDetector = 0u;
 
 			bool even = i->width % 2 ? false : true;
 

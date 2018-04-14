@@ -4,9 +4,22 @@
 
 namespace gost{
 
+	enum class gtGUIShapeType{
+		Rectangle
+	};
+
 	class gtGUIShape : public gtGUIObject{
+		gtGUIShapeType m_type;
 	public:
 
+		virtual ~gtGUIShape( void ){}
+
+		virtual void setColor( const gtColor& color ) = 0;
+
+
+		virtual gtGUIShapeType getShapeType( void ){
+			return m_type;
+		}
 	};
 
 }

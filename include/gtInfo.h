@@ -1,7 +1,7 @@
 ﻿/*!	GOST
 	\file gtInfo.h
 	\brief	get some information…
-			
+
 	Тут получаем информацию о компиляторах, архитектуре и прочее
 */
 
@@ -10,14 +10,13 @@
 #define __GT_INFO_H__ //< include guard
 
 	/*! \brief для того чтобы в макрос вставлялись кавычки
-	
+
 		например
 		#define PRINT(x) printf(QUOTE(x))
 		...
 		PRINT(int); // вывод "int"
 	*/
 	#define Q(x) #x
-	/*! \brief \sa Q */
 	#define QUOTE(x) Q(x)
 
 	/*! \brief создаёт из 4х \b unsigned \b char целое значение
@@ -40,30 +39,18 @@
 	#define gtPtr_t(Type,Name,exp) gtPtr<Type> Name(gtPtrNew<Type>(exp))
 
 	//	Компилятор
-	//! \cond
 	#if defined(__clang__)
-	//! \endcond
 	#	define GT_COMPILER_CLANG
-	//! \cond
 	#elif defined(__SNC__)
-	//! \endcond
 	#	define GT_COMPILER_SNC
-	//! \cond
 	#elif defined(__GNUC__) || defined(__CC_ARM) || defined(__ARMCC__) || defined(__ghs__)
-	//! \endcond
 	#	define GT_COMPILER_GCC
-	//! \cond
 	#if defined(__CC_ARM) || defined(__ARMCC__)
-	//! \endcond
 	#	define GT_COMPILER_ARMCC
-	//! \cond
 	#elif defined(__ghs__)
-	//! \endcond
 	#	define GT_COMPILER_GHS
-	//! \cond
 	#endif
 	#elif defined(_MSC_VER)
-	//! \endcond
 	//! \brief Microsoft Visual C++ compiler
 	#	define GT_COMPILER_MSVC
 	#include <SDKDDKVer.h>
@@ -71,27 +58,21 @@
 	#include <shlobj.h>
 	#include <shlwapi.h>
 	#pragma comment(lib,"winmm.lib")
-	//! \cond
 	#elif defined(__MWERKS__)
-	//! \endcond
 	#	define GT_COMPILER_MWERKS
 	#else
 	#	error Компилятор не поддерживается
 	#endif
 
 	//	Архитектура
-	//! \cond
 	#if defined(__i386__) || defined(_M_IX86)
-	//! \endcond
 	#	define	GT_ARCH_IA32
 	#	define	GT_ARCH_INTEL
 	#	define	GT_ENDIAN_LITTLE	1
 	#	define	GT_ENDIAN_BIG		0
 	#	define	GT_POINTER_SIZE		4
 	#	define	GT_NUM_SIMD_REGISTERS 8
-	//! \cond
 	#elif defined(_M_AMD64) || defined(_M_X64) || defined(__amd64) || defined(__x86_64)
-	//! \endcond
 	#	define	GT_ARCH_X64
 	#	define	GT_ARCH_INTEL
 	#	define	GT_ENDIAN_LITTLE	1
@@ -99,60 +80,42 @@
 	#	define	GT_POINTER_SIZE		8
 	#	define	GT_ARCH_SUPPORTS_INT64
 	#	define	GT_NUM_SIMD_REGISTERS 16
-	//! \cond
 	#elif defined(_PPC_) || defined(__POWERPC__) || defined(_M_PPC) || defined(_M_PPCBE) || defined(GEKKO) || defined(EPPC)
-	//! \endcond
 	#	define	GT_ARCH_PPC
 	#	define	GT_ENDIAN_LITTLE	0
 	#	define	GT_ENDIAN_BIG		1
 	#	define	GT_POINTER_SIZE		4
 	#	define	GT_ARCH_SUPPORTS_INT64
 	#	define	GT_NUM_SIMD_REGISTERS 8
-	//! \cond
 	#elif defined(__PPU__) && defined(__CELLOS_LV2__)
-	//! \endcond
 	#	define	GT_ARCH_PS3
 	#	define	GT_ENDIAN_LITTLE	0
 	#	define	GT_ENDIAN_BIG		1
 	#	define	GT_POINTER_SIZE		4
 	#	define	GT_ARCH_SUPPORTS_INT64
 	#	define	GT_NUM_SIMD_REGISTERS 32
-	//! \cond
 	#elif defined(__SPU__) && defined(__CELLOS_LV2__)
-	//! \endcond
 	#	define	GT_ARCH_PS3SPU
 	#	define	GT_ENDIAN_LITTLE	0
 	#	define	GT_ENDIAN_BIG		1
 	#	define	GT_POINTER_SIZE		4
 	#	define	GT_NUM_SIMD_REGISTERS 128
-	//! \cond
 	#elif defined(arm) || defined(__arm__) || defined(_M_ARM)
-	//! \endcond
 	#	define	GT_ARCH_ARM
-	//! \cond
 	#	if defined(__ARM_ARCH_7A__) || defined(__ARM_ARCH_7__) || defined(__ARM_ARCH_7R__) || defined(__ARM_ARCH_7M__) || defined(__ARM_ARCH_7S__)  || ( defined(_M_ARM) && (_M_ARM >= 7) )
-	//! \endcond
 	#	define	GT_ARCH_ARM_V7		1
-	//! \cond
 	#	elif defined(__ARM_ARCH_6__) || defined(__ARM_ARCH_6J__) || defined(__ARM_ARCH_6K__) || defined(__ARM_ARCH_6Z__) || defined(__ARM_ARCH_6ZK) || defined(__ARM_ARCH_6T2__) || defined(NN_PROCESSOR_ARM) || defined(NN_PROCESSOR_ARM_V6) || ( defined(_M_ARM) && (_M_ARM < 7) )
-	//! \endcond
 	#	define	GT_ARCH_ARM_V6		1
 	#	else
 	#	error	Эта ARM архитектура не поддерживается
 	#	endif
-	//! \cond
 	#	if defined(__ARMEB__)
-	//! \endcond
 	#	define	GT_ENDIAN_LITTLE	0
 	#	define	GT_ENDIAN_BIG		1
-	//! \cond
 	#	else
-	//! \endcond
 	#	define	GT_ENDIAN_LITTLE	1
 	#	define	GT_ENDIAN_BIG		0
-	//! \cond
 	#	endif
-	//! \endcond
 	#	define	GT_POINTER_SIZE		4
 	#	define	GT_NATIVE_ALIGN_CHECK 0x7
 	#	define	GT_NUM_SIMD_REGISTERS 8
@@ -160,7 +123,7 @@
 	#	error	Невозможно определить архитектуру
 	#endif
 
-	#ifndef GT_NATIVE_ALIGN_CHECK 
+	#ifndef GT_NATIVE_ALIGN_CHECK
 	#define GT_NATIVE_ALIGN_CHECK 0xf
 	#endif
 
@@ -381,7 +344,7 @@
 	//! \cond
 	#elif defined(GT_PLATFORM_PS3_SPU)
 	//! \endcond
-	#	define GT_BREAKPOINT(ID) __asm__ volatile ("ilhu $0, %0\n\tiohl $0, %1\n\tstopd $0,$0,$0" : : "i"(ID>>16), "i"(ID&0xFFFF) ); 
+	#	define GT_BREAKPOINT(ID) __asm__ volatile ("ilhu $0, %0\n\tiohl $0, %1\n\tstopd $0,$0,$0" : : "i"(ID>>16), "i"(ID&0xFFFF) );
 	//! \cond
 	#elif defined(GT_PLATFORM_XBOX360)
 	//! \endcond
@@ -393,7 +356,7 @@
 	//! \cond
 	#elif defined(GT_PLATFORM_GC)
 	//! \endcond
-	#	define GT_BREAKPOINT(ID) 
+	#	define GT_BREAKPOINT(ID)
 	//! \cond
 	#elif defined(GT_PLATFORM_CTR)
 	#	include <nn/dbg.h>
@@ -401,17 +364,17 @@
 	#	define GT_BREAKPOINT(ID) ::nn::dbg::Break(nn::dbg::BREAK_REASON_ASSERT);
 	//! \cond
 	#elif defined(GT_ARCH_ARM)
-	#	if defined(GT_COMPILER_MSVC) 
+	#	if defined(GT_COMPILER_MSVC)
 	//! \endcond
 	#		define GT_BREAKPOINT(ID) __debugbreak();
 	//! \cond
-	#	elif defined(GT_COMPILER_SNC) 
+	#	elif defined(GT_COMPILER_SNC)
 	//! \endcond
 	#		define GT_BREAKPOINT(ID) __breakpoint(0);
 	//! \cond
 	#	else
 	//! \endcond
-	#		define GT_BREAKPOINT(ID) asm("bkpt 0"); 
+	#		define GT_BREAKPOINT(ID) asm("bkpt 0");
 	#	endif
 	//! \cond
 	#else
@@ -447,15 +410,15 @@
 	//! \cond
 	#	else
 	//! \endcond
-	#		define GT_OVERRIDE 
-	#		define GT_FINAL 
+	#		define GT_OVERRIDE
+	#		define GT_FINAL
 	#		define GT_FINAL_OVERRIDE
 	//! \cond
 	#	endif
 	#else
 	//! \endcond
-	#	define GT_OVERRIDE 
-	#	define GT_FINAL 
+	#	define GT_OVERRIDE
+	#	define GT_FINAL
 	#	define GT_FINAL_OVERRIDE
 	#endif
 
@@ -495,7 +458,7 @@
 	#define GT_LOAD_FUNCTION_SAFE_CAST(type,handle,funcName)reinterpret_cast<type>(reinterpret_cast<void*>(GT_LOAD_FUNCTION(handle,funcName)))
 
 	//! \cond
-	#ifndef LOWORD 
+	#ifndef LOWORD
 	//! \endcond
 		//! \brief Получить младшие 2 байта из 32 битного целого
 		#define LOWORD(x)((u16)(((u32)(x))&0xffff))
@@ -514,17 +477,17 @@
 /*
 Copyright (c) 2017-2018 532235
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
-and associated documentation files (the "Software"), to deal in the Software without restriction, 
-including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, 
-and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, 
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software
+and associated documentation files (the "Software"), to deal in the Software without restriction,
+including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense,
+and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so,
 subject to the following conditions:
 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT 
-LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
-IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, 
-WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT
+LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */

@@ -43,7 +43,7 @@ void gtD3D11GUIShaderCallback::onShader( const gtMaterial& m, gtShaderProcessing
 	cbPixel.diffuseColor.x = m.textureLayer[ 0u ].diffuseColor.getRed();
 	cbPixel.diffuseColor.y = m.textureLayer[ 0u ].diffuseColor.getGreen();
 	cbPixel.diffuseColor.z = m.textureLayer[ 0u ].diffuseColor.getBlue();
-	cbPixel.diffuseColor.w = 1.f;
+	cbPixel.diffuseColor.w = m.opacity;
 
 
 	sp->sendDataPS( &cbPixel, 0, 0u );

@@ -17,6 +17,7 @@ namespace gost{
 		void drawObject( gtGameObject * object );
 		
 		void sortTransparent(  gtArray<gtGameObject*>&, gtArray<gtGameObject*>&, gtArray<gtGameObject*>& );
+		void sortTransparentDistance( gtArray<gtGameObject*>&, gtArray<gtGameObject*>& );
 		void frustumCull( gtGameObject* root, gtArray<gtGameObject*>& outArray, gtCameraFrustum * frustum );
 
 	public:

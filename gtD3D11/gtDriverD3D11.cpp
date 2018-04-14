@@ -18,6 +18,7 @@ gtDriverD3D11::gtDriverD3D11( /*gtMainSystem* System,*/ gtDriverInfo params ):
 	m_RasterizerWireframeNoBackFaceCulling( nullptr ),
 	m_RasterizerWireframe( nullptr ),
 	m_blendStateAlphaEnabled( nullptr ),
+	m_blendStateAlphaEnabledWithATC( nullptr ),
 	m_blendStateAlphaDisabled( nullptr ),
 	m_shader2DStandart( nullptr ),
 	m_shader3DStandart( nullptr ),
@@ -51,11 +52,17 @@ gtDriverD3D11*	gtDriverD3D11::getInstance( void ){
 gtTexture * gtDriverD3D11::getStandartTexture( void ){
 	return m_standartTexture.data();
 }
+gtTexture * gtDriverD3D11::getStandartTextureWhiteColor( void ){
+	return m_standartTextureWhiteColor.data();
+}
 
 gtDriverD3D11::~gtDriverD3D11( void ){
 
 	clearTextureCache();
 	clearModelCache();
+
+	if( m_standartTextureWhiteColor.data() )
+		m_standartTextureWhiteColor->release();
 
 	if( m_standartTexture.data() )
 		m_standartTexture->release();
@@ -77,6 +84,10 @@ gtDriverD3D11::~gtDriverD3D11( void ){
 
 	if( m_blendStateAlphaDisabled )
 		m_blendStateAlphaDisabled->Release();
+
+	
+	if( m_blendStateAlphaEnabledWithATC )
+		m_blendStateAlphaEnabledWithATC->Release();
 
 	if( m_blendStateAlphaEnabled )
 		m_blendStateAlphaEnabled->Release();
@@ -361,12 +372,12 @@ bool gtDriverD3D11::initialize( void ){
 
 	D3D11_BLEND_DESC  bd;
 	memset( &bd, 0, sizeof(bd) );
-	bd.AlphaToCoverageEnable = true;
+	bd.AlphaToCoverageEnable = 0;
 	bd.RenderTarget[0].BlendEnable = TRUE;
 	bd.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;
 	bd.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
 	bd.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
-	bd.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ZERO;
+	bd.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
 	bd.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ZERO;
 	bd.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
 	bd.RenderTarget[0].RenderTargetWriteMask = 0x0f;
@@ -377,8 +388,14 @@ bool gtDriverD3D11::initialize( void ){
 		return false;
 	}
 
+	bd.AlphaToCoverageEnable = 1;
+	if( FAILED( m_d3d11Device->CreateBlendState( &bd, &m_blendStateAlphaEnabledWithATC ) ) ){
+		gtLogWriter::printError( u"Can't create Direct3D 11 blend state" );
+		return false;
+	}
+
+
 	bd.RenderTarget[0].BlendEnable = FALSE;
-	
 	if( FAILED( m_d3d11Device->CreateBlendState( &bd, &m_blendStateAlphaDisabled ) ) ){
 		gtLogWriter::printError( u"Can't create Direct3D 11 blend state" );
 		return false;
@@ -406,35 +423,59 @@ bool gtDriverD3D11::initialize( void ){
 }
 
 void	gtDriverD3D11::createStandartTexture( void ){
-	gtImage * i = new gtImage;
-	i->bits = 24u;
-	i->width = 8u;
-	i->height = 8u;
-	i->pitch = i->width * 3u;
-	i->dataSize = i->pitch * i->height;
-	i->format = gtImage::Format::FMT_R8G8B8;
-	i->frames = 1u;
-	i->mipCount = 1u;
+	{
+		gtImage * i = new gtImage;
+		i->bits = 24u;
+		i->width = 8u;
+		i->height = 8u;
+		i->pitch = i->width * 3u;
+		i->dataSize = i->pitch * i->height;
+		i->format = gtImage::Format::FMT_R8G8B8;
+		i->frames = 1u;
+		i->mipCount = 1u;
+		gtMainSystem::getInstance()->allocateMemory( (void**)&i->data, i->dataSize );
 
-	gtMainSystem::getInstance()->allocateMemory( (void**)&i->data, i->dataSize );
+		image::fillCheckerBoard( i, false, gtColor(u8(255),48,224), gtColor(u8(0),0,0) );
 
+		m_standartTexture = this->createTexture( i, gtTextureFilterType::FILTER_PPP );
 
-	image::fillCheckerBoard( i, false, gtColor(u8(255),48,224), gtColor(u8(0),0,0) );
+		gtMainSystem::getInstance()->freeMemory( (void**)&i->data );
 
-	m_standartTexture = this->createTexture( i, gtTextureFilterType::FILTER_PPP );
+		delete i;
+	}
+	{
+		gtImage * i = new gtImage;
+		i->bits = 24u;
+		i->width = 8u;
+		i->height = 8u;
+		i->pitch = i->width * 3u;
+		i->dataSize = i->pitch * i->height;
+		i->format = gtImage::Format::FMT_R8G8B8;
+		i->frames = 1u;
+		i->mipCount = 1u;
+		gtMainSystem::getInstance()->allocateMemory( (void**)&i->data, i->dataSize );
 
-	gtMainSystem::getInstance()->freeMemory( (void**)&i->data );
-	delete i;
+		image::fillSolid( i, false, gtColor( 1.f ) );
+
+		m_standartTextureWhiteColor = this->createTexture( i, gtTextureFilterType::FILTER_PPP );
+
+		gtMainSystem::getInstance()->freeMemory( (void**)&i->data );
+
+		delete i;
+	}
 }
 
-void	gtDriverD3D11::enableBlending( bool b ){
+void	gtDriverD3D11::enableBlending( bool b, bool atc ){
 	float blendFactor[4];
 	blendFactor[0] = 0.0f;
 	blendFactor[1] = 0.0f;
 	blendFactor[2] = 0.0f;
 	blendFactor[3] = 0.0f;
 	if( b ){
-		m_d3d11DevCon->OMSetBlendState( m_blendStateAlphaEnabled, blendFactor, 0xffffffff );
+		if( atc )
+			m_d3d11DevCon->OMSetBlendState( m_blendStateAlphaEnabledWithATC, blendFactor, 0xffffffff );
+		else
+			m_d3d11DevCon->OMSetBlendState( m_blendStateAlphaEnabled, blendFactor, 0xffffffff );
 	}else{
 		m_d3d11DevCon->OMSetBlendState( m_blendStateAlphaDisabled, blendFactor, 0xffffffff );
 	}
@@ -680,13 +721,16 @@ void gtDriverD3D11::drawModel( gtRenderModel* model ){
 			switch( material->type ){
 			case gtMaterialType::GUI:
 				shader = m_shaderGUI;
+				m_shaderProcessing->setStandartTexture( m_standartTextureWhiteColor.data() );
 				break;
 			case gtMaterialType::Standart:
 			default:
 				shader = m_shader3DStandart;
+				m_shaderProcessing->setStandartTexture( m_standartTexture.data() );
 				break;
 			case gtMaterialType::Sprite:
 				shader = m_shaderSprite;
+				m_shaderProcessing->setStandartTexture( m_standartTexture.data() );
 				break;
 			}
 		}

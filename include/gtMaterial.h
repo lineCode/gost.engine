@@ -101,7 +101,8 @@ namespace gost{
 			fresnel( 1.f ),
 			flags( 0u ),
 			type( gtMaterialType::Standart ),
-			owner( nullptr )
+			owner( nullptr ),
+			alphaToCoverage( false )
 		{}
 
 			// d-tor
@@ -125,8 +126,7 @@ namespace gost{
 			//	шероховатость
 		f32		roughness;
 
-			//	непрозрачность. Значение от 1 до 0
-			//	Для прозрачности должен быть флаг MF_BLEND.
+			//	Need MF_BLEND.
 		f32		opacity;
 
 			//	пригодится там где нужно
@@ -143,6 +143,8 @@ namespace gost{
 
 			// Вспомогателный указатель. Хранит адрес объекта который использует данный материал
 		gtGameObject * owner;
+
+		bool	alphaToCoverage;
 	};
 
 

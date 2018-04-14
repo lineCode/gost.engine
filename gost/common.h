@@ -41,6 +41,7 @@ using namespace gost;
 
 #include "gtXMLDocumentImpl.h"
 
+#include "gtGUIShapeImpl.h"
 #include "gtGUISystemImpl.h"
 
 #include "gtMainSystemCommon.h"

@@ -215,6 +215,12 @@ namespace gost{
 			}
 		}
 
+		void sort( void ){
+			for( u32 i = 0u; i < m_size; ++i ){
+
+			}
+		}
+
 		gtArray<type>& operator=( const gtArray<type>& other ){
 			clear();
 			m_size = other.size();

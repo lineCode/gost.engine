@@ -61,6 +61,8 @@ namespace gost{
 
 		/* для передачи данных в константный шейдер */
 		void mapData( void* data, s32 id );
+
+		void setStandartTexture( gtTexture * t );
 	};
 
 }
