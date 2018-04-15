@@ -16,16 +16,32 @@ namespace gost{
 		convex
 	};
 
+<<<<<<< HEAD
     #if defined(_MSC_VER)
     #	define	GT_IMPORT __declspec(dllimport)
     #	define	GT_EXPORT __declspec(dllexport)
+=======
+	#if defined(_WIN32)
+    #	define	GT_IMPORT __declspec(dllimport)
+    #	define	GT_EXPORT __declspec(dllexport)
+    #if (_MSC_VER > 1700 )
+    #   define	GT_TYPE( x, y ) using x = y
+    #else
+    #   define	GT_TYPE( x, y ) typedef (y) (x)
+    #endif
+>>>>>>> f289837bbb639479bca6e7d3a3b320cc9adb1038
     #	define	GT_SPRINTF sprintf_s
     #	define	GT_SNPRINTF _snprintf_s
     #	define	GT_CDECL __cdecl
+<<<<<<< HEAD
     #elif defined(__linux)
+=======
+    #elif defined(__linux__)
+>>>>>>> f289837bbb639479bca6e7d3a3b320cc9adb1038
     #	define	GT_IMPORT
     #	define	GT_EXPORT
     #	define	GT_SPRINTF sprintf
+<<<<<<< HEAD
     #	define	GT_SNPRINTF snprintf
     #	define	GT_CDECL
     #endif
@@ -41,13 +57,23 @@ namespace gost{
     #endif
 
     #ifdef GT_EXPORTS
+=======
+	#	define	GT_SNPRINTF snprintf
+    #endif
+
+	#ifdef GT_EXPORTS
+>>>>>>> f289837bbb639479bca6e7d3a3b320cc9adb1038
     #	define GT_API GT_EXPORT
     #else
     #	define GT_API GT_IMPORT
     #endif
 
 	#if defined(_MSC_VER) || ((__BORLANDC__ >= 0x530) && !defined(__STRICT_ANSI__))
+<<<<<<< HEAD
 	 #   define GT_UCHAR		 unsigned	__int8
+=======
+    #   define GT_UCHAR		 unsigned	__int8
+>>>>>>> f289837bbb639479bca6e7d3a3b320cc9adb1038
     #   define GT_CHAR					__int8
     #   define GT_USHORT	 unsigned	__int16
     #   define GT_SHORT					__int16
@@ -55,8 +81,13 @@ namespace gost{
     #   define GT_INT					__int32
     #   define GT_ULONGLONG  unsigned	__int64
     #   define GT_LONGLONG				__int64
+<<<<<<< HEAD
 	 #else
 	#   define GT_UCHAR		 unsigned	char
+=======
+    #else
+    #   define GT_UCHAR		 unsigned	char
+>>>>>>> f289837bbb639479bca6e7d3a3b320cc9adb1038
     #   define GT_CHAR					char
     #   define GT_USHORT	 unsigned	short
     #   define GT_SHORT					short
@@ -99,7 +130,11 @@ namespace gost{
 
 
 	#define GT_FUNCTION __FUNCTION__
+	#if defined(GT_PLATFORM_LINUX)
+	#define GT_FILE    __FILE__
+	#else
 	#define GT_FILE    __FILEW__
+	#endif
 	#define GT_LINE    __LINE__
 
 	#if defined(DEBUG) || defined(_DEBUG)

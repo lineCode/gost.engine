@@ -11,13 +11,13 @@
 #include <string>
 #include <vector>
 #include <typeinfo>
+#include <cmath>
 
 //	GOST
 #include <gtInfo.h>
 #include <gtTypes.h>
 
 
-#include <gtError.h>
 
 #include <gtAllocator.h>
 #include <gtArray.h>
@@ -31,14 +31,15 @@
 
 #include <gtLoger.h>
 
+#include <gtError.h>
 
 #include <gtInput.h>
 #include <gtEvent.h>
 
 #include <gtXMLDocument.h>
 
-#include <gtVector.h>
 #include <gtMath.h>
+#include <gtVector.h>
 #include <gtQuaternion.h>
 #include <gtMatrix.h>
 #include <gtColor.h>

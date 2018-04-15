@@ -1,10 +1,12 @@
-﻿//	GOST 
+﻿//	GOST
 
 #include "common.h"
 
 /*
 	Реализация для Windows
 */
+
+#if defined(GT_PLATFORM_WINDOWS)
 
 #define GT_MENU_ID_OUTPUT_FILE_SAVE 1
 #define GT_MENU_ID_OUTPUT_EDIT_CLEAR 2
@@ -47,7 +49,7 @@ void	gtOutputWindowWin32::init( void ){
 	// Стиль окна
 	u32 style = WS_BORDER | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_SIZEBOX
 		| WS_CLIPCHILDREN;
-	
+
 	m_windowRect.left = 20;
 	m_windowRect.top = 20;
 	m_windowRect.right = 800;
@@ -55,12 +57,12 @@ void	gtOutputWindowWin32::init( void ){
 
 	m_hWnd = CreateWindowEx( NULL, m_wc.lpszClassName,
 		L"Output", style,
-		m_windowRect.left, 
-		m_windowRect.top, 
-		m_windowRect.right, 
+		m_windowRect.left,
+		m_windowRect.top,
+		m_windowRect.right,
 		m_windowRect.bottom,
-		NULL, NULL, m_wc.hInstance, 
-		
+		NULL, NULL, m_wc.hInstance,
+
 		//	Полезная вещь. Класс сможет иметь доступ к оконной процедуре
 		this );
 
@@ -72,8 +74,8 @@ void	gtOutputWindowWin32::init( void ){
 	HMENU menu = CreateMenu();
 	HMENU menuitem = CreateMenu();
 	HMENU menusubitem = CreateMenu();
-	
-	
+
+
 	AppendMenu( menuitem, MF_STRING, GT_MENU_ID_OUTPUT_FILE_SAVE, L"&Save" );
 	//AppendMenu( menuitem, MF_STRING, GT_MENU_ID_OUTPUT_FILE_SAVE, L"&Open" );
 
@@ -100,24 +102,24 @@ void	gtOutputWindowWin32::init( void ){
 
 	HDC hDC = GetDC( m_hWnd );
 	int nHeight = -MulDiv( 10, GetDeviceCaps( hDC, LOGPIXELSY ), 72 );
-	
+
 	const auto * params = &gtMainSystem::getInstance()->getDeviceCreationParameters();
 
 
 	std::wstring wstr(L"Consolas");
-	if( !AddFontResource( (wchar_t*)params->m_fontName.c_str() ) ){		
+	if( !AddFontResource( (wchar_t*)params->m_fontName.c_str() ) ){
 		wstr.assign(L"Courier New");
 	}
-	HFONT hfBufferFont = CreateFont( nHeight, 0, 0, 0, FW_LIGHT, 0, 0, 0, 
-			DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, 
+	HFONT hfBufferFont = CreateFont( nHeight, 0, 0, 0, FW_LIGHT, 0, 0, 0,
+			DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS,
 			DEFAULT_QUALITY, FF_MODERN | FIXED_PITCH, wstr.data() );
 	if( !hfBufferFont ){
-		hfBufferFont = CreateFont( nHeight, 0, 0, 0, FW_LIGHT, 0, 0, 0, 
-			DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, 
+		hfBufferFont = CreateFont( nHeight, 0, 0, 0, FW_LIGHT, 0, 0, 0,
+			DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS,
 			DEFAULT_QUALITY, FF_MODERN | FIXED_PITCH, L"Courier New" );
 	}
-	
-	
+
+
 	ReleaseDC( m_hWnd, hDC );
 	m_hWndBuffer = CreateWindow( L"edit", NULL, WS_CHILD | WS_VISIBLE | WS_VSCROLL | WS_BORDER |
 									ES_LEFT | ES_MULTILINE | ES_AUTOVSCROLL | ES_READONLY,
@@ -126,7 +128,7 @@ void	gtOutputWindowWin32::init( void ){
 									m_hWnd, 0, m_wc.hInstance, NULL );
 	SendMessage( m_hWndBuffer, WM_SETFONT, ( WPARAM ) hfBufferFont, 0 );
 	m_hbrEditBackground = CreateSolidBrush(RGB(114,114,114));
-	
+
 	//	всё инициализировано
 	m_isInit = true;
 }
@@ -212,7 +214,7 @@ LRESULT CALLBACK gtOutputWindowWin32::OutWndProc( HWND hWnd, UINT uMsg, WPARAM w
 			output = reinterpret_cast<gtOutputWindowWin32*>(GetWindowLongPtr(hWnd, -21));
 		}
 	}
-	
+
 	switch( uMsg ){
 		case WM_CTLCOLORSTATIC:
 			if ( ( HWND ) lParam == output->m_hWndBuffer ) {
@@ -250,7 +252,7 @@ LRESULT CALLBACK gtOutputWindowWin32::OutWndProc( HWND hWnd, UINT uMsg, WPARAM w
 			MoveWindow( output->m_hWndBuffer, 1, 1, rc.right-1,rc.bottom-40,TRUE );
 		}break;
 		case WM_CREATE:{
-			
+
 		}break;
     }
 
@@ -291,20 +293,22 @@ void gtOutputWindowWin32::save( void ){
     }
 }
 
-/*
-Copyright (c) 2017
+#endif
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
-and associated documentation files (the "Software"), to deal in the Software without restriction, 
-including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, 
-and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, 
+/*
+Copyright (c) 2017-2018
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software
+and associated documentation files (the "Software"), to deal in the Software without restriction,
+including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense,
+and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so,
 subject to the following conditions:
 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT 
-LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
-IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, 
-WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT
+LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */

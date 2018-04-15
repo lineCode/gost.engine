@@ -10,11 +10,11 @@
 #define __GT_VECTOR_H__ //< include guard
 
 namespace gost{
-		
+
 
 	template< typename Type > struct gtVector3;
 	template< typename Type > struct gtVector4;
-	
+
 		//	Вектор
 	template< typename Type >
 	struct gtVector2{
@@ -28,7 +28,6 @@ namespace gost{
 			case 1u:
 				return y;
 			default:
-				gtStackTrace::dumpStackTrace();
 				break;
 			}
 		}
@@ -162,7 +161,7 @@ namespace gost{
 		const Type	getY( void ) const {
 			return y;
 		}
-		
+
 			//	установка компонентов
 			//	\param l: список компонентов
 		void	set( Type X, Type Y ){
@@ -188,7 +187,7 @@ namespace gost{
 			return false;
 		}
 
-		
+
 
 			//	получить длину вектора
 			// \return длина вектора (от центра координат)
@@ -230,7 +229,6 @@ namespace gost{
 			case 2u:
 				return z;
 			default:
-				gtStackTrace::dumpStackTrace();
 				break;
 			}
 		}
@@ -248,7 +246,7 @@ namespace gost{
 		gtVector3( const gtVector2< Type >& v ):
 			x( v.x ),
 			y( v.y ),
-			z( static_cast< Type >( 0u ) ){ 
+			z( static_cast< Type >( 0u ) ){
 		}
 
 		gtVector3( Type X, Type Y, Type Z ):
@@ -264,107 +262,107 @@ namespace gost{
 		}
 
 		void zero( void ){
-			x = y = z = static_cast< Type >( 0u ); 
+			x = y = z = static_cast< Type >( 0u );
 		}
 
 		void fill( Type val ){
 			x = y = z = static_cast< Type >( val );
 		}
 
-		void setZ( Type value ){ 
-			z = value; 
+		void setZ( Type value ){
+			z = value;
 		}
 
-		void operator+=( const gtVector3< Type >& v ){ 
-			x += v.x; 
-			y += v.y; 
-			z += v.z; 
+		void operator+=( const gtVector3< Type >& v ){
+			x += v.x;
+			y += v.y;
+			z += v.z;
 		}
 
-		void operator-=( const gtVector3< Type >& v ){ 
-			x -= v.x; 
-			y -= v.y; 
-			z -= v.z; 
+		void operator-=( const gtVector3< Type >& v ){
+			x -= v.x;
+			y -= v.y;
+			z -= v.z;
 		}
 
-		void operator*=( const gtVector3< Type >& v ){ 
-			x *= v.x; 
-			y *= v.y; 
-			z *= v.z; 
+		void operator*=( const gtVector3< Type >& v ){
+			x *= v.x;
+			y *= v.y;
+			z *= v.z;
 		}
 
-		void operator*=( Type v ){ 
-			x *= v; 
-			y *= v; 
-			z *= v; 
+		void operator*=( Type v ){
+			x *= v;
+			y *= v;
+			z *= v;
 		}
 
-		void operator/=( const gtVector3< Type >& v ){ 
-			x /= v.x; 
-			y /= v.y; 
+		void operator/=( const gtVector3< Type >& v ){
+			x /= v.x;
+			y /= v.y;
 			z /= v.z;
 		}
 
-		Type summ( void ){ 
-			return x + y + z; 
+		Type summ( void ){
+			return x + y + z;
 		}
 
-		gtVector3< Type > operator+( const gtVector3< Type >& v ) const { 
+		gtVector3< Type > operator+( const gtVector3< Type >& v ) const {
 			return gtVector3( x + v.x, y + v.y, z + v.z );
 		}
 
-		gtVector3< Type > operator-( const gtVector3< Type >& v ) const { 
-			return gtVector3( x - v.x, y - v.y, z - v.z ); 
+		gtVector3< Type > operator-( const gtVector3< Type >& v ) const {
+			return gtVector3( x - v.x, y - v.y, z - v.z );
 		}
 
-		gtVector3< Type > operator-( void ) const { 
-			return gtVector3( -x, -y, -z ); 
+		gtVector3< Type > operator-( void ) const {
+			return gtVector3( -x, -y, -z );
 		}
 
-		gtVector3< Type > operator*( const gtVector3< Type >& v ) const { 
-			return gtVector3( x * v.x, y * v.y, z * v.z ); 
+		gtVector3< Type > operator*( const gtVector3< Type >& v ) const {
+			return gtVector3( x * v.x, y * v.y, z * v.z );
 		}
 
-		gtVector3< Type > operator/( const gtVector3< Type >& v ) const { 
-			return gtVector3( x / v.x, y / v.y, z / v.z ); 
+		gtVector3< Type > operator/( const gtVector3< Type >& v ) const {
+			return gtVector3( x / v.x, y / v.y, z / v.z );
 		}
 
-		const Type	getZ( void ) const { 
-			return z; 
+		const Type	getZ( void ) const {
+			return z;
 		}
 
-		void	set( Type X, Type Y, Type Z ){ 
-			x = X; 
-			y = Y; 
-			z = Z; 
+		void	set( Type X, Type Y, Type Z ){
+			x = X;
+			y = Y;
+			z = Z;
 		}
 
-		bool	operator==( const gtVector3< Type >& v ) const { 
-			if( x != v.x ) 
-				return false; 
-			if( y != v.y ) 
-				return false; 
-			if( z != v.z ) 
-				return false; 
-			return true; 
+		bool	operator==( const gtVector3< Type >& v ) const {
+			if( x != v.x )
+				return false;
+			if( y != v.y )
+				return false;
+			if( z != v.z )
+				return false;
+			return true;
 		}
 
-		bool	operator!=( const gtVector3< Type >& v ) const { 
-			if( x != v.x ) 
-				return true; 
-			if( y != v.y ) 
-				return true; 
-			if( z != v.z ) 
-				return true; 
-			return false; 
+		bool	operator!=( const gtVector3< Type >& v ) const {
+			if( x != v.x )
+				return true;
+			if( y != v.y )
+				return true;
+			if( z != v.z )
+				return true;
+			return false;
 		}
 
-		Type	lengthSqrt( void ){ 
+		Type	lengthSqrt( void ){
 			return ( x * x ) + ( y * y ) + ( z * z );
 		}
 
 		Type	length( void ){
-			return std::sqrtf( lengthSqrt() );
+			return static_cast<Type>( std::sqrt( lengthSqrt() ) );
 		}
 
 		Type	distance( const gtVector3< Type >& from ){
@@ -380,11 +378,11 @@ namespace gost{
 			z *= invLen;
 		}
 
-		gtVector2< Type > getV2( void ){ 
+		gtVector2< Type > getV2( void ){
 			return gtVector2< Type >( x, y );
 		}
 
-		gtVector4< Type > getV4( void ){ 
+		gtVector4< Type > getV4( void ){
 			return gtVector4< Type >( x, y, z, static_cast< Type >( 0u ) );
 		}
 
@@ -396,9 +394,8 @@ namespace gost{
 				return y;
 			case 2u:
 				return z;
-			default:
-				gtStackTrace::dumpStackTrace();
 			}
+			return 0;
 		}
 
 	};
@@ -418,10 +415,8 @@ namespace gost{
 				return z;
 			case 3u:
 				return w;
-			default:
-				gtStackTrace::dumpStackTrace();
-				break;
 			}
+			return 0;
 		}
 
 		gtVector4( void ):
@@ -432,11 +427,11 @@ namespace gost{
 		}
 
 		gtVector4( const gtVector4< Type >& v ){
-			*this = v; 
+			*this = v;
 		}
 
 		gtVector4( const gtVector3< Type >& v ):
-			x( v.x ), 
+			x( v.x ),
 			y( v.y ),
 			z( v.z ),
 			w( static_cast< Type >( 0u ) ){
@@ -456,123 +451,123 @@ namespace gost{
 			w( v ){
 		}
 
-		void zero( void ){ 
-			x = y = z = w = static_cast< Type >( 0u ); 
+		void zero( void ){
+			x = y = z = w = static_cast< Type >( 0u );
 		}
 
-		void fill( Type val ){ 
-			x = y = z = w = static_cast< Type >( val ); 
+		void fill( Type val ){
+			x = y = z = w = static_cast< Type >( val );
 		}
 
 		void setW( Type value ){
-			w = value; 
+			w = value;
 		}
 
-		void operator+=( const gtVector4< Type >& v ){ 
+		void operator+=( const gtVector4< Type >& v ){
 			x += v.x;
-			y += v.y; 
-			z += v.z; 
-			w += v.w; 
+			y += v.y;
+			z += v.z;
+			w += v.w;
 		}
 
-		void operator-=( const gtVector4< Type >& v ){ 
+		void operator-=( const gtVector4< Type >& v ){
 			x -= v.x;
-			y -= v.y; 
-			z -= v.z; 
-			w -= v.w; 
+			y -= v.y;
+			z -= v.z;
+			w -= v.w;
 		}
 
-		void operator*=( const gtVector4< Type >& v ){ 
-			x *= v.x; 
-			y *= v.y; 
-			z *= v.z; 
-			w *= v.w; 
+		void operator*=( const gtVector4< Type >& v ){
+			x *= v.x;
+			y *= v.y;
+			z *= v.z;
+			w *= v.w;
 		}
 
-		void operator*=( Type v ){ 
-			x *= v; 
-			y *= v; 
-			z *= v; 
-			w *= v; 
+		void operator*=( Type v ){
+			x *= v;
+			y *= v;
+			z *= v;
+			w *= v;
 		}
 
 		void operator/=( const gtVector4< Type >& v ){
 			x /= v.x;
-			y /= v.y; 
-			z /= v.z; 
-			w /= v.w; 
+			y /= v.y;
+			z /= v.z;
+			w /= v.w;
 		}
 
-		Type summ( void ){ 
-			return x + y + z + w; 
+		Type summ( void ){
+			return x + y + z + w;
 		}
 
-		gtVector4< Type > operator+( const gtVector4< Type >& v ) const { 
-			return gtVector4( x + v.x, y + v.y, z + v.z, w + v.w ); 
+		gtVector4< Type > operator+( const gtVector4< Type >& v ) const {
+			return gtVector4( x + v.x, y + v.y, z + v.z, w + v.w );
 		}
 
-		gtVector4< Type > operator-( const gtVector4< Type >& v ) const { 
+		gtVector4< Type > operator-( const gtVector4< Type >& v ) const {
 			return gtVector4( x - v.x, y - v.y, z - v.z, w - v.w );
 		}
 
-		gtVector4< Type > operator-( void ) const { 
-			return gtVector4( -x, -y, -z, -w ); 
+		gtVector4< Type > operator-( void ) const {
+			return gtVector4( -x, -y, -z, -w );
 		}
 
-		gtVector4< Type > operator*( const gtVector4< Type >& v ) const { 
-			return gtVector4( x * v.x, y * v.y, z * v.z, w * v.w ); 
+		gtVector4< Type > operator*( const gtVector4< Type >& v ) const {
+			return gtVector4( x * v.x, y * v.y, z * v.z, w * v.w );
 		}
 
-		gtVector4< Type > operator/( const gtVector4< Type >& v ) const { 
+		gtVector4< Type > operator/( const gtVector4< Type >& v ) const {
 			return gtVector4( x / v.x, y / v.y, z / v.z, w / v.w );
 		}
 
-		const Type	getW( void ) const { 
-			return w; 
+		const Type	getW( void ) const {
+			return w;
 		}
 
-		void	set( Type X, Type Y, Type Z, Type W ){ 
-			x = X; 
-			y = Y; 
-			z = Z; 
-			w = W; 
+		void	set( Type X, Type Y, Type Z, Type W ){
+			x = X;
+			y = Y;
+			z = Z;
+			w = W;
 		}
 
-		void	set( Type val ){ 
+		void	set( Type val ){
 			x = y = z = w = val;
 		}
 
-		void	set( const gtVector3< Type >& v ){ 
+		void	set( const gtVector3< Type >& v ){
 			x = v.x;
 			y = v.y;
 			z = v.z;
 			w = static_cast< Type >( 0u );
 		}
 
-		void	setXYZ( Type val ){ 
+		void	setXYZ( Type val ){
 			x = y = z = val;
 		}
 
 		bool	operator==( const gtVector4< Type >& v ) const {
-			if( x != v.x ) 
+			if( x != v.x )
 				return false;
-			if( y != v.y ) 
+			if( y != v.y )
 				return false;
-			if( z != v.z ) 
+			if( z != v.z )
 				return false;
-			if( w != v.w ) 
+			if( w != v.w )
 				return false;
 			return true;
 		}
 
 		bool	operator!=( const gtVector4< Type >& v ) const {
-			if( x != v.x ) 
+			if( x != v.x )
 				return true;
-			if( y != v.y ) 
+			if( y != v.y )
 				return true;
-			if( z != v.z ) 
+			if( z != v.z )
 				return true;
-			if( w != v.w ) 
+			if( w != v.w )
 				return true;
 			return false;
 		}
@@ -620,10 +615,8 @@ namespace gost{
 				return w;
 			case 4u:
 				return a;
-			default:
-				gtStackTrace::dumpStackTrace();
-				break;
 			}
+			return 0;
 		}
 
 		gtVector5( void ):
@@ -663,10 +656,8 @@ namespace gost{
 				return a;
 			case 5u:
 				return b;
-			default:
-				gtStackTrace::dumpStackTrace();
-				break;
 			}
+			return 0;
 		}
 
 		gtVector6( void ):
@@ -710,10 +701,8 @@ namespace gost{
 				return b;
 			case 6u:
 				return c;
-			default:
-				gtStackTrace::dumpStackTrace();
-				break;
 			}
+			return 0;
 		}
 
 		gtVector7( void ):
@@ -761,10 +750,8 @@ namespace gost{
 				return c;
 			case 7u:
 				return d;
-			default:
-				gtStackTrace::dumpStackTrace();
-				break;
 			}
+			return 0;
 		}
 
 		gtVector8( void ):
@@ -900,17 +887,17 @@ namespace gost{
 /*
 Copyright (c) 2017, 2018 532235
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
-and associated documentation files (the "Software"), to deal in the Software without restriction, 
-including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, 
-and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, 
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software
+and associated documentation files (the "Software"), to deal in the Software without restriction,
+including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense,
+and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so,
 subject to the following conditions:
 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT 
-LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
-IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, 
-WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT
+LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */

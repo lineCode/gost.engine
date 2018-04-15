@@ -15,7 +15,7 @@ extern "C"{
 		gtMainSystem*	main_system( nullptr );
 
 		switch( params.m_device_type ){
-			case gtDeviceType::windows:{
+			case gtDeviceType::Windows:{
 	#if defined( GT_PLATFORM_WIN32 )
 				main_system = new gtMainSystemWin32( params );
 
@@ -26,17 +26,16 @@ extern "C"{
 					delete main_system;
 					main_system = nullptr;
 				}
-
-			}
 	#endif
-			break;
-			case gtDeviceType::android:
-			case gtDeviceType::ios:
-			case gtDeviceType::linux:
-			case gtDeviceType::osx:
-			case gtDeviceType::playstation:
-			case gtDeviceType::wii:
-			case gtDeviceType::xbox:
+			}break;
+
+			case gtDeviceType::Android:
+			case gtDeviceType::iOS:
+			case gtDeviceType::Linux:
+			case gtDeviceType::OSX:
+			case gtDeviceType::PlayStation:
+			case gtDeviceType::Wii:
+			case gtDeviceType::XBox:
 			default:
 				return nullptr;
 				break;
