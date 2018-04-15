@@ -264,6 +264,7 @@ void gtOutputWindowWin32::clear_buffer( void ){
 }
 
 void gtOutputWindowWin32::save( void ){
+#ifdef _MSC_VER
 	IFileDialog *pfd;
     if(SUCCEEDED(CoCreateInstance(CLSID_FileSaveDialog, NULL, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&pfd)))){
 		pfd->SetOptions( FOS_OVERWRITEPROMPT | FOS_NOREADONLYRETURN | FOS_PATHMUSTEXIST | FOS_NOCHANGEDIR );
@@ -291,6 +292,7 @@ void gtOutputWindowWin32::save( void ){
         }
         pfd->Release();
     }
+#endif
 }
 
 #endif

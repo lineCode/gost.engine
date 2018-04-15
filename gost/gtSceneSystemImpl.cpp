@@ -124,7 +124,8 @@ gtStaticObject*	gtSceneSystemImpl::addStaticObject( gtRenderModel* model, const 
 
 
 	if( !object.data()){
-		gtLogWriter::printWarning( u"Can not create static object. Name [%s], id[%i]", name.data(), id );
+        const char16_t * msg = u"Can not create static object. Name [%s], id[%i]";
+		gtLogWriter::printWarning( msg, name.data(), id );
 		return nullptr;
 	}
 

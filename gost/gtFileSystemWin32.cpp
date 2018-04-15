@@ -181,7 +181,7 @@ bool gtFileSystemWin32::getDirObject( gtFileSystem::DirObject* o ){
 		fullPath.pop_back();// '*'
 		fullPath += (char16_t*)ffd.cFileName;
 
-		wcscpy_s( o->path, 256u, (wchar_t*)fullPath.data() );
+		wcscpy( o->path, (wchar_t*)fullPath.data() );
 
 		if( ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY ){
 			o->type = gtFileSystem::DirObjectType::folder;

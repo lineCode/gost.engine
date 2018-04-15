@@ -14,7 +14,7 @@ namespace gost{
 
 			//	Result = Source + Destination
 		BOP_ADD,
-			
+
 			//	Result = Source - Destination
 		BOP_SUBSTRACT,
 
@@ -36,7 +36,7 @@ namespace gost{
 
 		//	рисовать заднюю грань
 		MF_BACKFACE = 2u,
-		
+
 		//	рисовать ли объект с прозрачностью
 		MF_BLEND = 4u,
 
@@ -62,7 +62,7 @@ namespace gost{
 			texture( nullptr )
 		{}
 
-			//	основной цвет. Зависит от шейдера. 
+			//	основной цвет. Зависит от шейдера.
 			//	В стандартных шейдерах будет применяться к текстуре.
 			//	Например если текстура белая, то diffuseColor(1.f,0.f,0.f,1.f) покрасит её в красный.
 			//	Вычисление такое. 1 * 1 = 1 красный компонент. 1 * 0 = 0 синий. 1 * 0 = 0 зелёный.
@@ -78,7 +78,7 @@ namespace gost{
 			//	текстуры
 		gtTexture * texture;
 	};
-		
+
 		// shader type, if used standart shader
 	enum class gtMaterialType : u32 {
 		Sprite,
@@ -96,8 +96,8 @@ namespace gost{
 			specularColor( 1.f ),
 			specularLevel( 1.f ),
 			glossiness( 0.f ),
-			opacity( 1.f ),
 			roughness( 0.f ),
+			opacity( 1.f ),
 			fresnel( 1.f ),
 			flags( 0u ),
 			type( gtMaterialType::Standart ),
@@ -119,7 +119,7 @@ namespace gost{
 
 			//	интенсивность отражения света.
 		f32		specularLevel;
-			
+
 			//	блеск
 		f32		glossiness;
 
@@ -131,7 +131,7 @@ namespace gost{
 
 			//	пригодится там где нужно
 		f32		fresnel; // /freɪˈnɛl/, fray-NEL;
-			
+
 			//	флаги
 		u32		flags;
 
@@ -156,17 +156,17 @@ namespace gost{
 /*
 Copyright (c) 2017-2018 532235
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
-and associated documentation files (the "Software"), to deal in the Software without restriction, 
-including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, 
-and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, 
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software
+and associated documentation files (the "Software"), to deal in the Software without restriction,
+including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense,
+and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so,
 subject to the following conditions:
 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT 
-LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
-IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, 
-WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT
+LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */

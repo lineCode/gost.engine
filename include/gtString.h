@@ -82,9 +82,9 @@ namespace gost{
 			// Construct from 'c' string
 			// \param str: 'c' string
 		gtString_base( const_pointer str ):
-			m_size( 0u ),
+			m_data( nullptr ),
 			m_allocated( StringWordSize ),
-			m_data( nullptr )
+			m_size( 0u )
 		{
 			reallocate( m_allocated );
 			assign( str );
@@ -93,8 +93,8 @@ namespace gost{
 			// Construct from other (copy c-tor)
 			// \param str: Other gtString
 		gtString_base( this_const_reference str ):
-			m_allocated(StringWordSize),
 			m_data(nullptr),
+			m_allocated(StringWordSize),
 			m_size(0u)
 		{
 			reallocate( m_allocated );
@@ -103,18 +103,18 @@ namespace gost{
 
 			// move c-tor
 		gtString_base( this_type&& str ):
-			m_size( 0u ),
+			m_data( nullptr ),
 			m_allocated( StringWordSize ),
-			m_data( nullptr )
+			m_size( 0u )
 		{
 			reallocate( m_allocated );
 			assign( str );
 		}
 
 		gtString_base( char_type c ):
-			m_size( 0u ),
+			m_data( nullptr ),
 			m_allocated( StringWordSize ),
-			m_data( nullptr )
+			m_size( 0u )
 		{
 			u32 new_size = 1u;
 			reallocate( (new_size + 1u) + StringWordSize );

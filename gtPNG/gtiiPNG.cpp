@@ -9,12 +9,6 @@
 #include <png.h>
 #include <zlib.h>
 
-#ifdef _DEBUG
-#pragma comment(lib, "gost_d.lib")
-#else 
-#pragma comment(lib, "gost.lib")
-#endif
-
 extern "C"{
 
 #define GT_EXT_COUNT 1u

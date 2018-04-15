@@ -3,7 +3,7 @@
 #define __GT_XML_DOCUMENT_H__ //< include guard
 
 namespace gost{
-	
+
 	enum class gtXPathTokenType{
 		Slash,
 		Double_slash,
@@ -39,7 +39,7 @@ namespace gost{
 	enum class gtXPathAxis{
 		Ancestor,			// parent, grandparent, etc.
 		Ancestor_or_self,	// parent, grandparent, etc. + current node
-		Attribute,		
+		Attribute,
 		Child,
 		Descendant,			// children, grandchildren, etc.
 		Descendant_or_self,	// children, grandchildren, etc. + current node
@@ -54,18 +54,25 @@ namespace gost{
 	};
 
 	struct gtXPathToken{
-		gtXPathToken( void ):m_type( gtXPathTokenType::NONE ),m_number( 0.f ),m_axis(gtXPathAxis::NONE){}
+		gtXPathToken( void ):
+		    m_type( gtXPathTokenType::NONE ),
+		    m_axis(gtXPathAxis::NONE),
+		    m_number( 0.f )
+		    {}
+
 		gtXPathToken( gtXPathTokenType type,
 			gtString string,
 			f32 number )
-		: m_type( type ), m_string( string ), m_number( number ),
-		m_axis(gtXPathAxis::NONE)
+		: m_type( type ),
+		m_axis(gtXPathAxis::NONE),
+		m_string( string ),
+		m_number( number )
 		{}
 
-		gtXPathTokenType m_type;
-		gtXPathAxis m_axis;
-		gtString m_string;
-		f32 m_number;
+		gtXPathTokenType    m_type;
+		gtXPathAxis         m_axis;
+		gtString            m_string;
+		f32                 m_number;
 	};
 
 	struct gtXMLAttribute : public gtRefObject {
@@ -167,17 +174,17 @@ namespace gost{
 /*
 Copyright (c) 2018 532235
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
-and associated documentation files (the "Software"), to deal in the Software without restriction, 
-including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, 
-and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, 
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software
+and associated documentation files (the "Software"), to deal in the Software without restriction,
+including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense,
+and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so,
 subject to the following conditions:
 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT 
-LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
-IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, 
-WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT
+LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */

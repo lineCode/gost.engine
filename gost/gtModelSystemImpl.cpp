@@ -25,10 +25,11 @@ gtPtr<gtModel>	gtModelSystemImpl::createPlane( f32 x, f32 y, gtSide side ){
 
 	gtPtr<gtModel> model = createEmpty( gtStrideStandart, &vt[ 0u ] );
 	if( !model.data() ){
-		gtLogWriter::printWarning( u"Can not allocate memory for gtModel");
+        const char16_t* msg = u"Can not allocate memory for gtModel";
+		gtLogWriter::printWarning( msg );
 		return nullptr;
 	}
-	
+
 	const u32 i_count = 6U;
 	const u32 v_count = 4U;
 	gtSubModel* subModel = model->addSubModel( v_count, i_count, gtStrideStandart );
@@ -37,7 +38,7 @@ gtPtr<gtModel>	gtModelSystemImpl::createPlane( f32 x, f32 y, gtSide side ){
 		return nullptr;
 
 	gtQuaternion q;
-	
+
 
 
 	// down
@@ -54,7 +55,7 @@ gtPtr<gtModel>	gtModelSystemImpl::createPlane( f32 x, f32 y, gtSide side ){
 		q.set( v3f( PI, 0.f, 0.f ) );
 		break;
 		default:
-		case gost::gtSide::DOWN:						
+		case gost::gtSide::DOWN:
 		q.set( v3f( 0.f, 0.f, 0.f ) );
 		break;
 		case gost::gtSide::FRONT:
@@ -83,10 +84,10 @@ gtPtr<gtModel>	gtModelSystemImpl::createPlane( f32 x, f32 y, gtSide side ){
 		y4 = 0.f,
 		z4 =  y;
 
-	
+
 
 	u8 * v = &subModel->m_vertices[ 0u ];
-		
+
 	struct vert_t{
 		v4f pos;
 		v2f uv;
@@ -113,7 +114,7 @@ gtPtr<gtModel>	gtModelSystemImpl::createPlane( f32 x, f32 y, gtSide side ){
 	memcpy( v, &vert[0u], gtStrideStandart * 4u );
 
 	subModel->rotate( q );
-			
+
 	const u16 u[i_count] = {0U,1U,2U,0U,2U,3U};
 
 	subModel->fillIndices( u );
@@ -146,7 +147,7 @@ gtPtr<gtModel>	gtModelSystemImpl::createCube( f32 sz ){
 	};
 
 	auto cube = createEmpty( gtStrideStandart, vt );
-	
+
 	auto * sub = up->getSubModel(0u);
 	sub->append(down->getSubModel(0u));
 	sub->append(right->getSubModel(0u));

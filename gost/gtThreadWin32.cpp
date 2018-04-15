@@ -1,6 +1,11 @@
 #include "common.h"
 
 #if defined(GT_PLATFORM_WIN32)
+#include <process.h>
+
+#if defined(GT_COMPILER_GCC)
+typedef unsigned (__stdcall* _beginthreadex_proc_type)(void*);
+#endif
 
 gtThreadWin32::gtThreadWin32( void ):
 	m_handle( nullptr )

@@ -5,7 +5,9 @@
 #define __STDAFX_H__
 
 
+#define GOSTDLL
 #define GT_EXPORTS
+
 
 #include <gost.h>
 
