@@ -1,4 +1,4 @@
-﻿/*!	GOST
+/*!	GOST
 	\file gtAllocator.h
 	\brief Allocator
 */
@@ -35,47 +35,6 @@ namespace gost{
 		}
 
 	};
-
-	class gtMainSystem;
-
-	template<typename Type>
-	class gtAllocator2{
-
-		gtMainSystem * _system;
-
-	public:
-
-		gtAllocator2( void ):_system(gtMainSystem::getInstance()){}
-
-		Type * allocate( u32 size ){
-			
-			Type * _o( nullptr );
-
-			if( !_system->allocateMemory( (void**)&_o, size * sizeof( Type ) ) ) return nullptr;
-
-			return _o;
-		}
-
-		void deallocate( Type * ptr ){
-			if( ptr ){
-				_system->freeMemory( (void**)&ptr );
-			}
-		}
-
-		void construct( Type * new_data, const Type& old_data ){
-			new((void*)new_data) Type( old_data );
-		}
-
-		void construct( Type * new_data ){
-			new((void*)new_data) Type();
-		}
-
-		void destruct( Type * ptr ){
-			ptr->~Type();
-		}
-
-	};
-	
 }
 
 

@@ -7,6 +7,7 @@
 #ifndef __GT_STRING_H__
 #define __GT_STRING_H__
 
+#include "gtTypes.h"
 
 namespace gost{
 

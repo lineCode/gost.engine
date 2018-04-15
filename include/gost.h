@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #ifndef __GOST_H__
 #define __GOST_H__ //< include guard
 
@@ -11,7 +11,6 @@
 #include <string>
 #include <vector>
 #include <typeinfo>
-//#include <codecvt>
 
 //	GOST
 #include <gtInfo.h>
