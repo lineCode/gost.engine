@@ -1,6 +1,6 @@
 #include "common.h"
 
-#if defined(GT_PLATFORM_WINDOWS)
+#if defined(GT_PLATFORM_WIN32)
 
 gtThreadWin32::gtThreadWin32( void ):
 	m_handle( nullptr )

@@ -32,10 +32,6 @@ namespace gost{
 		}
 
 	};
-<<<<<<< HEAD
-=======
-
->>>>>>> f289837bbb639479bca6e7d3a3b320cc9adb1038
 }
 
 

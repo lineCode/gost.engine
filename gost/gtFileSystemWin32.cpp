@@ -2,7 +2,7 @@
 
 #include "common.h"
 
-#if defined(GT_PLATFORM_WINDOWS)
+#if defined(GT_PLATFORM_WIN32)
 
 gtFileSystemWin32::gtFileSystemWin32( void ):
 	m_dirScanBegin( false ),

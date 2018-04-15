@@ -2,7 +2,7 @@
 #ifndef __GT_MUTEX_WIN32_H__
 #define __GT_MUTEX_WIN32_H__
 
-#if defined(GT_PLATFORM_WINDOWS)
+#if defined(GT_PLATFORM_WIN32)
 
 namespace gost{
 

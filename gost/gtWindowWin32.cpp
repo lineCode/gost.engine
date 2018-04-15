@@ -2,7 +2,7 @@
 
 #include "common.h"
 
-#if defined(GT_PLATFORM_WINDOWS)
+#if defined(GT_PLATFORM_WIN32)
 
 gtWindowWin32::gtWindowWin32( gtWindowInfo* wi )
 	:	m_hWnd( 0u ), m_isInit( false )

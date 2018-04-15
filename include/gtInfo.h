@@ -297,7 +297,6 @@
 	#	define GT_LOAD_FUNCTION dlsym
 	#	define GT_FREE_LIBRARY dlclose
     #include <dlfcn.h>
-
 	#endif
 
 

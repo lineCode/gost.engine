@@ -4,6 +4,8 @@
 #ifndef __GT_MAIN_SYSTEM_WIN32_H__
 #define __GT_MAIN_SYSTEM_WIN32_H__
 
+#if defined(GT_PLATFORM_WIN32)
+
 /*
 	Реализация главной системы для Windows  
 */
@@ -54,10 +56,11 @@ namespace gost{
 }
 
 #endif
+#endif
 
 
 /*
-Copyright (c) 2017 
+Copyright (c) 2017-2018
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
 and associated documentation files (the "Software"), to deal in the Software without restriction, 

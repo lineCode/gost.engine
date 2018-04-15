@@ -4,7 +4,7 @@
 #ifndef __GT_FILE_WIN_32_H__
 #define __GT_FILE_WIN_32_H__
 
-#if defined(GT_PLATFORM_WINDOWS)
+#if defined(GT_PLATFORM_WIN32)
 
 namespace gost{
 

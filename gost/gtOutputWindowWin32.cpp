@@ -6,7 +6,7 @@
 	Реализация для Windows
 */
 
-#if defined(GT_PLATFORM_WINDOWS)
+#if defined(GT_PLATFORM_WIN32)
 
 #define GT_MENU_ID_OUTPUT_FILE_SAVE 1
 #define GT_MENU_ID_OUTPUT_EDIT_CLEAR 2

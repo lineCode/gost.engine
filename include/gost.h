@@ -2,7 +2,10 @@
 #ifndef __GOST_H__
 #define __GOST_H__ //< include guard
 
+#if defined(_MSC_VER)
 #pragma warning(disable : 4582)
+#endif
+
 
 //C++
 #include <cctype> //isalpha
@@ -11,10 +14,7 @@
 #include <string>
 #include <vector>
 #include <typeinfo>
-<<<<<<< HEAD
-=======
 #include <cmath>
->>>>>>> f289837bbb639479bca6e7d3a3b320cc9adb1038
 
 //	GOST
 #include <gtInfo.h>

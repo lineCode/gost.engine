@@ -2,7 +2,7 @@
 
 #include "common.h"
 
-#if defined(GT_PLATFORM_WINDOWS)
+#if defined(GT_PLATFORM_WIN32)
 
 gtTimerWin32::gtTimerWin32( void ){
 }

@@ -1,6 +1,6 @@
 #include "common.h"
 
-#if defined(GT_PLATFORM_WINDOWS)
+#if defined(GT_PLATFORM_WIN32)
 
 gtMutexWin32::gtMutexWin32( void ){
 	m_isInitialized = true;

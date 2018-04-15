@@ -395,7 +395,7 @@ namespace gost{
 			case 2u:
 				return z;
 			}
-			return 0;
+			GT_BREAKPOINT(0);
 		}
 
 	};
