@@ -11,10 +11,7 @@
 #include <string>
 #include <vector>
 #include <typeinfo>
-<<<<<<< HEAD
-=======
 #include <cmath>
->>>>>>> f289837bbb639479bca6e7d3a3b320cc9adb1038
 
 //	GOST
 #include <gtInfo.h>
