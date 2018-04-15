@@ -7,6 +7,7 @@
 #ifndef __GT_STRING_H__
 #define __GT_STRING_H__
 
+#include "gtTypes.h"
 
 namespace gost{
 
@@ -88,7 +89,7 @@ namespace gost{
 			reallocate( m_allocated );
 			assign( str );
 		}
-	
+
 			// Construct from other (copy c-tor)
 			// \param str: Other gtString
 		gtString_base( this_const_reference str ):
@@ -109,7 +110,7 @@ namespace gost{
 			reallocate( m_allocated );
 			assign( str );
 		}
-	
+
 		gtString_base( char_type c ):
 			m_size( 0u ),
 			m_allocated( StringWordSize ),
@@ -127,7 +128,7 @@ namespace gost{
 			if( m_data )
 				delete []m_data;
 		}
-	
+
 			// Allocate memory for chars
 			// \param size: size in chars
 		void reserve( u32 size ){
@@ -162,7 +163,7 @@ namespace gost{
 
 			if( (new_size + 1u) > m_allocated )
 				reallocate( (new_size + 1u) + StringWordSize );
-			
+
 			copy( &m_data[m_size], str );
 
 			m_size = new_size;
@@ -364,10 +365,6 @@ namespace gost{
 		}
 
 		void erase( u32 begin, u32 end ){
-			GT_ASSERT3(m_size);
-			GT_ASSERT3(begin<=end);
-			GT_ASSERT3(begin<m_size);
-			GT_ASSERT3(end<m_size);
 
 			u32 numCharsToDelete = end - begin + 1u; // example, delete first char: 0 - 0 + 1
 
@@ -405,7 +402,7 @@ namespace gost{
 
 	//! \brief Строка с utf-32. gtString(U"asdasd")
 	GT_TYPE( gtString32, gtString_base<char32_t>); //< See \ref _GT_TYPE
-	
+
 	//! \brief Строка с ANSI текстом
 	GT_TYPE( gtStringA, gtString_base<char>); //< See \ref _GT_TYPE
 
@@ -497,17 +494,17 @@ namespace gost{
 /*
 Copyright (c) 2017-2018 532235
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
-and associated documentation files (the "Software"), to deal in the Software without restriction, 
-including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, 
-and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, 
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software
+and associated documentation files (the "Software"), to deal in the Software without restriction,
+including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense,
+and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so,
 subject to the following conditions:
 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT 
-LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
-IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, 
-WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT
+LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */

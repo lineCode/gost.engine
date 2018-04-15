@@ -1,15 +1,9 @@
-﻿/*!	GOST
-	\file gtDriver.h
-	\brief video driver
-*/
 #pragma once
 #ifndef __GT_DRIVER_H__
 #define __GT_DRIVER_H__ //< include guard
 
 namespace gost{
 
-
-		//	параметры запуска драйвера
 	struct gtDriverInfo{
 
 			// c-tor
@@ -37,65 +31,55 @@ namespace gost{
 			m_backBufferSize.set( wi->m_rect.getWidth(), wi->m_rect.getHeight() );
 		}
 
-			//	разрешение экрана
+
 		v2i		m_backBufferSize;
 
-			//	запускать ли программу в полноэкранном режиме
+
 		bool	m_fullScreen;
 
-			//	использовать ли стенсильный буффер. Нужен для OGL, в D3D по умолчанию есть.
+
 		bool	m_stencilBuffer;
 
-			//	двойная буферизация
+
 		bool	m_doubleBuffer;
 
-			//	вертикльная синхронизация
+
 		bool	m_vSync;
 
-			//	глубина цвета - биты на пиксель
+
 		u8		m_colorDepth;
 
 			// only for Direct3D
 		u32		m_adapterID;
 
-			//	окно для рисования
+
 		gtWindow * m_outWindow;
 	};
 
-		//	видео драйвер
+
 	class gtDriver : public gtRefObject{
 	public:
 
-			//	получить параметры
+
 			// \return gtDriverInfo
 		virtual const gtDriverInfo&	getParams( void ) = 0;
 
-			// начало рисования. Перед рисованием нужно вызвать этот метод. в конце рисования нужно вызвать метод endRender
-			// \param clearRenderTarget: \b true если нужно очистить render target
-			// \param color: цвет очистки render target
+
 		virtual void beginRender( bool clearRenderTarget = true, const gtColor& color = gtColor(0.f) ) = 0;
 
-			// завершение рисования. Нужно вызывать после вызова beginRender
+
 		virtual void endRender( void ) = 0;
 
-			//	нарисует картинку. В материале можно указать шейдер
-			//	\param rect: координаты левого верхнего и правого нижнего углов
-			//	\param m: материал с текстурой
+
 		virtual void draw2DImage( const v4i& rect, const gtMaterial& m ) = 0;
 
-			//	нарисует картинку. Используется стандартный шейдер
-			//	\param rect: координаты левого верхнего и правого нижнего углов
-			//	\param m: материал с текстурой
+
 		virtual void draw2DImage( const v4i& rect, gtTexture* texture ) = 0;
 
-			//	нарисует gtRenderModel
-			// \param model: модель для рисования
+
 		virtual void drawModel( gtRenderModel* model ) = 0;
 
-			//	Render 2d image using region of texture. Нарисует картинку с выбранной областью текстуры
-			// \param rect: координаты левого верхнего и правого нижнего углов
-			// \param region: координаты левого верхнего и правого нижнего углов области картинки которую нужно нарисовать
-			// \param m: материал с текстурой
+
 		virtual void draw2DImage( const v4i& rect, const v4i& region, const gtMaterial& m ) = 0;
 		virtual void draw2DImage( const v4i& rect, const v4i& region, gtTexture* texture ) = 0;
 
@@ -123,15 +107,7 @@ namespace gost{
 			const gtColor& color3 = gtColor( 1.f, 1.f, 1.f, 1.f )) = 0;
 
 
-			//	компилировать либо получить ранее скомпилированный шейдер
-			// \param callback: callback для установки параметров шейдера
-			// \param vertexShader: путь к файлу хранящем вершинный шейдер
-			// \param vertexShaderMain: главная функция вершинного шейдера, точка входа
-			// \param pixelShader: путь к файлу хранящем пиксельный/фрагментный шейдер
-			// \param pixelShaderMain: главная функция пиксельного/фрагментного шейдера, точка входа
-			// \param shaderModel: тип шейдерного языка
-			// \param vertexType: тип вершины (должен быть массив)
-			// \return созданный шейдер
+
 		virtual gtShader *	getShader(
 			gtShaderCallback * callback,
 			const gtString& vertexShader,
@@ -143,15 +119,10 @@ namespace gost{
 			) = 0;
 
 
-			//	Создаёт текстуру из gtImage. Обязательно нужно в ручную удалить вызвав release()
-			// \param sourceImage: картинка из которой создаётся текстура
-			// \param filter: фильтр
-			// \return созданная текстура
+
 		virtual gtPtr<gtTexture>	createTexture( gtImage* sourceImage, gtTextureFilterType filter = gtTextureFilterType::FILTER_ANISOTROPIC ) = 0;
 
-			//	Создаёт модель для рисования
-			// \param software_model: обычная модель
-			// \return созданная модель
+
 		virtual gtPtr<gtRenderModel>	createModel( gtModel* software_model ) = 0;
 
 			//	Get texture from texture cache, or load new texture to the cache
@@ -183,15 +154,14 @@ namespace gost{
 
 	};
 
-		//	реализация драйвера в отдельных dll
-		//	по этому создавать общий класс вижу только таким способом
+
 	class gtDriverCommon : public gtDriver{
 	protected:
 
-			//	параметры запуска
+
 		gtDriverInfo m_params;
 
-			//	текущий размер окна
+
 		v2i			m_currentWindowSize;
 
 		template<typename type>
@@ -311,13 +281,13 @@ namespace gost{
 		}
 
 
-			//	получить параметры
+
 			// \return gtDriverInfo
 		virtual const gtDriverInfo&	getParams( void ){
 			return m_params;
 		}
 
-		virtual const v2i&	getСurrentWindowSize( void ) const {
+		virtual const v2i&	getCurrentWindowSize( void ) const {
 			return m_currentWindowSize;
 		}
 
@@ -404,22 +374,22 @@ namespace gost{
 			f32 m = 40.f / q;
 			for( u32 i = 0u; i < s; ++i ){
 				f32 a = (f32)i * m / 180.f * PI;
-				x = std::sinf( a );
-				y = std::cosf( a );
+				x = std::sin( a );
+				y = std::cos( a );
 				points1.push_back( v3f( x * radius, 0.f, y * radius ) + position );
 			}
 
 			for( u32 i = 0u; i < s; ++i ){
 				f32 a = (f32)i * m / 180.f * PI;
-				x = std::sinf( a );
-				y = std::cosf( a );
+				x = std::sin( a );
+				y = std::cos( a );
 				points2.push_back( v3f( x * radius, y * radius, 0.f ) + position );
 			}
 
 			for( u32 i = 0u; i < s; ++i ){
 				f32 a = (f32)i * m / 180.f * PI;
-				x = std::sinf( a );
-				y = std::cosf( a );
+				x = std::sin( a );
+				y = std::cos( a );
 				points3.push_back( v3f( 0.f, x * radius, y * radius ) + position );
 			}
 

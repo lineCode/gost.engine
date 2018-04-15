@@ -56,3 +56,4 @@ log.txt
 /build/vs2017/.vs/ProjectSettings.json
 /build/vs2017/.vs/tasks.vs.json
 /build/vs2017/.vs/VSWorkspaceState.json
+build/vs2017/outFont.bin

@@ -56,7 +56,7 @@ gtSprite*		gtSceneSystemImpl::addSprite( gtTexture * texture, const v2f& size, c
 	sprite->setPosition( position );
 
 	m_rootNode->addChild( sprite );
-	
+
 	sprite->setName("Sprite");
 
 	return sprite;
@@ -82,7 +82,7 @@ gtCamera*		gtSceneSystemImpl::addCamera( const v3f& position, const v3f& target,
 
 gtCamera*		gtSceneSystemImpl::addCamera2D( const v4f& viewport, s32 id, bool setActive ){
 	gtCamera * camera = addCamera(v3f(),v3f(),id,setActive);
-	
+
 	if( camera ){
 		camera->setCameraType( gtCameraType::CT_2D );
 		camera->setPosition( v3f( 0.f, 0.f, 0.f ) );
@@ -135,9 +135,9 @@ gtStaticObject*	gtSceneSystemImpl::addStaticObject( gtRenderModel* model, const 
 		object->setName( name.data() );
 
 	object->setPosition( position );
-	
+
 	object->setName("Static object");
-	
+
 	m_rootNode->addChild( object.data() );
 
 	object->addRef();
@@ -158,9 +158,9 @@ void gtSceneSystemImpl::removeObject( gtGameObject* object ){
 
 	auto name = object->getName();
 	auto * childs = &object->getChildList();
-	 
+
 	auto end = childs->end();
-	
+
 	for( auto it = childs->begin(); it != end;){
 		if(*it){
 			removeObject(*it);
@@ -289,13 +289,13 @@ struct object_distance{
 };
 
 void gtSceneSystemImpl::sortTransparentDistance( gtArray<gtGameObject*>& in, gtArray<gtGameObject*>& out ){
-	v3f * position = &m_activeCamera->getPositionInSpace();
+	v3f position = m_activeCamera->getPositionInSpace();
 
 	gtArray<object_distance> dist;
 
 	auto sz = in.size();
 	for( u32 i = 0u; i < sz; ++i ){
-		dist.push_back( object_distance( position->distance( in[ i ]->getPositionInSpace() ), in[ i ] ) );
+		dist.push_back( object_distance( position.distance( in[ i ]->getPositionInSpace() ), in[ i ] ) );
 	}
 
 	dist.sort();
@@ -332,7 +332,7 @@ void gtSceneSystemImpl::renderScene( void ){
 	gtArray<gtGameObject*> opaqueObjects;
 	gtArray<gtGameObject*> transparentUnsortObjects;
 	gtArray<gtGameObject*> transparentObjects;
-	
+
 	sortTransparent( opaqueObjects, transparentUnsortObjects, objectsInFrustum );
 	sortTransparentDistance( transparentUnsortObjects, transparentObjects );
 
@@ -365,14 +365,14 @@ void gtSceneSystemImpl::drawObject( gtGameObject * object ){
 		gtObb * obb = object->getObb();
 
 		const auto& pos = object->getPositionInSpace();
-		
+
 		if( obb ){
 
 			gtColor red( 1.f, 0.f, 0.f );
 			gtColor green( 0.f, 1.f, 0.f );
 			gtColor blue( 0.f, 0.f, 1.f );
 
-			m_driver->drawLineBox( 
+			m_driver->drawLineBox(
 				obb->v1,
 				obb->v2,
 				obb->v3,
@@ -388,14 +388,14 @@ void gtSceneSystemImpl::drawObject( gtGameObject * object ){
 			gtAabb * aabb = object->getAabb();
 			if( aabb ){
 
-				v3f v1 = aabb->m_min;					
-				v3f v2 = aabb->m_max;					
-				v3f v3 = v3f( v1.x, v1.y, v2.z );	
-				v3f v4 = v3f( v2.x, v1.y, v1.z );	
-				v3f v5 = v3f( v1.x, v2.y, v1.z );	
-				v3f v6 = v3f( v1.x, v2.y, v2.z );	
-				v3f v7 = v3f( v2.x, v1.y, v2.z );	
-				v3f v8 = v3f( v2.x, v2.y, v1.z );	
+				v3f v1 = aabb->m_min;
+				v3f v2 = aabb->m_max;
+				v3f v3 = v3f( v1.x, v1.y, v2.z );
+				v3f v4 = v3f( v2.x, v1.y, v1.z );
+				v3f v5 = v3f( v1.x, v2.y, v1.z );
+				v3f v6 = v3f( v1.x, v2.y, v2.z );
+				v3f v7 = v3f( v2.x, v1.y, v2.z );
+				v3f v8 = v3f( v2.x, v2.y, v1.z );
 
 				m_driver->drawLineBox( v1, v2, v3, v4, v5, v6, v7, v8, pos, green  );
 			}
@@ -415,7 +415,7 @@ void gtSceneSystemImpl::drawObject( gtGameObject * object ){
 		q.normalize();
 		gtMatrix4 R;
 		math::makeRotationMatrix( R, q );
-		
+
 		v3f v1 = math::mul( mx, R );
 		v3f v2 = math::mul( mn, R );
 		v3f v3 = math::mul( v3f( mx.x, mn.y, mn.z ), R );
@@ -424,7 +424,7 @@ void gtSceneSystemImpl::drawObject( gtGameObject * object ){
 		v3f v6 = math::mul( v3f( mn.x, mn.y, mx.z ), R );
 		v3f v7 = math::mul( v3f( mn.x, mx.y, mx.z ), R );
 		v3f v8 = math::mul( v3f( mx.x, mn.y, mx.z ), R );
-		
+
 		m_driver->drawLine( v2, v3 );
 		m_driver->drawLine( v4, v5 );
 

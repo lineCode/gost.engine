@@ -17,5 +17,8 @@ BOOL __cdecl DllMain( HMODULE /*hModule*/,
 	}
 	return TRUE;
 }
-
+#else
+int main(){
+return 0;
+}
 #endif

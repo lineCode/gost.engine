@@ -2,6 +2,7 @@
 
 #include "common.h"
 
+#if defined(GT_PLATFORM_WIN32)
 
 gtFileSystemWin32::gtFileSystemWin32( void ):
 	m_dirScanBegin( false ),
@@ -11,7 +12,7 @@ gtFileSystemWin32::gtFileSystemWin32( void ):
 	TCHAR szFileName[MAX_PATH];
 	GetModuleFileName( NULL, szFileName, MAX_PATH );
 	m_exePath.assign( (char16_t*)szFileName );
-	
+
 	util::stringFlipSlash<gtString>( m_exePath );
 	util::stringPopBackBefore<gtString>( m_exePath, '/' );
 
@@ -30,7 +31,7 @@ gtFileSystemWin32::~gtFileSystemWin32( void ){
 		CloseHandle( hFind );
 }
 
-gtFile* gtFileSystemWin32::createFile( const gtString& fileName, 
+gtFile* gtFileSystemWin32::createFile( const gtString& fileName,
 			gtFileSystem::FileMode mode,
 			gtFileSystem::FileAccessMode access,
 			gtFileSystem::FileAction action,
@@ -43,7 +44,7 @@ gtFile* gtFileSystemWin32::createFile( const gtString& fileName,
 bool gtFileSystemWin32::deleteFile( const gtString& fileName ){
 
 	if( DeleteFileW( (wchar_t*)fileName.data() ) == FALSE ){
-		gtLogWriter::printWarning( u"Can not delete file [%s]. Error code [%u]", 
+		gtLogWriter::printWarning( u"Can not delete file [%s]. Error code [%u]",
 			fileName.data(), GetLastError() );
 		return false;
 	}
@@ -64,7 +65,7 @@ bool gtFileSystemWin32::existFile( const gtString& fileName ){
 
 bool gtFileSystemWin32::existDir( const gtString& dir ){
 	DWORD dwAttrib = GetFileAttributes( (wchar_t*)dir.data() );
-	return (dwAttrib != INVALID_FILE_ATTRIBUTES && 
+	return (dwAttrib != INVALID_FILE_ATTRIBUTES &&
          (dwAttrib & FILE_ATTRIBUTE_DIRECTORY));
 }
 
@@ -88,14 +89,14 @@ void gtFileSystemWin32::deleteFolder( const gtString& dir ){
 		}else if( o->type == gtFileSystem::DirObjectType::file ){
 			gtString path( (char16_t*)o->path );
 			if( DeleteFile( o->path ) == FALSE ){
-				gtLogWriter::printWarning( u"Can not delete file [%s]. Error code [%u]", 
+				gtLogWriter::printWarning( u"Can not delete file [%s]. Error code [%u]",
 					o->path, GetLastError() );
 			}
 		}
 	}
 
 	if( RemoveDirectory( (wchar_t*)dir.data() ) == FALSE ){
-		gtLogWriter::printWarning( u"Can not remove directory [%s]. Error code [%u]", 
+		gtLogWriter::printWarning( u"Can not remove directory [%s]. Error code [%u]",
 			dir.data(), GetLastError() );
 	}
 }
@@ -108,7 +109,7 @@ bool gtFileSystemWin32::deleteDir( const gtString& dir ){
 bool gtFileSystemWin32::createDir( const gtString& dir ){
 	if( CreateDirectory( (wchar_t*)dir.data(), NULL ) == FALSE ){
 		DWORD error = GetLastError();
-		gtLogWriter::printWarning( u"Can not create directory [%s]. Error code [%u]", 
+		gtLogWriter::printWarning( u"Can not create directory [%s]. Error code [%u]",
 			dir.data(), error );
 		if( error == ERROR_ALREADY_EXISTS )
 			gtLogWriter::printWarning( u"Directory already exists." );
@@ -123,7 +124,7 @@ bool gtFileSystemWin32::createDir( const gtString& dir ){
 void gtFileSystemWin32::scanDirBegin( gtString dir ){
 	if( !m_dirScanBegin ){
 		m_dirScanBegin = true;
-		
+
 		m_dir.clear();
 
 		m_dir = dir;
@@ -139,7 +140,7 @@ void gtFileSystemWin32::scanDirEnd( void ){
 	if( m_dirScanBegin ){
 		m_dirScanBegin = false;
 		m_firstCall = false;
-		
+
 		if( hFind )
 			FindClose( hFind );
 		hFind = nullptr;
@@ -153,7 +154,7 @@ bool gtFileSystemWin32::getDirObject( gtFileSystem::DirObject* o ){
 
 	if( !m_firstCall ){
 		m_firstCall = true;
-		if( hFind ) 
+		if( hFind )
 			FindClose( hFind );
 
 		hFind = FindFirstFile( (wchar_t*)m_dir.data(), &ffd );
@@ -179,7 +180,7 @@ bool gtFileSystemWin32::getDirObject( gtFileSystem::DirObject* o ){
 		gtString fullPath( m_dir );
 		fullPath.pop_back();// '*'
 		fullPath += (char16_t*)ffd.cFileName;
-		
+
 		wcscpy_s( o->path, 256u, (wchar_t*)fullPath.data() );
 
 		if( ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY ){
@@ -187,7 +188,7 @@ bool gtFileSystemWin32::getDirObject( gtFileSystem::DirObject* o ){
 			o->size = 0u;
 		}else{
 			o->type = gtFileSystem::DirObjectType::file;
-			
+
 			LARGE_INTEGER i;
 			i.LowPart = ffd.nFileSizeLow;
 			i.HighPart = static_cast<LONG>( ffd.nFileSizeHigh );
@@ -263,21 +264,22 @@ gtString gtFileSystemWin32::getRealPath( const gtString& in ){
 	return realPath;
 }
 
+#endif
 
 /*
 Copyright (c) 2017 532235
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
-and associated documentation files (the "Software"), to deal in the Software without restriction, 
-including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, 
-and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, 
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software
+and associated documentation files (the "Software"), to deal in the Software without restriction,
+including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense,
+and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so,
 subject to the following conditions:
 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT 
-LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
-IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, 
-WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT
+LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */

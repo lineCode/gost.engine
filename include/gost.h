@@ -1,8 +1,12 @@
-﻿#pragma once
+
+#pragma once
 #ifndef __GOST_H__
 #define __GOST_H__ //< include guard
 
+#if defined(_MSC_VER)
 #pragma warning(disable : 4582)
+#endif
+
 
 //C++
 #include <cctype> //isalpha
@@ -11,14 +15,12 @@
 #include <string>
 #include <vector>
 #include <typeinfo>
-//#include <codecvt>
+#include <cmath>
 
 //	GOST
 #include <gtInfo.h>
 #include <gtTypes.h>
 
-
-#include <gtError.h>
 
 #include <gtAllocator.h>
 #include <gtArray.h>
@@ -32,14 +34,15 @@
 
 #include <gtLoger.h>
 
+#include <gtError.h>
 
 #include <gtInput.h>
 #include <gtEvent.h>
 
 #include <gtXMLDocument.h>
 
-#include <gtVector.h>
 #include <gtMath.h>
+#include <gtVector.h>
 #include <gtQuaternion.h>
 #include <gtMatrix.h>
 #include <gtColor.h>
@@ -135,21 +138,3 @@ namespace gost {
 
 
 #endif
-
-/*
-Copyright (c) 2017-2018 532235
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software
-and associated documentation files (the "Software"), to deal in the Software without restriction,
-including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense,
-and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so,
-subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT
-LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
-WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
-SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-*/

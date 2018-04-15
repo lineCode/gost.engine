@@ -2,6 +2,8 @@
 
 #include "common.h"
 
+#if defined(GT_PLATFORM_WIN32)
+
 gtFileWin32::gtFileWin32( const gtString& fileName, gtFileSystem::FileMode mode,
 			gtFileSystem::FileAccessMode access,
 			gtFileSystem::FileAction action,
@@ -13,7 +15,7 @@ m_pointerPosition( 0u )
 #ifdef GT_DEBUG
 	m_debugName.assign( u"gtFileWin32" );
 #endif
-	
+
 	m_desiredAccess = 0;
 	switch( access ){
 	case gost::gtFileSystem::EFAM_READ:
@@ -160,7 +162,7 @@ u32	gtFileWin32::write( u8 * data, u32 size ){
 	DWORD bytesWritten = 0;
 	if( WriteFile( m_handle, data, size, &bytesWritten, NULL ) == FALSE ){
 		gtLogWriter::printWarning( u"Can not write text to file. Error code [%u]", GetLastError() );
-	}else 
+	}else
 		m_pointerPosition += size;
 
 	return bytesWritten;
@@ -178,7 +180,7 @@ void	gtFileWin32::write( const gtStringA& string ){
 	DWORD bytesWritten;
 	if( WriteFile( m_handle, string.c_str(), string.size(), &bytesWritten, NULL ) == FALSE ){
 		gtLogWriter::printWarning( u"Can not write text to file. Error code [%u]", GetLastError() );
-	}else 
+	}else
 		m_pointerPosition += string.size();
 }
 
@@ -193,7 +195,7 @@ void	gtFileWin32::write( const gtString& string ){
 	DWORD bytesWritten;
 	if( WriteFile( m_handle, string.c_str(), string.size() * sizeof(char16_t), &bytesWritten, NULL ) == FALSE ){
 		gtLogWriter::printWarning( u"Can not write text to file. Error code [%u]", GetLastError() );
-	}else 
+	}else
 		m_pointerPosition += string.size() * sizeof(char16_t);
 }
 
@@ -208,7 +210,7 @@ void	gtFileWin32::write( const gtString32& string ){
 	DWORD bytesWritten;
 	if( WriteFile( m_handle, string.c_str(), string.size() * sizeof(char32_t), &bytesWritten, NULL ) == FALSE ){
 		gtLogWriter::printWarning( u"Can not write text to file. Error code [%u]", GetLastError() );
-	}else 
+	}else
 		m_pointerPosition += string.size() * sizeof(char32_t);
 }
 
@@ -263,20 +265,23 @@ void		gtFileWin32::seek( u64 distance, SeekPos pos ){
 		}
 	}
 }
-/*
-Copyright (c) 2017 532235
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
-and associated documentation files (the "Software"), to deal in the Software without restriction, 
-including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, 
-and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, 
+#endif
+
+/*
+Copyright (c) 2018 532235
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software
+and associated documentation files (the "Software"), to deal in the Software without restriction,
+including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense,
+and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so,
 subject to the following conditions:
 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT 
-LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
-IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, 
-WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT
+LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
