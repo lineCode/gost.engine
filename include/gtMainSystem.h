@@ -29,14 +29,14 @@ namespace gost{
 
 		//	Перечисление ОС
 	enum class gtDeviceType{
-		android,	//< not implemented
-		ios,		//< not implemented
-        linux,		//< not implemented
-		osx,		//< not implemented
-		windows,	//< конечно же будет реализован пока только он
-		xbox,		//< not implemented
-		playstation,//< not implemented
-		wii			//< not implemented
+		Android,	//< not implemented
+		iOS,		//< not implemented
+        Linux,		//< not implemented
+		OSX,		//< not implemented
+		Windows,	//< конечно же будет реализован пока только он
+		XBox,		//< not implemented
+		PlayStation,//< not implemented
+		Wii			//< not implemented
 	};
 
 		//	В этой структуре будут находится параметры для запуска главной системы
@@ -48,7 +48,9 @@ namespace gost{
 			m_consumer( nullptr )
 		{
 #if defined(GT_PLATFORM_WIN32)
-			m_device_type	=	gtDeviceType::windows;
+			m_device_type	=	gtDeviceType::Windows;
+#elif defined(GT_PLATFORM_LINUX)
+            m_device_type	=	gtDeviceType::Linux;
 #else
 #error "Эта ОС не поддерживается"
 #endif
@@ -96,7 +98,7 @@ namespace gost{
 			//	Используется для главного цикла. Возвращает true если всё впорядке, или не был послан сигнал о завершении работы
 			//	\return \b true if engine run
 		virtual	bool	update( void ) = 0;
-			
+
 			// Инициализирует аудио плагин.
 			// \param giud: id плагина.
 			// \remark если guid == empty(), загрузится первый попавшийся аудио плагин
@@ -176,7 +178,7 @@ namespace gost{
 		virtual gtSceneSystem*	getSceneSystem( gtDriver * currentRenderDriver ) = 0;
 
 		virtual gtGUISystem*	getGUISystem( gtDriver * currentRenderDriver ) = 0;
-		
+
 			// get world matrix
 			// \return world matrix
 		virtual const gtMatrix4& getMatrixWorld( void ) = 0;
@@ -232,7 +234,7 @@ namespace gost{
 
 			//	Create thread object
 		virtual gtPtr<gtThread>	createThread( void ) = 0;
-		
+
 		virtual gtPtr<gtMutex>	createMutex( void ) = 0;
 
 		virtual gtPtr<gtXMLDocument> XMLRead( const gtString& file ) = 0;
@@ -261,17 +263,17 @@ namespace gost{
 /*
 Copyright (c) 2017-2018 532235
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
-and associated documentation files (the "Software"), to deal in the Software without restriction, 
-including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, 
-and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, 
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software
+and associated documentation files (the "Software"), to deal in the Software without restriction,
+including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense,
+and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so,
 subject to the following conditions:
 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT 
-LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
-IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, 
-WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT
+LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */

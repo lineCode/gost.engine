@@ -21,30 +21,18 @@ namespace gost{
 		convex
 	};
 
-	//! \cond
 	#if defined(_WIN32)
-	//! \endcond
     #	define	GT_IMPORT __declspec(dllimport)
     #	define	GT_EXPORT __declspec(dllexport)
-	//! \cond
     #if (_MSC_VER > 1700 )
-	//! \endcond
-	//! \brief Создание синонима типа, в новом и старом стиле
-	//! \anchor _GT_TYPE
     #   define	GT_TYPE( x, y ) using x = y
-	//! \cond
     #else
-	//! \endcond
     #   define	GT_TYPE( x, y ) typedef (y) (x)
-	//! \cond
     #endif
-	//! \endcond
     #	define	GT_SPRINTF sprintf_s
 	#	define	GT_SNPRINTF _snprintf_s
     #	define	GT_CDECL __cdecl
-	//! \cond
-    #elif defined(__linux) // особо не сидел в линуксе, но пусть будет пока так
-	//! \endcond
+    #elif defined(__linux__)
     #	define	GT_IMPORT
     #	define	GT_EXPORT
     #   define	GT_TYPE( x, y ) typedef y x
@@ -53,20 +41,13 @@ namespace gost{
 	#	define	GT_SNPRINTF snprintf
     #endif
 
-	//	Движок (сам проект) включает #define GT_EXPORTS для экспорта функций
-	//! \cond
 	#ifdef GT_EXPORTS
-	//! \endcond
     #	define GT_API GT_EXPORT
-	//! \cond
     #else
-	//! \endcond
     #	define GT_API GT_IMPORT
     #endif
 
-	//! \cond
 	#if defined(_MSC_VER) || ((__BORLANDC__ >= 0x530) && !defined(__STRICT_ANSI__))
-	//! \endcond
     #   define GT_UCHAR		 unsigned	__int8
     #   define GT_CHAR					__int8
     #   define GT_USHORT	 unsigned	__int16
@@ -75,9 +56,7 @@ namespace gost{
     #   define GT_INT					__int32
     #   define GT_ULONGLONG  unsigned	__int64
     #   define GT_LONGLONG				__int64
-	//! \cond
     #else
-	//! \endcond
     #   define GT_UCHAR		 unsigned	char
     #   define GT_CHAR					char
     #   define GT_USHORT	 unsigned	short
@@ -114,20 +93,20 @@ namespace gost{
 	#endif
 
 
-	//! \cond
 	#if defined(GT_REAL_64)
-	//! \endcond
 	GT_TYPE( gtReal, f64 );				//< See \ref _GT_TYPE
-	//! \cond
 	#else
-	//! \endcond
 	GT_TYPE( gtReal, f32 );				//< See \ref _GT_TYPE
 	#endif
 
 
 
 	#define GT_FUNCTION __FUNCTION__
+	#if defined(GT_PLATFORM_LINUX)
+	#define GT_FILE    __FILE__
+	#else
 	#define GT_FILE    __FILEW__
+	#endif
 	#define GT_LINE    __LINE__
 
 	#if defined(DEBUG) || defined(_DEBUG)

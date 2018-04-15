@@ -2,6 +2,8 @@
 
 #include "common.h"
 
+#if defined(GT_PLATFORM_WINDOWS)
+
 gtWindowWin32::gtWindowWin32( gtWindowInfo* wi )
 	:	m_hWnd( 0u ), m_isInit( false )
 {
@@ -84,7 +86,7 @@ bool	gtWindowWin32::init( u32 i ){
 		gtLogWriter::printError( u"Can not register window class. Error code[%u]", (u32)GetLastError() );
 		return false;
 	}
-	
+
 	m_hWnd = CreateWindow( (wchar_t*)m_className.data(),
 		(wchar_t*)m_params.m_title.data(),
 		style,
@@ -101,13 +103,13 @@ bool	gtWindowWin32::init( u32 i ){
 		gtLogWriter::printError( u"Can not create window. Error code[%u]", (u32)GetLastError() );
 		return false;
 	}
-	 
+
 	ShowWindow( m_hWnd, SW_SHOWNORMAL  );
 	SetForegroundWindow( m_hWnd );
 	SetFocus( m_hWnd );
 	UpdateWindow( m_hWnd );
-	
-	
+
+
 	m_isInit = true;
 	return true;
 }
@@ -325,7 +327,7 @@ LRESULT CALLBACK gtWindowWin32::WndProc(HWND hWnd, UINT message, WPARAM wParam, 
 	//	// Parse the menu selections:
 	//	switch (wmId)
 	//	{
-	//	
+	//
 	//	default:
 	//		return DefWindowProc(hWnd, message, wParam, lParam);
 	//	}
@@ -396,7 +398,7 @@ LRESULT CALLBACK gtWindowWin32::WndProc(HWND hWnd, UINT message, WPARAM wParam, 
 				case WM_XBUTTONDBLCLK: ev.mouseEvent.state_extra.bits.b5 = true; break;
 			}
 		}
-		
+
 		switch( message ){
 			case WM_LBUTTONUP:	ev.mouseEvent.state.bits.b1 = true; break;
 			case WM_RBUTTONUP:	ev.mouseEvent.state.bits.b3 = true; break;
@@ -472,27 +474,29 @@ LRESULT CALLBACK gtWindowWin32::WndProc(HWND hWnd, UINT message, WPARAM wParam, 
 		)
 		return 0;
 	}
-	
+
 
 	//gtMainSystem::getInstance()->addEvent( ev );
 
 	return DefWindowProc( hWnd, message, wParam, lParam );
 }
 
-/*
-Copyright (c) 2017 532235
+#endif
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
-and associated documentation files (the "Software"), to deal in the Software without restriction, 
-including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, 
-and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, 
+/*
+Copyright (c) 2017-2018 532235
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software
+and associated documentation files (the "Software"), to deal in the Software without restriction,
+including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense,
+and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so,
 subject to the following conditions:
 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT 
-LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
-IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, 
-WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT
+LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */

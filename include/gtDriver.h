@@ -317,7 +317,7 @@ namespace gost{
 			return m_params;
 		}
 
-		virtual const v2i&	getСurrentWindowSize( void ) const {
+		virtual const v2i&	getCurrentWindowSize( void ) const {
 			return m_currentWindowSize;
 		}
 
@@ -404,22 +404,22 @@ namespace gost{
 			f32 m = 40.f / q;
 			for( u32 i = 0u; i < s; ++i ){
 				f32 a = (f32)i * m / 180.f * PI;
-				x = std::sinf( a );
-				y = std::cosf( a );
+				x = std::sin( a );
+				y = std::cos( a );
 				points1.push_back( v3f( x * radius, 0.f, y * radius ) + position );
 			}
 
 			for( u32 i = 0u; i < s; ++i ){
 				f32 a = (f32)i * m / 180.f * PI;
-				x = std::sinf( a );
-				y = std::cosf( a );
+				x = std::sin( a );
+				y = std::cos( a );
 				points2.push_back( v3f( x * radius, y * radius, 0.f ) + position );
 			}
 
 			for( u32 i = 0u; i < s; ++i ){
 				f32 a = (f32)i * m / 180.f * PI;
-				x = std::sinf( a );
-				y = std::cosf( a );
+				x = std::sin( a );
+				y = std::cos( a );
 				points3.push_back( v3f( 0.f, x * radius, y * radius ) + position );
 			}
 

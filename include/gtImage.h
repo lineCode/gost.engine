@@ -75,7 +75,7 @@ namespace gost{
 
 			// массив пикселей
 		u8	*	data;
-			
+
 			// размер массива в байтах
 		u32		dataSize;
 
@@ -125,7 +125,7 @@ namespace gost{
 				}else if( newFormat == FMT_A8R8G8B8 ){
 					__R8G8B8A8_to_A8R8G8B8();
 				}
-			
+
 				//	==================================================
 			}else if( format == FMT_X4R4G4B4 ){
 				if( newFormat == FMT_R8G8B8A8 ){
@@ -137,7 +137,7 @@ namespace gost{
 				}else if( newFormat == FMT_R8G8B8 ){
 					__X4R4G4B4_to_R8G8B8();
 				}
-			
+
 				//	==================================================
 			}else if( format == FMT_X1R5G5B5 ){
 				if( newFormat == FMT_R8G8B8A8 ){
@@ -159,7 +159,7 @@ namespace gost{
 				if( newFormat == FMT_R8G8B8A8 ){
 					__1_to_R8G8B8A8();
 				}
-			
+
 					//	==================================================
 			}else if( format == FMT_A4R4G4B4 ){
 				if( newFormat == FMT_R8G8B8A8 ){
@@ -182,7 +182,7 @@ namespace gost{
 					u8 r = data[ i ];
 					u8 g = data[ i+1u ];
 					u8 b = data[ i+2u ];
-					data[ i+3u ] = (u8)std::ceilf((f32)(r+g+b)*0.33333f);
+					data[ i+3u ] = (u8)std::ceil((f32)(r+g+b)*0.33333f);
 					i += 4u;
 				}
 			}
@@ -194,7 +194,7 @@ namespace gost{
 			switch( format ){
 			case gost::gtImage::FMT_ONE_BIT:
 				break;
-			
+
 			case gost::gtImage::FMT_A1R5G5B5:
 				__flip_pixel_A1R5G5B5();
 				break;
@@ -244,7 +244,7 @@ namespace gost{
 			for( u32 i = 0u; i < height / 2u; ++i ){
 
 				memcpy( line, p_Up, pitch );
-				
+
 				memcpy( p_Up, p_Down, pitch );
 
 				memcpy( p_Down, line, pitch );
@@ -256,7 +256,7 @@ namespace gost{
 
 			gtMainSystem::getInstance()->freeMemory( (void**)&line );
 		}
-		
+
 	private:
 
 		//	=================	FLIP	PIXEL ============
@@ -407,7 +407,7 @@ namespace gost{
 				newData[ count ] = data[ i+1 ];
 				newData[ count+1 ] = data[ i+2 ];
 				newData[ count+2 ] = data[ i+3 ];
-				
+
 				i += 4u;
 				count += 3u;
 			}
@@ -478,7 +478,7 @@ namespace gost{
 				newData[ count ] = data[ i ];
 				newData[ count+1 ] = data[ i+1 ];
 				newData[ count+2 ] = data[ i+2 ];
-				
+
 				i += 4u;
 				count += 3u;
 			}
@@ -566,7 +566,7 @@ namespace gost{
 			u32 sz = dataSize / 2u;
 
 			for( u32 i = 0u, count = 0u; i < sz; ++i ){
-				
+
 				newData[ count ] = 255;
 
 				newData[ count+1u ] = (p[ i ]&redMask)>>8;
@@ -758,7 +758,7 @@ namespace gost{
 
 	};
 
-	//	Helper functions for gtImage 
+	//	Helper functions for gtImage
 	namespace image{
 
 			// планируется написать функцию изменения масштаба картинки
@@ -815,7 +815,7 @@ namespace gost{
 			if( i->format == gtImage::Format::FMT_R8G8B8A8 ) rgba = true;
 
 			bool white = true;
-			
+
 			const gtColor * col;
 
 			bool even = i->width % 2 ? false : true;
@@ -864,17 +864,17 @@ namespace gost{
 /*
 Copyright (c) 2017-2018 532235
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
-and associated documentation files (the "Software"), to deal in the Software without restriction, 
-including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, 
-and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, 
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software
+and associated documentation files (the "Software"), to deal in the Software without restriction,
+including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense,
+and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so,
 subject to the following conditions:
 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT 
-LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
-IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, 
-WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT
+LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
