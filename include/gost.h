@@ -18,7 +18,6 @@
 #include <gtTypes.h>
 
 
-
 #include <gtAllocator.h>
 #include <gtArray.h>
 #include <gtList.h>
