@@ -67,8 +67,7 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 	gtSprite * background = scene->addSprite(
 		texture_bg.data(),
 		v2f( 511 / 100.f, 503 / 100.f ));
-	background->setPosition( v3f( 0.f, -4.f, 10.f ) );
-	background->setName( "3" );
+	background->setPosition( v3f( 0.f, -10.f, 10.f ) );
 	background->getMaterial()->flags ^= gtMaterialFlag::MF_BLEND;
 	
 	//	for pollEvent

@@ -17,19 +17,23 @@ namespace gost{
 		gtString m_text;
 		gtGUIFontImpl * m_font;
 
+		gtPtr<gtGUIShape> m_backgroundShape;
 		gtArray<gtRenderModel*> m_buffers; //то что идёт на отрисовку. Зависит от используемого символа и количества текстур для gtGUIFont
 
 		gtMainSystem * m_mainSystem;
 		gtModelSystem* m_modelSystem;
-		gtDriver*	   m_driver;	
+		gtDriver*	   m_driver;
+		gtGUISystem*   m_gui;
 
 		gtMaterial		m_material;
 
 		v2i m_position;
 
-		f32 m_length;
+		f32 m_length, m_height;
 
-		void checkFont( void );
+		bool m_showBackground;
+
+		void updateBackground( void );
 
 		void updateMaterial( void );
 
@@ -46,6 +50,7 @@ namespace gost{
 
 		void setText( const gtString& text );
 		void setColor( const gtColor& color );
+		void setBackgroundVisible( bool value );
 
 		f32  getLength( void );
 

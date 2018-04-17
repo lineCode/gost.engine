@@ -6,15 +6,22 @@ namespace gost{
 
 
 	class gtGUIShapeImpl : public gtGUIShape{
+		gtMainSystem *	m_mainSystem;
+		gtModelSystem*	m_modelSystem;
 		gtDriver*		m_driver;
 		gtRenderModel*	m_model;
 		gtMaterial*		m_material;
+
+		gtVertexType	vt[ 4 ];
+
+
 
 	public:
 
 		gtGUIShapeImpl( gtDriver * );
 		~gtGUIShapeImpl( void );
 		
+		bool initRectangle( const v4i& rect, const gtColor& color );
 
 		void render( void );
 		void setOpacity( f32 opacity = 1.f );
