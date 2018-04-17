@@ -336,38 +336,44 @@ void gtSceneSystemImpl::renderScene( void ){
 		m_mainSystem->setMatrixView( m_activeCamera->getViewMatrix() );
 	}
 
-	gtArray<gtGameObject*> objectsInFrustum;
-	frustumCull( m_rootNode, objectsInFrustum, ((gtCameraImpl*)m_activeCamera)->getFrustum() );
-
-//	gtLogWriter::printInfo( u"Num of objects: %u", objectsInFrustum.size() );
-
-
+	bool m_useFrustumCulling = true;
+	
 	gtArray<gtGameObject*> opaqueObjects;
 	gtArray<gtGameObject*> transparentUnsortObjects;
 	gtArray<gtGameObject*> transparentObjects;
 
-	sortTransparent( opaqueObjects, transparentUnsortObjects, objectsInFrustum );
-	sortTransparentDistance( transparentUnsortObjects, transparentObjects );
+	if( m_useFrustumCulling ){
+		gtArray<gtGameObject*> objectsInFrustum;
+		frustumCull( m_rootNode, objectsInFrustum, ((gtCameraImpl*)m_activeCamera)->getFrustum() );
 
-	auto sz = opaqueObjects.size();
+	//	gtLogWriter::printInfo( u"Num of objects: %u", objectsInFrustum.size() );
 
+		sortTransparent( opaqueObjects, transparentUnsortObjects, objectsInFrustum );
+		sortTransparentDistance( transparentUnsortObjects, transparentObjects );
 
-	for( auto i = 0u; i < sz; ++i ){
-		auto * var = opaqueObjects[ i ];
-		if( var ){
-			drawObject( var );
+		auto sz = opaqueObjects.size();
+		for( auto i = 0u; i < sz; ++i ){
+			auto * var = opaqueObjects[ i ];
+			if( var ){
+				drawObject( var );
+			}
+		}
+
+		sz = transparentObjects.size();
+		for( auto i = 0u; i < sz; ++i ){
+			auto * var = transparentObjects[ i ];
+			if( var ){
+				drawObject( var );
+			}
+		}
+	}else{
+		auto * childs = &m_rootNode->getChildList();
+		auto it = childs->begin();
+		for(; it != childs->end(); ++it){
+			drawObject( (*it) );
 		}
 	}
-
-	sz = transparentObjects.size();
-	for( auto i = 0u; i < sz; ++i ){
-		auto * var = transparentObjects[ i ];
-		if( var ){
-			drawObject( var );
-		}
-	}
-
-//	gtLogWriter::printInfo( u"end" );
+	//gtLogWriter::printInfo( u"end" );
 }
 
 void gtSceneSystemImpl::drawObject( gtGameObject * object ){
@@ -421,42 +427,22 @@ void gtSceneSystemImpl::drawObject( gtGameObject * object ){
 
 	}
 }
-/*if( object->isShowBV() ){
-		auto aabb = object->getAabb();
-		auto& pos = object->getPositionInSpace();
 
-		v3f mx = aabb->m_max + pos;
-		v3f mn = aabb->m_min + pos;
 
-		gtQuaternion q( object->getRotation() );
-		q.normalize();
-		gtMatrix4 R;
-		math::makeRotationMatrix( R, q );
+/*
+Copyright (c) 2018 532235
 
-		v3f v1 = math::mul( mx, R );
-		v3f v2 = math::mul( mn, R );
-		v3f v3 = math::mul( v3f( mx.x, mn.y, mn.z ), R );
-		v3f v4 = math::mul( v3f( mn.x, mx.y, mn.z ), R );
-		v3f v5 = math::mul( v3f( mx.x, mx.y, mn.z ), R );
-		v3f v6 = math::mul( v3f( mn.x, mn.y, mx.z ), R );
-		v3f v7 = math::mul( v3f( mn.x, mx.y, mx.z ), R );
-		v3f v8 = math::mul( v3f( mx.x, mn.y, mx.z ), R );
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software
+and associated documentation files (the "Software"), to deal in the Software without restriction,
+including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense,
+and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so,
+subject to the following conditions:
 
-		m_driver->drawLine( v2, v3 );
-		m_driver->drawLine( v4, v5 );
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
-		m_driver->drawLine( v2, v4 );
-		m_driver->drawLine( v3, v5 );
-
-		m_driver->drawLine( v2, v6 );
-		m_driver->drawLine( v4, v7 );
-
-		m_driver->drawLine( v1, v7 );
-		m_driver->drawLine( v8, v6 );
-
-		m_driver->drawLine( v1, v8 );
-		m_driver->drawLine( v7, v6 );
-
-		m_driver->drawLine( v1, v5 );
-		m_driver->drawLine( v8, v3 );
-	}*/
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT
+LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/

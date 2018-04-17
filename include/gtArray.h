@@ -239,7 +239,7 @@ namespace gost{
 		template<typename Type> bool predicateGreatOrEqual( const Type& o1, const Type& o2 ){ return o1 >= o2; }
 		template<typename Type> bool predicateLessOrEqual( const Type& o1, const Type& o2 ){ return o1 <= o2; }
 		template<typename Type> bool predicateGreat( const Type& o1, const Type& o2 ){ return o1 > o2; }
-		template<typename Type> bool predicateLess( const Type& o1, const Type& o2 ){ return o1 > o2; }
+		template<typename Type> bool predicateLess( const Type& o1, const Type& o2 ){ return o1 < o2; }
 
 		template<typename array_type>
 		void __merging( s32 low, s32 mid, s32 high, gtArray<array_type>* a, bool(*pred)(const array_type& o1, const array_type& o2 ) ) {

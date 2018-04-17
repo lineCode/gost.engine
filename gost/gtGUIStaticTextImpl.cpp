@@ -5,11 +5,15 @@ gtGUIStaticTextImpl::gtGUIStaticTextImpl( gtDriver* d ):
 	m_mainSystem( nullptr ),
 	m_modelSystem( nullptr ),
 	m_driver( d ),
-	m_length( 0.f )
+	m_gui( nullptr ),
+	m_length( 0.f ),
+	m_height( 0.f ),
+	m_showBackground( true )
 {
 	m_type = gtGUIObjectType::Text;
 	m_mainSystem = gtMainSystem::getInstance();
 	m_modelSystem= m_mainSystem->getModelSystem();
+	m_gui = m_mainSystem->getGUISystem( d );
 }
 
 gtGUIStaticTextImpl::~gtGUIStaticTextImpl( void ){
@@ -90,8 +94,6 @@ void gtGUIStaticTextImpl::setText( const gtString& text ){
 
 	m_text = text;
 
-	checkFont();
-
 	if( m_font ){
 
 		u32 textSize = m_text.size();
@@ -105,12 +107,6 @@ void gtGUIStaticTextImpl::setText( const gtString& text ){
 				gtVertexType::uv,
 				gtVertexType::normal,
 				gtVertexType::end
-			};
-
-			struct vert_t{
-				v4f pos;
-				v2f uv; 
-				v3f nor;
 			};
 
 			const u16 u[6u] = {0U,1U,2U,0U,2U,3U};
@@ -130,7 +126,7 @@ void gtGUIStaticTextImpl::setText( const gtString& text ){
 				f32 centerx = (bbsz->x*0.5f);
 				f32 centery = (bbsz->y*0.5f);
 				
-				u32 max_height = 0;
+				m_height = 0;
 
 				for( u32 i = 0u; i < textSize; ++i ){
 				
@@ -178,10 +174,10 @@ void gtGUIStaticTextImpl::setText( const gtString& text ){
 
 					sub->fillIndices( u );
 
-					vert_t * v1 = (vert_t *)v;
-					vert_t * v2 = (vert_t *)&v[sub->m_stride];
-					vert_t * v3 = (vert_t *)&v[sub->m_stride*2];
-					vert_t * v4 = (vert_t *)&v[sub->m_stride*3];
+					gtStandartVertex * v1 = (gtStandartVertex*)v;
+					gtStandartVertex * v2 = (gtStandartVertex*)&v[sub->m_stride];
+					gtStandartVertex * v3 = (gtStandartVertex*)&v[sub->m_stride*2];
+					gtStandartVertex * v4 = (gtStandartVertex*)&v[sub->m_stride*3];
 					v1->pos.zero();
 					v2->pos.zero();
 					v3->pos.zero();
@@ -202,7 +198,7 @@ void gtGUIStaticTextImpl::setText( const gtString& text ){
 						width = rect->z - rect->x;
 						height = rect->w - rect->y;
 
-						if( height > max_height ) max_height = height;
+						if( height > m_height ) m_height = height;
 
 						v3->pos.y += height * py;
 					
@@ -223,7 +219,7 @@ void gtGUIStaticTextImpl::setText( const gtString& text ){
 
 					if( ch == u'\n' ){
 						width = 0;
-						line_interval += max_height;
+						line_interval += m_height;
 						interval = 0u;
 					}
 
@@ -231,7 +227,7 @@ void gtGUIStaticTextImpl::setText( const gtString& text ){
 
 					if( ch != u'\n' ){
 						interval += width + 2u;
-						m_length = (f32)(interval + width);
+						m_length = (f32)(interval);
 					}
 
 					if( i ){
@@ -257,6 +253,7 @@ void gtGUIStaticTextImpl::setText( const gtString& text ){
 				if( rm.data() ){
 					rm->addRef();
 					m_buffers.push_back( rm.data() );
+					updateBackground();
 				}else{
 					gtLogWriter::printWarning( u"Can not create static text" );
 				}
@@ -264,22 +261,20 @@ void gtGUIStaticTextImpl::setText( const gtString& text ){
 				gtLogWriter::printWarning( u"Can not create static text" );
 			}
 		}
-
-
 	}
 }
 
-void gtGUIStaticTextImpl::checkFont( void ){
-//	if( !m_font ){
-//		m_font = (gtGUIFontImpl*)((gtGUISystemImpl*)m_mainSystem->getGUISystem(m_driver))->getDefaultFont();
-		//m_font->setDriver( m_driver );
-//	}
+
+
+void gtGUIStaticTextImpl::updateBackground( void ){
+	m_backgroundShape = m_gui->createShapeRectangle( v4i( m_position.x-3u, m_position.y - m_height, (m_position.x + m_length)+1u, m_position.y ), gtColor( 0.f, 0.f, 0.f, 1.f ) );
 }
 
 void gtGUIStaticTextImpl::render( void ){
-	checkFont();
 	u32 sz = m_buffers.size();
 	for( u32 i = 0u; i < sz; ++i ){
+		if( m_showBackground )
+			m_backgroundShape->render();
 		m_driver->drawModel( m_buffers[ i ] );
 	}
 }
@@ -287,6 +282,11 @@ void gtGUIStaticTextImpl::render( void ){
 void gtGUIStaticTextImpl::setOpacity( f32 opacity ){
 	m_material.opacity = opacity;
 	updateMaterial();
+	m_backgroundShape->setOpacity( opacity );
+}
+
+void gtGUIStaticTextImpl::setBackgroundVisible( bool value ){
+	m_showBackground = value;
 }
 
 /*

@@ -22,7 +22,17 @@ void gtGUISystemImpl::setCurrentRenderDriver( gtDriver * driver ){
 }
 
 gtPtr<gtGUIShape> gtGUISystemImpl::createShapeRectangle( const v4i& rect, const gtColor& color ){
-	return nullptr;
+	gtPtr_t( gtGUIShapeImpl, st, new gtGUIShapeImpl( m_driver ) );
+
+	if( !st.data() )
+		return nullptr;
+
+	if( !st->initRectangle( rect, color ) ){
+		gtLogWriter::printWarning( u"Can not create gtGUIShape" );
+		return nullptr;
+	}
+
+	return gtPtr<gtGUIShape>( st.data() );
 }
 
 gtPtr<gtGUIFont> gtGUISystemImpl::createFont( const gtString& fontName, gtImage * fromImage ){
@@ -81,8 +91,6 @@ gtPtr<gtGUIStaticText> gtGUISystemImpl::createStaticText( const gtString& text, 
 		gtLogWriter::printWarning( u"Can not create static text " );
 		return nullptr;
 	}
-
-//	st->addRef();
 
 	return gtPtr<gtGUIStaticText>( st.data() );
 }

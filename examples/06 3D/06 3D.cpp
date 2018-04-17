@@ -70,14 +70,18 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 	
 	auto font = guiSystem->createFont( u"../media/fonts/JapanSans.xml" ); 
 	auto text = guiSystem->createStaticText( u"オーディオシステム", 5, 75, font.data() );
-	text->setColor( gtColor( 0xFFFFFA82 ) );
+	text->setColor( gtColor( 0xFFFF3311 ) );
 	text->setOpacity( 0.13f );
+	text->setBackgroundVisible( false );
 	
 	auto builtInFont = guiSystem->createBuiltInFont();
-	auto text2 = guiSystem->createStaticText( u"Hello Привет", 5, 85, builtInFont.data() );
+	auto text2 = guiSystem->createStaticText( u"Hello Привет", 370, 290, builtInFont.data() );
 	
 	auto fps_text = guiSystem->createStaticText( u"", 5, 25, builtInFont.data() );
 	
+//	auto rect = guiSystem->createShapeRectangle( v4i(32,32,512,33), gtColor(0xff0000ff) );
+//	rect->setOpacity( 0.4f );
+
 	gtString s;
 	u32 i = 0;
 
@@ -143,10 +147,10 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 
 			
 			driver->setDepthState( false );
+		//	rect->render();
 			text->render();
 			text2->render();
 			fps_text->render();
-
 			driver->setDepthState();
 
 			driver->endRender();

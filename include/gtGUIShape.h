@@ -9,7 +9,8 @@ namespace gost{
 	};
 
 	class gtGUIShape : public gtGUIObject{
-		gtGUIShapeType m_type;
+	protected:
+		gtGUIShapeType m_shapeType;
 	public:
 
 		virtual ~gtGUIShape( void ){}
@@ -18,7 +19,7 @@ namespace gost{
 
 
 		virtual gtGUIShapeType getShapeType( void ){
-			return m_type;
+			return m_shapeType;
 		}
 	};
 
