@@ -29,6 +29,7 @@ http://www.imsoftworks.info/contributing.php
 
 # Microsoft Visual C++ Redistributable for Visual Studio 2017
 x64 https://go.microsoft.com/fwlink/?LinkId=746572
+
 x86 https://go.microsoft.com/fwlink/?LinkId=746571
 
 # VS 2015 Redistributable
