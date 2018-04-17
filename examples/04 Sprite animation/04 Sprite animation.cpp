@@ -31,14 +31,16 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 	gtSprite * Frog = scene->addSprite(
 		texture_Frog.data(),
 		v2f( 25 / 100.f, 25 / 100.f ));
+	Frog->setName( "1" );
 
 	//	Add another sprite for test z-order.
 	gtSprite * Frog2 = scene->addSprite(
 		texture_Frog.data(),
 		v2f( 25 / 100.f, 25 / 100.f ));
+	Frog2->setName( "2" );
 
 	//	Move up
-	Frog2->setPosition( Frog2->getPosition() + v3f( 0.f, 1.f, 0.f ) );
+	Frog2->setPosition( Frog2->getPosition() + v3f( 0.f, -4.f, 0.f ) );
 	// Set z position, depends on Y coordinate.
 	Frog2->setPosition( v3f( Frog2->getPosition().x, Frog2->getPosition().y, Frog2->getPosition().y*0.1f + 3.f ) );
 
@@ -65,7 +67,9 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 	gtSprite * background = scene->addSprite(
 		texture_bg.data(),
 		v2f( 511 / 100.f, 503 / 100.f ));
-	background->setPosition( v3f( 0.f, 0.f, 10.f ) );
+	background->setPosition( v3f( 0.f, -4.f, 10.f ) );
+	background->setName( "3" );
+	background->getMaterial()->flags ^= gtMaterialFlag::MF_BLEND;
 	
 	//	for pollEvent
 	gtEvent event;

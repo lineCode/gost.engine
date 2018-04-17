@@ -318,6 +318,7 @@
     <ClInclude Include="..\..\include\gtMutex.h" />
     <ClInclude Include="..\..\include\gtOBB.h" />
     <ClInclude Include="..\..\include\gtOutputWindow.h" />
+    <ClInclude Include="..\..\include\gtPair.h" />
     <ClInclude Include="..\..\include\gtPlugin.h" />
     <ClInclude Include="..\..\include\gtPluginSystem.h" />
     <ClInclude Include="..\..\include\gtPriorQueue.h" />

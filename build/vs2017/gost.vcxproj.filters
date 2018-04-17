@@ -410,6 +410,9 @@
     <ClInclude Include="..\..\gost\gtGUIShapeImpl.h">
       <Filter>Headers\GUI</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\gtPair.h">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\..\gost\ReadMe.txt">

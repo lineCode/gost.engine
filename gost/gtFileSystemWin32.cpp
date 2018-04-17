@@ -180,8 +180,11 @@ bool gtFileSystemWin32::getDirObject( gtFileSystem::DirObject* o ){
 		gtString fullPath( m_dir );
 		fullPath.pop_back();// '*'
 		fullPath += (char16_t*)ffd.cFileName;
-
+#ifdef _MSC_VER
+		wcscpy_s( o->path, GT_MAX_PATH, (wchar_t*)fullPath.data() );
+#else
 		wcscpy( o->path, (wchar_t*)fullPath.data() );
+#endif
 
 		if( ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY ){
 			o->type = gtFileSystem::DirObjectType::folder;
