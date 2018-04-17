@@ -10,6 +10,7 @@
 
 //C++
 #include <cctype> //isalpha
+#include <cstring>
 #include <fstream>
 #include <sstream>
 #include <string>
@@ -21,7 +22,7 @@
 #include <gtInfo.h>
 #include <gtTypes.h>
 
-
+#include <gtPair.h>
 #include <gtAllocator.h>
 #include <gtArray.h>
 #include <gtList.h>
@@ -105,9 +106,8 @@
 
 #include <gtUtilities.h>
 
-#if defined(GT_PLATFORM_WIN32)
+#if defined(_MSC_VER)
 #ifndef GOSTDLL
-#include <Windows.h>
 #ifdef GT_DEBUG
 #pragma comment(lib, "gost_d.lib")
 #else

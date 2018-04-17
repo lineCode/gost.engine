@@ -20,7 +20,7 @@ gtLogerImpl::~gtLogerImpl( void ){
 	//	%u - unsigned
 	//	%s - char16_t*
 	//	%c - char16_t
-void gtLogerImpl::print( msgType type, char16_t* str, ... ){
+void gtLogerImpl::print( msgType type, const char16_t* str, ... ){
 	gt_va_list args;
 	va_start( args, str );
 	print( type, str, args );
@@ -28,7 +28,7 @@ void gtLogerImpl::print( msgType type, char16_t* str, ... ){
 }
 
 
-void gtLogerImpl::print( msgType type, char16_t* str, void * p ){
+void gtLogerImpl::print( msgType type, const char16_t* str, void * p ){
 	if( m_msgType >= type ){
 		gtString message;
 		switch( type ){
@@ -123,7 +123,7 @@ void gtLogerImpl::setInfoType( msgType type ){
 }
 
 	//	Вывести сообщение об ошибке
-void gtLogWriter::printError( char16_t* str, ... ){
+void gtLogWriter::printError( const char16_t* str, ... ){
 	gt_va_list args;
 	va_start( args, str );
 	gtLog->print( gost::gtLoger::msgType::error, str, args );
@@ -131,7 +131,7 @@ void gtLogWriter::printError( char16_t* str, ... ){
 }
 
 	//	Вывести предупреждение
-void gtLogWriter::printWarning( char16_t* str, ... ){
+void gtLogWriter::printWarning( const char16_t* str, ... ){
 	gt_va_list args;
 	va_start( args, str );
 	gtLog->print( gost::gtLoger::msgType::warning, str, args );
@@ -139,7 +139,7 @@ void gtLogWriter::printWarning( char16_t* str, ... ){
 }
 
 	//	Вывести информационное сообщение
-void gtLogWriter::printInfo( char16_t* str, ... ){
+void gtLogWriter::printInfo( const char16_t* str, ... ){
 	gt_va_list args;
 	va_start( args, str );
 	gtLog->print( gost::gtLoger::msgType::info, str, args );
@@ -147,7 +147,7 @@ void gtLogWriter::printInfo( char16_t* str, ... ){
 }
 
 /*
-Copyright (c) 2017 532235
+Copyright (c) 2017-2018 532235
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software
 and associated documentation files (the "Software"), to deal in the Software without restriction,

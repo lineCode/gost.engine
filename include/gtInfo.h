@@ -25,7 +25,6 @@
 	#elif defined(_MSC_VER)
 	#	define GT_COMPILER_MSVC
 	#include <SDKDDKVer.h>
-	#include <windows.h>
 	#include <shlobj.h>
 	#include <shlwapi.h>
 	#pragma comment(lib,"winmm.lib")
@@ -124,6 +123,8 @@
 	#			error	Unsupported platform
 	#	endif
 	#elif defined(_WIN32)
+	#include <windows.h>
+    #include <mmsystem.h>
 	#		define	GT_PLATFORM_WIN32
 	#		if	defined(_WIN64)
 	#			define	GT_PLATFORM_X64

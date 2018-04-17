@@ -124,7 +124,8 @@ gtStaticObject*	gtSceneSystemImpl::addStaticObject( gtRenderModel* model, const 
 
 
 	if( !object.data()){
-		gtLogWriter::printWarning( u"Can not create static object. Name [%s], id[%i]", name.data(), id );
+        const char16_t * msg = u"Can not create static object. Name [%s], id[%i]";
+		gtLogWriter::printWarning( msg, name.data(), id );
 		return nullptr;
 	}
 
@@ -274,35 +275,47 @@ void gtSceneSystemImpl::sortTransparent(  gtArray<gtGameObject*>& opaque, gtArra
 	}
 }
 
-struct object_distance{
-	object_distance( f32 d, gtGameObject* go ):
-		dist( d ), obj( go )
-	{}
-
-	f32 dist;
-	gtGameObject* obj;
-
-	bool operator<(const object_distance& other){
-		if( dist < other.dist ) return true;
-		return false;
-	}
-};
+bool gtPairSortPredGreatOrEqual( const gtPair<f32,gtGameObject*>& o1, const gtPair<f32,gtGameObject*>& o2 ){
+	return o1.m_first >= o2.m_first;
+}
 
 void gtSceneSystemImpl::sortTransparentDistance( gtArray<gtGameObject*>& in, gtArray<gtGameObject*>& out ){
 	v3f position = m_activeCamera->getPositionInSpace();
 
-	gtArray<object_distance> dist;
+	gtArray<gtPair<f32,gtGameObject*>> groups[ 4u ];
+
 
 	auto sz = in.size();
 	for( u32 i = 0u; i < sz; ++i ){
-		dist.push_back( object_distance( position.distance( in[ i ]->getPositionInSpace() ), in[ i ] ) );
+
+		f32 dist = 0.f;
+
+		if( m_activeCamera->getCameraType() == gtCameraType::CT_2D ){
+			dist = std::abs(in[ i ]->getPositionInSpace().z - position.z);
+		}else{
+			dist = position.distance( in[ i ]->getPositionInSpace() );
+		}
+	
+		if( dist < 10.f ){
+			groups[ 0u ].push_back( gtPair<f32,gtGameObject*>(dist,in[ i ],gtPairSortPredGreatOrEqual) );
+		}else if( dist < 100.f ){
+			groups[ 1u ].push_back( gtPair<f32,gtGameObject*>(dist,in[ i ],gtPairSortPredGreatOrEqual) );
+		}else if( dist < 1000.f ){
+			groups[ 2u ].push_back( gtPair<f32,gtGameObject*>(dist,in[ i ],gtPairSortPredGreatOrEqual) );
+		}else{
+			groups[ 3u ].push_back( gtPair<f32,gtGameObject*>(dist,in[ i ],gtPairSortPredGreatOrEqual) );
+		}
 	}
 
-	dist.sort();
 
-	sz = in.size();
-	for( u32 i = 0u; i < sz; ++i ){
-		out.push_back( dist[ i ].obj );
+	for( s32 i = 3; i >= 0; --i ){
+		sz = groups[ i ].size();
+
+		util::mergesort( &groups[ i ], util::predicateGreatOrEqual );
+		
+		for( u32 o = 0u; o < sz; ++o ){
+			out.push_back( groups[ i ][ o ].m_second );
+		}
 	}
 
 }
@@ -338,19 +351,23 @@ void gtSceneSystemImpl::renderScene( void ){
 
 	auto sz = opaqueObjects.size();
 
+
 	for( auto i = 0u; i < sz; ++i ){
 		auto * var = opaqueObjects[ i ];
-		if( var )
+		if( var ){
 			drawObject( var );
+		}
 	}
 
 	sz = transparentObjects.size();
 	for( auto i = 0u; i < sz; ++i ){
 		auto * var = transparentObjects[ i ];
-		if( var )
+		if( var ){
 			drawObject( var );
+		}
 	}
 
+//	gtLogWriter::printInfo( u"end" );
 }
 
 void gtSceneSystemImpl::drawObject( gtGameObject * object ){

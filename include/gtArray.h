@@ -81,6 +81,11 @@ namespace gost{
 			return m_data;
 		}
 
+			//	Set size
+		void setSize( u32 s ){
+			m_size = s;
+		}
+
 			//	Get size
 		u32 size( void ) const {
 			return m_size;
@@ -230,6 +235,57 @@ namespace gost{
 
 	};
 
+	namespace util{
+		template<typename Type> bool predicateGreatOrEqual( const Type& o1, const Type& o2 ){ return o1 >= o2; }
+		template<typename Type> bool predicateLessOrEqual( const Type& o1, const Type& o2 ){ return o1 <= o2; }
+		template<typename Type> bool predicateGreat( const Type& o1, const Type& o2 ){ return o1 > o2; }
+		template<typename Type> bool predicateLess( const Type& o1, const Type& o2 ){ return o1 > o2; }
+
+		template<typename array_type>
+		void __merging( s32 low, s32 mid, s32 high, gtArray<array_type>* a, bool(*pred)(const array_type& o1, const array_type& o2 ) ) {
+			gtArray<array_type> b;
+			b.reserve( high );
+			b.setSize( high );
+
+		   s32 l1, l2, i;
+
+			for(l1 = low, l2 = mid + 1, i = low; l1 <= mid && l2 <= high; i++) {
+			  //if((*a)[l1] >= (*a)[l2])
+				if(pred((*a)[l1],(*a)[l2]))
+					b[i] = (*a)[l1++];
+				else
+					b[i] = (*a)[l2++];
+		   }
+   
+		   while(l1 <= mid)    
+			  b[i++] = (*a)[l1++];
+
+		   while(l2 <= high)   
+			  b[i++] = (*a)[l2++];
+
+		   for(i = low; i <= high; i++)
+			  (*a)[i] = b[i];
+		}
+
+		template<typename array_type>
+		void __sort(s32 low, s32 high,gtArray<array_type>* arr, bool(*pred)(const array_type& o1, const array_type& o2 )) {
+			s32 mid;
+	
+			if( low < high ){
+				mid = (low + high) / 2;
+				__sort( low, mid, arr, pred );
+				__sort( mid + 1, high, arr, pred );
+				__merging( low, mid, high, arr, pred );
+			}else{ 
+				return;
+			}   
+		}
+
+		template<typename array_type>
+		void mergesort( gtArray<array_type> * array, bool(*pred)(const array_type& o1, const array_type& o2 ) ){
+			__sort( 0u, (s32)array->size() - 1, array, pred );
+		}
+	}
 }
 
 #endif

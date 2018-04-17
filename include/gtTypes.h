@@ -16,17 +16,20 @@ namespace gost{
 		convex
 	};
 
-    #if defined(_MSC_VER)
+    #if defined(GT_PLATFORM_WIN32)
     #	define	GT_IMPORT __declspec(dllimport)
     #	define	GT_EXPORT __declspec(dllexport)
     #if (_MSC_VER > 1700 )
     #   define	GT_TYPE( x, y ) using x = y
-    #else
-    #   define	GT_TYPE( x, y ) typedef (y) (x)
-    #endif
     #	define	GT_SPRINTF sprintf_s
     #	define	GT_SNPRINTF _snprintf_s
     #	define	GT_CDECL __cdecl
+    #else
+    #   define	GT_TYPE( x, y ) typedef (y) (x)
+    #	define	GT_SPRINTF sprintf
+    #	define	GT_SNPRINTF snprintf
+    #	define	GT_CDECL
+    #endif
     #elif defined(__linux__)
     #   define	GT_TYPE(x,y) typedef y x
     #	define	GT_IMPORT
@@ -35,8 +38,8 @@ namespace gost{
     #	define	GT_SNPRINTF snprintf
     #	define	GT_CDECL
     #endif
-    
-        
+
+
     #if (_MSC_VER > 1700 || __cplusplus >= 201103L )
     #undef GT_TYPE
     #   define	GT_TYPE( x, y ) using x = y

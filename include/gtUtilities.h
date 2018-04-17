@@ -398,16 +398,16 @@ namespace gost{
 				if( word.size() ){
 					switch( i ){
 					case 0u:
-						vec->x = getIntFromString<u32>( word );
+						vec->x = (u16)getIntFromString<u32>( word );
 						break;
 					case 1u:
-						vec->y = getIntFromString<u32>( word );
+						vec->y = (u16)getIntFromString<u32>( word );
 						break;
 					case 2u:
-						vec->z = getIntFromString<u32>( word );
+						vec->z = (u16)getIntFromString<u32>( word );
 						break;
 					case 3u:
-						vec->w = getIntFromString<u32>( word );
+						vec->w = (u16)getIntFromString<u32>( word );
 						break;
 					}
 					++i;
