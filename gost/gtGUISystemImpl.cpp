@@ -95,14 +95,6 @@ gtPtr<gtGUIStaticText> gtGUISystemImpl::createStaticText( const gtString& text, 
 	return gtPtr<gtGUIStaticText>( st.data() );
 }
 
-//gtImage * gtGUISystemImpl::getDefaultFontImage( void ){
-//	return m_defaultFontImage;
-//}
-//
-//gtGUIFont* gtGUISystemImpl::getDefaultFont( void ){
-//	return m_defaultFont;
-//}
-
 /*
 Copyright (c) 2018 532235
 

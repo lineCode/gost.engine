@@ -8,6 +8,7 @@ namespace gost{
 		Rectangle
 	};
 
+	class gtTexture;
 	class gtGUIShape : public gtGUIObject{
 	protected:
 		gtGUIShapeType m_shapeType;
@@ -17,6 +18,8 @@ namespace gost{
 
 		virtual void setColor( const gtColor& color ) = 0;
 
+		virtual void setTexture( gtTexture* texture ) = 0;
+		virtual gtTexture* getTexture( void ) = 0;
 
 		virtual gtGUIShapeType getShapeType( void ){
 			return m_shapeType;

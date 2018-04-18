@@ -15,10 +15,13 @@ namespace gost{
 		virtual void setColor( const gtColor& color ) = 0;
 
 		virtual void setBackgroundVisible( bool value ) = 0;
+		virtual void setBackgroundColor( const gtColor& color ) = 0;
 
 		virtual f32  getLength( void ) = 0;
 
 		virtual void clear( void ) = 0;
+
+		virtual gtGUIShape* getBackgroundShape( void ) = 0;
 	};
 
 }
