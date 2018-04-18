@@ -68,21 +68,16 @@ bool gtGUIShapeImpl::initRectangle( const v4i& rect, const gtColor& color ){
 		auto height = rect.w - rect.y;
 
 		v1->pos.y -= height * py;
+		v1->uv.set( 0.f, 1.f );
 
 		v3->pos.x += width * px;
-		
+		v3->uv.set( 1.f, 0.f );
+
 		v4->pos.x += v3->pos.x;
 		v4->pos.y += v1->pos.y;
-
-
-
-		/*v3->pos.y += height * py;
-					
-		v4->pos.x += width * px;
-		v4->pos.y += v3->pos.y; 
-
-		v1->pos.x += v4->pos.x;
-		*/
+		v4->uv.set( 1.f, 1.f );
+		
+		v2->uv.set( 0.f, 0.f );
 
 
 
@@ -104,10 +99,17 @@ bool gtGUIShapeImpl::initRectangle( const v4i& rect, const gtColor& color ){
 	}else{
 		gtLogWriter::printWarning( u"Can not create static text" );
 	}
-
-
 	return true;
 }
+
+void gtGUIShapeImpl::setTexture( gtTexture* texture ){
+	m_material->textureLayer[ 0u ].texture = texture;
+}
+
+gtTexture* gtGUIShapeImpl::getTexture( void ){
+	return m_material->textureLayer[ 0u ].texture;
+}
+
 
 /*
 Copyright (c) 2018 532235

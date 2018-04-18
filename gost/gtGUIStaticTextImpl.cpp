@@ -34,6 +34,7 @@ bool gtGUIStaticTextImpl::init( const gtString& text, s32 positionX, s32 positio
 	m_position.set( positionX, positionY );
 	m_font = (gtGUIFontImpl*)font;
 	setText( text );
+	updateBackground();
 	return true;
 }
 
@@ -267,7 +268,19 @@ void gtGUIStaticTextImpl::setText( const gtString& text ){
 
 
 void gtGUIStaticTextImpl::updateBackground( void ){
-	m_backgroundShape = m_gui->createShapeRectangle( v4i( m_position.x-3u, m_position.y - m_height, (m_position.x + m_length)+1u, m_position.y ), gtColor( 0.f, 0.f, 0.f, 1.f ) );
+	gtTexture * t1 = nullptr;
+	if( m_backgroundShape.data() )
+		t1 = m_backgroundShape->getTexture();
+
+	m_backgroundShape = m_gui->createShapeRectangle( 
+		v4i( 
+			m_position.x-10u,
+			m_position.y - m_height - 3u,
+			(m_position.x + m_length)+10u,
+			m_position.y + 3u
+		),
+		gtColor( 0.f, 0.f, 0.f, 1.f ) );
+	m_backgroundShape->setTexture( t1 );
 }
 
 void gtGUIStaticTextImpl::render( void ){
@@ -287,6 +300,14 @@ void gtGUIStaticTextImpl::setOpacity( f32 opacity ){
 
 void gtGUIStaticTextImpl::setBackgroundVisible( bool value ){
 	m_showBackground = value;
+}
+
+void gtGUIStaticTextImpl::setBackgroundColor( const gtColor& color ){
+	m_backgroundShape->setColor( color );
+}
+
+gtGUIShape* gtGUIStaticTextImpl::getBackgroundShape( void ){
+	return m_backgroundShape.data();
 }
 
 /*

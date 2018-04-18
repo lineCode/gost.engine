@@ -27,6 +27,8 @@ namespace gost{
 		void setOpacity( f32 opacity = 1.f );
 
 		void setColor( const gtColor& color );
+		void setTexture( gtTexture* texture );
+		gtTexture* getTexture( void );
 	};
 
 }
