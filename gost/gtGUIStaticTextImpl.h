@@ -26,6 +26,7 @@ namespace gost{
 		gtGUISystem*   m_gui;
 
 		gtMaterial		m_material;
+		gtColor			m_bgColor;
 
 		v2i m_position;
 

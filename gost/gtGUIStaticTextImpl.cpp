@@ -14,6 +14,7 @@ gtGUIStaticTextImpl::gtGUIStaticTextImpl( gtDriver* d ):
 	m_mainSystem = gtMainSystem::getInstance();
 	m_modelSystem= m_mainSystem->getModelSystem();
 	m_gui = m_mainSystem->getGUISystem( d );
+	m_bgColor.set( 0.f, 0.f, 0.f, 1.f );
 }
 
 gtGUIStaticTextImpl::~gtGUIStaticTextImpl( void ){
@@ -255,6 +256,7 @@ void gtGUIStaticTextImpl::setText( const gtString& text ){
 					rm->addRef();
 					m_buffers.push_back( rm.data() );
 					updateBackground();
+					updateMaterial();
 				}else{
 					gtLogWriter::printWarning( u"Can not create static text" );
 				}
@@ -269,8 +271,11 @@ void gtGUIStaticTextImpl::setText( const gtString& text ){
 
 void gtGUIStaticTextImpl::updateBackground( void ){
 	gtTexture * t1 = nullptr;
-	if( m_backgroundShape.data() )
+	gtColor color;
+
+	if( m_backgroundShape.data() ){
 		t1 = m_backgroundShape->getTexture();
+	}
 
 	m_backgroundShape = m_gui->createShapeRectangle( 
 		v4i( 
@@ -281,6 +286,7 @@ void gtGUIStaticTextImpl::updateBackground( void ){
 		),
 		gtColor( 0.f, 0.f, 0.f, 1.f ) );
 	m_backgroundShape->setTexture( t1 );
+	m_backgroundShape->setColor( m_bgColor );
 }
 
 void gtGUIStaticTextImpl::render( void ){
@@ -304,6 +310,7 @@ void gtGUIStaticTextImpl::setBackgroundVisible( bool value ){
 
 void gtGUIStaticTextImpl::setBackgroundColor( const gtColor& color ){
 	m_backgroundShape->setColor( color );
+	m_bgColor = color;
 }
 
 gtGUIShape* gtGUIStaticTextImpl::getBackgroundShape( void ){

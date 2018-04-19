@@ -70,18 +70,19 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 	
 	auto font = guiSystem->createFont( u"../media/fonts/JapanSans.xml" ); 
 	auto text = guiSystem->createStaticText( u"オーディオシステム", 5, 75, font.data() );
-	text->setColor( gtColor( 0xFFFF3311 ) );
-	text->setOpacity( 0.13f );
+	text->setColor( gtColorSteelBlue );
+	text->setOpacity( 0.5f );
 	text->setBackgroundVisible( false );
 	
 	auto builtInFont = guiSystem->createBuiltInFont();
 	auto text2 = guiSystem->createStaticText( u"Hello Привет", 370, 290, builtInFont.data() );
-	text2->setColor( 0xff111111 );
-	text2->setBackgroundColor( 0xffffaa66 );
+	text2->setColor( gtColorRed );
+	text2->setBackgroundColor( gtColorMidnightBlue  );
 	text2->getBackgroundShape()->setTexture( driver->getTexture(u"../media/pic.png") );
 	
 	auto fps_text = guiSystem->createStaticText( u"", 10, 25, builtInFont.data() );
-	fps_text->getBackgroundShape()->setTexture( driver->getTexture(u"../media/pic.png") );
+	fps_text->setBackgroundColor( gtColorPurple );
+	fps_text->setColor( gtColorLightSalmon );
 	
 //	auto rect = guiSystem->createShapeRectangle( v4i(32,32,512,33), gtColor(0xff0000ff) );
 //	rect->setOpacity( 0.4f );

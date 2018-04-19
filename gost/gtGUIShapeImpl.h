@@ -14,8 +14,6 @@ namespace gost{
 
 		gtVertexType	vt[ 4 ];
 
-
-
 	public:
 
 		gtGUIShapeImpl( gtDriver * );
