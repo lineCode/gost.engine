@@ -135,6 +135,9 @@
     <ClCompile Include="..\..\gost\gtGUIShapeImpl.cpp">
       <Filter>Source\GUI</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\gost\gtPluginInput.cpp">
+      <Filter>Source\Plugins</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\gost\gtDriverCommon.h">
@@ -411,6 +414,9 @@
       <Filter>Headers\GUI</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\gtPair.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\gtGameController.h">
       <Filter>include</Filter>
     </ClInclude>
   </ItemGroup>

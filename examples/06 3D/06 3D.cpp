@@ -76,13 +76,13 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 	
 	auto builtInFont = guiSystem->createBuiltInFont();
 	auto text2 = guiSystem->createStaticText( u"Hello Привет", 370, 290, builtInFont.data() );
-	text2->setColor( gtColorRed );
-	text2->setBackgroundColor( gtColorMidnightBlue  );
-	text2->getBackgroundShape()->setTexture( driver->getTexture(u"../media/pic.png") );
+	text2->setColor( gtColorCadetBlue );
+	text2->setBackgroundColor( gtColorDarkKhaki  );
 	
 	auto fps_text = guiSystem->createStaticText( u"", 10, 25, builtInFont.data() );
 	fps_text->setBackgroundColor( gtColorPurple );
 	fps_text->setColor( gtColorLightSalmon );
+	fps_text->getBackgroundShape()->setTexture( driver->getTexture(u"../media/pic.png") );
 	
 //	auto rect = guiSystem->createShapeRectangle( v4i(32,32,512,33), gtColor(0xff0000ff) );
 //	rect->setOpacity( 0.4f );
@@ -116,7 +116,7 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 
 		while( mainSystem->pollEvent( event ) ){
 			switch( event.type ){
-				case gtEventType::keyboard:
+				case gtEventType::Keyboard:
 				if( event.keyboardEvent.isReleased( gtKey::K_ESCAPE ) ){
 					mainSystem->shutdown(); // exit when key released
 				}

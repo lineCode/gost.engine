@@ -111,12 +111,24 @@ void gtPluginSystemImpl::scanFolder( const gtString& dir ){
 					m_audioPluginCache.push_back( plugin.data() );
 					m_plugins.push_back( plugin.data() );
 
+				}else if( pi.m_type == gtPluginType::input ){
+					
+					gtPtr_t(gtPluginInput,plugin,new gtPluginInput( &pi_dl ) );
+
+					if( !plugin->checkLibraryFunctions() ) continue;
+
+					m_inputPluginCache.push_back( plugin.data() );
+					m_plugins.push_back( plugin.data() );
+
+				}else{
+					GT_FREE_LIBRARY( lib );
+					gtLogWriter::printInfo( u"Unsupported plugin: %s. Ignore.", pi.m_name.data() );
+					continue;
 				}
 
 				gtLogWriter::printInfo( u"Add plugin: %s", pi.m_name.data() );
-
-				m_numOfPlugins++;
 				GT_FREE_LIBRARY( lib );
+				m_numOfPlugins++;
 
 			}
 		}

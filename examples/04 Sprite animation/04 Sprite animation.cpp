@@ -84,7 +84,7 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 
 		while( mainSystem->pollEvent( event ) ){
 			switch( event.type ){
-				case gtEventType::keyboard:
+				case gtEventType::Keyboard:
 
 
 				if( event.keyboardEvent.isReleased( gtKey::K_ESCAPE ) ){

@@ -307,7 +307,7 @@ LRESULT CALLBACK gtWindowWin32::WndProc(HWND hWnd, UINT message, WPARAM wParam, 
 	static u32 KEYBOARD_INPUT_CODEPAGE = 1252;
 
 	gtEvent ev;
-	ev.type = gtEventType::system;
+	ev.type = gtEventType::System;
 
 	if( !pD ){
 		if (message == WM_NCCREATE)   {
@@ -376,7 +376,7 @@ LRESULT CALLBACK gtWindowWin32::WndProc(HWND hWnd, UINT message, WPARAM wParam, 
 	case WM_MBUTTONUP:
 	case WM_MOUSEMOVE:
 	case WM_MOUSEWHEEL:{
-		ev.type = gtEventType::mouse;
+		ev.type = gtEventType::Mouse;
 
 		ev.mouseEvent.x = LOWORD(lParam);
 		ev.mouseEvent.y = HIWORD(lParam);
@@ -418,7 +418,7 @@ LRESULT CALLBACK gtWindowWin32::WndProc(HWND hWnd, UINT message, WPARAM wParam, 
 	case WM_SYSKEYUP:
 	case WM_KEYDOWN:
 	case WM_KEYUP:{
-		ev.type = gtEventType::keyboard;
+		ev.type = gtEventType::Keyboard;
 		ev.keyboardEvent.key = static_cast<gtKey>( wParam );
 
 		const UINT MY_MAPVK_VSC_TO_VK_EX = 3;

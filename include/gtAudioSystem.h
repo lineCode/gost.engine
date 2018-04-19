@@ -19,7 +19,6 @@ namespace gost{
 		_3D
 	};
 
-		//	Класс для работы с аудио
 	class gtAudioSystem : public gtRefObject{
 	public:
 

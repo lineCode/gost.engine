@@ -1,15 +1,17 @@
-﻿/*!	GOST
-	\file gtInput.h
-	\brief User input here
-*/
-
-#pragma once
+﻿#pragma once
 #ifndef __GT_INPUT_H__
-#define __GT_INPUT_H__ //< include guard
+#define __GT_INPUT_H__
 
 namespace gost{
 
-		//	Некоторые клавиши клавиатуры. С понятными названиями.
+	enum class gtInputType : u32 {
+		Keyboard,
+		Mouse,
+		Gamepad,
+		SteeringWheel,
+		Joystick
+	};
+
 	enum class gtKey : u32 {
 		K_NONE			=	0,
 		K_BACKSPACE		=	8,

@@ -28,7 +28,7 @@ bool gtEventSystem::isKeyDown( gtKey key ){
 }
 
 bool gtEventSystem::pollEvent( gtEvent& event ){
-	if( m_events[ m_currentEvent ].type == gtEventType::none )
+	if( m_events[ m_currentEvent ].type == gtEventType::None )
 		return false;
 
 	m_mouseState.bits.b0 = false;
@@ -37,7 +37,7 @@ bool gtEventSystem::pollEvent( gtEvent& event ){
 
 	event = m_events[ m_currentEvent ];
 
-	m_events[ m_currentEvent ].type = gtEventType::none;
+	m_events[ m_currentEvent ].type = gtEventType::None;
 
 	++m_currentEvent;
 
@@ -45,21 +45,21 @@ bool gtEventSystem::pollEvent( gtEvent& event ){
 			m_currentEvent = 0u;
 
 	switch( event.type ){
-		case gtEventType::keyboard:{
+		case gtEventType::Keyboard:{
 			m_keysDown[ (u32)event.keyboardEvent.key ] = event.keyboardEvent.state.bits.b0;
 		}break;
-		case gtEventType::mouse:{
+		case gtEventType::Mouse:{
 			m_mouseState.bits.b0 = event.mouseEvent.state.bits.b0;
 			m_mouseState.bits.b1 = event.mouseEvent.state.bits.b2;
 			m_mouseState.bits.b2 = event.mouseEvent.state.bits.b4;
 			m_cursorPosition.x = event.mouseEvent.x;
 			m_cursorPosition.y = event.mouseEvent.y;
 		}break;
-		case gtEventType::none:
-        case gtEventType::joystick:
+		case gtEventType::None:
+        case gtEventType::Joystick:
         case gtEventType::GUI:
-        case gtEventType::window:
-        case gtEventType::system:
+        case gtEventType::Window:
+        case gtEventType::System:
         break;
 	}
 
@@ -70,13 +70,13 @@ void gtEventSystem::runEventLoop( void ){
 
 	while( true ){
 
-		if( m_events[ m_currentEvent ].type == gtEventType::none )
+		if( m_events[ m_currentEvent ].type == gtEventType::None )
 			break;
 
 		if( m_userConsumer )
 			m_userConsumer->processEvent( m_events[ m_currentEvent ] );
 
-		m_events[ m_currentEvent ].type = gtEventType::none;
+		m_events[ m_currentEvent ].type = gtEventType::None;
 
 
 		++m_currentEvent;

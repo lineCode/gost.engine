@@ -16,6 +16,7 @@ namespace gost{
 		gtArray<gtPlugin*>					m_plugins;
 		gtArray<gtPtr<gtPluginRender>>		m_renderPluginCache;
 		gtArray<gtPtr<gtPluginAudio>>		m_audioPluginCache;
+		gtArray<gtPtr<gtPluginInput>>		m_inputPluginCache;
 		gtArray<gtPtr<gtPluginImportImage>> m_importImagePluginCache;
 		gtArray<gtPtr<gtPluginImportModel>> m_importModelPluginCache;
 		

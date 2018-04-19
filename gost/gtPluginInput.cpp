@@ -1,32 +1,30 @@
-﻿//	GOST
-
 #include "common.h"
 
-gtPluginAudio::gtPluginAudio( gtPluginInfoDL* info ){
+gtPluginInput::gtPluginInput( gtPluginInfoDL* info ){
 	m_info = *info;
 #ifdef GT_DEBUG
-	m_debugName.assign(u"gtPluginRender");
+	m_debugName.assign(u"gtPluginInput");
 #endif
 }
 
-gtPluginAudio::~gtPluginAudio( void ){
+gtPluginInput::~gtPluginInput( void ){
 	if( m_isLoad ) unload();
 }
 
-const gtPluginInfoDL&	gtPluginAudio::getInfo( void ){
+const gtPluginInfoDL&	gtPluginInput::getInfo( void ){
 	return m_info;
 }
 
 
 
-bool gtPluginAudio::checkLibraryFunctions(){
+bool gtPluginInput::checkLibraryFunctions(){
 
 	GT_LIBRARY_HANDLE lib = m_info.m_handle;
 
-	gtLoadAudioDriver_t loadAudioDriverProc1 = 	GT_LOAD_FUNCTION_SAFE_CAST(gtLoadAudioDriver_t, lib,"gtLoadAudioPlugin");
+	gtLoadInputDriver_t loadInputDriverProc1 = 	GT_LOAD_FUNCTION_SAFE_CAST(gtLoadInputDriver_t, lib,"gtLoadInputDriver");
 
-	if( !loadAudioDriverProc1 ){
-		gtLogWriter::printWarning( u"Can not get procedure address [%s] from plugin [%s]", u"gtLoadAudioPlugin", m_info.m_path.data() );
+	if( !loadInputDriverProc1 ){
+		gtLogWriter::printWarning( u"Can not get procedure address [%s] from plugin [%s]", u"gtLoadInputDriver", m_info.m_path.data() );
 		GT_FREE_LIBRARY( lib );
 		return false;
 	}
@@ -34,18 +32,17 @@ bool gtPluginAudio::checkLibraryFunctions(){
 	return true;
 }
 
-gtAudioSystem* gtPluginAudio::loadAudioDriver(){
+gtGameController* gtPluginInput::loadInputDriver(){
 	if( !m_isLoad ) load();
 
 	if( m_isLoad ){
-		return loadAudioDriverProc();
+		return loadInputDriverProc();
 	}
 
 	return nullptr;
 }
 
-	//	загрузить плагин
-void gtPluginAudio::load( void ){
+void gtPluginInput::load( void ){
 
 	if( !m_isLoad ){
 
@@ -56,21 +53,17 @@ void gtPluginAudio::load( void ){
 			return;
 		}
 
-		loadAudioDriverProc = GT_LOAD_FUNCTION_SAFE_CAST(gtLoadAudioDriver_t,m_info.m_handle, "gtLoadAudioPlugin" );
-		if( !loadAudioDriverProc ){
-			gtLogWriter::printWarning( u"Can not get procedure address [%s] from plugin [%s]", u"gtLoadAudioPlugin", m_info.m_path.data() );
+		loadInputDriverProc = GT_LOAD_FUNCTION_SAFE_CAST(gtLoadInputDriver_t,m_info.m_handle, "gtLoadInputDriver" );
+		if( !loadInputDriverProc ){
+			gtLogWriter::printWarning( u"Can not get procedure address [%s] from plugin [%s]", u"gtLoadInputDriver", m_info.m_path.data() );
 			GT_FREE_LIBRARY( m_info.m_handle );
 			return;
 		}
-
 		m_isLoad = true;
-
 	}
-
 }
 
-	//	выгрузить плагин
-void gtPluginAudio::unload( void ){
+void gtPluginInput::unload( void ){
 	if( m_isLoad ){
 		if( m_info.m_handle )
 			GT_FREE_LIBRARY( m_info.m_handle );

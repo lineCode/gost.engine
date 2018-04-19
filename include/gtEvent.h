@@ -30,13 +30,13 @@ namespace gost{
 	
 		//	Тип события
 	enum class gtEventType : u32 {
-		none,		//< для завершения обработки массива событий
-		keyboard,
-		mouse,
-		joystick,
+		None,		//< для завершения обработки массива событий
+		Keyboard,
+		Mouse,
+		Joystick,
 		GUI,
-		window,
-		system
+		Window,
+		System
 	};
 
 	struct gtEventMouse{
@@ -115,7 +115,7 @@ namespace gost{
 			gtEventMouse	mouseEvent;
 		};
 
-		gtEventType type = gtEventType::none;
+		gtEventType type = gtEventType::None;
 		
 		u32 dataSize	= 0u;		//< размер пользовательских данных
 		void* data		= nullptr;	//< пользовательские данные
