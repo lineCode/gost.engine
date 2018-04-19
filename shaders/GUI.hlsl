@@ -3,8 +3,7 @@ SamplerState tex2D_sampler_1;
 
 cbuffer cbPixel{
 	float4 diffuseColor;
-	//float opacity;
-	//float3 padding;
+	bool boolean[128];
 };
 
 struct VSIn{
@@ -39,9 +38,15 @@ PSOut PSMain(VSOut input)
 	
     output.color = tex2d_1.Sample(tex2D_sampler_1, input.uv) * float4( diffuseColor.r, diffuseColor.g, diffuseColor.b, 1.f);
 	
-	if( output.color.a < 0.5f ) discard;
+	if( boolean[0] ){
+		if( output.color.a < 0.5f ){
+			discard;
+		}
+		output.color.a = diffuseColor.a;
+	}else{
+		output.color.a *= diffuseColor.a;
+	}
 
-	output.color.a = diffuseColor.a;
 	
     return output;
 }

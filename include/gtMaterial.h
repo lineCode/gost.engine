@@ -8,8 +8,6 @@
 
 namespace gost{
 
-
-		//	Тип операции смешевания.
 	enum gtMaterialBlendOp : u32 {
 
 			//	Result = Source + Destination
@@ -21,37 +19,29 @@ namespace gost{
 			//	Result = Destination - Source
 		BOP_SUBSTRACT_REVERSE,
 
-			//	минимальное из Destination Source
 		BOP_MIN,
 
-			//	максимальное из Destination Source
 		BOP_MAX
 	};
 
-		//	флаги
 	enum gtMaterialFlag : u32 {
 
-		//	рисовать только сетку
 		MF_WIREFRAME = 1u,
 
-		//	рисовать заднюю грань
 		MF_BACKFACE = 2u,
 
-		//	рисовать ли объект с прозрачностью
 		MF_BLEND = 4u,
 
-		//	не отбрасывать тень
 		MF_NOCASTSHADOW = 8u,
 
-		//	не получать тень
 		MF_NORECEIVESHADOW = 16u,
 
-		//	не получать тень от самого себя
-		MF_NOSELFSHADOW = 32u
+		MF_NOSELFSHADOW = 32u,
+
+		MF_BLENDDISCARD = 64u
 
 	};
 
-		//	параметры для каждой текстуры
 	struct gtMaterialTextureLayer{
 
 			// c-tor

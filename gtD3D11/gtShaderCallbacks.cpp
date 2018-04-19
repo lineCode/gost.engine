@@ -36,15 +36,14 @@ void gtD3D11GUIShaderCallback::onShader( const gtMaterial& m, gtShaderProcessing
 	sp->setTexture( "", 0 );
 	struct cbPixel_t{
 		v4f diffuseColor;
-		//f32 opacity;
-		//v3f padding;
+		bool boolean[128u];
 	}cbPixel;
 
 	cbPixel.diffuseColor.x = m.textureLayer[ 0u ].diffuseColor.getRed();
 	cbPixel.diffuseColor.y = m.textureLayer[ 0u ].diffuseColor.getGreen();
 	cbPixel.diffuseColor.z = m.textureLayer[ 0u ].diffuseColor.getBlue();
 	cbPixel.diffuseColor.w = m.opacity;
-
+	cbPixel.boolean[ 0u ]  = (m.flags & gtMaterialFlag::MF_BLENDDISCARD );
 
 	sp->sendDataPS( &cbPixel, 0, 0u );
 }

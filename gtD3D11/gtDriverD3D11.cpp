@@ -752,7 +752,7 @@ void gtDriverD3D11::drawModel( gtRenderModel* model ){
 			shaderD3D11->m_callback->onShader( *material, m_shaderProcessing.data() );
 
 		if( material->flags & gtMaterialFlag::MF_BLEND )
-			enableBlending( true );
+			enableBlending( true, material->alphaToCoverage );
 		else
 			enableBlending( false );
 
@@ -796,29 +796,19 @@ void gtDriverD3D11::drawLine( const v3f& start, const v3f& end, const gtColor& c
 }
 
 
-	//	компилировать либо получить ранее скомпилированный шейдер
 gtShader *	gtDriverD3D11::getShader( 
 	gtShaderCallback * callback,
-		//	путь к файлу хранящем вершинный шейдер
 	const gtString& vertexShader,
-		//	главная функция вершинного шейдера, точка входа
 	const gtStringA& vertexShaderMain,
-		//	путь к файлу хранящем пиксельный/фрагментный шейдер
 	const gtString& pixelShader,
-		//	главная функция пиксельного/фрагментного шейдера, точка входа
 	const gtStringA& pixelShaderMain,
-		//	тип шейдерного языка
 	gtShaderModel shaderModel,
 
 	gtVertexType * vertexType
 ){
-	//	для хранения текста шейдера
 	std::unique_ptr<s8[]> vertexBuffer;
 	std::unique_ptr<s8[]> pixelBuffer;
 
-	//	если указан файл то читаем его
-
-	//	попробую получить полный путь
 	gtString fullPathVS = gtFileSystem::getRealPath( vertexShader );
 	gtString fullPathPS = gtFileSystem::getRealPath( pixelShader );
 
@@ -840,7 +830,6 @@ gtShader *	gtDriverD3D11::getShader(
 
 
 	}else{
-		//	если указан не файл, то скорее всего текст шейдера.
 		u32 sz = vertexShader.size();
 		if( !sz ){
 			gtLogWriter::printError( u"Empty shader file [%s]", vertexShader.data() );
@@ -969,7 +958,6 @@ gtShader *	gtDriverD3D11::getShader(
 	return shader.data();
 }
 
-	//	Создаёт текстуру из gtImage
 gtPtr<gtTexture>	gtDriverD3D11::createTexture( gtImage* image, gtTextureFilterType filter ){
 	GT_ASSERT2( image, "gtImage != nullptr" );
 
@@ -981,12 +969,9 @@ gtPtr<gtTexture>	gtDriverD3D11::createTexture( gtImage* image, gtTextureFilterTy
 		return nullptr;
 	}
 
-//	texture->addRef();
-	 
 	return texture;
 }
 
-	//	Создаёт модель для рисования
 gtPtr<gtRenderModel>	gtDriverD3D11::createModel( gtModel* m ){
 	GT_ASSERT2( m, "gtModel != nullptr" );
 
@@ -1003,7 +988,6 @@ gtPtr<gtRenderModel>	gtDriverD3D11::createModel( gtModel* m ){
 
 
 bool	gtDriverD3D11::createShaders( void ){
-	//	в будущем стандартные шейдеры нужно убрать внутрь плагина
 	gtShaderModel shaderModel;
 	shaderModel.pixelShaderModel = gtShaderModel::shaderModel::_5_0;
 	shaderModel.vertexShaderModel = gtShaderModel::shaderModel::_5_0;
@@ -1024,7 +1008,6 @@ bool	gtDriverD3D11::createShaders( void ){
 		vertexType2D
 		);
 	if( m_shader2DStandart ){
-		//	создание константного буффера.
 		if( !m_shader2DStandart->createShaderObject( 96u ) ) return false;
 		if( !m_shader2DStandart->createShaderObject( 16u ) ) return false;
 	}
@@ -1057,7 +1040,7 @@ bool	gtDriverD3D11::createShaders( void ){
 	if( m_shader3DStandart ) if( !m_shader3DStandart->createShaderObject( 16u * sizeof(f32) ) ) return false;
 	if( m_shaderSprite ) if( !m_shaderSprite->createShaderObject( 24u * sizeof(f32) ) ) return false;
 	if( m_shaderLine ) if( !m_shaderLine->createShaderObject( 28u * sizeof(f32) ) ) return false;
-	if( m_shaderGUI ) if( !m_shaderGUI->createShaderObject( 4u * sizeof(f32) ) ) return false;
+	if( m_shaderGUI ) if( !m_shaderGUI->createShaderObject( 4u * sizeof(f32) + 128u ) ) return false;
 
 	return true;
 }
