@@ -12,7 +12,7 @@ extern "C"{
 	__declspec(dllexport) void	GetPluginInfo( gtPluginInfo& info ){
 		info.m_author.assign( u"532235" );
 		info.m_description.assign( u"Direct3D 11 renderer" );
-		info.m_GUID.assign( GT_UID_RENDER_D3D11 );
+		info.m_GUID=GT_UID_RENDER_D3D11;
 		info.m_name.assign( u"Direct3D 11 renderer" );
 		info.m_type = gtPluginType::render;
 		info.m_version = 1;

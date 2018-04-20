@@ -4,6 +4,10 @@
 namespace gost{
 
 	class gtGameControllerImpl : public gtGameController{
+
+		gtMainSystem * m_mainSystem;
+		LPDIRECTINPUT8          m_directInput;
+		LPDIRECTINPUTDEVICE8    m_gamepad;
 	public:
 
 		gtGameControllerImpl( void );

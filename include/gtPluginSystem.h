@@ -9,15 +9,13 @@ namespace gost{
 	class gtMainSystem;
 
 
-	#define GT_UID_RENDER_D3D11 u"{41B20362-9FC0-4C40-9903-B8D2FF98CF88}"
+	GT_DEFINE_GUID(GT_UID_RENDER_D3D11, 0xd3a6e16b, 0x65d5, 0x4e44, 0x99, 0x90, 0x44, 0x6, 0x79, 0x13, 0x2e, 0x71);
+	GT_DEFINE_GUID(GT_UID_AUDIO_XADUDIO2, 0x3f6d55c3, 0x4479, 0x4e50, 0x94, 0x26, 0x99, 0xc8, 0x75, 0x5, 0x3f, 0x9a);
+	GT_DEFINE_GUID(GT_UID_INPUT_DINPUT, 0x27450a9f, 0x8272, 0x4b8f, 0xa2, 0xdf, 0x1d, 0xaa, 0x95, 0x80, 0x45, 0xe7);
+	GT_DEFINE_GUID(GT_UID_IMPORT_IMAGE_BMP, 0xcb2c9c1, 0x233a, 0x4570, 0x8d, 0x1e, 0x31, 0xe, 0xb1, 0xa9, 0xf4, 0xf7);
+	GT_DEFINE_GUID(GT_UID_IMPORT_IMAGE_PNG, 0x52b5e4a2, 0xcbda, 0x4492, 0x90, 0xb9, 0x97, 0xaf, 0xeb, 0xec, 0xf4, 0x90);
+	GT_DEFINE_GUID(GT_UID_IMPORT_MODEL_OBJ, 0xddb35bd5, 0x41ca, 0x48d8, 0x9d, 0xf5, 0x5b, 0x67, 0xa3, 0xa5, 0xa1, 0x55);
 
-	#define GT_UID_AUDIO_XADUDIO2 u"{220F7289-38BA-415C-A8F7-4583F73C6091}"
-
-	#define GT_UID_INPUT_DINPUT u"{4671CE44-D4D9-4AE2-9EE0-901296CAF7DA}"
-	
-	#define GT_UID_IMPORT_IMAGE_BMP u"{B0904D7B-5AA3-4023-BC99-ECA2232E1EBE}"
-	#define GT_UID_IMPORT_IMAGE_PNG u"{C6FFFD23-DA18-4D78-9DF2-65B5DA0EF41E}"
-	#define GT_UID_IMPORT_MODEL_OBJ u"{34C557D4-694F-477A-884E-ADE63D3E774B}"
 
 	using gtGetPluginInfo			= void(GT_CDECL*)		(gtPluginInfo&);		
 	using gtLoadGPUDriver_t			= gtDriver*(GT_CDECL*)	(gtDriverInfo);			
@@ -39,7 +37,7 @@ namespace gost{
 
 		virtual u32	getNumOfPlugins( void ) = 0;
 
-		virtual gtPlugin*	getPlugin( const gtString& uid ) = 0;
+		virtual gtPlugin*	getPlugin( const GT_GUID& uid ) = 0;
 
 		virtual gtPlugin*	getPlugin( u32 id ) = 0;
 

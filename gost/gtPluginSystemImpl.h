@@ -30,14 +30,14 @@ namespace gost{
 			//	получить количество плагинов в папке plugins
 		u32	getNumOfPlugins( void );
 
-		gtPlugin*	getPlugin( const gtString& uid );
+		gtPlugin*	getPlugin( const GT_GUID& uid );
 		gtPlugin*	getPlugin( u32 id );
 		
 			//	загружает картинку
-		gtImage *	importImage( const gtString& fileName, const gtString& guid = gtString(), bool useguid = false );
+		gtImage *	importImage( const gtString& fileName, const GT_GUID& guid = GT_GUID(), bool useguid = false );
 
 			//	загружает модель
-		gtModel *	importModel( const gtString& fileName, const gtString& guid = gtString(), bool useguid = false );
+		gtModel *	importModel( const gtString& fileName, const GT_GUID& guid = GT_GUID(), bool useguid = false );
 
 
 	};

@@ -37,7 +37,6 @@ namespace gost{
 
 	};
 
-		//	общая информация о плагине
 	struct gtPluginInfo{
 
 			// c-tor
@@ -46,54 +45,37 @@ namespace gost{
 			m_version( 0u ),
 			m_build( 0u )
 		{
-				//	нельзя выделять память в одном модуле и освобождать в другом
-				//	выход за пределы - на совести разработчика плагина
 			m_name.reserve( 64u );
 			m_author.reserve( 64u );
 			m_url.reserve( 64u );
 			m_email.reserve( 64u );
 			m_company.reserve( 64u );
 			m_description.reserve( 512u );
-			m_GUID.reserve( 64u );
 		}
 
-			//	тип плагина
 		gtPluginType m_type;
 
-			//	название плагина
 		gtString m_name;
 
-			//	автор
 		gtString m_author;
 
-			//	ссылка на сайт
 		gtString m_url;
 
-			//	контактный имейл
 		gtString m_email;
 
-			//	имя компании если юр лицо
 		gtString m_company;
 
-			//	описание
 		gtString m_description;
 
-			//	уникальный ID. по сути любая строка.
-			//	имя по аналогии с GUID. {41B20362-9FC0-4C40-9903-B8D2FF98CF88}
-		gtString m_GUID;
+		GT_GUID m_GUID;
 
-			// Версия.
 		u32 m_version;
 
-			// Номер сборки
 		u32 m_build;
 
 	};
 
 	/**	
-		\brief Информация о плагине(более близкая к самому модулю).
-
-		Содержит путь к файлу, хэндл, так же общая информация gtPluginInfo
 	*/
 	struct gtPluginInfoDL{
 

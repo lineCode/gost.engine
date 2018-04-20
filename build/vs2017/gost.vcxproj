@@ -300,6 +300,7 @@
     <ClInclude Include="..\..\include\gtEvent.h" />
     <ClInclude Include="..\..\include\gtFileSystem.h" />
     <ClInclude Include="..\..\include\gtGameObject.h" />
+    <ClInclude Include="..\..\include\gtGUID.h" />
     <ClInclude Include="..\..\include\gtGUIFont.h" />
     <ClInclude Include="..\..\include\gtGUIObject.h" />
     <ClInclude Include="..\..\include\gtGUIShape.h" />

@@ -103,7 +103,7 @@ namespace gost{
 			// \param giud: id плагина.
 			// \remark если guid == empty(), загрузится первый попавшийся аудио плагин
 		//virtual gtAudioSystem* createAudioSystem( const gtString& uid = gtString() ) = 0;
-		virtual gtPtr<gtAudioSystem> createAudioSystem( const gtString& uid = gtString() ) = 0;
+		virtual gtPtr<gtAudioSystem> createAudioSystem( const GT_GUID& uid ) = 0;
 
 			//	Создаёт окно, которое можно использовать для рисования 3D сцены
 			// \param wi: window info
@@ -113,7 +113,7 @@ namespace gost{
 			//	Инициализирует видео драйвер
 			// \param di: driver info
 			// \return video driver
-		virtual gtPtr<gtDriver>		createVideoDriver( /*gtPlugin* videoDriverPlugin, */const gtDriverInfo& di, const gtString& uid ) = 0;
+		virtual gtPtr<gtDriver>		createVideoDriver( /*gtPlugin* videoDriverPlugin, */const gtDriverInfo& di, const GT_GUID& uid ) = 0;
 
 			//	Do not use it for gtRefObject
 			//	\param data: pointer to data
@@ -147,7 +147,7 @@ namespace gost{
 			//	\param fileName: path to the file
 			//	\param pluginGUID: unique ID of plugin
 			// \return image
-		virtual gtPtr<gtImage>	loadImage( const gtString& fileName, const gtString& pluginGUID ) = 0;
+		virtual gtPtr<gtImage>	loadImage( const gtString& fileName, const GT_GUID& pluginGUID ) = 0;
 
 		//virtual void		removeImage( gtImage* ) = 0;
 

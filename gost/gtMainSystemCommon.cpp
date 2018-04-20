@@ -71,7 +71,7 @@ void gtStackTrace::dumpStackTrace( void ){
 }
 
 	//	Инициализирует видео драйвер
-gtPtr<gtDriver> gtMainSystemCommon::createVideoDriver( /*gtPlugin* videoDriverPlugin,*/ const gtDriverInfo& params, const gtString& uid ){
+gtPtr<gtDriver> gtMainSystemCommon::createVideoDriver( /*gtPlugin* videoDriverPlugin,*/ const gtDriverInfo& params, const GT_GUID& uid ){
 
 	auto plugin = this->getPluginSystem()->getPlugin( uid );
 
@@ -143,7 +143,7 @@ gtPtr<gtImage>	gtMainSystemCommon::loadImage( const gtString& fileName ){
 }
 
 	//	Загрузит gtImage плагином имеющим указанный код
-gtPtr<gtImage>	gtMainSystemCommon::loadImage( const gtString& fileName, const gtString& pluginGUID ){
+gtPtr<gtImage>	gtMainSystemCommon::loadImage( const gtString& fileName, const GT_GUID& pluginGUID ){
 	return gtPtrNew<gtImage>( this->m_pluginSystem->importImage( fileName, pluginGUID, true ) );
 }
 
@@ -242,7 +242,7 @@ bool gtMainSystemCommon::isRun( void ){
 	return m_isRun;
 }
 
-gtPtr<gtAudioSystem> gtMainSystemCommon::createAudioSystem( const gtString& uid ){
+gtPtr<gtAudioSystem> gtMainSystemCommon::createAudioSystem( const GT_GUID& uid ){
 	/*
 	auto plugin = this->getPluginSystem()->getPlugin( uid );
 
@@ -259,10 +259,9 @@ gtPtr<gtAudioSystem> gtMainSystemCommon::createAudioSystem( const gtString& uid 
 
 	auto * ps = getPluginSystem();
 
-	if( uid.size() )
-		plugin = ps->getPlugin( uid );
+	plugin = ps->getPlugin( uid );
 
-	if( !plugin || !uid.size() ){
+	if( !plugin ){
 		u32 np = ps->getNumOfPlugins();
 
 		for( u32 i = 0u; i < np; ++i ){

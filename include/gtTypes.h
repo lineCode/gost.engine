@@ -147,6 +147,7 @@ namespace gost{
 		u8 byte;
 	};
 
+	
 }
 
 

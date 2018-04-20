@@ -4,13 +4,7 @@
 
 namespace gost{
 
-	enum class gtInputType : u32 {
-		Keyboard,
-		Mouse,
-		Gamepad,
-		SteeringWheel,
-		Joystick
-	};
+	
 
 	enum class gtKey : u32 {
 		K_NONE			=	0,

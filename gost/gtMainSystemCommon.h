@@ -119,10 +119,10 @@ namespace gost{
 		gtStackTrace*	getStackTracer( void );
 
 		
-		gtPtr<gtAudioSystem> createAudioSystem( const gtString& uid = gtString() );
+		gtPtr<gtAudioSystem> createAudioSystem( const GT_GUID& uid );
 
 
-		gtPtr<gtDriver> createVideoDriver( /*gtPlugin* videoDriverPlugin,*/ const gtDriverInfo&, const gtString& uid );
+		gtPtr<gtDriver> createVideoDriver( /*gtPlugin* videoDriverPlugin,*/ const gtDriverInfo&, const GT_GUID& uid );
 
 		bool	allocateMemory( void** data, u32 size );
 
@@ -131,7 +131,7 @@ namespace gost{
 		
 		gtPtr<gtImage>	loadImage( const gtString& fileName );
 
-		gtPtr<gtImage>	loadImage( const gtString& fileName, const gtString& pluginGUID );
+		gtPtr<gtImage>	loadImage( const gtString& fileName, const GT_GUID& pluginGUID );
 
 	//	void		removeImage( gtImage* );
 

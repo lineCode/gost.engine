@@ -21,6 +21,7 @@
 //	GOST
 #include <gtInfo.h>
 #include <gtTypes.h>
+#include <gtGUID.h>
 
 #include <gtPair.h>
 #include <gtAllocator.h>
@@ -106,6 +107,7 @@
 #include <gtOutputWindow.h>
 
 #include <gtUtilities.h>
+
 
 #if defined(_MSC_VER)
 #ifndef GOSTDLL

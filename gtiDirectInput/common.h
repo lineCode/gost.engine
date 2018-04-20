@@ -20,6 +20,8 @@
 
 #include <memory>
 
+#include <dinput.h>
+
 #include "gost.h"
 using namespace gost;
 

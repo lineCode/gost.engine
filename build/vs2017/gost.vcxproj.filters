@@ -419,6 +419,9 @@
     <ClInclude Include="..\..\include\gtGameController.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\gtGUID.h">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\..\gost\ReadMe.txt">

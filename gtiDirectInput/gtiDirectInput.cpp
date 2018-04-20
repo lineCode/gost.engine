@@ -12,7 +12,7 @@ extern "C"{
 	__declspec(dllexport) void	GetPluginInfo( gtPluginInfo& info ){
 		info.m_author.assign( u"532235" );
 		info.m_description.assign( u"Plugin for using gamepads." );
-		info.m_GUID.assign( GT_UID_INPUT_DINPUT );
+		info.m_GUID = GT_UID_INPUT_DINPUT;
 		info.m_name.assign( u"DirectInput" );
 		info.m_type = gtPluginType::input;
 		info.m_version = 1;
@@ -38,11 +38,26 @@ extern "C"{
 
 namespace gost{
 
-	gtGameControllerImpl::gtGameControllerImpl( void ){
+	gtGameControllerImpl::gtGameControllerImpl( void ):
+		m_mainSystem( gtMainSystem::getInstance() ),
+		m_directInput( nullptr ),
+		m_gamepad( nullptr )
+	{
+		m_type = gtGameControllerType::Gamepad;
 	}
 	gtGameControllerImpl::~gtGameControllerImpl( void ){
+		if( m_directInput )
+			m_directInput->Release();
 	}
+
 	bool gtGameControllerImpl::init( void ){
+		HRESULT hr;
+		if( FAILED( hr = DirectInput8Create( GetModuleHandle( NULL ), DIRECTINPUT_VERSION,
+			IID_IDirectInput8, ( VOID** )&m_directInput, NULL ) ) ){
+			gtLogWriter::printWarning( u"Can not initialize DirectInput plugin" );
+			return false;
+		}
+
 		return true;
 	}
 }

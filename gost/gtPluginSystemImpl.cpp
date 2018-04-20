@@ -163,7 +163,7 @@ u32	gtPluginSystemImpl::getNumOfPlugins( void ){
 	return m_numOfPlugins;
 }
 
-gtPlugin*	gtPluginSystemImpl::getPlugin( const gtString& uid ){
+gtPlugin*	gtPluginSystemImpl::getPlugin( const GT_GUID& uid ){
 	u32 sz = m_plugins.size();
 
 	if( !sz ) return nullptr;
@@ -189,7 +189,7 @@ gtPlugin*	gtPluginSystemImpl::getPlugin( u32 id ){
 }
 
 	//	загружает картинку
-gtImage * gtPluginSystemImpl::importImage( const gtString& fileName, const gtString& guid, bool useguid ){
+gtImage * gtPluginSystemImpl::importImage( const gtString& fileName, const GT_GUID& guid, bool useguid ){
 
 	gtString realPath;
 	
@@ -245,7 +245,7 @@ gtImage * gtPluginSystemImpl::importImage( const gtString& fileName, const gtStr
 }
 
 	//	загружает модель
-gtModel * gtPluginSystemImpl::importModel( const gtString& fileName, const gtString& guid, bool useguid){
+gtModel * gtPluginSystemImpl::importModel( const gtString& fileName, const GT_GUID& guid, bool useguid){
 
 	gtString realPath = gtFileSystem::getRealPath( fileName );
 

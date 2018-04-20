@@ -2,13 +2,6 @@
 
 using namespace gost;
 
-union Xu{
-	int i;
-};
-
-struct X{
-};
-
 #if defined( GT_PLATFORM_WIN32 )
 int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR /*lpCmdLine*/, int /*nCmdShow*/ ){
 #endif
@@ -26,7 +19,7 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 	//wi.m_rect.set( 0, 0, 1280, 1024 );
 	
 	auto window = mainSystem->createSystemWindow( &wi );
-
+	
 	 
 	//	Set up render plugin parameters.
 	gtDriverInfo di;

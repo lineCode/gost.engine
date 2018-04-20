@@ -4,9 +4,20 @@
 
 namespace gost{
 
-	class gtGameController : public gtRefObject{
-	public:
+	enum class gtGameControllerType : u32 {
+		Keyboard,
+		Mouse,
+		Gamepad,
+		SteeringWheel,
+		Joystick
+	};
 
+	class gtGameController : public gtRefObject{
+	protected:
+		gtGameControllerType m_type;
+	public:
+		virtual ~gtGameController( void ){}
+		gtGameControllerType getType( void ) const { return m_type; }
 	};
 
 }

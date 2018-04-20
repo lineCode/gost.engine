@@ -13,7 +13,7 @@ extern "C"{
 	GT_API void __cdecl GetPluginInfo( gtPluginInfo& info ){
 		info.m_author.assign( u"532235" );
 		info.m_description.assign( u"Import .bmp .dib .rle files" );
-		info.m_GUID.assign( GT_UID_IMPORT_IMAGE_BMP );
+		info.m_GUID=GT_UID_IMPORT_IMAGE_BMP;
 		info.m_name.assign( u"Bitmap file importer" );
 		info.m_type = gtPluginType::import_image;
 		info.m_version = 1;
