@@ -87,15 +87,23 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 //	auto rect = guiSystem->createShapeRectangle( v4i(32,32,512,33), gtColor(0xff0000ff) );
 //	rect->setOpacity( 0.4f );
 
+	auto gamepad_system = mainSystem->createGameContoller( GT_UID_INPUT_DINPUT );
+	gamepad_system->update();
+	u32 num = gamepad_system->getNumOfActiveDevices();
+	gtLogWriter::printInfo( u"NUM: %u", num );
+
+
 	gtString s;
 	u32 i = 0;
 
 	f32 fpstime = 0.f;
-	u32 fps = 0u;
+	u32 fps = 0u; 
 	u32 fps_counter = 0u;
 
-	while( mainSystem->update() ){
+	auto gamepad1 = gamepad_system->getControllerDevice( 0u );
+	auto gamepad2 = gamepad_system->getControllerDevice( 1u );
 
+	while( mainSystem->update() ){
 
 		s = u"FPS: ";
 		s += fps;
@@ -122,6 +130,39 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 				}
 				break;
 			}
+		}
+		if( gamepad1 ){
+			gamepad1->poll();
+			if( gamepad1->m_active ){
+				for( u32 i = 0; i < 32u; ++i ){
+					if( gamepad1->m_buttons[ i ] ){
+						gtLogWriter::printInfo( u"%s B%u", gamepad1->name.data(), i );
+					}
+				}
+			}else{
+				gamepad1 = nullptr;
+			}
+		}else{
+			gamepad_system->update();
+			gamepad1 = gamepad_system->getControllerDevice( 0u );
+			gamepad2 = gamepad_system->getControllerDevice( 1u );
+		}
+
+		if( gamepad2 ){
+			gamepad2->poll();
+			if( gamepad2->m_active ){
+				for( u32 i = 0; i < 32u; ++i ){
+					if( gamepad2->m_buttons[ i ] ){
+						gtLogWriter::printInfo( u"%s B%u", gamepad2->name.data(), i );
+					}
+				}
+			}else{
+				gamepad2 = nullptr;
+			}
+		}else{
+			gamepad_system->update();
+			gamepad1 = gamepad_system->getControllerDevice( 0u );
+			gamepad2 = gamepad_system->getControllerDevice( 1u );
 		}
 
 		if( mainSystem->isRun() ){

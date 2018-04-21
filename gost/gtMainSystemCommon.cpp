@@ -242,23 +242,44 @@ bool gtMainSystemCommon::isRun( void ){
 	return m_isRun;
 }
 
-gtPtr<gtAudioSystem> gtMainSystemCommon::createAudioSystem( const GT_GUID& uid ){
-	/*
-	auto plugin = this->getPluginSystem()->getPlugin( uid );
+gtPtr<gtGameController> gtMainSystemCommon::createGameContoller( const GT_GUID& uid ){
+	gtPlugin * plugin = nullptr;
+	gtPluginInput * pluginInput = nullptr;
+	
+	auto * ps = getPluginSystem();
+	plugin = ps->getPlugin( uid );
 
-	if( plugin->getInfo().m_info.m_type != gtPluginType::render ){
-		gtLogWriter::printError( u"Can not create video driver" );
+	if( !plugin ){
+		u32 np = ps->getNumOfPlugins();
+
+		for( u32 i = 0u; i < np; ++i ){
+
+			auto * pl = ps->getPlugin( i );
+
+			if( pl->getInfo().m_info.m_type == gtPluginType::audio ){
+			
+				pluginInput = ps->getAsPluginInput( pl );
+
+				auto ret = pluginInput->loadInputDriver();
+
+				if( ret ){
+
+					return gtPtr<gtGameController>( ret );
+				}
+			}
+		}
+
 		return nullptr;
 	}
+	pluginInput = ps->getAsPluginInput( plugin );
+	return gtPtrNew<gtGameController>( pluginInput->loadInputDriver() );
+}
 
-	return ((gtPluginRender*)plugin)->loadDriver( params );
-	*/
-	
+gtPtr<gtAudioSystem> gtMainSystemCommon::createAudioSystem( const GT_GUID& uid ){
 	gtPlugin * plugin = nullptr;
 	gtPluginAudio * pluginAudio = nullptr;
-
+	
 	auto * ps = getPluginSystem();
-
 	plugin = ps->getPlugin( uid );
 
 	if( !plugin ){
@@ -276,15 +297,14 @@ gtPtr<gtAudioSystem> gtMainSystemCommon::createAudioSystem( const GT_GUID& uid )
 
 				if( ret ){
 
-				//	return ret;
 					return gtPtr<gtAudioSystem>( ret );
 				}
 			}
 		}
-	}
 
+		return nullptr;
+	}
 	pluginAudio = ps->getAsPluginAudio( plugin );
-	//return pluginAudio->loadAudioDriver();
 	return gtPtrNew<gtAudioSystem>( pluginAudio->loadAudioDriver() );
 }
 

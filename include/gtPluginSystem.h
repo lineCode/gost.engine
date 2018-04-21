@@ -30,6 +30,7 @@ namespace gost{
 	class gtPluginImportImage;
 	class gtPluginImportModel;
 	class gtPluginAudio;
+	class gtPluginInput;
 
 
 	class gtPluginSystem : public gtRefObject{
@@ -65,6 +66,11 @@ namespace gost{
 			return nullptr;
 		}
 
+		gtPluginInput * getAsPluginInput( gtPlugin * plugin ){
+			if( plugin->getInfo().m_info.m_type == gtPluginType::input )
+				return reinterpret_cast<gtPluginInput*>(plugin);
+			return nullptr;
+		}
 
 	};
 

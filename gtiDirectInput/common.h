@@ -21,8 +21,14 @@
 #include <memory>
 
 #include <dinput.h>
+#include <dinputd.h>
+#pragma comment(lib, "dxguid.lib")
+#pragma comment(lib, "dinput8.lib")
 
 #include "gost.h"
 using namespace gost;
 
+using gt_DirectInput8Create_t = HRESULT(__stdcall*)(HINSTANCE hinst, DWORD dwVersion, REFIID riidltf, LPVOID *ppvOut, LPUNKNOWN punkOuter);
+
 #include "gtiDirectInput.h"
+

@@ -12,12 +12,55 @@ namespace gost{
 		Joystick
 	};
 
+	struct gtGameControllerDevice{
+		gtGameControllerDevice():
+			m_POV1(-1),
+			m_POV2(-1),
+			m_POV3(-1),
+			m_POV4(-1),
+			m_lX(0),
+			m_lY(0),
+			m_lZ(0),
+			m_lRx(0),
+			m_lRy(0),
+			m_lRz(0),
+			m_active( false )
+		{
+			memset(m_buttons,0,256u);
+		}
+
+		virtual ~gtGameControllerDevice(){}
+
+		GT_GUID guid;
+		GT_GUID guidManufacturer;
+		gtString name;
+		u8 m_buttons[256u];
+		s32 m_POV1;
+		s32 m_POV2;
+		s32 m_POV3;
+		s32 m_POV4;
+		s32 m_lX;
+		s32 m_lY;
+		s32 m_lZ;
+		s32 m_lRx;
+		s32 m_lRy;
+		s32 m_lRz;
+		bool m_active;
+
+		virtual void poll() = 0;
+	};
+
 	class gtGameController : public gtRefObject{
 	protected:
 		gtGameControllerType m_type;
 	public:
 		virtual ~gtGameController( void ){}
 		gtGameControllerType getType( void ) const { return m_type; }
+
+		virtual u32 getNumOfActiveDevices( void ) = 0;
+		virtual gtGameControllerDevice*	getControllerDevice( u32 id ) = 0;
+		virtual void update( void ) = 0;
+
 	};
 
 }

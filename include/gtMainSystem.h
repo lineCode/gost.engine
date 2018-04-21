@@ -249,6 +249,8 @@ namespace gost{
 
 		virtual void setMainVideoDriver( gtDriver* d ) = 0;
 
+		virtual gtPtr<gtGameController> createGameContoller( const GT_GUID& plugin ) = 0;
+
 			//	возвратит указатель на gtMainSystem, альтернатива this так как this не работает в статических методах
 			// \return gtMainSystem
 		GT_API static gtMainSystem* getInstance( void );

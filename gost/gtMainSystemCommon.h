@@ -164,6 +164,7 @@ namespace gost{
 		gtDriver* getLoadedVideoDriver( u32 id );
 		gtDriver* getMainVideoDriver();
 		void setMainVideoDriver( gtDriver* d );
+		gtPtr<gtGameController> createGameContoller( const GT_GUID& plugin );
 	};
 
 #define gtLog gtMainSystemCommon::s_loger
