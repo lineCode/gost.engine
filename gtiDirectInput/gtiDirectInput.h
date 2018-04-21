@@ -62,9 +62,9 @@ namespace gost{
 					m_lX   = js.lX;
 					m_lY   = js.lY;
 					m_lZ   = js.lZ;
-					m_lRx   = js.lRx;
-					m_lRy   = js.lRy;
-					m_lRz   = js.lRz;
+					m_lRx  = js.lRx;
+					m_lRy  = js.lRy;
+					m_lRz  = js.lRz;
 				}
 			}else{
 				m_active = false;

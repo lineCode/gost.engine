@@ -160,7 +160,6 @@ namespace gost{
 		u32 sz = m_gamepads.size();
 		for( u32 i = 0u; i < sz; ++i ){
 			if( !m_gamepads[ i ]->m_gamepad ){
-				//delete m_gamepads[ i ];
 				auto * del = m_gamepads[ i ];
 				m_gamepads.erase( i );
 				delete del;
