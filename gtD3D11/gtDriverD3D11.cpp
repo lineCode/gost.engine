@@ -1051,6 +1051,7 @@ void	gtDriverD3D11::applyScissor( void ){
 	m_d3d11DevCon->RSSetScissorRects( m_scissorRects.size(), (D3D11_RECT*)m_scissorRects.data() );
 }
 
+
 /*
 Copyright (c) 2017-2018 532235
 

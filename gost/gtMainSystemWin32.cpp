@@ -153,10 +153,17 @@ gtPtr<gtMutex>	gtMainSystemWin32::createMutex( void ){
 	return gtPtr<gtMutex>( gtPtrNew<gtMutex>( new gtMutexWin32 ) );
 }
 
+v2i gtMainSystemWin32::getScreenSize( void ){
+	RECT desktop;
+	const HWND hDesktop = GetDesktopWindow();
+	GetWindowRect(hDesktop, &desktop);
+	return v2i( desktop.right, desktop.bottom );
+}
+
 #endif
 
 /*
-Copyright (c) 2017, 2018 532235
+Copyright (c) 2017-2018 532235
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software
 and associated documentation files (the "Software"), to deal in the Software without restriction,

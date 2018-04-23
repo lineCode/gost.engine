@@ -233,9 +233,9 @@ namespace gost{
 		virtual const gtDeviceCreationParameters& getDeviceCreationParameters( void ) = 0;
 
 			//	Create thread object
-		virtual gtPtr<gtThread>	createThread( void ) = 0;
+		virtual gtPtr<gtThread> createThread( void ) = 0;
 
-		virtual gtPtr<gtMutex>	createMutex( void ) = 0;
+		virtual gtPtr<gtMutex> createMutex( void ) = 0;
 
 		virtual gtPtr<gtXMLDocument> XMLRead( const gtString& file ) = 0;
 
@@ -251,8 +251,8 @@ namespace gost{
 
 		virtual gtPtr<gtGameController> createGameContoller( const GT_GUID& plugin ) = 0;
 
-			//	возвратит указатель на gtMainSystem, альтернатива this так как this не работает в статических методах
-			// \return gtMainSystem
+		virtual v2i getScreenSize( void ) = 0;
+
 		GT_API static gtMainSystem* getInstance( void );
 
 

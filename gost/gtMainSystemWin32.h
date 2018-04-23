@@ -51,6 +51,8 @@ namespace gost{
 		gtPtr<gtThread>	createThread( void );
 
 		gtPtr<gtMutex>	createMutex( void );
+
+		v2i getScreenSize( void );
 	};
 
 }

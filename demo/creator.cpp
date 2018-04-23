@@ -16,7 +16,19 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
     wi.m_style |= gtWindowInfo::maximize;
     wi.m_style |= gtWindowInfo::resize;
 	wi.m_style |= gtWindowInfo::center;
-	wi.m_rect.set( 0, 0, 1280, (1024/3)*2 );
+	
+	v2i screenSize = mainSystem->getScreenSize();
+	s32 y = screenSize.y;
+	if( (f32)((f32)screenSize.x / (f32)y) < 1.7f ){
+		while(true){
+			y -= 100;
+			if( (f32)((f32)screenSize.x / (f32)y) < 1.7f )
+				continue;
+			else break;
+		}
+	}
+
+	wi.m_rect.set( 0, 0, screenSize.x, y );
 	
 	auto window = mainSystem->createSystemWindow( &wi );
 	
