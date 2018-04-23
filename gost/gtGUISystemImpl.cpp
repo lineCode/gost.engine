@@ -68,7 +68,7 @@ gtPtr<gtGUIFont> gtGUISystemImpl::createBuiltInFont( void ){
 	fontImage->convert( gtImage::FMT_R8G8B8A8 );
 	fontImage->flipVertical();
 
-	char16_t * xml = reinterpret_cast<char16_t *>( gtBuiltInFontXML );
+	const char16_t * xml = reinterpret_cast<const char16_t *>( &gtBuiltInFontXML[ 0u ] );
 
 	auto font = createFont( gtString( xml ), fontImage );
 	fontImage->release();

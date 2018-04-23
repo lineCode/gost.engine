@@ -19,29 +19,29 @@ namespace gost{
 			u32 sz = string.size();
 			for( u32 i = 0; i < sz; ++i ){
 				auto ch = string[ i ];
-				if( ch == ' ' ){
+				if( ch < 256 && (u8)ch == ' ' ){
 					if( word.size() ){
 						out_array->push_back( word );
 						word.clear();
 					}
 					if( add_space ){
-						out_array->push_back( gtString_base<Type>( (Type)" " ) );
+						out_array->push_back( gtString_base<Type>( (Type)ch ) );
 					}
-				}else if( ch == '\t' ){
+				}else if( ch < 256 && (u8)ch == '\t' ){
 					if( word.size() ){
 						out_array->push_back( word );
 						word.clear();
 					}
 					if( add_tab ){
-						out_array->push_back( gtString_base<Type>( (Type)"\t" ) );
+						out_array->push_back( gtString_base<Type>( (Type)ch ) );
 					}
-				}else if( ch == '\n' ){
+				}else if( ch < 256 && (u8)ch == '\n' ){
 					if( word.size() ){
 						out_array->push_back( word );
 						word.clear();
 					}
 					if( add_newLine ){
-						out_array->push_back( gtString_base<Type>( (Type)"\n" ) );
+						out_array->push_back( gtString_base<Type>( (Type)ch ) );
 					}
 				}else{
 					word += ch;
