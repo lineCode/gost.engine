@@ -76,8 +76,19 @@ gtGUIShape* gtGUITextFieldImpl::getBackgroundShape( void ){
 
 void gtGUITextFieldImpl::render( void ){
 	if( m_visible ){
+
+		m_driver->scissorClear( false );
+		m_driver->scissorAdd( m_rect );
+
 		if( m_showBackground )
 			m_backgroundShape->render();
+
+		u32 sz = m_textWords.size();
+		for( u32 i = 0u; i < sz; ++i ){
+			m_textWords[ i ]->render();
+		}
+
+		m_driver->scissorClear();
 	}
 }
 
@@ -87,8 +98,54 @@ void gtGUITextFieldImpl::setOpacity( f32 opacity ){
 
 void gtGUITextFieldImpl::update( void ){
 
-	//clear();
+	clear();
 
+	gtArray<gtString> words;
+	util::stringGetWords<char16_t>( &words, m_text, true, true, true );
+	
+	u32 h = 0u;
+	u32 v = 0u;
+	
+	u32 position_x = m_rect.x + 3u;
+
+	u32 sz = words.size();
+	for( u32 i = 0; i < sz; ++i ){
+		if( words[ i ] == u" " ){
+		}else if( words[ i ] == u"\t" ){
+			h += 10u;
+		}else if( words[ i ] == u"\n" ){
+			h = 0u;
+		}else{
+
+			auto word = m_gui->createStaticText( words[ i ], position_x, m_rect.y + m_font->getHeight() + v, m_font );
+			word->addRef();
+			word->setBackgroundVisible( false );
+
+			position_x += word->getLength() - 4u;
+
+			if( m_fixedW ){
+				if( position_x > m_rect.z + 3u ){
+					position_x = m_rect.x + 3u;
+
+					v += m_font->getHeight() + 3u;
+
+					word->setPosition( v2i( position_x, m_rect.y + m_font->getHeight() + v ) );
+				
+					position_x += word->getLength() - 4u;
+				}
+			}else{
+				m_rect.z = position_x + 4u;
+			}
+
+			m_textWords.push_back( word.data() );
+		}
+	}
+
+	if( !m_fixedH ){
+		if( m_font->getHeight() + v > m_rect.w ){
+			m_rect.w = m_font->getHeight() + v;
+		}
+	}
 
 
 	gtTexture * t1 = nullptr;

@@ -51,6 +51,7 @@ namespace gost{
 
 		void setText( const gtString& text );
 		void setColor( const gtColor& color );
+		void setPosition( const v2i& position );
 		void setBackgroundVisible( bool value );
 		void setBackgroundColor( const gtColor& color );
 

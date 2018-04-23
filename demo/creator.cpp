@@ -32,8 +32,10 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 	bg_shape->setTexture(driver->getTexture(u"../media/logo.png"));
 	
 	auto font = mainSystem->getGUISystem(driver.data())->createBuiltInFont();
-	auto tf = mainSystem->getGUISystem(driver.data())->createTextField( v4i(0, 0, 512, 512), font.data() );
-	tf->setBackgroundColor(gtColorBisque);
+	auto tf = mainSystem->getGUISystem(driver.data())->createTextField( v4i(), font.data(), false, false );
+	tf->setBackgroundColor( gtColorBlack  );
+	tf->setText( u"Permission is hereby granted" );
+	tf->setTextColor( gtColorLightGray );
 
 	gtEvent event;
 

@@ -14,6 +14,8 @@ namespace gost{
 
 		virtual void setColor( const gtColor& color ) = 0;
 
+		virtual void setPosition( const v2i& position ) = 0;
+
 		virtual void setBackgroundVisible( bool value ) = 0;
 		virtual void setBackgroundColor( const gtColor& color ) = 0;
 

@@ -68,6 +68,11 @@ void gtGUIStaticTextImpl::setColor( const gtColor& color ){
 	updateMaterial();
 }
 
+void gtGUIStaticTextImpl::setPosition( const v2i& position ){
+	m_position = position;
+	setText( gtString( m_text ) );
+}
+
 template<typename rectType>
 void uvRectToUV( const rectType& rect, v2f * LT, v2f * RT, v2f * LB, v2f * RB, gtTexture * texture ){
 	f32 mulX = 1.f / (f32)texture->getWidth();

@@ -1,11 +1,4 @@
-﻿/*!	GOST
-	\file gtUtilities.h
-	\brief Usefull functions
-
-	Тут будут лежать вспомогательные функции, которые могут пригодиться в любом месте.
-*/
-
-#pragma once
+﻿#pragma once
 #ifndef __GT_UTILITIES_H__
 #define __GT_UTILITIES_H__ //< include guard
 
@@ -15,19 +8,61 @@ namespace gost{
 	//	Some helper functions here
 	namespace util{
 		
-			//	изменяет символ \ на /
-			//	\param str: строка в котором нужно изменить символ
+		template<typename Type>
+		void stringGetWords( gtArray<gtString_base<Type>> * out_array,
+			const gtString_base<Type>& string,
+			bool add_space = false, 
+			bool add_tab = false, 
+			bool add_newLine = false ){
+
+			gtString_base<Type> word;
+			u32 sz = string.size();
+			for( u32 i = 0; i < sz; ++i ){
+				auto ch = string[ i ];
+				if( ch == ' ' ){
+					if( word.size() ){
+						out_array->push_back( word );
+						word.clear();
+					}
+					if( add_space ){
+						out_array->push_back( gtString_base<Type>( (Type)" " ) );
+					}
+				}else if( ch == '\t' ){
+					if( word.size() ){
+						out_array->push_back( word );
+						word.clear();
+					}
+					if( add_tab ){
+						out_array->push_back( gtString_base<Type>( (Type)"\t" ) );
+					}
+				}else if( ch == '\n' ){
+					if( word.size() ){
+						out_array->push_back( word );
+						word.clear();
+					}
+					if( add_newLine ){
+						out_array->push_back( gtString_base<Type>( (Type)"\n" ) );
+					}
+				}else{
+					word += ch;
+				}
+			}
+			if( word.size() ){
+				out_array->push_back( word );
+				word.clear();
+			}
+		}
+
 		template<typename Type>
 		inline void stringFlipSlash( Type& str ){
 			u32 sz = str.size();
 			for( u32 i = 0u; i < sz; ++i ){
 				if( str[ i ] == '\\' ) 
-					str[ i ] = '/'; // стандартный набор символов подходит для всех версий char
+					str[ i ] = '/';
 			}
 		}
 
 			//	abc -> cba
-			//	\param str: строка для переворачивания
 		template<typename Type>
 		inline void stringFlip( Type& str ){
 			Type flippedStr;
