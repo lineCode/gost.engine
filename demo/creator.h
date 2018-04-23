@@ -1,55 +1,11 @@
-﻿#pragma once
-#ifndef __GT_GUI_OBJECT_H__
-#define __GT_GUI_OBJECT_H__ //< include guard
+#pragma once
+#ifndef __GT_DEMO_CREATOR_H__
+#define __GT_DEMO_CREATOR_H__
 
-namespace gost{
-
-	enum class gtGUIObjectType{
-		Font,	
-		Text,	
-		Button,	
-		Shape,
-		TextField
-	};
-
-	class gtGUIObject : public gtRefObject{
-	protected:
-		gtGUIObjectType m_type;
-		bool			m_visible;
-	public:
-
-		gtGUIObject( void ) : m_visible( true ){}
-		virtual ~gtGUIObject( void ){}
-
-		virtual void render( void ) = 0;
-
-		virtual void setOpacity( f32 opacity = 1.f ) = 0;
-
-		virtual gtGUIObjectType getType( void ){
-			return m_type;
-		}
-
-		virtual bool isVisible( void ) const {
-			return m_visible;
-		}
-
-		virtual void setVisible( bool value ){
-			m_visible = value;
-		}
-
-		
-
-	};
-
-}
-
-#include <gtGUIShape.h>
-
-#include <gtGUIFont.h>
-#include <gtGUIStaticText.h>
-#include <gtGUITextField.h>
-
+#include <gost.h>
+using namespace gost;
 #endif
+
 
 /*
 Copyright (c) 2018 532235

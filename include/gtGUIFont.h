@@ -8,6 +8,11 @@ namespace gost{
 	class gtGUIFont : public gtGUIObject{
 	public:
 
+			// Maximum char width
+		virtual u32 getWidth( void ) = 0;
+
+			// Maximum char height
+		virtual u32 getHeight( void ) = 0;
 	};
 
 }

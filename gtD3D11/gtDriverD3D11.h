@@ -109,6 +109,7 @@ namespace gost{
 		bool	createShaders( void );
 
 		void	createStandartTexture( void );
+		void	applyScissor( void );
 	public:
 		gtDriverD3D11( /*gtMainSystem* System, */gtDriverInfo params );
 		~gtDriverD3D11( void );

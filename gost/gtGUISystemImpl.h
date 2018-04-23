@@ -17,6 +17,7 @@ namespace gost{
 		gtPtr<gtGUIFont>		createFont( const gtString& fontName, gtImage * fromImage = nullptr );
 		gtPtr<gtGUIFont>		createBuiltInFont( void );
 		gtPtr<gtGUIStaticText>  createStaticText( const gtString& text, s32 positionX, s32 positionY, gtGUIFont* font );
+		gtPtr<gtGUITextField>	createTextField( const v4i& rect, gtGUIFont* font, bool fixedHeight = true, bool fixedWidth = true );
 
 		gtPtr<gtGUIShape>		createShapeRectangle( const v4i& rect, const gtColor& color );
 
@@ -24,7 +25,6 @@ namespace gost{
 		
 		
 		void init( void );
-		void shutdown( void );
 
 	};
 
@@ -33,6 +33,7 @@ namespace gost{
 
 #include "gtGUIFontImpl.h"
 #include "gtGUIStaticTextImpl.h"
+#include "gtGUITextFieldImpl.h"
 
 #endif
 

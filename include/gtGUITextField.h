@@ -1,53 +1,33 @@
 ﻿#pragma once
-#ifndef __GT_GUI_OBJECT_H__
-#define __GT_GUI_OBJECT_H__ //< include guard
+#ifndef __GT_GUI_TEXT_FIELD_H__
+#define __GT_GUI_TEXT_FIELD_H__ //< include guard
 
 namespace gost{
 
-	enum class gtGUIObjectType{
-		Font,	
-		Text,	
-		Button,	
-		Shape,
-		TextField
-	};
-
-	class gtGUIObject : public gtRefObject{
-	protected:
-		gtGUIObjectType m_type;
-		bool			m_visible;
+	class gtGUITextField : public gtGUIObject{
 	public:
 
-		gtGUIObject( void ) : m_visible( true ){}
-		virtual ~gtGUIObject( void ){}
+		virtual void setFont( gtGUIFont * font ) = 0;
+		virtual void setFont( const gtPtr<gtGUIFont>& font ) = 0;
 
-		virtual void render( void ) = 0;
+		virtual void setText( const gtString& text ) = 0;
 
-		virtual void setOpacity( f32 opacity = 1.f ) = 0;
+		virtual void setTextColor( const gtColor& color ) = 0;
 
-		virtual gtGUIObjectType getType( void ){
-			return m_type;
-		}
+		virtual void setBackgroundVisible( bool value ) = 0;
+		virtual void setBackgroundColor( const gtColor& color ) = 0;
 
-		virtual bool isVisible( void ) const {
-			return m_visible;
-		}
+		virtual void clear( void ) = 0;
 
-		virtual void setVisible( bool value ){
-			m_visible = value;
-		}
+		virtual gtGUIShape* getBackgroundShape( void ) = 0;
 
-		
 
+		/*
+		virtual void setAutoScroll( bool enable = true ) = 0;
+		*/
 	};
 
 }
-
-#include <gtGUIShape.h>
-
-#include <gtGUIFont.h>
-#include <gtGUIStaticText.h>
-#include <gtGUITextField.h>
 
 #endif
 

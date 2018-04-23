@@ -1,53 +1,48 @@
-﻿#pragma once
-#ifndef __GT_GUI_OBJECT_H__
-#define __GT_GUI_OBJECT_H__ //< include guard
+#pragma once
+#ifndef __GT_GUI_TEXT_FIELD_IMPL_H__
+#define __GT_GUI_TEXT_FIELD_IMPL_H__
 
 namespace gost{
 
-	enum class gtGUIObjectType{
-		Font,	
-		Text,	
-		Button,	
-		Shape,
-		TextField
-	};
+	class gtGUITextFieldImpl : public gtGUITextField{
+		gtDriver *		m_driver;
+		gtMainSystem *	m_mainSystem;
+		gtModelSystem*	m_modelSystem;
+		gtGUISystem*	m_gui;
 
-	class gtGUIObject : public gtRefObject{
-	protected:
-		gtGUIObjectType m_type;
-		bool			m_visible;
+		gtGUIFontImpl * m_font;
+		bool			m_fixedH, m_fixedW;
+		bool			m_showBackground;
+		v4i				m_rect;
+		gtColor			m_bgColor;
+		gtString		m_text;
+
+		gtPtr<gtGUIShape>			m_backgroundShape;
+		gtArray<gtGUIStaticText*>	m_textWords;
+
+		void update( void );
+
 	public:
 
-		gtGUIObject( void ) : m_visible( true ){}
-		virtual ~gtGUIObject( void ){}
+		gtGUITextFieldImpl( gtDriver* d );
+		virtual ~gtGUITextFieldImpl( void );
 
-		virtual void render( void ) = 0;
-
-		virtual void setOpacity( f32 opacity = 1.f ) = 0;
-
-		virtual gtGUIObjectType getType( void ){
-			return m_type;
-		}
-
-		virtual bool isVisible( void ) const {
-			return m_visible;
-		}
-
-		virtual void setVisible( bool value ){
-			m_visible = value;
-		}
-
+		bool		init( const v4i& rect, gtGUIFont* font, bool fh, bool fw );
 		
+		void		setFont( gtGUIFont * font );
+		void		setFont( const gtPtr<gtGUIFont>& font );
+		void		setText( const gtString& text );
+		void		setTextColor( const gtColor& color );
+		void		setBackgroundVisible( bool value );
+		void		setBackgroundColor( const gtColor& color );
+		void		clear( void );
+		gtGUIShape* getBackgroundShape( void );
 
+		void		render( void );
+		void		setOpacity( f32 opacity = 1.f );
 	};
 
 }
-
-#include <gtGUIShape.h>
-
-#include <gtGUIFont.h>
-#include <gtGUIStaticText.h>
-#include <gtGUITextField.h>
 
 #endif
 

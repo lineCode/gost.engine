@@ -81,17 +81,25 @@ gtPtr<gtGUIFont> gtGUISystemImpl::createBuiltInFont( void ){
 	return font;
 }
 
+gtPtr<gtGUITextField>	gtGUISystemImpl::createTextField( const v4i& rect, gtGUIFont* font, bool fh, bool fw ){
+	gtPtr_t( gtGUITextFieldImpl, tf, new gtGUITextFieldImpl( m_driver ) );
+	if( !tf.data() )
+		return nullptr;
+	if( !tf->init( rect, font, fh, fw ) ){
+		gtLogWriter::printWarning( u"Can not create static text " );
+		return nullptr;
+	}
+	return gtPtr<gtGUITextField>( tf.data() );
+}
+
 gtPtr<gtGUIStaticText> gtGUISystemImpl::createStaticText( const gtString& text, s32 positionX, s32 positionY, gtGUIFont* font ){
 	gtPtr_t( gtGUIStaticTextImpl, st, new gtGUIStaticTextImpl( m_driver ) );
-
 	if( !st.data() )
 		return nullptr;
-
 	if( !st->init( text, positionX, positionY, font ) ){
 		gtLogWriter::printWarning( u"Can not create static text " );
 		return nullptr;
 	}
-
 	return gtPtr<gtGUIStaticText>( st.data() );
 }
 

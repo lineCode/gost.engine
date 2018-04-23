@@ -152,6 +152,9 @@ namespace gost{
 
 		virtual void	setDepthState( bool state = true ) = 0;
 
+		virtual void	scissorClear( bool setOriginal = true ) = 0;
+
+		virtual void	scissorAdd( const v4i& rect ) = 0;
 	};
 
 
@@ -160,7 +163,7 @@ namespace gost{
 
 
 		gtDriverInfo m_params;
-
+		gtArray<v4i> m_scissorRects;
 
 		v2i			m_currentWindowSize;
 
@@ -266,6 +269,8 @@ namespace gost{
 			return false;
 		}
 
+		virtual void applyScissor( void ) = 0;
+
 	public:
 
 			// c-tor
@@ -280,7 +285,17 @@ namespace gost{
 		virtual ~gtDriverCommon( void ){
 		}
 
+		virtual void	scissorClear( bool setOriginal ){
+			m_scissorRects.clear();
+			if( setOriginal )
+				m_scissorRects.push_back( v4i( 0, 0, m_params.m_backBufferSize.x, m_params.m_backBufferSize.y ) );
+			applyScissor();
+		}
 
+		virtual void	scissorAdd( const v4i& rect ){
+			m_scissorRects.push_back( rect );
+			applyScissor();
+		}
 
 			// \return gtDriverInfo
 		virtual const gtDriverInfo&	getParams( void ){

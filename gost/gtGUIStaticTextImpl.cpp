@@ -292,9 +292,11 @@ void gtGUIStaticTextImpl::updateBackground( void ){
 void gtGUIStaticTextImpl::render( void ){
 	u32 sz = m_buffers.size();
 	for( u32 i = 0u; i < sz; ++i ){
-		if( m_showBackground )
-			m_backgroundShape->render();
-		m_driver->drawModel( m_buffers[ i ] );
+		if( m_visible ){
+			if( m_showBackground )
+				m_backgroundShape->render();
+			m_driver->drawModel( m_buffers[ i ] );
+		}
 	}
 }
 

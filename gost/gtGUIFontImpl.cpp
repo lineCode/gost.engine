@@ -1,7 +1,9 @@
 #include "common.h"
 
 gtGUIFontImpl::gtGUIFontImpl( gtDriver * d ):
-m_driver( d ){
+m_driver( d ),
+m_width(0u),
+m_height(0u){
 	m_type = gtGUIObjectType::Font;
 }
 
@@ -17,17 +19,6 @@ gtGUIFontImpl::~gtGUIFontImpl( void ){
 
 void gtGUIFontImpl::render(){}
 void gtGUIFontImpl::setOpacity( f32 ){}
-
-//void gtGUIFontImpl::setDriver( gtDriver* d ){
-//	m_driver = d;
-//
-//	/*u32 sz = m_image.size();
-//	for( u32 i = 0u; i < sz; ++i ){
-//		auto texure = m_driver->createTexture( m_image[ i ].data(), gtTextureFilterType::FILTER_PPP );
-//		m_textureArray.push_back( texure.data() );
-//	}*/
-//
-//}
 
 gtVector4<u16>* gtGUIFontImpl::getRect( char16_t c ){
 	if( m_chars[ (u16)c ] )
@@ -49,8 +40,6 @@ gtTexture * gtGUIFontImpl::getTexture( u32 id ){
 }
 
 bool gtGUIFontImpl::init( const gtString& font, gtImage * image ){
-	//m_image.push_back( image );
-	
 	if( image ){
 		
 		auto xml = gtMainSystem::getInstance()->XMLRead( font );
@@ -59,8 +48,6 @@ bool gtGUIFontImpl::init( const gtString& font, gtImage * image ){
 			return false;
 		}
 
-		//image->convert( gtImage::FMT_R8G8B8A8 );
-		//image->flipVertical();
 		image->makeAlphaFromBlack();
 		
 
@@ -102,6 +89,10 @@ bool gtGUIFontImpl::init( const gtString& font, gtImage * image ){
 					a = n->getAttribute( u"r" );
 					if( a ){
 						util::getVec4iFromString( a->value, &m_chars[ val ]->coords );
+						u32 w = m_chars[ val ]->coords.getWidth();
+						u32 h = m_chars[ val ]->coords.getHeight();
+						if( w > m_width ) m_width = w;
+						if( h > m_height ) m_height = h;
 					}
 
 					a = n->getAttribute( u"i" );
@@ -242,6 +233,10 @@ bool gtGUIFontImpl::initFromFile( const gtString& font ){
 				a = n->getAttribute( u"r" );
 				if( a ){
 					util::getVec4iFromString( a->value, &m_chars[ val ]->coords );
+					u32 w = m_chars[ val ]->coords.getWidth();
+					u32 h = m_chars[ val ]->coords.getHeight();
+					if( w > m_width ) m_width = w;
+					if( h > m_height ) m_height = h;
 				}
 
 				a = n->getAttribute( u"i" );
@@ -273,6 +268,14 @@ bool gtGUIFontImpl::initFromFile( const gtString& font ){
 bool gtGUIFontImpl::initFromSystem( const gtString& /*font*/ ){
 
 	return true;
+}
+
+u32 gtGUIFontImpl::getWidth( void ){
+	return m_width;
+}
+
+u32 gtGUIFontImpl::getHeight( void ){
+	return m_height;
 }
 
 /*

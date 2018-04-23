@@ -68,7 +68,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Production|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -232,6 +232,7 @@
     <ClCompile Include="..\..\gost\gtGUIShapeImpl.cpp" />
     <ClCompile Include="..\..\gost\gtGUIStaticTextImpl.cpp" />
     <ClCompile Include="..\..\gost\gtGUISystemImpl.cpp" />
+    <ClCompile Include="..\..\gost\gtGUITextFieldImpl.cpp" />
     <ClCompile Include="..\..\gost\gtLogerImpl.cpp" />
     <ClCompile Include="..\..\gost\gtMainSystemCommon.cpp" />
     <ClCompile Include="..\..\gost\gtMainSystemWin32.cpp" />
@@ -264,6 +265,7 @@
     <ClInclude Include="..\..\gost\gtGUIShapeImpl.h" />
     <ClInclude Include="..\..\gost\gtGUIStaticTextImpl.h" />
     <ClInclude Include="..\..\gost\gtGUISystemImpl.h" />
+    <ClInclude Include="..\..\gost\gtGUITextFieldImpl.h" />
     <ClInclude Include="..\..\gost\gtLogerImpl.h" />
     <ClInclude Include="..\..\gost\gtMainSystemCommon.h" />
     <ClInclude Include="..\..\gost\gtMainSystemWin32.h" />
@@ -306,6 +308,7 @@
     <ClInclude Include="..\..\include\gtGUIShape.h" />
     <ClInclude Include="..\..\include\gtGUIStaticText.h" />
     <ClInclude Include="..\..\include\gtGUISystem.h" />
+    <ClInclude Include="..\..\include\gtGUITextField.h" />
     <ClInclude Include="..\..\include\gtImage.h" />
     <ClInclude Include="..\..\include\gtInfo.h" />
     <ClInclude Include="..\..\include\gtInput.h" />

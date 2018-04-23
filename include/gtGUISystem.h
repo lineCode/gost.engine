@@ -13,10 +13,13 @@ namespace gost{
 		virtual gtPtr<gtGUIFont> createBuiltInFont( void ) = 0;
 
 		virtual gtPtr<gtGUIStaticText> createStaticText( const gtString& text, s32 positionX, s32 positionY, gtGUIFont* font ) = 0;
+		virtual gtPtr<gtGUITextField> createTextField( const v4i& rect, gtGUIFont* font, bool fixedHeight = true, bool fixedWidth = true ) = 0;
 
 		virtual gtPtr<gtGUIShape>	createShapeRectangle( const v4i& rect, const gtColor& color ) = 0;
 
 		virtual void setCurrentRenderDriver( gtDriver * driver ) = 0;
+
+		//virtual void renderGUI( void ) = 0;
 	};
 
 }

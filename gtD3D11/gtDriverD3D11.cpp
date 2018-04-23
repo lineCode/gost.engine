@@ -352,7 +352,7 @@ bool gtDriverD3D11::initialize( void ){
 	rasterDesc.FillMode = D3D11_FILL_SOLID;
 	rasterDesc.FrontCounterClockwise = false;
 	rasterDesc.MultisampleEnable = false;
-	rasterDesc.ScissorEnable = false;
+	rasterDesc.ScissorEnable = true;
 	rasterDesc.SlopeScaledDepthBias = 0.0f;
 
 	if( FAILED( m_d3d11Device->CreateRasterizerState( &rasterDesc, &m_RasterizerSolid ))){
@@ -368,6 +368,8 @@ bool gtDriverD3D11::initialize( void ){
 	m_d3d11Device->CreateRasterizerState( &rasterDesc, &m_RasterizerWireframe );
 
 	m_d3d11DevCon->RSSetState( m_RasterizerSolid );
+
+	
 
 
 	D3D11_BLEND_DESC  bd;
@@ -402,6 +404,7 @@ bool gtDriverD3D11::initialize( void ){
 	}
 
 	enableBlending( true );
+	scissorClear( true );
 
 
 	D3D11_VIEWPORT viewport;
@@ -413,7 +416,6 @@ bool gtDriverD3D11::initialize( void ){
 	viewport.TopLeftY	=	0.0f;
 	m_d3d11DevCon->RSSetViewports( 1, &viewport );
 
-	
 	createStandartTexture();
 
 	m_shaderProcessing = gtPtrNew<gtShaderProcessingD3D11>( new gtShaderProcessingD3D11(m_d3d11DevCon) );
@@ -1045,6 +1047,9 @@ bool	gtDriverD3D11::createShaders( void ){
 	return true;
 }
 
+void	gtDriverD3D11::applyScissor( void ){
+	m_d3d11DevCon->RSSetScissorRects( m_scissorRects.size(), (D3D11_RECT*)m_scissorRects.data() );
+}
 
 /*
 Copyright (c) 2017-2018 532235
