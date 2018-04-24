@@ -311,6 +311,10 @@ void gtGUIStaticTextImpl::setOpacity( f32 opacity ){
 	m_backgroundShape->setOpacity( opacity );
 }
 
+f32  gtGUIStaticTextImpl::getOpacity( void ){
+	return m_material.opacity;
+}
+
 void gtGUIStaticTextImpl::setBackgroundVisible( bool value ){
 	m_showBackground = value;
 }

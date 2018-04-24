@@ -334,29 +334,46 @@ LRESULT CALLBACK gtWindowWin32::WndProc(HWND hWnd, UINT message, WPARAM wParam, 
 	//	break;
 
 	case WM_MOVE:
-//		ev.value1 = GT_EVENT_WINDOW_MOVE;
+		ev.type   = gtEventType::Window;
+		ev.windowEvent.eventID = GT_EVENT_WINDOW_MOVE;
+		ev.windowEvent.window  = pD;
 	break;
 
 	case WM_PAINT:
-//		ev.value1 = GT_EVENT_WINDOW_PAINT;
+		ev.type   = gtEventType::Window;
+		ev.windowEvent.eventID = GT_EVENT_WINDOW_PAINT;
+		ev.windowEvent.window  = pD;
 		break;
 
 	case WM_SIZE:{
 		switch( wmId ){
 		case SIZE_MAXIMIZED:
-//			ev.value1 = GT_EVENT_WINDOW_MAXIMIZE;
+			ev.type   = gtEventType::Window;
+			ev.windowEvent.eventID = GT_EVENT_WINDOW_MAXIMIZE;
+			ev.windowEvent.window  = pD;
 			break;
 		case SIZE_MINIMIZED:
-//			ev.value1 = GT_EVENT_WINDOW_MINIMIZE;
+			ev.type   = gtEventType::Window;
+			ev.windowEvent.eventID = GT_EVENT_WINDOW_MINIMIZE;
+			ev.windowEvent.window  = pD;
 			break;
 		case SIZE_RESTORED:
-//			ev.value1 = GT_EVENT_WINDOW_RESTORE;
+			ev.type   = gtEventType::Window;
+			ev.windowEvent.eventID = GT_EVENT_WINDOW_RESTORE;
+			ev.windowEvent.window  = pD;
 			break;
 		}
+
+		RECT rc;
+		GetWindowRect( hWnd, &rc );
+		pD->m_params.m_rect.set( rc.left, rc.top, rc.right, rc.bottom );
+
 	}break;
 
 	case WM_SIZING:
-//			ev.value1 = GT_EVENT_WINDOW_SIZING;
+		ev.type   = gtEventType::Window;
+		ev.windowEvent.eventID = GT_EVENT_WINDOW_SIZING;
+		ev.windowEvent.window  = pD;
 	break;
 
 	case WM_QUIT:
@@ -476,7 +493,7 @@ LRESULT CALLBACK gtWindowWin32::WndProc(HWND hWnd, UINT message, WPARAM wParam, 
 	}
 
 
-	//gtMainSystem::getInstance()->addEvent( ev );
+	gtMainSystem::getInstance()->addEvent( ev );
 
 	return DefWindowProc( hWnd, message, wParam, lParam );
 }

@@ -30,6 +30,10 @@ void gtGUIShapeImpl::setOpacity( f32 opacity ){
 	m_material->opacity = opacity;
 }
 
+f32  gtGUIShapeImpl::getOpacity( void ){
+	return m_material->opacity;
+}
+
 void gtGUIShapeImpl::setColor( const gtColor& color ){
 	m_material->textureLayer[ 0u ].diffuseColor = color;
 }

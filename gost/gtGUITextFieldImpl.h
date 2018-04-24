@@ -16,6 +16,7 @@ namespace gost{
 		v4i				m_rect;
 		gtColor			m_bgColor;
 		gtString		m_text;
+		gtMaterial		m_material;
 
 		gtPtr<gtGUIShape>			m_backgroundShape;
 		gtArray<gtGUIStaticText*>	m_textWords;
@@ -32,6 +33,7 @@ namespace gost{
 		void		setFont( gtGUIFont * font );
 		void		setFont( const gtPtr<gtGUIFont>& font );
 		void		setText( const gtString& text );
+		const gtString& getText( void );
 		void		setTextColor( const gtColor& color );
 		void		setBackgroundVisible( bool value );
 		void		setBackgroundColor( const gtColor& color );
@@ -40,6 +42,7 @@ namespace gost{
 
 		void		render( void );
 		void		setOpacity( f32 opacity = 1.f );
+		f32			getOpacity( void );
 	};
 
 }

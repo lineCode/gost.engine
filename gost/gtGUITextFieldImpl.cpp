@@ -46,6 +46,10 @@ void gtGUITextFieldImpl::setText( const gtString& text ){
 	update();
 }
 
+const gtString& gtGUITextFieldImpl::getText( void ){
+	return m_text;
+}
+
 void gtGUITextFieldImpl::setTextColor( const gtColor& color ){
 	u32 sz = m_textWords.size();
 	for( u32 i = 0u; i < sz; ++i ){
@@ -93,11 +97,17 @@ void gtGUITextFieldImpl::render( void ){
 }
 
 void gtGUITextFieldImpl::setOpacity( f32 opacity ){
+	m_material.opacity = opacity;
+
 	u32 sz = m_textWords.size();
 	for( u32 i = 0u; i < sz; ++i ){
 		m_textWords[ i ]->setOpacity(opacity);
 	}
 	m_backgroundShape->setOpacity(opacity);
+}
+
+f32 gtGUITextFieldImpl::getOpacity( void ){
+	return m_material.opacity;
 }
 
 void gtGUITextFieldImpl::update( void ){
@@ -154,15 +164,18 @@ void gtGUITextFieldImpl::update( void ){
 
 
 	gtTexture * t1 = nullptr;
+	f32 bgop = 1.f;
 	gtColor color;
 
 	if( m_backgroundShape.data() ){
 		t1 = m_backgroundShape->getTexture();
+		bgop = m_backgroundShape->getOpacity();
 	}
 
 	m_backgroundShape = m_gui->createShapeRectangle( m_rect, gtColor( 0.f, 0.f, 0.f, 1.f ) );
 	m_backgroundShape->setTexture( t1 );
 	m_backgroundShape->setColor( m_bgColor );
+	m_backgroundShape->setOpacity( bgop );
 }
 
 /*

@@ -24,6 +24,7 @@ namespace gost{
 		virtual void render( void ) = 0;
 
 		virtual void setOpacity( f32 opacity = 1.f ) = 0;
+		virtual f32  getOpacity( void ) = 0;
 
 		virtual gtGUIObjectType getType( void ){
 			return m_type;

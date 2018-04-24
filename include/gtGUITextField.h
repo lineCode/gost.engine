@@ -11,6 +11,7 @@ namespace gost{
 		virtual void setFont( const gtPtr<gtGUIFont>& font ) = 0;
 
 		virtual void setText( const gtString& text ) = 0;
+		virtual const gtString& getText( void ) = 0;
 
 		virtual void setTextColor( const gtColor& color ) = 0;
 

@@ -9,6 +9,8 @@
 
 namespace gost{
 
+	class gtWindow;
+
 #define GT_EVENT_WINDOW_SIZING   1u		//< ID сообщения. Окно меняет размер.
 #define GT_EVENT_WINDOW_RESTORE  2u		//< ID сообщения. Окно восстановлено.
 #define GT_EVENT_WINDOW_MAXIMIZE 3u		//< ID сообщения. Окно развернуто во весь экран.
@@ -30,13 +32,18 @@ namespace gost{
 	
 		//	Тип события
 	enum class gtEventType : u32 {
-		None,		//< для завершения обработки массива событий
+		None,		
 		Keyboard,
 		Mouse,
 		Joystick,
 		GUI,
 		Window,
 		System
+	};
+
+	struct gtEventWindow{
+		gtWindow *  window;
+		u32			eventID;
 	};
 
 	struct gtEventMouse{
@@ -96,7 +103,6 @@ namespace gost{
 		bool isPressed( gtKey Key )	{	return ((Key == key) && state.bits.b0);	}
 		bool isReleased( gtKey Key ){	return ((Key == key) && state.bits.b1);	}
 
-		/* нужно ли */
 		bool isCtrl( void )			{	return state.bits.b2;					}
 		bool isShift( void )		{	return state.bits.b3;					}
 		bool isAlt( void )			{	return state.bits.b4;					}
@@ -105,7 +111,7 @@ namespace gost{
 		gtEventKeyboard( void ){}
 	};
 
-		//	Структура описывающая событие
+		
 	struct gtEvent{
 
 		gtEvent( void ){};
@@ -113,20 +119,20 @@ namespace gost{
 		union{
 			gtEventKeyboard	keyboardEvent;
 			gtEventMouse	mouseEvent;
+			gtEventWindow	windowEvent;
 		};
 
 		gtEventType type = gtEventType::None;
 		
-		u32 dataSize	= 0u;		//< размер пользовательских данных
-		void* data		= nullptr;	//< пользовательские данные
+		u32 dataSize	= 0u;		
+		void* data		= nullptr;
 
 	};
 	
-		//	Класс-обработчик событий
+		// like event receiver in irrlicht
 	class gtEventConsumer{
 	public:
 			
-			//	Вызывается внутри движка, если есть события
 		virtual void processEvent( const gtEvent& ev ) = 0;
 
 	};
@@ -137,7 +143,7 @@ namespace gost{
 #endif
 
 /*
-Copyright (c) 2017, 2018 532235
+Copyright (c) 2017-2018 532235
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
 and associated documentation files (the "Software"), to deal in the Software without restriction, 

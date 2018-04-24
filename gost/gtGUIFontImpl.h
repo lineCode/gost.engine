@@ -37,6 +37,7 @@ namespace gost{
 
 		void render( void );
 		void setOpacity( f32 );
+		f32  getOpacity( void );
 
 		gtTexture *			getTexture( u32 id );
 		u32					getTextureID( char16_t c );
