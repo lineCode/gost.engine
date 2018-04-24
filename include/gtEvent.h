@@ -10,16 +10,20 @@
 namespace gost{
 
 	class gtWindow;
+	struct gtGameControllerDevice;
 
-#define GT_EVENT_WINDOW_SIZING   1u		//< ID сообщения. Окно меняет размер.
-#define GT_EVENT_WINDOW_RESTORE  2u		//< ID сообщения. Окно восстановлено.
-#define GT_EVENT_WINDOW_MAXIMIZE 3u		//< ID сообщения. Окно развернуто во весь экран.
-#define GT_EVENT_WINDOW_MINIMIZE 4u		//< ID сообщения. Окно свёрнуто.
-#define GT_EVENT_WINDOW_MOVE     5u		//< ID сообщения. Окно меняет позицию.
-#define GT_EVENT_WINDOW_PAINT    6u		//< ID сообщения. Окно рисует содержимое.
+#define GT_EVENT_WINDOW_SIZING   1u		
+#define GT_EVENT_WINDOW_RESTORE  2u		
+#define GT_EVENT_WINDOW_MAXIMIZE 3u		
+#define GT_EVENT_WINDOW_MINIMIZE 4u		
+#define GT_EVENT_WINDOW_MOVE     5u		
+#define GT_EVENT_WINDOW_PAINT    6u		
 
-//#define GT_EVENT_MASK_KEY_PRESS 0x80000000	//< самый левый бит хранит состояние нажатия клавиши
-//#define GT_EVENT_MASK_KEYS		0x7FFFFFFF  //< этим макросом игнорируется самый левый бит, получая только код клавиши.
+#define GT_EVENT_JOYSTICK_ADD    1u
+#define GT_EVENT_JOYSTICK_REMOVE 2u
+
+#define GT_EVENT_SYSTEM_TIMER    1u
+
 
 #define GT_EVENT_MASK_MOUSE_LMB	1u			//< была ли нажата левая кнопка мыши
 #define GT_EVENT_MASK_MOUSE_RMB	2u			//< была ли нажата правая кнопка мыши
@@ -39,6 +43,16 @@ namespace gost{
 		GUI,
 		Window,
 		System
+	};
+
+	struct gtEventSystemEvent{
+		u32 eventID;
+	};
+	
+	struct gtEventJoystick{
+		u32 joystickID;
+		u32 joystickEventID;
+		gtGameControllerDevice * joystick;
 	};
 
 	struct gtEventWindow{
@@ -120,6 +134,8 @@ namespace gost{
 			gtEventKeyboard	keyboardEvent;
 			gtEventMouse	mouseEvent;
 			gtEventWindow	windowEvent;
+			gtEventJoystick joystickEvent;
+			gtEventSystemEvent systemEvent;
 		};
 
 		gtEventType type = gtEventType::None;

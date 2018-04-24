@@ -48,6 +48,7 @@ namespace gost{
 		bool m_active;
 
 		virtual void poll() = 0;
+		virtual u32  id() = 0;
 	};
 
 	class gtGameController : public gtRefObject{

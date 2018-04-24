@@ -118,21 +118,34 @@ namespace gost{
 		
 		HRESULT hr;
 
-		gtGameControllerDeviceImpl device;
-		device.id   = m_gamepads.size();
-		memcpy(&device.guid,&pdidInstance->guidInstance,sizeof(GT_GUID));
-		memcpy(&device.guidManufacturer,&pdidInstance->guidProduct,sizeof(GT_GUID));
+		gtGameControllerDeviceImpl * device = new gtGameControllerDeviceImpl;
+
+		device->m_id   = m_gamepads.size();
+		memcpy(&device->guid,&pdidInstance->guidInstance,sizeof(GT_GUID));
+		memcpy(&device->guidManufacturer,&pdidInstance->guidProduct,sizeof(GT_GUID));
 
 		u32 sz = m_gamepads.size();
 		for( u32 i = 0u; i < sz; ++i ){
-			if( m_gamepads[ i ]->guid == device.guid ) return;
+			if( !m_gamepads[ i ]->m_gamepad ){
+				m_gamepads[ i ]->m_gamepad = gamepad;
+				gtEvent event;
+				event.type = gtEventType::Joystick;
+				event.joystickEvent.joystick = device;
+				event.joystickEvent.joystickEventID = GT_EVENT_JOYSTICK_ADD;
+				event.joystickEvent.joystickID = device->m_id;
+				gtMainSystem::getInstance()->addEvent( event );
+				break;
+			}
+
+			if( m_gamepads[ i ]->guid == device->guid )
+				return;
 		}
 		
-		device.name = pdidInstance->tszProductName;
+		device->name = pdidInstance->tszProductName;
 		
 		HWND hWnd = (HWND)gtMainSystem::getInstance()->getMainVideoDriver()->getParams().m_outWindow->getHandle();
 
-		if( FAILED( hr = gamepad->GetCapabilities( &device.caps ) ) ){
+		if( FAILED( hr = gamepad->GetCapabilities( &device->caps ) ) ){
 			gtLogWriter::printWarning( u"Can not get gamepad capabilities. Error code: %u", hr );
 		}
 
@@ -145,14 +158,20 @@ namespace gost{
 			gtLogWriter::printWarning( u"Can not set cooperative level for gamepad. Error code: %u", hr );
 		}
 
-		device.m_active = true;
+		device->m_active = true;
 
-		gtGameControllerDeviceImpl * device2 = new gtGameControllerDeviceImpl;
-		*device2 = device;
+		device->m_gamepad = gamepad;
+		device->m_gamepad->Acquire();
+		m_gamepads.push_back( device );
+		
+		gtEvent event;
+		event.type = gtEventType::Joystick;
+		event.joystickEvent.joystick = device;
+		event.joystickEvent.joystickEventID = GT_EVENT_JOYSTICK_ADD;
+		event.joystickEvent.joystickID = device->m_id;
+		gtMainSystem::getInstance()->addEvent( event );
 
-		device2->m_gamepad = gamepad;
-		device2->m_gamepad->Acquire();
-		m_gamepads.push_back( device2 );
+		return;
 	}
 
 	void gtGameControllerImpl::update( void ){

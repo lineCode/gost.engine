@@ -14,7 +14,7 @@ namespace gost{
 			m_gamepad( nullptr )
 		{
 			caps.dwSize = sizeof(caps);
-
+			mainSystem = gtMainSystem::getInstance();
 		}
 
 		virtual ~gtGameControllerDeviceImpl( void ){
@@ -24,10 +24,14 @@ namespace gost{
 			}
 		}
 
+		gtMainSystem * mainSystem;
 		LPDIRECTINPUTDEVICE8 m_gamepad;
-		u32 id;
+		u32 m_id;
 		DIDEVCAPS caps;
 		
+		u32  id(){
+			return m_id;
+		}
 		void poll(){
 			HRESULT hr;
 			DIJOYSTATE2 js;
@@ -40,6 +44,12 @@ namespace gost{
 						gtLogWriter::printInfo( u"Lost gamepad device" );
 						hr = m_gamepad->Acquire();
 					}
+					gtEvent event;
+					event.type = gtEventType::Joystick;
+					event.joystickEvent.joystick = this;
+					event.joystickEvent.joystickEventID = GT_EVENT_JOYSTICK_REMOVE;
+					event.joystickEvent.joystickID = m_id;
+					mainSystem->addEvent( event );
 					return;
 				}
 				if( FAILED( hr = m_gamepad->GetDeviceState( sizeof( DIJOYSTATE2 ), &js ) ) ){
@@ -47,6 +57,12 @@ namespace gost{
 					m_gamepad->Unacquire();
 					m_gamepad->Release();
 					m_gamepad = nullptr;
+					gtEvent event;
+					event.type = gtEventType::Joystick;
+					event.joystickEvent.joystick = this;
+					event.joystickEvent.joystickEventID = GT_EVENT_JOYSTICK_REMOVE;
+					event.joystickEvent.joystickID = m_id;
+					mainSystem->addEvent( event );
 					return;
 				}
 				for( s32 i = 0; i < 128; i++ ){
@@ -55,17 +71,20 @@ namespace gost{
 						m_buttons[ i ] = true;
 					}
 
-					m_POV1 = js.rgdwPOV[0];
-					m_POV2 = js.rgdwPOV[1];
-					m_POV3 = js.rgdwPOV[2];
-					m_POV4 = js.rgdwPOV[3];
-					m_lX   = js.lX;
-					m_lY   = js.lY;
-					m_lZ   = js.lZ;
-					m_lRx  = js.lRx;
-					m_lRy  = js.lRy;
-					m_lRz  = js.lRz;
 				}
+				m_POV1 = js.rgdwPOV[0];
+				m_POV2 = js.rgdwPOV[1];
+				m_POV3 = js.rgdwPOV[2];
+				m_POV4 = js.rgdwPOV[3];
+				m_lX   = js.lX;
+				m_lY   = js.lY;
+				m_lZ   = js.lZ;
+				m_lRx  = js.lRx;
+				m_lRy  = js.lRy;
+				m_lRz  = js.lRz;
+
+			
+
 			}else{
 				m_active = false;
 			}

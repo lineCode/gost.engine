@@ -46,7 +46,7 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 	EventReceiver events;
 
 	gtDeviceCreationParameters mainParams;
-	mainParams.m_consumer = &events;
+//	mainParams.m_consumer = &events;
 	auto mainSystem = InitializeGoSTEngine( mainParams );
 
 	gtWindowInfo wi;
@@ -97,11 +97,34 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE." );
 	tf->getBackgroundShape()->setOpacity( 0.f );
 	tf->setTextColor( gtColorLightGray );
 	events.context.text = tf.data();
-
+	 
 	gtEvent event;
 
+	auto joystickSystem = mainSystem->createGameContoller( GT_UID_INPUT_DINPUT ) ;
+	gtGameControllerDevice * gamepad = nullptr;
+	u32 joy1ID = 0;
+
 	while( mainSystem->update() ){
-		while( mainSystem->pollEvent( event ) );
+
+		joystickSystem->update();
+
+		while( mainSystem->pollEvent( event ) ){
+			switch( event.type ){
+			case gtEventType::Joystick:{
+				switch(event.joystickEvent.joystickEventID){
+				case GT_EVENT_JOYSTICK_ADD:
+					gamepad = event.joystickEvent.joystick;
+					joy1ID = gamepad->id();
+					break;
+				case GT_EVENT_JOYSTICK_REMOVE:
+					if( event.joystickEvent.joystickID == joy1ID ){
+						gamepad = nullptr;
+					}
+					break;
+				}
+			}break;
+			}
+		}
 
 		if( mainSystem->isRun() ){
 
@@ -109,8 +132,13 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE." );
 				mainSystem->shutdown(); 
 			}
 
-			driver->beginRender( true, gtColor( 1.0f, 0.0f, 0.f, 1.f ) ); // RGBA.
+			if( gamepad ){
+				gamepad->poll();
+				if( gamepad->m_buttons[ 0 ] )
+					mainSystem->shutdown();
+			}
 
+			driver->beginRender( true, gtColor( 1.0f, 0.0f, 0.f, 1.f ) ); // RGBA.
 
 			driver->setDepthState( false );
 			bg_shape->render();
