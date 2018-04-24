@@ -49,9 +49,13 @@ namespace gost{
 	}
 	gtGameControllerImpl::~gtGameControllerImpl( void ){
 
-		u32 sz = m_gamepads.size();
+		auto sz = m_gamepads.size();
 		for( u32 i = 0u; i < sz; ++i ){
-			delete m_gamepads[ i ];
+			if( m_gamepads[ i ].m_gamepad ){
+				m_gamepads[ i ].m_gamepad->Unacquire();
+				m_gamepads[ i ].m_gamepad->Release();
+				m_gamepads[ i ].m_gamepad = nullptr;
+			}
 		}
 
 		if( m_directInput )
@@ -64,11 +68,6 @@ namespace gost{
 	LPDIRECTINPUT8 gtGameControllerImpl::getDI( void ){
 		return m_directInput;
 	}
-
-	//??? delete
-	/*Controller_t* gtGameControllerImpl::getGamePad( u32 id ){
-		return &m_gamepads[ id ];
-	}*/
 
 	u32 gtGameControllerImpl::getNumOfActiveDevices( void ){
 		return m_gamepads.size();
@@ -118,34 +117,33 @@ namespace gost{
 		
 		HRESULT hr;
 
-		gtGameControllerDeviceImpl * device = new gtGameControllerDeviceImpl;
+		gtGameControllerDeviceImpl device;
 
-		device->m_id   = m_gamepads.size();
-		memcpy(&device->guid,&pdidInstance->guidInstance,sizeof(GT_GUID));
-		memcpy(&device->guidManufacturer,&pdidInstance->guidProduct,sizeof(GT_GUID));
+		memcpy(&device.guid,&pdidInstance->guidInstance,sizeof(GT_GUID));
+		memcpy(&device.guidManufacturer,&pdidInstance->guidProduct,sizeof(GT_GUID));
 
 		u32 sz = m_gamepads.size();
+		bool old = false;
+		u32 oldID;
 		for( u32 i = 0u; i < sz; ++i ){
-			if( !m_gamepads[ i ]->m_gamepad ){
-				m_gamepads[ i ]->m_gamepad = gamepad;
-				gtEvent event;
-				event.type = gtEventType::Joystick;
-				event.joystickEvent.joystick = device;
-				event.joystickEvent.joystickEventID = GT_EVENT_JOYSTICK_ADD;
-				event.joystickEvent.joystickID = device->m_id;
-				gtMainSystem::getInstance()->addEvent( event );
-				break;
-			}
+			if( m_gamepads[ i ].guid == device.guid ){
 
-			if( m_gamepads[ i ]->guid == device->guid )
+				if( m_gamepads[ i ].m_active )
+					gamepad->Release();
+				else{
+					oldID = i;
+					old = true;
+					break;
+				}
 				return;
+			}
 		}
 		
-		device->name = pdidInstance->tszProductName;
+		device.name = pdidInstance->tszProductName;
 		
 		HWND hWnd = (HWND)gtMainSystem::getInstance()->getMainVideoDriver()->getParams().m_outWindow->getHandle();
 
-		if( FAILED( hr = gamepad->GetCapabilities( &device->caps ) ) ){
+		if( FAILED( hr = gamepad->GetCapabilities( &device.caps ) ) ){
 			gtLogWriter::printWarning( u"Can not get gamepad capabilities. Error code: %u", hr );
 		}
 
@@ -158,35 +156,27 @@ namespace gost{
 			gtLogWriter::printWarning( u"Can not set cooperative level for gamepad. Error code: %u", hr );
 		}
 
-		device->m_active = true;
-
-		device->m_gamepad = gamepad;
-		device->m_gamepad->Acquire();
-		m_gamepads.push_back( device );
+		device.m_active = true;
+		device.m_gamepad = gamepad;
+		if( !old ){
+			device.m_id   = m_gamepads.size() + 1u;
+			m_gamepads.push_back( device );
+		}else{
+			m_gamepads[ oldID ] = device;
+		}
+		device.m_gamepad->Acquire();
 		
 		gtEvent event;
 		event.type = gtEventType::Joystick;
-		event.joystickEvent.joystick = device;
+		event.joystickEvent.joystick = old ? &m_gamepads[ oldID ] : &m_gamepads[ m_gamepads.size() - 1u ];
 		event.joystickEvent.joystickEventID = GT_EVENT_JOYSTICK_ADD;
-		event.joystickEvent.joystickID = device->m_id;
+		event.joystickEvent.joystickID = device.m_id;
 		gtMainSystem::getInstance()->addEvent( event );
 
 		return;
 	}
 
 	void gtGameControllerImpl::update( void ){
-
-		u32 sz = m_gamepads.size();
-		for( u32 i = 0u; i < sz; ++i ){
-			if( !m_gamepads[ i ]->m_gamepad ){
-				auto * del = m_gamepads[ i ];
-				m_gamepads.erase( i );
-				delete del;
-				--sz;
-				--i;
-			}
-		}
-
 		HRESULT hr;
 		if( FAILED( hr = m_directInput->EnumDevices( DI8DEVCLASS_GAMECTRL,
                                          EnumJoysticksCallback,
@@ -197,7 +187,7 @@ namespace gost{
 	gtGameControllerDevice*	gtGameControllerImpl::getControllerDevice( u32 id ){
 		if( m_gamepads.size() ){
 			if( id < m_gamepads.size() ){
-				return m_gamepads[ id ];
+				return &m_gamepads[ id ];
 			}
 			return nullptr;
 		}

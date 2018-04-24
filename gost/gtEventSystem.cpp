@@ -87,8 +87,14 @@ void gtEventSystem::runEventLoop( void ){
 
 }
 
-void gtEventSystem::addEvent( const gtEvent& ev, u8 /*prior*/ ){
+void gtEventSystem::addEvent( const gtEvent& ev, u8 prior ){
 	if( m_numOfEvents < EventMax ){
+
+		if( prior ){
+			//m_events[ m_currentEvent + prior-1u ] = ev;
+		}else{
+		}
+
 		m_events[ m_numOfEvents ] = ev;
 		m_numOfEvents++;
 	}

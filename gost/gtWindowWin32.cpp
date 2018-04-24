@@ -296,8 +296,6 @@ static unsigned int LocaleIdToCodepage(unsigned int lcid)
 }
 
 LRESULT CALLBACK gtWindowWin32::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam){
-//	PAINTSTRUCT ps;
-//	HDC hdc;
 	gtWindowWin32* pD = nullptr;
 
 	s32 wmId    = LOWORD(wParam);

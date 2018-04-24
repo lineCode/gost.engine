@@ -18,10 +18,6 @@ namespace gost{
 		}
 
 		virtual ~gtGameControllerDeviceImpl( void ){
-			if( m_gamepad ){
-				m_gamepad->Unacquire();
-				m_gamepad->Release();
-			}
 		}
 
 		gtMainSystem * mainSystem;
@@ -44,14 +40,9 @@ namespace gost{
 						gtLogWriter::printInfo( u"Lost gamepad device" );
 						hr = m_gamepad->Acquire();
 					}
-					gtEvent event;
-					event.type = gtEventType::Joystick;
-					event.joystickEvent.joystick = this;
-					event.joystickEvent.joystickEventID = GT_EVENT_JOYSTICK_REMOVE;
-					event.joystickEvent.joystickID = m_id;
-					mainSystem->addEvent( event );
 					return;
 				}
+
 				if( FAILED( hr = m_gamepad->GetDeviceState( sizeof( DIJOYSTATE2 ), &js ) ) ){
 					m_active = false;
 					m_gamepad->Unacquire();
@@ -97,7 +88,7 @@ namespace gost{
 		gtMainSystem * m_mainSystem;
 
 		LPDIRECTINPUT8          m_directInput;
-		gtArray<gtGameControllerDeviceImpl*> m_gamepads;
+		gtArray<gtGameControllerDeviceImpl> m_gamepads;
 
 		HMODULE m_dll;
 		DI_ENUM_CONTEXT m_context;

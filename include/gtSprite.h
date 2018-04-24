@@ -278,13 +278,10 @@ namespace gost{
 			m_animation.stop();
 		}
 
-			// Установить текущий кадр
-			// \param frame: номер кадра
 		void setFrame( u32 frame ){
 			m_animation.setCurrentFrame( frame );
 		}
 
-			// Обновить анимацию
 		void updateAnimation( void ){
 			u32 t1 = 0u;
 			static u32 t2 = 0u;
@@ -305,10 +302,6 @@ namespace gost{
 			}
 		}
 
-			// Создать анимацию
-			// \param numOfFrames: количество кадров
-			// \param size: размер кадра
-			// \param directionIsHorizontal: анимация в атласе указана по горизонтали. Так как обычно она и так указана по горизонтали, то встаёт вопрос о нужности этого \b bool по этому не реализована функция прохода по вертикали
 		void createAnimation( u32 numOfFrames, const v2u& size, bool directionIsHorizontal = true ){
 
 			m_animation.clear();
@@ -331,14 +324,10 @@ namespace gost{
 			}
 		}
 
-			// Получить количество кадров в секунду
-			// \return Вернёт количество кадров в секунду
 		f32	getFrameRate( void ) const {
 			return m_animation.getFrameRate();
 		}
 
-			// Установить кадры в секунду
-			// \param rate: кадры в секунду
 		void	setFrameRate( f32 rate ){
 			if( rate == 0 )
 				rate = 1;

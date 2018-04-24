@@ -53,8 +53,15 @@ namespace gost{
 
 
 		gtArray<gtDriver*>	m_drivers;
+		bool m_useTimer;
+		u32 m_timer;
+		u32 m_time;
+
+		u32 m_tick;
 
 	protected:
+
+		void updateTimer( void );
 
 		gtPtr<gtOutputWindow>	m_output_window;
 		gtList< gtPtr< gtWindow > > m_windowCache;
@@ -158,13 +165,14 @@ namespace gost{
 		const gtVector2<u16>& getCursorPosition( void );
 		const gtDeviceCreationParameters& getDeviceCreationParameters( void );
 
-		gtPtr<gtXMLDocument> XMLRead( const gtString& file );
-		void XMLWrite( const gtString& file, gtXMLNode* rootNode, bool utf8 = false );
-		u32 getLoadedVideoDriverCount( void );
-		gtDriver* getLoadedVideoDriver( u32 id );
-		gtDriver* getMainVideoDriver();
-		void setMainVideoDriver( gtDriver* d );
+		gtPtr<gtXMLDocument>	XMLRead( const gtString& file );
+		void					XMLWrite( const gtString& file, gtXMLNode* rootNode, bool utf8 = false );
+		u32						getLoadedVideoDriverCount( void );
+		gtDriver*				getLoadedVideoDriver( u32 id );
+		gtDriver*				getMainVideoDriver();
+		void					setMainVideoDriver( gtDriver* d );
 		gtPtr<gtGameController> createGameContoller( const GT_GUID& plugin );
+		void					setTimer( u32 milliseconds );
 	};
 
 #define gtLog gtMainSystemCommon::s_loger

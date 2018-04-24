@@ -253,6 +253,9 @@ namespace gost{
 
 		virtual v2i getScreenSize( void ) = 0;
 
+			// Engine send `System event` when timer = 0
+		virtual void setTimer( u32 milliseconds ) = 0;
+
 		GT_API static gtMainSystem* getInstance( void );
 
 

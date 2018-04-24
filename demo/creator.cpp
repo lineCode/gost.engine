@@ -101,24 +101,51 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE." );
 	gtEvent event;
 
 	auto joystickSystem = mainSystem->createGameContoller( GT_UID_INPUT_DINPUT ) ;
-	gtGameControllerDevice * gamepad = nullptr;
+	
+	gtGameControllerDevice * gamepad1 = nullptr;
+	gtGameControllerDevice * gamepad2 = nullptr;
 	u32 joy1ID = 0;
+	u32 joy2ID = 0;
+	
+	bool new_timer = false;
+	mainSystem->setTimer( 50 );
 
 	while( mainSystem->update() ){
 
-		joystickSystem->update();
+		if( new_timer ){
+			mainSystem->setTimer( 50 );
+			joystickSystem->update();
+			new_timer = false;
+		}
 
 		while( mainSystem->pollEvent( event ) ){
 			switch( event.type ){
+			case gtEventType::Window:
+				break;
+			case gtEventType::System:
+				if( event.systemEvent.eventID == GT_EVENT_SYSTEM_TIMER ){
+					new_timer = true;
+				}
+				break;
 			case gtEventType::Joystick:{
 				switch(event.joystickEvent.joystickEventID){
 				case GT_EVENT_JOYSTICK_ADD:
-					gamepad = event.joystickEvent.joystick;
-					joy1ID = gamepad->id();
+					gtLogWriter::printInfo( u"Add gamepad" );
+					if( !joy1ID ){
+						gamepad1 = event.joystickEvent.joystick;
+						joy1ID = gamepad1->id();
+					}else if( !joy2ID ){
+						gamepad2 = event.joystickEvent.joystick;
+						joy2ID = gamepad2->id();
+					}
 					break;
 				case GT_EVENT_JOYSTICK_REMOVE:
 					if( event.joystickEvent.joystickID == joy1ID ){
-						gamepad = nullptr;
+						gamepad1 = nullptr;
+						joy1ID = 0;
+					}else if( event.joystickEvent.joystickID == joy2ID ){
+						gamepad2 = nullptr;
+						joy2ID = 0;
 					}
 					break;
 				}
@@ -126,16 +153,24 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE." );
 			}
 		}
 
+		
 		if( mainSystem->isRun() ){
 
 			if( mainSystem->isKeyPressed( gtKey::K_ESCAPE ) ){
 				mainSystem->shutdown(); 
 			}
 
-			if( gamepad ){
-				gamepad->poll();
-				if( gamepad->m_buttons[ 0 ] )
-					mainSystem->shutdown();
+			if( gamepad1 ){
+				gamepad1->poll();
+				if( gamepad1->m_buttons[ 0 ] )
+					gtLogWriter::printInfo( u"Joy1" );
+			}
+
+			if( gamepad2 ){
+				gamepad2->poll();
+				if( gamepad2->m_buttons[ 0 ] ){
+					gtLogWriter::printInfo( u"Joy2" );
+				}
 			}
 
 			driver->beginRender( true, gtColor( 1.0f, 0.0f, 0.f, 1.f ) ); // RGBA.
@@ -147,6 +182,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE." );
 
 			driver->endRender();
 		}
+
 	}
 	return 0;
 }

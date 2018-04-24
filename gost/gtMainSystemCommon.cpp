@@ -13,7 +13,11 @@ gtMainSystemCommon* gtMainSystemCommon::getInstance( void ){return s_instance;}
 gtMainSystemCommon::gtMainSystemCommon( void ) : m_isRun( true ),
 	m_stackTracer( nullptr ), 
 	m_systemWindowCount( 0u ),
-	m_driver( nullptr )
+	m_driver( nullptr ),
+	m_useTimer( false ),
+	m_timer( 0u ),
+	m_time( 0u ),
+	m_tick( 0u )
 {
 //	s_fileSystem = nullptr;
 
@@ -60,17 +64,14 @@ gtMainSystem*	gtMainSystem::getInstance( void ){
 	return gtMainSystemCommon::getInstance();
 }
 			
-	//	возвратит StackTracer
 gtStackTrace*	gtMainSystemCommon::getStackTracer( void ){
 	return m_stackTracer;
 }
 
-	//	gtStackTrace::dumpStackTrace
 void gtStackTrace::dumpStackTrace( void ){
 	gtMainSystemCommon::getInstance()->getStackTracer()->printStackTrace(2u,3u);
 }
 
-	//	Инициализирует видео драйвер
 gtPtr<gtDriver> gtMainSystemCommon::createVideoDriver( /*gtPlugin* videoDriverPlugin,*/ const gtDriverInfo& params, const GT_GUID& uid ){
 
 	auto plugin = this->getPluginSystem()->getPlugin( uid );
@@ -115,47 +116,31 @@ void gtMainSystemCommon::setMainVideoDriver( gtDriver* d ){
 	m_driver = d;
 }
 
-	//	Выделяет память размером size. Для освобождения нужно вызвать freeMemory
-	//	(void**)&i->data
 bool gtMainSystemCommon::allocateMemory( void** data, u32 size ){
 	GT_ASSERT1( !(*data), "Memory block is not free or pointer not set nullptr", "*data==nullptr" );
 	*data = std::malloc( size );
 
 	if( (*data) ){
-		//m_memTable.add( data, size );
 		return true;
 	}
 
 	return false;
 }
 
-	//	Освобождает память, выделенную с помощью allocateMemory
 void gtMainSystemCommon::freeMemory( void** data ){
 	GT_ASSERT1( *data, "Memory block is not allocated or set nullptr", "*data!=nullptr" );
-	//m_memTable.remove( data );
 	std::free( *data );
 	*data = nullptr;
 }
 
-	//	Загрузит gtImage, если расширение поддерживается хоть каким-то плагином
 gtPtr<gtImage>	gtMainSystemCommon::loadImage( const gtString& fileName ){
 	return gtPtrNew<gtImage>( this->m_pluginSystem->importImage( fileName ) );
 }
 
-	//	Загрузит gtImage плагином имеющим указанный код
 gtPtr<gtImage>	gtMainSystemCommon::loadImage( const gtString& fileName, const GT_GUID& pluginGUID ){
 	return gtPtrNew<gtImage>( this->m_pluginSystem->importImage( fileName, pluginGUID, true ) );
 }
 
-	//	Удаляет картинку из памяти
-//void		gtMainSystemCommon::removeImage( gtImage* image ){
-//	if( image ){
-//		image->release();
-//		image = nullptr;
-//	}
-//}
-
-	//	добавить событие. inFront если вперёд.
 void		gtMainSystemCommon::addEvent( const gtEvent& ev, u8 prior ){
 	if( m_events.data() )
 		m_events->addEvent( ev, prior );
@@ -237,7 +222,6 @@ const gtDeviceCreationParameters& gtMainSystemCommon::getDeviceCreationParameter
 
 bool gtMainSystemCommon::isRun( void ){
 	if( !m_isRun ){
-		
 	}
 	return m_isRun;
 }
@@ -440,8 +424,34 @@ void gtMainSystemCommon::XMLWrite( const gtString& file, gtXMLNode* rootNode, bo
 
 }
 
+void gtMainSystemCommon::setTimer( u32 milliseconds ){
+	m_useTimer = true;
+	m_timer = milliseconds;
+}
+
+void gtMainSystemCommon::updateTimer( void ){
+	static u32 t1 = 0u;
+	u32 t2 = getTime();
+	m_tick = t2 - t1;
+	t1 = t2;
+	if( m_useTimer ){
+		m_time += m_tick;
+
+		if( m_time > m_timer ){ // end
+			m_useTimer = false;
+
+			gtEvent e;
+			e.type = gtEventType::System;
+			e.systemEvent.eventID = GT_EVENT_SYSTEM_TIMER;
+			addEvent( e, 1 );
+
+			m_time = 0u;
+		}
+	}
+}
+
 /*
-Copyright (c) 2017, 2018 532235
+Copyright (c) 2017-2018 532235
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
 and associated documentation files (the "Software"), to deal in the Software without restriction, 
