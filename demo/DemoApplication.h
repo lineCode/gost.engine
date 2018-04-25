@@ -11,10 +11,22 @@ namespace demo{
 #ifdef GT_PLATFORM_WIN32
 		gtPtr<gtOutputWindow> m_outputWindow;
 #endif
+		gtGUISystem*		m_guiSystem;
+
+		gtPtr<gtDriver>		m_driver;
+
+		gtPtr<gtTexture>	m_backgroundTexture;
+		gtPtr<gtGUIShape>	m_backgroundShape;
 
 		demo::DemoApplicationEventConsumer m_eventConsumer;
 		gtDeviceCreationParameters  m_params;
 		gtWindowInfo				m_windowInfo;
+		gtDriverInfo				m_driverInfo;
+
+		bool initEngine( void );
+		bool initWindow( void );
+		bool initVideoDriver( void );
+		bool initBackground( void );
 
 	public:
 		DemoApplication( void );

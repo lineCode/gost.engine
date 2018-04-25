@@ -61,28 +61,20 @@ namespace gost{
 
 		}format;
 
-			//	ширина
 		u32		width;
 
-			//	высота
 		u32		height;
 
-			//	биты на пиксель
 		u32		bits;
 
-			//	количество mipMap. 1 - основная картинка
 		u32		mipCount;
 
-			// массив пикселей
 		u8	*	data;
 
-			// размер массива в байтах
 		u32		dataSize;
 
-			// широта картинки в пикселях
 		u32		pitch;
 
-			//	кадры (пока не реализовано)
 		u32		frames;
 
 		void	convert( Format newFormat ){
