@@ -1,14 +1,31 @@
 #pragma once
-#ifndef __GT_DEMO_CREATOR_H__
-#define __GT_DEMO_CREATOR_H__
+#ifndef __GT_DEMO_APP_H__
+#define __GT_DEMO_APP_H__
 
-#include <gost.h>
-using namespace gost;
+namespace demo{
 
-#include "DemoApplicationEventConsumer.h"
+	class DemoApplication{
 
-#include "DemoApplication.h"
-#include "DemoApplicationOutputWindow.h"
+		gtPtr<gtMainSystem>	m_mainSystem;
+		gtPtr<gtWindow>		m_mainWindow;
+#ifdef GT_PLATFORM_WIN32
+		gtPtr<gtOutputWindow> m_outputWindow;
+#endif
+
+		demo::DemoApplicationEventConsumer m_eventConsumer;
+		gtDeviceCreationParameters  m_params;
+		gtWindowInfo				m_windowInfo;
+
+	public:
+		DemoApplication( void );
+		~DemoApplication( void );
+
+		bool Init( void );
+		void Run( void );
+
+	};
+
+}
 
 #endif
 

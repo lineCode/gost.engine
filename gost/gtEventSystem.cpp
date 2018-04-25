@@ -27,41 +27,51 @@ bool gtEventSystem::isKeyDown( gtKey key ){
 	return m_keysDown[ (u32)key ];
 }
 
+void gtEventSystem::getKeyboardAndMouseStates( void ){
+	u32 cur = m_currentEvent;
+	if( m_numOfEvents ){
+		while( true ){
+			if( m_events[ cur ].type == gtEventType::None ){
+				break;
+			}
+
+			m_mouseState.bits.b0 = false;
+			m_mouseState.bits.b1 = false;
+			m_mouseState.bits.b2 = false;
+
+			switch( m_events[ cur ].type ){
+				case gtEventType::Keyboard:{
+					m_keysDown[ (u32)m_events[ cur ].keyboardEvent.key ] = m_events[ cur ].keyboardEvent.state.bits.b0;
+				}break;
+				case gtEventType::Mouse:{
+					m_mouseState.bits.b0 = m_events[ cur ].mouseEvent.state.bits.b0;
+					m_mouseState.bits.b1 = m_events[ cur ].mouseEvent.state.bits.b2;
+					m_mouseState.bits.b2 = m_events[ cur ].mouseEvent.state.bits.b4;
+					m_cursorPosition.x = m_events[ cur ].mouseEvent.x;
+					m_cursorPosition.y = m_events[ cur ].mouseEvent.y;
+				}break;
+				case gtEventType::None:
+				case gtEventType::Joystick:
+				case gtEventType::GUI:
+				case gtEventType::Window:
+				case gtEventType::System:
+				break;
+			}
+			++cur;
+		}
+	}
+}
+
 bool gtEventSystem::pollEvent( gtEvent& event ){
 	if( m_events[ m_currentEvent ].type == gtEventType::None )
 		return false;
 
-	m_mouseState.bits.b0 = false;
-	m_mouseState.bits.b1 = false;
-	m_mouseState.bits.b2 = false;
-
 	event = m_events[ m_currentEvent ];
-
 	m_events[ m_currentEvent ].type = gtEventType::None;
-
 	++m_currentEvent;
 
 	if( m_currentEvent == m_numOfEvents )
 			m_currentEvent = 0u;
-
-	switch( event.type ){
-		case gtEventType::Keyboard:{
-			m_keysDown[ (u32)event.keyboardEvent.key ] = event.keyboardEvent.state.bits.b0;
-		}break;
-		case gtEventType::Mouse:{
-			m_mouseState.bits.b0 = event.mouseEvent.state.bits.b0;
-			m_mouseState.bits.b1 = event.mouseEvent.state.bits.b2;
-			m_mouseState.bits.b2 = event.mouseEvent.state.bits.b4;
-			m_cursorPosition.x = event.mouseEvent.x;
-			m_cursorPosition.y = event.mouseEvent.y;
-		}break;
-		case gtEventType::None:
-        case gtEventType::Joystick:
-        case gtEventType::GUI:
-        case gtEventType::Window:
-        case gtEventType::System:
-        break;
-	}
 
 	return true;
 }

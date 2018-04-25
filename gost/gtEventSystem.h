@@ -29,6 +29,8 @@ namespace gost{
 		gtEventSystem( gtEventConsumer* uc = nullptr );
 		virtual ~gtEventSystem( void );
 
+		void getKeyboardAndMouseStates( void );
+
 		gtEventConsumer* getConsumer( void );
 
 		void runEventLoop( void );

@@ -1,14 +1,26 @@
 #pragma once
-#ifndef __GT_DEMO_CREATOR_H__
-#define __GT_DEMO_CREATOR_H__
+#ifndef __GT_DEMO_EVENTS_H__
+#define __GT_DEMO_EVENTS_H__
 
-#include <gost.h>
-using namespace gost;
+namespace demo{
 
-#include "DemoApplicationEventConsumer.h"
+	class DemoApplicationEventConsumer : public gtEventConsumer {
+	public:
+		DemoApplicationEventConsumer( void );
+		~DemoApplicationEventConsumer( void );
 
-#include "DemoApplication.h"
-#include "DemoApplicationOutputWindow.h"
+		void processEvent( const gtEvent& ev );
+
+		void processEventGUI( const gtEvent& ev );
+		void processEventJoystick( const gtEvent& ev );
+		void processEventKeyboard( const gtEvent& ev );
+		void processEventMouse( const gtEvent& ev );
+		void processEventSystem( const gtEvent& ev );
+		void processEventWindow( const gtEvent& ev );
+
+	};
+
+}
 
 #endif
 

@@ -1,15 +1,30 @@
 #pragma once
-#ifndef __GT_DEMO_CREATOR_H__
-#define __GT_DEMO_CREATOR_H__
+#ifndef __GT_DEMO_APP_OUT_H__
+#define __GT_DEMO_APP_OUT_H__
 
-#include <gost.h>
-using namespace gost;
+namespace demo{
 
-#include "DemoApplicationEventConsumer.h"
+#ifdef GT_PLATFORM_WIN32
+	class DemoApplicationOutputWindow : public gtOutputWindow {
+		HWND m_hWnd;
+		bool m_isInit;
+	public:
+		DemoApplicationOutputWindow( void );
+		~DemoApplicationOutputWindow( void );
 
-#include "DemoApplication.h"
-#include "DemoApplicationOutputWindow.h"
+		void	init( void );
+		void	shutdown( void );
+		bool	isInit( void );
+		void	show( void );
+		void	hide( void );
+		void	print( const gtString& text );
+		void	setWindowText( const gtString& title );
+		bool	isShow( void );
+	};
 
+}
+
+#endif
 #endif
 
 

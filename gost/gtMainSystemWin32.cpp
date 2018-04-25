@@ -80,13 +80,14 @@ namespace gost{
 			
 			this->updateWindowEvents();
 
+			this->m_events->getKeyboardAndMouseStates();
+
 			if( this->m_events->getConsumer() ){
 				this->m_events->runEventLoop();
 			}else{
 
 			}
 
-			
 			updateTimer();
 		}
 
