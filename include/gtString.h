@@ -390,7 +390,11 @@ namespace gost{
 		}
 
 		bool isSpace( u32 index ){
-			return (bool)std::isspace( (int)m_data[ index ] );
+			if( m_data[ index ] == (char_type)' ' ) return true;
+			if( m_data[ index ] == (char_type)'\r' ) return true;
+			if( m_data[ index ] == (char_type)'\n' ) return true;
+			if( m_data[ index ] == (char_type)'\t' ) return true;
+			return false;
 		}
 	};
 

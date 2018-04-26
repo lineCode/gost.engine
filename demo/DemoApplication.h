@@ -10,6 +10,11 @@ namespace demo{
 		DemoRun
 	};
 
+	struct DemoLang{
+		gtString m_langName;
+		gtArray<gtString> m_stringArray;
+	};
+
 	class DemoApplication{
 
 		gtPtr<gtMainSystem>			m_mainSystem;
@@ -26,18 +31,23 @@ namespace demo{
 		gtTexture*			m_gamepadTexture;
 		gtPtr<gtGUIShape>	m_backgroundShape;
 		gtPtr<gtGUIShape>	m_gamepadiconShape;
+		gtPtr<gtGUITextField> m_welcomeText;
+		gtPtr<gtGUIFont>	m_mainFont;
 
 		demo::DemoApplicationEventConsumer* m_eventConsumer;
 		gtDeviceCreationParameters  m_params;
 		gtWindowInfo				m_windowInfo;
 		gtDriverInfo				m_driverInfo;
 
-		DemoState	m_state;
+		DemoState					m_state;
+
+		gtArray<DemoLang>			m_stringArray;
 
 		bool initEngine( void );
 		bool initWindow( void );
 		bool initVideoDriver( void );
 		bool initMainMenu( void );
+		bool initStrings( void );
 
 		bool rebuildMainMenu( void );
 

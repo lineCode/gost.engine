@@ -450,7 +450,22 @@ namespace gost{
 			}
 		}
 
+		GT_FORCE_INLINE void getFilesFromDir( gtArray<gtString>* out, const gtString& dir ){
+			if( !gtFileSystem::existDir( dir ) ){
+				gtLogWriter::printWarning( u"Can not scan dir. Dir not exist." );
+				return;
+			}
+			gtFileSystem::scanDirBegin( dir );
+			gtFileSystem::DirObject obj;
+			while( gtFileSystem::getDirObject(&obj)){
+				if( obj.type == gtFileSystem::DirObjectType::file )
+					out->push_back( gtString( (char16_t*)obj.path ) );
+			}
+			gtFileSystem::scanDirEnd();
+		}
+
 	}
+
 
 }
 

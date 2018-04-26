@@ -35,6 +35,9 @@ bool demo::DemoApplication::Init( void ){
 	if( !initEngine() )
 		return false;
 
+	if( !initStrings() )
+		return false;
+
 	if( !initWindow() )
 		return false;
 
@@ -117,7 +120,63 @@ bool demo::DemoApplication::initMainMenu( void ){
 	else
 		gtLogWriter::printWarning( u"Can not load gamepad icon texture. File %s not exist.", gamepadPath.data() );
 	
+	m_mainFont	=	m_guiSystem->createBuiltInFont();
+
 	return rebuildMainMenu();
+}
+
+bool demo::DemoApplication::initStrings( void ){
+	gtArray<gtString> strings;
+	util::getFilesFromDir( &strings, u"../demo/langs/" );
+	
+	DemoLang dl;
+	u32 dlcount = -1;
+
+	u32 sz = strings.size();
+	for( u32 i = 0u; i < sz; ++i ){
+		auto ext = util::stringGetExtension( strings[ i ] );
+		util::stringToLower( ext );
+		if( ext == u"xml" ){
+
+			auto xml = m_mainSystem->XMLRead( strings[ i ] );
+			if( xml.data() ){
+
+				auto root = xml->getRootNode();
+				if( root ){
+					
+					if( root->name == u"Lang" ){
+
+						m_stringArray.push_back( dl );
+						++dlcount;
+
+						if( root->attributeList.size() ){
+							if( root->attributeList[ 0u ]->name == u"n" ){
+								m_stringArray[ dlcount ].m_langName = root->attributeList[ 0u ]->value;
+
+								auto nodes = xml->selectNodes( u"/Lang/t" );
+								if( nodes.size() ){
+
+									u32 nsz = nodes.size();
+									for( u32 i2 = 0u; i2 < nsz; ++i2 ){
+										if( nodes[ i2 ]->name == u"t" ){
+											m_stringArray[ dlcount ].m_stringArray.push_back( nodes[ i2 ]->text );
+										}
+									}
+
+								}
+							}
+						}
+
+					}
+
+				}
+
+			}
+
+		}
+	}
+
+	return true;
 }
 
 void demo::DemoApplication::RebuildGUI( void ){
@@ -155,13 +214,19 @@ bool demo::DemoApplication::rebuildMainMenu( void ){
 	}else{
 		m_backgroundShape->setColor( gtColor( gtColorBlack ) );
 	}
+	m_backgroundShape->setOpacity( 0.8f );
 
 	v4i gprc;
 	gprc.x = m_windowInfo.m_rect.z - 64;
 	gprc.y = m_windowInfo.m_rect.w - 41;
 	gprc.z = gprc.x + 64;
 	gprc.w = gprc.y + 41;
-	m_gamepadiconShape	= m_guiSystem->createShapeRectangle( gprc, gtColor( gtColorWhite ) );
+
+	gtColor gamepadColor(1.f);
+	if( m_gamepad )
+		gamepadColor = gtColor( gtColorGreen );
+	
+	m_gamepadiconShape	= m_guiSystem->createShapeRectangle( gprc, gamepadColor );
 	if( !m_gamepadiconShape.data() ){
 		gtLogWriter::printError( u"Can not create gamepad icon shape." );
 		return false;
@@ -171,7 +236,15 @@ bool demo::DemoApplication::rebuildMainMenu( void ){
 	}else{
 		m_gamepadiconShape->setColor( gtColor( gtColorBlack ) );
 	}
-	m_gamepadiconShape->setOpacity( 0.25f );
+	
+	if( !m_gamepad )
+		m_gamepadiconShape->setOpacity( 0.25f );
+
+	m_welcomeText = m_guiSystem->createTextField( v4i( 20, 0, 500.f * ( (f32)m_driverInfo.m_backBufferSize.x / (f32)wndrc.getWidth() ), 0 ), m_mainFont.data(), false );
+	m_welcomeText->setText( u"Use arrow keys for navigating and Enter for start. If you have gamepad, use button 3 (X) for start." );
+	m_welcomeText->setOpacity( 0.9f );
+	m_welcomeText->getBackgroundShape()->setOpacity( 0.f );
+
 	return true;
 }
 
@@ -207,6 +280,7 @@ void demo::DemoApplication::renderMainMenu( void ){
 	m_driver->setDepthState( false );
 	m_backgroundShape->render();
 	m_gamepadiconShape->render();
+	m_welcomeText->render();
 	m_driver->setDepthState();
 
 	m_driver->endRender();
@@ -215,7 +289,8 @@ void demo::DemoApplication::renderMainMenu( void ){
 void demo::DemoApplication::ScanGamepads( void ){
 	if( m_gamepadSystem.data() ){
 		m_mainSystem->setTimer( 300u );
-		m_gamepadSystem->update();
+		if( !m_gamepad )
+			m_gamepadSystem->update();
 	}
 }
 

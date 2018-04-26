@@ -14,6 +14,7 @@ gtGUITextFieldImpl::gtGUITextFieldImpl( gtDriver* d ):
 }
 
 gtGUITextFieldImpl::~gtGUITextFieldImpl( void ){
+	clear();
 }
 
 bool gtGUITextFieldImpl::init( const v4i& rect, gtGUIFont* font, bool fh, bool fw ){

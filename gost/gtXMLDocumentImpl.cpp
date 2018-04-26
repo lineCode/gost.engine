@@ -500,6 +500,7 @@ chponk:
 
 		++col;
 		++ptr;
+
 	}
 }
 
