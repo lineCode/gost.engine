@@ -65,12 +65,12 @@ bool gtGUIShapeImpl::initRectangle( const v4i& rect, const gtColor& color ){
 		v4->pos.zero(); 
 
 		auto params = m_driver->getParams();
-		auto * bbsz = &params.m_backBufferSize;
+		auto bbsz = params.m_outWindow->getRect();
 
-		f32 px = (2.f/bbsz->x);
-		f32 py = (2.f/bbsz->y);
-		f32 centerx = (bbsz->x*0.5f);
-		f32 centery = (bbsz->y*0.5f);
+		f32 px = (2.f/bbsz.getWidth());
+		f32 py = (2.f/bbsz.getHeight());
+		f32 centerx = (bbsz.getWidth()*0.5f);
+		f32 centery = (bbsz.getHeight()*0.5f);
 
 		auto width = rect.z - rect.x;
 		auto height = rect.w - rect.y;

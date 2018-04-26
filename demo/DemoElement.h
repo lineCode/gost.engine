@@ -1,17 +1,38 @@
 #pragma once
-#ifndef __GT_DEMO_CREATOR_H__
-#define __GT_DEMO_CREATOR_H__
+#ifndef __GT_DEMO_ELEMENT_H__
+#define __GT_DEMO_ELEMENT_H__
 
-#include <gost.h>
-using namespace gost;
+namespace demo{
 
-#include "DemoExample.h"
-#include "DemoElement.h"
+	class DemoElement{
 
-#include "DemoApplicationEventConsumer.h"
+		bool			m_isExample;
+		DemoExample*	m_example;
+		gtString		m_title;
+		gtString		m_description;
 
-#include "DemoApplication.h"
-#include "DemoApplicationOutputWindow.h"
+	public:
+
+		DemoElement():
+			m_isExample( false ),
+			m_example( nullptr )
+		{}
+
+		DemoElement( const gtString& title, const gtString& desc, 
+			bool isExample = false, DemoExample * example = nullptr ):
+			m_isExample( isExample ),
+			m_example( example ),
+			m_title( title ),
+			m_description( desc )
+		{}
+
+		void Run( void ){
+			m_example->Run();
+		}
+
+	};
+
+}
 
 #endif
 

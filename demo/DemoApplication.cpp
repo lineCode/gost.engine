@@ -195,12 +195,31 @@ void demo::DemoApplication::RebuildGUI( void ){
 bool demo::DemoApplication::rebuildMainMenu( void ){
 	v4i wndrc = m_mainWindow->getRect();
 
+	f32 wndH = (f32)wndrc.getHeight();
+	f32 wndW = (f32)wndrc.getWidth();
+
 	v4i bgrc;
-	bgrc.z = m_backgroundTexture->getWidth();
-	bgrc.w = m_backgroundTexture->getHeight();
 	if( m_backgroundTexture ){
-		bgrc.w *= (f32)m_backgroundTexture->getHeight() / (f32)wndrc.getHeight();
-		bgrc.z *= (f32)m_backgroundTexture->getWidth() / (f32)wndrc.getWidth();
+		f32 txH = (f32)m_backgroundTexture->getHeight();
+		f32 txW = (f32)m_backgroundTexture->getWidth();
+
+		bgrc.z = wndrc.getWidth();
+		bgrc.w = txH;
+
+
+		if( wndH > txH ){
+			f32 v = (wndH - txH)*0.5f;
+			bgrc.y += v;
+			bgrc.w += v;
+		}
+
+		if( wndW < txW ){
+			f32 v = (wndW/txW);
+			bgrc.w *= v;
+			v = (wndH * 0.5f) - (bgrc.w * 0.5f);
+			bgrc.y += v;
+			bgrc.w += v;
+		}
 	}
 
 	m_backgroundShape	= m_guiSystem->createShapeRectangle( bgrc, gtColor( gtColorWhite ) );
@@ -240,8 +259,8 @@ bool demo::DemoApplication::rebuildMainMenu( void ){
 	if( !m_gamepad )
 		m_gamepadiconShape->setOpacity( 0.25f );
 
-	m_welcomeText = m_guiSystem->createTextField( v4i( 20, 0, 500.f * ( (f32)m_driverInfo.m_backBufferSize.x / (f32)wndrc.getWidth() ), 0 ), m_mainFont.data(), false );
-	m_welcomeText->setText( u"Use arrow keys for navigating and Enter for start. If you have gamepad, use button 3 (X) for start." );
+	m_welcomeText = m_guiSystem->createTextField( v4i( 20, 0, f32(wndrc.getWidth()-20) * ( (f32)m_driverInfo.m_backBufferSize.x / (f32)wndrc.getWidth() ), 0 ), m_mainFont.data(), false );
+	m_welcomeText->setText( m_stringArray[ 0u ].m_stringArray[ 0u ] );
 	m_welcomeText->setOpacity( 0.9f );
 	m_welcomeText->getBackgroundShape()->setOpacity( 0.f );
 
