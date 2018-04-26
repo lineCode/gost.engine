@@ -83,7 +83,7 @@ void gtGUITextFieldImpl::render( void ){
 	if( m_visible ){
 
 		m_driver->scissorClear( false );
-		m_driver->scissorAdd( m_rect );
+		m_driver->scissorAdd( m_scissorRect );
 
 		if( m_showBackground )
 			m_backgroundShape->render();
@@ -172,6 +172,17 @@ void gtGUITextFieldImpl::update( void ){
 		t1 = m_backgroundShape->getTexture();
 		bgop = m_backgroundShape->getOpacity();
 	}
+
+	auto rc = m_driver->getParams().m_outWindow->getRect();
+	auto wndH = rc.getHeight();
+	auto wndW = rc.getWidth();
+
+	auto params = m_driver->getParams();
+	auto bbsz = params.m_outWindow->getRect();
+	m_scissorRect.x = m_rect.x;
+	m_scissorRect.y = m_rect.y;
+	m_scissorRect.z = m_rect.z * ((f32)m_driver->getParams().m_backBufferSize.x / (f32)wndW);
+	m_scissorRect.w = m_rect.w * ((f32)m_driver->getParams().m_backBufferSize.y / (f32)wndH);
 
 	m_backgroundShape = m_gui->createShapeRectangle( m_rect, gtColor( 0.f, 0.f, 0.f, 1.f ) );
 	m_backgroundShape->setTexture( t1 );

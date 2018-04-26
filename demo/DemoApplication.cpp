@@ -259,7 +259,7 @@ bool demo::DemoApplication::rebuildMainMenu( void ){
 	if( !m_gamepad )
 		m_gamepadiconShape->setOpacity( 0.25f );
 
-	m_welcomeText = m_guiSystem->createTextField( v4i( 20, 0, f32(wndrc.getWidth()-20) * ( (f32)m_driverInfo.m_backBufferSize.x / (f32)wndrc.getWidth() ), 0 ), m_mainFont.data(), false );
+	m_welcomeText = m_guiSystem->createTextField( v4i( 20, 0, wndrc.getWidth()-20, 0 ), m_mainFont.data(), false );
 	m_welcomeText->setText( m_stringArray[ 0u ].m_stringArray[ 0u ] );
 	m_welcomeText->setOpacity( 0.9f );
 	m_welcomeText->getBackgroundShape()->setOpacity( 0.f );
