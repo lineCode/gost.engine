@@ -9,7 +9,7 @@
 
 namespace gost{
 
-	constexpr u32 EventMax = 2048u;
+	constexpr u32 EventMax = 128u;
 
 	class gtEventSystem : public gtRefObject{
 

@@ -154,6 +154,8 @@ namespace gost{
 			m_gamepads.push_back( device );
 		}else{
 			m_gamepads[ oldID ] = device;
+			device.m_id  = oldID  + 1u;
+			m_gamepads[ oldID ].m_id = device.m_id;
 		}
 		device.m_gamepad->Acquire();
 		

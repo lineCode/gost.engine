@@ -6,11 +6,11 @@ namespace demo{
 
 	class DemoApplication;
 	struct DemoApplicationContext{
-		DemoApplication * app;
+		DemoApplication *	app;
 	};
 
 	class DemoApplicationEventConsumer : public gtEventConsumer {
-		DemoApplicationContext m_context;
+		DemoApplicationContext  m_context;
 	public:
 		DemoApplicationEventConsumer( DemoApplicationContext c );
 		~DemoApplicationEventConsumer( void );

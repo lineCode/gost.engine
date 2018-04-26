@@ -2,6 +2,7 @@
 
 demo::DemoApplication::DemoApplication( void ):
 m_guiSystem( nullptr ),
+m_gamepad( nullptr ),
 m_backgroundTexture( nullptr ),
 m_gamepadTexture( nullptr ),
 m_state( DemoState::MainMenu ){
@@ -26,8 +27,11 @@ demo::DemoApplication::~DemoApplication( void ){
 	delete m_eventConsumer;
 }
 
-bool demo::DemoApplication::Init( void ){
+gtMainSystem	*	demo::DemoApplication::GetMainSystem( void ){
+	return m_mainSystem.data();
+}
 
+bool demo::DemoApplication::Init( void ){
 	if( !initEngine() )
 		return false;
 
@@ -40,6 +44,8 @@ bool demo::DemoApplication::Init( void ){
 	if( !initMainMenu() )
 		return false;
 	
+	m_gamepadSystem	=	m_mainSystem->createGameContoller( GT_UID_INPUT_DINPUT );
+
 	return true;
 }
 
@@ -166,10 +172,17 @@ bool demo::DemoApplication::rebuildMainMenu( void ){
 		m_gamepadiconShape->setColor( gtColor( gtColorBlack ) );
 	}
 	m_gamepadiconShape->setOpacity( 0.25f );
+	return true;
 }
 
 void demo::DemoApplication::Run( void ){
+
+	m_mainSystem->setTimer( 300 );
+
 	while( m_mainSystem->update() ){
+
+		if( m_gamepad )
+			m_gamepad->poll();
 
 		switch( m_state ){
 		case demo::DemoState::MainMenu:
@@ -199,6 +212,26 @@ void demo::DemoApplication::renderMainMenu( void ){
 	m_driver->endRender();
 }
 
+void demo::DemoApplication::ScanGamepads( void ){
+	if( m_gamepadSystem.data() ){
+		m_mainSystem->setTimer( 300u );
+		m_gamepadSystem->update();
+	}
+}
+
+void demo::DemoApplication::ActivateGamepad( bool value, gtGameControllerDevice* g ){
+	if( value ){
+		if( !m_gamepad ){
+			m_gamepad = g;
+			m_gamepadiconShape->setColor( gtColorGreen );
+			m_gamepadiconShape->setOpacity( 1.f );
+		}
+	}else{
+		m_gamepad = nullptr;
+		m_gamepadiconShape->setColor( gtColorWhite );
+		m_gamepadiconShape->setOpacity( 0.25f );
+	}
+}
 
 /*
 Copyright (c) 2018 532235

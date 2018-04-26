@@ -12,14 +12,15 @@ namespace demo{
 
 	class DemoApplication{
 
-		gtPtr<gtMainSystem>	m_mainSystem;
-		gtPtr<gtWindow>		m_mainWindow;
+		gtPtr<gtMainSystem>			m_mainSystem;
+		gtPtr<gtWindow>				m_mainWindow;
 #ifdef GT_PLATFORM_WIN32
-		gtPtr<gtOutputWindow> m_outputWindow;
+		gtPtr<gtOutputWindow>		m_outputWindow;
 #endif
-		gtGUISystem*		m_guiSystem;
-
-		gtPtr<gtDriver>		m_driver;
+		gtGUISystem*				m_guiSystem;
+		gtPtr<gtDriver>				m_driver;
+		gtPtr<gtGameController>		m_gamepadSystem;
+		gtGameControllerDevice *	m_gamepad;
 
 		gtTexture*			m_backgroundTexture;
 		gtTexture*			m_gamepadTexture;
@@ -50,6 +51,10 @@ namespace demo{
 		void Run( void );
 
 		void RebuildGUI( void );
+		void ScanGamepads( void );
+		void ActivateGamepad( bool, gtGameControllerDevice* d = nullptr );
+
+		gtMainSystem	*	GetMainSystem( void );
 	};
 
 }

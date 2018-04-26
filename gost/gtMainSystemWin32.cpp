@@ -76,7 +76,6 @@ namespace gost{
 
 	bool	gtMainSystemWin32::update( void ){
 		if( m_isRun ){
-			this->m_events->resetEvents();
 			
 			this->updateWindowEvents();
 
@@ -84,6 +83,7 @@ namespace gost{
 
 			if( this->m_events->getConsumer() ){
 				this->m_events->runEventLoop();
+				this->m_events->resetEvents();
 			}else{
 
 			}
