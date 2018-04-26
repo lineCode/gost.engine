@@ -1,6 +1,6 @@
 #include "creator.h"
 
-demo::DemoApplicationEventConsumer::DemoApplicationEventConsumer( void ){
+demo::DemoApplicationEventConsumer::DemoApplicationEventConsumer( DemoApplicationContext c ):m_context( c ){
 }
 demo::DemoApplicationEventConsumer::~DemoApplicationEventConsumer( void ){
 }
@@ -56,6 +56,7 @@ void demo::DemoApplicationEventConsumer::processEventSystem( const gtEvent& ev )
 void demo::DemoApplicationEventConsumer::processEventWindow( const gtEvent& ev ){
 	switch( ev.windowEvent.eventID ){
 	case GT_EVENT_WINDOW_MAXIMIZE:{
+		m_context.app->RebuildGUI();
 	}break;
 	case GT_EVENT_WINDOW_MINIMIZE:{
 	}break;
@@ -64,8 +65,10 @@ void demo::DemoApplicationEventConsumer::processEventWindow( const gtEvent& ev )
 	case GT_EVENT_WINDOW_PAINT:{
 	}break;
 	case GT_EVENT_WINDOW_RESTORE:{
+		m_context.app->RebuildGUI();
 	}break;
 	case GT_EVENT_WINDOW_SIZING:{
+		m_context.app->RebuildGUI();
 	}break;
 	}
 }

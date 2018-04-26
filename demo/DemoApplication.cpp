@@ -1,7 +1,15 @@
 #include "creator.h"
 
 demo::DemoApplication::DemoApplication( void ):
-m_guiSystem( nullptr ){
+m_guiSystem( nullptr ),
+m_backgroundTexture( nullptr ),
+m_gamepadTexture( nullptr ),
+m_state( DemoState::MainMenu ){
+
+	demo::DemoApplicationContext context;
+	context.app = this;
+	m_eventConsumer = new demo::DemoApplicationEventConsumer( context );
+
 #ifdef GT_PLATFORM_WIN32
 	m_params.m_device_type = gtDeviceType::Windows;
 
@@ -11,10 +19,12 @@ m_guiSystem( nullptr ){
 	m_params.m_device_type = gtDeviceType::Linux;
 #endif
 
-	m_params.m_consumer		= &m_eventConsumer;
+	m_params.m_consumer		= m_eventConsumer;
 }
 
-demo::DemoApplication::~DemoApplication( void ){}
+demo::DemoApplication::~DemoApplication( void ){
+	delete m_eventConsumer;
+}
 
 bool demo::DemoApplication::Init( void ){
 
@@ -27,7 +37,7 @@ bool demo::DemoApplication::Init( void ){
 	if( !initVideoDriver() )
 		return false;
 
-	if( !initBackground() )
+	if( !initMainMenu() )
 		return false;
 	
 	return true;
@@ -87,44 +97,106 @@ bool demo::DemoApplication::initVideoDriver( void ){
 	return true;
 }
 
-bool demo::DemoApplication::initBackground( void ){
+bool demo::DemoApplication::initMainMenu( void ){
 	gtString logoPath(u"../demo/media/logo.png");
+	gtString gamepadPath(u"../demo/media/gamepad.png");
+
 	if( gtFileSystem::existFile( logoPath ) )
 		m_backgroundTexture = m_driver->getTexture( logoPath );
-	else{
+	else
 		gtLogWriter::printWarning( u"Can not load background texture. File %s not exist.", logoPath.data() );
+
+	if( gtFileSystem::existFile( gamepadPath ) )
+		m_gamepadTexture = m_driver->getTexture( gamepadPath );
+	else
+		gtLogWriter::printWarning( u"Can not load gamepad icon texture. File %s not exist.", gamepadPath.data() );
+	
+	return rebuildMainMenu();
+}
+
+void demo::DemoApplication::RebuildGUI( void ){
+
+	switch( m_state ){
+	case demo::DemoState::MainMenu:
+		rebuildMainMenu();
+		break;
+	case demo::DemoState::DemoMenu:
+		break;
+	case demo::DemoState::DemoRun:
+		break;
+	}
+}
+
+bool demo::DemoApplication::rebuildMainMenu( void ){
+	v4i wndrc = m_mainWindow->getRect();
+
+	v4i bgrc;
+	bgrc.z = m_backgroundTexture->getWidth();
+	bgrc.w = m_backgroundTexture->getHeight();
+	if( m_backgroundTexture ){
+		bgrc.w *= (f32)m_backgroundTexture->getHeight() / (f32)wndrc.getHeight();
+		bgrc.z *= (f32)m_backgroundTexture->getWidth() / (f32)wndrc.getWidth();
 	}
 
-	m_backgroundShape	= m_guiSystem->createShapeRectangle( m_windowInfo.m_rect, gtColor( gtColorWhite ) );
+	m_backgroundShape	= m_guiSystem->createShapeRectangle( bgrc, gtColor( gtColorWhite ) );
 	if( !m_backgroundShape.data() ){
-		gtLogWriter::printError( u"Can not background shape." );
+		gtLogWriter::printError( u"Can not create background shape." );
 		return false;
 	}
 
-	if( m_backgroundTexture.data() ){
-		m_backgroundShape->setTexture( m_backgroundTexture.data() );
+	if( m_backgroundTexture ){
+		m_backgroundShape->setTexture( m_backgroundTexture );
 	}else{
 		m_backgroundShape->setColor( gtColor( gtColorBlack ) );
 	}
 
-	return true;
+	v4i gprc;
+	gprc.x = m_windowInfo.m_rect.z - 64;
+	gprc.y = m_windowInfo.m_rect.w - 41;
+	gprc.z = gprc.x + 64;
+	gprc.w = gprc.y + 41;
+	m_gamepadiconShape	= m_guiSystem->createShapeRectangle( gprc, gtColor( gtColorWhite ) );
+	if( !m_gamepadiconShape.data() ){
+		gtLogWriter::printError( u"Can not create gamepad icon shape." );
+		return false;
+	}
+	if( m_gamepadTexture ){
+		m_gamepadiconShape->setTexture( m_gamepadTexture );
+	}else{
+		m_gamepadiconShape->setColor( gtColor( gtColorBlack ) );
+	}
+	m_gamepadiconShape->setOpacity( 0.25f );
 }
 
 void demo::DemoApplication::Run( void ){
 	while( m_mainSystem->update() ){
-		if( m_mainSystem->isKeyPressed( gtKey::K_ESCAPE ) ){
-			m_mainSystem->shutdown();
+
+		switch( m_state ){
+		case demo::DemoState::MainMenu:
+			if( m_mainSystem->isKeyPressed( gtKey::K_ESCAPE ) ){
+				m_mainSystem->shutdown();
+			}
+			renderMainMenu();
+			break;
+		case demo::DemoState::DemoMenu:
+			break;
+		case demo::DemoState::DemoRun:
+			break;
 		}
 
-		m_driver->beginRender();
-
-		m_driver->setDepthState( false );
-		m_backgroundShape->render();
-		m_driver->setDepthState();
-
-		m_driver->endRender();
 
 	}
+}
+
+void demo::DemoApplication::renderMainMenu( void ){
+	m_driver->beginRender();
+
+	m_driver->setDepthState( false );
+	m_backgroundShape->render();
+	m_gamepadiconShape->render();
+	m_driver->setDepthState();
+
+	m_driver->endRender();
 }
 
 

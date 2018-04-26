@@ -4,9 +4,15 @@
 
 namespace demo{
 
+	class DemoApplication;
+	struct DemoApplicationContext{
+		DemoApplication * app;
+	};
+
 	class DemoApplicationEventConsumer : public gtEventConsumer {
+		DemoApplicationContext m_context;
 	public:
-		DemoApplicationEventConsumer( void );
+		DemoApplicationEventConsumer( DemoApplicationContext c );
 		~DemoApplicationEventConsumer( void );
 
 		void processEvent( const gtEvent& ev );

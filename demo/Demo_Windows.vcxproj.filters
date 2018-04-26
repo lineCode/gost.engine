@@ -41,5 +41,8 @@
     <ClInclude Include="DemoApplicationEventConsumer.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="DemoExample.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

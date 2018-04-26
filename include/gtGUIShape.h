@@ -9,6 +9,7 @@ namespace gost{
 	};
 
 	class gtTexture;
+	class gtMaterial;
 	class gtGUIShape : public gtGUIObject{
 	protected:
 		gtGUIShapeType m_shapeType;
@@ -20,6 +21,7 @@ namespace gost{
 
 		virtual void setTexture( gtTexture* texture ) = 0;
 		virtual gtTexture* getTexture( void ) = 0;
+		virtual gtMaterial* getMaterial( void ) = 0;
 
 		virtual gtGUIShapeType getShapeType( void ){
 			return m_shapeType;

@@ -1,39 +1,26 @@
 #pragma once
-#ifndef __GT_GUI_SHAPE_IMPL_H__
-#define __GT_GUI_SHAPE_IMPL_H__
+#ifndef __GT_DEMO_EXAMPLE_H__
+#define __GT_DEMO_EXAMPLE_H__
 
-namespace gost{
+namespace demo{
 
-
-	class gtGUIShapeImpl : public gtGUIShape{
-		gtMainSystem *	m_mainSystem;
-		gtModelSystem*	m_modelSystem;
-		gtDriver*		m_driver;
-		gtRenderModel*	m_model;
-		gtMaterial*		m_material;
-
-		gtVertexType	vt[ 4 ];
-
+	class DemoExample{
 	public:
 
-		gtGUIShapeImpl( gtDriver * );
-		~gtGUIShapeImpl( void );
-		
-		bool initRectangle( const v4i& rect, const gtColor& color );
+		virtual bool Init( void ) = 0;
 
-		void render( void );
-		void setOpacity( f32 opacity = 1.f );
-		f32  getOpacity( void );
+		virtual void Restart( void ) = 0;
 
-		void setColor( const gtColor& color );
-		void setTexture( gtTexture* texture );
-		gtTexture* getTexture( void );
-		gtMaterial* getMaterial( void );
+		virtual void Shutdown( void ) = 0;
+
+		virtual void Run( void ) = 0;
+
 	};
 
 }
 
 #endif
+
 
 /*
 Copyright (c) 2018 532235

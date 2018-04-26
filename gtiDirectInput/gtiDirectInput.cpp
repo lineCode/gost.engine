@@ -1,12 +1,4 @@
-//GoST
-
 #include "common.h"
-
-#ifdef _DEBUG
-#pragma comment(lib, "gost_d.lib")
-#else 
-#pragma comment(lib, "gost.lib")
-#endif
 
 extern "C"{
 	__declspec(dllexport) void	GetPluginInfo( gtPluginInfo& info ){
@@ -41,7 +33,6 @@ namespace gost{
 	gtGameControllerImpl::gtGameControllerImpl( void ):
 		m_mainSystem( gtMainSystem::getInstance() ),
 		m_directInput( nullptr ),
-	//	m_JoyConfig( nullptr ),
 		m_dll(nullptr)
 	{
 		m_type = gtGameControllerType::Gamepad;

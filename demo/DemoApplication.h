@@ -4,6 +4,12 @@
 
 namespace demo{
 
+	enum class DemoState : u32 {
+		MainMenu,
+		DemoMenu,
+		DemoRun
+	};
+
 	class DemoApplication{
 
 		gtPtr<gtMainSystem>	m_mainSystem;
@@ -15,18 +21,26 @@ namespace demo{
 
 		gtPtr<gtDriver>		m_driver;
 
-		gtPtr<gtTexture>	m_backgroundTexture;
+		gtTexture*			m_backgroundTexture;
+		gtTexture*			m_gamepadTexture;
 		gtPtr<gtGUIShape>	m_backgroundShape;
+		gtPtr<gtGUIShape>	m_gamepadiconShape;
 
-		demo::DemoApplicationEventConsumer m_eventConsumer;
+		demo::DemoApplicationEventConsumer* m_eventConsumer;
 		gtDeviceCreationParameters  m_params;
 		gtWindowInfo				m_windowInfo;
 		gtDriverInfo				m_driverInfo;
 
+		DemoState	m_state;
+
 		bool initEngine( void );
 		bool initWindow( void );
 		bool initVideoDriver( void );
-		bool initBackground( void );
+		bool initMainMenu( void );
+
+		bool rebuildMainMenu( void );
+
+		void renderMainMenu( void );
 
 	public:
 		DemoApplication( void );
@@ -35,6 +49,7 @@ namespace demo{
 		bool Init( void );
 		void Run( void );
 
+		void RebuildGUI( void );
 	};
 
 }

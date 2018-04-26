@@ -38,6 +38,10 @@ void gtGUIShapeImpl::setColor( const gtColor& color ){
 	m_material->textureLayer[ 0u ].diffuseColor = color;
 }
 
+gtMaterial* gtGUIShapeImpl::getMaterial( void ){
+	return m_material;
+}
+
 bool gtGUIShapeImpl::initRectangle( const v4i& rect, const gtColor& color ){
 	const u16 u[6u] = {0U,1U,2U,0U,2U,3U};
 	gtPtr<gtModel> soft = m_modelSystem->createEmpty( gtStrideStandart, &vt[ 0u ] );
