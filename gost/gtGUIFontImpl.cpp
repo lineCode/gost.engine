@@ -53,7 +53,7 @@ bool gtGUIFontImpl::init( const gtString& font, gtImage * image ){
 		
 
 		if( m_driver ){
-			auto texure = m_driver->createTexture( image, gtTextureFilterType::FILTER_PPP );
+			auto texure = m_driver->createTexture( image, gtTextureFilterType::FILTER_LLL );
 			if( !texure.data() ){
 				gtLogWriter::printWarning( u"Can not texture for font" );
 				return false;

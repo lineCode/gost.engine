@@ -44,6 +44,8 @@ namespace gost{
 		void		render( void );
 		void		setOpacity( f32 opacity = 1.f );
 		f32			getOpacity( void );
+
+		const v4i&	getRect( void );
 	};
 
 }

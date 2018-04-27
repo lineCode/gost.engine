@@ -22,6 +22,7 @@ namespace gost{
 
 		virtual gtGUIShape* getBackgroundShape( void ) = 0;
 
+		virtual const v4i&	getRect( void ) = 0;
 
 		/*
 		virtual void setAutoScroll( bool enable = true ) = 0;

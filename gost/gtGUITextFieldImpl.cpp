@@ -158,7 +158,7 @@ void gtGUITextFieldImpl::update( void ){
 	}
 
 	if( !m_fixedH ){
-		if( m_font->getHeight() + v >= m_rect.w ){
+		if( m_font->getHeight() + v >= m_rect.getHeight() ){
 			m_rect.w = m_rect.y + m_font->getHeight() + v;
 		}
 	}
@@ -179,15 +179,23 @@ void gtGUITextFieldImpl::update( void ){
 
 	auto params = m_driver->getParams();
 	auto bbsz = params.m_outWindow->getRect();
-	m_scissorRect.x = m_rect.x;
-	m_scissorRect.y = m_rect.y;
-	m_scissorRect.z = m_rect.z * ((f32)m_driver->getParams().m_backBufferSize.x / (f32)wndW);
-	m_scissorRect.w = m_rect.w * ((f32)m_driver->getParams().m_backBufferSize.y / (f32)wndH);
+
+	f32 mulx = ((f32)m_driver->getParams().m_backBufferSize.x / (f32)wndW);
+	f32 muly = ((f32)m_driver->getParams().m_backBufferSize.y / (f32)wndH);
+
+	m_scissorRect.x = m_rect.x * mulx;
+	m_scissorRect.y = m_rect.y * muly;
+	m_scissorRect.z = m_rect.z * mulx;
+	m_scissorRect.w = m_rect.w * muly;
 
 	m_backgroundShape = m_gui->createShapeRectangle( m_rect, gtColor( 0.f, 0.f, 0.f, 1.f ) );
 	m_backgroundShape->setTexture( t1 );
 	m_backgroundShape->setColor( m_bgColor );
 	m_backgroundShape->setOpacity( bgop );
+}
+
+const v4i&	gtGUITextFieldImpl::getRect( void ){
+	return m_rect;
 }
 
 /*

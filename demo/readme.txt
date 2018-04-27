@@ -1,6 +1,3 @@
-Общее
-Камера
-
 Common
 |-API
 ||-Initialization

@@ -5,6 +5,7 @@ m_guiSystem( nullptr ),
 m_gamepad( nullptr ),
 m_backgroundTexture( nullptr ),
 m_gamepadTexture( nullptr ),
+m_languageID( 0u ),
 m_state( DemoState::MainMenu ){
 
 	demo::DemoApplicationContext context;
@@ -192,6 +193,29 @@ void demo::DemoApplication::RebuildGUI( void ){
 	}
 }
 
+void demo::DemoApplication::rebuildMainMenuFirstColon( void ){
+	v4i r = m_welcomeText->getRect();
+	u32 top = r.w+50;
+	for( u32 i = 0u; i < 12u; ++i ){
+		v4i rc;
+		rc.x = 10;
+		rc.y = top;
+		rc.z = 200;
+
+		m_leftColonEntity[ i ] = m_guiSystem->createTextField( rc, m_mainFont.data(), false );
+		m_leftColonEntity[ i ]->setText( m_stringArray[ m_languageID ].m_stringArray[ i + 1u ] );
+		m_leftColonEntity[ i ]->getBackgroundShape()->setOpacity( 0.8f );
+	//	m_leftColonEntity[ i ]->getBackgroundShape()->setColor( gtColorAqua );
+
+		top = m_leftColonEntity[ i ]->getRect().w-1;
+	}
+
+	m_leftColorShape = m_guiSystem->createShapeRectangle( v4i( 8, r.w + 48, 202, top + 2 ), gtColorGreen );
+}
+
+void demo::DemoApplication::rebuildMainMenuSecondColon( void ){
+}
+
 bool demo::DemoApplication::rebuildMainMenu( void ){
 	v4i wndrc = m_mainWindow->getRect();
 
@@ -203,7 +227,7 @@ bool demo::DemoApplication::rebuildMainMenu( void ){
 		f32 txH = (f32)m_backgroundTexture->getHeight();
 		f32 txW = (f32)m_backgroundTexture->getWidth();
 
-		bgrc.z = wndrc.getWidth();
+		bgrc.z = wndW;
 		bgrc.w = txH;
 
 
@@ -236,8 +260,8 @@ bool demo::DemoApplication::rebuildMainMenu( void ){
 	m_backgroundShape->setOpacity( 0.8f );
 
 	v4i gprc;
-	gprc.x = m_windowInfo.m_rect.z - 64;
-	gprc.y = m_windowInfo.m_rect.w - 41;
+	gprc.x = wndW - 64;
+	gprc.y = wndH - 41;
 	gprc.z = gprc.x + 64;
 	gprc.w = gprc.y + 41;
 
@@ -260,9 +284,12 @@ bool demo::DemoApplication::rebuildMainMenu( void ){
 		m_gamepadiconShape->setOpacity( 0.25f );
 
 	m_welcomeText = m_guiSystem->createTextField( v4i( 20, 0, wndrc.getWidth()-20, 0 ), m_mainFont.data(), false );
-	m_welcomeText->setText( m_stringArray[ 0u ].m_stringArray[ 0u ] );
+	m_welcomeText->setText( m_stringArray[ m_languageID ].m_stringArray[ 0u ] );
 	m_welcomeText->setOpacity( 0.9f );
 	m_welcomeText->getBackgroundShape()->setOpacity( 0.f );
+
+	rebuildMainMenuFirstColon();
+	rebuildMainMenuSecondColon();
 
 	return true;
 }
@@ -300,6 +327,12 @@ void demo::DemoApplication::renderMainMenu( void ){
 	m_backgroundShape->render();
 	m_gamepadiconShape->render();
 	m_welcomeText->render();
+
+	m_leftColorShape->render();
+	for( u32 i = 0u; i < 12u; ++i ){
+		m_leftColonEntity[ i ]->render();
+	}
+
 	m_driver->setDepthState();
 
 	m_driver->endRender();

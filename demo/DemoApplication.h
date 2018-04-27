@@ -33,6 +33,12 @@ namespace demo{
 		gtPtr<gtGUIShape>	m_gamepadiconShape;
 		gtPtr<gtGUITextField> m_welcomeText;
 		gtPtr<gtGUIFont>	m_mainFont;
+		
+		gtPtr<gtGUITextField>	m_leftColonEntity[12u];
+		gtPtr<gtGUIShape>		m_leftColorShape;
+
+
+		u32		m_languageID;
 
 		demo::DemoApplicationEventConsumer* m_eventConsumer;
 		gtDeviceCreationParameters  m_params;
@@ -49,6 +55,8 @@ namespace demo{
 		bool initMainMenu( void );
 		bool initStrings( void );
 
+		void rebuildMainMenuFirstColon( void );
+		void rebuildMainMenuSecondColon( void );
 		bool rebuildMainMenu( void );
 
 		void renderMainMenu( void );
