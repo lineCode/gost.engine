@@ -48,13 +48,17 @@ namespace demo{
 		gtPtr<gtGUIFont>	m_mainFont;
 		
 		gtPtr<gtGUITextField>	m_leftColonEntity[12u];
-		gtPtr<gtGUIShape>		m_leftColorShape;
+		gtPtr<gtGUIShape>		m_leftColonShape;
+		gtPtr<gtGUIShape>		m_rightColonShape;
+		gtPtr<gtGUITextField>	m_rightColonDefaultText;
+		v4i						m_rightColonDefaultRect;
 
 
 		u32		m_languageID;
 		s32		m_activeDemoType; //left colon
 		s32		m_activeDemoTypeSelected;
 		s32		m_activeDemoSelected;
+		s32		m_rightColonID; // first textfield have demo id
 
 		demo::DemoApplicationEventConsumer* m_eventConsumer;
 		gtDeviceCreationParameters  m_params;
@@ -68,6 +72,7 @@ namespace demo{
 
 		bool		m_DPad[ 4u ];
 		bool		m_DPadOnce;
+		f32			m_delta;
 
 		bool initEngine( void );
 		bool initWindow( void );
@@ -81,11 +86,13 @@ namespace demo{
 		void rebuildMainMenuSecondColon( void );
 		bool rebuildMainMenu( void );
 
-		void updateLeftColon( void );
+		void updateColons( void );
 
 		void inputMainMenu( void );
 		bool inputGamepadMainMenuUp( void );
 		bool inputGamepadMainMenuDown( void );
+		bool inputGamepadMainMenuLeft( void );
+		bool inputGamepadMainMenuRight( void );
 
 		void renderMainMenu( void );
 
