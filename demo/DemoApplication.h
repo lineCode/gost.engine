@@ -2,6 +2,19 @@
 #ifndef __GT_DEMO_APP_H__
 #define __GT_DEMO_APP_H__
 
+#define DEMO_COMMON 0u
+#define DEMO_EVENTS 1u
+#define DEMO_AUDIO 2u
+#define DEMO_VIDEO 3u
+#define DEMO_PICTURES 4u
+#define DEMO_MODELS 5u
+#define DEMO_INPUT 6u
+#define DEMO_GUI 7u
+#define DEMO_GAME_OBJECTS 8u
+#define DEMO_FILE_SYSTEM 9u
+#define DEMO_OTHER 10u
+#define DEMO_DEMONSTRATION 11u
+
 namespace demo{
 
 	enum class DemoState : u32 {
@@ -39,6 +52,9 @@ namespace demo{
 
 
 		u32		m_languageID;
+		s32		m_activeDemoType; //left colon
+		s32		m_activeDemoTypeSelected;
+		s32		m_activeDemoSelected;
 
 		demo::DemoApplicationEventConsumer* m_eventConsumer;
 		gtDeviceCreationParameters  m_params;
@@ -48,6 +64,10 @@ namespace demo{
 		DemoState					m_state;
 
 		gtArray<DemoLang>			m_stringArray;
+		gtArray<DemoElement>		m_demoArrays[ 12u ];
+
+		bool		m_DPad[ 4u ];
+		bool		m_DPadOnce;
 
 		bool initEngine( void );
 		bool initWindow( void );
@@ -55,9 +75,17 @@ namespace demo{
 		bool initMainMenu( void );
 		bool initStrings( void );
 
+		void addDemo( u32 index, const demo::DemoElement& element );
+
 		void rebuildMainMenuFirstColon( void );
 		void rebuildMainMenuSecondColon( void );
 		bool rebuildMainMenu( void );
+
+		void updateLeftColon( void );
+
+		void inputMainMenu( void );
+		bool inputGamepadMainMenuUp( void );
+		bool inputGamepadMainMenuDown( void );
 
 		void renderMainMenu( void );
 

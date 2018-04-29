@@ -431,6 +431,12 @@
     <ClInclude Include="..\..\include\BuiltInFont.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\gtPackOff.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\gtPackOn.h">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\..\gost\ReadMe.txt">

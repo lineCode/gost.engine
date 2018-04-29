@@ -316,6 +316,8 @@
 		#define HIWORD(x)((u16)((((u32)(x))>>16)&0xffff))
 	#endif
 
+	
+
 #endif
 
 /*

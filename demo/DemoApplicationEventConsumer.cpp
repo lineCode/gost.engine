@@ -1,6 +1,7 @@
 #include "creator.h"
 
 demo::DemoApplicationEventConsumer::DemoApplicationEventConsumer( DemoApplicationContext c ):m_context( c ){
+	memset( m_keys, 0, 256u );
 }
 demo::DemoApplicationEventConsumer::~DemoApplicationEventConsumer( void ){
 }
@@ -44,6 +45,7 @@ void demo::DemoApplicationEventConsumer::processEventJoystick( const gtEvent& ev
 }
 
 void demo::DemoApplicationEventConsumer::processEventKeyboard( const gtEvent& ev ){
+	m_keys[ (u32)ev.keyboardEvent.key ] = ev.keyboardEvent.state.bits.b0;
 }
 
 void demo::DemoApplicationEventConsumer::processEventMouse( const gtEvent& ev ){
@@ -75,6 +77,12 @@ void demo::DemoApplicationEventConsumer::processEventWindow( const gtEvent& ev )
 		m_context.app->RebuildGUI();
 	}break;
 	}
+}
+
+bool demo::DemoApplicationEventConsumer::keyDown( gtKey key ){
+	bool v = m_keys[ (u32)key ];
+	m_keys[ (u32)key ] = false;
+	return v;
 }
 
 /*

@@ -6,6 +6,9 @@ m_gamepad( nullptr ),
 m_backgroundTexture( nullptr ),
 m_gamepadTexture( nullptr ),
 m_languageID( 0u ),
+m_activeDemoType( 0 ),
+m_activeDemoTypeSelected( 0 ),
+m_activeDemoSelected( -1 ),
 m_state( DemoState::MainMenu ){
 
 	demo::DemoApplicationContext context;
@@ -22,6 +25,9 @@ m_state( DemoState::MainMenu ){
 #endif
 
 	m_params.m_consumer		= m_eventConsumer;
+
+	memset(m_DPad,0,4u);
+	m_DPadOnce = false;
 }
 
 demo::DemoApplication::~DemoApplication( void ){
@@ -49,6 +55,17 @@ bool demo::DemoApplication::Init( void ){
 		return false;
 	
 	m_gamepadSystem	=	m_mainSystem->createGameContoller( GT_UID_INPUT_DINPUT );
+
+	addDemo( DEMO_COMMON, demo::DemoElement( u"Basic initialization", u"Full code located in GoSTDir/Demo/Samples/BasicInitialization.cpp" ) );
+	addDemo( DEMO_COMMON, demo::DemoElement( u"Time", u"time" ) );
+	
+	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Hierarchy", u"Parent-child" ) );
+	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Camera", u"Parent-child" ) );
+	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Sprite", u"Parent-child" ) );
+	
+	addDemo( DEMO_GUI, demo::DemoElement( u"FPS", u"Simple way to show FPS" ) );
+	
+	addDemo( DEMO_OTHER, demo::DemoElement( u"Supported formats", u"Get supported formats" ) );
 
 	return true;
 }
@@ -181,7 +198,6 @@ bool demo::DemoApplication::initStrings( void ){
 }
 
 void demo::DemoApplication::RebuildGUI( void ){
-
 	switch( m_state ){
 	case demo::DemoState::MainMenu:
 		rebuildMainMenu();
@@ -204,13 +220,16 @@ void demo::DemoApplication::rebuildMainMenuFirstColon( void ){
 
 		m_leftColonEntity[ i ] = m_guiSystem->createTextField( rc, m_mainFont.data(), false );
 		m_leftColonEntity[ i ]->setText( m_stringArray[ m_languageID ].m_stringArray[ i + 1u ] );
-		m_leftColonEntity[ i ]->getBackgroundShape()->setOpacity( 0.8f );
+		m_leftColonEntity[ i ]->getBackgroundShape()->setOpacity( 0.f );
 	//	m_leftColonEntity[ i ]->getBackgroundShape()->setColor( gtColorAqua );
 
 		top = m_leftColonEntity[ i ]->getRect().w-1;
 	}
 
-	m_leftColorShape = m_guiSystem->createShapeRectangle( v4i( 8, r.w + 48, 202, top + 2 ), gtColorGreen );
+	m_leftColorShape = m_guiSystem->createShapeRectangle( v4i( 8, r.w + 48, 202, top + 2 ), gtColorGrey );
+	m_leftColorShape->setOpacity( 0.f );
+
+	updateLeftColon();
 }
 
 void demo::DemoApplication::rebuildMainMenuSecondColon( void ){
@@ -300,14 +319,20 @@ void demo::DemoApplication::Run( void ){
 
 	while( m_mainSystem->update() ){
 
-		if( m_gamepad )
+		if( m_gamepad ){
 			m_gamepad->poll();
+			m_DPad[ 0u ] = m_gamepad->m_POV1 == 0 || m_gamepad->m_lY == 0;
+			m_DPad[ 1u ] = m_gamepad->m_POV1 == 9000;
+			m_DPad[ 2u ] = m_gamepad->m_POV1 == 18000 || m_gamepad->m_lY == 0xffff;
+			m_DPad[ 3u ] = m_gamepad->m_POV1 == 27000;
+			printf( "%i\n", m_gamepad->m_lY );
+			if( m_gamepad->m_POV1 == -1 && m_gamepad->m_lY == 32767 )
+				m_DPadOnce = false;
+		}
 
 		switch( m_state ){
 		case demo::DemoState::MainMenu:
-			if( m_mainSystem->isKeyPressed( gtKey::K_ESCAPE ) ){
-				m_mainSystem->shutdown();
-			}
+			inputMainMenu();
 			renderMainMenu();
 			break;
 		case demo::DemoState::DemoMenu:
@@ -358,6 +383,71 @@ void demo::DemoApplication::ActivateGamepad( bool value, gtGameControllerDevice*
 		m_gamepadiconShape->setColor( gtColorWhite );
 		m_gamepadiconShape->setOpacity( 0.25f );
 	}
+}
+
+void demo::DemoApplication::addDemo( u32 index, const demo::DemoElement& element ){
+	m_demoArrays[ index ].push_back( element );
+}
+
+void demo::DemoApplication::updateLeftColon( void ){
+	for( u32 i = 0u; i < 12u; ++i ){
+		m_leftColonEntity[ i ]->getBackgroundShape()->setOpacity( 0.f );
+		m_leftColonEntity[ i ]->setBackgroundColor( gtColorBlack );
+		m_leftColonEntity[ i ]->setTextColor( gtColorLightGray );
+	}
+
+	if( !m_activeDemoType ){
+		m_leftColorShape->setOpacity( 0.125f );
+		m_leftColonEntity[ m_activeDemoTypeSelected ]->getBackgroundShape()->setOpacity( 1.f );
+		m_leftColonEntity[ m_activeDemoTypeSelected ]->setBackgroundColor( gtColorLightGray );
+		m_leftColonEntity[ m_activeDemoTypeSelected ]->setTextColor( gtColorBlack );
+	}else{
+		m_leftColorShape->setOpacity( 0.f );
+	}
+}
+
+void demo::DemoApplication::inputMainMenu( void ){
+	if( m_mainSystem->isKeyPressed( gtKey::K_ESCAPE ) ){
+		m_mainSystem->shutdown();
+	}
+
+	if( m_eventConsumer->keyDown( gtKey::K_UP ) || inputGamepadMainMenuUp() ){
+		--m_activeDemoTypeSelected;
+		if( m_activeDemoTypeSelected == -1 )
+			m_activeDemoTypeSelected = 11;
+		updateLeftColon();
+	}
+
+	if( m_eventConsumer->keyDown( gtKey::K_DOWN ) || inputGamepadMainMenuDown() ){
+		++m_activeDemoTypeSelected;
+		if( m_activeDemoTypeSelected > 11 )
+			m_activeDemoTypeSelected = 0;
+		updateLeftColon();
+	}
+}
+
+bool demo::DemoApplication::inputGamepadMainMenuUp( void ){
+	if( m_gamepad ){
+		if( !m_DPad[ 0u ] ) return false;
+
+		if( !m_DPadOnce ){
+			m_DPadOnce = true;
+			return m_DPad[ 0u ];
+		}
+	}
+	return false;
+}
+
+bool demo::DemoApplication::inputGamepadMainMenuDown( void ){
+	if( m_gamepad ){
+		if( !m_DPad[ 2u ] ) return false;
+
+		if( !m_DPadOnce ){
+			m_DPadOnce = true;
+			return m_DPad[ 2u ];
+		}
+	}
+	return false;
 }
 
 /*

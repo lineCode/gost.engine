@@ -30,6 +30,28 @@ extern "C"{
 
 namespace gost{
 
+	BOOL CALLBACK EnumObjectsCallback( const DIDEVICEOBJECTINSTANCE* pdidoi,
+                                   VOID* pContext ){
+		LPDIRECTINPUTDEVICE8 g_pJoystick = ( LPDIRECTINPUTDEVICE8 )pContext;
+
+		static int nSliderCount = 0;
+		static int nPOVCount = 0;
+
+		if( pdidoi->dwType & DIDFT_AXIS ){
+			DIPROPRANGE diprg;
+			diprg.diph.dwSize = sizeof( DIPROPRANGE );
+			diprg.diph.dwHeaderSize = sizeof( DIPROPHEADER );
+			diprg.diph.dwHow = DIPH_BYID;
+			diprg.diph.dwObj = pdidoi->dwType;
+			diprg.lMin = -1000;
+			diprg.lMax = +1000;
+
+			if( FAILED( g_pJoystick->SetProperty( DIPROP_RANGE, &diprg.diph ) ) )
+				return DIENUM_STOP;
+		}
+		return DIENUM_CONTINUE;
+	}
+
 	gtGameControllerImpl::gtGameControllerImpl( void ):
 		m_mainSystem( gtMainSystem::getInstance() ),
 		m_directInput( nullptr ),
@@ -146,6 +168,11 @@ namespace gost{
                                                 DISCL_FOREGROUND ) ) ){
 			gtLogWriter::printWarning( u"Can not set cooperative level for gamepad. Error code: %u", hr );
 		}
+
+		 if( FAILED( hr = gamepad->EnumObjects( EnumObjectsCallback,
+                                               ( VOID* )gamepad, DIDFT_ALL ) ) ){
+			gtLogWriter::printWarning( u"Can not set enum objects. Error code: %u", hr );
+		 }
 
 		device.m_active = true;
 		device.m_gamepad = gamepad;

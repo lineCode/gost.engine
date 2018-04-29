@@ -11,6 +11,7 @@ namespace demo{
 
 	class DemoApplicationEventConsumer : public gtEventConsumer {
 		DemoApplicationContext  m_context;
+		bool	m_keys[ 256u ];
 	public:
 		DemoApplicationEventConsumer( DemoApplicationContext c );
 		~DemoApplicationEventConsumer( void );
@@ -23,6 +24,8 @@ namespace demo{
 		void processEventMouse( const gtEvent& ev );
 		void processEventSystem( const gtEvent& ev );
 		void processEventWindow( const gtEvent& ev );
+
+		bool keyDown( gtKey key );
 
 	};
 
