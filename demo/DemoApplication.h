@@ -48,6 +48,7 @@ namespace demo{
 		gtPtr<gtGUIFont>	m_mainFont;
 		
 		gtPtr<gtGUITextField>	m_leftColonEntity[12u];
+		gtPtr<gtGUITextField>	m_rightColonEntity[24u];
 		gtPtr<gtGUIShape>		m_leftColonShape;
 		gtPtr<gtGUIShape>		m_rightColonShape;
 		gtPtr<gtGUITextField>	m_rightColonDefaultText;
@@ -58,7 +59,8 @@ namespace demo{
 		s32		m_activeDemoType; //left colon
 		s32		m_activeDemoTypeSelected;
 		s32		m_activeDemoSelected;
-		s32		m_rightColonID; // first textfield have demo id
+		s32		m_rightColonFirstID; // first textfield have demo id
+		s32		m_currentDemoColonIndex;
 
 		demo::DemoApplicationEventConsumer* m_eventConsumer;
 		gtDeviceCreationParameters  m_params;
@@ -72,6 +74,7 @@ namespace demo{
 
 		bool		m_DPad[ 4u ];
 		bool		m_DPadOnce;
+		bool		m_gamepadButtons[32];
 		f32			m_delta;
 
 		bool initEngine( void );
@@ -82,8 +85,7 @@ namespace demo{
 
 		void addDemo( u32 index, const demo::DemoElement& element );
 
-		void rebuildMainMenuFirstColon( void );
-		void rebuildMainMenuSecondColon( void );
+		void rebuildMainMenuColons( void );
 		bool rebuildMainMenu( void );
 
 		void updateColons( void );
@@ -93,6 +95,8 @@ namespace demo{
 		bool inputGamepadMainMenuDown( void );
 		bool inputGamepadMainMenuLeft( void );
 		bool inputGamepadMainMenuRight( void );
+		bool inputGamepadMainMenuEnter( void );
+		bool inputGamepadMainMenuEscape( void );
 
 		void renderMainMenu( void );
 

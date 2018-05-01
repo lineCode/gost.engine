@@ -8,8 +8,9 @@ m_gamepadTexture( nullptr ),
 m_languageID( 0u ),
 m_activeDemoType( 0 ),
 m_activeDemoTypeSelected( 0 ),
-m_activeDemoSelected( -1 ),
-m_rightColonID( 0 ),
+m_activeDemoSelected( 0 ),
+m_rightColonFirstID( 0 ),
+m_currentDemoColonIndex( 0 ),
 m_state( DemoState::MainMenu ),
 m_delta( 0.f ){
 
@@ -29,6 +30,7 @@ m_delta( 0.f ){
 	m_params.m_consumer		= m_eventConsumer;
 
 	memset(m_DPad,0,4u);
+	memset(m_gamepadButtons,0,32u);
 	m_DPadOnce = false;
 }
 
@@ -59,11 +61,78 @@ bool demo::DemoApplication::Init( void ){
 	m_gamepadSystem	=	m_mainSystem->createGameContoller( GT_UID_INPUT_DINPUT );
 
 	addDemo( DEMO_COMMON, demo::DemoElement( u"Basic initialization", u"Full code located in GoSTDir/Demo/Samples/BasicInitialization.cpp" ) );
+	addDemo( DEMO_COMMON, demo::DemoElement( u"1Time", u"time" ) );
+	addDemo( DEMO_COMMON, demo::DemoElement( u"2Time", u"time" ) );
+	addDemo( DEMO_COMMON, demo::DemoElement( u"3Time", u"time" ) );
+	addDemo( DEMO_COMMON, demo::DemoElement( u"4Time", u"time" ) );
+	addDemo( DEMO_COMMON, demo::DemoElement( u"5Time", u"time" ) );
+	addDemo( DEMO_COMMON, demo::DemoElement( u"6Time", u"time" ) );
+	addDemo( DEMO_COMMON, demo::DemoElement( u"7Time", u"time" ) );
 	addDemo( DEMO_COMMON, demo::DemoElement( u"Time", u"time" ) );
+	addDemo( DEMO_COMMON, demo::DemoElement( u"Time", u"time" ) );
+	addDemo( DEMO_COMMON, demo::DemoElement( u"Time", u"time" ) );
+	addDemo( DEMO_COMMON, demo::DemoElement( u"Time", u"time" ) );
+	addDemo( DEMO_COMMON, demo::DemoElement( u"Time", u"time" ) );
+	addDemo( DEMO_COMMON, demo::DemoElement( u"Time", u"time" ) );
+	addDemo( DEMO_COMMON, demo::DemoElement( u"Time", u"time" ) );
+	addDemo( DEMO_COMMON, demo::DemoElement( u"Time", u"time" ) );
+	addDemo( DEMO_COMMON, demo::DemoElement( u"Time", u"time" ) );
+	addDemo( DEMO_COMMON, demo::DemoElement( u"Time", u"time" ) );
+	addDemo( DEMO_COMMON, demo::DemoElement( u"Time", u"time" ) );
+	addDemo( DEMO_COMMON, demo::DemoElement( u"Basic initialization", u"Full code located in GoSTDir/Demo/Samples/BasicInitialization.cpp" ) );
+	addDemo( DEMO_COMMON, demo::DemoElement( u"Basic initialization", u"Full code located in GoSTDir/Demo/Samples/BasicInitialization.cpp" ) );
+	addDemo( DEMO_COMMON, demo::DemoElement( u"Time", u"time" ) );
+	addDemo( DEMO_COMMON, demo::DemoElement( u"Time", u"time" ) );
+	addDemo( DEMO_COMMON, demo::DemoElement( u"Basic initialization", u"Full code located in GoSTDir/Demo/Samples/BasicInitialization.cpp" ) );
 	
 	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Hierarchy", u"Parent-child" ) );
 	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Camera", u"Parent-child" ) );
 	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Sprite", u"Parent-child" ) );
+	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Elem1", u"text" ) );
+	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Elem2", u"text" ) );
+	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Elem3", u"text" ) );
+	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Elem4", u"text" ) );
+	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Elem5", u"text" ) );
+	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Elem6", u"text" ) );
+	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Elem7", u"text" ) );
+	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Elem8", u"text" ) );
+	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Elem9", u"text" ) );
+	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Elem10", u"text" ) );
+	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Elem11", u"text" ) );
+	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Elem12", u"text" ) );
+	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Elem13", u"text" ) );
+	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Elem14", u"text" ) );
+	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Elem15", u"text" ) );
+	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Elem16", u"text" ) );
+	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Elem17", u"text" ) );
+	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Elem18", u"text" ) );
+	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Elem19", u"text" ) );
+	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Elem20", u"text" ) );
+	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Elem21", u"text" ) );
+	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Elem22", u"text" ) );
+	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Elem23", u"text" ) );
+	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Elem24", u"text" ) );
+	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Elem25", u"text" ) );
+	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Elem26", u"text" ) );
+	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Elem27", u"text" ) );
+	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Elem28", u"text" ) );
+	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Elem29", u"text" ) );
+	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Elem30", u"text" ) );
+	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Elem31", u"text" ) );
+	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Elem32", u"text" ) );
+	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Elem33", u"text" ) );
+	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Elem34", u"text" ) );
+	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Elem35", u"text" ) );
+	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Elem36", u"text" ) );
+	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Elem37", u"text" ) );
+	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Elem38", u"text" ) );
+	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Elem39", u"text" ) );
+	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Elem40", u"text" ) );
+	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Elem41", u"text" ) );
+	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Elem42", u"text" ) );
+	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Elem43", u"text" ) );
+	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Elem44", u"text" ) );
+	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Elem45", u"text" ) );
 	
 	addDemo( DEMO_GUI, demo::DemoElement( u"FPS", u"Simple way to show FPS" ) );
 	
@@ -211,7 +280,7 @@ void demo::DemoApplication::RebuildGUI( void ){
 	}
 }
 
-void demo::DemoApplication::rebuildMainMenuFirstColon( void ){
+void demo::DemoApplication::rebuildMainMenuColons( void ){
 	v4i r = m_welcomeText->getRect();
 	u32 top = r.w+50;
 	for( u32 i = 0u; i < 12u; ++i ){
@@ -239,14 +308,25 @@ void demo::DemoApplication::rebuildMainMenuFirstColon( void ){
 
 	m_rightColonDefaultText = m_guiSystem->createTextField( m_rightColonDefaultRect, m_mainFont.data(), false );
 	m_rightColonDefaultText->setText( u"Nothing here :(" );
-	//m_rightColonDefaultText->setOpacity( 0.f );
 	m_rightColonDefaultText->setTextColor( gtColorLightGray );
+
+	top = r.w+50;
+	for( u32 i = 0u; i < 24u; ++i ){
+		v4i rc;
+		rc.x = 210;
+		rc.y = top;
+		rc.z = 500;
+
+		m_rightColonEntity[ i ] = m_guiSystem->createTextField( rc, m_mainFont.data(), false );
+		m_rightColonEntity[ i ]->setText( u" " );
+		m_rightColonEntity[ i ]->getBackgroundShape()->setOpacity( 0.f );
+
+		top = m_rightColonEntity[ i ]->getRect().w-1;
+	}
 
 	updateColons();
 }
 
-void demo::DemoApplication::rebuildMainMenuSecondColon( void ){
-}
 
 bool demo::DemoApplication::rebuildMainMenu( void ){
 	v4i wndrc = m_mainWindow->getRect();
@@ -320,8 +400,7 @@ bool demo::DemoApplication::rebuildMainMenu( void ){
 	m_welcomeText->setOpacity( 0.9f );
 	m_welcomeText->getBackgroundShape()->setOpacity( 0.f );
 
-	rebuildMainMenuFirstColon();
-	rebuildMainMenuSecondColon();
+	rebuildMainMenuColons();
 
 	return true;
 }
@@ -355,6 +434,11 @@ void demo::DemoApplication::Run( void ){
 				timer_input = 0.f;
 				timer_input_limit = timer_input_limit_first;
 				m_DPadOnce = false;
+			}
+			for( u32 i = 0u; i < 32u; ++i ){
+				if( !m_gamepad->m_buttons[ i ] ){
+					m_gamepadButtons[ i ] = false;
+				}
 			}
 		}
 
@@ -395,6 +479,10 @@ void demo::DemoApplication::renderMainMenu( void ){
 	m_rightColonShape->render();
 	m_rightColonDefaultText->render();
 
+	for( u32 i = 0u; i < 24u; ++i ){
+		m_rightColonEntity[ i ]->render();
+	}
+
 	m_driver->setDepthState();
 
 	m_driver->endRender();
@@ -427,21 +515,53 @@ void demo::DemoApplication::addDemo( u32 index, const demo::DemoElement& element
 }
 
 void demo::DemoApplication::updateColons( void ){
+
 	for( u32 i = 0u; i < 12u; ++i ){
 		m_leftColonEntity[ i ]->getBackgroundShape()->setOpacity( 0.f );
 		m_leftColonEntity[ i ]->setBackgroundColor( gtColorBlack );
 		m_leftColonEntity[ i ]->setTextColor( gtColorLightGray );
 	}
+	for( u32 i = 0u; i < 24u; ++i ){
+		m_rightColonEntity[ i ]->setOpacity( 0.f );
+		m_rightColonEntity[ i ]->setBackgroundColor( gtColorBlack );
+		m_rightColonEntity[ i ]->setTextColor( gtColorLightGray );
+	}
 
 	if( !m_activeDemoType ){//left
+
 		m_rightColonShape->setOpacity( 0.f );
 		m_leftColonShape->setOpacity( 0.15f );
 		m_leftColonEntity[ m_activeDemoTypeSelected ]->getBackgroundShape()->setOpacity( 1.f );
 		m_leftColonEntity[ m_activeDemoTypeSelected ]->setBackgroundColor( gtColorLightGray );
 		m_leftColonEntity[ m_activeDemoTypeSelected ]->setTextColor( gtColorBlack );
 
-		if( m_demoArrays[ m_activeDemoTypeSelected ].size() ){
+		if( m_demoArrays[ m_activeDemoTypeSelected ].size() ){ 
 			m_rightColonDefaultText->setOpacity( 0.f );
+
+			v4i r = m_welcomeText->getRect();
+			u32 top = r.w+50;
+			u32 sz = m_demoArrays[ m_activeDemoTypeSelected ].size();
+			for( u32 i = 0u; i < sz; ++i ){
+
+
+				u32 actualIndex = i;
+				if( actualIndex > 23u ) break;
+
+				v4i rc;
+				rc.x = 210;
+				rc.y = top;
+				rc.z = 500;
+
+				m_rightColonEntity[ actualIndex ] = m_guiSystem->createTextField( rc, m_mainFont.data(), false );
+				m_rightColonEntity[ actualIndex ]->setFont( m_mainFont.data() );
+
+				m_rightColonEntity[ actualIndex ]->setText( m_demoArrays[m_activeDemoTypeSelected][m_rightColonFirstID+actualIndex].GetTitle() );
+
+				m_rightColonEntity[ actualIndex ]->getBackgroundShape()->setOpacity( 0.f );
+
+				top = m_rightColonEntity[ actualIndex ]->getRect().w-1;
+			}
+
 		}else{
 			m_rightColonDefaultText->setOpacity( 1.f );
 			m_rightColonDefaultText->getBackgroundShape()->setOpacity( 0.f );
@@ -450,8 +570,77 @@ void demo::DemoApplication::updateColons( void ){
 	}else{//right
 
 		if( m_demoArrays[ m_activeDemoTypeSelected ].size() ){
+
+			v4i rc;
+			rc.x = m_rightColonEntity[ 0u ]->getRect().x;
+			rc.y = m_rightColonEntity[ 0u ]->getRect().y;
+			u32 sz = m_demoArrays[ m_activeDemoTypeSelected ].size();
+
+			if( m_activeDemoSelected == sz ){
+				m_activeDemoSelected = 0;
+				m_rightColonFirstID = 0;
+				m_currentDemoColonIndex = 0;
+			}else if( m_activeDemoSelected < 0 ){
+				m_activeDemoSelected = sz - 1;
+			}
+
+			if( m_currentDemoColonIndex < 0 ){
+				if( m_activeDemoSelected == sz - 1 ){
+					if( sz > 23 ){
+						m_currentDemoColonIndex = 23;
+						m_rightColonFirstID = m_activeDemoSelected - 23;
+					}else{
+						m_currentDemoColonIndex = 0;
+					}
+				}else{
+					m_currentDemoColonIndex = 0;
+					--m_rightColonFirstID;
+				}
+			}else if( m_currentDemoColonIndex == 24 ){
+
+				if( m_activeDemoSelected > 23 ){
+					++m_rightColonFirstID;
+					m_currentDemoColonIndex = 23;
+				}else{
+					m_currentDemoColonIndex = 0;
+				}
+
+			}
+
+			for( u32 i = 0u; i < 24u; ++i ){
+				if( i == sz ) break;
+
+				m_rightColonEntity[ i ]->setText( 
+					m_demoArrays[m_activeDemoTypeSelected][ m_rightColonFirstID + i ].GetTitle() );
+			}
+
+			for( u32 i = 0u; i < sz; ++i ){
+				if( i > 23u ) break;
+
+				m_rightColonEntity[ i ]->setOpacity( 1.f );
+				m_rightColonEntity[ i ]->getBackgroundShape()->setOpacity( 0.f );
+				m_rightColonEntity[ i ]->setBackgroundColor( gtColorBlack );
+				m_rightColonEntity[ i ]->setTextColor( gtColorLightGray );
+
+				rc.z = m_rightColonEntity[ i ]->getRect().z;
+				rc.w = m_rightColonEntity[ i ]->getRect().w;
+			}
+
+			if( rc.w < m_rightColonDefaultRect.w )
+				rc.w = m_rightColonDefaultRect.w;
+
+			m_rightColonShape = m_guiSystem->createShapeRectangle( rc, gtColorGrey );
+
+			m_rightColonEntity[ m_currentDemoColonIndex ]->getBackgroundShape()->setOpacity( 1.f );
+			m_rightColonEntity[ m_currentDemoColonIndex ]->setBackgroundColor( gtColorLightGray );
+			m_rightColonEntity[ m_currentDemoColonIndex ]->setTextColor( gtColorBlack );
+
+			m_rightColonDefaultText->setOpacity( 0.f );
+			
 		}else{
 			m_rightColonShape = m_guiSystem->createShapeRectangle( m_rightColonDefaultRect, gtColorGrey );
+			m_rightColonDefaultText->setOpacity( 1.f );
+			m_rightColonDefaultText->getBackgroundShape()->setOpacity( 0.f );
 		}
 
 		m_leftColonShape->setOpacity( 0.f );
@@ -469,13 +658,33 @@ void demo::DemoApplication::inputMainMenu( void ){
 		}
 	}
 
+	if( inputGamepadMainMenuEscape() ){
+		if( m_activeDemoType ){
+			--m_activeDemoType;
+			updateColons();
+		}
+	}
+
+	if( m_eventConsumer->keyDown( gtKey::K_ENTER ) || inputGamepadMainMenuEnter() ){
+		if( !m_activeDemoType ){
+			++m_activeDemoType;
+			updateColons();
+		}
+	}
+
 	if( m_eventConsumer->keyDown( gtKey::K_UP ) || inputGamepadMainMenuUp() ){
 		if( !m_activeDemoType ){
 			--m_activeDemoTypeSelected;
 			if( m_activeDemoTypeSelected == -1 )
 				m_activeDemoTypeSelected = 11;
-			updateColons();
+
+			m_currentDemoColonIndex = m_activeDemoSelected = 0;
+			m_rightColonFirstID = 0;
+		}else{// right colon in focus
+			--m_activeDemoSelected;
+			--m_currentDemoColonIndex;
 		}
+		updateColons();
 	}
 
 	if( m_eventConsumer->keyDown( gtKey::K_DOWN ) || inputGamepadMainMenuDown() ){
@@ -483,8 +692,14 @@ void demo::DemoApplication::inputMainMenu( void ){
 			++m_activeDemoTypeSelected;
 			if( m_activeDemoTypeSelected > 11 )
 				m_activeDemoTypeSelected = 0;
-			updateColons();
+
+			m_currentDemoColonIndex = m_activeDemoSelected = 0;
+			m_rightColonFirstID = 0;
+		}else{// right colon in focus
+			++m_activeDemoSelected;
+			++m_currentDemoColonIndex;
 		}
+		updateColons();
 	}
 
 	if( m_eventConsumer->keyDown( gtKey::K_LEFT ) || inputGamepadMainMenuLeft() ){
@@ -544,6 +759,32 @@ bool demo::DemoApplication::inputGamepadMainMenuLeft( void ){
 		if( !m_DPadOnce ){
 			m_DPadOnce = true;
 			return m_DPad[ 3u ];
+		}
+	}
+	return false;
+}
+
+// cross
+bool demo::DemoApplication::inputGamepadMainMenuEnter( void ){
+	if( m_gamepad ){
+		if( m_gamepad->m_buttons[ 2 ] ){
+			if( !m_gamepadButtons[ 2 ] ){
+				m_gamepadButtons[ 2 ] = true;
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
+// triangle
+bool demo::DemoApplication::inputGamepadMainMenuEscape( void ){
+	if( m_gamepad ){
+		if( m_gamepad->m_buttons[ 0 ] ){
+			if( !m_gamepadButtons[ 0 ] ){
+				m_gamepadButtons[ 0 ] = true;
+				return true;
+			}
 		}
 	}
 	return false;

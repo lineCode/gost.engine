@@ -30,6 +30,14 @@ namespace demo{
 			m_example->Run();
 		}
 
+		const gtString& GetTitle( void ) const {
+			return m_title;
+		}
+
+		const gtString& GetDesc( void ) const {
+			return m_description;
+		}
+
 	};
 
 }
