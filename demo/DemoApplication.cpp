@@ -324,6 +324,18 @@ void demo::DemoApplication::rebuildMainMenuColons( void ){
 		top = m_rightColonEntity[ i ]->getRect().w-1;
 	}
 
+	r = m_rightColonEntity[ 0 ]->getRect();
+	
+	v4i wndrc = m_mainWindow->getRect();
+
+	
+	m_descriptionRect.x = r.z;
+	m_descriptionRect.y = r.y;
+	m_descriptionRect.z = wndrc.getWidth()-10;
+	m_descriptionRect.w = wndrc.getHeight()-10;
+
+	m_descriptionBackgroundShape = m_guiSystem->createShapeRectangle( m_descriptionRect, gtColorGrey );
+
 	updateColons();
 }
 
@@ -399,6 +411,7 @@ bool demo::DemoApplication::rebuildMainMenu( void ){
 	m_welcomeText->setText( m_stringArray[ m_languageID ].m_stringArray[ 0u ] );
 	m_welcomeText->setOpacity( 0.9f );
 	m_welcomeText->getBackgroundShape()->setOpacity( 0.f );
+
 
 	rebuildMainMenuColons();
 
@@ -483,6 +496,9 @@ void demo::DemoApplication::renderMainMenu( void ){
 		m_rightColonEntity[ i ]->render();
 	}
 
+	m_descriptionBackgroundShape->render();
+	m_description->render();
+
 	m_driver->setDepthState();
 
 	m_driver->endRender();
@@ -529,6 +545,7 @@ void demo::DemoApplication::updateColons( void ){
 
 	if( !m_activeDemoType ){//left
 
+		m_descriptionBackgroundShape->setOpacity( 0.f );
 		m_rightColonShape->setOpacity( 0.f );
 		m_leftColonShape->setOpacity( 0.15f );
 		m_leftColonEntity[ m_activeDemoTypeSelected ]->getBackgroundShape()->setOpacity( 1.f );
@@ -566,10 +583,14 @@ void demo::DemoApplication::updateColons( void ){
 			m_rightColonDefaultText->setOpacity( 1.f );
 			m_rightColonDefaultText->getBackgroundShape()->setOpacity( 0.f );
 		}
+		
+		m_description = m_guiSystem->createTextField( v4i( 0, 0, 0, 0 ), m_mainFont.data(), false );
 
 	}else{//right
 
 		if( m_demoArrays[ m_activeDemoTypeSelected ].size() ){
+
+			m_descriptionBackgroundShape->setOpacity( 0.85f );
 
 			v4i rc;
 			rc.x = m_rightColonEntity[ 0u ]->getRect().x;
@@ -637,14 +658,20 @@ void demo::DemoApplication::updateColons( void ){
 
 			m_rightColonDefaultText->setOpacity( 0.f );
 			
+			m_description = m_guiSystem->createTextField( m_descriptionRect, m_mainFont.data(), false );
+			m_description->setText( m_demoArrays[m_activeDemoTypeSelected][m_activeDemoSelected].GetDesc() );
+			m_description->setTextColor( gtColorBlack );
+			m_description->getBackgroundShape()->setOpacity( 0.f );
 		}else{
 			m_rightColonShape = m_guiSystem->createShapeRectangle( m_rightColonDefaultRect, gtColorGrey );
 			m_rightColonDefaultText->setOpacity( 1.f );
 			m_rightColonDefaultText->getBackgroundShape()->setOpacity( 0.f );
+			m_description = m_guiSystem->createTextField( v4i( 0, 0, 0, 0 ), m_mainFont.data(), false );
 		}
 
 		m_leftColonShape->setOpacity( 0.f );
 		m_rightColonShape->setOpacity( 0.15f );
+
 	}
 }
 

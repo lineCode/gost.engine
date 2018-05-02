@@ -54,6 +54,10 @@ namespace demo{
 		gtPtr<gtGUITextField>	m_rightColonDefaultText;
 		v4i						m_rightColonDefaultRect;
 
+		gtPtr<gtGUIShape>		m_descriptionBackgroundShape;
+		gtPtr<gtGUITextField>	m_description;
+		v4i						m_descriptionRect;
+
 
 		u32		m_languageID;
 		s32		m_activeDemoType; //left colon
