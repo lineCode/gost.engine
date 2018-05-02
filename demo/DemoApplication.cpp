@@ -60,84 +60,8 @@ bool demo::DemoApplication::Init( void ){
 	
 	m_gamepadSystem	=	m_mainSystem->createGameContoller( GT_UID_INPUT_DINPUT );
 
-	addDemo( DEMO_COMMON, demo::DemoElement( u"Basic initialization", u"Full code located in GoSTDir/Demo/Samples/BasicInitialization.cpp" ) );
-	addDemo( DEMO_COMMON, demo::DemoElement( u"1Time", u"time" ) );
-	addDemo( DEMO_COMMON, demo::DemoElement( u"2Time", u"time" ) );
-	addDemo( DEMO_COMMON, demo::DemoElement( u"3Time", u"time" ) );
-	addDemo( DEMO_COMMON, demo::DemoElement( u"4Time", u"time" ) );
-	addDemo( DEMO_COMMON, demo::DemoElement( u"5Time", u"time" ) );
-	addDemo( DEMO_COMMON, demo::DemoElement( u"6Time", u"time" ) );
-	addDemo( DEMO_COMMON, demo::DemoElement( u"7Time", u"time" ) );
-	addDemo( DEMO_COMMON, demo::DemoElement( u"Time", u"time" ) );
-	addDemo( DEMO_COMMON, demo::DemoElement( u"Time", u"time" ) );
-	addDemo( DEMO_COMMON, demo::DemoElement( u"Time", u"time" ) );
-	addDemo( DEMO_COMMON, demo::DemoElement( u"Time", u"time" ) );
-	addDemo( DEMO_COMMON, demo::DemoElement( u"Time", u"time" ) );
-	addDemo( DEMO_COMMON, demo::DemoElement( u"Time", u"time" ) );
-	addDemo( DEMO_COMMON, demo::DemoElement( u"Time", u"time" ) );
-	addDemo( DEMO_COMMON, demo::DemoElement( u"Time", u"time" ) );
-	addDemo( DEMO_COMMON, demo::DemoElement( u"Time", u"time" ) );
-	addDemo( DEMO_COMMON, demo::DemoElement( u"Time", u"time" ) );
-	addDemo( DEMO_COMMON, demo::DemoElement( u"Time", u"time" ) );
-	addDemo( DEMO_COMMON, demo::DemoElement( u"Basic initialization", u"Full code located in GoSTDir/Demo/Samples/BasicInitialization.cpp" ) );
-	addDemo( DEMO_COMMON, demo::DemoElement( u"Basic initialization", u"Full code located in GoSTDir/Demo/Samples/BasicInitialization.cpp" ) );
-	addDemo( DEMO_COMMON, demo::DemoElement( u"Time", u"time" ) );
-	addDemo( DEMO_COMMON, demo::DemoElement( u"Time", u"time" ) );
-	addDemo( DEMO_COMMON, demo::DemoElement( u"Basic initialization", u"Full code located in GoSTDir/Demo/Samples/BasicInitialization.cpp" ) );
+	addDemo( DEMO_COMMON, demo::DemoElement( m_stringArray[m_languageID].m_stringArray[13u], m_stringArray[m_languageID].m_stringArray[14u] ) );
 	
-	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Hierarchy", u"Parent-child" ) );
-	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Camera", u"Parent-child" ) );
-	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Sprite", u"Parent-child" ) );
-	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Elem1", u"text" ) );
-	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Elem2", u"text" ) );
-	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Elem3", u"text" ) );
-	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Elem4", u"text" ) );
-	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Elem5", u"text" ) );
-	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Elem6", u"text" ) );
-	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Elem7", u"text" ) );
-	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Elem8", u"text" ) );
-	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Elem9", u"text" ) );
-	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Elem10", u"text" ) );
-	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Elem11", u"text" ) );
-	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Elem12", u"text" ) );
-	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Elem13", u"text" ) );
-	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Elem14", u"text" ) );
-	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Elem15", u"text" ) );
-	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Elem16", u"text" ) );
-	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Elem17", u"text" ) );
-	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Elem18", u"text" ) );
-	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Elem19", u"text" ) );
-	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Elem20", u"text" ) );
-	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Elem21", u"text" ) );
-	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Elem22", u"text" ) );
-	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Elem23", u"text" ) );
-	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Elem24", u"text" ) );
-	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Elem25", u"text" ) );
-	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Elem26", u"text" ) );
-	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Elem27", u"text" ) );
-	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Elem28", u"text" ) );
-	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Elem29", u"text" ) );
-	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Elem30", u"text" ) );
-	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Elem31", u"text" ) );
-	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Elem32", u"text" ) );
-	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Elem33", u"text" ) );
-	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Elem34", u"text" ) );
-	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Elem35", u"text" ) );
-	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Elem36", u"text" ) );
-	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Elem37", u"text" ) );
-	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Elem38", u"text" ) );
-	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Elem39", u"text" ) );
-	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Elem40", u"text" ) );
-	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Elem41", u"text" ) );
-	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Elem42", u"text" ) );
-	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Elem43", u"text" ) );
-	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Elem44", u"text" ) );
-	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"Elem45", u"text" ) );
-	
-	addDemo( DEMO_GUI, demo::DemoElement( u"FPS", u"Simple way to show FPS" ) );
-	
-	addDemo( DEMO_OTHER, demo::DemoElement( u"Supported formats", u"Get supported formats" ) );
-
 	return true;
 }
 
@@ -307,7 +231,7 @@ void demo::DemoApplication::rebuildMainMenuColons( void ){
 	m_rightColonShape->setOpacity( 0.f );
 
 	m_rightColonDefaultText = m_guiSystem->createTextField( m_rightColonDefaultRect, m_mainFont.data(), false );
-	m_rightColonDefaultText->setText( u"Nothing here :(" );
+	m_rightColonDefaultText->setText( m_stringArray[m_languageID].m_stringArray[15u] );
 	m_rightColonDefaultText->setTextColor( gtColorLightGray );
 
 	top = r.w+50;
