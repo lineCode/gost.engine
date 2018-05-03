@@ -24,6 +24,7 @@ namespace gost{
 		v4i			m_rect;
 		
 		gtWindow*	m_owner;
+		v2i			m_borderSize;
 
 			//	стиль окна.	если ничего не указано то будет стандартное окно - рамка, без изменения размера и без кнопки maximize
 		enum style{

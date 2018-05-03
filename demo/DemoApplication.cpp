@@ -88,7 +88,8 @@ bool demo::DemoApplication::initWindow( void ){
 			else break;
 		}
 	}
-	m_windowInfo.m_rect.set( 0, 0, screenSize.x, y );
+	//m_windowInfo.m_rect.set( 0, 0, screenSize.x, y );
+	m_windowInfo.m_rect.set( 0, 0, 800, 600 );
 
 	m_mainWindow = m_mainSystem->createSystemWindow( &m_windowInfo );
 	if( !m_mainWindow.data() ){
@@ -134,6 +135,8 @@ bool demo::DemoApplication::initMainMenu( void ){
 		gtLogWriter::printWarning( u"Can not load gamepad icon texture. File %s not exist.", gamepadPath.data() );
 	
 	m_mainFont	=	m_guiSystem->createBuiltInFont();
+
+	m_pauseBackgroundShape = m_guiSystem->createShapeRectangle( v4i(0,0,m_driverInfo.m_backBufferSize.x,m_driverInfo.m_backBufferSize.y), gtColorWhite );
 
 	return rebuildMainMenu();
 }
@@ -422,6 +425,8 @@ void demo::DemoApplication::renderMainMenu( void ){
 
 	m_descriptionBackgroundShape->render();
 	m_description->render();
+
+	m_pauseBackgroundShape->render();
 
 	m_driver->setDepthState();
 

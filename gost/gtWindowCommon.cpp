@@ -17,6 +17,10 @@ const v4i&		gtWindowCommon::getRect( void ){
 	return m_params.m_rect;
 }
 
+const gtWindowInfo& gtWindowCommon::getWindowInfo( void ){
+	return m_params;
+}
+
 /*
 Copyright (c) 2017 532235
 

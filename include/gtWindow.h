@@ -27,6 +27,9 @@ namespace gost{
 			// \return Вернёт координаты левого верхнего и правого нижнего углов
 		virtual const v4i&		getRect( void ) = 0;
 
+		virtual const gtWindowInfo& getWindowInfo( void ) = 0;
+		
+
 	};
 
 }

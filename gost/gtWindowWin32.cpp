@@ -109,6 +109,23 @@ bool	gtWindowWin32::init( u32 i ){
 	SetFocus( m_hWnd );
 	UpdateWindow( m_hWnd );
 
+	RECT windowRect;
+	GetWindowRect(m_hWnd, &windowRect);
+
+	RECT clientRect;
+	GetClientRect(m_hWnd, &clientRect);
+
+	int borderWidth = ((windowRect.right - windowRect.left) - (clientRect.right -clientRect.left))/2;
+
+	POINT pt;
+	pt.x = clientRect.left;
+	pt.y = clientRect.top;
+	ClientToScreen( m_hWnd, &pt );
+
+	int borderHeigt = (pt.y - windowRect.top);
+
+	m_params.m_borderSize.x = borderWidth;
+	m_params.m_borderSize.y = borderHeigt;
 
 	m_isInit = true;
 	return true;

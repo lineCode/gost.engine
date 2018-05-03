@@ -23,6 +23,7 @@ namespace gost{
 			//	Получить координаты левого верхнего и правого нижнего углов
 		const v4i&		getRect( void );
 
+		const gtWindowInfo& getWindowInfo( void );
 	};
 
 }

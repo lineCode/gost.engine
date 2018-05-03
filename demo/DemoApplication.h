@@ -58,6 +58,8 @@ namespace demo{
 		gtPtr<gtGUITextField>	m_description;
 		v4i						m_descriptionRect;
 
+		gtPtr<gtGUIShape>		m_pauseBackgroundShape;
+
 
 		u32		m_languageID;
 		s32		m_activeDemoType; //left colon
