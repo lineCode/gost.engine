@@ -72,8 +72,8 @@ bool gtGUIShapeImpl::initRectangle( const v4i& rect, const gtColor& color ){
 		f32 centerx = (bbsz.getWidth()*0.5f);
 		f32 centery = (bbsz.getHeight()*0.5f);
 
-		auto width = rect.z - rect.x + 16;
-		auto height = rect.w - rect.y + 38;
+		auto width = rect.z - rect.x;
+		auto height = rect.w - rect.y;
 
 		v1->pos.y -= height * py;
 		v1->uv.set( 0.f, 1.f );

@@ -1,11 +1,6 @@
-﻿
-/*!	GOST
-	\file gtWindow.h
-	\brief Всё что связано с системным окном
-*/
-#pragma once
+﻿#pragma once
 #ifndef __GT_WINDOW_H__
-#define __GT_WINDOW_H__ //< include guard
+#define __GT_WINDOW_H__
 
 namespace gost{
 	
@@ -15,16 +10,10 @@ namespace gost{
 	class gtWindow : public gtRefObject{
 	public:
 
-			//	Set title. Установить заголовок окна
-			// \param title: заголовок
 		virtual void	setWindowTitle( const gtString& title ) = 0;
 
-			//	Вернуть handle (HWND) окна
-			// \return вернёт handle окна
 		virtual void*	getHandle( void ) = 0;
 
-			//	Получить координаты левого верхнего и правого нижнего углов
-			// \return Вернёт координаты левого верхнего и правого нижнего углов
 		virtual const v4i&		getRect( void ) = 0;
 
 		virtual const gtWindowInfo& getWindowInfo( void ) = 0;
@@ -37,7 +26,7 @@ namespace gost{
 #endif
 
 /*
-Copyright (c) 2017, 2018 532235
+Copyright (c) 2017-2018 532235
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
 and associated documentation files (the "Software"), to deal in the Software without restriction, 

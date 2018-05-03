@@ -5,6 +5,8 @@ m_guiSystem( nullptr ),
 m_gamepad( nullptr ),
 m_backgroundTexture( nullptr ),
 m_gamepadTexture( nullptr ),
+m_pauseMainMenuSelectedId( 0 ),
+m_isPause( false ),
 m_languageID( 0u ),
 m_activeDemoType( 0 ),
 m_activeDemoTypeSelected( 0 ),
@@ -57,12 +59,43 @@ bool demo::DemoApplication::Init( void ){
 
 	if( !initMainMenu() )
 		return false;
+
+	initAudio();
 	
 	m_gamepadSystem	=	m_mainSystem->createGameContoller( GT_UID_INPUT_DINPUT );
 
 	addDemo( DEMO_COMMON, demo::DemoElement( m_stringArray[m_languageID].m_stringArray[13u], m_stringArray[m_languageID].m_stringArray[14u] ) );
 	
 	return true;
+}
+
+void demo::DemoApplication::initAudio( void ){
+	m_audioSystem = m_mainSystem->createAudioSystem( GT_UID_AUDIO_XADUDIO2 );
+	if( m_audioSystem.data() ){
+		m_audioSelect = m_audioSystem->createAudioObject( u"../demo/media/select.ogg" );
+		m_audioAccept = m_audioSystem->createAudioObject( u"../demo/media/accept.ogg" );
+		m_audioCancel = m_audioSystem->createAudioObject( u"../demo/media/cancel.ogg" );
+	}
+}
+
+void demo::DemoApplication::playAudio( DemoAudioType type ){
+	switch( type ){
+	case demo::DemoAudioType::Select:
+		if( m_audioSelect.data() ){
+			m_audioSelect->play();
+		}
+		break;
+	case demo::DemoAudioType::Accept:
+		if( m_audioAccept.data() ){
+			m_audioAccept->play();
+		}
+		break;
+	case demo::DemoAudioType::Cancel:
+		if( m_audioCancel.data() ){
+			m_audioCancel->play();
+		}
+		break;
+	}
 }
 
 bool demo::DemoApplication::initEngine( void ){
@@ -88,8 +121,7 @@ bool demo::DemoApplication::initWindow( void ){
 			else break;
 		}
 	}
-	//m_windowInfo.m_rect.set( 0, 0, screenSize.x, y );
-	m_windowInfo.m_rect.set( 0, 0, 800, 600 );
+	m_windowInfo.m_rect.set( 0, 0, screenSize.x, y );
 
 	m_mainWindow = m_mainSystem->createSystemWindow( &m_windowInfo );
 	if( !m_mainWindow.data() ){
@@ -136,7 +168,29 @@ bool demo::DemoApplication::initMainMenu( void ){
 	
 	m_mainFont	=	m_guiSystem->createBuiltInFont();
 
-	m_pauseBackgroundShape = m_guiSystem->createShapeRectangle( v4i(0,0,m_driverInfo.m_backBufferSize.x,m_driverInfo.m_backBufferSize.y), gtColorWhite );
+	auto rc = m_mainWindow->getRect();
+	auto w  = rc.getWidth();
+	auto h  = rc.getHeight();
+	auto centerx = w / 2;
+	auto centery = h / 2;
+
+	m_pauseBackgroundShape = m_guiSystem->createShapeRectangle( v4i(0,0,w,h), gtColorBlack );
+	m_pauseBackgroundShape->setOpacity( 0.f );
+
+	m_pauseTextContinueShape = m_guiSystem->createTextField( v4i(centerx-48,centery-98,centerx+48,0), m_mainFont.data(), false );
+	m_pauseTextContinueShape->setText( m_stringArray[m_languageID].m_stringArray[16u] );
+	m_pauseTextSettingsShape = m_guiSystem->createTextField( v4i(centerx-48,m_pauseTextContinueShape->getRect().w,centerx+48,0), m_mainFont.data(), false );
+	m_pauseTextSettingsShape->setText( m_stringArray[m_languageID].m_stringArray[18u] );
+	m_pauseTextExitShape = m_guiSystem->createTextField( v4i(centerx-48,m_pauseTextSettingsShape->getRect().w,centerx+48,0), m_mainFont.data(), false );
+	m_pauseTextExitShape->setText( m_stringArray[m_languageID].m_stringArray[17u] );
+
+	m_pauseTextSettingsShape->setBackgroundColor( gtColorLightGray );
+	m_pauseTextSettingsShape->setTextColor( gtColorBlack );
+	m_pauseTextExitShape->setBackgroundColor( gtColorLightGray );
+	m_pauseTextExitShape->setTextColor( gtColorBlack );
+
+	m_pauseShape = m_guiSystem->createShapeRectangle( v4i(centerx-50,centery-100,centerx+50,m_pauseTextExitShape->getRect().w), gtColorLightGray );
+	m_pauseShape->setOpacity( 0.f );
 
 	return rebuildMainMenu();
 }
@@ -345,6 +399,39 @@ bool demo::DemoApplication::rebuildMainMenu( void ){
 	return true;
 }
 
+void demo::DemoApplication::updatePauseMainMenu( void ){
+
+	if( m_pauseMainMenuSelectedId < 0 )
+		m_pauseMainMenuSelectedId = 2;
+	else if( m_pauseMainMenuSelectedId == 3 )
+		m_pauseMainMenuSelectedId = 0;
+
+	if( m_pauseMainMenuSelectedId == 0 ){
+		m_pauseTextContinueShape->setBackgroundColor( gtColorBlack );
+		m_pauseTextContinueShape->setTextColor( gtColorLightGray );
+	}else{
+		m_pauseTextContinueShape->setBackgroundColor( gtColorLightGray );
+		m_pauseTextContinueShape->setTextColor( gtColorBlack );
+	}
+
+	if( m_pauseMainMenuSelectedId == 1 ){
+		m_pauseTextSettingsShape->setBackgroundColor( gtColorBlack );
+		m_pauseTextSettingsShape->setTextColor( gtColorLightGray );
+	}else{
+		m_pauseTextSettingsShape->setBackgroundColor( gtColorLightGray );
+		m_pauseTextSettingsShape->setTextColor( gtColorBlack );
+	}
+
+	if( m_pauseMainMenuSelectedId == 2 ){
+		m_pauseTextExitShape->setBackgroundColor( gtColorBlack );
+		m_pauseTextExitShape->setTextColor( gtColorLightGray );
+	}else{
+		m_pauseTextExitShape->setBackgroundColor( gtColorLightGray );
+		m_pauseTextExitShape->setTextColor( gtColorBlack );
+	}
+
+}
+
 void demo::DemoApplication::Run( void ){
 	m_mainSystem->setTimer( 300 );
 
@@ -385,7 +472,35 @@ void demo::DemoApplication::Run( void ){
 
 		switch( m_state ){
 		case demo::DemoState::MainMenu:
-			inputMainMenu();
+			if( m_isPause ){
+				auto opBG = m_pauseBackgroundShape->getOpacity();
+				if( opBG < 0.75f ){
+					opBG += 10.f * m_delta;
+					m_pauseBackgroundShape->setOpacity( opBG );
+				}
+
+				auto op = m_pauseShape->getOpacity();
+				if( op < 1.f ){
+					op += 10.f * m_delta;
+					m_pauseShape->setOpacity( op );
+				}
+
+				inputMainMenuPause();
+			}else{
+				auto opBG = m_pauseBackgroundShape->getOpacity();
+				if( opBG > 0.f ){
+					opBG -= 10.f * m_delta;
+					m_pauseBackgroundShape->setOpacity( opBG );
+				}
+
+				auto op = m_pauseShape->getOpacity();
+				if( op > 0.f ){
+					op -= 10.f * m_delta;
+					m_pauseShape->setOpacity( op );
+				}
+
+				inputMainMenu();
+			}
 			renderMainMenu();
 			if( timer_input > timer_input_limit ){
 				m_DPadOnce = false;
@@ -427,6 +542,13 @@ void demo::DemoApplication::renderMainMenu( void ){
 	m_description->render();
 
 	m_pauseBackgroundShape->render();
+
+	if( m_isPause ){
+		m_pauseShape->render();
+		m_pauseTextContinueShape->render();
+		m_pauseTextSettingsShape->render();
+		m_pauseTextExitShape->render();
+	}
 
 	m_driver->setDepthState();
 
@@ -604,20 +726,59 @@ void demo::DemoApplication::updateColons( void ){
 	}
 }
 
+void demo::DemoApplication::inputMainMenuPause( void ){
+	if( m_eventConsumer->keyDown( gtKey::K_ESCAPE ) || inputGamepadMainMenuStart() || inputGamepadMainMenuEscape() ){
+		playAudio(DemoAudioType::Cancel);
+		m_isPause = false;
+		m_pauseMainMenuSelectedId = 0;
+		updatePauseMainMenu();
+	}
+
+	if( m_eventConsumer->keyDown( gtKey::K_UP ) || inputGamepadMainMenuUp() ){
+		playAudio(DemoAudioType::Select);
+		--m_pauseMainMenuSelectedId;
+		updatePauseMainMenu();
+	}
+
+	if( m_eventConsumer->keyDown( gtKey::K_DOWN ) || inputGamepadMainMenuDown() ){
+		playAudio(DemoAudioType::Select);
+		++m_pauseMainMenuSelectedId;
+		updatePauseMainMenu();
+	}
+
+	if( m_eventConsumer->keyDown( gtKey::K_ENTER ) || inputGamepadMainMenuEnter() ){
+		playAudio(DemoAudioType::Accept);
+		if( m_pauseMainMenuSelectedId == 0 ){
+			m_isPause = false;
+		}else if( m_pauseMainMenuSelectedId == 1 ){
+		}else if( m_pauseMainMenuSelectedId == 2 ){
+			m_mainSystem->shutdown();
+		}
+	}
+}
+
 void demo::DemoApplication::inputMainMenu( void ){
 	if( m_eventConsumer->keyDown( gtKey::K_ESCAPE ) ){
 		if( !m_activeDemoType )
-			m_mainSystem->shutdown();
+			m_isPause = true;
 		else{
 			--m_activeDemoType;
 			updateColons();
 		}
+		playAudio(DemoAudioType::Cancel);
+	}
+
+	if( inputGamepadMainMenuStart() ){
+		m_isPause = true;
+		updatePauseMainMenu();
+		playAudio(DemoAudioType::Cancel);
 	}
 
 	if( inputGamepadMainMenuEscape() ){
 		if( m_activeDemoType ){
 			--m_activeDemoType;
 			updateColons();
+			playAudio(DemoAudioType::Cancel);
 		}
 	}
 
@@ -625,6 +786,7 @@ void demo::DemoApplication::inputMainMenu( void ){
 		if( !m_activeDemoType ){
 			++m_activeDemoType;
 			updateColons();
+			playAudio(DemoAudioType::Accept);
 		}
 	}
 
@@ -641,6 +803,7 @@ void demo::DemoApplication::inputMainMenu( void ){
 			--m_currentDemoColonIndex;
 		}
 		updateColons();
+		playAudio(DemoAudioType::Select);
 	}
 
 	if( m_eventConsumer->keyDown( gtKey::K_DOWN ) || inputGamepadMainMenuDown() ){
@@ -655,18 +818,21 @@ void demo::DemoApplication::inputMainMenu( void ){
 			++m_activeDemoSelected;
 			++m_currentDemoColonIndex;
 		}
+		playAudio(DemoAudioType::Select);
 		updateColons();
 	}
 
 	if( m_eventConsumer->keyDown( gtKey::K_LEFT ) || inputGamepadMainMenuLeft() ){
 		if( m_activeDemoType ){
 			--m_activeDemoType;
+			playAudio(DemoAudioType::Select);
 			updateColons();
 		}
 	}
 	if( m_eventConsumer->keyDown( gtKey::K_RIGHT ) || inputGamepadMainMenuRight() ){
 		if( !m_activeDemoType ){
 			++m_activeDemoType;
+			playAudio(DemoAudioType::Select);
 			updateColons();
 		}
 	}
@@ -746,6 +912,17 @@ bool demo::DemoApplication::inputGamepadMainMenuEscape( void ){
 	return false;
 }
 
+bool demo::DemoApplication::inputGamepadMainMenuStart( void ){
+	if( m_gamepad ){
+		if( m_gamepad->m_buttons[ 9 ] ){
+			if( !m_gamepadButtons[ 9 ] ){
+				m_gamepadButtons[ 9 ] = true;
+				return true;
+			}
+		}
+	}
+	return false;
+}
 
 /*
 Copyright (c) 2018 532235

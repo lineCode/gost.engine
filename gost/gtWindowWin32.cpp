@@ -127,6 +127,11 @@ bool	gtWindowWin32::init( u32 i ){
 	m_params.m_borderSize.x = borderWidth;
 	m_params.m_borderSize.y = borderHeigt;
 
+//	m_params.m_rect.x += borderWidth + borderWidth;
+//	m_params.m_rect.y += borderHeigt + borderWidth;
+//	m_params.m_rect.z += borderWidth + borderWidth;
+//	m_params.m_rect.w += borderWidth + borderWidth;
+
 	m_isInit = true;
 	return true;
 }

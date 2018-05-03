@@ -28,6 +28,12 @@ namespace demo{
 		gtArray<gtString> m_stringArray;
 	};
 
+	enum class DemoAudioType {
+		Select,
+		Accept,
+		Cancel
+	};
+
 	class DemoApplication{
 
 		gtPtr<gtMainSystem>			m_mainSystem;
@@ -39,6 +45,12 @@ namespace demo{
 		gtPtr<gtDriver>				m_driver;
 		gtPtr<gtGameController>		m_gamepadSystem;
 		gtGameControllerDevice *	m_gamepad;
+
+		gtPtr<gtAudioSystem>		m_audioSystem;
+		gtPtr<gtAudioObject>		m_audioSelect;
+		gtPtr<gtAudioObject>		m_audioAccept;
+		gtPtr<gtAudioObject>		m_audioCancel;
+		void						playAudio( DemoAudioType );
 
 		gtTexture*			m_backgroundTexture;
 		gtTexture*			m_gamepadTexture;
@@ -59,6 +71,14 @@ namespace demo{
 		v4i						m_descriptionRect;
 
 		gtPtr<gtGUIShape>		m_pauseBackgroundShape;
+		gtPtr<gtGUIShape>		m_pauseShape;
+		gtPtr<gtGUITextField>	m_pauseTextContinueShape;
+		gtPtr<gtGUITextField>	m_pauseTextSettingsShape;
+		gtPtr<gtGUITextField>	m_pauseTextExitShape;
+		s32						m_pauseMainMenuSelectedId;
+		void					updatePauseMainMenu( void );
+
+		bool					m_isPause;
 
 
 		u32		m_languageID;
@@ -88,6 +108,7 @@ namespace demo{
 		bool initVideoDriver( void );
 		bool initMainMenu( void );
 		bool initStrings( void );
+		void initAudio( void );
 
 		void addDemo( u32 index, const demo::DemoElement& element );
 
@@ -97,12 +118,14 @@ namespace demo{
 		void updateColons( void );
 
 		void inputMainMenu( void );
+		void inputMainMenuPause( void );
 		bool inputGamepadMainMenuUp( void );
 		bool inputGamepadMainMenuDown( void );
 		bool inputGamepadMainMenuLeft( void );
 		bool inputGamepadMainMenuRight( void );
 		bool inputGamepadMainMenuEnter( void );
 		bool inputGamepadMainMenuEscape( void );
+		bool inputGamepadMainMenuStart( void );
 
 		void renderMainMenu( void );
 
