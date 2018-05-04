@@ -1,6 +1,6 @@
 ﻿#pragma once
 #ifndef __GT_GUI_STATIC_TEXT_H__
-#define __GT_GUI_STATIC_TEXT_H__ //< include guard
+#define __GT_GUI_STATIC_TEXT_H__
 
 namespace gost{
 

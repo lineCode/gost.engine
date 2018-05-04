@@ -1,10 +1,6 @@
-﻿	/**	GOST
-	\file gtError.h
-	\brief Some macros for error handling
-*/
-#pragma once
+﻿#pragma once
 #ifndef __GT_ERROR_H__
-#define __GT_ERROR_H__ //< include guard
+#define __GT_ERROR_H__
 
 
 namespace gost{
@@ -12,12 +8,6 @@ namespace gost{
 #ifdef GT_DEBUG
 
 
-	//	Утверждение с указанием двух величин
-	//	\param expr: expression(логическое выражение)
-	//	\param str: по какой причине сработало
-	//	\param exprstr: выражение в виде строки
-	//	\param v1: первая величина
-	//	\param v2: вторая величина
 #	define GT_ASSERT(expr,str,exprstr,v1,v2) if(!(expr)){\
 				gtLogWriter::printError(u"Assertion failed: %s", u##str );\
 				gtLogWriter::printError(u"Expected: %s [%u][%u]", u##exprstr, v1, v2 );\
@@ -25,10 +15,6 @@ namespace gost{
 				gtStackTrace::dumpStackTrace();\
 								GT_BREAKPOINT(0) };
 
-	//	Утверждение
-	//	\param expr: expression(логическое выражение)
-	//	\param str: по какой причине сработало
-	//	\param exprstr: выражение в виде строки
 #	define GT_ASSERT1(expr,str,exprstr) if(!(expr)){\
 				gtLogWriter::printError(u"Assertion failed: %s", u##str );\
 				gtLogWriter::printError(u"Expected: %s", u##exprstr );\
@@ -36,9 +22,6 @@ namespace gost{
 				gtStackTrace::dumpStackTrace();\
 								GT_BREAKPOINT(0) };
 
-	//	Утверждение
-	//	\param expr: expression(логическое выражение)
-	//	\param exprstr: выражение в виде строки
 #	define GT_ASSERT2(expr,exprstr) if(!(expr)){\
 				gtLogWriter::printError(u"Assertion failed" );\
 				gtLogWriter::printError(u"Expected: %s", u##exprstr );\
@@ -46,8 +29,6 @@ namespace gost{
 				gtStackTrace::dumpStackTrace();\
 								GT_BREAKPOINT(0) };
 
-	//	Утверждение
-	//	\param expr: expression(логическое выражение)
 #	define GT_ASSERT3(expr) if(!(expr)){\
 				gtLogWriter::printError(u"Assertion failed" );\
 				gtLogWriter::printError(u"Source: %s, line %i", GT_FILE, GT_LINE );\
@@ -63,10 +44,8 @@ namespace gost{
 //	Here errors for old style static assert
 namespace gtError{
 
-		//	используется для определения ошибок на этапе компиляции
 	template< s32 x > struct StaticAssert{};
 
-		//	ошибки
 	template< bool b > struct GT_VECTOR_BAD_SIZE;
 	template<> struct GT_VECTOR_BAD_SIZE<true>{ };
 
@@ -77,10 +56,6 @@ namespace gtError{
 	static_assert(expr, QUOTE(msg) )
 #else
 
-	//	Определение ошибки на этапе компиляции
-	//	\param expr: логическое выражение
-	//	\param msg: сообщение
-	//	\warning Для C++11 и выше допустимо использовать в качестве сообщения любую строку. Для старой версии C++ есть ошибки в виде имён структур. Лучше создать структуру с именем в виде сообщения.
 #	define GT_STATIC_ASSERT(expr,msg)\
 	typedef gtError::StaticAssert< sizeof( msg< static_cast<bool>(expr) > ) >
 

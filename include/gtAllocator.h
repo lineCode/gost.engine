@@ -1,8 +1,3 @@
-/*!	GOST
-	\file gtAllocator.h
-	\brief Allocator
-*/
-
 #pragma once
 #ifndef __GT_ALLOCATOR_H__
 #define __GT_ALLOCATOR_H__

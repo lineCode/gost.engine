@@ -1,21 +1,14 @@
-﻿/*!	GOST
-	\file gtStaticObject.h
-	\brief static model
-*/
-#pragma once
+﻿#pragma once
 #ifndef __GT_STATIC_OBJECT_H__
-#define __GT_STATIC_OBJECT_H__ //< include guard
+#define __GT_STATIC_OBJECT_H__ 
 
 namespace gost{
 
 	class gtRenderModel;
 
-		// Статичный объект. Имеется ввиду что у модели нет анимации.
-	class gtStaticObject : public gtGameObject{
+		class gtStaticObject : public gtGameObject{
 	public:
 
-			//	Вернёт модель которую рисует
-			// \return модель
 		virtual gtRenderModel*	getModel( void ) = 0;
 				
 

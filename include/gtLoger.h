@@ -1,73 +1,40 @@
-﻿/**	GOST
-	\file gtLoger.h
-	\brief Helper class for logging
-*/
-
-#pragma once
+﻿#pragma once
 #ifndef __GT_LOGER_H__
-#define __GT_LOGER_H__ //< include guard
+#define __GT_LOGER_H__
 
 namespace gost{
 
 	class gtOutputWindow;
 
-		//	выводит сообщения в окно вывода
 	class gtLoger : public gtRefObject{
 	public:
 
-			//	можно будет отключить показ общей информации
-			//	предупреждений или ошибок
 		enum class msgType{
-			error,		//< только ошибки
-			warning,	//< только ошибки и предупреждения
-			info		//< все сообщения
+			error,		
+			warning,	
+			info		
 		};
 
-			//	напечатает форматированную строку
-			//	\param type: какого типа сообщение
-			//	\param str: форматированный текст
-			//	\param ...: аргументы \n
-			// Обозначения для аргументов: \anchor ox_anchor_gtLoger_print
-			//	\code {.cpp}
 			//	\%f - float
 			//	\%i - int
 			//	\%u - unsigned
 			//	\%s - char16_t*
 			//	\%c - char16_t
-			//	\endcode
 		virtual void print( msgType type, const char16_t* str, ... ) = 0;
 
-			//	установка окна, в которое будет выводится текст
 		virtual void setOutputWindow( gtOutputWindow* ) = 0;
 
-			//	\param type: тип сообщения
-			//	info - будут все сообщения \n
-			//	warning - warning и error \n
-			//	error - только error \n
 		virtual void setInfoType( msgType type = msgType::info ) = 0;
 
 
 	};
 
-		//	Для более простого вывода сообщений
 	class gtLogWriter{
 	public:
-			//	Вывести сообщение об ошибке
-			//	\param str: форматированный текст
-			//	\param ...: аргументы
-			//	\n \ref ox_anchor_gtLoger_print "Обозначения для аргументов"
 		GT_API static	void printError( const char16_t* str, ... );
 
-			//	Вывести предупреждение
-			//	\param str: форматированный текст
-			//	\param ...: аргументы
-			//	\n \ref ox_anchor_gtLoger_print "Обозначения для аргументов"
 		GT_API static	void printWarning( const char16_t* str, ... );
 
-			//	Вывести информационное сообщение
-			//	\param str: форматированный текст
-			//	\param ...: аргументы
-			//	\n \ref ox_anchor_gtLoger_print "Обозначения для аргументов"
 		GT_API static	void printInfo( const char16_t* str, ... );
 	};
 

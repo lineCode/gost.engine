@@ -1,41 +1,33 @@
-﻿/*!	GOST
-	\file gtSprite.h
-	\brief 2D sprite
-
-	\attention Думаю что можно сделать возможность создавать billboard. Быть может в конструкторе можно добавить \b bool \b asBillboard, и в методе обновления делать магию с ориентацией спрайта.
-*/
-
-#pragma once
+﻿#pragma once
 #ifndef __GT_SPRITE_H__
-#define __GT_SPRITE_H__ //< include guard
+#define __GT_SPRITE_H__
 
 namespace gost{
 
 	class gtDriver;
 
-		//	2D картинка с возможностью создания анимации
-	class gtSprite : public gtGameObject{
+		class gtSprite : public gtGameObject{
 
-		gtObjectType m_type;			//< тип объекта
+		gtObjectType m_type;
 		 
-		gtAnimation m_animation;		//< объект для работы анимации
-		gtArray<v8f> m_frames;			//< кадры анимации
+		gtAnimation m_animation;
+		gtArray<v8f> m_frames;	
 
-		gtMaterial	 m_material;		//< материал
-		gtTexture *  m_texture;			//< текстура
+		gtMaterial	 m_material;
+		gtTexture *  m_texture;	
 
-		gtPtr<gtRenderModel> m_rModel;		//< модель
+		gtPtr<gtRenderModel> m_rModel;
 
-		gtMainSystem * m_system;		//< указатель на главную систему
-		gtDriver * m_driver;			//< указатель на видео драйвер, который владеет hardware буферами данного спрайта
+		gtMainSystem * m_system;		
+		gtDriver * m_driver;			
 
-		bool m_firstFrame;				//< для того чтобы правильно создавать анимацию
-		bool m_inverseHorizontal;		//< изменять UV координаты по горизонтали
+		bool m_firstFrame;				
+		bool m_inverseHorizontal;		
 
-		u32 width, height;				//< ширина и высота указанной текстуры
+		u32 width, height;				
 
-		f32 m_timer;					//< таймер
-		f32 m_timerLimit;				//< лимит таймера, после которого таймер сбрасывается до нуля
+		f32 m_timer;					
+		f32 m_timerLimit;				
 
 		gtAabb m_aabb;
 		gtObb  m_obb;
@@ -44,11 +36,7 @@ namespace gost{
 
 	public:
 
-			//	создаёт спрайт
-			// \param t: текстура
-			// \param size: ширина и высота
-			// \param d: видео драйвер который будет создавать спрайт
-		gtSprite( gtTexture * t, const v2f& size, gtDriver * d ):
+			gtSprite( gtTexture * t, const v2f& size, gtDriver * d ):
 			m_type( gtObjectType::SPRITE ),
 			m_rModel( nullptr ),
 			m_driver( d ),
@@ -104,20 +92,15 @@ namespace gost{
 			return &m_obb;
 		}
 
-			// Получить тип объекта
-			// \return Вернёт тип объекта
 		gtObjectType getType( void ){
 			return m_type;
 		}
 
 		
-			// Получить текстуру
-			// \return Вернёт текстуру
 		gtTexture*	getTexture( void ){
 			return m_material.textureLayer[ 0u ].texture;
 		}
 
-			// Обновит матрицы
 		void update( void ){
 			gtMatrix4 translationMatrix;
 			math::makeTranslationMatrix( translationMatrix, m_position );
@@ -147,25 +130,18 @@ namespace gost{
 
 		}
 
-			// Инвертирует по горизонтали
-			// \param v: \b true если нужно инвертировать
 		void inverseHorizontal( bool v ){
 			m_inverseHorizontal = v;
 		}
 
-			// Проиграть анимацию задом наперёд
-			// \param v: \b true если нужно проиграть анимацию задом наперёд
 		void setReverse( bool v ){
 			m_animation.setReverse( v );
 		}
 
-			// Инвертировано ли по горизонтали
-			// \return \b true если инвертировано ли по горизонтали
 		bool isInverseHorizontal( void ){
 			return m_inverseHorizontal;
 		}
 
-			// Нарисует спрайт.
 		void render( void ){
 			if( m_isVisible ){
 				updateAnimation();
@@ -173,8 +149,6 @@ namespace gost{
 			}
 		}
 
-			// Добавит кадр.
-			// \param rect: координаты левого верхнего и правого нижнего углов
 		void addFrame( const v4u& rect ){
 
 			v2f lt, rb;
@@ -205,9 +179,6 @@ namespace gost{
 			m_animation.setLoopSegment( ls->x, m_frames.size() - 1u );
 		}
 
-			// Удалит анимацию и установит текущий кадр
-			// \param full: если \b true то будет показана вся картинка
-			// \param rect: если \b full == \b false то картинка будет указано по этим координатам. Левый верхний и правый нижний угол.
 		void resetAnimation( bool full = true, const v4u& rect = v4u() ){
 			m_animation.clear();
 			m_frames.clear();
@@ -220,60 +191,42 @@ namespace gost{
 				addFrame( rect );
 		}
 
-			// Получить текущий кадр
-			// \return Вернёт текущий кадр
 		u32 getCurrentFrame( void ){
 			return m_animation.getCurrentFrame();
 		}
 
-			// Получить координаты текущего кадра
-			// \return Координаты текущего кадра
 		const v8f& getFrame( u32 id ){
 			return m_frames[ id ];
 		}
 
-			// Включено ли зацикливание анимации
-			// \return Вернёт \b true если зацикливание включёно
 		bool isLoop( void ) const {
 			return m_animation.isLoop();
 		}
 
-			// Воспроизводится ли анимация
-			// \return Вернёт \b true если анимация воспроизводится
 		bool isPlay( void ) const {
 			return m_animation.isPlay();
 		}
 
-			// Установить зацикливание анимации
-			// \param value: \b true если нужно зациклить анимацию
 		void setLoop( bool value = true ){
 			m_animation.setLoop( value );
 		}
 
-			// Установить сегмент анимации, начало и конец.
-			// \param begin: начальный кадр
-			// \param end: завершающий кадр
 		void setLoopSegment( u32 begin, u32 end ){
 			m_animation.setLoopSegment( begin, end );
 		}
 
-			// Получить номер текущего кадра
-			// \return Вернёт номер текущего кадра
 		u32 getFrameID( void ) const {
 			return m_animation.getCurrentFrame();
 		}
 
-			// Включить воспроизведение анимации
 		void playAnimation( void ){
 			m_animation.play();
 		}
 			
-			// Приостановить анимацию
 		void pauseAnimation( void ){
 			m_animation.pause();
 		}
 
-			// Остановить анимацию
 		void stopAnimation( void ){
 			m_animation.stop();
 		}

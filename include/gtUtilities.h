@@ -1,6 +1,6 @@
 ﻿#pragma once
 #ifndef __GT_UTILITIES_H__
-#define __GT_UTILITIES_H__ //< include guard
+#define __GT_UTILITIES_H__
 
 
 namespace gost{
@@ -73,9 +73,6 @@ namespace gost{
 			str = flippedStr;
 		}
 
-			//	удаляет последний символ пока не встретится указанный
-			//	\param str: строка в которой нужно удалять символы
-			//	\param с: символ, который остановит удаление
 		template<typename Type>
 		inline void stringPopBackBefore( Type& str, s8 c ){
 			if( str.size() )
@@ -88,14 +85,9 @@ namespace gost{
 				}
 		}
 
-			//	возвратит расширение - последнюю часть строки после точки (слэши должны быть такими /)
-			//	\param str: строка содержащая часть с точкой
-			//	\return Строка содержащая расширение
 		template<typename Type>
 		inline Type stringGetExtension( const Type& str ){
 			
-			// по сути нужно всего лишь добавлять символы с конца
-			//	пока не будет встречена точка либо slash
 			Type ret;
 
 			for( u32 i = str.size() - 1u; i >= 0u; --i ){
@@ -112,7 +104,6 @@ namespace gost{
 		}
 
 			//	"AbC" -> "abc"
-			//	\param str: строка для изменения
 		template<typename Type>
 		inline void stringToLower( Type& str ){
 			
@@ -127,7 +118,6 @@ namespace gost{
 		}
 
 			//	"AbC" -> "ABC"
-			//	\param str: строка для изменения
 		template<typename Type>
 		inline void stringToUpper( Type& str ){
 			
@@ -170,10 +160,6 @@ namespace gost{
 
 		}
 
-			//	добаляет к str строку иного типа
-			//	\param str: строка в которую нужно добавить
-			//	\param other: строка которую нужно добавить
-			//	\param c: указывается для приведения типа
 		template<typename Type, typename AnotherType, typename charType>
 		inline void stringAppend( Type& str, AnotherType& other, charType /*c*/ ){
 			u32 sz = 0u;

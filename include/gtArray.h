@@ -1,8 +1,4 @@
-﻿/*!	GOST
-	\file gtArray.h
-	\brief array
-*/
-
+﻿
 #pragma once
 #ifndef __GT_ARRAY_H__
 #define __GT_ARRAY_H__

@@ -1,10 +1,6 @@
-﻿/*!	GOST
-	\file gtMutex.h
-	\brief 
-*/
-#pragma once
+﻿#pragma once
 #ifndef __GT_MUTEX_H__
-#define __GT_MUTEX_H__ //< include guard
+#define __GT_MUTEX_H__
 
 namespace gost{
 

@@ -1,10 +1,6 @@
-﻿/*!	GOST
-	\file gtMaterial.h
-	\brief working with materials
-*/
-#pragma once
+﻿#pragma once
 #ifndef __GT_MATERIAL_H__
-#define __GT_MATERIAL_H__ //< include guard
+#define __GT_MATERIAL_H__ 
 
 namespace gost{
 
@@ -52,20 +48,12 @@ namespace gost{
 			texture( nullptr )
 		{}
 
-			//	основной цвет. Зависит от шейдера.
-			//	В стандартных шейдерах будет применяться к текстуре.
-			//	Например если текстура белая, то diffuseColor(1.f,0.f,0.f,1.f) покрасит её в красный.
-			//	Вычисление такое. 1 * 1 = 1 красный компонент. 1 * 0 = 0 синий. 1 * 0 = 0 зелёный.
 		gtColor	diffuseColor;
 
-			//	Тип операции смешивания.
 		gtMaterialBlendOp	blendOperation;
 
-			//	Значение от 1.0 до 0
-			//	Работает так: тексель *= level;
 		f32		level;
 
-			//	текстуры
 		gtTexture * texture;
 	};
 
@@ -98,40 +86,29 @@ namespace gost{
 			// d-tor
 		~gtMaterial( void ){}
 
-			//	шейдер
 		gtShader * shader;
 
-			//	цвет затенения. Чёрный по умолчанию.
 		gtColor ambientColor;
 
-			//	цвет отражённого света
 		gtColor specularColor;
 
-			//	интенсивность отражения света.
 		f32		specularLevel;
 
-			//	блеск
 		f32		glossiness;
 
-			//	шероховатость
 		f32		roughness;
 
 			//	Need MF_BLEND.
 		f32		opacity;
 
-			//	пригодится там где нужно
 		f32		fresnel; // /freɪˈnɛl/, fray-NEL;
 
-			//	флаги
 		u32		flags;
 
-			//	Тут хранятся указатели на текстуры и параметры для них
 		gtMaterialTextureLayer	textureLayer[ 16u ];
 
-			//	Если не указан shader то будет работать стандартный
 		gtMaterialType type;
 
-			// Вспомогателный указатель. Хранит адрес объекта который использует данный материал
 		gtGameObject * owner;
 
 		bool	alphaToCoverage;

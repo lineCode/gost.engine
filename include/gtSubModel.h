@@ -1,10 +1,6 @@
-﻿/*!	GOST
-	\file gtSubModel.h
-	\brief software model
-*/
-#pragma once
+﻿#pragma once
 #ifndef __GT_MESH_BUFFER_H__
-#define __GT_MESH_BUFFER_H__ //< include guard
+#define __GT_MESH_BUFFER_H__
 
 namespace gost{
 	
@@ -14,7 +10,6 @@ namespace gost{
 		v3f nor;
 	};
 
-		//	То, что идёт конкретно на рендеринг.
 	struct gtSubModel{
 
 			// c-tor
@@ -26,7 +21,7 @@ namespace gost{
 			m_stride( 0u ),
 			m_vertexPosition( 0 ),
 			m_uvPosition( 4 ),
-			m_normalPosition( 6 ) // в стандартном stride, pos[0,1,2,3] uv[4,5] normal[6,7,8]
+			m_normalPosition( 6 ) // pos[0,1,2,3] uv[4,5] normal[6,7,8]
 		{}
 
 			// d-tor
@@ -37,44 +32,31 @@ namespace gost{
 				delete []m_indices;
 		}
 
-			//	вершины
 		u8	*			m_vertices;
 
-			//	индексы
 		u16	*			m_indices;
 
-			//	количество вершин
 		u32 m_vCount;
 
-			//	количество индексов
 		u32 m_iCount;
 
-			//	свой материал
 		gtMaterial m_material;
 
-			// имя
 		gtStringA m_name;
 
-			// aabb
 		gtAabb m_aabb;
 		gtObb  m_obb;
 		
-			// размер вершины в байтах
 		u32 m_stride;
 
-			// Индекс первой координаты позиции в вершине
-			//	Если, подразумевается что позиция в вершине стоит не на первом месте, то нужно изменить это значение
 			//	Index of the first position coordinate in the vertex.
 		s32 m_vertexPosition;
 
 		s32 m_uvPosition;
 
-			// Индекс первой координаты нормали в вершине
-			// Аналогия как и с m_vertexPosition
 		s32 m_normalPosition;
 
 
-			// заполняет индексный массив индексами
 			// \param array: index array
 		void fillIndices( const u16* array ){
 			for(u32 i = 0u; i < m_iCount; ++i){
@@ -82,8 +64,6 @@ namespace gost{
 			}
 		}
 
-			// выделяет память
-			// \param stride: размер вершины в байтах
 		void	allocate( u32 stride ){
 			m_stride = stride;
 			if( !m_vertices )
@@ -92,7 +72,6 @@ namespace gost{
 				m_indices  = new u16[ m_iCount ];
 		}
 
-			//	Построит obb. Изначально выглядит как aabb, но повернётся вместе с объектом.
 		void	buildObb( void ){
 			m_obb.reset();
 
@@ -106,7 +85,6 @@ namespace gost{
 
 		}
 
-			//	Обновит aabb. Должна делаться из obb
 		void	updateAabb( void ){
 			m_aabb.reset();
 
@@ -136,7 +114,7 @@ namespace gost{
 
 				memcpy( newInds, m_indices, m_iCount * sizeof( u16 ) );
 				for( u32 i = 0; i < model->m_iCount; ++i ){
-					newInds[ m_iCount + i ] = model->m_indices[ i ] + maxIndex + 1u; // < возможно ошибка
+					newInds[ m_iCount + i ] = model->m_indices[ i ] + maxIndex + 1u;
 				}
 
 				delete []m_indices;

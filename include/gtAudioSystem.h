@@ -1,11 +1,6 @@
-﻿/*!	GOST
-	\file gtAudioSystem.h
-	\brief GoST audio system
-*/
-
-#pragma once
+﻿#pragma once
 #ifndef __GT_AUDIO_SYSTEM_H__
-#define __GT_AUDIO_SYSTEM_H__ //< include guard
+#define __GT_AUDIO_SYSTEM_H__
 
 #include <gtAudioObject.h>
 #include <gtAudioStream.h>

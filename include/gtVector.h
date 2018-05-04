@@ -1,13 +1,6 @@
-﻿/*!	GOST
-	\file gtVector.h
-	\brief vector
-
-	\attention Для ускоренной разработки используется шаблонный вариант, с указанием типа и размера. Из за неизвестной длинны приходится использовать массив для инициализации и т.д. Возможно он будет переписан.
-*/
-
-#pragma once
+﻿#pragma once
 #ifndef __GT_VECTOR_H__
-#define __GT_VECTOR_H__ //< include guard
+#define __GT_VECTOR_H__
 
 namespace gost{
 
@@ -15,7 +8,6 @@ namespace gost{
 	template< typename Type > struct gtVector3;
 	template< typename Type > struct gtVector4;
 
-		//	Вектор
 	template< typename Type >
 	struct gtVector2{
 
@@ -32,44 +24,33 @@ namespace gost{
 			}
 		}
 
-			//	ctor по умолчанию
 		gtVector2( void ):
 			x( static_cast< Type >( 0u ) ),
 			y( static_cast< Type >( 0u ) ){
 		}
 
-			// Создать из готового вектора
-			// \param v: вектор для копирования
 		gtVector2( const gtVector2< Type >& v ){
 			*this = v;
 		}
 
-			// \param l: список значений
 		gtVector2( Type X, Type Y ):
 			x( static_cast< Type >( X ) ),
 			y( static_cast< Type >( Y ) ){
 		}
 
-			//	Создать с указанием одной величины (все компоненты будут равнятся этой величине)
-			// \param v: значение которым должен инициализироваться вектор
 		gtVector2( Type v ):
 			x( static_cast< Type >( v ) ),
 			y( static_cast< Type >( v ) ){
 		}
 
-			//	Установить каждый компонент равным 0
 		void zero( void ){
 			x = y = static_cast< Type >( 0u );
 		}
 
-			//	Заполнить вектор указанным значением
-			// \param val: значение которым должен инициализироваться вектор
 		void fill( Type val ){
 			x = y = static_cast< Type >( val );
 		}
 
-			//	установить значение компонента X
-			// \param value: новое значение компонента
 		void setX( Type value ){
 			x = value;
 		}
@@ -78,36 +59,26 @@ namespace gost{
 			y = value;
 		}
 
-			//	Сложение векторов
-			// \param v: вектор
 		void operator+=( const gtVector2< Type >& v ){
 			x += v.x;
 			y += v.y;
 		}
 
-			//	Вычитание векторов
-			// \param v: вектор
 		void operator-=( const gtVector2< Type >& v ){
 			x -= v.x;
 			y -= v.y;
 		}
 
-			//	Умножение векторов
-			// \param v: вектор
 		void operator*=( const gtVector2< Type >& v ){
 			x *= v.x;
 			y *= v.y;
 		}
 
-			//	Умножить компоненты вектора на заданное число
-			// \param v: число
 		void operator*=( Type v ){
 			x *= v;
 			y *= v;
 		}
 
-			//	Разделить на вектор
-			// \param v: вектор
 		void operator/=( const gtVector2< Type >& v ){
 			x /= v.x;
 			y /= v.y;
@@ -117,43 +88,26 @@ namespace gost{
 			return x + y;
 		}
 
-			//	Сложение векторов
-			// \param v: вектор
-			//	\return сумма двух векторов
 		gtVector2< Type > operator+( const gtVector2< Type >& v ) const {
 			return gtVector2( x + v.x, y + v.y );
 		}
 
-			//	Вычитание векторов
-			// \param v: вектор
-			//	\return разность двух векторов
 		gtVector2< Type > operator-( const gtVector2< Type >& v ) const {
 			return gtVector2( x - v.x, y - v.y );
 		}
 
-			//	Изменение знака векта
-			//	\return Новый вектор с противоположным знаком
 		gtVector2< Type > operator-( void ) const {
 			return gtVector2( -x, -y );
 		}
 
-			//	Умножение векторов
-			// \param v: вектор
-			//	\return произведение двух векторов
 		gtVector2< Type > operator*( const gtVector2< Type >& v ) const {
 			return gtVector2( x * v.x, y * v.y );
 		}
 
-			//	Отношение векторов
-			// \param v: вектор
-			//	\return отношение двух векторов
 		gtVector2< Type > operator/( const gtVector2< Type >& v ) const {
 			return gtVector2( x / v.x, y / v.y );
 		}
 
-			//	получить значение компонента
-			//	\param id: номер компонента
-			// \return значение компонента
 		const Type	getX( void ) const {
 			return x;
 		}
@@ -162,25 +116,17 @@ namespace gost{
 			return y;
 		}
 
-			//	установка компонентов
-			//	\param l: список компонентов
 		void	set( Type X, Type Y ){
 			x = X;
 			y = Y;
 		}
 
-			//	сравнит вектор
-			//	\param v: вектор для сравнение
-			// \return \b true если вектора равны
 		bool	operator==( const gtVector2< Type >& v ) const {
 			if( x != v.x ) return false;
 			if( y != v.y ) return false;
 			return true;
 		}
 
-			//	сравнит вектор
-			//	\param v: вектор для сравнение
-			// \return \b true если вектора \b не равны
 		bool	operator!=( const gtVector2< Type >& v ) const {
 			if( x != v.x ) return true;
 			if( y != v.y ) return true;
@@ -189,13 +135,10 @@ namespace gost{
 
 
 
-			//	получить длину вектора
-			// \return длина вектора (от центра координат)
 		Type	lengthSqrt( void ){
 			return ( x * x ) + ( y * y );
 		}
 
-			//	нормализовать вектор - нормализация означает приведение значений в формат от 0 до 1, или от -1 до 1
 		void	normalize( void ){
 			f32 sqLen, invLen;
 			sqLen = lengthSqrt();
@@ -778,37 +721,36 @@ namespace gost{
 
 	};
 
-	using v2f = gtVector2<f32>;	//< синоним для gtVector3<f32>
-	using v2i = gtVector2<s32>;	//< синоним для gtVector3<s32>
-	using v2u = gtVector2<u32>;	//< синоним для gtVector3<u32>
+	using v2f = gtVector2<f32>;
+	using v2i = gtVector2<s32>;
+	using v2u = gtVector2<u32>;
 
-	using v3f = gtVector3<f32>;	//< синоним для gtVector3<f32>
-	using v3i = gtVector3<s32>;	//< синоним для gtVector3<s32>
-	using v3u = gtVector3<u32>;	//< синоним для gtVector3<u32>
+	using v3f = gtVector3<f32>;
+	using v3i = gtVector3<s32>;
+	using v3u = gtVector3<u32>;
 
-	using v4f = gtVector4<f32>;	//< синоним для gtVector4<f32>
-	using v4i = gtVector4<s32>;	//< синоним для gtVector4<s32>
-	using v4u = gtVector4<u32>;	//< синоним для gtVector4<u32>
+	using v4f = gtVector4<f32>;
+	using v4i = gtVector4<s32>;
+	using v4u = gtVector4<u32>;
 
-	using v5f = gtVector5<f32>;	//< синоним для gtVector5<f32>
-	using v5i = gtVector5<s32>;	//< синоним для gtVector5<s32>
-	using v5u = gtVector5<u32>;	//< синоним для gtVector5<u32>
+	using v5f = gtVector5<f32>;
+	using v5i = gtVector5<s32>;
+	using v5u = gtVector5<u32>;
 
-	using v6f = gtVector6<f32>;	//< синоним для gtVector6<f32>
-	using v6i = gtVector6<s32>;	//< синоним для gtVector6<s32>
-	using v6u = gtVector6<u32>;	//< синоним для gtVector6<u32>
+	using v6f = gtVector6<f32>;
+	using v6i = gtVector6<s32>;
+	using v6u = gtVector6<u32>;
 
-	using v7f = gtVector7<f32>;	//< синоним для gtVector7<f32>
-	using v7i = gtVector7<s32>;	//< синоним для gtVector7<s32>
-	using v7u = gtVector7<u32>;	//< синоним для gtVector7<u32>
+	using v7f = gtVector7<f32>;
+	using v7i = gtVector7<s32>;
+	using v7u = gtVector7<u32>;
 
-	using v8f = gtVector8<f32>;	//< синоним для gtVector8<f32>
-	using v8i = gtVector8<s32>;	//< синоним для gtVector8<s32>
-	using v8u = gtVector8<u32>;	//< синоним для gtVector8<u32>
+	using v8f = gtVector8<f32>;
+	using v8i = gtVector8<s32>;
+	using v8u = gtVector8<u32>;
 
 	namespace math{
 
-			//	cross product of s with a /векторное произедение
 			//	\param s: first vector
 			//	\param a: second vector
 			//	\return cross product
@@ -820,7 +762,6 @@ namespace gost{
 			return r;
 		}
 
-			//	dot product of s with a /скалярное произедение
 			//	\param s: first vector
 			//	\param a: second vector
 			//	\return dot product
@@ -832,7 +773,6 @@ namespace gost{
 			return r;
 		}
 
-			//	dot product of s with a /скалярное произедение
 			//	\param s: first vector
 			//	\param a: second vector
 			//	\return dot product
@@ -844,7 +784,6 @@ namespace gost{
 			return r;
 		}
 
-			//	dot product of s with a /скалярное произедение
 			//	\param s: first vector
 			//	\param a: second vector
 			//	\return dot product
@@ -885,7 +824,7 @@ namespace gost{
 #endif
 
 /*
-Copyright (c) 2017, 2018 532235
+Copyright (c) 2017-2018 532235
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software
 and associated documentation files (the "Software"), to deal in the Software without restriction,

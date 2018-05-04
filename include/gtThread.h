@@ -1,10 +1,6 @@
-﻿/*!	GOST
-	\file gtThread.h
-	\brief 
-*/
-#pragma once
+﻿#pragma once
 #ifndef __GT_THREAD_H__
-#define __GT_THREAD_H__ //< include guard
+#define __GT_THREAD_H__
 
 namespace gost{
 

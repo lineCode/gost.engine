@@ -1,15 +1,9 @@
-﻿/*!	GOST
-	\file gtMatrix.h
-	\brief matrix
-*/
-
-#pragma once
+﻿#pragma once
 #ifndef __GT_MATRIX_H__
-#define __GT_MATRIX_H__ //< include guard
+#define __GT_MATRIX_H__
 
 namespace gost{
 	
-		//	matrix with 4 components
 	class gtMatrix4{
 
 		v4f m_data[ 4u ]; //< components
@@ -52,7 +46,6 @@ namespace gost{
 			fill( 0.f );
 		}
 
-			//	main diagonal - главная диагональ = 1
 		void		identity( void ){
 			auto * p = this->getPtr();
 			p[ 0u ] = 1.f;
@@ -339,7 +332,6 @@ namespace gost{
 			//	create translation matrix
 			// \param in_out: translation matrix
 			// \param position: position
-			//	нужно чтобы у матрицы была главная диагональ = 1
 		GT_FORCE_INLINE void makeTranslationMatrix( gtMatrix4& in_out, const v3f& position ){
 			in_out[ 3 ].x = position.x;
 			in_out[ 3 ].y = position.y;

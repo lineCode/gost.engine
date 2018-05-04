@@ -1,10 +1,6 @@
-﻿/*!	GOST
-	\file gtAudioObject.h
-	\brief Object with loaded audio
-*/
-#pragma once
+﻿#pragma once
 #ifndef __GT_AUDIO_OBJECT_H__
-#define __GT_AUDIO_OBJECT_H__ //< include guard
+#define __GT_AUDIO_OBJECT_H__
 
 #include <gtAudioSource.h>
 

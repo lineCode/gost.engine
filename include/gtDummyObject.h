@@ -1,10 +1,6 @@
-﻿/*!	GOST
-	\file gtDummyObject.h
-	\brief Invisible object for make hierarchy
-*/
-#pragma once
+﻿#pragma once
 #ifndef __GT_DUMMY_OBJECT_H__
-#define __GT_DUMMY_OBJECT_H__ //< include guard
+#define __GT_DUMMY_OBJECT_H__
 
 namespace gost{
 

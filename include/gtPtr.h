@@ -1,52 +1,35 @@
-﻿/**	GOST
-	\file gtPtr.h
-	\brief Pointer class for gtRefObject
-*/
-
-#pragma once
+﻿#pragma once
 #ifndef __GT_PTR_H__
-#define __GT_PTR_H__ //< include guard
+#define __GT_PTR_H__
 
 namespace gost{
 
-		//	Через этот класс передаётся указатель объекта в gtPtr	
-		//	Нужно использовать так (для удобства создан макрос \ref gtPtr_t):
-		// \code {.cpp}
-		//	gtPtr<type> object( gtPtrNew<type>(new type(params)) );
-		//	\endcode
 	template <typename Type>
 	class gtPtrNew{
 
-		Type * m_pointer; // указатель
+		Type * m_pointer;
 	
 	protected:
-		gtPtrNew( void ) : m_pointer( nullptr ) {} // запрет создания пустого объекта
+		gtPtrNew( void ) : m_pointer( nullptr ) {}
 
 	public:
 
-			//	Создаёт объект принимая указатель
 		gtPtrNew( Type* o ) : m_pointer( o ){}
 
-			//	Возвратит указатель
-			//	\return Указатель который хранит
 		Type*	data( void ) const {
 			return m_pointer;
 		}
 	};
 
-		//	Простая оболочка к указателю
 	template <typename Type>
 	class gtPtr{
 	
-			//	Указатель
 		Type * m_pointer;
 
 	public:
 	
-			// Не уверен что он нужен
 		gtPtr( void ) : m_pointer( nullptr) {}
 
-			//	добавит указатель с типом имеющим метод addRef
 		gtPtr( const gtPtr& ptr ){
 			if( ptr.m_pointer ){
 				ptr.m_pointer->addRef();
@@ -54,8 +37,6 @@ namespace gost{
 			m_pointer = ptr.m_pointer;
 		}
 	
-			//	ненужно делать так gtPtr<чтото> (new gtИмя);
-			//	для создания новых объектов есть gtPtrNew
 		gtPtr( Type* object ){
 			if( object ){
 				object->addRef();
@@ -63,12 +44,10 @@ namespace gost{
 			m_pointer = object;
 		}
 
-			//	просто передаёт указатель, не вызывая addRef
 		gtPtr( const gtPtrNew<Type>& ptr ){
 			m_pointer = ptr.data();
 		}
 
-			//	автоматическое удаление
 		~gtPtr(){
 			if( m_pointer ){
 				m_pointer->release();
@@ -76,13 +55,10 @@ namespace gost{
 			m_pointer = nullptr;
 		}
 
-			// Get ptr
-			//	\return Указатель который хранит
 		Type* operator->() const {
 			return m_pointer;
 		}
 
-			//	присваивание
 		void operator=( Type* e ) {
 			if( e ){
 				e->addRef();
@@ -93,7 +69,6 @@ namespace gost{
 			m_pointer = e;
 		}
 
-			//	присваивание
 		void operator=( const gtPtrNew<Type>& rp ){
 			if( m_pointer ){
 				m_pointer->release();
@@ -102,7 +77,6 @@ namespace gost{
 		}
 
 
-			//	присваивание
 		void operator=( const gtPtr& rp ){
 			if( rp.m_pointer ){
 				rp.m_pointer->addRef();
@@ -113,14 +87,10 @@ namespace gost{
 			m_pointer = rp.m_pointer;
 		}
 
-			// Get ptr
-			//	\return Указатель который хранит
 		Type* data( void ) const {
 			return m_pointer;
 		}
 
-			//	сравнение указателей
-			//	\return \c true если указатели равны
 		bool	operator==( const gtPtr& v ){
 			return m_pointer == v.m_pointer;
 		}

@@ -1,20 +1,9 @@
-﻿/*!	GOST
-	\file gtAnimation.h
-	\brief animation class
-
-	Предпологается что класс можно использовать как для спрайтовой анимации, так и для прочих.
-	Вполне можно было сделать его наследуемым классом.
-	Но я не уверен что система в принципе окажется подобной как для спрайтовой так и для скелетной анимаций (нет опыта во второй).
-	По этому класс обычный, и в спрайте находится его объект.
-*/
-
-#pragma once
+﻿#pragma once
 #ifndef __GT_ANIMATION_H__
-#define __GT_ANIMATION_H__ //< include guard
+#define __GT_ANIMATION_H__
 
 namespace gost{
 		
-		//	Описывает базовые функции для анимации
 	class gtAnimation{
 
 		v2u m_loopSegment;	//< loop segment

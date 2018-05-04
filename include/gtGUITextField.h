@@ -1,6 +1,6 @@
 ﻿#pragma once
 #ifndef __GT_GUI_TEXT_FIELD_H__
-#define __GT_GUI_TEXT_FIELD_H__ //< include guard
+#define __GT_GUI_TEXT_FIELD_H__ 
 
 namespace gost{
 

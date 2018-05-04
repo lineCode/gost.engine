@@ -1,11 +1,6 @@
-﻿/*!	GOST
-	\file gtImage.h
-	\brief software image
-*/
-
-#pragma once
+﻿#pragma once
 #ifndef __GT_IMAGE_H__
-#define __GT_IMAGE_H__ // include guard
+#define __GT_IMAGE_H__
 
 
 namespace gost{
@@ -225,7 +220,6 @@ namespace gost{
 			}
 		}
 
-			//	отразит по вертикали (для почти всех форматов (кроме однобайтового))
 		void flipVertical( void ){
 			u8 * line = nullptr;
 			gtMainSystem::getInstance()->allocateMemory( (void**)&line, pitch );
@@ -753,13 +747,9 @@ namespace gost{
 	//	Helper functions for gtImage
 	namespace image{
 
-			// планируется написать функцию изменения масштаба картинки
 		GT_FORCE_INLINE void scale( gtImage * /*i*/, f32 /*factor*/ ){
 		}
 
-			// \param i: картинка для закрашивания
-			// \param saveAlpha: если \b true то альфа не закрасится
-			// \param color: цвет
 		GT_FORCE_INLINE void fillSolid( gtImage * i, bool saveAlpha, const gtColor& color ){
 			if( i->format != gtImage::Format::FMT_R8G8B8 &&
 				i->format != gtImage::Format::FMT_R8G8B8A8 )
@@ -787,10 +777,6 @@ namespace gost{
 			}
 		}
 
-			// \param i: картинка для закрашивания
-			// \param saveAlpha: если \b true то альфа не закрасится
-			// \param firstColor: первый цвет
-			// \param secondColor: второй цвет
 		GT_FORCE_INLINE void fillCheckerBoard(
 			gtImage * i,
 			bool saveAlpha,

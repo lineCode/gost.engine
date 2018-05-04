@@ -11,7 +11,6 @@ namespace gost{
 			//	default constructor
 		gtAabb( void ){ }
 
-			//	Установить по значениям
 			// \param min: minimum
 			// \param max: maximum
 		gtAabb( const v3f& min, const v3f& max ):
@@ -28,7 +27,6 @@ namespace gost{
 			m_min = m_max = v3f();
 		}
 
-			//	Если точка удовлетворяет условию, aabb растёт
 			//	\param point: vertex position for add
 		void add( const v3f& point ){
 			if( point.x < m_min.x ) m_min.x = point.x;
@@ -40,7 +38,6 @@ namespace gost{
 			if( point.z > m_max.z ) m_max.z = point.z;
 		}
 
-			//	Если размер коробки удовлетворяет условию, aabb растёт
 			//	\param box: other aabb
 		void add( const gtAabb& box ){
 			if( box.m_min.x < m_min.x ) m_min.x = box.m_min.x;
@@ -52,13 +49,11 @@ namespace gost{
 			if( box.m_max.z > m_max.z ) m_max.z = box.m_max.z;
 		}
 
-			//	размер коробки
 			// \param v: [\b in/out] vector for size
 		void extent( v3f& v ){
 			v = v3f( m_max - m_min );
 		}
 
-			// центр коробки
 			// \param v: [\b in/out] center
 		void center( v3f& v ){
 			v = v3f( m_min + m_max );

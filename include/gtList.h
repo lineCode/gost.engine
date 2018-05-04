@@ -1,12 +1,6 @@
-﻿/*!	GOST
-	\file gtList.h
-	\brief test
-
-*/
-
-#pragma once
+﻿#pragma once
 #ifndef __GT_LIST_H__
-#define __GT_LIST_H__ //< include guard
+#define __GT_LIST_H__
 
 namespace gost{
 

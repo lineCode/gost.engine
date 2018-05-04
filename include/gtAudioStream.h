@@ -1,10 +1,6 @@
-﻿/*!	GOST
-	\file gtAudioStream.h
-	\brief Object with audio stream
-*/
-#pragma once
+﻿#pragma once
 #ifndef __GT_AUDIO_STREAM_H__
-#define __GT_AUDIO_STREAM_H__ //< include guard
+#define __GT_AUDIO_STREAM_H__ 
 
 namespace gost{
 

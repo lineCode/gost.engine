@@ -1,6 +1,6 @@
 ﻿#pragma once
 #ifndef __GT_XML_DOCUMENT_H__
-#define __GT_XML_DOCUMENT_H__ //< include guard
+#define __GT_XML_DOCUMENT_H__
 
 namespace gost{
 

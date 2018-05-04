@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Исходные файлы\Samples">
+      <UniqueIdentifier>{ee694413-77ed-4428-89a4-d5d8079d5076}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="creator.cpp">
@@ -26,6 +29,9 @@
     </ClCompile>
     <ClCompile Include="DemoApplicationEventConsumer.cpp">
       <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="examples\Get_supported_import_formats.cpp">
+      <Filter>Исходные файлы\Samples</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

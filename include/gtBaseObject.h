@@ -1,24 +1,16 @@
-﻿/**	GOST
-	\file gtBaseObject.h
-	\brief 	Общий класс. 
-*/
-
-#pragma once
+﻿#pragma once
 #ifndef __GT_BASE_OBJECT_H__
-#define __GT_BASE_OBJECT_H__ //< include guard
+#define __GT_BASE_OBJECT_H__
 
 namespace gost{
 
-	// Все объекты движка наследуют его через gtRefObject
 	class gtBaseObject{
 	protected:
 
-		//	ненужно создавать объект вручную
 		GT_FORCE_INLINE gtBaseObject( void ){}
-		// \cond
+	
 #if defined(GT_DEBUG)
-		// \endcond
-		//	в дебагере, например в методе gtPtr::release может понадобится знать, какой объект уничтожается
+	
 		gtString m_debugName;
 #endif
 
@@ -30,17 +22,10 @@ namespace gost{
 			//	d-tor
 		virtual void first_vtable_function( void ){}
 
-		// \cond
+	
 #if defined(GT_DEBUG)
-		// \endcond
+	
 
-		/**
-
-			При отладке, бывает необходимо знать какой объект отслеживается.
-			Один из способов это прямо указать его имя.
-
-			\param s: имя
-		*/
 		virtual void setDebugName( const gtString& s ){ m_debugName = s; }
 #endif
 

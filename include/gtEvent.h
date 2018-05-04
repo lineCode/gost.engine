@@ -1,11 +1,6 @@
-﻿/*!	GOST
-	\file gtEvent.h
-	\brief Events
-*/
-
-#pragma once
+﻿#pragma once
 #ifndef __GT_EVENT_H__
-#define __GT_EVENT_H__ //< include guard
+#define __GT_EVENT_H__
 
 namespace gost{
 
@@ -25,16 +20,15 @@ namespace gost{
 #define GT_EVENT_SYSTEM_TIMER    1u
 
 
-#define GT_EVENT_MASK_MOUSE_LMB	1u			//< была ли нажата левая кнопка мыши
-#define GT_EVENT_MASK_MOUSE_RMB	2u			//< была ли нажата правая кнопка мыши
-#define GT_EVENT_MASK_MOUSE_MMB	4u			//< была ли нажата средняя кнопка мыши
-#define GT_EVENT_MASK_MOUSE_EXTRA1 8u		//< была ли нажата дополнительная кнопка мыши
-#define GT_EVENT_MASK_MOUSE_EXTRA2 16u		//< была ли нажата дополнительная кнопка мыши
-#define GT_EVENT_MASK_MOUSE_LMB_DBL 32u		//< была ли нажата левая кнопка мыши два раза подряд
-#define GT_EVENT_MASK_MOUSE_RMB_DBL 64u		//< была ли нажата правая кнопка мыши два раза подряд
+#define GT_EVENT_MASK_MOUSE_LMB	1u			
+#define GT_EVENT_MASK_MOUSE_RMB	2u			
+#define GT_EVENT_MASK_MOUSE_MMB	4u			
+#define GT_EVENT_MASK_MOUSE_EXTRA1 8u		
+#define GT_EVENT_MASK_MOUSE_EXTRA2 16u		
+#define GT_EVENT_MASK_MOUSE_LMB_DBL 32u		
+#define GT_EVENT_MASK_MOUSE_RMB_DBL 64u		
 
 	
-		//	Тип события
 	enum class gtEventType : u32 {
 		None,		
 		Keyboard,

@@ -1,10 +1,6 @@
-﻿/*!	GOST
-	\file gtAudioSource.h
-	\brief Source for audio
-*/
-#pragma once
+﻿#pragma once
 #ifndef __GT_AUDIO_SOURCE_H__
-#define __GT_AUDIO_SOURCE_H__ //< include guard
+#define __GT_AUDIO_SOURCE_H__
 
 namespace gost{
 

@@ -1,38 +1,25 @@
-﻿/*!	GOST
-	\file gtPlugin.h
-	\brief work with plugins
-*/
-#pragma once
+﻿#pragma once
 #ifndef __GT_PLUGIN_H__
-#define __GT_PLUGIN_H__ //< include guard
+#define __GT_PLUGIN_H__ 
 
 namespace gost{
 
-		//	тип плагина
 	enum class gtPluginType{
 
-			//	плагины должны быть правильно инициализированы
 		unknown,
 
-			//	рендер
 		render,
 
-			//	импортёр картинок
 		import_image,
 
-			//	импортёр моделей
 		import_model,
 
-			// аудио плагин
 		audio,
 
-			// экспортёр картинок
 		export_image,
 
-			// экспортёр моделей
 		export_model,
 
-			// устройства ввода
 		input
 
 	};
@@ -87,10 +74,9 @@ namespace gost{
 			// d-tor
 		~gtPluginInfoDL( void ){}
 
-			//	путь к файлу
 		gtString m_path;
 		
-			//	handle плагина
+	
 #ifdef GT_EXPORTS
 		GT_LIBRARY_HANDLE
 #else
@@ -98,18 +84,14 @@ namespace gost{
 #endif
 			m_handle;
 
-			//	общая информация
 		gtPluginInfo m_info;
 	};
 	
-		// Плагин
 	class gtPlugin : public gtRefObject{
 	protected:
 
-			//	информация
 		gtPluginInfoDL	m_info;
 
-			//	загружен ли плагин
 		bool m_isLoad;
 
 	public:
@@ -122,22 +104,14 @@ namespace gost{
 			// d-tor
 		virtual ~gtPlugin( void ){	}
 
-			// Загружен ли плагин
-			// \return \b true если загружен
 		bool isLoad( void ) const { return m_isLoad; }
 
-			//	Загрузить плагин
 		virtual void load( void ) = 0;
 
-			//	Выгрузить плагин
 		virtual void unload( void ) = 0;
 
-			// Получить информацию о плагине
-			// \return Вернёт информацию о плагиен
 		virtual const gtPluginInfoDL&	getInfo( void ) = 0;
 
-			//	Проверить, есть ли нужные функции в плагине
-			// \return \b true если есть все нужные функции
 		virtual bool checkLibraryFunctions( void ) = 0;
 
 	};

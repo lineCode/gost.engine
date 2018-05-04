@@ -1,9 +1,4 @@
-﻿/*!	GOST
-	\file gtString.h
-	\brief string
-*/
-
-#pragma once
+﻿#pragma once
 #ifndef __GT_STRING_H__
 #define __GT_STRING_H__
 
@@ -11,7 +6,6 @@
 
 namespace gost{
 
-		// чтобы постоянно не выделять память при добавлении символов
 	const u32 StringWordSize = 16u;
 
 		//String class
@@ -398,16 +392,12 @@ namespace gost{
 		}
 	};
 
-	//! \brief Строка с utf-16. gtString(u"asdasd")
 	GT_TYPE( gtString, gtString_base<char16_t>); //< See \ref _GT_TYPE
 
-	//! \brief Строка с wide char. gtString(L"asdasd")
 	GT_TYPE( gtStringW, gtString_base<wchar_t>); //< See \ref _GT_TYPE
 
-	//! \brief Строка с utf-32. gtString(U"asdasd")
 	GT_TYPE( gtString32, gtString_base<char32_t>); //< See \ref _GT_TYPE
 
-	//! \brief Строка с ANSI текстом
 	GT_TYPE( gtStringA, gtString_base<char>); //< See \ref _GT_TYPE
 
 	namespace util{

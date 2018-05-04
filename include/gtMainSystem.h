@@ -1,11 +1,6 @@
-﻿/*!	GOST
-	\file gtMainSystem.h
-	\brief GoST main system
-*/
-
-#pragma once
+﻿#pragma once
 #ifndef __GT_MAIN_SYSTEM_H__
-#define __GT_MAIN_SYSTEM_H__ //< include guard
+#define __GT_MAIN_SYSTEM_H__
 
 namespace gost{
 
@@ -27,19 +22,17 @@ namespace gost{
 	class gtCamera;
 	class gtPlugin;
 
-		//	Перечисление ОС
 	enum class gtDeviceType{
 		Android,	//< not implemented
 		iOS,		//< not implemented
         Linux,		//< not implemented
 		OSX,		//< not implemented
-		Windows,	//< конечно же будет реализован пока только он
+		Windows,	
 		XBox,		//< not implemented
 		PlayStation,//< not implemented
 		Wii			//< not implemented
 	};
 
-		//	В этой структуре будут находится параметры для запуска главной системы
 	struct gtDeviceCreationParameters{
 
 			// c-tor
@@ -65,10 +58,8 @@ namespace gost{
 			// Font for output window
 		gtString			m_fontName;
 
-			//	Тип Операционной системы на которой будет работать программа
 		gtDeviceType		m_device_type;
 
-			//	если nullptr то будет создано стандартное окно вывода
 		gtOutputWindow*		m_outputWindow;
 
 			// user event consumer
@@ -76,7 +67,6 @@ namespace gost{
 
 	};
 
-		//	Основной класс движка
 	class gtMainSystem : public gtRefObject{
 	public:
 
@@ -91,121 +81,53 @@ namespace gost{
 			//	\return output window
 		virtual gtOutputWindow* getOutputWindow( void ) = 0;
 
-			//	Получить логер
 			//	\return logger
 		virtual gtLoger*		getLoger( void ) = 0;
 
-			//	Используется для главного цикла. Возвращает true если всё впорядке, или не был послан сигнал о завершении работы
 			//	\return \b true if engine run
 		virtual	bool	update( void ) = 0;
 
-			// Инициализирует аудио плагин.
-			// \param giud: id плагина.
-			// \remark если guid == empty(), загрузится первый попавшийся аудио плагин
-		//virtual gtAudioSystem* createAudioSystem( const gtString& uid = gtString() ) = 0;
 		virtual gtPtr<gtAudioSystem> createAudioSystem( const GT_GUID& uid ) = 0;
 
-			//	Создаёт окно, которое можно использовать для рисования 3D сцены
-			// \param wi: window info
-			//	\return GoST window
 		virtual gtPtr<gtWindow>		createSystemWindow( gtWindowInfo* wi ) = 0;
 
-			//	Инициализирует видео драйвер
-			// \param di: driver info
-			// \return video driver
 		virtual gtPtr<gtDriver>		createVideoDriver( /*gtPlugin* videoDriverPlugin, */const gtDriverInfo& di, const GT_GUID& uid ) = 0;
 
-			//	Do not use it for gtRefObject
-			//	\param data: pointer to data
-			//	\param size: size of data in bytes
-			//	\return \b true if OK
-			/**
-				\code {.cpp}
-				if( !gtMainSystem::getInstance()->allocateMemory( (void**)&image->data, image->dataSize ) ){
-					gtLogWriter::printWarning( u"BMP Plugin: can not allocate memory. [%s]", fileName->data() );
-					return false;
-				}
-				\endcode
-			*/
 		virtual bool		allocateMemory( void** data, u32 size ) = 0;
 
-			//	Освобождает память, выделенную с помощью allocateMemory
-			//	\param data: pointer to data
-			/**
-				\code {.cpp}
-				gtMainSystem::getInstance()->freeMemory( (void**)&image->data );
-				\endcode
-			*/
 		virtual void		freeMemory( void** data ) = 0;
 
-			//	Загрузит gtImage, если расширение поддерживается хоть каким-то плагином
-			//	\param fileName: path to the file
-			// \return image
 		virtual gtPtr<gtImage>	loadImage( const gtString& fileName ) = 0;
 
-			//	Загрузит gtImage плагином имеющим указанный код
-			//	\param fileName: path to the file
-			//	\param pluginGUID: unique ID of plugin
-			// \return image
 		virtual gtPtr<gtImage>	loadImage( const gtString& fileName, const GT_GUID& pluginGUID ) = 0;
 
-		//virtual void		removeImage( gtImage* ) = 0;
-
-			//	получить время прошедшее с момента запуска движка
-			// \return time in millisecons
 		virtual u32			getTime( void ) = 0;
 
-			//	получить указатель на таймер
-			// \return timer
 		virtual gtTimer*	getTimer( void ) = 0;
 
-			//	добавить событие. prior - приоритет - 0 обычный, 1 самый важный
-			// \param ev: event
-			// \param prior: not imlemeted
 		virtual void		addEvent( const gtEvent& ev, u8 prior = 0u ) = 0;
 
 
-			// get model system
-			// \return moedl system
 		virtual gtModelSystem*	getModelSystem( void ) = 0;
 
-			// get plugin system
-			// \return plugin system
 		virtual gtPluginSystem*	getPluginSystem( void ) = 0;
 
-			// get scene system
-			// \return scene system
 		virtual gtSceneSystem*	getSceneSystem( gtDriver * currentRenderDriver ) = 0;
 
 		virtual gtGUISystem*	getGUISystem( gtDriver * currentRenderDriver ) = 0;
 
-			// get world matrix
-			// \return world matrix
 		virtual const gtMatrix4& getMatrixWorld( void ) = 0;
 
-			// get view matrix
-			// \return view matrix
 		virtual const gtMatrix4& getMatrixView( void ) = 0;
 
-			// get projection matrix
-			// \return projection matrix
 		virtual const gtMatrix4& getMatrixProjection( void ) = 0;
 
-			// set world matrix
-			// \param m: world matrix
 		virtual void setMatrixWorld( const gtMatrix4& m ) = 0;
 
-			// set view matrix
-			// \param m: view matrix
 		virtual void setMatrixView( const gtMatrix4& m ) = 0;
 
-			// set projection matrix
-			// \param m: projection matrix
 		virtual void setMatrixProjection( const gtMatrix4& m ) = 0;
 
-			//	Update events
-			//	\param event[out]: event truct
-			//	\return \b true if have event
 		virtual bool pollEvent( gtEvent& event ) = 0;
 
 			//	Check pressed key

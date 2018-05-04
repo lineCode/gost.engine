@@ -9,7 +9,6 @@
 //
 //namespace gost{
 //
-//		//	очередь с приоритетом
 //	template<typename Type>
 //	class gtPriorQueue{
 //		

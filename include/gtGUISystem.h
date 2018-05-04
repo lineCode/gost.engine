@@ -1,6 +1,6 @@
 ﻿#pragma once
 #ifndef __GT_GUI_SYSTEM_H__
-#define __GT_GUI_SYSTEM_H__ //< include guard
+#define __GT_GUI_SYSTEM_H__
 
 namespace gost{
 

@@ -1,10 +1,6 @@
-﻿/*!	GOST
-	\file gtStackTrace.h
-	\brief stack tracer
-*/
-#pragma once
+﻿#pragma once
 #ifndef __GT_STACK_TRACE_H__
-#define __GT_STACK_TRACE_H__ //< include guard
+#define __GT_STACK_TRACE_H__
 
 #if defined( GT_USE_STACK_TRACE )
 
@@ -20,24 +16,17 @@
 
 namespace gost{
 	
-		// размер стека
 	constexpr u32 gtMaxStackFrames = 1024u;
 
-		//	Выводит цепочку вызовов функций от текущей до самого начала
-		//	По логике должен работать только в Debug версии 
 	class gtStackTrace{
 		
-			//	для вывода текста
 		gtPtr<gtLoger> m_log;
 
 		//gtMutex * m_mutex;
 
-			//	нельзя создать объект с таким конструктором
 		gtStackTrace( void ){}
 
-			//	инициализация при первом вызове printStackTrace
 		void initialize( void );	bool m_is_initialized;
-			//	производит зависимое от ОС операции по освобождению ранее взятой памяти
 		void shutdown( void );
 
 	public:
@@ -52,17 +41,8 @@ namespace gost{
 			m_log->release();
 		}
 
-			//	skip_begin	- пропуск с начала\n
-			//	skip_end	- пропуск с конца\n
-			//	если skip_begin = 0 то будет показан gtStackTrace::printStackTrace()\n
-			//	что очевидно, по этому по умолчанию стоит 1\n
-			//	skip_end = 7 значит не напечатает последние 7
 		void printStackTrace( u32 skip_begin = 1u, u32 skip_end = 7u );
 
-			//	движок имеет свой объект gtStackTrace\n
-			//	данной функцией можно вызывать printStackTrace()\n
-			//	всего лишь 1м предложением gtStackTrace::dumpStackTrace()\n
-			//	создан специально чтобы не плодить объекты gtStackTrace в разных модулях (.exe, .dll)
 		GT_API static	void dumpStackTrace( void );
 
 	};
@@ -88,7 +68,7 @@ GT_FORCE_INLINE void gtStackTrace::printStackTrace( u32 /*skip_begin*/, u32 /*sk
 
 
 /*
-Copyright (c) 2017, 2018 532235
+Copyright (c) 2017-2018 532235
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
 and associated documentation files (the "Software"), to deal in the Software without restriction, 

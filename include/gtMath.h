@@ -1,11 +1,6 @@
-﻿/*!	GOST
-	\file gtMath.h
-	\brief Math
-*/
-
-#pragma once
+﻿#pragma once
 #ifndef __GT_MATH_H__
-#define __GT_MATH_H__ //< include guard
+#define __GT_MATH_H__
 
 /*Doom 3*/
 enum{
@@ -34,7 +29,7 @@ namespace gost{
 			f32 f;
 		};
 
-			// Быстрый обратный корень. Doom 3
+			//Doom 3
 		GT_FORCE_INLINE f32 invSqrt( f32 x ){
 			s32 a = ((union _flint*)(&x))->i;
 			union _flint seed;
@@ -46,44 +41,26 @@ namespace gost{
 			return (f32) r;
 		}
 
-			//	переведёт углы в радианы
-			//	\param degrees: углы
-			// \return радианы
 		GT_FORCE_INLINE f32 degToRad( f32 degrees ){
 			return degrees * ( PI / 180.f );
 		}
 
-			//	переведёт радианы в углы
-			//	\param radians: радианы
-			// \return углы
 		GT_FORCE_INLINE f32 radToDeg( f32 radians ){
 			return radians * ( 180.f / PI );
 		}
 			
-			//	переведёт углы в радианы
-			//	\param degrees: углы
-			// \return радианы
 		GT_FORCE_INLINE f32 radians( f32 degrees ){
 			return degrees * static_cast<f32>(0.01745329251994329576923690768489f);
 		}
 
-			//	переведёт углы в радианы
-			//	\param degrees: углы
-			// \return радианы
 		GT_FORCE_INLINE f64 radians( f64 degrees ){
 			return degrees * static_cast<f64>(0.01745329251994329576923690768489);
 		}
 
-			//	переведёт радианы в углы
-			//	\param radians: радианы
-			// \return углы
 		GT_FORCE_INLINE f32 degrees( f32 radians ){
 			return radians * static_cast<f32>(57.295779513082320876798154814105);
 		}
 
-			//	переведёт радианы в углы
-			//	\param radians: радианы
-			// \return углы
 		GT_FORCE_INLINE f64 degrees( f64 radians ){
 			return radians * static_cast<f64>(57.295779513082320876798154814105);
 		}

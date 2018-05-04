@@ -1,6 +1,6 @@
 ﻿#pragma once
 #ifndef __GT_PLUGIN_SYSTEM_H__
-#define __GT_PLUGIN_SYSTEM_H__ //< include guard
+#define __GT_PLUGIN_SYSTEM_H__
 
 #include <gtPlugin.h>
 

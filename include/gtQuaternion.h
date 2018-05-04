@@ -1,11 +1,6 @@
-﻿/*!	GOST
-	\file gtQuaternion.h
-	\brief quaternion
-*/
-
-#pragma once
+﻿#pragma once
 #ifndef __GT_QUATERNION_H__
-#define __GT_QUATERNION_H__ //< include guard
+#define __GT_QUATERNION_H__
 
 namespace gost{
 

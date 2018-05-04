@@ -1,29 +1,18 @@
-﻿/*!	GOST
-	\file gtRenderModel.h
-	\brief render model
-*/
-#pragma once
+﻿#pragma once
 #ifndef __GT_RENDER_MODEL_H__
-#define __GT_RENDER_MODEL_H__ //< include guard
+#define __GT_RENDER_MODEL_H__
 
 namespace gost{
 	
-		//	hardware модель \n
-		//	реализуется в плагинах. \n
-		//	создаёт hardware буферы
 	class gtRenderModel : public gtRefObject{
 	public:
 
-			// получить количество суб моделей
 			// \return sub models count
 		virtual u32 getSubModelCount( void ) = 0;
 
-			// получить материал указанной суб модели
-			// \param id: id суб модели
 			// \return material
 		virtual gtMaterial*	getMaterial( u32 id ) = 0;
 
-			//	нарисует gtRenderModel
 		virtual void		render( void ) = 0;
 
 		virtual gtAabb*				getAabb( void ) = 0;

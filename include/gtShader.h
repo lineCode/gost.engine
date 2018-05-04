@@ -1,11 +1,6 @@
-﻿/*!	GOST
-	\file gtShader.h
-	\brief working with shaders
-*/
-
-#pragma once
+﻿#pragma once
 #ifndef __GT_SHADER_H__
-#define __GT_SHADER_H__ //< include guard
+#define __GT_SHADER_H__
 
 namespace gost{
 
@@ -32,22 +27,15 @@ namespace gost{
 
 	};
 
-		//	Шейдер
 	class gtShader : public gtRefObject {
 	public:
 
-			// получить используемую версию шейдера
-			// \return shader model
 		virtual gtShaderModel	getShaderModel( void ) = 0;
 
-			//	В d3d11 создаёт константный буффер
-			// \param byteSize: размер в байтах
-			// \return \b true если успех
 		virtual bool	createShaderObject( u32 byteSize ) = 0;
 
 	};
 
-		// Устанавливает параметры в шейдерной программе
 	class gtShaderProcessing : public gtRefObject{
 	public:
 
@@ -57,68 +45,39 @@ namespace gost{
 			// d-tor
 		virtual ~gtShaderProcessing( void ){}
 
-			// Послать в шейдер значение float
 			// \param un: uniform name
 			// \param v: value
 		virtual void	setFloat( const gtStringA& /*un*/, f32 /*v*/ ){
 		}
 
-			// Послать в шейдер значение int
 			// \param un: uniform name
 			// \param v: value
 		virtual void	setInt( const gtStringA& /*un*/, s32 /*v*/ ){}
 
-			// Послать в шейдер матрицу
 			// \param un: uniform name
 			// \param v: value
 		virtual void	setMatrix4x4( const gtStringA& /*un*/, gtMatrix4& /*v*/ ){}
 
-			// Послать в шейдер вектор3
 			// \param un: uniform name
 			// \param v: value
 		virtual void	setVec3f( const gtStringA& /*un*/, v3f& /*v*/ ){}
 
-			// Послать в шейдер вектор4
 			// \param un: uniform name
 			// \param v: value
 		virtual void	setVec4f( const gtStringA& /*un*/, v3f& /*v*/ ){}
 
-			// Послать в шейдер текстуру
-			// \param un: uniform name
-			// \param id: номер текстуры в материале
 		virtual void	setTexture( const gtStringA& /*un*/, s32 /*id*/ ){}
 
-			/**
-				для константных буферов \n
-				В буфер можно послать как в VS так и в PS, по этому slot и id могут различаться \n
-				напр.	 \n
-				sendDataVS(data, 0, 0); \n
-				sendDataPS(data, 0, 1); \n
-				или \n
-				sendDataVS(data, 0, 0);		//	sendDataVS(data, 0, 0); <-\ \n
-				sendDataVS(data, 1, 1);		//	sendDataVS(data, 1, 1);		|- 1 буфер и туда и туда \n
-				sendDataPS(data, 0, 2);		//	sendDataPS(data, 0, 0); <-/ \n
-				sendDataPS(data, 1, 3);		//	sendDataPS(data, 1, 2); \n
-
-				\param data: указатель на структуру равную констунтному буферу в шейдере
-				\param slot: номер очереди для вершинного шейдера. Начинается с нуля. если посылается в пиксельный, то там нужно тоже начинать с нуля.
-				\param id: это номер буфера (созданного через вызов createShaderObject)
-			*/
 		virtual void	sendDataVS( void* /**data*/, s32 /**slot*/, u32 /**id*/ ){}
 
-			//	см. описание sendDataVS
 		virtual void	sendDataPS( void* /**data*/, s32 /**slot*/, u32 /**id*/ ){}
 	};
 
 	class gtMaterial;
 
-		// вызывается в момент усановки параметров в шейдерной программе
 	class gtShaderCallback : public gtRefObject{
 	public:
 			
-			// вызывается в момент усановки параметров в шейдерной программе
-			// \param m: material
-			// \param sp: gtShaderProcessing for set shader constants
 		virtual void onShader( const gtMaterial& m, gtShaderProcessing* sp ) = 0;
 
 	};

@@ -1,6 +1,6 @@
 #pragma once
 #ifndef __GT_TYPES_H__
-#define __GT_TYPES_H__ //< include guard
+#define __GT_TYPES_H__
 
 namespace gost{
 

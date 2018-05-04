@@ -1,11 +1,6 @@
-﻿/*!	GOST
-	\file gtSceneSystem.h
-	\brief GoST scene system
-*/
-
-#pragma once
+﻿#pragma once
 #ifndef __GT_SCENE_SYSTEM_H__
-#define __GT_SCENE_SYSTEM_H__ //< include guard
+#define __GT_SCENE_SYSTEM_H__
 
 namespace gost{
 

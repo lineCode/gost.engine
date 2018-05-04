@@ -1,13 +1,11 @@
 ﻿#pragma once
 #ifndef __GT_OBB_H__
-#define __GT_OBB_H__ //< include guard
+#define __GT_OBB_H__
 
 namespace gost{
 
 		// Oriented Bounding Box
-		//	Сначала создаётся как старый AABB, но, если включено отображение, то вычисляется поворот, в соответствии с ориентацией объекта.
-		//	Если объект повернулся, нужно обновить OBB. На основве нового OBB можно делать AABB.
-	class gtObb{
+		class gtObb{
 	public:
 
 			//	default constructor
@@ -19,7 +17,6 @@ namespace gost{
 			m_min = m_center = m_extent = m_max;
 		}
 
-			//	Если точка удовлетворяет условию, aabb растёт
 			//	\param point: vertex position for add
 		void add( const v3f& point ){
 			if( point.x < m_min.x ) m_min.x = point.x;
@@ -31,7 +28,6 @@ namespace gost{
 			if( point.z > m_max.z ) m_max.z = point.z;
 		}
 
-			//	Если размер коробки удовлетворяет условию, aabb растёт
 			//	\param box: other aabb
 		void add( const gtObb& box ){
 			if( box.m_min.x < m_min.x ) m_min.x = box.m_min.x;
@@ -43,7 +39,6 @@ namespace gost{
 			if( box.m_max.z > m_max.z ) m_max.z = box.m_max.z;
 		}
 
-			//	размер коробки
 			// \param v: [\b in/out] vector for size
 		void calculateBaseInfo( void ){
 			m_extent = m_max - m_min;

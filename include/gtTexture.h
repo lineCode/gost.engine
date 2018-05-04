@@ -1,29 +1,16 @@
-﻿/*!	GOST
-	\file gtTexture.h
-	\brief hardware текстура
-*/
-
-#pragma once
+﻿#pragma once
 #ifndef __GT_TEXTURE_H__
-#define __GT_TEXTURE_H__ //< include guard
+#define __GT_TEXTURE_H__
 
 namespace gost{
 
-		//	тип текстуры
 	enum gtTextureType : u32 {
 
-		//	обычная
 		TEXTURE_TYPE_2D,
 
-		//	cubemap
 		TEXTURE_TYPE_CUBE
 	};
 
-		/**
-			\brief Min Mag Mip 
-
-			в соответствии с D3D11
-		*/
 	enum gtTextureFilterType : u32 {
 		FILTER_PPP	= 0,				//< D3D11_FILTER_MIN_MAG_MIP_POINT
         FILTER_PPL	= 0x1,				//< D3D11_FILTER_MIN_MAG_POINT_MIP_LINEAR
@@ -36,19 +23,14 @@ namespace gost{
         FILTER_ANISOTROPIC	= 0x55,		//< D3D11_FILTER_ANISOTROPIC
 	};
 
-		//	текстура
 	class gtTexture : public gtRefObject {
 	public:
 
-			//	возвратит тип текстуры
-			// \return type
 		virtual gtTextureType	getType( void ) = 0;
 
-			//	получить ширину
 			// \return width
 		virtual u32				getWidth( void ) = 0;
 
-			//	получить высоту
 			// \return height
 		virtual u32				getHeight( void ) = 0;
 
