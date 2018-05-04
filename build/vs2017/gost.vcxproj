@@ -283,7 +283,7 @@
     <ClInclude Include="..\..\gost\common.h" />
     <ClInclude Include="..\..\gost\gtXMLDocumentImpl.h" />
     <ClInclude Include="..\..\gost\resource.h" />
-    <ClInclude Include="..\..\include\BuiltInFont.h" />
+    <ClInclude Include="..\..\include\BuiltInFont.hpp" />
     <ClInclude Include="..\..\include\gost.h" />
     <ClInclude Include="..\..\include\gtAABB.h" />
     <ClInclude Include="..\..\include\gtAllocator.h" />

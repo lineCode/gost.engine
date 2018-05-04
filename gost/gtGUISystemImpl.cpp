@@ -1,6 +1,6 @@
 #include "common.h"
 
-#include "BuiltInFont.h"
+#include "BuiltInFont.hpp"
 
 gtGUISystemImpl::gtGUISystemImpl( void ):
 m_driver( nullptr )

@@ -428,13 +428,13 @@
     <ClInclude Include="..\..\gost\gtGUITextFieldImpl.h">
       <Filter>Headers\GUI</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\BuiltInFont.h">
-      <Filter>include</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\gtPackOff.h">
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\gtPackOn.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\BuiltInFont.hpp">
       <Filter>include</Filter>
     </ClInclude>
   </ItemGroup>

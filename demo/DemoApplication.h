@@ -2,6 +2,8 @@
 #ifndef __GT_DEMO_APP_H__
 #define __GT_DEMO_APP_H__
 
+#define DEMO_TYPE_NUM 13u
+
 #define DEMO_COMMON 0u
 #define DEMO_EVENTS 1u
 #define DEMO_AUDIO 2u
@@ -12,8 +14,9 @@
 #define DEMO_GUI 7u
 #define DEMO_GAME_OBJECTS 8u
 #define DEMO_FILE_SYSTEM 9u
-#define DEMO_OTHER 10u
-#define DEMO_DEMONSTRATION 11u
+#define DEMO_PHYSICS 10u
+#define DEMO_OTHER 11u
+#define DEMO_DEMONSTRATION 12u
 
 namespace demo{
 
@@ -25,7 +28,7 @@ namespace demo{
 
 	struct DemoLang{
 		gtString m_langName;
-		gtArray<gtString> m_stringArray;
+		gtArray<gtPair<gtString,gtString>/*gtString*/> m_stringArray;
 	};
 
 	enum class DemoAudioType {
@@ -59,7 +62,7 @@ namespace demo{
 		gtPtr<gtGUITextField> m_welcomeText;
 		gtPtr<gtGUIFont>	m_mainFont;
 		
-		gtPtr<gtGUITextField>	m_leftColonEntity[12u];
+		gtPtr<gtGUITextField>	m_leftColonEntity[DEMO_TYPE_NUM];
 		gtPtr<gtGUITextField>	m_rightColonEntity[24u];
 		gtPtr<gtGUIShape>		m_leftColonShape;
 		gtPtr<gtGUIShape>		m_rightColonShape;
@@ -96,7 +99,7 @@ namespace demo{
 		DemoState					m_state;
 
 		gtArray<DemoLang>			m_stringArray;
-		gtArray<DemoElement>		m_demoArrays[ 12u ];
+		gtArray<DemoElement>		m_demoArrays[ DEMO_TYPE_NUM ];
 
 		bool		m_DPad[ 4u ];
 		bool		m_DPadOnce;
@@ -111,6 +114,7 @@ namespace demo{
 		void initAudio( void );
 
 		void addDemo( u32 index, const demo::DemoElement& element );
+		const gtString& getString( const gtString& a );
 
 		void rebuildMainMenuColons( void );
 		bool rebuildMainMenu( void );

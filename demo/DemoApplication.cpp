@@ -64,7 +64,7 @@ bool demo::DemoApplication::Init( void ){
 	
 	m_gamepadSystem	=	m_mainSystem->createGameContoller( GT_UID_INPUT_DINPUT );
 
-	addDemo( DEMO_COMMON, demo::DemoElement( m_stringArray[m_languageID].m_stringArray[13u], m_stringArray[m_languageID].m_stringArray[14u] ) );
+	addDemo( DEMO_COMMON, demo::DemoElement( getString( u"14" ), getString( u"15" ) ) );
 	
 	return true;
 }
@@ -178,11 +178,11 @@ bool demo::DemoApplication::initMainMenu( void ){
 	m_pauseBackgroundShape->setOpacity( 0.f );
 
 	m_pauseTextContinueShape = m_guiSystem->createTextField( v4i(centerx-48,centery-98,centerx+48,0), m_mainFont.data(), false );
-	m_pauseTextContinueShape->setText( m_stringArray[m_languageID].m_stringArray[16u] );
+	m_pauseTextContinueShape->setText( getString( u"17" ) );
 	m_pauseTextSettingsShape = m_guiSystem->createTextField( v4i(centerx-48,m_pauseTextContinueShape->getRect().w,centerx+48,0), m_mainFont.data(), false );
-	m_pauseTextSettingsShape->setText( m_stringArray[m_languageID].m_stringArray[18u] );
+	m_pauseTextSettingsShape->setText( getString( u"19" ) );
 	m_pauseTextExitShape = m_guiSystem->createTextField( v4i(centerx-48,m_pauseTextSettingsShape->getRect().w,centerx+48,0), m_mainFont.data(), false );
-	m_pauseTextExitShape->setText( m_stringArray[m_languageID].m_stringArray[17u] );
+	m_pauseTextExitShape->setText( getString( u"18" ) );
 
 	m_pauseTextSettingsShape->setBackgroundColor( gtColorLightGray );
 	m_pauseTextSettingsShape->setTextColor( gtColorBlack );
@@ -229,24 +229,33 @@ bool demo::DemoApplication::initStrings( void ){
 									u32 nsz = nodes.size();
 									for( u32 i2 = 0u; i2 < nsz; ++i2 ){
 										if( nodes[ i2 ]->name == u"t" ){
-											m_stringArray[ dlcount ].m_stringArray.push_back( nodes[ i2 ]->text );
+
+											gtString a;
+											if( nodes[ i2 ]->attributeList.size() ){
+												a = nodes[ i2 ]->attributeList[ 0 ]->value;
+											}
+
+											m_stringArray[ dlcount ].m_stringArray.push_back( gtPair<gtString,gtString>(a,nodes[ i2 ]->text) );
 										}
 									}
-
 								}
 							}
 						}
-
 					}
-
 				}
-
 			}
-
 		}
 	}
-
 	return true;
+}
+
+const gtString& demo::DemoApplication::getString( const gtString& a ){
+	u32 sz = m_stringArray[ m_languageID ].m_stringArray.size();
+	for( u32 i = 0u; i < sz; ++i ){
+		if( m_stringArray[ m_languageID ].m_stringArray[ i ].m_first == a ){
+			return m_stringArray[ m_languageID ].m_stringArray[ i ].m_second;
+		}
+	}
 }
 
 void demo::DemoApplication::RebuildGUI( void ){
@@ -264,14 +273,14 @@ void demo::DemoApplication::RebuildGUI( void ){
 void demo::DemoApplication::rebuildMainMenuColons( void ){
 	v4i r = m_welcomeText->getRect();
 	u32 top = r.w+50;
-	for( u32 i = 0u; i < 12u; ++i ){
+	for( u32 i = 0u; i < DEMO_TYPE_NUM; ++i ){
 		v4i rc;
 		rc.x = 10;
 		rc.y = top;
 		rc.z = 200;
 
 		m_leftColonEntity[ i ] = m_guiSystem->createTextField( rc, m_mainFont.data(), false );
-		m_leftColonEntity[ i ]->setText( m_stringArray[ m_languageID ].m_stringArray[ i + 1u ] );
+		m_leftColonEntity[ i ]->setText( m_stringArray[ m_languageID ].m_stringArray[ i + 1u ].m_second );
 		m_leftColonEntity[ i ]->getBackgroundShape()->setOpacity( 0.f );
 
 		top = m_leftColonEntity[ i ]->getRect().w-1;
@@ -288,7 +297,7 @@ void demo::DemoApplication::rebuildMainMenuColons( void ){
 	m_rightColonShape->setOpacity( 0.f );
 
 	m_rightColonDefaultText = m_guiSystem->createTextField( m_rightColonDefaultRect, m_mainFont.data(), false );
-	m_rightColonDefaultText->setText( m_stringArray[m_languageID].m_stringArray[15u] );
+	m_rightColonDefaultText->setText( getString( u"16" ) );
 	m_rightColonDefaultText->setTextColor( gtColorLightGray );
 
 	top = r.w+50;
@@ -389,7 +398,7 @@ bool demo::DemoApplication::rebuildMainMenu( void ){
 		m_gamepadiconShape->setOpacity( 0.25f );
 
 	m_welcomeText = m_guiSystem->createTextField( v4i( 20, 0, wndrc.getWidth()-20, 0 ), m_mainFont.data(), false );
-	m_welcomeText->setText( m_stringArray[ m_languageID ].m_stringArray[ 0u ] );
+	m_welcomeText->setText( getString( u"0" ) );
 	m_welcomeText->setOpacity( 0.9f );
 	m_welcomeText->getBackgroundShape()->setOpacity( 0.f );
 
@@ -527,7 +536,7 @@ void demo::DemoApplication::renderMainMenu( void ){
 	m_welcomeText->render();
 
 	m_leftColonShape->render();
-	for( u32 i = 0u; i < 12u; ++i ){
+	for( u32 i = 0u; i < DEMO_TYPE_NUM; ++i ){
 		m_leftColonEntity[ i ]->render();
 	}
 
@@ -583,7 +592,7 @@ void demo::DemoApplication::addDemo( u32 index, const demo::DemoElement& element
 
 void demo::DemoApplication::updateColons( void ){
 
-	for( u32 i = 0u; i < 12u; ++i ){
+	for( u32 i = 0u; i < DEMO_TYPE_NUM; ++i ){
 		m_leftColonEntity[ i ]->getBackgroundShape()->setOpacity( 0.f );
 		m_leftColonEntity[ i ]->setBackgroundColor( gtColorBlack );
 		m_leftColonEntity[ i ]->setTextColor( gtColorLightGray );
@@ -794,7 +803,7 @@ void demo::DemoApplication::inputMainMenu( void ){
 		if( !m_activeDemoType ){
 			--m_activeDemoTypeSelected;
 			if( m_activeDemoTypeSelected == -1 )
-				m_activeDemoTypeSelected = 11;
+				m_activeDemoTypeSelected = 12;
 
 			m_currentDemoColonIndex = m_activeDemoSelected = 0;
 			m_rightColonFirstID = 0;
@@ -809,7 +818,7 @@ void demo::DemoApplication::inputMainMenu( void ){
 	if( m_eventConsumer->keyDown( gtKey::K_DOWN ) || inputGamepadMainMenuDown() ){
 		if( !m_activeDemoType ){
 			++m_activeDemoTypeSelected;
-			if( m_activeDemoTypeSelected > 11 )
+			if( m_activeDemoTypeSelected > 12 )
 				m_activeDemoTypeSelected = 0;
 
 			m_currentDemoColonIndex = m_activeDemoSelected = 0;

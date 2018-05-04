@@ -1,7 +1,6 @@
-
 #pragma once
 #ifndef __GOST_H__
-#define __GOST_H__ //< include guard
+#define __GOST_H__
 
 #if defined(_MSC_VER)
 #pragma warning(disable : 4582)
@@ -22,7 +21,6 @@
 #include <gtInfo.h>
 #include <gtTypes.h>
 #include <gtGUID.h>
-
 
 #include <gtPair.h>
 #include <gtAllocator.h>
