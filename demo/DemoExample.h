@@ -16,8 +16,8 @@ namespace demo{
 		virtual void Run( void ) = 0;
 
 	};
-
 }
+
 
 #endif
 

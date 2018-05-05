@@ -1,5 +1,7 @@
 #include "creator.h"
 
+#include "examples\Get_supported_import_formats.hpp"
+
 demo::DemoApplication::DemoApplication( void ):
 m_guiSystem( nullptr ),
 m_gamepad( nullptr ),
@@ -37,6 +39,12 @@ m_delta( 0.f ){
 }
 
 demo::DemoApplication::~DemoApplication( void ){
+	for( u32 i = 0u; i < m_demoArrays->size(); ++i ){
+		for( u32 o = 0u; o < m_demoArrays[i].size(); ++i ){
+			m_demoArrays[ i ][ o ].clear();
+		}
+	}
+
 	delete m_eventConsumer;
 }
 
@@ -65,6 +73,8 @@ bool demo::DemoApplication::Init( void ){
 	m_gamepadSystem	=	m_mainSystem->createGameContoller( GT_UID_INPUT_DINPUT );
 
 	addDemo( DEMO_COMMON, demo::DemoElement( getString( u"14" ), getString( u"15" ) ) );
+
+	addDemo( DEMO_OTHER, demo::DemoElement( getString( u"20" ), getString( u"21" ), true, new DemoExample_GetSupportedImportFormats ) );
 	
 	return true;
 }
@@ -796,6 +806,11 @@ void demo::DemoApplication::inputMainMenu( void ){
 			++m_activeDemoType;
 			updateColons();
 			playAudio(DemoAudioType::Accept);
+		}else{
+			if( m_demoArrays[m_activeDemoTypeSelected][m_activeDemoSelected].isDemo() ){
+				m_demoArrays[m_activeDemoTypeSelected][m_activeDemoSelected].Run();
+				playAudio(DemoAudioType::Accept);
+			}
 		}
 	}
 

@@ -30,9 +30,6 @@
     <ClCompile Include="DemoApplicationEventConsumer.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="examples\Get_supported_import_formats.cpp">
-      <Filter>Исходные файлы\Samples</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="creator.h">
@@ -52,6 +49,9 @@
     </ClInclude>
     <ClInclude Include="DemoElement.h">
       <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="examples\Get_supported_import_formats.hpp">
+      <Filter>Исходные файлы\Samples</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

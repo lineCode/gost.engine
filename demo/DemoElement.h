@@ -26,6 +26,8 @@ namespace demo{
 			m_description( desc )
 		{}
 
+		~DemoElement(){}
+
 		void Run( void ){
 			m_example->Run();
 		}
@@ -36,6 +38,15 @@ namespace demo{
 
 		const gtString& GetDesc( void ) const {
 			return m_description;
+		}
+
+		bool isDemo( void ) const {
+			return m_example != nullptr;
+		}
+
+		void clear( void ){
+			if( m_example )
+				delete m_example;
 		}
 
 	};

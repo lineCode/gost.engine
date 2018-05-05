@@ -23,7 +23,9 @@
     <ClCompile Include="DemoApplication.cpp" />
     <ClCompile Include="DemoApplicationEventConsumer.cpp" />
     <ClCompile Include="DemoApplicationOutputWindow.cpp" />
-    <ClCompile Include="examples\Get_supported_import_formats.cpp" />
+    <ClInclude Include="examples\Get_supported_import_formats.hpp">
+      <FileType>Document</FileType>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="creator.h" />
