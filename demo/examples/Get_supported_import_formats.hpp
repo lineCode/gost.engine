@@ -26,11 +26,8 @@ bool DemoExample_GetSupportedImportFormats::Init( void ){
 	return true;
 }
 
-void DemoExample_GetSupportedImportFormats::Restart( void ){
-}
-
-void DemoExample_GetSupportedImportFormats::Shutdown( void ){
-}
+void DemoExample_GetSupportedImportFormats::Restart( void ){}
+void DemoExample_GetSupportedImportFormats::Shutdown( void ){}
 
 void DemoExample_GetSupportedImportFormats::Run( void ){
 	gtArray<gtString> arr;

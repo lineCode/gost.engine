@@ -521,20 +521,16 @@ void demo::DemoApplication::Run( void ){
 
 				inputMainMenuPause();
 			}else{
-				if( m_pauseBackgroundShape ){
-					auto opBG = m_pauseBackgroundShape->getOpacity();
-					if( opBG > 0.f ){
-						opBG -= 10.f * m_delta;
-						m_pauseBackgroundShape->setOpacity( opBG );
-					}
+				auto opBG = m_pauseBackgroundShape->getOpacity();
+				if( opBG > 0.f ){
+					opBG -= 10.f * m_delta;
+					m_pauseBackgroundShape->setOpacity( opBG );
 				}
 
-				if( m_pauseShape ){
-					auto op = m_pauseShape->getOpacity();
-					if( op > 0.f ){
-						op -= 10.f * m_delta;
-						m_pauseShape->setOpacity( op );
-					}
+				auto op = m_pauseShape->getOpacity();
+				if( op > 0.f ){
+					op -= 10.f * m_delta;
+					m_pauseShape->setOpacity( op );
 				}
 
 				inputMainMenu();
@@ -847,9 +843,11 @@ void demo::DemoApplication::inputMainMenu( void ){
 			updateColons();
 			playAudio(DemoAudioType::Accept);
 		}else{
-			if( m_demoArrays[m_activeDemoTypeSelected][m_activeDemoSelected].isDemo() ){
-				m_demoArrays[m_activeDemoTypeSelected][m_activeDemoSelected].Run();
-				playAudio(DemoAudioType::Accept);
+			if( m_demoArrays[m_activeDemoTypeSelected].size() ){
+				if( m_demoArrays[m_activeDemoTypeSelected][m_activeDemoSelected].isDemo() ){
+					m_demoArrays[m_activeDemoTypeSelected][m_activeDemoSelected].Run();
+					playAudio(DemoAudioType::Accept);
+				}
 			}
 		}
 	}
