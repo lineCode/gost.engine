@@ -38,16 +38,17 @@ namespace demo{
 	};
 
 	class DemoApplication{
+		
 
 		gtPtr<gtMainSystem>			m_mainSystem;
 		gtPtr<gtWindow>				m_mainWindow;
-#ifdef GT_PLATFORM_WIN32
-		gtPtr<gtOutputWindow>		m_outputWindow;
-#endif
+
 		gtGUISystem*				m_guiSystem;
 		gtPtr<gtDriver>				m_driver;
 		gtPtr<gtGameController>		m_gamepadSystem;
 		gtGameControllerDevice *	m_gamepad;
+
+		gtPtr<gtOutputWindow>		m_outputWindow;
 
 		gtPtr<gtAudioSystem>		m_audioSystem;
 		gtPtr<gtAudioObject>		m_audioSelect;
@@ -55,12 +56,12 @@ namespace demo{
 		gtPtr<gtAudioObject>		m_audioCancel;
 		void						playAudio( DemoAudioType );
 
-		gtTexture*			m_backgroundTexture;
-		gtTexture*			m_gamepadTexture;
-		gtPtr<gtGUIShape>	m_backgroundShape;
-		gtPtr<gtGUIShape>	m_gamepadiconShape;
-		gtPtr<gtGUITextField> m_welcomeText;
-		gtPtr<gtGUIFont>	m_mainFont;
+		gtTexture*					m_backgroundTexture;
+		gtTexture*					m_gamepadTexture;
+		gtPtr<gtGUIShape>			m_backgroundShape;
+		gtPtr<gtGUIShape>			m_gamepadiconShape;
+		gtPtr<gtGUITextField>		m_welcomeText;
+		gtPtr<gtGUIFont>			m_mainFont;
 		
 		gtPtr<gtGUITextField>	m_leftColonEntity[DEMO_TYPE_NUM];
 		gtPtr<gtGUITextField>	m_rightColonEntity[24u];

@@ -3,10 +3,7 @@
 #include "common.h"
 
 gtPluginImportImage::gtPluginImportImage( gtPluginInfoDL* info ){
-	m_info = *info;
-#ifdef GT_DEBUG
-	m_debugName.assign(u"gtPluginImportImage");
-#endif
+	m_info = *info; 
 }
 
 gtPluginImportImage::~gtPluginImportImage( void ){

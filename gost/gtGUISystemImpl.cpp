@@ -4,12 +4,7 @@
 
 gtGUISystemImpl::gtGUISystemImpl( void ):
 m_driver( nullptr )
-{
-#ifdef GT_DEBUG
-	m_debugName.assign(u"gtGUISystem");
-#endif
-
-}
+{}
 
 gtGUISystemImpl::~gtGUISystemImpl( void ){
 }

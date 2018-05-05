@@ -25,11 +25,6 @@ gtMainSystemCommon::gtMainSystemCommon( void ) : m_isRun( true ),
 	m_sceneSystem = gtPtrNew<gtSceneSystemImpl>( new gtSceneSystemImpl );
 	m_GUISystem = gtPtrNew<gtGUISystemImpl>( new gtGUISystemImpl );
 
-#ifdef GT_DEBUG
-	m_debugName.assign(u"gtMainSystem");
-#endif
-
-
 }
 
 gtMainSystemCommon::~gtMainSystemCommon(){

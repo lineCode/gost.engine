@@ -29,7 +29,7 @@ namespace gost{
 				this->m_output_window->show();
 				m_params.m_outputWindow = this->m_output_window.data();
 			}else{
-				this->m_output_window = gtPtrNew<gtOutputWindow>( m_params.m_outputWindow );
+				this->m_output_window = m_params.m_outputWindow;
 			}
 
 			gtMainSystemCommon::s_log->setOutputWindow( m_output_window.data() );
@@ -41,9 +41,7 @@ namespace gost{
 
 			if( this->s_fileSystem->existFile( u"log.txt" ) )
 				this->s_fileSystem->deleteFile( u"log.txt" );
-
-			gost::
-
+			
 			gtMainSystemCommon::s_log->print(gtLog::msgType::info, u"Starting GoST version %i.%i", 0, 1 );
 
 			if( !this->m_pluginSystem->init() ){
@@ -104,9 +102,6 @@ namespace gost{
 			return nullptr;
 		}
 
-#ifdef GT_DEBUG
-		window->setDebugName( u"SystemWindow" );
-#endif
 		wi->m_owner = window.data();
 
 		return window;

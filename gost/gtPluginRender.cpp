@@ -4,9 +4,6 @@
 
 gtPluginRender::gtPluginRender( gtPluginInfoDL* info ){
 	m_info = *info;
-#ifdef GT_DEBUG
-	m_debugName.assign(u"gtPluginRender");
-#endif
 }
 
 gtPluginRender::~gtPluginRender( void ){

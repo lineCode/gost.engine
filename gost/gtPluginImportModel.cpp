@@ -4,9 +4,6 @@
 
 gtPluginImportModel::gtPluginImportModel( gtPluginInfoDL* info ){
 	m_info = *info;
-#ifdef GT_DEBUG
-	m_debugName.assign(u"gtPluginImportImage");
-#endif
 }
 
 gtPluginImportModel::~gtPluginImportModel( void ){

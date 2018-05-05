@@ -3,10 +3,6 @@
 #include "common.h"
 
 gtWindowCommon::gtWindowCommon( void ){
-#ifdef GT_DEBUG
-	m_debugName.assign(u"gtWindow");
-#endif
-
 }
 
 gtWindowCommon::~gtWindowCommon( void ){

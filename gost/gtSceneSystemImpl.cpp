@@ -6,9 +6,6 @@ gtSceneSystemImpl::gtSceneSystemImpl( void ):
 	m_rootNode( nullptr ),
 	m_activeCamera( nullptr )
 {
-#ifdef GT_DEBUG
-	m_debugName.assign(u"gtSceneSystemImpl");
-#endif
 
 	m_mainSystem = gtMainSystem::getInstance();
 

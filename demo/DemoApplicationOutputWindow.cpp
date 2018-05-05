@@ -6,13 +6,8 @@ demo::DemoApplicationOutputWindow::DemoApplicationOutputWindow( void ):
 m_hWnd( nullptr ),
 m_isInit( false ){
 #ifdef GT_DEBUG
-	this->setDebugName( u"OutputWindow" );
+//	this->m_debugName=u"OutputWindow";
 #endif
-	init();
-}
-
-demo::DemoApplicationOutputWindow::~DemoApplicationOutputWindow( void ){
-	shutdown();
 }
 
 void	demo::DemoApplicationOutputWindow::init( void ){
@@ -25,9 +20,10 @@ void	demo::DemoApplicationOutputWindow::init( void ){
 }
 
 void	demo::DemoApplicationOutputWindow::shutdown( void ){
-	if( m_isInit )
+	if( m_isInit ){
 		if( FreeConsole() )
 			m_isInit = false;
+	}
 }
 
 bool	demo::DemoApplicationOutputWindow::isInit( void ){

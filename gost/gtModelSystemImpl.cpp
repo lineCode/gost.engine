@@ -2,9 +2,6 @@
 
 gtModelSystemImpl::gtModelSystemImpl(){
 	m_pluginSystem = (gtPluginSystemImpl*)gtMainSystem::getInstance()->getPluginSystem();
-#ifdef GT_DEBUG
-	m_debugName.assign(u"gtModelSystemImpl");
-#endif
 }
 
 gtModelSystemImpl::~gtModelSystemImpl(){}

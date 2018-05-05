@@ -83,7 +83,7 @@ namespace gost{
 
 
 		gtPtr<gtD3D11StandartShaderCallback> m_shader3DStandartCallback;
-		gtPtr<gtD3D11GUIShaderCallback> m_shaderGUICallback;
+		gtPtr<gtD3D11GUIShaderCallback>		 m_shaderGUICallback;
 		gtPtr<gtD3D11SpriteShaderCallback>	 m_shaderSpriteCallback;
 		gtPtr<gtD3D11LineShaderCallback>	 m_shaderLineCallback;
 
@@ -100,7 +100,7 @@ namespace gost{
 		void	applyScissor( void );
 	public:
 		gtDriverD3D11( /*gtMainSystem* System, */gtDriverInfo params );
-		~gtDriverD3D11( void );
+		virtual ~gtDriverD3D11( void );
 
 		bool initialize( void );
 

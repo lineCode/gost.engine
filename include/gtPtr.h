@@ -94,7 +94,11 @@ namespace gost{
 		bool	operator==( const gtPtr& v ){
 			return m_pointer == v.m_pointer;
 		}
-	
+		
+		operator bool() const {
+			return m_pointer != nullptr;
+		}
+
 	};
 
 }

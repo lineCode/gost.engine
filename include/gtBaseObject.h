@@ -9,11 +9,6 @@ namespace gost{
 
 		GT_FORCE_INLINE gtBaseObject( void ){}
 	
-#if defined(GT_DEBUG)
-	
-		gtString m_debugName;
-#endif
-
 	public:
 
 			//	c-tor
@@ -23,12 +18,6 @@ namespace gost{
 		virtual void first_vtable_function( void ){}
 
 	
-#if defined(GT_DEBUG)
-	
-
-		virtual void setDebugName( const gtString& s ){ m_debugName = s; }
-#endif
-
 	};
 
 }

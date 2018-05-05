@@ -77,9 +77,6 @@ namespace gost{
 			m_state( gtAudioState::stop ),
 			m_time( 0. )
 		{
-#ifdef GT_DEBUG
-			m_debugName = "gtAudioObject";
-#endif
 		}
 
 		virtual ~gtAudioObjectCommon( void ){}

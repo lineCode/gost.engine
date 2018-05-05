@@ -8,11 +8,7 @@ gtCameraImpl::gtCameraImpl( void ):
 	m_aspect( 1.333333333f ),
 	m_type( gtObjectType::CAMERA ),
 	m_cameraType( gtCameraType::CT_LOOK_AT )
-{
-#ifdef GT_DEBUG
-	m_debugName.assign(u"gtCamera");
-#endif
-}
+{}
 
 gtCameraImpl::~gtCameraImpl( void ){
 }

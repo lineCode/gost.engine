@@ -16,12 +16,15 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 #if defined( GT_PLATFORM_WIN32 )
 		MessageBox( 0, L"Can not init application", 0, 0 );
 #endif
+		delete app;
 		return 2;	
 	}
 
 	app->Run();
 
+//	MessageBox( 0, L"Start", 0, 0 );
 	delete app;
+//	MessageBox( 0, L"End", 0, 0 );
 
 	return 0;
 }

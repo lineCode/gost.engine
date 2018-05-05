@@ -5,9 +5,6 @@
 gtPluginSystemImpl::gtPluginSystemImpl( void ):
 	m_numOfPlugins( 0u )
 {
-#ifdef GT_DEBUG
-	m_debugName.assign(u"gtPluginSystemImpl");
-#endif
 }
 
 

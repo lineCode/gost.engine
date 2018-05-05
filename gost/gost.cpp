@@ -35,11 +35,6 @@ extern "C"{
 				break;
 		}
 
-	#ifdef GT_DEBUG
-		if( main_system )
-			main_system->setDebugName( u"gtMainSystem" );
-	#endif
-
 		return main_system;
 	}
 

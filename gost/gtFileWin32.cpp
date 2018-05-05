@@ -12,9 +12,6 @@ gtFileWin32::gtFileWin32( const gtString& fileName, gtFileSystem::FileMode mode,
 m_handle(nullptr), m_isTextFile(false),
 m_pointerPosition( 0u )
 {
-#ifdef GT_DEBUG
-	m_debugName.assign( u"gtFileWin32" );
-#endif
 
 	m_desiredAccess = 0;
 	switch( access ){

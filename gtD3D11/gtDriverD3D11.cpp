@@ -37,10 +37,6 @@ gtDriverD3D11::gtDriverD3D11( /*gtMainSystem* System,*/ gtDriverInfo params ):
 		m_currentWindowSize.y = params.m_outWindow->getRect().w;
 	}
 
-#ifdef GT_DEBUG
-	this->setDebugName( u"DriverD3D11" );
-#endif
-
 	s_instance = this;
 }
 
@@ -368,10 +364,7 @@ bool gtDriverD3D11::initialize( void ){
 	m_d3d11Device->CreateRasterizerState( &rasterDesc, &m_RasterizerWireframe );
 
 	m_d3d11DevCon->RSSetState( m_RasterizerSolid );
-
 	
-
-
 	D3D11_BLEND_DESC  bd;
 	memset( &bd, 0, sizeof(bd) );
 	bd.AlphaToCoverageEnable = 0;

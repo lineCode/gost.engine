@@ -5,11 +5,7 @@
 
 gtLogImpl::gtLogImpl( void )
 : m_msgType(msgType::info),
-m_out( nullptr ){
-#ifdef GT_DEBUG
-	m_debugName.assign(u"gtLogerImpl");
-#endif
-}
+m_out( nullptr ){}
 
 gtLogImpl::~gtLogImpl( void ){
 }

@@ -2,9 +2,6 @@
 
 gtPluginInput::gtPluginInput( gtPluginInfoDL* info ){
 	m_info = *info;
-#ifdef GT_DEBUG
-	m_debugName.assign(u"gtPluginInput");
-#endif
 }
 
 gtPluginInput::~gtPluginInput( void ){

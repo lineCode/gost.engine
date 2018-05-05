@@ -5,12 +5,12 @@
 namespace demo{
 
 #ifdef GT_PLATFORM_WIN32
-	class DemoApplicationOutputWindow : public gtOutputWindow {
+	class DemoApplicationOutputWindow GT_FINAL : public gtOutputWindow {
 		HWND m_hWnd;
 		bool m_isInit;
 	public:
 		DemoApplicationOutputWindow( void );
-		~DemoApplicationOutputWindow( void );
+		virtual ~DemoApplicationOutputWindow( void ){}
 
 		void	init( void );
 		void	shutdown( void );

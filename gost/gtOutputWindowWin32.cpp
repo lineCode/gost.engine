@@ -12,11 +12,8 @@
 gtOutputWindowWin32::gtOutputWindowWin32( void ) : m_isInit( false ), m_isShown( true ),
 m_hWnd( nullptr ){
 	memset( &m_wc, 0, sizeof( m_wc ) );
-#ifdef GT_DEBUG
-	m_debugName.assign(u"gtOutputWindow");
-#endif
-
 }
+
 gtOutputWindowWin32::~gtOutputWindowWin32( void ){
 	shutdown();
 }

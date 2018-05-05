@@ -23,12 +23,18 @@ m_delta( 0.f ){
 	m_eventConsumer = new demo::DemoApplicationEventConsumer( context );
 
 #ifdef GT_PLATFORM_WIN32
+
 	m_params.m_device_type = gtDeviceType::Windows;
 
-	m_outputWindow	=	gtPtrNew<gtOutputWindow>( new DemoApplicationOutputWindow );
+	m_outputWindow = gtPtrNew<gtOutputWindow>( new DemoApplicationOutputWindow );
 	m_params.m_outputWindow = m_outputWindow.data();
+	m_params.m_outputWindow->init();
+	m_params.m_outputWindow->addRef();
+	 
 #elif GT_PLATFORM_LINUX
+
 	m_params.m_device_type = gtDeviceType::Linux;
+
 #endif
 
 	m_params.m_consumer		= m_eventConsumer;
@@ -46,6 +52,7 @@ demo::DemoApplication::~DemoApplication( void ){
 	}
 
 	delete m_eventConsumer;
+
 }
 
 gtMainSystem	*	demo::DemoApplication::GetMainSystem( void ){
@@ -281,6 +288,9 @@ void demo::DemoApplication::RebuildGUI( void ){
 }
 
 void demo::DemoApplication::rebuildMainMenuColons( void ){
+
+	if( !m_welcomeText.data() ) return;
+
 	v4i r = m_welcomeText->getRect();
 	u32 top = r.w+50;
 	for( u32 i = 0u; i < DEMO_TYPE_NUM; ++i ){
@@ -341,6 +351,9 @@ void demo::DemoApplication::rebuildMainMenuColons( void ){
 
 
 bool demo::DemoApplication::rebuildMainMenu( void ){
+
+	if( !m_driver ) return true;
+
 	v4i wndrc = m_mainWindow->getRect();
 
 	f32 wndH = (f32)wndrc.getHeight();
@@ -407,10 +420,12 @@ bool demo::DemoApplication::rebuildMainMenu( void ){
 	if( !m_gamepad )
 		m_gamepadiconShape->setOpacity( 0.25f );
 
-	m_welcomeText = m_guiSystem->createTextField( v4i( 20, 0, wndrc.getWidth()-20, 0 ), m_mainFont.data(), false );
-	m_welcomeText->setText( getString( u"0" ) );
-	m_welcomeText->setOpacity( 0.9f );
-	m_welcomeText->getBackgroundShape()->setOpacity( 0.f );
+	if( m_mainFont.data() ){
+		m_welcomeText = m_guiSystem->createTextField( v4i( 20, 0, wndrc.getWidth()-20, 0 ), m_mainFont.data(), false );
+		m_welcomeText->setText( getString( u"0" ) );
+		m_welcomeText->setOpacity( 0.9f );
+		m_welcomeText->getBackgroundShape()->setOpacity( 0.f );
+	}
 
 
 	rebuildMainMenuColons();
@@ -506,16 +521,20 @@ void demo::DemoApplication::Run( void ){
 
 				inputMainMenuPause();
 			}else{
-				auto opBG = m_pauseBackgroundShape->getOpacity();
-				if( opBG > 0.f ){
-					opBG -= 10.f * m_delta;
-					m_pauseBackgroundShape->setOpacity( opBG );
+				if( m_pauseBackgroundShape ){
+					auto opBG = m_pauseBackgroundShape->getOpacity();
+					if( opBG > 0.f ){
+						opBG -= 10.f * m_delta;
+						m_pauseBackgroundShape->setOpacity( opBG );
+					}
 				}
 
-				auto op = m_pauseShape->getOpacity();
-				if( op > 0.f ){
-					op -= 10.f * m_delta;
-					m_pauseShape->setOpacity( op );
+				if( m_pauseShape ){
+					auto op = m_pauseShape->getOpacity();
+					if( op > 0.f ){
+						op -= 10.f * m_delta;
+						m_pauseShape->setOpacity( op );
+					}
 				}
 
 				inputMainMenu();
@@ -538,29 +557,48 @@ void demo::DemoApplication::Run( void ){
 }
 
 void demo::DemoApplication::renderMainMenu( void ){
+
+	if( !m_driver ) return;
+
 	m_driver->beginRender();
 
 	m_driver->setDepthState( false );
-	m_backgroundShape->render();
-	m_gamepadiconShape->render();
-	m_welcomeText->render();
 
-	m_leftColonShape->render();
-	for( u32 i = 0u; i < DEMO_TYPE_NUM; ++i ){
-		m_leftColonEntity[ i ]->render();
+	if( m_backgroundShape )
+		m_backgroundShape->render();
+
+	if( m_gamepadiconShape )
+		m_gamepadiconShape->render();
+
+	if( m_welcomeText )
+		m_welcomeText->render();
+
+	if( m_leftColonShape ){
+		m_leftColonShape->render();
+		for( u32 i = 0u; i < DEMO_TYPE_NUM; ++i ){
+			m_leftColonEntity[ i ]->render();
+		}
 	}
 
-	m_rightColonShape->render();
-	m_rightColonDefaultText->render();
+	if( m_rightColonShape )
+		m_rightColonShape->render();
 
-	for( u32 i = 0u; i < 24u; ++i ){
-		m_rightColonEntity[ i ]->render();
+	if( m_rightColonDefaultText ){
+		m_rightColonDefaultText->render();
+
+		for( u32 i = 0u; i < 24u; ++i ){
+			m_rightColonEntity[ i ]->render();
+		}
 	}
 
-	m_descriptionBackgroundShape->render();
-	m_description->render();
+	if( m_descriptionBackgroundShape )
+		m_descriptionBackgroundShape->render();
 
-	m_pauseBackgroundShape->render();
+	if( m_description )
+		m_description->render();
+
+	if( m_pauseBackgroundShape )
+		m_pauseBackgroundShape->render();
 
 	if( m_isPause ){
 		m_pauseShape->render();
@@ -601,6 +639,8 @@ void demo::DemoApplication::addDemo( u32 index, const demo::DemoElement& element
 }
 
 void demo::DemoApplication::updateColons( void ){
+
+	if( !m_driver ) return;
 
 	for( u32 i = 0u; i < DEMO_TYPE_NUM; ++i ){
 		m_leftColonEntity[ i ]->getBackgroundShape()->setOpacity( 0.f );

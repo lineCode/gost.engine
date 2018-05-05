@@ -30,7 +30,6 @@ extern "C"{
 			if( driver->initialize()){
 				driver->addRef();
 			}else{
-				driver->release();
 				gtLogWriter::printError( u"Can not initialize D3D11 driver." );
 				return nullptr;
 			}

@@ -45,9 +45,6 @@ namespace gost{
 			m_timer( 0.f ),
 			m_timerLimit( 1.f )
 		{
-#ifdef GT_DEBUG
-			m_debugName.assign(u"gtSprite");
-#endif
 			m_system = gtMainSystem::getInstance();
 			auto model = m_system->getModelSystem()->createPlane( size.y, size.x, gtSide::FRONT );
 

@@ -252,7 +252,6 @@ namespace gost{
 					return true;
 				}
 			}
-			gtLogWriter::printWarning( u"Can not remove model from cache. Model not found." );
 			return false;
 		}
 
@@ -265,7 +264,6 @@ namespace gost{
 					return true;
 				}
 			}
-			gtLogWriter::printWarning( u"Can not remove texture from cache. Texture not found." );
 			return false;
 		}
 
@@ -276,9 +274,6 @@ namespace gost{
 			// c-tor
 		gtDriverCommon( void )
 		{
-#ifdef GT_DEBUG
-			m_debugName.assign(u"gtDriver");
-#endif
 		}
 
 			// d-tor
@@ -343,7 +338,6 @@ namespace gost{
 
 		virtual bool	removeModel( gtRenderModel* model ){
 			if( !model ){
-				gtLogWriter::printWarning( u"Can not remove model. model == nullptr" );
 				return false;
 			}
 			return remove_model( model );
@@ -351,7 +345,6 @@ namespace gost{
 
 		virtual bool	removeTexture( gtTexture* texture ){
 			if( !texture ){
-				gtLogWriter::printWarning( u"Can not remove texture. texture == nullptr" );
 				return false;
 			}
 			return remove_texture( texture );
