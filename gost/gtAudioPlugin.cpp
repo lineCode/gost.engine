@@ -44,7 +44,6 @@ gtAudioSystem* gtPluginAudio::loadAudioDriver(){
 	return nullptr;
 }
 
-	//	загрузить плагин
 void gtPluginAudio::load( void ){
 
 	if( !m_isLoad ){
@@ -69,7 +68,6 @@ void gtPluginAudio::load( void ){
 
 }
 
-	//	выгрузить плагин
 void gtPluginAudio::unload( void ){
 	if( m_isLoad ){
 		if( m_info.m_handle )

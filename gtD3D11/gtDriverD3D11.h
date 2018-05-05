@@ -75,17 +75,10 @@ namespace gost{
 
 		bool m_beginRender;
 
-			//	стандартный шейдер для рисования 2Д элементов
 		gtShader*			m_shader2DStandart;
-
-			//	стандартный шейдер для рисования 3Д
 		gtShader*			m_shader3DStandart;
-		
-			//	GUI, witout W*V*P
 		gtShader*			m_shaderGUI;
-
 		gtShader*			m_shaderLine;
-
 		gtShader*			m_shaderSprite;
 
 
@@ -100,14 +93,9 @@ namespace gost{
 		gtPtr<gtTexture>	m_standartTextureWhiteColor;
 
 		void	setActiveShader( gtShader* );
-
-			//	непосредственно рисует картинку
 		void	_draw2DImage( const v4f& rect, const v8f& region, const gtMaterial& );
-
 		void	enableBlending( bool, bool atc = false );
-
 		bool	createShaders( void );
-
 		void	createStandartTexture( void );
 		void	applyScissor( void );
 	public:
@@ -124,22 +112,14 @@ namespace gost{
 		void beginRender( bool clearRenderTarget = true, const gtColor& color = gtColor(0.f) );
 		void endRender( void );
 
-			//	нарисует картинку
-			//	rect - координаты левого верхнего и правого нижнего углов
 		void draw2DImage( const v4i& rect, const gtMaterial& );
-
 		void draw2DImage( const v4i& rect, const v4i& region, const gtMaterial& );
-
 		void draw2DImage( const v4i& rect, gtTexture* texture );
 		void draw2DImage( const v4i& rect, const v4i& region, gtTexture* texture );
-
-			//	нарисует gtRenderModel
 		void drawModel( gtRenderModel* );
-
 		void drawLine( const v3f& start, const v3f& end, const gtColor& color );
 		
 
-			//	компилировать либо получить ранее скомпилированный шейдер
 		gtShader *	getShader( 
 			gtShaderCallback * callback,
 				//	путь к файлу хранящем вершинный шейдер
@@ -156,10 +136,7 @@ namespace gost{
 			gtVertexType * vertexType
 			);
 
-			//	Создаёт текстуру из gtImage
 		gtPtr<gtTexture>	createTexture( gtImage*, gtTextureFilterType filter );
-
-			//	Создаёт модель для рисования
 		gtPtr<gtRenderModel>	createModel( gtModel* );
 
 
@@ -176,7 +153,7 @@ namespace gost{
 
 
 /*
-Copyright (c) 2017 532235
+Copyright (c) 2017-2018 532235
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
 and associated documentation files (the "Software"), to deal in the Software without restriction, 

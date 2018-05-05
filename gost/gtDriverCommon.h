@@ -1,5 +1,5 @@
 //	GOST
-
+// delete
 #pragma once
 #ifndef __GT_DRIVER_COMMON_H__
 #define __GT_DRIVER_COMMON_H__

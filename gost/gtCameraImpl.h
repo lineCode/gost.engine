@@ -11,7 +11,6 @@ namespace gost{
 		gtMatrix4		m_projectionMatrix;
 
 		v4f				m_viewPort;
-
 		v3f				m_target;
 		v3f				m_up;
 
@@ -36,66 +35,30 @@ namespace gost{
 
 
 		//	=================================					gtGameObject
-			//	Возвратит тип объекта
 		gtObjectType		getType( void );
 		
-			//	Обновит информацию о позиции/вращении/масштабе
 		void				update( void );
 
-			//	Нарисует объект (если он рисуемый (например не 3D аудио))
 		void				render( void );
 		
 		//	====================================				gtCamera
-			//	Вернёт тип камеры
 		 gtCameraType		getCameraType( void );
-
-		 	//	Установит тип камеры
 		void				setCameraType( gtCameraType type );
-
-			//	Вернёт видовую матрицу
-		 const gtMatrix4&	getViewMatrix( void );
-
-			//	Вернут проекционную мтрицу
-		 const gtMatrix4&	getProjectionMatrix( void );
-
-			//	Вернёт цель если это look at камера
-		 const v3f&			getTarget( void );
-
-			//	Установит цель если это look at камера
-		 void				setTarget( const v3f& );
-
-		 	//	Вернёт up вектор look at камеры
+		const gtMatrix4&	getViewMatrix( void );
+		const gtMatrix4&	getProjectionMatrix( void );
+		const v3f&			getTarget( void );
+		void				setTarget( const v3f& );
 		const v3f&			getUpVector( void );
-
-			//	Установит up вектор look at камеры
 		void				setUpVector( const v3f& );
-
-			//	Установит ближнюю границу с которой начинается рисование
-		 void				setNear( f32 );
-
-			//	Установит дальнюю границу после которой рисование заканчивается
-		 void				setFar( f32 );
-
-			//	Установит соотношение сторон (напр. aspect = 800 : 600 )
-		 void				setAspect( f32 );
-
-			//	Установит поле зрения (field of view)
-		 void				setFOV( f32 );
-
-			//	Вернёт ближнюю границу с которой начинается рисование
-		 f32					getNear( void );
-
-			//	Вернёт дальнюю границу после которой рисование заканчивается
+		void				setNear( f32 );
+		void				setFar( f32 );
+		void				setAspect( f32 );
+		void				setFOV( f32 );
+		f32					getNear( void );
 		f32					getFar( void );
-
-			//	Вернёт соотношение сторон
 		f32					getAspect( void );
-
-			//	Вернёт поле зрения (field of view)
 		f32					getFOV( void );
-
-		void					setViewPort( const v4f& v );
-		 	//	Для некоторых типов камер(2D камера), установит зум
+		void				setViewPort( const v4f& v );
 		//void					setZoom( f32 v );
 
 		gtAabb*				getAabb( void );

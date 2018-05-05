@@ -139,8 +139,6 @@ void gtGUIStaticTextImpl::setText( const gtString& text ){
 				
 					auto ch = m_text[i];
 			
-					//	Нужно знать, какой символ с какой картинки.
-					//	Каждая картинка используется в отдельном буфере.
 					u32 id = m_font->getTextureID( ch );
 
 					if( i ){

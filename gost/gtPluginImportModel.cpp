@@ -13,7 +13,6 @@ gtPluginImportModel::~gtPluginImportModel( void ){
 	unload();
 }
 		
-	//	загрузить плагин
 void gtPluginImportModel::load( void ){
 	if( !m_isLoad ){
 
@@ -38,7 +37,6 @@ void gtPluginImportModel::load( void ){
 	}
 }
 
-	//	выгрузить плагин
 void gtPluginImportModel::unload( void ){
 	if( m_isLoad ){
 
@@ -53,7 +51,6 @@ const gtPluginInfoDL&	gtPluginImportModel::getInfo( void ){
 	return m_info;
 }
 
-	//	проверит есть ли нужные функции в плагине
 bool gtPluginImportModel::checkLibraryFunctions(){
 
 	GT_LIBRARY_HANDLE lib = m_info.m_handle;
@@ -99,7 +96,7 @@ gtModel * gtPluginImportModel::loadModel( gtString* fileName ){
 }
 
 /*
-Copyright (c) 2017 532235
+Copyright (c) 2017-2018 532235
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
 and associated documentation files (the "Software"), to deal in the Software without restriction, 

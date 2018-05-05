@@ -156,7 +156,7 @@ void*	gtWindowWin32::getHandle( void ){
 	return (void*)m_hWnd;
 }
 
-// Взято у IrrLicht
+// IrrLicht
 // Get the codepage from the locale language id
 // Based on the table from http://www.science.co.il/Language/Locale-Codes.asp?s=decimal
 static unsigned int LocaleIdToCodepage(unsigned int lcid)
@@ -503,7 +503,6 @@ LRESULT CALLBACK gtWindowWin32::WndProc(HWND hWnd, UINT message, WPARAM wParam, 
 		KEYBOARD_INPUT_CODEPAGE = LocaleIdToCodepage( LOWORD(KEYBOARD_INPUT_HKL) );
 	return 0;
 
-		//	запрет на нажатие некоторых клавиш
 	case WM_SYSCOMMAND:
 		if( ( wParam & 0xFFF0 ) == SC_SCREENSAVE ||
 			( wParam & 0xFFF0 ) == SC_MONITORPOWER ||

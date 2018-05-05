@@ -1,11 +1,6 @@
-//	GOST
-
 #pragma once
 #ifndef __GT_EVENT_SYSTEM_H__
 #define __GT_EVENT_SYSTEM_H__
-
-/*
-*/
 
 namespace gost{
 
@@ -16,34 +11,34 @@ namespace gost{
 
 		gtEventConsumer* m_userConsumer;
 
-		gtEvent m_events[ EventMax ];
-		u32 m_numOfEvents;
-		u32 m_currentEvent;
+		gtEvent			m_events[ EventMax ];
+		u32				m_numOfEvents;
+		u32				m_currentEvent;
 
-		bool m_keysDown[ 256u ];
-		gtVector2<u16> m_cursorPosition;
-		gtByte m_mouseState;
+		bool			m_keysDown[ 256u ];
+		gtVector2<u16>	m_cursorPosition;
+		gtByte			m_mouseState;
 
 	public:
 
 		gtEventSystem( gtEventConsumer* uc = nullptr );
 		virtual ~gtEventSystem( void );
 
-		void getKeyboardAndMouseStates( void );
+		void				getKeyboardAndMouseStates( void );
 
-		gtEventConsumer* getConsumer( void );
+		gtEventConsumer*	getConsumer( void );
 
-		void runEventLoop( void );
+		void				runEventLoop( void );
 
-		bool pollEvent( gtEvent& event );
-		bool isKeyDown( gtKey key );
-		void resetEvents( void );
+		bool				pollEvent( gtEvent& event );
+		bool				isKeyDown( gtKey key );
+		void				resetEvents( void );
 
-		void addEvent( const gtEvent&, u8 prior );
+		void				addEvent( const gtEvent&, u8 prior );
 
-		bool isLMBDown( void );
-		bool isRMBDown( void );
-		bool isMMBDown( void );
+		bool				isLMBDown( void );
+		bool				isRMBDown( void );
+		bool				isMMBDown( void );
 		const gtVector2<u16>& getCursorPosition( void );
 	};
 
@@ -65,7 +60,7 @@ namespace gost{
 #endif
 
 /*
-Copyright (c) 2017 532235
+Copyright (c) 2017-2018 532235
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
 and associated documentation files (the "Software"), to deal in the Software without restriction, 

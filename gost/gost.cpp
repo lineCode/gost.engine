@@ -1,11 +1,5 @@
 ﻿//	GOST
-
-/*
-	Здесь будут экспортируемые функции для запуска движка
-*/
 #include "common.h"
-
-//gtMatrix4 g_matrix_identity;
 
 
 extern "C"{

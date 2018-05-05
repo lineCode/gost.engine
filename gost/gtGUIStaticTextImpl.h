@@ -14,10 +14,10 @@ namespace gost{
 		 
 		gtArray<bufferInfo> m_bufferInfo;
 
-		gtString m_text;
+		gtString		m_text;
 		gtGUIFontImpl * m_font;
 
-		gtPtr<gtGUIShape> m_backgroundShape;
+		gtPtr<gtGUIShape>		m_backgroundShape;
 		gtArray<gtRenderModel*> m_buffers; //то что идёт на отрисовку. Зависит от используемого символа и количества текстур для gtGUIFont
 
 		gtMainSystem * m_mainSystem;
@@ -35,35 +35,33 @@ namespace gost{
 		bool m_showBackground;
 
 		void updateBackground( void );
-
 		void updateMaterial( void );
 
 	public:
 
 		gtGUIStaticTextImpl( gtDriver* d );
 		~gtGUIStaticTextImpl( void );
-		bool init( const gtString& text, s32 positionX, s32 positionY, gtGUIFont* font );
 
+		bool		init( const gtString& text, s32 positionX, s32 positionY, gtGUIFont* font );
 
+		void		setFont( gtGUIFont * font );
+		void		setFont( const gtPtr<gtGUIFont>& font );
 
-		void setFont( gtGUIFont * font );
-		void setFont( const gtPtr<gtGUIFont>& font );
+		void		setText( const gtString& text );
+		void		setColor( const gtColor& color );
+		void		setPosition( const v2i& position );
+		void		setBackgroundVisible( bool value );
+		void		setBackgroundColor( const gtColor& color );
 
-		void setText( const gtString& text );
-		void setColor( const gtColor& color );
-		void setPosition( const v2i& position );
-		void setBackgroundVisible( bool value );
-		void setBackgroundColor( const gtColor& color );
+		f32			getLength( void );
 
-		f32  getLength( void );
-
-		void clear( void );
+		void		clear( void );
 		gtGUIShape* getBackgroundShape( void );
 
 
-		void render( void );
-		void setOpacity( f32 opacity = 1.f );
-		f32  getOpacity( void );
+		void		render( void );
+		void		setOpacity( f32 opacity = 1.f );
+		f32			getOpacity( void );
 
 	};
 

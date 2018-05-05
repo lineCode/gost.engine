@@ -49,7 +49,7 @@ using namespace gost;
 #include "gtMainSystemCommon.h"
 #include "gtMainSystemWin32.h"
 
-#include "gtLogerImpl.h"
+#include "gtLogImpl.h"
 
 
 #include "gtWindowCommon.h"

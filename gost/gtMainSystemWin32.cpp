@@ -1,23 +1,17 @@
-﻿//	GOST
-
-#include "common.h"
+﻿#include "common.h"
 
 #ifdef GT_PLATFORM_WIN32
 
 namespace gost{
 
-		//	конструктор
 	gtMainSystemWin32::gtMainSystemWin32( const gtDeviceCreationParameters& params ){
 		m_params = params;
-
 	}
 
-		//	деструктор
 	gtMainSystemWin32::~gtMainSystemWin32( void ){
 		this->m_isRun = false;
 	}
 
-		//	возвратит укозатель на окно вывода
 	gtOutputWindow* gtMainSystemWin32::getOutputWindow( void ){
 		return this->m_output_window.data();
 	}
@@ -38,19 +32,19 @@ namespace gost{
 				this->m_output_window = gtPtrNew<gtOutputWindow>( m_params.m_outputWindow );
 			}
 
-			gtLog->setOutputWindow( m_output_window.data() );
-			//m_output_window->release();
+			gtMainSystemCommon::s_log->setOutputWindow( m_output_window.data() );
 
 			this->initStackTracer();
 			this->initEventSystem();
 
 			this->s_fileSystem = new gtFileSystemWin32;
-			//this->m_GUISystem->init();
 
 			if( this->s_fileSystem->existFile( u"log.txt" ) )
 				this->s_fileSystem->deleteFile( u"log.txt" );
 
-			gtLog->print(gtLoger::msgType::info, u"Starting GoST version %i.%i", 0, 1 );
+			gost::
+
+			gtMainSystemCommon::s_log->print(gtLog::msgType::info, u"Starting GoST version %i.%i", 0, 1 );
 
 			if( !this->m_pluginSystem->init() ){
 				return false;
@@ -61,7 +55,6 @@ namespace gost{
 		return true;
 	}
 
-		//	получает и обрабатывает оконные сообщения
 	void gtMainSystemWin32::updateWindowEvents( void ){
 		MSG msg;
 		while( PeekMessage( &msg, NULL, 0, 0, PM_NOREMOVE ) ){
@@ -95,7 +88,6 @@ namespace gost{
 		return m_isRun;
 	}
 
-		//	завершает работу
 	void gtMainSystemWin32::quit( void ){
 		if( m_isRun ){
 			m_isRun = false;
@@ -111,11 +103,6 @@ namespace gost{
 			gtStackTrace::dumpStackTrace();
 			return nullptr;
 		}
-
-			//	при завершении, так как вставляются gtPtr
-			//	удалится всё (должно)
-	//	this->m_windowCache.add( gtPtr< gtWindow >(window) );
-	//	window->addRef();
 
 #ifdef GT_DEBUG
 		window->setDebugName( u"SystemWindow" );
@@ -135,7 +122,6 @@ namespace gost{
 		return timeGetTime() - baseTime;
 	}
 
-		//	получит указатель на таймер
 	gtTimer*	gtMainSystemWin32::getTimer( void ){
 		return m_timer.data();
 	}

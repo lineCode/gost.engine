@@ -6,16 +6,12 @@ namespace gost{
 
 	class gtModelImpl : public gtModel{
 	
-		gtArray< gtSubModel* > m_submodels;
-
-		gtVertexType*	m_typeArray;
-
-		u32 m_stride;
-
-		gtAabb m_aabb;
-		gtObb m_obb;
-
-		gtSubModel*	createSubModel( u32 v_count, u32 i_count, u32 stride );
+		gtArray< gtSubModel* >	m_submodels;
+		gtVertexType*			m_typeArray;
+		u32						m_stride;
+		gtAabb					m_aabb;
+		gtObb					m_obb;
+		gtSubModel*				createSubModel( u32 v_count, u32 i_count, u32 stride );
 
 	public:
 

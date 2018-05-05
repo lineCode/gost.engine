@@ -9,8 +9,8 @@ namespace gost{
 		gtObjectType	m_type;
 
 		gtRenderModel*	m_model;
-		gtAabb m_aabb;
-		gtObb  m_obb;
+		gtAabb			m_aabb;
+		gtObb			m_obb;
 	public:
 
 		gtStaticObjectImpl( gtRenderModel* model );
@@ -18,18 +18,11 @@ namespace gost{
 
 
 		//	=================================					gtGameObject
-			//	Возвратит тип объекта
 		gtObjectType		getType( void );
-		
-			//	Обновит информацию о позиции/вращении/масштабе
 		void				update( void );
-
-			//	Нарисует объект (если он рисуемый (например не 3D аудио))
 		void				render( void );
 		
-
-					//	Вернёт модель которую рисует
-		gtRenderModel*	getModel( void );
+		gtRenderModel*		getModel( void );
 
 		gtAabb*				getAabb( void );
 		gtObb*				getObb( void );
@@ -39,3 +32,20 @@ namespace gost{
 
 #endif
 
+/*
+Copyright (c) 2018 532235
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
+and associated documentation files (the "Software"), to deal in the Software without restriction, 
+including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, 
+and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, 
+subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT 
+LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, 
+WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/

@@ -4,17 +4,11 @@
 #ifndef __GT_RENDER_MODEL_D3D11_H__
 #define __GT_RENDER_MODEL_D3D11_H__
 
-/*
-*/
 
 namespace gost{
 	
-		//	hardware модель
-		//	реализуется в плагинах.
-		//	создаёт hardware буферы
 	class gtRenderModelD3D11 : public gtRenderModel{
 
-		/*gtModel	*	m_sModel;*/
 
 		gtDriverD3D11* m_driver;
 
@@ -28,15 +22,9 @@ namespace gost{
 		
 
 		bool	init( gtModel* );
-
-
-		//gtModel*	getModel( void );
-
-		u32 getSubModelCount( void );
+		u32		getSubModelCount( void );
 
 		gtMaterial*	getMaterial( u32 id );
-
-			//	нарисует gtRenderModel
 		void		render( void );
 		
 		
@@ -60,7 +48,7 @@ namespace gost{
 #endif
 
 /*
-Copyright (c) 2017 532235
+Copyright (c) 2017-2018 532235
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
 and associated documentation files (the "Software"), to deal in the Software without restriction, 

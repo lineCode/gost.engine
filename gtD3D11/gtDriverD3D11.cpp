@@ -525,10 +525,7 @@ void gtDriverD3D11::draw2DImage( const v4i& rect, const v4i& region, gtTexture* 
 void gtDriverD3D11::draw2DImage( const v4i& rect, const gtMaterial& m ){
 	draw2DImage( rect, v4i(), m );
 }
-	//	Render 2d image using region of texture
-	//	нарисует картинку с выбранной областью текстуры
-	//	rect - координаты левого верхнего и правого нижнего углов
-	//	region - координаты левого верхнего и правого нижнего углов области картинки которую нужно нарисовать
+
 void gtDriverD3D11::draw2DImage( const v4i& rect, const v4i& region, const gtMaterial& m ){
 
 	v2i center( m_currentWindowSize.x / 2, m_currentWindowSize.y / 2  );
@@ -550,7 +547,7 @@ void gtDriverD3D11::draw2DImage( const v4i& rect, const v4i& region, const gtMat
 	
 	v2f lt, rb;
 
-	if( v4i() == region ){ // сравнение с пустым вектором. если пустой то координаты по умолчанию.
+	if( v4i() == region ){ 
 		lt.x = 0.f;
 		lt.y = 0.f;
 		rb.x = 1.f;
@@ -592,7 +589,7 @@ void gtDriverD3D11::draw2DImage( const v4i& rect, const v4i& region, const gtMat
 	_draw2DImage( realRect, uvs, m );
 }
 
-	//	непосредственно рисует картинку
+
 void gtDriverD3D11::_draw2DImage( const v4f& rect, const v8f& region, const gtMaterial& material ){
 
 	gtShader * shader = material.shader;
@@ -687,7 +684,7 @@ void gtDriverD3D11::_draw2DImage( const v4f& rect, const v8f& region, const gtMa
 		m_d3d11DevCon->PSSetSamplers( i, 1, texture->getSamplerState() );
 	}
 
-	/* так делать плохо, но пусть пока будет так */
+
 	if( material.flags & gtMaterialFlag::MF_BLEND )
 		enableBlending( true );
 	else
@@ -697,7 +694,7 @@ void gtDriverD3D11::_draw2DImage( const v4f& rect, const v8f& region, const gtMa
 	m_d3d11DevCon->Draw( 6, 0 );
 }
 
-	//	нарисует gtRenderModel
+
 void gtDriverD3D11::drawModel( gtRenderModel* model ){
 	//auto * soft = model->getModel();
 

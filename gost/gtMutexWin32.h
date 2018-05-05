@@ -8,9 +8,8 @@ namespace gost{
 
 	class gtMutexWin32 : public gtMutex{
 
-		bool m_isInitialized;
-
-		CRITICAL_SECTION m_cSection;
+		bool				m_isInitialized;
+		CRITICAL_SECTION	m_cSection;
 
 	public:
 
@@ -18,7 +17,6 @@ namespace gost{
 		~gtMutexWin32( void );
 
 		void lock( void );
-
 		void unlock( void );
 
 	};

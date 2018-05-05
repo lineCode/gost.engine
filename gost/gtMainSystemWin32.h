@@ -1,58 +1,34 @@
-﻿//	GOST
-
-#pragma once
+﻿#pragma once
 #ifndef __GT_MAIN_SYSTEM_WIN32_H__
 #define __GT_MAIN_SYSTEM_WIN32_H__
 
 #if defined(GT_PLATFORM_WIN32)
 
-/*
-	Реализация главной системы для Windows  
-*/
-
 namespace gost{
 	 
-		//	Реализация главной системы для Windows
 	class gtMainSystemWin32 GT_FINAL: public gtMainSystemCommon{
 
 		gtPtr<gtTimerWin32> m_timer;
-
-			//	получает и обрабатывает оконные сообщения
+		
 		void updateWindowEvents( void );
-
-			//	завершает работу
 		void quit( void );
 
 	public:
 
-			//	конструктор
 		gtMainSystemWin32( const gtDeviceCreationParameters& );
 
-			//	деструктор
 		virtual ~gtMainSystemWin32( void );
 
-		void shutdown( void );
-
-			//	инициализация в отдельном методе чтобы не занимались проблемами внутри конструктора
-		bool	init( void );
-
-			//	получить окно вывода
+		void			shutdown( void );
+		bool			init( void );
 		gtOutputWindow* getOutputWindow( void ) GT_FINAL;
-
-		bool	update( void ) GT_FINAL;
-
+		bool			update( void ) GT_FINAL;
 		gtPtr<gtWindow>	createSystemWindow( gtWindowInfo* );
-
-			//	получит время прошедшее с момента запуска движка
-		u32			getTime( void );
-			//	получит указатель на таймер
-		gtTimer*	getTimer( void );
-
+		u32				getTime( void );
+		gtTimer*		getTimer( void );
 		gtPtr<gtThread>	createThread( void );
-
 		gtPtr<gtMutex>	createMutex( void );
-
-		v2i getScreenSize( void );
+		v2i				getScreenSize( void );
 	};
 
 }

@@ -20,7 +20,7 @@ namespace gost{
 
 	class gtStackTrace{
 		
-		gtPtr<gtLoger> m_log;
+		gtPtr<gtLog> m_log;
 
 		//gtMutex * m_mutex;
 
@@ -32,7 +32,7 @@ namespace gost{
 	public:
 
 		gtStackTrace( gtMainSystem* s ):m_is_initialized( false ){
-			m_log = gtPtrNew<gtLoger>( s->getLoger() );
+			m_log = gtPtrNew<gtLog>( s->getLog() );
 			m_log->setOutputWindow( s->getOutputWindow() );
 			m_log->addRef();
 		}

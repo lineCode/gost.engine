@@ -1,18 +1,11 @@
-﻿//	GOST
-
-#pragma once
+﻿#pragma once
 #ifndef __GT_MAIN_SYSTEM_COMMON_H__
 #define __GT_MAIN_SYSTEM_COMMON_H__
-
-/*
-	Общий класс 
-*/
 
 namespace gost{
 
 	
-		//	Общий класс для конкретных реализаций gtMainSystem
-	class gtLogerImpl;
+	class gtLogImpl;
 
 	class gtMainSystemCommon : public gtMainSystem{
 
@@ -53,98 +46,64 @@ namespace gost{
 
 
 		gtArray<gtDriver*>	m_drivers;
-		bool m_useTimer;
-		u32 m_timer;
-		u32 m_time;
-
-		u32 m_tick;
+		bool				m_useTimer;
+		u32					m_timer;
+		u32					m_time;
+		u32					m_tick;
 
 	protected:
 
 		void updateTimer( void );
 
-		gtPtr<gtOutputWindow>	m_output_window;
+		gtPtr<gtOutputWindow>		m_output_window;
 		gtList< gtPtr< gtWindow > > m_windowCache;
 
-
-			//	параметры главной системы
 		gtDeviceCreationParameters	m_params;
-
-			//	она возвращается в методе update
-		bool	m_isRun;
+		bool						m_isRun;
 		
-			//	объект для вывода стека вызова функций
-		gtStackTrace* m_stackTracer;
+		gtStackTrace*				m_stackTracer;
 		
-		u32 m_systemWindowCount;
+		u32							m_systemWindowCount;
 
-		gtPtr<gtEventSystem> m_events;
+		gtPtr<gtEventSystem>		m_events;
 		gtPtr<gtPluginSystemImpl>	m_pluginSystem;
 		gtPtr<gtModelSystemImpl>	m_modelSystem;
 		gtPtr<gtSceneSystemImpl>	m_sceneSystem;
 		gtPtr<gtGUISystemImpl>		m_GUISystem;
 
 
-	//	gtEngineEventConsumer m_engineConsumer;
+		static gtMainSystemCommon*	s_instance;
 
-		static gtMainSystemCommon*			s_instance;
+		gtMatrix4					m_WVP[ 3u ];
 
-		gtMatrix4 m_WVP[ 3u ];
-
-		gtDriver * m_driver;
+		gtDriver *					m_driver;
 
 	public:
 
 		static gtFileSystemCommon*	s_fileSystem;
 
-			//	конструктор
 		gtMainSystemCommon( void );
-
-			//	деструктор
 		virtual ~gtMainSystemCommon( void );
 
-		static gtPtr<gtLogerImpl> s_loger;
-
-	//	static gtFileSystemCommon* s_fileSystem;
+		static gtPtr<gtLogImpl> s_log;
 		
-		bool isRun( void );
+		bool		isRun( void );
+		gtLog*		getLog( void );
+		void		initStackTracer( void );
+		void		initEventSystem( void );
 
-		gtLoger*		getLoger( void );
-
-			//	так как трейсеру нужно окно вывода, а это окно создаётся чуть позже выделения памяти для него
-			//	то, после создания окна, вызывается эта функция, чтобы можно было дать трейсеру
-			//	инициализированный объект окна
-		void initStackTracer( void );
-
-		void initEventSystem( void );
-
-			//	возвратит указатель на gtMainSystem
-			//	альтернатива this так как this не работает в статических методах
 		static gtMainSystemCommon * getInstance( void );
-			
-			//	возвратит StackTracer
-		gtStackTrace*	getStackTracer( void );
-
-		
-		gtPtr<gtAudioSystem> createAudioSystem( const GT_GUID& uid );
-
-
-		gtPtr<gtDriver> createVideoDriver( /*gtPlugin* videoDriverPlugin,*/ const gtDriverInfo&, const GT_GUID& uid );
+		gtStackTrace*				getStackTracer( void );
+		gtPtr<gtAudioSystem>		createAudioSystem( const GT_GUID& uid );
+		gtPtr<gtDriver>				createVideoDriver( /*gtPlugin* videoDriverPlugin,*/ const gtDriverInfo&, const GT_GUID& uid );
 
 		bool	allocateMemory( void** data, u32 size );
-
 		void	freeMemory( void** data );
 
 		
 		gtPtr<gtImage>	loadImage( const gtString& fileName );
-
 		gtPtr<gtImage>	loadImage( const gtString& fileName, const GT_GUID& pluginGUID );
-
-	//	void		removeImage( gtImage* );
-
-		void		addEvent( const gtEvent&, u8 prior = 0u );
-
-
+		void			addEvent( const gtEvent&, u8 prior = 0u );
 		gtModelSystem*	getModelSystem( void );
 		gtPluginSystem*	getPluginSystem( void );
 		gtSceneSystem*	getSceneSystem( gtDriver * currentRenderDriver );
@@ -162,8 +121,8 @@ namespace gost{
 		bool isLMBDown( void );
 		bool isRMBDown( void );
 		bool isMMBDown( void );
-		const gtVector2<u16>& getCursorPosition( void );
-		const gtDeviceCreationParameters& getDeviceCreationParameters( void );
+		const gtVector2<u16>&				getCursorPosition( void );
+		const gtDeviceCreationParameters&	getDeviceCreationParameters( void );
 
 		gtPtr<gtXMLDocument>	XMLRead( const gtString& file );
 		void					XMLWrite( const gtString& file, gtXMLNode* rootNode, bool utf8 = false );
@@ -174,16 +133,13 @@ namespace gost{
 		gtPtr<gtGameController> createGameContoller( const GT_GUID& plugin );
 		void					setTimer( u32 milliseconds );
 	};
-
-#define gtLog gtMainSystemCommon::s_loger
-
-
+	
 }
 
 #endif
 
 /*
-Copyright (c) 2017, 2018 532235
+Copyright (c) 2017-2018 532235
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
 and associated documentation files (the "Software"), to deal in the Software without restriction, 

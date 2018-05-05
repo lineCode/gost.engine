@@ -10,20 +10,13 @@ namespace gost{
 
 	class gtFileSystemWin32 GT_FINAL : public gtFileSystemCommon{
 
-			//	чтобы вызывать scanDirBegin и scanDirEnd в правильном порядке
-		bool m_dirScanBegin;
+		bool		m_dirScanBegin;
+		bool		m_firstCall;
+		HANDLE		hFind;
+		gtString	m_dir;
+		gtString	m_exePath, m_systemPath;
 
-			//	чтобы вызвать FindFirstFile 1 раз
-		bool m_firstCall;
-
-			//	текущий хэндл найденного файла/папки при сканировании
-		HANDLE hFind;
-
-		gtString m_dir;
-
-		gtString m_exePath, m_systemPath;
-
-		void deleteFolder( const gtString& dir );
+		void		deleteFolder( const gtString& dir );
 
 	public:
 
@@ -38,34 +31,18 @@ namespace gost{
 			u32 EFA
 		);
 
-		bool deleteFile( const gtString& fileName );
-			//	если папка доступна, она будет удалена
-		bool deleteDir( const gtString& dir );
-		bool existFile( const gtString& fileName );
-			//	true если папка доступна
-		bool existDir( const gtString& dir );
-			//	true если папка создана
-		bool createDir( const gtString& dir );
-		//	//	получить количество объектов в указанной папке
-		//u32 getDirItemsCount( const gtString& dir );
-
-			//	перед сканированием папки нужно вызвать это
-		void scanDirBegin( gtString dir );
-			//	после завершения сканирования нужно вызвать это
-		void scanDirEnd( void );
-			//	заполнит структуру DirObject если есть файл/папка
-			//	если, файла/папки нет, или сканирование папки завершено - возврат false
-		bool getDirObject( gtFileSystem::DirObject* );
-			//	копирует существующий файл. true если успех
-		bool copyFile( const gtString& existingFileName, const gtString& newFileName, bool overwrite );
-
-			//	возвращает путь к папке в которой лежит исполняемый файл программы
-			//	например "C:/Games/SuperGame/"
-		gtString getProgramPath( void );
-
-			//	возвращает путь к системной папке
-		gtString getSystemPath( void );
-		gtString getRealPath( const gtString& in );
+		bool		deleteFile( const gtString& fileName );
+		bool		deleteDir( const gtString& dir );
+		bool		existFile( const gtString& fileName );
+		bool		existDir( const gtString& dir );
+		bool		createDir( const gtString& dir );
+		void		scanDirBegin( gtString dir );
+		void		scanDirEnd( void );
+		bool		getDirObject( gtFileSystem::DirObject* );
+		bool		copyFile( const gtString& existingFileName, const gtString& newFileName, bool overwrite );
+		gtString	getProgramPath( void );
+		gtString	getSystemPath( void );
+		gtString	getRealPath( const gtString& in );
 	};
 
 }
@@ -73,7 +50,7 @@ namespace gost{
 #endif
 #endif
 /*
-Copyright (c) 2017 532235
+Copyright (c) 2017-2018 532235
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software
 and associated documentation files (the "Software"), to deal in the Software without restriction,

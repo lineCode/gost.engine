@@ -183,7 +183,6 @@ bool gtShaderImpl::compileShader(
 		}
 	}
 
-	//	пока нет возможности это протестировать
 	std::unique_ptr< D3D11_INPUT_ELEMENT_DESC[] > layout( new D3D11_INPUT_ELEMENT_DESC[ vertexLayoutComponentSize ] );
 
 	UINT offset = 0u;
@@ -278,7 +277,7 @@ bool gtShaderImpl::createShaderObject( u32 byteSize ){
 }
 
 /*
-Copyright (c) 2017 532235
+Copyright (c) 2017-2018 532235
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
 and associated documentation files (the "Software"), to deal in the Software without restriction, 

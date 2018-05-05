@@ -28,7 +28,6 @@ bool gtFileSystem::existFile( const gtString& fileName ){
 	return gtMainSystemCommon::s_fileSystem->existFile( fileName );
 }
 
-	//	true если папка доступна
 bool gtFileSystem::existDir( const gtString& dir ){
 	return gtMainSystemCommon::s_fileSystem->existDir( dir );
 }
@@ -37,40 +36,27 @@ bool gtFileSystem::createDir( const gtString& dir ){
 	return gtMainSystemCommon::s_fileSystem->createDir( dir );
 }
 
-//	//	получить количество объектов в указанной папке
-//u32 gtFileSystem::getDirItemsCount( const gtString& dir ){
-//	return gtMainSystemCommon::s_fileSystem->getDirItemsCount( dir );
-//}
-
-	//	перед сканированием папки нужно вызвать это
 void gtFileSystem::scanDirBegin( gtString dir ){
 	gtString dir2 = dir;
 	gtMainSystemCommon::s_fileSystem->scanDirBegin( dir2 );
 }
 			
-	//	после завершения сканирования нужно вызвать это
 void gtFileSystem::scanDirEnd( void ){
 	gtMainSystemCommon::s_fileSystem->scanDirEnd();
 }
 
-	//	заполнит структуру DirObject если есть файл/папка
-	//	если, файла/папки нет, или сканирование папки завершено - возврат false
 bool gtFileSystem::getDirObject( gtFileSystem::DirObject* o ){
 	return gtMainSystemCommon::s_fileSystem->getDirObject( o );
 }
 
-	//	копирует существующий файл. true если успех
 bool gtFileSystem::copyFile( const gtString& existingFileName, const gtString& newFileName, bool overwrite ){
 	return gtMainSystemCommon::s_fileSystem->copyFile( existingFileName, newFileName, overwrite );
 }
 
-	//	возвращает путь к папке в которой лежит исполняемый файл программы
-	//	например "C:/Games/SuperGame/"
 gtString gtFileSystem::getProgramPath( void ){
 		return gtMainSystemCommon::s_fileSystem->getProgramPath();
 }
 
-	//	возвращает путь к системной папке
 gtString gtFileSystem::getSystemPath( void ){
 	return gtMainSystemCommon::s_fileSystem->getSystemPath();
 }
@@ -80,7 +66,7 @@ gtString gtFileSystem::getRealPath( const gtString& in ){
 }
 
 /*
-Copyright (c) 2017 532235
+Copyright (c) 2017-2018 532235
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
 and associated documentation files (the "Software"), to deal in the Software without restriction, 

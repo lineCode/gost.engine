@@ -8,35 +8,18 @@ gtShaderProcessingD3D11::gtShaderProcessingD3D11( ID3D11DeviceContext*	d3d11DevC
 {
 }
 
-gtShaderProcessingD3D11::~gtShaderProcessingD3D11(){
-}
+gtShaderProcessingD3D11::~gtShaderProcessingD3D11(){}
 
 void gtShaderProcessingD3D11::setStandartTexture( gtTexture * t ){
 	m_standartTexture = t;
 }
 
-			// ѕослать в шейдер значение float
-void	gtShaderProcessingD3D11::setFloat( const gtStringA&, f32 ){
-}
+void	gtShaderProcessingD3D11::setFloat( const gtStringA&, f32 ){}
+void	gtShaderProcessingD3D11::setInt( const gtStringA&, s32 ){}
+void	gtShaderProcessingD3D11::setMatrix4x4( const gtStringA&, gtMatrix4& ){}
+void	gtShaderProcessingD3D11::setVec3f( const gtStringA&, v3f& ){}
+void	gtShaderProcessingD3D11::setVec4f( const gtStringA&, v3f& ){}
 
-			// ѕослать в шейдер значение int
-void	gtShaderProcessingD3D11::setInt( const gtStringA&, s32 ){
-}
-
-			// ѕослать в шейдер матрицу
-void	gtShaderProcessingD3D11::setMatrix4x4( const gtStringA&, gtMatrix4& ){
-}
-
-			// ѕослать в шейдер вектор3
-void	gtShaderProcessingD3D11::setVec3f( const gtStringA&, v3f& ){
-}
-
-			// ѕослать в шейдер вектор4
-void	gtShaderProcessingD3D11::setVec4f( const gtStringA&, v3f& ){
-}
-
-			// ѕослать в шейдер текстуру
-			// id - номер текстуры в материале
 void	gtShaderProcessingD3D11::setTexture( const gtStringA& /*uniformName*/, s32 id ){
 
 	auto * texture = m_material->textureLayer[ id ].texture;
@@ -66,25 +49,14 @@ void gtShaderProcessingD3D11::mapData( void* data, s32 id ){
 
 		m_d3d11DevCon->Unmap( m_shaderD3D11->m_constantBuffers[ id ], 0 );
 }
-			//	дл€ константных буферов
-			//	slot - номер очереди дл€ вершинного шейдера. Ќачинаетс€ с нул€.
-			//	если посылаетс€ в пиксельный, то там нужно тоже начинать с нул€.
-			//	id - это номер буфера (созданного через вызов createShaderObject)
-			//	буфер можно послать как в VS так и в PS, по этому slot и id могут различатьс€
-			//	напр.	
-			//	sendDataVS(data, 0, 0);
-			//	sendDataPS(data, 0, 1);
-			//	или
-			//	sendDataVS(data, 0, 0);		//	sendDataVS(data, 0, 0); <-\
-			//	sendDataVS(data, 1, 1);		//	sendDataVS(data, 1, 1);		|- 1 буфер и туда и туда
-			//	sendDataPS(data, 0, 2);		//	sendDataPS(data, 0, 0); <-/
-			//	sendDataPS(data, 1, 3);		//	sendDataPS(data, 1, 2);
+			
+
 void	gtShaderProcessingD3D11::sendDataVS( void* data, s32 slot, u32 id ){
 	mapData( data, id );
 	m_d3d11DevCon->VSSetConstantBuffers( slot, 1, &m_shaderD3D11->m_constantBuffers[ id ] );
 }
 
-			//	см. описание sendDataVS
+
 void	gtShaderProcessingD3D11::sendDataPS( void* data, s32 slot, u32 id ){
 	mapData( data, id );
 	m_d3d11DevCon->PSSetConstantBuffers( slot, 1, &m_shaderD3D11->m_constantBuffers[ id ] );
@@ -99,3 +71,21 @@ void gtShaderProcessingD3D11::setShader( gtShader * s ){
 void gtShaderProcessingD3D11::setMaterial( gtMaterial * m ){
 	m_material = m;
 }
+
+/*
+Copyright (c) 2018 532235
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
+and associated documentation files (the "Software"), to deal in the Software without restriction, 
+including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, 
+and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, 
+subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT 
+LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, 
+WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/

@@ -2,9 +2,6 @@
 
 #include "common.h"
 
-/*
-	Реализация для Windows
-*/
 
 #if defined(GT_PLATFORM_WIN32)
 
@@ -24,13 +21,10 @@ gtOutputWindowWin32::~gtOutputWindowWin32( void ){
 	shutdown();
 }
 
-//	Инициализация
 void	gtOutputWindowWin32::init( void ){
 
-	//	ненужно инициализировать повторно
 	if( m_isInit ) return;
 
-	//	Нужно создать windows окно
 	m_wc.style		   = CS_HREDRAW | CS_VREDRAW;
 	m_wc.lpfnWndProc   = ( WNDPROC )OutWndProc;
 	m_wc.hInstance     = GetModuleHandle( 0 );
@@ -40,13 +34,12 @@ void	gtOutputWindowWin32::init( void ){
 	m_wc.lpszMenuName  = NULL;
 	m_wc.lpszClassName = L"OUTPUTWINDOW";
 
-	//	если не можем зарегестрировать класс то завершение работы
+
 	if( !RegisterClass (&m_wc) ){
 		MessageBox( 0, L"Can not initialize Output Window", L"Error", MB_ICONERROR );
 		return;
 	}
 
-	// Стиль окна
 	u32 style = WS_BORDER | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_SIZEBOX
 		| WS_CLIPCHILDREN;
 
@@ -62,8 +55,6 @@ void	gtOutputWindowWin32::init( void ){
 		m_windowRect.right,
 		m_windowRect.bottom,
 		NULL, NULL, m_wc.hInstance,
-
-		//	Полезная вещь. Класс сможет иметь доступ к оконной процедуре
 		this );
 
 	if( !m_hWnd ){
@@ -129,11 +120,10 @@ void	gtOutputWindowWin32::init( void ){
 	SendMessage( m_hWndBuffer, WM_SETFONT, ( WPARAM ) hfBufferFont, 0 );
 	m_hbrEditBackground = CreateSolidBrush(RGB(114,114,114));
 
-	//	всё инициализировано
 	m_isInit = true;
 }
 
-//	Завершение работы
+
 void	gtOutputWindowWin32::shutdown( void ){
 	DeleteObject( m_wc.hbrBackground );
 	DeleteObject( m_hbrEditBackground );
@@ -144,12 +134,12 @@ void	gtOutputWindowWin32::shutdown( void ){
 	m_isInit = false;
 }
 
-//	Возвратит true если инициализирован
+
 bool	gtOutputWindowWin32::isInit( void ){
 	return m_isInit;
 }
 
-//	Если окно невидимо, покажет его
+
 void	gtOutputWindowWin32::show( void ){
 	if( m_isInit ){
 		ShowWindow( m_hWnd, SW_SHOWNORMAL );
@@ -158,14 +148,14 @@ void	gtOutputWindowWin32::show( void ){
 	}
 }
 
-//	Сделает окно невидимым (спрячет, или сделает прозрачным, зависит от реализации)
+
 void	gtOutputWindowWin32::hide( void ){
 	if( m_isInit )
 		ShowWindow( m_hWnd, SW_HIDE );
 	m_isShown = false;
 }
 
-	//	Напечатает текст
+
 void	gtOutputWindowWin32::print( const gtString& text ){
 	if( m_isShown ){
 
@@ -191,7 +181,7 @@ bool	gtOutputWindowWin32::isShow( void ){
 	return m_isShown;
 }
 
-//	Установит заголовок
+
 void	gtOutputWindowWin32::setWindowText( const gtString& text ){
 	if( m_isInit )
 		SetWindowText( m_hWnd, (wchar_t*)text.data() );
@@ -200,7 +190,7 @@ void	gtOutputWindowWin32::setWindowText( const gtString& text ){
 
 LRESULT CALLBACK gtOutputWindowWin32::OutWndProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam ){
 
-	//	После этого класс имеет доступ к оконной процедуре
+
 	gtOutputWindowWin32*	output = nullptr;
 	if( !output ){
 		if( uMsg == WM_NCCREATE ){

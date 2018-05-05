@@ -20,43 +20,18 @@ namespace gost{
 		) = 0;
 
 
-		virtual bool deleteFile( const gtString& fileName ) = 0;
-
-			//	если папка доступна, она будет удалена
-		virtual bool deleteDir( const gtString& dir ) = 0;
-
-			//	true если файл доступен
-		virtual bool existFile( const gtString& fileName ) = 0;
-
-			//	true если папка доступна
-		virtual bool existDir( const gtString& dir ) = 0;
-
-			//	true если папка создана
-		virtual bool createDir( const gtString& dir ) = 0;
-
-		//	//	получить количество объектов в указанной папке
-		//virtual u32 getDirItemsCount( const gtString& dir ) = 0;
-
-			//	перед сканированием папки нужно вызвать это
-		virtual void scanDirBegin( gtString dir ) = 0;
-			
-			//	после завершения сканирования нужно вызвать это
-		virtual void scanDirEnd( void ) = 0;
-		
-			//	заполнит структуру DirObject если есть файл/папка
-			//	если, файла/папки нет, или сканирование папки завершено - возврат false
-		virtual bool getDirObject( gtFileSystem::DirObject* ) = 0;
-
-			//	копирует существующий файл. true если успех
-		virtual bool copyFile( const gtString& existingFileName, const gtString& newFileName, bool overwrite ) = 0;
-
-			//	возвращает путь к папке в которой лежит исполняемый файл программы
-			//	например "C:/Games/SuperGame/"
-		virtual gtString getProgramPath( void ) = 0;
-
-			//	возвращает путь к системной папке
-		virtual gtString getSystemPath( void ) = 0;
-		virtual gtString getRealPath( const gtString& in ) = 0;
+		virtual bool		deleteFile( const gtString& fileName ) = 0;
+		virtual bool		deleteDir( const gtString& dir ) = 0;
+		virtual bool		existFile( const gtString& fileName ) = 0;
+		virtual bool		existDir( const gtString& dir ) = 0;
+		virtual bool		createDir( const gtString& dir ) = 0;
+		virtual void		scanDirBegin( gtString dir ) = 0;
+		virtual void		scanDirEnd( void ) = 0;
+		virtual bool		getDirObject( gtFileSystem::DirObject* ) = 0;
+		virtual bool		copyFile( const gtString& existingFileName, const gtString& newFileName, bool overwrite ) = 0;
+		virtual gtString	getProgramPath( void ) = 0;
+		virtual gtString	getSystemPath( void ) = 0;
+		virtual gtString	getRealPath( const gtString& in ) = 0;
 	};
 
 
@@ -66,7 +41,7 @@ namespace gost{
 
 
 /*
-Copyright (c) 2017 532235
+Copyright (c) 2017-2018 532235
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
 and associated documentation files (the "Software"), to deal in the Software without restriction, 

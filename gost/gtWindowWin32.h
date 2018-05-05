@@ -1,5 +1,3 @@
-//	GOST
-
 #pragma once
 #ifndef __GT_WINDOW_WIN_32_H__
 #define __GT_WINDOW_WIN_32_H__
@@ -10,30 +8,18 @@ namespace gost{
 
 
 	class gtWindowWin32 GT_FINAL : public gtWindowCommon{
-
-			//	window handle
-		HWND m_hWnd;
-
-			//	уникальное им€ класса
-		gtString m_className;
-
-			//	инициализировано ли окно
-		bool m_isInit;
+		HWND		m_hWnd;
+		gtString	m_className;
+		bool		m_isInit;
 
 	public:
-			//	ctor
 		gtWindowWin32( gtWindowInfo* );
-
-			//	dtor
 		virtual ~gtWindowWin32( void );
 
 		bool	init( u32 i );
-
-			//	”становит заголовок окна
 		void	setWindowTitle( const gtString& ) GT_FINAL;
 		void*	getHandle( void ) GT_FINAL;
 
-			//	оконна€ процедура
 		static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 	};
 
@@ -43,7 +29,7 @@ namespace gost{
 #endif
 
 /*
-Copyright (c) 2017 532235
+Copyright (c) 2017-2018 532235
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software
 and associated documentation files (the "Software"), to deal in the Software without restriction,

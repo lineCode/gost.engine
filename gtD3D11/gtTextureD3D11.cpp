@@ -115,22 +115,19 @@ HRESULT	gtTextureD3D11::createSamplerState( D3D11_FILTER filter, D3D11_TEXTURE_A
 	return m_driver->getD3DDevice()->CreateSamplerState( &samplerDesc, &this->m_samplerState );
 }
 
-//===============================================================
-	//	возвратит тип текстуры
+//============================================
 gtTextureType	gtTextureD3D11::getType( void ){
 	return m_type;
 }
-	//	получить ширину
 u32				gtTextureD3D11::getWidth( void ){
 	return this->m_size.x;
 }
-	//	получить высоту
 u32				gtTextureD3D11::getHeight( void ){
 	return this->m_size.y;
 }
 
 /*
-Copyright (c) 2017 532235
+Copyright (c) 2017-2018 532235
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
 and associated documentation files (the "Software"), to deal in the Software without restriction, 

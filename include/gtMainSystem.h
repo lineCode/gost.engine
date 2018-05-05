@@ -5,7 +5,7 @@
 namespace gost{
 
 	class gtOutputWindow;
-	class gtLoger;
+	class gtLog;
 	class gtWindow;
 	struct gtWindowInfo;
 	class gtDriver;
@@ -82,7 +82,7 @@ namespace gost{
 		virtual gtOutputWindow* getOutputWindow( void ) = 0;
 
 			//	\return logger
-		virtual gtLoger*		getLoger( void ) = 0;
+		virtual gtLog*		getLog( void ) = 0;
 
 			//	\return \b true if engine run
 		virtual	bool	update( void ) = 0;

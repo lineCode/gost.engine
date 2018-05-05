@@ -9,22 +9,18 @@ namespace gost{
 
 	class gtTextureD3D11 GT_FINAL : public gtTexture{
 
-			//	тип текстуры
-		gtTextureType m_type;
-
-			//	текстура
-		ID3D11Resource*			m_texture;
+		gtTextureType				m_type;
+		ID3D11Resource*				m_texture;
 		ID3D11ShaderResourceView*	m_textureResView;
 		ID3D11SamplerState*			m_samplerState;
 
-		gtDriverD3D11* m_driver;
+		gtDriverD3D11*				m_driver;
 
 		HRESULT	createSamplerState( 
 			D3D11_FILTER filter, 
 			D3D11_TEXTURE_ADDRESS_MODE addressMode,
 			u32 anisotropic_level = 1 );
 
-			//	размер текстуры
 		v2u		m_size;
 	public:
 
@@ -37,11 +33,8 @@ namespace gost{
 		ID3D11SamplerState*	const * getSamplerState( void );
 
 		//	===========================================
-			//	возвратит тип текстуры
 		gtTextureType	getType( void );
-			//	получить ширину
 		u32				getWidth( void );
-			//	получить высоту
 		u32				getHeight( void );
 
 	};
@@ -53,7 +46,7 @@ namespace gost{
 
 
 /*
-Copyright (c) 2017 532235
+Copyright (c) 2017-2018 532235
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
 and associated documentation files (the "Software"), to deal in the Software without restriction, 

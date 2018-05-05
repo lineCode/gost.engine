@@ -48,9 +48,6 @@
     <ClCompile Include="..\..\gost\gtFileWin32.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\gost\gtLogerImpl.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\gost\gtModelImpl.cpp">
       <Filter>Source</Filter>
     </ClCompile>
@@ -141,15 +138,15 @@
     <ClCompile Include="..\..\gost\gtGUITextFieldImpl.cpp">
       <Filter>Source\GUI</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\gost\gtLogImpl.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\gost\gtDriverCommon.h">
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="..\..\gost\gtFileWin32.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\gost\gtLogerImpl.h">
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="..\..\gost\gtModelImpl.h">
@@ -222,9 +219,6 @@
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\gtList.h">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\gtLoger.h">
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\gtMainSystem.h">
@@ -401,9 +395,6 @@
     <ClInclude Include="..\..\gost\gtGUIStaticTextImpl.h">
       <Filter>Headers\GUI</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\gost\resource.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\gtWindowInfo.h">
       <Filter>include</Filter>
     </ClInclude>
@@ -436,6 +427,12 @@
     </ClInclude>
     <ClInclude Include="..\..\include\BuiltInFont.hpp">
       <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\gtLog.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\gost\gtLogImpl.h">
+      <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

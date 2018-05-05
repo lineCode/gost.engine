@@ -19,15 +19,15 @@ namespace gost{
 		gtGUIShapeImpl( gtDriver * );
 		~gtGUIShapeImpl( void );
 		
-		bool initRectangle( const v4i& rect, const gtColor& color );
+		bool		initRectangle( const v4i& rect, const gtColor& color );
 
-		void render( void );
-		void setOpacity( f32 opacity = 1.f );
-		f32  getOpacity( void );
+		void		render( void );
+		void		setOpacity( f32 opacity = 1.f );
+		f32			getOpacity( void );
 
-		void setColor( const gtColor& color );
-		void setTexture( gtTexture* texture );
-		gtTexture* getTexture( void );
+		void		setColor( const gtColor& color );
+		void		setTexture( gtTexture* texture );
+		gtTexture*	getTexture( void );
 		gtMaterial* getMaterial( void );
 	};
 

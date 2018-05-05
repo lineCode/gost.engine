@@ -120,7 +120,6 @@ bool gtFileSystemWin32::createDir( const gtString& dir ){
 	return true;
 }
 
-	//	перед сканированием папки нужно вызвать это
 void gtFileSystemWin32::scanDirBegin( gtString dir ){
 	if( !m_dirScanBegin ){
 		m_dirScanBegin = true;
@@ -135,7 +134,7 @@ void gtFileSystemWin32::scanDirBegin( gtString dir ){
 
 	}
 }
-	//	после завершения сканирования нужно вызвать это
+
 void gtFileSystemWin32::scanDirEnd( void ){
 	if( m_dirScanBegin ){
 		m_dirScanBegin = false;
@@ -147,8 +146,7 @@ void gtFileSystemWin32::scanDirEnd( void ){
 	}
 }
 
-	//	заполнит структуру DirObject если есть файл/папка
-	//	если, файла/папки нет, или сканирование папки завершено - возврат false
+
 bool gtFileSystemWin32::getDirObject( gtFileSystem::DirObject* o ){
 	WIN32_FIND_DATA ffd;
 
@@ -203,7 +201,6 @@ bool gtFileSystemWin32::getDirObject( gtFileSystem::DirObject* o ){
 	return true;
 }
 
-	//	копирует существующий файл. true если успех
 bool gtFileSystemWin32::copyFile( const gtString& existingFileName, const gtString& newFileName, bool overwrite ){
 	if( !this->existFile( existingFileName ) ){
 		gtLogWriter::printWarning( u"Can not copy file [%s]. File not exist.", existingFileName.data() );
@@ -224,13 +221,11 @@ bool gtFileSystemWin32::copyFile( const gtString& existingFileName, const gtStri
 	return true;
 }
 
-	//	возвращает путь к папке в которой лежит исполняемый файл программы
-	//	например "C:/Games/SuperGame/"
 gtString gtFileSystemWin32::getProgramPath( void ){
 	return m_exePath;
 }
 
-	//	возвращает путь к системной папке
+
 gtString gtFileSystemWin32::getSystemPath( void ){
 	return m_systemPath;
 }
@@ -270,7 +265,7 @@ gtString gtFileSystemWin32::getRealPath( const gtString& in ){
 #endif
 
 /*
-Copyright (c) 2017 532235
+Copyright (c) 2017-2018 532235
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software
 and associated documentation files (the "Software"), to deal in the Software without restriction,

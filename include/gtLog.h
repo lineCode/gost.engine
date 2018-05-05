@@ -1,49 +1,47 @@
-//	GOST
-
-#pragma once
-#ifndef __GT_FILE_WIN_32_H__
-#define __GT_FILE_WIN_32_H__
-
-#if defined(GT_PLATFORM_WIN32)
+﻿#pragma once
+#ifndef __GT_LOG_H__
+#define __GT_LOG_H__
 
 namespace gost{
 
-	class gtFileWin32 GT_FINAL : public gtFile{
+	class gtOutputWindow;
 
-		gtTextFileInfo	m_textInfo;
-		HANDLE			m_handle;
-		bool			m_isTextFile;
-
-			// GENERIC_READ or GENERIC_WRITE
-		DWORD			m_desiredAccess;
-		u64				m_pointerPosition;
+	class gtLog : public gtRefObject{
 	public:
-		gtFileWin32( const gtString& fileName, gtFileSystem::FileMode mode,
-			gtFileSystem::FileAccessMode access,
-			gtFileSystem::FileAction action,
-			gtFileSystem::FileShareMode EFSM,
-			u32 EFA );
-		virtual ~gtFileWin32( void );
+
+		enum class msgType{
+			error,		
+			warning,	
+			info		
+		};
+
+			//	\%f - float
+			//	\%i - int
+			//	\%u - unsigned
+			//	\%s - char16_t*
+			//	\%c - char16_t
+		virtual void print( msgType type, const char16_t* str, ... ) = 0;
+
+		virtual void setOutputWindow( gtOutputWindow* ) = 0;
+
+		virtual void setInfoType( msgType type = msgType::info ) = 0;
 
 
-		gtTextFileInfo	getTextFileInfo( void );
-		void			setTextFileInfo( gtTextFileInfo info );
-		
-		u32				write( u8 * data, u32 size );
-		void			write( const gtStringA& string );
-		void			write( const gtString& string );
-		void			write( const gtString32& string );
-		void			flush( void );
-		u64				read( u8 * data, u64 size );
-		u64				size( void );
-		u64				tell( void );
-		void 			seek( u64 distance, SeekPos pos );
+	};
+
+	class gtLogWriter{
+	public:
+		GT_API static	void printError( const char16_t* str, ... );
+
+		GT_API static	void printWarning( const char16_t* str, ... );
+
+		GT_API static	void printInfo( const char16_t* str, ... );
 	};
 
 }
-#endif
-#endif
 
+
+#endif
 
 /*
 Copyright (c) 2017-2018 532235

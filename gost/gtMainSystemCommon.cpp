@@ -2,11 +2,8 @@
 
 #include "common.h"
 
-gtPtr<gtLogerImpl> gtMainSystemCommon::s_loger;
+gtPtr<gtLogImpl> gtMainSystemCommon::s_log;
 gtFileSystemCommon* gtMainSystemCommon::s_fileSystem;
-
-	//	возвратит указатель на gtMainSystem
-	//	альтернатива this так как this не работает в статических методах
 gtMainSystemCommon* gtMainSystemCommon::s_instance;
 gtMainSystemCommon* gtMainSystemCommon::getInstance( void ){return s_instance;}
 
@@ -19,9 +16,8 @@ gtMainSystemCommon::gtMainSystemCommon( void ) : m_isRun( true ),
 	m_time( 0u ),
 	m_tick( 0u )
 {
-//	s_fileSystem = nullptr;
 
-	s_loger = gtPtrNew<gtLogerImpl>( new gtLogerImpl );
+	s_log = gtPtrNew<gtLogImpl>( new gtLogImpl );
 	s_instance = this;
 
 	m_pluginSystem	= gtPtrNew<gtPluginSystemImpl>( new gtPluginSystemImpl );
@@ -43,8 +39,8 @@ gtMainSystemCommon::~gtMainSystemCommon(){
 	}
 }
 
-gtLoger* gtMainSystemCommon::getLoger( void ){
-	return s_loger.data();
+gtLog* gtMainSystemCommon::getLog( void ){
+	return s_log.data();
 }
 
 
@@ -356,14 +352,6 @@ bool writeNodes( gtString& outText, gtXMLNode* node, u32 tabCount ){
 	if( !node->nodeList.size() && !node->text.size() ){
 		outText += u"/>\r\n";
 		return true;
-	/*}else if( node->text.size() ){
-		outText += u">";
-		writeText( outText, node->text );
-		outText += u"</";
-		outText += node->name;
-		outText += u">\n";
-		return true;*/
-
 	}else{
 		outText += u">\r\n";
 		sz = node->nodeList.size();

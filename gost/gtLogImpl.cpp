@@ -3,7 +3,7 @@
 #include "common.h"
 
 
-gtLogerImpl::gtLogerImpl( void )
+gtLogImpl::gtLogImpl( void )
 : m_msgType(msgType::info),
 m_out( nullptr ){
 #ifdef GT_DEBUG
@@ -11,16 +11,15 @@ m_out( nullptr ){
 #endif
 }
 
-gtLogerImpl::~gtLogerImpl( void ){
+gtLogImpl::~gtLogImpl( void ){
 }
 
-	//	напечатает форматированную строку
 	//	%f - float
 	//	%i - int
 	//	%u - unsigned
 	//	%s - char16_t*
 	//	%c - char16_t
-void gtLogerImpl::print( msgType type, const char16_t* str, ... ){
+void gtLogImpl::print( msgType type, const char16_t* str, ... ){
 	gt_va_list args;
 	va_start( args, str );
 	print( type, str, args );
@@ -28,17 +27,17 @@ void gtLogerImpl::print( msgType type, const char16_t* str, ... ){
 }
 
 
-void gtLogerImpl::print( msgType type, const char16_t* str, void * p ){
+void gtLogImpl::print( msgType type, const char16_t* str, void * p ){
 	if( m_msgType >= type ){
 		gtString message;
 		switch( type ){
-		case gost::gtLoger::msgType::error:
+		case gost::gtLog::msgType::error:
 			message.assign(u"Error: ");
 			break;
-		case gost::gtLoger::msgType::warning:
+		case gost::gtLog::msgType::warning:
 			message.assign(u"Warning: ");
 			break;
-		case gost::gtLoger::msgType::info:
+		case gost::gtLog::msgType::info:
 			break;
 		}
 
@@ -54,10 +53,9 @@ void gtLogerImpl::print( msgType type, const char16_t* str, void * p ){
 	}
 }
 
-void gtLogerImpl::deformat( const char16_t* fmt,
+void gtLogImpl::deformat( const char16_t* fmt,
 	gt_va_list& args, gtString& message ){
 
-	//	получаю размер строки fmt
 	u32 len = 0U;
 	const char16_t* p = fmt;
 	do	{		++len;	} while(*p++);
@@ -91,8 +89,7 @@ void gtLogerImpl::deformat( const char16_t* fmt,
 				char16_t * p2 = va_arg( list, char16_t* );
 				u32 len2( 0U );
 				do{ ++len2; } while(*p2++);
-				p2 -= len2; // возвращаюсь к началу строки
-				// и копирую её
+				p2 -= len2;
 				for( u32 o(0U); o < len2-1u; ++o )
 					message += p2[ o ];
 				continue;
@@ -110,39 +107,36 @@ void gtLogerImpl::deformat( const char16_t* fmt,
 
 }
 
-	//	установка окна, в которое будет выводится текст
-void gtLogerImpl::setOutputWindow( gtOutputWindow* out ){
+void gtLogImpl::setOutputWindow( gtOutputWindow* out ){
 	m_out = out;
 }
 
-	//	info - будут все сообщения
-	//	warning - warning и error
-	//	error - только error
-void gtLogerImpl::setInfoType( msgType type ){
+
+void gtLogImpl::setInfoType( msgType type ){
 	m_msgType = type;
 }
 
-	//	Вывести сообщение об ошибке
+
 void gtLogWriter::printError( const char16_t* str, ... ){
 	gt_va_list args;
 	va_start( args, str );
-	gtLog->print( gost::gtLoger::msgType::error, str, args );
+	gtMainSystemCommon::s_log->print( gost::gtLog::msgType::error, str, args );
 	va_end( args );
 }
 
-	//	Вывести предупреждение
+
 void gtLogWriter::printWarning( const char16_t* str, ... ){
 	gt_va_list args;
 	va_start( args, str );
-	gtLog->print( gost::gtLoger::msgType::warning, str, args );
+	gtMainSystemCommon::s_log->print( gost::gtLog::msgType::warning, str, args );
 	va_end( args );
 }
 
-	//	Вывести информационное сообщение
+
 void gtLogWriter::printInfo( const char16_t* str, ... ){
 	gt_va_list args;
 	va_start( args, str );
-	gtLog->print( gost::gtLoger::msgType::info, str, args );
+	gtMainSystemCommon::s_log->print( gost::gtLog::msgType::info, str, args );
 	va_end( args );
 }
 

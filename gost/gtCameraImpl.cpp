@@ -19,13 +19,10 @@ gtCameraImpl::~gtCameraImpl( void ){
 
 
 //	=================================					gtGameObject
-			//	Возвратит тип объекта
 gtObjectType		gtCameraImpl::getType( void ){
 	return m_type;
 }
 
-
-	//	Обновит информацию о позиции/вращении/масштабе
 void				gtCameraImpl::update( void ){
 
 	gtMatrix4 translationMatrix;
@@ -47,7 +44,6 @@ void				gtCameraImpl::update( void ){
 	}
 }
 
-	//	Нарисует объект (если он рисуемый (например не 3D аудио))
 void				gtCameraImpl::render( void ){
 	switch( m_cameraType ){
 	case gost::gtCameraType::CT_LOOK_AT:{
@@ -112,12 +108,10 @@ void				gtCameraImpl::render( void ){
 
 
 		//	====================================				gtCamera
-	//	Вернёт тип камеры
 gtCameraType	gtCameraImpl::getCameraType( void ){
 	return m_cameraType;
 }
 
-	//	Установит тип камеры
 void		gtCameraImpl::setCameraType( gtCameraType type ){
 	m_cameraType = type;
 }
@@ -138,52 +132,42 @@ void				gtCameraImpl::setTarget( const v3f& t ){
 	m_target = t;
 }
 
-	//	Вернёт up вектор look at камеры
 const v3f&			gtCameraImpl::getUpVector( void ){
 	return m_up;
 }
 
-	//	Установит up вектор look at камеры
 void gtCameraImpl::setUpVector( const v3f& v ){
 	m_up = v;
 }
 
-	//	Установит ближнюю границу с которой начинается рисование
 void gtCameraImpl::setNear( f32 v ){
 	m_near = v;
 }
 
-	//	Установит дальнюю границу после которой рисование заканчивается
 void gtCameraImpl::setFar( f32 v ){
 	m_far = v;
 }
 
-	//	Установит соотношение сторон (напр. aspect = 800 : 600 )
 void gtCameraImpl::setAspect( f32 v ){
 	m_aspect = v;
 }
 
-	//	Установит поле зрения (field of view)
 void gtCameraImpl::setFOV( f32 v ){
 	m_fov = v;
 }
 
-	//	Вернёт ближнюю границу с которой начинается рисование
 f32	gtCameraImpl::getNear( void ){
 	return m_near;
 }
 
-	//	Вернёт дальнюю границу после которой рисование заканчивается
 f32	gtCameraImpl::getFar( void ){
 	return m_far;
 }
 
-	//	Вернёт соотношение сторон
 f32	gtCameraImpl::getAspect( void ){
 	return m_aspect;
 }
 
-	//	Вернёт поле зрения (field of view)
 f32	gtCameraImpl::getFOV( void ){
 	return m_fov;
 }
@@ -268,3 +252,21 @@ gtAabb*	gtCameraImpl::getAabb( void ){
 gtObb*	gtCameraImpl::getObb( void ){
 	return nullptr;
 }
+
+/*
+Copyright (c) 2018 532235
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
+and associated documentation files (the "Software"), to deal in the Software without restriction, 
+including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, 
+and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, 
+subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT 
+LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, 
+WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/

@@ -11,9 +11,7 @@ gtPluginSystemImpl::gtPluginSystemImpl( void ):
 }
 
 
-gtPluginSystemImpl::~gtPluginSystemImpl( void ){
-
-}
+gtPluginSystemImpl::~gtPluginSystemImpl( void ){}
 
 
 void gtPluginSystemImpl::scanFolder( const gtString& dir ){
@@ -70,7 +68,6 @@ void gtPluginSystemImpl::scanFolder( const gtString& dir ){
 					continue;
 				}
 				
-				//	пока добавляется только общая информация
 				pi_dl.m_path.assign((char16_t*)o->path);
 				pi_dl.m_info = pi;
 				pi_dl.m_handle = lib;
@@ -158,7 +155,6 @@ bool gtPluginSystemImpl::init( void ){
 	return true;
 }
 
-	//	получить количество плагинов в папке plugins
 u32	gtPluginSystemImpl::getNumOfPlugins( void ){
 	return m_numOfPlugins;
 }
@@ -188,7 +184,6 @@ gtPlugin*	gtPluginSystemImpl::getPlugin( u32 id ){
 	return m_plugins[ id ];
 }
 
-	//	загружает картинку
 gtImage * gtPluginSystemImpl::importImage( const gtString& fileName, const GT_GUID& guid, bool useguid ){
 
 	gtString realPath;
@@ -244,7 +239,6 @@ gtImage * gtPluginSystemImpl::importImage( const gtString& fileName, const GT_GU
 	return nullptr;
 }
 
-	//	загружает модель
 gtModel * gtPluginSystemImpl::importModel( const gtString& fileName, const GT_GUID& guid, bool useguid){
 
 	gtString realPath = gtFileSystem::getRealPath( fileName );
@@ -287,7 +281,7 @@ gtModel * gtPluginSystemImpl::importModel( const gtString& fileName, const GT_GU
 }
 
 /*
-Copyright (c) 2017 532235
+Copyright (c) 2017-2018 532235
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
 and associated documentation files (the "Software"), to deal in the Software without restriction, 

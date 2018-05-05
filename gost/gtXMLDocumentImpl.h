@@ -8,11 +8,10 @@ namespace gost{
 
 
 	class gtXMLDocumentImpl GT_FINAL : public gtXMLDocument{
-		bool	  m_isInit;
-		gtXMLNode m_root;
-
-		gtString m_fileName;
-		gtString m_text;
+		bool		m_isInit;
+		gtXMLNode	m_root;
+		gtString	m_fileName;
+		gtString	m_text;
 
 		gtString m_expect_apos;
 		gtString m_expect_quot;
