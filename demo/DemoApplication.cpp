@@ -75,6 +75,7 @@ bool demo::DemoApplication::Init( void ){
 	if( !initMainMenu() )
 		return false;
 
+
 	initAudio();
 	
 	m_gamepadSystem	=	m_mainSystem->createGameContoller( GT_UID_INPUT_DINPUT );
@@ -82,6 +83,7 @@ bool demo::DemoApplication::Init( void ){
 	addDemo( DEMO_COMMON, demo::DemoElement( getString( u"14" ), getString( u"15" ) ) );
 
 	addDemo( DEMO_OTHER, demo::DemoElement( getString( u"20" ), getString( u"21" ), true, new DemoExample_GetSupportedImportFormats ) );
+	
 	
 	return true;
 }
