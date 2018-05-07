@@ -48,9 +48,6 @@ private:
 public:
 
 	CustomOutput( void ) : m_hWnd( 0 ), m_isInit( false ){
-	#ifdef GT_DEBUG
-			this->setDebugName( u"OutputWindow" );
-	#endif
 			init();
 	}
 
@@ -132,7 +129,7 @@ int main(){
 	gtLogWriter::printInfo(u"Info text %i %u %f %c %s", -123, 0xFFFFFFFF, 0.2412f, u'c', u"String" );
 	gtLogWriter::printWarning(u"Warning text %i %u %f %c %s", -123, 0xFFFFFFFF, 0.2412f, u'c', u"String" );
 	gtLogWriter::printError(u"Error text %i %u %f %c %s", -123, 0xFFFFFFFF, 0.2412f, u'c', u"String" );
-	mainSystem->getLoger()->print( gtLoger::msgType::info, u"mainSystem->getLoger()->print" );
+	mainSystem->getLog()->print( gtLog::msgType::info, u"mainSystem->getLog()->print" );
  
 
 	gtWindowInfo wi;

@@ -72,6 +72,9 @@ gtCamera*		gtSceneSystemImpl::addCamera( const v3f& position, const v3f& target,
 		camera->setID( id );
 		camera->setName("Camera");
 		m_rootNode->addChild( camera.data() );
+
+		auto rc = m_driver->getParams().m_outWindow->getRect();
+		camera->setAspect( (f32)rc.getWidth() / (f32)rc.getHeight() );
 	}
 
 	return camera.data();
@@ -327,11 +330,14 @@ void gtSceneSystemImpl::renderScene( void ){
 		}
 	}
 
-	if( m_activeCamera ){
-		m_activeCamera->render();
-		m_mainSystem->setMatrixProjection( m_activeCamera->getProjectionMatrix() );
-		m_mainSystem->setMatrixView( m_activeCamera->getViewMatrix() );
+	if( !m_activeCamera ){
+		gtLogWriter::printWarning( u"Scene system: No active camera" );
+		return;
 	}
+
+	m_activeCamera->render();
+	m_mainSystem->setMatrixProjection( m_activeCamera->getProjectionMatrix() );
+	m_mainSystem->setMatrixView( m_activeCamera->getViewMatrix() );
 
 	bool m_useFrustumCulling = true;
 	

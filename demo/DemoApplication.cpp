@@ -1,6 +1,7 @@
 #include "creator.h"
 
 #include "examples\Get_supported_import_formats.hpp"
+#include "examples\Camera.hpp"
 
 demo::DemoApplication::DemoApplication( void ):
 m_guiSystem( nullptr ),
@@ -29,7 +30,6 @@ m_delta( 0.f ){
 	m_outputWindow = gtPtrNew<gtOutputWindow>( new DemoApplicationOutputWindow );
 	m_params.m_outputWindow = m_outputWindow.data();
 	m_params.m_outputWindow->init();
-	m_params.m_outputWindow->addRef();
 	 
 #elif GT_PLATFORM_LINUX
 
@@ -50,9 +50,7 @@ demo::DemoApplication::~DemoApplication( void ){
 			m_demoArrays[ i ][ o ].clear();
 		}
 	}
-
 	delete m_eventConsumer;
-
 }
 
 gtMainSystem	*	demo::DemoApplication::GetMainSystem( void ){
@@ -77,14 +75,16 @@ bool demo::DemoApplication::Init( void ){
 
 
 	initAudio();
-	
+
+	m_sceneSystem	=   m_mainSystem->getSceneSystem( m_driver.data() );
 	m_gamepadSystem	=	m_mainSystem->createGameContoller( GT_UID_INPUT_DINPUT );
 
 	addDemo( DEMO_COMMON, demo::DemoElement( getString( u"14" ), getString( u"15" ) ) );
 
+	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( getString( u"22" ), getString( u"23" ), true, new DemoExample_Camera( this ) ) );
+
 	addDemo( DEMO_OTHER, demo::DemoElement( getString( u"20" ), getString( u"21" ), true, new DemoExample_GetSupportedImportFormats ) );
-	
-	
+
 	return true;
 }
 
@@ -479,6 +479,8 @@ void demo::DemoApplication::Run( void ){
 	f32 timer_input_limit_second = 0.05f;
 	f32 timer_input_limit = timer_input_limit_first;
 
+	
+
 	while( m_mainSystem->update() ){
 
 		now = m_mainSystem->getTime();
@@ -847,7 +849,11 @@ void demo::DemoApplication::inputMainMenu( void ){
 		}else{
 			if( m_demoArrays[m_activeDemoTypeSelected].size() ){
 				if( m_demoArrays[m_activeDemoTypeSelected][m_activeDemoSelected].isDemo() ){
-					m_demoArrays[m_activeDemoTypeSelected][m_activeDemoSelected].Run();
+					if( m_demoArrays[m_activeDemoTypeSelected][m_activeDemoSelected].Init() )
+						m_demoArrays[m_activeDemoTypeSelected][m_activeDemoSelected].Run();
+					else{
+						gtLogWriter::printWarning( u"%s", getString( u"24" ).data() );
+					}
 					playAudio(DemoAudioType::Accept);
 				}
 			}
@@ -986,6 +992,21 @@ bool demo::DemoApplication::inputGamepadMainMenuStart( void ){
 		}
 	}
 	return false;
+}
+
+bool demo::DemoApplication::InitDefaultScene( void ){
+
+	m_sceneSystem->addStaticObject( m_driver->getModel(u"../demo/media/scene/11.obj") );
+	m_sceneSystem->addStaticObject( m_driver->getModel(u"../demo/media/scene/floor01.obj") );
+	m_sceneSystem->addStaticObject( m_driver->getModel(u"../demo/media/scene/piedestal.obj") );
+	m_sceneSystem->addStaticObject( m_driver->getModel(u"../demo/media/scene/stairs.obj") );
+	m_sceneSystem->addStaticObject( m_driver->getModel(u"../demo/media/scene/tc.obj") );
+
+	return true;
+}
+
+void demo::DemoApplication::RenderDefaultScene( void ){
+	m_sceneSystem->renderScene();
 }
 
 /*

@@ -28,6 +28,10 @@ namespace demo{
 
 		~DemoElement(){}
 
+		bool Init( void ){
+			return m_example->Init();
+		}
+
 		void Run( void ){
 			m_example->Run();
 		}

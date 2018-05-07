@@ -47,6 +47,7 @@ namespace demo{
 		gtPtr<gtDriver>				m_driver;
 		gtPtr<gtGameController>		m_gamepadSystem;
 		gtGameControllerDevice *	m_gamepad;
+		gtSceneSystem*				m_sceneSystem;
 
 		gtPtr<gtOutputWindow>		m_outputWindow;
 
@@ -114,6 +115,7 @@ namespace demo{
 		bool initStrings( void );
 		void initAudio( void );
 
+
 		void addDemo( u32 index, const demo::DemoElement& element );
 		const gtString& getString( const gtString& a );
 
@@ -146,6 +148,9 @@ namespace demo{
 		void ActivateGamepad( bool, gtGameControllerDevice* d = nullptr );
 
 		gtMainSystem	*	GetMainSystem( void );
+		
+		bool InitDefaultScene( void );
+		void RenderDefaultScene( void );
 	};
 
 }
