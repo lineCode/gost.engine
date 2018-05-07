@@ -52,6 +52,7 @@ const gtString& gtGUITextFieldImpl::getText( void ){
 }
 
 void gtGUITextFieldImpl::setTextColor( const gtColor& color ){
+	m_textColor = color;
 	u32 sz = m_textWords.size();
 	for( u32 i = 0u; i < sz; ++i ){
 		m_textWords[ i ]->setColor( color );
@@ -136,6 +137,7 @@ void gtGUITextFieldImpl::update( void ){
 			auto word = m_gui->createStaticText( words[ i ], position_x, m_rect.y + m_font->getHeight() + v, m_font );
 			word->addRef();
 			word->setBackgroundVisible( false );
+			word->setColor( m_textColor );
 
 			position_x += word->getLength();
 

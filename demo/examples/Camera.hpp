@@ -14,6 +14,14 @@ class DemoExample_Camera : public demo::DemoExample{
 
 	demo::DemoApplication*	m_demoApp;
 	
+	gtCamera *				m_cameraLookAt;
+	gtCamera *				m_cameraFPS;
+	gtCamera *				m_cameraFree;
+	gtCamera *				m_camera2D;
+	gtCamera *				m_cameraActive;
+
+	f32						m_delta;
+
 public:
 
 	DemoExample_Camera();
@@ -49,8 +57,9 @@ bool DemoExample_Camera::Init( void ){
 		return false;
 	}
 
-	auto camera = m_sceneSystem->addCamera( v3f( -10.f, 7.f, 10.f ) );
-	camera->setFar( 1000.f );
+	m_cameraLookAt = m_sceneSystem->addCamera( v3f( -10.f, 7.f, 10.f ) );
+
+	m_cameraActive = m_cameraLookAt;
 
 
 	return true;
@@ -60,13 +69,58 @@ void DemoExample_Camera::Restart( void ){}
 void DemoExample_Camera::Shutdown( void ){}
 
 void DemoExample_Camera::Run( void ){
-	while( m_mainSystem->update() ){
+
+	u32 last = 0u;
+	u32 now = 0u;
+
+	while( m_demoApp->update() ){
+
+		now = m_mainSystem->getTime();
+		
+		m_delta = f32(now - last)*0.001f;
+
+		if( m_mainSystem->isKeyPressed( gtKey::K_W )
+			|| m_mainSystem->isKeyPressed( gtKey::K_UP )
+			|| m_demoApp->inputGamepadMainMenuUpHold() ){
+			m_cameraActive->setPosition( m_cameraActive->getPosition() + v3f( 0.f, 0.f, 10.f * m_delta ) );
+		}
+
+		if( m_mainSystem->isKeyPressed( gtKey::K_S )
+			|| m_mainSystem->isKeyPressed( gtKey::K_DOWN )
+			|| m_demoApp->inputGamepadMainMenuDownHold() ){
+			m_cameraActive->setPosition( m_cameraActive->getPosition() - v3f( 0.f, 0.f, 10.f * m_delta ) );
+		}
+
+		if( m_mainSystem->isKeyPressed( gtKey::K_A )
+			|| m_mainSystem->isKeyPressed( gtKey::K_LEFT )
+			|| m_demoApp->inputGamepadMainMenuLeftHold() ){
+			m_cameraActive->setPosition( m_cameraActive->getPosition() + v3f( 10.f * m_delta, 0.f, 0.f ) );
+		}
+
+		if( m_mainSystem->isKeyPressed( gtKey::K_D )
+			|| m_mainSystem->isKeyPressed( gtKey::K_RIGHT )
+			|| m_demoApp->inputGamepadMainMenuRightHold() ){
+			m_cameraActive->setPosition( m_cameraActive->getPosition() - v3f( 10.f * m_delta, 0.f, 0.f ) );
+		}
+
+		if( m_mainSystem->isKeyPressed( gtKey::K_Q )
+			|| m_mainSystem->isKeyPressed( gtKey::K_PGDOWN )){
+			m_cameraActive->setPosition( m_cameraActive->getPosition() + v3f( 0.f, 10.f * m_delta, 0.f ) );
+		}
+
+		if( m_mainSystem->isKeyPressed( gtKey::K_E )
+			|| m_mainSystem->isKeyPressed( gtKey::K_PGUP )){
+			m_cameraActive->setPosition( m_cameraActive->getPosition() - v3f( 0.f, 10.f * m_delta, 0.f ) );
+		}
+
 
 		m_driver->beginRender( true, gtColorDarkGray );
 
 		m_demoApp->RenderDefaultScene();
 
 		m_driver->endRender();
+
+		last = now;
 	}
 }
 

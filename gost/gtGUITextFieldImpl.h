@@ -16,6 +16,7 @@ namespace gost{
 		v4i				m_rect;
 		v4i				m_scissorRect;
 		gtColor			m_bgColor;
+		gtColor			m_textColor;
 		gtString		m_text;
 		gtMaterial		m_material;
 

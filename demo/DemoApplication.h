@@ -84,9 +84,18 @@ namespace demo{
 		void					updatePauseMainMenu( void );
 
 		bool					m_isPause;
+		bool					m_isSettings;
+
+		gtPtr<gtGUIShape>		m_settingsBackgroundShape;
+		gtPtr<gtGUITextField>	m_settingsTextLanguage;
+		gtPtr<gtGUITextField>	m_settingsTextLanguageName;
+		gtPtr<gtGUITextField>	m_settingsTextSound;
+		void					updateSettings( void );
+		s16						m_settingsTypeID;
 
 
-		u32		m_languageID;
+
+		s32		m_languageID;
 		s32		m_activeDemoType; //left colon
 		s32		m_activeDemoTypeSelected;
 		s32		m_activeDemoSelected;
@@ -117,6 +126,9 @@ namespace demo{
 
 
 		void addDemo( u32 index, const demo::DemoElement& element );
+		void updateDemoText( void );
+		void updateSettingsText( void );
+
 		const gtString& getString( const gtString& a );
 
 		void rebuildMainMenuColons( void );
@@ -126,13 +138,7 @@ namespace demo{
 
 		void inputMainMenu( void );
 		void inputMainMenuPause( void );
-		bool inputGamepadMainMenuUp( void );
-		bool inputGamepadMainMenuDown( void );
-		bool inputGamepadMainMenuLeft( void );
-		bool inputGamepadMainMenuRight( void );
-		bool inputGamepadMainMenuEnter( void );
-		bool inputGamepadMainMenuEscape( void );
-		bool inputGamepadMainMenuStart( void );
+
 
 		void renderMainMenu( void );
 
@@ -151,6 +157,20 @@ namespace demo{
 		
 		bool InitDefaultScene( void );
 		void RenderDefaultScene( void );
+		
+		bool inputGamepadMainMenuUp( void );
+		bool inputGamepadMainMenuDown( void );
+		bool inputGamepadMainMenuLeft( void );
+		bool inputGamepadMainMenuRight( void );
+		bool inputGamepadMainMenuEnter( void );
+		bool inputGamepadMainMenuEscape( void );
+		bool inputGamepadMainMenuStart( void );
+		bool inputGamepadMainMenuUpHold( void );
+		bool inputGamepadMainMenuDownHold( void );
+		bool inputGamepadMainMenuLeftHold( void );
+		bool inputGamepadMainMenuRightHold( void );
+
+		bool update( void );
 	};
 
 }

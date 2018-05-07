@@ -8,8 +8,8 @@ namespace demo{
 
 		bool			m_isExample;
 		DemoExample*	m_example;
-		gtString		m_title;
-		gtString		m_description;
+		gtString		m_title, m_tid;
+		gtString		m_description, m_did;
 
 	public:
 
@@ -22,9 +22,11 @@ namespace demo{
 			bool isExample = false, DemoExample * example = nullptr ):
 			m_isExample( isExample ),
 			m_example( example ),
-			m_title( title ),
-			m_description( desc )
-		{}
+			m_tid( title ),
+			m_did( desc )
+		{
+		
+		}
 
 		~DemoElement(){}
 
@@ -43,6 +45,23 @@ namespace demo{
 		const gtString& GetDesc( void ) const {
 			return m_description;
 		}
+
+		const gtString& GetTitleID( void ) const {
+			return m_tid;
+		}
+
+		const gtString& GetDescID( void ) const {
+			return m_did;
+		}
+
+		void SetTitle( const gtString& title ){
+			m_title = title;
+		}
+
+		void SetDesc( const gtString& desc ){
+			m_description = desc;
+		}
+
 
 		bool isDemo( void ) const {
 			return m_example != nullptr;

@@ -10,6 +10,8 @@ m_backgroundTexture( nullptr ),
 m_gamepadTexture( nullptr ),
 m_pauseMainMenuSelectedId( 0 ),
 m_isPause( false ),
+m_isSettings( false ),
+m_settingsTypeID( 0 ),
 m_languageID( 0u ),
 m_activeDemoType( 0 ),
 m_activeDemoTypeSelected( 0 ),
@@ -79,11 +81,18 @@ bool demo::DemoApplication::Init( void ){
 	m_sceneSystem	=   m_mainSystem->getSceneSystem( m_driver.data() );
 	m_gamepadSystem	=	m_mainSystem->createGameContoller( GT_UID_INPUT_DINPUT );
 
+	/*
 	addDemo( DEMO_COMMON, demo::DemoElement( getString( u"14" ), getString( u"15" ) ) );
 
 	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( getString( u"22" ), getString( u"23" ), true, new DemoExample_Camera( this ) ) );
 
 	addDemo( DEMO_OTHER, demo::DemoElement( getString( u"20" ), getString( u"21" ), true, new DemoExample_GetSupportedImportFormats ) );
+	*/
+
+	addDemo( DEMO_COMMON, demo::DemoElement( u"14", u"15" ) );
+	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"22", u"23", true, new DemoExample_Camera( this ) ) );
+	addDemo( DEMO_OTHER, demo::DemoElement( u"20", u"21", true, new DemoExample_GetSupportedImportFormats ) );
+	updateDemoText();
 
 	return true;
 }
@@ -197,11 +206,11 @@ bool demo::DemoApplication::initMainMenu( void ){
 	m_pauseBackgroundShape->setOpacity( 0.f );
 
 	m_pauseTextContinueShape = m_guiSystem->createTextField( v4i(centerx-48,centery-98,centerx+48,0), m_mainFont.data(), false );
-	m_pauseTextContinueShape->setText( getString( u"17" ) );
+	m_pauseTextContinueShape->setTextColor( gtColorLightGray );
+
 	m_pauseTextSettingsShape = m_guiSystem->createTextField( v4i(centerx-48,m_pauseTextContinueShape->getRect().w,centerx+48,0), m_mainFont.data(), false );
-	m_pauseTextSettingsShape->setText( getString( u"19" ) );
+	
 	m_pauseTextExitShape = m_guiSystem->createTextField( v4i(centerx-48,m_pauseTextSettingsShape->getRect().w,centerx+48,0), m_mainFont.data(), false );
-	m_pauseTextExitShape->setText( getString( u"18" ) );
 
 	m_pauseTextSettingsShape->setBackgroundColor( gtColorLightGray );
 	m_pauseTextSettingsShape->setTextColor( gtColorBlack );
@@ -210,6 +219,25 @@ bool demo::DemoApplication::initMainMenu( void ){
 
 	m_pauseShape = m_guiSystem->createShapeRectangle( v4i(centerx-50,centery-100,centerx+50,m_pauseTextExitShape->getRect().w), gtColorLightGray );
 	m_pauseShape->setOpacity( 0.f );
+
+	m_settingsBackgroundShape = m_guiSystem->createShapeRectangle( v4i(centerx-50,centery-100,centerx+350,centery+200), gtColorLightGray );
+	m_settingsBackgroundShape->setOpacity( 0.f );
+	m_settingsTextLanguage = m_guiSystem->createTextField( v4i(centerx-48,centery-98,centerx+50,0), m_mainFont.data(), false );
+	m_settingsTextLanguage->setBackgroundColor( gtColorBlack );
+	m_settingsTextLanguage->setTextColor( gtColorLightGray );
+
+	m_settingsTextLanguageName = m_guiSystem->createTextField( v4i(m_settingsTextLanguage->getRect().z + 50, m_settingsTextLanguage->getRect().y, centerx+348,0), m_mainFont.data(), false );
+	m_settingsTextLanguageName->setBackgroundColor( gtColorLightGray );
+	m_settingsTextLanguageName->setTextColor( gtColorBlack );
+	 
+	m_settingsTextSound = m_guiSystem->createTextField( v4i(centerx-48,m_settingsTextLanguage->getRect().w,centerx+50,0), m_mainFont.data(), false );
+	m_settingsTextSound->setBackgroundColor( gtColorLightGray );
+	m_settingsTextSound->setTextColor( gtColorBlack );
+
+	updateSettingsText();
+	m_settingsTextLanguage->setOpacity( 0.f );
+	m_settingsTextLanguageName->setOpacity( 0.f );
+	m_settingsTextSound->setOpacity( 0.f );
 
 	return rebuildMainMenu();
 }
@@ -332,6 +360,7 @@ void demo::DemoApplication::rebuildMainMenuColons( void ){
 		m_rightColonEntity[ i ] = m_guiSystem->createTextField( rc, m_mainFont.data(), false );
 		m_rightColonEntity[ i ]->setText( u" " );
 		m_rightColonEntity[ i ]->getBackgroundShape()->setOpacity( 0.f );
+		m_rightColonEntity[ i ]->setTextColor( gtColorLightGray );
 
 		top = m_rightColonEntity[ i ]->getRect().w-1;
 	}
@@ -427,6 +456,7 @@ bool demo::DemoApplication::rebuildMainMenu( void ){
 		m_welcomeText->setText( getString( u"0" ) );
 		m_welcomeText->setOpacity( 0.9f );
 		m_welcomeText->getBackgroundShape()->setOpacity( 0.f );
+		m_welcomeText->setTextColor( gtColorWhite );
 	}
 
 
@@ -605,6 +635,10 @@ void demo::DemoApplication::renderMainMenu( void ){
 		m_pauseTextContinueShape->render();
 		m_pauseTextSettingsShape->render();
 		m_pauseTextExitShape->render();
+		m_settingsBackgroundShape->render();
+		m_settingsTextLanguage->render();
+		m_settingsTextSound->render();
+		m_settingsTextLanguageName->render();
 	}
 
 	m_driver->setDepthState();
@@ -631,6 +665,16 @@ void demo::DemoApplication::ActivateGamepad( bool value, gtGameControllerDevice*
 		m_gamepad = nullptr;
 		m_gamepadiconShape->setColor( gtColorWhite );
 		m_gamepadiconShape->setOpacity( 0.25f );
+	}
+}
+
+void demo::DemoApplication::updateDemoText( void ){
+	for( u32 i = 0u; i < DEMO_TYPE_NUM; ++i ){
+		u32 sz = m_demoArrays[ i ].size();
+		for( u32 o = 0u; o < sz; ++o ){
+			m_demoArrays[ i ][ o ].SetTitle( getString( m_demoArrays[ i ][ o ].GetTitleID() ) );
+			m_demoArrays[ i ][ o ].SetDesc( getString( m_demoArrays[ i ][ o ].GetDescID() ) );
+		}
 	}
 }
 
@@ -685,6 +729,7 @@ void demo::DemoApplication::updateColons( void ){
 				m_rightColonEntity[ actualIndex ]->setText( m_demoArrays[m_activeDemoTypeSelected][m_rightColonFirstID+actualIndex].GetTitle() );
 
 				m_rightColonEntity[ actualIndex ]->getBackgroundShape()->setOpacity( 0.f );
+				m_rightColonEntity[ actualIndex ]->setTextColor( gtColorLightGray );
 
 				top = m_rightColonEntity[ actualIndex ]->getRect().w-1;
 			}
@@ -788,21 +833,67 @@ void demo::DemoApplication::updateColons( void ){
 void demo::DemoApplication::inputMainMenuPause( void ){
 	if( m_eventConsumer->keyDown( gtKey::K_ESCAPE ) || inputGamepadMainMenuStart() || inputGamepadMainMenuEscape() ){
 		playAudio(DemoAudioType::Cancel);
-		m_isPause = false;
-		m_pauseMainMenuSelectedId = 0;
-		updatePauseMainMenu();
+		if( m_isSettings ){
+			m_settingsBackgroundShape->setOpacity( 0.f );
+			m_settingsTextLanguage->setOpacity( 0.f );
+			m_settingsTextSound->setOpacity( 0.f );
+			m_settingsTextLanguageName->setOpacity( 0.f );
+			m_isSettings = false;
+		}else{
+			m_isPause = false;
+			m_pauseMainMenuSelectedId = 0;
+			updatePauseMainMenu();
+		}
 	}
 
 	if( m_eventConsumer->keyDown( gtKey::K_UP ) || inputGamepadMainMenuUp() ){
 		playAudio(DemoAudioType::Select);
-		--m_pauseMainMenuSelectedId;
-		updatePauseMainMenu();
+		if( m_isSettings ){
+			--m_settingsTypeID;
+			updateSettings();
+		}else{
+			--m_pauseMainMenuSelectedId;
+			updatePauseMainMenu();
+		}
 	}
 
 	if( m_eventConsumer->keyDown( gtKey::K_DOWN ) || inputGamepadMainMenuDown() ){
 		playAudio(DemoAudioType::Select);
-		++m_pauseMainMenuSelectedId;
-		updatePauseMainMenu();
+		if( m_isSettings ){
+			++m_settingsTypeID;
+			updateSettings();
+		}else{
+			++m_pauseMainMenuSelectedId;
+			updatePauseMainMenu();
+		}
+	}
+
+	if( m_eventConsumer->keyDown( gtKey::K_LEFT ) || inputGamepadMainMenuLeft() ){
+		playAudio(DemoAudioType::Select);
+		if( m_settingsTypeID == 0 ){//lang
+			--m_languageID;
+			if( m_languageID < 0 ){
+				m_languageID = m_stringArray.size() - 1u;
+			}
+			m_settingsTextLanguageName->setText( m_stringArray[ m_languageID ].m_langName );
+			updateDemoText();
+			updateSettingsText();
+			rebuildMainMenu();
+		}
+	}
+
+	if( m_eventConsumer->keyDown( gtKey::K_RIGHT ) || inputGamepadMainMenuRight() ){
+		playAudio(DemoAudioType::Select);
+		if( m_settingsTypeID == 0 ){//lang
+			++m_languageID;
+			if( m_languageID == m_stringArray.size() ){
+				m_languageID = 0;
+			}
+			m_settingsTextLanguageName->setText( m_stringArray[ m_languageID ].m_langName );
+			updateDemoText();
+			updateSettingsText();
+			rebuildMainMenu();
+		}
 	}
 
 	if( m_eventConsumer->keyDown( gtKey::K_ENTER ) || inputGamepadMainMenuEnter() ){
@@ -810,6 +901,12 @@ void demo::DemoApplication::inputMainMenuPause( void ){
 		if( m_pauseMainMenuSelectedId == 0 ){
 			m_isPause = false;
 		}else if( m_pauseMainMenuSelectedId == 1 ){
+			m_settingsBackgroundShape->setOpacity();
+			m_settingsTextLanguage->setOpacity();
+			m_settingsTextSound->setOpacity();
+			m_settingsTextLanguageName->setOpacity();
+			m_isSettings = true;
+
 		}else if( m_pauseMainMenuSelectedId == 2 ){
 			m_mainSystem->shutdown();
 		}
@@ -996,17 +1093,93 @@ bool demo::DemoApplication::inputGamepadMainMenuStart( void ){
 
 bool demo::DemoApplication::InitDefaultScene( void ){
 
-	m_sceneSystem->addStaticObject( m_driver->getModel(u"../demo/media/scene/11.obj") );
-	m_sceneSystem->addStaticObject( m_driver->getModel(u"../demo/media/scene/floor01.obj") );
-	m_sceneSystem->addStaticObject( m_driver->getModel(u"../demo/media/scene/piedestal.obj") );
-	m_sceneSystem->addStaticObject( m_driver->getModel(u"../demo/media/scene/stairs.obj") );
-	m_sceneSystem->addStaticObject( m_driver->getModel(u"../demo/media/scene/tc.obj") );
+	auto m11 = m_sceneSystem->addStaticObject( m_driver->getModel(u"../demo/media/scene/11.obj") );
+	auto f = m_sceneSystem->addStaticObject( m_driver->getModel(u"../demo/media/scene/floor01.obj") );
+	auto p = m_sceneSystem->addStaticObject( m_driver->getModel(u"../demo/media/scene/piedestal.obj") );
+	auto s = m_sceneSystem->addStaticObject( m_driver->getModel(u"../demo/media/scene/stairs.obj") );
+	auto t = m_sceneSystem->addStaticObject( m_driver->getModel(u"../demo/media/scene/tc.obj") );
+
+	m11->getModel()->getMaterial( 0u )->textureLayer[ 0u ].texture = m_driver->getTexture( u"../demo/media/scene/11.png" );
+	f->getModel()->getMaterial( 0u )->textureLayer[ 0u ].texture = m_driver->getTexture( u"../demo/media/scene/floor.png" );
+	p->getModel()->getMaterial( 0u )->textureLayer[ 0u ].texture = m_driver->getTexture( u"../demo/media/scene/pied.png" );
+	s->getModel()->getMaterial( 0u )->textureLayer[ 0u ].texture = m_driver->getTexture( u"../demo/media/scene/stairs.png" );
+	t->getModel()->getMaterial( 0u )->textureLayer[ 0u ].texture = m_driver->getTexture( u"../demo/media/scene/tc.png" );
 
 	return true;
 }
 
 void demo::DemoApplication::RenderDefaultScene( void ){
 	m_sceneSystem->renderScene();
+}
+
+bool demo::DemoApplication::inputGamepadMainMenuUpHold( void ){
+	if( m_gamepad ){
+		return m_gamepad->m_POV1 == 0 || m_gamepad->m_lY == -1000;
+	}
+	return false;
+}
+
+bool demo::DemoApplication::inputGamepadMainMenuDownHold( void ){
+	if( m_gamepad ){
+		return m_gamepad->m_POV1 == 18000 || m_gamepad->m_lY == 1000;
+	}
+	return false;
+}
+
+bool demo::DemoApplication::inputGamepadMainMenuLeftHold( void ){
+	if( m_gamepad ){
+		return m_gamepad->m_POV1 == 27000 || m_gamepad->m_lX == -1000;
+	}
+	return false;
+}
+
+bool demo::DemoApplication::inputGamepadMainMenuRightHold( void ){
+	if( m_gamepad ){
+		return m_gamepad->m_POV1 == 9000 || m_gamepad->m_lX == 1000;
+	}
+	return false;
+}
+
+bool demo::DemoApplication::update( void ){
+	if( m_gamepad ){
+		m_gamepad->poll();
+	}
+	return m_mainSystem->update();
+}
+
+void demo::DemoApplication::updateSettings( void ){
+	if( m_settingsTypeID < 0 ){
+		m_settingsTypeID = 1;
+	}else if( m_settingsTypeID > 1 ){
+		m_settingsTypeID = 0;
+	}
+
+	if( m_settingsTypeID == 0 ){
+		m_settingsTextLanguage->setBackgroundColor( gtColorBlack );
+		m_settingsTextLanguage->setTextColor( gtColorLightGray );
+	}else{
+		m_settingsTextLanguage->setBackgroundColor( gtColorLightGray );
+		m_settingsTextLanguage->setTextColor( gtColorBlack );
+	}
+
+	if( m_settingsTypeID == 1 ){
+		m_settingsTextSound->setBackgroundColor( gtColorBlack );
+		m_settingsTextSound->setTextColor( gtColorLightGray );
+	}else{
+		m_settingsTextSound->setBackgroundColor( gtColorLightGray );
+		m_settingsTextSound->setTextColor( gtColorBlack );
+	}
+
+}
+
+void demo::DemoApplication::updateSettingsText( void ){
+	m_pauseTextContinueShape->setText( getString( u"17" ) );
+	m_pauseTextSettingsShape->setText( getString( u"19" ) );
+	m_pauseTextExitShape->setText( getString( u"18" ) );
+
+	m_settingsTextLanguageName->setText( m_stringArray[ m_languageID ].m_langName );
+	m_settingsTextLanguage->setText( getString( u"25" ) );
+	m_settingsTextSound->setText( getString( u"26" ) );
 }
 
 /*
