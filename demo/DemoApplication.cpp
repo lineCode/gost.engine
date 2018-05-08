@@ -45,6 +45,9 @@ m_delta( 0.f ){
 	memset(m_DPad,0,4u);
 	memset(m_gamepadButtons,0,32u);
 	m_DPadOnce = false;
+
+	m_xmlPath = u"../demo/media/settings.xml";
+
 }
 
 demo::DemoApplication::~DemoApplication( void ){
@@ -67,6 +70,8 @@ bool demo::DemoApplication::Init( void ){
 	if( !initStrings() )
 		return false;
 
+	xmlLoadSettings();
+
 	if( !initWindow() )
 		return false;
 
@@ -82,17 +87,10 @@ bool demo::DemoApplication::Init( void ){
 	m_sceneSystem	=   m_mainSystem->getSceneSystem( m_driver.data() );
 	m_gamepadSystem	=	m_mainSystem->createGameContoller( GT_UID_INPUT_DINPUT );
 
-	/*
-	addDemo( DEMO_COMMON, demo::DemoElement( getString( u"14" ), getString( u"15" ) ) );
-
-	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( getString( u"22" ), getString( u"23" ), true, new DemoExample_Camera( this ) ) );
-
-	addDemo( DEMO_OTHER, demo::DemoElement( getString( u"20" ), getString( u"21" ), true, new DemoExample_GetSupportedImportFormats ) );
-	*/
-
 	addDemo( DEMO_COMMON, demo::DemoElement( u"14", u"15" ) );
 	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"22", u"23", true, new DemoExample_Camera( this ) ) );
 	addDemo( DEMO_OTHER, demo::DemoElement( u"20", u"21", true, new DemoExample_GetSupportedImportFormats ) );
+
 	updateDemoText();
 
 	return true;
@@ -849,9 +847,11 @@ void demo::DemoApplication::inputMainMenuPause( void ){
 			m_settingsTextSound->setOpacity( 0.f );
 			m_settingsTextSoundUse->setOpacity( 0.f );
 			m_settingsTextLanguageName->setOpacity( 0.f );
+			
 			m_isSettings = false;
 		}else{
 			m_isPause = false;
+			xmlSaveSettings();
 			m_pauseMainMenuSelectedId = 0;
 			updatePauseMainMenu();
 		}
@@ -927,6 +927,7 @@ void demo::DemoApplication::inputMainMenuPause( void ){
 		playAudio(DemoAudioType::Accept);
 		if( m_pauseMainMenuSelectedId == 0 ){
 			m_isPause = false;
+			xmlSaveSettings();
 		}else if( m_pauseMainMenuSelectedId == 1 ){
 			m_settingsBackgroundShape->setOpacity();
 			m_settingsTextLanguage->setOpacity();
@@ -936,6 +937,7 @@ void demo::DemoApplication::inputMainMenuPause( void ){
 			m_isSettings = true;
 
 		}else if( m_pauseMainMenuSelectedId == 2 ){
+			xmlSaveSettings();
 			m_mainSystem->shutdown();
 		}
 	}
@@ -1214,6 +1216,99 @@ void demo::DemoApplication::updateSettingsText( void ){
 		m_settingsTextSoundUse->setText( getString( u"27" ) );
 	else
 		m_settingsTextSoundUse->setText( getString( u"28" ) );
+}
+
+void demo::DemoApplication::xmlLoadSettings( void ){
+	if( !gtFileSystem::existFile( m_xmlPath ) ){
+		xmlCreateDrefaultSettingsFile();
+	}
+
+	m_xml = m_mainSystem->XMLRead( m_xmlPath );
+	if( m_xml ){
+		{
+			auto arr = m_xml->selectNodes( u"/GOST_DEMO/SOUND" );
+			if( arr.size() ){
+				if( arr[ 0u ]->attributeList.size() ){
+					if( arr[ 0u ]->attributeList[ 0u ]->name == u"a" ){
+						if( arr[ 0u ]->attributeList[ 0u ]->value == u"1" ){
+							m_useSound = true;
+						}else{
+							m_useSound = false;
+						}
+					}
+				}
+			}
+		}
+		{
+			auto arr = m_xml->selectNodes( u"/GOST_DEMO/LANG" );
+			if( arr.size() ){
+				if( arr[ 0u ]->attributeList.size() ){
+					if( arr[ 0u ]->attributeList[ 0u ]->name == u"a" ){
+						auto sz = m_stringArray.size();
+						for( u32 i = 0u; i < sz; ++i ){
+							if( m_stringArray[ i ].m_langName == arr[ 0u ]->attributeList[ 0u ]->value ){
+								m_languageID = i;
+								break;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+void demo::DemoApplication::xmlSaveSettings( void ){
+
+	gtString sound( u"SOUND" );
+	gtString lang( u"LANG" );
+
+	auto root = m_xml->getRootNode();
+	auto sz = root->nodeList.size();
+	for( u32 i = 0u; i < sz; ++i ){
+		auto atrsz = root->nodeList[ i ]->attributeList.size();
+
+		if( root->nodeList[ i ]->name == sound ){
+			for( u32 o = 0u; o < atrsz; ++o ){
+				if( root->nodeList[ i ]->attributeList[ o ]->name == u"a" ){
+					if( m_useSound ){
+						root->nodeList[ i ]->attributeList[ o ]->value = u"1";
+					}else{
+						root->nodeList[ i ]->attributeList[ o ]->value = u"0";
+					}
+				}
+			}
+		}else if( root->nodeList[ i ]->name == lang ){
+			for( u32 o = 0u; o < atrsz; ++o ){
+				if( root->nodeList[ i ]->attributeList[ o ]->name == u"a" ){
+					root->nodeList[ i ]->attributeList[ o ]->value = m_stringArray[ m_languageID ].m_langName;
+				}
+			}
+		}
+	}
+
+	m_mainSystem->XMLWrite( m_xmlPath, root );
+}
+
+void demo::DemoApplication::xmlCreateDrefaultSettingsFile( void ){
+	gtFile_t file = util::createFileForWriteText( m_xmlPath );
+	
+	gtTextFileInfo info;
+	info.m_endian = info.little;
+	info.m_format = info.utf_16;
+	info.m_hasBOM = true;
+
+	file->setTextFileInfo( info );
+
+	file->write( gtString(
+u"<?xml version=\"1.0\"?>\n\
+<GOST_DEMO>\n\
+\t<SOUND a=\"1\" />\n\
+\t<LANG a=\"English\" />\n\
+</GOST_DEMO>"
+) 
+);
+
 }
 
 /*

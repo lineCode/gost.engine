@@ -57,6 +57,12 @@ namespace demo{
 		gtPtr<gtAudioObject>		m_audioCancel;
 		void						playAudio( DemoAudioType );
 
+		gtPtr<gtXMLDocument>		m_xml;
+		void						xmlLoadSettings( void );
+		void						xmlSaveSettings( void );
+		void						xmlCreateDrefaultSettingsFile( void );
+		gtString					m_xmlPath;
+
 		gtTexture*					m_backgroundTexture;
 		gtTexture*					m_gamepadTexture;
 		gtPtr<gtGUIShape>			m_backgroundShape;
