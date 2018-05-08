@@ -11,6 +11,7 @@ m_gamepadTexture( nullptr ),
 m_pauseMainMenuSelectedId( 0 ),
 m_isPause( false ),
 m_isSettings( false ),
+m_useSound( true ),
 m_settingsTypeID( 0 ),
 m_languageID( 0u ),
 m_activeDemoType( 0 ),
@@ -107,6 +108,8 @@ void demo::DemoApplication::initAudio( void ){
 }
 
 void demo::DemoApplication::playAudio( DemoAudioType type ){
+	if( !m_useSound ) return;
+
 	switch( type ){
 	case demo::DemoAudioType::Select:
 		if( m_audioSelect.data() ){
@@ -195,6 +198,7 @@ bool demo::DemoApplication::initMainMenu( void ){
 		gtLogWriter::printWarning( u"Can not load gamepad icon texture. File %s not exist.", gamepadPath.data() );
 	
 	m_mainFont	=	m_guiSystem->createBuiltInFont();
+	//m_mainFont	=	m_guiSystem->createFont( u"../demo/media/myfont.xml" );
 
 	auto rc = m_mainWindow->getRect();
 	auto w  = rc.getWidth();
@@ -205,24 +209,24 @@ bool demo::DemoApplication::initMainMenu( void ){
 	m_pauseBackgroundShape = m_guiSystem->createShapeRectangle( v4i(0,0,w,h), gtColorBlack );
 	m_pauseBackgroundShape->setOpacity( 0.f );
 
-	m_pauseTextContinueShape = m_guiSystem->createTextField( v4i(centerx-48,centery-98,centerx+48,0), m_mainFont.data(), false );
+	m_pauseTextContinueShape = m_guiSystem->createTextField( v4i(centerx-48,centery-98,centerx+148,0), m_mainFont.data(), false );
 	m_pauseTextContinueShape->setTextColor( gtColorLightGray );
 
-	m_pauseTextSettingsShape = m_guiSystem->createTextField( v4i(centerx-48,m_pauseTextContinueShape->getRect().w,centerx+48,0), m_mainFont.data(), false );
+	m_pauseTextSettingsShape = m_guiSystem->createTextField( v4i(centerx-48,m_pauseTextContinueShape->getRect().w,centerx+148,0), m_mainFont.data(), false );
 	
-	m_pauseTextExitShape = m_guiSystem->createTextField( v4i(centerx-48,m_pauseTextSettingsShape->getRect().w,centerx+48,0), m_mainFont.data(), false );
+	m_pauseTextExitShape = m_guiSystem->createTextField( v4i(centerx-48,m_pauseTextSettingsShape->getRect().w,centerx+148,0), m_mainFont.data(), false );
 
 	m_pauseTextSettingsShape->setBackgroundColor( gtColorLightGray );
 	m_pauseTextSettingsShape->setTextColor( gtColorBlack );
 	m_pauseTextExitShape->setBackgroundColor( gtColorLightGray );
 	m_pauseTextExitShape->setTextColor( gtColorBlack );
 
-	m_pauseShape = m_guiSystem->createShapeRectangle( v4i(centerx-50,centery-100,centerx+50,m_pauseTextExitShape->getRect().w), gtColorLightGray );
+	m_pauseShape = m_guiSystem->createShapeRectangle( v4i(centerx-50,centery-100,centerx+150,m_pauseTextExitShape->getRect().w), gtColorLightGray );
 	m_pauseShape->setOpacity( 0.f );
 
 	m_settingsBackgroundShape = m_guiSystem->createShapeRectangle( v4i(centerx-50,centery-100,centerx+350,centery+200), gtColorLightGray );
 	m_settingsBackgroundShape->setOpacity( 0.f );
-	m_settingsTextLanguage = m_guiSystem->createTextField( v4i(centerx-48,centery-98,centerx+50,0), m_mainFont.data(), false );
+	m_settingsTextLanguage = m_guiSystem->createTextField( v4i(centerx-48,centery-98,centerx+100,0), m_mainFont.data(), false );
 	m_settingsTextLanguage->setBackgroundColor( gtColorBlack );
 	m_settingsTextLanguage->setTextColor( gtColorLightGray );
 
@@ -230,14 +234,19 @@ bool demo::DemoApplication::initMainMenu( void ){
 	m_settingsTextLanguageName->setBackgroundColor( gtColorLightGray );
 	m_settingsTextLanguageName->setTextColor( gtColorBlack );
 	 
-	m_settingsTextSound = m_guiSystem->createTextField( v4i(centerx-48,m_settingsTextLanguage->getRect().w,centerx+50,0), m_mainFont.data(), false );
+	m_settingsTextSound = m_guiSystem->createTextField( v4i(centerx-48,m_settingsTextLanguage->getRect().w,centerx+100,0), m_mainFont.data(), false );
 	m_settingsTextSound->setBackgroundColor( gtColorLightGray );
 	m_settingsTextSound->setTextColor( gtColorBlack );
+
+	m_settingsTextSoundUse = m_guiSystem->createTextField( v4i(m_settingsTextSound->getRect().z + 50,m_settingsTextSound->getRect().y,centerx+348,0), m_mainFont.data(), false );
+	m_settingsTextSoundUse->setBackgroundColor( gtColorLightGray );
+	m_settingsTextSoundUse->setTextColor( gtColorBlack );
 
 	updateSettingsText();
 	m_settingsTextLanguage->setOpacity( 0.f );
 	m_settingsTextLanguageName->setOpacity( 0.f );
 	m_settingsTextSound->setOpacity( 0.f );
+	m_settingsTextSoundUse->setOpacity( 0.f );
 
 	return rebuildMainMenu();
 }
@@ -639,6 +648,7 @@ void demo::DemoApplication::renderMainMenu( void ){
 		m_settingsTextLanguage->render();
 		m_settingsTextSound->render();
 		m_settingsTextLanguageName->render();
+		m_settingsTextSoundUse->render();
 	}
 
 	m_driver->setDepthState();
@@ -837,6 +847,7 @@ void demo::DemoApplication::inputMainMenuPause( void ){
 			m_settingsBackgroundShape->setOpacity( 0.f );
 			m_settingsTextLanguage->setOpacity( 0.f );
 			m_settingsTextSound->setOpacity( 0.f );
+			m_settingsTextSoundUse->setOpacity( 0.f );
 			m_settingsTextLanguageName->setOpacity( 0.f );
 			m_isSettings = false;
 		}else{
@@ -879,6 +890,14 @@ void demo::DemoApplication::inputMainMenuPause( void ){
 			updateDemoText();
 			updateSettingsText();
 			rebuildMainMenu();
+		}else{
+			if( m_useSound ){
+				m_useSound = false;
+				m_settingsTextSoundUse->setText( getString( u"28" ) );
+			}else{
+				m_useSound = true;
+				m_settingsTextSoundUse->setText( getString( u"27" ) );
+			}
 		}
 	}
 
@@ -893,6 +912,14 @@ void demo::DemoApplication::inputMainMenuPause( void ){
 			updateDemoText();
 			updateSettingsText();
 			rebuildMainMenu();
+		}else{
+			if( m_useSound ){
+				m_useSound = false;
+				m_settingsTextSoundUse->setText( getString( u"28" ) );
+			}else{
+				m_useSound = true;
+				m_settingsTextSoundUse->setText( getString( u"27" ) );
+			}
 		}
 	}
 
@@ -904,6 +931,7 @@ void demo::DemoApplication::inputMainMenuPause( void ){
 			m_settingsBackgroundShape->setOpacity();
 			m_settingsTextLanguage->setOpacity();
 			m_settingsTextSound->setOpacity();
+			m_settingsTextSoundUse->setOpacity();
 			m_settingsTextLanguageName->setOpacity();
 			m_isSettings = true;
 
@@ -1173,6 +1201,7 @@ void demo::DemoApplication::updateSettings( void ){
 }
 
 void demo::DemoApplication::updateSettingsText( void ){
+
 	m_pauseTextContinueShape->setText( getString( u"17" ) );
 	m_pauseTextSettingsShape->setText( getString( u"19" ) );
 	m_pauseTextExitShape->setText( getString( u"18" ) );
@@ -1180,6 +1209,11 @@ void demo::DemoApplication::updateSettingsText( void ){
 	m_settingsTextLanguageName->setText( m_stringArray[ m_languageID ].m_langName );
 	m_settingsTextLanguage->setText( getString( u"25" ) );
 	m_settingsTextSound->setText( getString( u"26" ) );
+
+	if( m_useSound )
+		m_settingsTextSoundUse->setText( getString( u"27" ) );
+	else
+		m_settingsTextSoundUse->setText( getString( u"28" ) );
 }
 
 /*

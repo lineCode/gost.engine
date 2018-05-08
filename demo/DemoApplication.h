@@ -85,11 +85,13 @@ namespace demo{
 
 		bool					m_isPause;
 		bool					m_isSettings;
+		bool					m_useSound;
 
 		gtPtr<gtGUIShape>		m_settingsBackgroundShape;
 		gtPtr<gtGUITextField>	m_settingsTextLanguage;
 		gtPtr<gtGUITextField>	m_settingsTextLanguageName;
 		gtPtr<gtGUITextField>	m_settingsTextSound;
+		gtPtr<gtGUITextField>	m_settingsTextSoundUse;
 		void					updateSettings( void );
 		s16						m_settingsTypeID;
 
