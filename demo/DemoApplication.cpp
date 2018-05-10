@@ -129,7 +129,7 @@ void demo::DemoApplication::playAudio( DemoAudioType type ){
 
 bool demo::DemoApplication::initEngine( void ){
 	m_mainSystem = gost::InitializeGoSTEngine( m_params );
-	if( !m_mainSystem.data() )
+	if( !m_mainSystem )
 		return false;
 	return true;
 }
@@ -516,8 +516,6 @@ void demo::DemoApplication::Run( void ){
 	f32 timer_input_limit_second = 0.05f;
 	f32 timer_input_limit = timer_input_limit_first;
 
-	
-
 	while( m_mainSystem->update() ){
 
 		now = m_mainSystem->getTime();
@@ -532,11 +530,17 @@ void demo::DemoApplication::Run( void ){
 			m_DPad[ 1u ] = m_gamepad->m_POV1 == 9000 || m_gamepad->m_lX == 1000;
 			m_DPad[ 2u ] = m_gamepad->m_POV1 == 18000 || m_gamepad->m_lY == 1000;
 			m_DPad[ 3u ] = m_gamepad->m_POV1 == 27000 || m_gamepad->m_lX == -1000;
-			if( m_gamepad->m_POV1 == -1 && (m_gamepad->m_lY > -10 && m_gamepad->m_lY < 10) ){
-				timer_input = 0.f;
-				timer_input_limit = timer_input_limit_first;
-				m_DPadOnce = false;
+
+			if( m_gamepad->m_POV1 == -1 ){
+				if(m_gamepad->m_lY > -50 && m_gamepad->m_lY < 50){
+					if(m_gamepad->m_lX > -50 && m_gamepad->m_lX < 50){
+						timer_input = 0.f;
+						timer_input_limit = timer_input_limit_first;
+						m_DPadOnce = false;
+					}
+				}
 			}
+
 			for( u32 i = 0u; i < 32u; ++i ){
 				if( !m_gamepad->m_buttons[ i ] ){
 					m_gamepadButtons[ i ] = false;
@@ -881,44 +885,48 @@ void demo::DemoApplication::inputMainMenuPause( void ){
 
 	if( m_eventConsumer->keyDown( gtKey::K_LEFT ) || inputGamepadMainMenuLeft() ){
 		playAudio(DemoAudioType::Select);
-		if( m_settingsTypeID == 0 ){//lang
-			--m_languageID;
-			if( m_languageID < 0 ){
-				m_languageID = m_stringArray.size() - 1u;
-			}
-			m_settingsTextLanguageName->setText( m_stringArray[ m_languageID ].m_langName );
-			updateDemoText();
-			updateSettingsText();
-			rebuildMainMenu();
-		}else{
-			if( m_useSound ){
-				m_useSound = false;
-				m_settingsTextSoundUse->setText( getString( u"28" ) );
+		if( m_isSettings ){
+			if( m_settingsTypeID == 0 ){//lang
+				--m_languageID;
+				if( m_languageID < 0 ){
+					m_languageID = m_stringArray.size() - 1u;
+				}
+				m_settingsTextLanguageName->setText( m_stringArray[ m_languageID ].m_langName );
+				updateDemoText();
+				updateSettingsText();
+				rebuildMainMenu();
 			}else{
-				m_useSound = true;
-				m_settingsTextSoundUse->setText( getString( u"27" ) );
+				if( m_useSound ){
+					m_useSound = false;
+					m_settingsTextSoundUse->setText( getString( u"28" ) );
+				}else{
+					m_useSound = true;
+					m_settingsTextSoundUse->setText( getString( u"27" ) );
+				}
 			}
 		}
 	}
 
 	if( m_eventConsumer->keyDown( gtKey::K_RIGHT ) || inputGamepadMainMenuRight() ){
 		playAudio(DemoAudioType::Select);
-		if( m_settingsTypeID == 0 ){//lang
-			++m_languageID;
-			if( m_languageID == m_stringArray.size() ){
-				m_languageID = 0;
-			}
-			m_settingsTextLanguageName->setText( m_stringArray[ m_languageID ].m_langName );
-			updateDemoText();
-			updateSettingsText();
-			rebuildMainMenu();
-		}else{
-			if( m_useSound ){
-				m_useSound = false;
-				m_settingsTextSoundUse->setText( getString( u"28" ) );
+		if( m_isSettings ){
+			if( m_settingsTypeID == 0 ){//lang
+				++m_languageID;
+				if( m_languageID == m_stringArray.size() ){
+					m_languageID = 0;
+				}
+				m_settingsTextLanguageName->setText( m_stringArray[ m_languageID ].m_langName );
+				updateDemoText();
+				updateSettingsText();
+				rebuildMainMenu();
 			}else{
-				m_useSound = true;
-				m_settingsTextSoundUse->setText( getString( u"27" ) );
+				if( m_useSound ){
+					m_useSound = false;
+					m_settingsTextSoundUse->setText( getString( u"28" ) );
+				}else{
+					m_useSound = true;
+					m_settingsTextSoundUse->setText( getString( u"27" ) );
+				}
 			}
 		}
 	}
@@ -1020,9 +1028,9 @@ void demo::DemoApplication::inputMainMenu( void ){
 	}
 
 	if( m_eventConsumer->keyDown( gtKey::K_LEFT ) || inputGamepadMainMenuLeft() ){
+		playAudio(DemoAudioType::Select);
 		if( m_activeDemoType ){
 			--m_activeDemoType;
-			playAudio(DemoAudioType::Select);
 			updateColons();
 		}
 	}
@@ -1037,11 +1045,11 @@ void demo::DemoApplication::inputMainMenu( void ){
 
 bool demo::DemoApplication::inputGamepadMainMenuUp( void ){
 	if( m_gamepad ){
-		if( !m_DPad[ 0u ] ) return false;
-
 		if( !m_DPadOnce ){
-			m_DPadOnce = true;
-			return m_DPad[ 0u ];
+			if( m_DPad[ 0u ] ){
+				m_DPadOnce = true;
+				return m_DPadOnce;
+			}
 		}
 	}
 	return false;
@@ -1049,11 +1057,11 @@ bool demo::DemoApplication::inputGamepadMainMenuUp( void ){
 
 bool demo::DemoApplication::inputGamepadMainMenuRight( void ){
 	if( m_gamepad ){
-		if( !m_DPad[ 1u ] ) return false;
-
 		if( !m_DPadOnce ){
-			m_DPadOnce = true;
-			return m_DPad[ 1u ];
+			if( m_DPad[ 1u ] ){
+				m_DPadOnce = true;
+				return m_DPadOnce;
+			}
 		}
 	}
 	return false;
@@ -1061,11 +1069,11 @@ bool demo::DemoApplication::inputGamepadMainMenuRight( void ){
 
 bool demo::DemoApplication::inputGamepadMainMenuDown( void ){
 	if( m_gamepad ){
-		if( !m_DPad[ 2u ] ) return false;
-
 		if( !m_DPadOnce ){
-			m_DPadOnce = true;
-			return m_DPad[ 2u ];
+			if( m_DPad[ 2u ] ){
+				m_DPadOnce = true;
+				return m_DPadOnce;
+			}
 		}
 	}
 	return false;
@@ -1073,11 +1081,11 @@ bool demo::DemoApplication::inputGamepadMainMenuDown( void ){
 
 bool demo::DemoApplication::inputGamepadMainMenuLeft( void ){
 	if( m_gamepad ){
-		if( !m_DPad[ 3u ] ) return false;
-
 		if( !m_DPadOnce ){
-			m_DPadOnce = true;
-			return m_DPad[ 3u ];
+			if( m_DPad[ 3u ] ){
+				m_DPadOnce = true;
+				return m_DPadOnce;
+			}
 		}
 	}
 	return false;
