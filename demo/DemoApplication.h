@@ -93,6 +93,7 @@ namespace demo{
 		bool					m_isPause;
 		bool					m_isSettings;
 		bool					m_useSound;
+		bool					m_showDescription;
 
 		gtPtr<gtGUIShape>		m_settingsBackgroundShape;
 		gtPtr<gtGUITextField>	m_settingsTextLanguage;
@@ -193,6 +194,8 @@ namespace demo{
 		bool inputGamepadMainMenuEnter( void );
 		bool inputGamepadMainMenuEscape( void );
 		bool inputGamepadMainMenuStart( void );
+		bool inputGamepadMainMenuSelect( void );
+		bool inputGamepadMainMenuSelectHold( void );
 		bool inputGamepadMainMenuUpHold( void );
 		bool inputGamepadMainMenuDownHold( void );
 		bool inputGamepadMainMenuLeftHold( void );

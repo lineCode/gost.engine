@@ -12,6 +12,7 @@ m_pauseMainMenuSelectedId( 0 ),
 m_isPause( false ),
 m_isSettings( false ),
 m_useSound( true ),
+m_showDescription( true ),
 m_settingsTypeID( 0 ),
 m_demoPauseMenuID( 0 ),
 m_languageID( 0u ),
@@ -386,13 +387,19 @@ void demo::DemoApplication::rebuildMainMenuColons( void ){
 	
 	v4i wndrc = m_mainWindow->getRect();
 
-	
-	m_descriptionRect.x = r.z;
-	m_descriptionRect.y = r.y;
-	m_descriptionRect.z = wndrc.getWidth()-10;
-	m_descriptionRect.w = wndrc.getHeight()-10;
+	if( m_state == DemoState::MainMenu ){
+		m_descriptionRect.x = r.z;
+		m_descriptionRect.y = r.y;
+		m_descriptionRect.z = wndrc.getWidth()-10;
+		m_descriptionRect.w = wndrc.getHeight()-10;
+	}else{
+		m_descriptionRect.x = 0;
+		m_descriptionRect.y = 0;
+		m_descriptionRect.z = r.z;
+		m_descriptionRect.w = r.y;
+	}
 
-	m_descriptionBackgroundShape = m_guiSystem->createShapeRectangle( m_descriptionRect, gtColorGrey );
+	m_descriptionBackgroundShape = m_guiSystem->createShapeRectangle( m_descriptionRect, 0xFF111111 );
 
 	updateColons();
 }
@@ -616,8 +623,7 @@ void demo::DemoApplication::renderMainMenu( void ){
 		}
 	}
 
-	if( m_descriptionBackgroundShape )
-		m_descriptionBackgroundShape->render();
+	m_descriptionBackgroundShape->render();
 
 	m_description->render();
 
@@ -808,8 +814,9 @@ void demo::DemoApplication::updateColons( void ){
 			m_rightColonDefaultText->setOpacity( 0.f );
 			
 			m_description = m_guiSystem->createTextField( m_descriptionRect, m_mainFont.data(), false );
+
 			m_description->setText( m_demoArrays[m_activeDemoTypeSelected][m_activeDemoSelected].GetDesc() );
-			m_description->setTextColor( gtColorBlack );
+			m_description->setTextColor( gtColorWhite );
 			m_description->getBackgroundShape()->setOpacity( 0.f );
 		}else{
 			m_rightColonShape = m_guiSystem->createShapeRectangle( m_rightColonDefaultRect, gtColorGrey );
@@ -1111,6 +1118,25 @@ bool demo::DemoApplication::inputGamepadMainMenuStart( void ){
 	return false;
 }
 
+bool demo::DemoApplication::inputGamepadMainMenuSelect( void ){
+	if( m_gamepad ){
+		if( m_gamepad->m_buttons[ 8 ] ){
+			if( !m_gamepadButtons[ 8 ] ){
+				m_gamepadButtons[ 8 ] = true;
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
+bool demo::DemoApplication::inputGamepadMainMenuSelectHold( void ){
+	if( m_gamepad ){
+		return m_gamepad->m_buttons[ 8 ];
+	}
+	return false;
+}
+
 bool demo::DemoApplication::InitDefaultScene( void ){
 
 	auto m11 = m_sceneSystem->addStaticObject( m_driver->getModel(u"../demo/media/scene/11.obj") );
@@ -1354,6 +1380,7 @@ void demo::DemoApplication::Pause( void ){
 }
 
 void demo::DemoApplication::inputDemoMenuPause( void ){
+
 	if( m_eventConsumer->keyDown( gtKey::K_ESCAPE ) || inputGamepadMainMenuStart() || inputGamepadMainMenuEscape() ){
 		playAudio(DemoAudioType::Cancel);
 		m_isPause = false;
@@ -1401,14 +1428,31 @@ void demo::DemoApplication::runMainMenu( void ){
 }
 
 void demo::DemoApplication::runDemo( void ){
+	if( m_mainSystem->isKeyPressed( gtKey::K_F1 ) || inputGamepadMainMenuSelectHold() ){
+		m_showDescription = true;
+		pauseBackgroundFadeIn();
+	}else{
+		pauseBackgroundFadeOut();
+	}
+
 	m_demoArrays[m_activeDemoTypeSelected][m_activeDemoSelected].Input( m_delta );
 	m_demoArrays[m_activeDemoTypeSelected][m_activeDemoSelected].Update();
 
 	m_driver->beginRender( true, gtColorDarkGray );
 
 	RenderDefaultScene();
-
 	m_demoArrays[m_activeDemoTypeSelected][m_activeDemoSelected].Render();
+
+	m_driver->setDepthState( false );
+	if( m_showDescription ){
+		m_pauseBackgroundShape->render();
+		m_description->render();
+		m_showDescription = false;
+	}else{
+	}
+	m_demoArrays[m_activeDemoTypeSelected][m_activeDemoSelected].Render2D();
+	m_driver->setDepthState();
+
 
 	m_driver->endRender();
 }
@@ -1430,13 +1474,14 @@ void demo::DemoApplication::runDemoMenu( void ){
 	m_driver->setDepthState( false );
 	m_pauseBackgroundShape->render();
 	if( m_isPause ){
+		m_description->render();
 		m_pauseShape->render();
 		m_pauseTextContinueShape->render();
 		m_pauseTextExitShape->render();
 		m_pauseTextMainMenuShape->render();
+
 	}
 
-	m_demoArrays[m_activeDemoTypeSelected][m_activeDemoSelected].Render2D();
 	m_driver->setDepthState();
 
 	m_driver->endRender();
