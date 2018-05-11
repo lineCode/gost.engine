@@ -13,7 +13,10 @@ namespace demo{
 
 		virtual void Shutdown( void ) = 0;
 
-		virtual void Run( void ) = 0;
+		virtual void Update( void ) = 0;
+		virtual void Input( f32 delta ) = 0;
+		virtual void Render( void ) = 0;
+		virtual void Render2D( void ) = 0;
 
 	};
 }

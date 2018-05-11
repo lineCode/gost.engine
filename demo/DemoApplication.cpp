@@ -13,6 +13,7 @@ m_isPause( false ),
 m_isSettings( false ),
 m_useSound( true ),
 m_settingsTypeID( 0 ),
+m_demoPauseMenuID( 0 ),
 m_languageID( 0u ),
 m_activeDemoType( 0 ),
 m_activeDemoTypeSelected( 0 ),
@@ -61,6 +62,10 @@ demo::DemoApplication::~DemoApplication( void ){
 
 gtMainSystem	*	demo::DemoApplication::GetMainSystem( void ){
 	return m_mainSystem.data();
+}
+
+demo::DemoApplicationEventConsumer	*	demo::DemoApplication::GetEventConsumer( void ){
+	return m_eventConsumer;
 }
 
 bool demo::DemoApplication::Init( void ){
@@ -211,11 +216,16 @@ bool demo::DemoApplication::initMainMenu( void ){
 	m_pauseTextContinueShape->setTextColor( gtColorLightGray );
 
 	m_pauseTextSettingsShape = m_guiSystem->createTextField( v4i(centerx-48,m_pauseTextContinueShape->getRect().w,centerx+148,0), m_mainFont.data(), false );
+	m_pauseTextMainMenuShape = m_guiSystem->createTextField( v4i(centerx-48,m_pauseTextContinueShape->getRect().w,centerx+148,0), m_mainFont.data(), false );
 	
 	m_pauseTextExitShape = m_guiSystem->createTextField( v4i(centerx-48,m_pauseTextSettingsShape->getRect().w,centerx+148,0), m_mainFont.data(), false );
 
 	m_pauseTextSettingsShape->setBackgroundColor( gtColorLightGray );
 	m_pauseTextSettingsShape->setTextColor( gtColorBlack );
+	m_pauseTextMainMenuShape->setBackgroundColor( gtColorLightGray );
+	m_pauseTextMainMenuShape->setTextColor( gtColorBlack );
+
+
 	m_pauseTextExitShape->setBackgroundColor( gtColorLightGray );
 	m_pauseTextExitShape->setTextColor( gtColorBlack );
 
@@ -505,16 +515,47 @@ void demo::DemoApplication::updatePauseMainMenu( void ){
 
 }
 
+void demo::DemoApplication::pauseBackgroundFadeIn( void ){
+	auto opBG = m_pauseBackgroundShape->getOpacity();
+	if( opBG < 0.75f ){
+		opBG += 10.f * m_delta;
+		m_pauseBackgroundShape->setOpacity( opBG );
+	}
+
+	auto op = m_pauseShape->getOpacity();
+	if( op < 1.f ){
+		op += 10.f * m_delta;
+		m_pauseShape->setOpacity( op );
+	}
+}
+
+void demo::DemoApplication::pauseBackgroundFadeOut( void ){
+	auto opBG = m_pauseBackgroundShape->getOpacity();
+	if( opBG > 0.f ){
+		opBG -= 10.f * m_delta;
+		m_pauseBackgroundShape->setOpacity( opBG );
+	}
+
+	auto op = m_pauseShape->getOpacity();
+	if( op > 0.f ){
+		op -= 10.f * m_delta;
+		m_pauseShape->setOpacity( op );
+	}else{
+		if( m_state == DemoState::DemoMenu )
+			m_state = DemoState::DemoRun;
+	}
+}
+
 void demo::DemoApplication::Run( void ){
 	m_mainSystem->setTimer( 300 );
 
 	u32 last = 0u;
 	u32 now = 0u;
 
-	f32 timer_input = 0.f;
-	f32 timer_input_limit_first = 0.4f;
-	f32 timer_input_limit_second = 0.05f;
-	f32 timer_input_limit = timer_input_limit_first;
+	timer_input = 0.f;
+	timer_input_limit_first = 0.4f;
+	timer_input_limit_second = 0.05f;
+	timer_input_limit = timer_input_limit_first;
 
 	while( m_mainSystem->update() ){
 
@@ -522,75 +563,18 @@ void demo::DemoApplication::Run( void ){
 		
 		m_delta = f32(now - last)*0.001f;
 		
-		timer_input += m_delta;
-
-		if( m_gamepad ){
-			m_gamepad->poll();
-			m_DPad[ 0u ] = m_gamepad->m_POV1 == 0 || m_gamepad->m_lY == -1000;
-			m_DPad[ 1u ] = m_gamepad->m_POV1 == 9000 || m_gamepad->m_lX == 1000;
-			m_DPad[ 2u ] = m_gamepad->m_POV1 == 18000 || m_gamepad->m_lY == 1000;
-			m_DPad[ 3u ] = m_gamepad->m_POV1 == 27000 || m_gamepad->m_lX == -1000;
-
-			if( m_gamepad->m_POV1 == -1 ){
-				if(m_gamepad->m_lY > -50 && m_gamepad->m_lY < 50){
-					if(m_gamepad->m_lX > -50 && m_gamepad->m_lX < 50){
-						timer_input = 0.f;
-						timer_input_limit = timer_input_limit_first;
-						m_DPadOnce = false;
-					}
-				}
-			}
-
-			for( u32 i = 0u; i < 32u; ++i ){
-				if( !m_gamepad->m_buttons[ i ] ){
-					m_gamepadButtons[ i ] = false;
-				}
-			}
-		}
-
-
+		UpdateGamepad();
+		
 		switch( m_state ){
 		case demo::DemoState::MainMenu:
-			if( m_isPause ){
-				auto opBG = m_pauseBackgroundShape->getOpacity();
-				if( opBG < 0.75f ){
-					opBG += 10.f * m_delta;
-					m_pauseBackgroundShape->setOpacity( opBG );
-				}
-
-				auto op = m_pauseShape->getOpacity();
-				if( op < 1.f ){
-					op += 10.f * m_delta;
-					m_pauseShape->setOpacity( op );
-				}
-
-				inputMainMenuPause();
-			}else{
-				auto opBG = m_pauseBackgroundShape->getOpacity();
-				if( opBG > 0.f ){
-					opBG -= 10.f * m_delta;
-					m_pauseBackgroundShape->setOpacity( opBG );
-				}
-
-				auto op = m_pauseShape->getOpacity();
-				if( op > 0.f ){
-					op -= 10.f * m_delta;
-					m_pauseShape->setOpacity( op );
-				}
-
-				inputMainMenu();
-			}
-			renderMainMenu();
-			if( timer_input > timer_input_limit ){
-				m_DPadOnce = false;
-				timer_input = 0.f;
-				timer_input_limit = timer_input_limit_second;
-			}
+			runMainMenu();			
 			break;
 		case demo::DemoState::DemoMenu:
+			runDemoMenu();
 			break;
-		case demo::DemoState::DemoRun:
-			break;
+		case demo::DemoState::DemoRun:{
+			runDemo();
+		}break;
 		}
 
 		last = now;
@@ -635,11 +619,9 @@ void demo::DemoApplication::renderMainMenu( void ){
 	if( m_descriptionBackgroundShape )
 		m_descriptionBackgroundShape->render();
 
-	if( m_description )
-		m_description->render();
+	m_description->render();
 
-	if( m_pauseBackgroundShape )
-		m_pauseBackgroundShape->render();
+	m_pauseBackgroundShape->render();
 
 	if( m_isPause ){
 		m_pauseShape->render();
@@ -984,12 +966,12 @@ void demo::DemoApplication::inputMainMenu( void ){
 		}else{
 			if( m_demoArrays[m_activeDemoTypeSelected].size() ){
 				if( m_demoArrays[m_activeDemoTypeSelected][m_activeDemoSelected].isDemo() ){
+					playAudio(DemoAudioType::Accept);
 					if( m_demoArrays[m_activeDemoTypeSelected][m_activeDemoSelected].Init() )
-						m_demoArrays[m_activeDemoTypeSelected][m_activeDemoSelected].Run();
+						m_state = DemoState::DemoRun;
 					else{
 						gtLogWriter::printWarning( u"%s", getString( u"24" ).data() );
 					}
-					playAudio(DemoAudioType::Accept);
 				}
 			}
 		}
@@ -1146,6 +1128,15 @@ bool demo::DemoApplication::InitDefaultScene( void ){
 	return true;
 }
 
+void demo::DemoApplication::ShutdownDefaultScene( void ){
+	m_driver->clearModelCache();
+	m_driver->removeTexture(m_driver->getTexture( u"../demo/media/scene/11.png" ));
+	m_driver->removeTexture(m_driver->getTexture( u"../demo/media/scene/floor.png" ));
+	m_driver->removeTexture(m_driver->getTexture( u"../demo/media/scene/pied.png" ));
+	m_driver->removeTexture(m_driver->getTexture( u"../demo/media/scene/stairs.png" ));
+	m_driver->removeTexture(m_driver->getTexture( u"../demo/media/scene/tc.png" ));
+}
+
 void demo::DemoApplication::RenderDefaultScene( void ){
 	m_sceneSystem->renderScene();
 }
@@ -1183,6 +1174,41 @@ bool demo::DemoApplication::update( void ){
 		m_gamepad->poll();
 	}
 	return m_mainSystem->update();
+}
+
+void demo::DemoApplication::UpdateGamepad( void ){
+	
+	timer_input += m_delta;
+
+	if( m_gamepad ){
+		m_gamepad->poll();
+		m_DPad[ 0u ] = m_gamepad->m_POV1 == 0 || m_gamepad->m_lY == -1000;
+		m_DPad[ 1u ] = m_gamepad->m_POV1 == 9000 || m_gamepad->m_lX == 1000;
+		m_DPad[ 2u ] = m_gamepad->m_POV1 == 18000 || m_gamepad->m_lY == 1000;
+		m_DPad[ 3u ] = m_gamepad->m_POV1 == 27000 || m_gamepad->m_lX == -1000;
+
+		if( m_gamepad->m_POV1 == -1 ){
+			if(m_gamepad->m_lY > -50 && m_gamepad->m_lY < 50){
+				if(m_gamepad->m_lX > -50 && m_gamepad->m_lX < 50){
+					timer_input = 0.f;
+					timer_input_limit = timer_input_limit_first;
+					m_DPadOnce = false;
+				}
+			}
+		}
+
+		for( u32 i = 0u; i < 32u; ++i ){
+			if( !m_gamepad->m_buttons[ i ] ){
+				m_gamepadButtons[ i ] = false;
+			}
+		}
+	}
+
+	if( timer_input > timer_input_limit ){
+		m_DPadOnce = false;
+		timer_input = 0.f;
+		timer_input_limit = timer_input_limit_second;
+	}
 }
 
 void demo::DemoApplication::updateSettings( void ){
@@ -1224,6 +1250,8 @@ void demo::DemoApplication::updateSettingsText( void ){
 		m_settingsTextSoundUse->setText( getString( u"27" ) );
 	else
 		m_settingsTextSoundUse->setText( getString( u"28" ) );
+
+	m_pauseTextMainMenuShape->setText( getString( u"29" ) );
 }
 
 void demo::DemoApplication::xmlLoadSettings( void ){
@@ -1317,6 +1345,127 @@ u"<?xml version=\"1.0\"?>\n\
 ) 
 );
 
+}
+
+void demo::DemoApplication::Pause( void ){
+	m_state = DemoState::DemoMenu;
+	m_isPause = true;
+	playAudio(DemoAudioType::Accept);
+}
+
+void demo::DemoApplication::inputDemoMenuPause( void ){
+	if( m_eventConsumer->keyDown( gtKey::K_ESCAPE ) || inputGamepadMainMenuStart() || inputGamepadMainMenuEscape() ){
+		playAudio(DemoAudioType::Cancel);
+		m_isPause = false;
+	}
+
+	if( m_eventConsumer->keyDown( gtKey::K_UP ) || inputGamepadMainMenuUp() ){
+		playAudio(DemoAudioType::Select);
+		--m_demoPauseMenuID;
+		updateDemoPause();
+	}
+
+	if( m_eventConsumer->keyDown( gtKey::K_DOWN ) || inputGamepadMainMenuDown() ){
+		playAudio(DemoAudioType::Select);
+		++m_demoPauseMenuID;
+		updateDemoPause();
+	}
+
+	if( m_eventConsumer->keyDown( gtKey::K_ENTER ) || inputGamepadMainMenuEnter() ){
+		playAudio(DemoAudioType::Accept);
+
+		if( m_demoPauseMenuID == 0 ){
+			m_isPause = false;
+		}else if( m_demoPauseMenuID == 1 ){
+			m_state = DemoState::MainMenu;
+			m_isPause = false;
+			m_demoPauseMenuID = 0;
+			updateDemoPause();
+			m_demoArrays[m_activeDemoTypeSelected][m_activeDemoSelected].Shutdown();
+			ShutdownDefaultScene();
+		}else if( m_demoPauseMenuID == 2 ){
+			m_mainSystem->shutdown();
+		}
+	}
+}
+
+void demo::DemoApplication::runMainMenu( void ){
+	if( m_isPause ){
+		pauseBackgroundFadeIn();
+		inputMainMenuPause();
+	}else{
+		pauseBackgroundFadeOut();
+		inputMainMenu();
+	}
+	renderMainMenu();
+}
+
+void demo::DemoApplication::runDemo( void ){
+	m_demoArrays[m_activeDemoTypeSelected][m_activeDemoSelected].Input( m_delta );
+	m_demoArrays[m_activeDemoTypeSelected][m_activeDemoSelected].Update();
+
+	m_driver->beginRender( true, gtColorDarkGray );
+
+	RenderDefaultScene();
+
+	m_demoArrays[m_activeDemoTypeSelected][m_activeDemoSelected].Render();
+
+	m_driver->endRender();
+}
+
+void demo::DemoApplication::runDemoMenu( void ){
+	if( m_isPause ){
+		pauseBackgroundFadeIn();
+		inputDemoMenuPause();
+	}else{
+		pauseBackgroundFadeOut();
+	}
+
+	m_driver->beginRender( true, gtColorDarkGray );
+
+	RenderDefaultScene();
+
+	m_demoArrays[m_activeDemoTypeSelected][m_activeDemoSelected].Render();
+
+	m_driver->setDepthState( false );
+	m_pauseBackgroundShape->render();
+	if( m_isPause ){
+		m_pauseShape->render();
+		m_pauseTextContinueShape->render();
+		m_pauseTextExitShape->render();
+		m_pauseTextMainMenuShape->render();
+	}
+
+	m_demoArrays[m_activeDemoTypeSelected][m_activeDemoSelected].Render2D();
+	m_driver->setDepthState();
+
+	m_driver->endRender();
+}
+
+void demo::DemoApplication::updateDemoPause( void ){
+	if( m_demoPauseMenuID < 0 ){
+		m_demoPauseMenuID = 2;
+	}else if( m_demoPauseMenuID > 2 ){
+		m_demoPauseMenuID = 0;
+	}
+
+	m_pauseTextContinueShape->setBackgroundColor( gtColorLightGray );
+	m_pauseTextMainMenuShape->setBackgroundColor( gtColorLightGray );
+	m_pauseTextExitShape->setBackgroundColor( gtColorLightGray );
+	m_pauseTextContinueShape->setTextColor( gtColorBlack );
+	m_pauseTextMainMenuShape->setTextColor( gtColorBlack );
+	m_pauseTextExitShape->setTextColor( gtColorBlack );
+
+	if( m_demoPauseMenuID == 0 ){
+		m_pauseTextContinueShape->setBackgroundColor( gtColorBlack );
+		m_pauseTextContinueShape->setTextColor( gtColorLightGray );
+	}else if( m_demoPauseMenuID == 1 ){
+		m_pauseTextMainMenuShape->setBackgroundColor( gtColorBlack );
+		m_pauseTextMainMenuShape->setTextColor( gtColorLightGray );
+	}else if( m_demoPauseMenuID == 2 ){
+		m_pauseTextExitShape->setBackgroundColor( gtColorBlack );
+		m_pauseTextExitShape->setTextColor( gtColorLightGray );
+	}
 }
 
 /*

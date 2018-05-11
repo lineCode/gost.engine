@@ -15,7 +15,10 @@ public:
 	bool Init( void );
 	void Restart( void );
 	void Shutdown( void );
-	void Run( void );
+	void Update( void );
+	void Input( f32 );
+	void Render( void );
+	void Render2D( void );
 };
 
 DemoExample_GetSupportedImportFormats::DemoExample_GetSupportedImportFormats(){}
@@ -28,8 +31,11 @@ bool DemoExample_GetSupportedImportFormats::Init( void ){
 
 void DemoExample_GetSupportedImportFormats::Restart( void ){}
 void DemoExample_GetSupportedImportFormats::Shutdown( void ){}
+void DemoExample_GetSupportedImportFormats::Input( f32 ){}
+void DemoExample_GetSupportedImportFormats::Render( void ){}
+void DemoExample_GetSupportedImportFormats::Render2D( void ){}
 
-void DemoExample_GetSupportedImportFormats::Run( void ){
+void DemoExample_GetSupportedImportFormats::Update(){
 	gtArray<gtString> arr;
 	util::getSupportedImportImageFormats( arr );
 

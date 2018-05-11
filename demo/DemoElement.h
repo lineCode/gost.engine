@@ -34,8 +34,24 @@ namespace demo{
 			return m_example->Init();
 		}
 
-		void Run( void ){
-			m_example->Run();
+		void Update( void ){
+			m_example->Update();
+		}
+
+		void Input( f32 delta ){
+			m_example->Input( delta );
+		}
+
+		void Render( void ){
+			m_example->Render();
+		}
+
+		void Shutdown( void ){
+			m_example->Shutdown();
+		}
+
+		void Render2D( void ){
+			m_example->Render2D();
 		}
 
 		const gtString& GetTitle( void ) const {

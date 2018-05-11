@@ -194,7 +194,6 @@ namespace gost{
 						if( next < m_size ){
 
 							m_allocator.construct( &m_data[ i ], m_data[ next ] );
-							m_allocator.destruct( &m_data[ next ] );
 
 						}
 					}

@@ -85,6 +85,7 @@ namespace demo{
 		gtPtr<gtGUIShape>		m_pauseShape;
 		gtPtr<gtGUITextField>	m_pauseTextContinueShape;
 		gtPtr<gtGUITextField>	m_pauseTextSettingsShape;
+		gtPtr<gtGUITextField>	m_pauseTextMainMenuShape;
 		gtPtr<gtGUITextField>	m_pauseTextExitShape;
 		s32						m_pauseMainMenuSelectedId;
 		void					updatePauseMainMenu( void );
@@ -100,7 +101,8 @@ namespace demo{
 		gtPtr<gtGUITextField>	m_settingsTextSoundUse;
 		void					updateSettings( void );
 		s16						m_settingsTypeID;
-
+		s16						m_demoPauseMenuID;
+		void					updateDemoPause( void );
 
 
 		s32		m_languageID;
@@ -146,9 +148,22 @@ namespace demo{
 
 		void inputMainMenu( void );
 		void inputMainMenuPause( void );
+		void inputDemoMenuPause( void );
+
+		void runMainMenu( void );
+		void runDemo( void );
+		void runDemoMenu( void );
 
 
 		void renderMainMenu( void );
+
+		f32 timer_input;
+		f32 timer_input_limit_first;
+		f32 timer_input_limit_second;
+		f32 timer_input_limit;
+
+		void pauseBackgroundFadeIn( void );
+		void pauseBackgroundFadeOut( void );
 
 	public:
 		DemoApplication( void );
@@ -160,12 +175,17 @@ namespace demo{
 		void RebuildGUI( void );
 		void ScanGamepads( void );
 		void ActivateGamepad( bool, gtGameControllerDevice* d = nullptr );
+		void UpdateGamepad( void );
 
 		gtMainSystem	*	GetMainSystem( void );
+		demo::DemoApplicationEventConsumer	*	GetEventConsumer( void );
 		
 		bool InitDefaultScene( void );
 		void RenderDefaultScene( void );
+		void ShutdownDefaultScene( void );
 		
+		void Pause( void );
+
 		bool inputGamepadMainMenuUp( void );
 		bool inputGamepadMainMenuDown( void );
 		bool inputGamepadMainMenuLeft( void );
