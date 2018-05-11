@@ -7,7 +7,7 @@ namespace gost{
 	struct gtDriverInfo{
 
 			// c-tor
-		gtDriverInfo( void ):
+		gtDriverInfo():
 			m_fullScreen( false ),
 			m_stencilBuffer( true ),
 			m_doubleBuffer( true ),
@@ -62,13 +62,13 @@ namespace gost{
 
 
 			// \return gtDriverInfo
-		virtual const gtDriverInfo&	getParams( void ) = 0;
+		virtual const gtDriverInfo&	getParams() = 0;
 
 
 		virtual void beginRender( bool clearRenderTarget = true, const gtColor& color = gtColor(0.f) ) = 0;
 
 
-		virtual void endRender( void ) = 0;
+		virtual void endRender() = 0;
 
 
 		virtual void draw2DImage( const v4i& rect, const gtMaterial& m ) = 0;
@@ -141,10 +141,10 @@ namespace gost{
 		virtual gtRenderModel*	getModel( const gtString& fileName, gtModel** software_model = nullptr ) = 0;
 
 			//	clearTextureCache
-		virtual void	clearTextureCache( void ) = 0;
+		virtual void	clearTextureCache() = 0;
 
 			// clearModelCache
-		virtual void	clearModelCache( void ) = 0;
+		virtual void	clearModelCache() = 0;
 
 		virtual bool	removeModel( gtRenderModel* model ) = 0;
 
@@ -267,17 +267,17 @@ namespace gost{
 			return false;
 		}
 
-		virtual void applyScissor( void ) = 0;
+		virtual void applyScissor() = 0;
 
 	public:
 
 			// c-tor
-		gtDriverCommon( void )
+		gtDriverCommon()
 		{
 		}
 
 			// d-tor
-		virtual ~gtDriverCommon( void ){
+		virtual ~gtDriverCommon(){
 		}
 
 		virtual void	scissorClear( bool setOriginal ){
@@ -293,11 +293,11 @@ namespace gost{
 		}
 
 			// \return gtDriverInfo
-		virtual const gtDriverInfo&	getParams( void ){
+		virtual const gtDriverInfo&	getParams(){
 			return m_params;
 		}
 
-		virtual const v2i&	getCurrentWindowSize( void ) const {
+		virtual const v2i&	getCurrentWindowSize() const {
 			return m_currentWindowSize;
 		}
 
@@ -328,11 +328,11 @@ namespace gost{
 			return get_model( fileName, outModel );
 		}
 
-		virtual void	clearTextureCache( void ){
+		virtual void	clearTextureCache(){
 			m_textures.clear();
 		}
 
-		virtual void	clearModelCache( void ){
+		virtual void	clearModelCache(){
 			m_models.clear();
 		}
 

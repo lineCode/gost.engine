@@ -42,7 +42,7 @@ namespace gost{
 
 			//	Get num of supported file extensions
 			//	\return Num of supported file extensions
-		virtual u32		getSupportedExtensions( void ) = 0;
+		virtual u32		getSupportedExtensions() = 0;
 
 			//	Get supported extension
 			//	\param id: number of extension. See getSupportedExtensions

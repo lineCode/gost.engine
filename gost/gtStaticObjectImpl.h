@@ -14,18 +14,18 @@ namespace gost{
 	public:
 
 		gtStaticObjectImpl( gtRenderModel* model );
-		~gtStaticObjectImpl( void );
+		~gtStaticObjectImpl();
 
 
 		//	=================================					gtGameObject
-		gtObjectType		getType( void );
-		void				update( void );
-		void				render( void );
+		gtObjectType		getType();
+		void				update();
+		void				render();
 		
-		gtRenderModel*		getModel( void );
+		gtRenderModel*		getModel();
 
-		gtAabb*				getAabb( void );
-		gtObb*				getObb( void );
+		gtAabb*				getAabb();
+		gtObb*				getObb();
 	};
 
 }

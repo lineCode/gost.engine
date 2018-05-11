@@ -10,25 +10,25 @@ namespace gost{
 
 		gtPtr<gtTimerWin32> m_timer;
 		
-		void updateWindowEvents( void );
-		void quit( void );
+		void updateWindowEvents();
+		void quit();
 
 	public:
 
 		gtMainSystemWin32( const gtDeviceCreationParameters& );
 
-		virtual ~gtMainSystemWin32( void );
+		virtual ~gtMainSystemWin32();
 
-		void			shutdown( void );
-		bool			init( void );
-		gtOutputWindow* getOutputWindow( void ) GT_FINAL;
-		bool			update( void ) GT_FINAL;
+		void			shutdown();
+		bool			init();
+		gtOutputWindow* getOutputWindow() GT_FINAL;
+		bool			update() GT_FINAL;
 		gtPtr<gtWindow>	createSystemWindow( gtWindowInfo* );
-		u32				getTime( void );
-		gtTimer*		getTimer( void );
-		gtPtr<gtThread>	createThread( void );
-		gtPtr<gtMutex>	createMutex( void );
-		v2i				getScreenSize( void );
+		u32				getTime();
+		gtTimer*		getTimer();
+		gtPtr<gtThread>	createThread();
+		gtPtr<gtMutex>	createMutex();
+		v2i				getScreenSize();
 	};
 
 }

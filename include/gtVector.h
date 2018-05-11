@@ -24,7 +24,7 @@ namespace gost{
 			}
 		}
 
-		gtVector2( void ):
+		gtVector2():
 			x( static_cast< Type >( 0u ) ),
 			y( static_cast< Type >( 0u ) ){
 		}
@@ -43,7 +43,7 @@ namespace gost{
 			y( static_cast< Type >( v ) ){
 		}
 
-		void zero( void ){
+		void zero(){
 			x = y = static_cast< Type >( 0u );
 		}
 
@@ -84,7 +84,7 @@ namespace gost{
 			y /= v.y;
 		}
 
-		Type summ( void ){
+		Type summ(){
 			return x + y;
 		}
 
@@ -96,7 +96,7 @@ namespace gost{
 			return gtVector2( x - v.x, y - v.y );
 		}
 
-		gtVector2< Type > operator-( void ) const {
+		gtVector2< Type > operator-() const {
 			return gtVector2( -x, -y );
 		}
 
@@ -108,11 +108,11 @@ namespace gost{
 			return gtVector2( x / v.x, y / v.y );
 		}
 
-		const Type	getX( void ) const {
+		const Type	getX() const {
 			return x;
 		}
 
-		const Type	getY( void ) const {
+		const Type	getY() const {
 			return y;
 		}
 
@@ -135,11 +135,11 @@ namespace gost{
 
 
 
-		Type	lengthSqrt( void ){
+		Type	lengthSqrt(){
 			return ( x * x ) + ( y * y );
 		}
 
-		void	normalize( void ){
+		void	normalize(){
 			f32 sqLen, invLen;
 			sqLen = lengthSqrt();
 			invLen = math::invSqrt( sqLen );
@@ -148,11 +148,11 @@ namespace gost{
 		}
 
 
-		gtVector3< Type > getV3( void ){
+		gtVector3< Type > getV3(){
 			return gtVector3< Type >( x, y, static_cast< Type >( 0u ) );
 		}
 
-		gtVector4< Type > getV4( void ){
+		gtVector4< Type > getV4(){
 			return gtVector4< Type >( x, y, static_cast< Type >( 0u ), static_cast< Type >( 0u ) );
 		}
 
@@ -176,7 +176,7 @@ namespace gost{
 			}
 		}
 
-		gtVector3( void ):
+		gtVector3():
 			x( static_cast< Type >( 0u ) ),
 			y( static_cast< Type >( 0u ) ),
 			z( static_cast< Type >( 0u ) ){
@@ -204,7 +204,7 @@ namespace gost{
 			z( v ){
 		}
 
-		void zero( void ){
+		void zero(){
 			x = y = z = static_cast< Type >( 0u );
 		}
 
@@ -246,7 +246,7 @@ namespace gost{
 			z /= v.z;
 		}
 
-		Type summ( void ){
+		Type summ(){
 			return x + y + z;
 		}
 
@@ -258,7 +258,7 @@ namespace gost{
 			return gtVector3( x - v.x, y - v.y, z - v.z );
 		}
 
-		gtVector3< Type > operator-( void ) const {
+		gtVector3< Type > operator-() const {
 			return gtVector3( -x, -y, -z );
 		}
 
@@ -270,7 +270,7 @@ namespace gost{
 			return gtVector3( x / v.x, y / v.y, z / v.z );
 		}
 
-		const Type	getZ( void ) const {
+		const Type	getZ() const {
 			return z;
 		}
 
@@ -300,11 +300,11 @@ namespace gost{
 			return false;
 		}
 
-		Type	lengthSqrt( void ){
+		Type	lengthSqrt(){
 			return ( x * x ) + ( y * y ) + ( z * z );
 		}
 
-		Type	length( void ){
+		Type	length(){
 			return static_cast<Type>( std::sqrt( lengthSqrt() ) );
 		}
 
@@ -312,7 +312,7 @@ namespace gost{
 			return gtVector3< Type >( x - from.x, y - from.y, z - from.z ).length();
 		}
 
-		void	normalize( void ){
+		void	normalize(){
 			f32 sqLen, invLen;
 			sqLen = lengthSqrt();
 			invLen = math::invSqrt( sqLen );
@@ -321,11 +321,11 @@ namespace gost{
 			z *= invLen;
 		}
 
-		gtVector2< Type > getV2( void ){
+		gtVector2< Type > getV2(){
 			return gtVector2< Type >( x, y );
 		}
 
-		gtVector4< Type > getV4( void ){
+		gtVector4< Type > getV4(){
 			return gtVector4< Type >( x, y, z, static_cast< Type >( 0u ) );
 		}
 
@@ -362,7 +362,7 @@ namespace gost{
 			return 0;
 		}
 
-		gtVector4( void ):
+		gtVector4():
 			x( static_cast< Type >( 0u ) ),
 			y( static_cast< Type >( 0u ) ),
 			z( static_cast< Type >( 0u ) ),
@@ -394,7 +394,7 @@ namespace gost{
 			w( v ){
 		}
 
-		void zero( void ){
+		void zero(){
 			x = y = z = w = static_cast< Type >( 0u );
 		}
 
@@ -441,7 +441,7 @@ namespace gost{
 			w /= v.w;
 		}
 
-		Type summ( void ){
+		Type summ(){
 			return x + y + z + w;
 		}
 
@@ -453,7 +453,7 @@ namespace gost{
 			return gtVector4( x - v.x, y - v.y, z - v.z, w - v.w );
 		}
 
-		gtVector4< Type > operator-( void ) const {
+		gtVector4< Type > operator-() const {
 			return gtVector4( -x, -y, -z, -w );
 		}
 
@@ -465,7 +465,7 @@ namespace gost{
 			return gtVector4( x / v.x, y / v.y, z / v.z, w / v.w );
 		}
 
-		const Type	getW( void ) const {
+		const Type	getW() const {
 			return w;
 		}
 
@@ -515,11 +515,11 @@ namespace gost{
 			return false;
 		}
 
-		Type	lengthSqrt( void ){
+		Type	lengthSqrt(){
 			return ( x * x ) + ( y * y ) + ( z * z ) + ( w * w );
 		}
 
-		void	normalize( void ){
+		void	normalize(){
 			f32 sqLen, invLen;
 			sqLen = lengthSqrt();
 			invLen = math::invSqrt( sqLen );
@@ -529,16 +529,16 @@ namespace gost{
 			w *= invLen;
 		}
 
-		Type getWidth( void ){
+		Type getWidth(){
 			return z - x;
 		}
 
-		Type	getHeight( void ){
+		Type	getHeight(){
 			return w - y;
 		}
 
-		gtVector2< Type > getV2( void ){ return gtVector2< Type >( x, y ); }
-		gtVector3< Type > getV3( void ){ return gtVector3< Type >( x, y, z ); }
+		gtVector2< Type > getV2(){ return gtVector2< Type >( x, y ); }
+		gtVector3< Type > getV3(){ return gtVector3< Type >( x, y, z ); }
 	};
 
 	template< typename Type >
@@ -562,7 +562,7 @@ namespace gost{
 			return 0;
 		}
 
-		gtVector5( void ):
+		gtVector5():
 			x( static_cast< Type >( 0u ) ),
 			y( static_cast< Type >( 0u ) ),
 			z( static_cast< Type >( 0u ) ),
@@ -603,7 +603,7 @@ namespace gost{
 			return 0;
 		}
 
-		gtVector6( void ):
+		gtVector6():
 			x( static_cast< Type >( 0u ) ),
 			y( static_cast< Type >( 0u ) ),
 			z( static_cast< Type >( 0u ) ),
@@ -648,7 +648,7 @@ namespace gost{
 			return 0;
 		}
 
-		gtVector7( void ):
+		gtVector7():
 			x( static_cast< Type >( 0u ) ),
 			y( static_cast< Type >( 0u ) ),
 			z( static_cast< Type >( 0u ) ),
@@ -697,7 +697,7 @@ namespace gost{
 			return 0;
 		}
 
-		gtVector8( void ):
+		gtVector8():
 			x( static_cast< Type >( 0u ) ),
 			y( static_cast< Type >( 0u ) ),
 			z( static_cast< Type >( 0u ) ),

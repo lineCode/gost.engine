@@ -9,7 +9,7 @@ namespace gost{
 	public:
 
 			//	default constructor
-		gtAabb( void ){ }
+		gtAabb(){ }
 
 			// \param min: minimum
 			// \param max: maximum
@@ -18,12 +18,12 @@ namespace gost{
 
 			// is empty
 			// \return \b true if empty
-		bool isEmpty( void ) const {
+		bool isEmpty() const {
 			return (m_min == m_max);
 		}
 
 			// reset
-		void reset( void ){
+		void reset(){
 			m_min = m_max = v3f();
 		}
 

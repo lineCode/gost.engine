@@ -8,15 +8,15 @@ namespace gost{
 		m_params = params;
 	}
 
-	gtMainSystemWin32::~gtMainSystemWin32( void ){
+	gtMainSystemWin32::~gtMainSystemWin32(){
 		this->m_isRun = false;
 	}
 
-	gtOutputWindow* gtMainSystemWin32::getOutputWindow( void ){
+	gtOutputWindow* gtMainSystemWin32::getOutputWindow(){
 		return this->m_output_window.data();
 	}
 
-	bool	gtMainSystemWin32::init( void ){
+	bool	gtMainSystemWin32::init(){
         timeBeginPeriod(1);
 
 		getTime();
@@ -53,7 +53,7 @@ namespace gost{
 		return true;
 	}
 
-	void gtMainSystemWin32::updateWindowEvents( void ){
+	void gtMainSystemWin32::updateWindowEvents(){
 		MSG msg;
 		while( PeekMessage( &msg, NULL, 0, 0, PM_NOREMOVE ) ){
 			if( !GetMessage( &msg, NULL, 0, 0 )){
@@ -65,7 +65,7 @@ namespace gost{
 	}
 
 
-	bool	gtMainSystemWin32::update( void ){
+	bool	gtMainSystemWin32::update(){
 		if( m_isRun ){
 			
 			this->updateWindowEvents();
@@ -86,7 +86,7 @@ namespace gost{
 		return m_isRun;
 	}
 
-	void gtMainSystemWin32::quit( void ){
+	void gtMainSystemWin32::quit(){
 		if( m_isRun ){
 			m_isRun = false;
 			PostQuitMessage( 0 );
@@ -107,7 +107,7 @@ namespace gost{
 		return window;
 	}
 
-	u32			gtMainSystemWin32::getTime( void ){
+	u32			gtMainSystemWin32::getTime(){
 		static bool isInit = false;
 		static u32 baseTime;
 		if( !isInit ){
@@ -117,11 +117,11 @@ namespace gost{
 		return timeGetTime() - baseTime;
 	}
 
-	gtTimer*	gtMainSystemWin32::getTimer( void ){
+	gtTimer*	gtMainSystemWin32::getTimer(){
 		return m_timer.data();
 	}
 
-	void gtMainSystemWin32::shutdown( void ){
+	void gtMainSystemWin32::shutdown(){
 
 		m_sceneSystem->clearScene();
 
@@ -129,15 +129,15 @@ namespace gost{
 	}
 }
 
-gtPtr<gtThread>	gtMainSystemWin32::createThread( void ){
+gtPtr<gtThread>	gtMainSystemWin32::createThread(){
 	return gtPtr<gtThread>( gtPtrNew<gtThread>( new gtThreadWin32 ) );
 }
 
-gtPtr<gtMutex>	gtMainSystemWin32::createMutex( void ){
+gtPtr<gtMutex>	gtMainSystemWin32::createMutex(){
 	return gtPtr<gtMutex>( gtPtrNew<gtMutex>( new gtMutexWin32 ) );
 }
 
-v2i gtMainSystemWin32::getScreenSize( void ){
+v2i gtMainSystemWin32::getScreenSize(){
 	RECT desktop;
 	const HWND hDesktop = GetDesktopWindow();
 	GetWindowRect(hDesktop, &desktop);

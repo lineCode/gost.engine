@@ -19,13 +19,13 @@ struct WaveHeader{
 struct Wave{
 	
 
-	Wave( void ){}
+	Wave(){}
 
 	Wave( const gtString& fileName ){
 		m_fileName = fileName;
 	}
 
-	~Wave( void ){
+	~Wave(){
 		if( m_file )
 			m_file->release();
 	}
@@ -33,10 +33,10 @@ struct Wave{
 	gtAudioSourceImpl* read( gtAudioSourceInfo info );
 
 	bool	getInfo( gtAudioSourceInfo& info );
-	void	closeStream( void );
+	void	closeStream();
 	bool	prepareToStreaming( IXAudio2SourceVoice*	sourceVoice,  gtAudioState *state);
 	void	setPos( f32 p );
-	f32		getPos( void );
+	f32		getPos();
 
 	gtFile	  * m_file		= nullptr;
 	WaveHeader	m_header;

@@ -7,11 +7,11 @@
 typedef unsigned (__stdcall* _beginthreadex_proc_type)(void*);
 #endif
 
-gtThreadWin32::gtThreadWin32( void ):
+gtThreadWin32::gtThreadWin32():
 	m_handle( nullptr )
 {}
 
-gtThreadWin32::~gtThreadWin32( void ){
+gtThreadWin32::~gtThreadWin32(){
 	join();
 }
 
@@ -26,7 +26,7 @@ bool gtThreadWin32::start( StartFunction f, void* args, u32 stackSize ){
 	return true;
 }
 
-void gtThreadWin32::join( void ){
+void gtThreadWin32::join(){
 
 	if( m_handle ){
 
@@ -41,7 +41,7 @@ void gtThreadWin32::join( void ){
 	}
 }
 
-void * gtThreadWin32::getHandle( void ){
+void * gtThreadWin32::getHandle(){
 	return (void*)m_handle;
 }
 

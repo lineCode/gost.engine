@@ -6,7 +6,6 @@
 */
 
 class demo::DemoApplication;
-
 class DemoExample_Camera : public demo::DemoExample{
 	gtMainSystem *			m_mainSystem;
 	gtDriver *				m_driver;
@@ -29,13 +28,13 @@ public:
 	DemoExample_Camera( demo::DemoApplication * );
 	~DemoExample_Camera();
 
-	bool Init( void );
-	void Restart( void );
-	void Shutdown( void );
-	void Update( void );
+	bool Init();
+	void Restart();
+	void Shutdown();
+	void Update();
 	void Input( f32 delta );
-	void Render( void );
-	void Render2D( void );
+	void Render();
+	void Render2D();
 };
 
 DemoExample_Camera::DemoExample_Camera():
@@ -54,7 +53,7 @@ DemoExample_Camera::DemoExample_Camera( demo::DemoApplication * app ):
 
 DemoExample_Camera::~DemoExample_Camera(){}
 
-bool DemoExample_Camera::Init( void ){
+bool DemoExample_Camera::Init(){
 	m_mainSystem  = gtMainSystem::getInstance();
 	m_driver      = m_mainSystem->getMainVideoDriver();
 	m_sceneSystem = m_mainSystem->getSceneSystem( m_driver );
@@ -71,8 +70,8 @@ bool DemoExample_Camera::Init( void ){
 	return true;
 }
 
-void DemoExample_Camera::Restart( void ){}
-void DemoExample_Camera::Shutdown( void ){
+void DemoExample_Camera::Restart(){}
+void DemoExample_Camera::Shutdown(){
 	m_sceneSystem->clearScene();
 }
 
@@ -118,13 +117,13 @@ void DemoExample_Camera::Input( f32 d ){
 	}
 }
 
-void DemoExample_Camera::Render( void ){
+void DemoExample_Camera::Render(){
 }
 
-void DemoExample_Camera::Render2D( void ){
+void DemoExample_Camera::Render2D(){
 }
 
-void DemoExample_Camera::Update( void ){
+void DemoExample_Camera::Update(){
 
 }
 

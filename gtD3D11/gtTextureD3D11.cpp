@@ -10,7 +10,7 @@ gtTextureD3D11::gtTextureD3D11( gtDriverD3D11* d ):
 	m_driver( d )
 {}
 
-gtTextureD3D11::~gtTextureD3D11( void ){
+gtTextureD3D11::~gtTextureD3D11(){
 
 	if( m_samplerState ){
 		m_samplerState->Release();
@@ -90,11 +90,11 @@ bool gtTextureD3D11::init( gtImage* image, gtTextureFilterType filter ){
 	return true;
 }
 
-ID3D11ShaderResourceView * const * gtTextureD3D11::getResourceView( void ){
+ID3D11ShaderResourceView * const * gtTextureD3D11::getResourceView(){
 	return &this->m_textureResView;
 }
 
-ID3D11SamplerState*	const * gtTextureD3D11::getSamplerState( void ){
+ID3D11SamplerState*	const * gtTextureD3D11::getSamplerState(){
 	return &this->m_samplerState;
 }
 
@@ -116,13 +116,13 @@ HRESULT	gtTextureD3D11::createSamplerState( D3D11_FILTER filter, D3D11_TEXTURE_A
 }
 
 //============================================
-gtTextureType	gtTextureD3D11::getType( void ){
+gtTextureType	gtTextureD3D11::getType(){
 	return m_type;
 }
-u32				gtTextureD3D11::getWidth( void ){
+u32				gtTextureD3D11::getWidth(){
 	return this->m_size.x;
 }
-u32				gtTextureD3D11::getHeight( void ){
+u32				gtTextureD3D11::getHeight(){
 	return this->m_size.y;
 }
 

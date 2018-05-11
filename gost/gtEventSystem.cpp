@@ -12,14 +12,14 @@ gtEventSystem::gtEventSystem( gtEventConsumer* uc ) :
 	m_mouseState.byte = 0u;
 }
 
-gtEventSystem::~gtEventSystem( void ){
+gtEventSystem::~gtEventSystem(){
 }
 
-gtEventConsumer* gtEventSystem::getConsumer( void ){
+gtEventConsumer* gtEventSystem::getConsumer(){
 	return m_userConsumer;
 }
 
-void gtEventSystem::resetEvents( void ){
+void gtEventSystem::resetEvents(){
 	m_numOfEvents = 0u;
 }
 
@@ -27,7 +27,7 @@ bool gtEventSystem::isKeyDown( gtKey key ){
 	return m_keysDown[ (u32)key ];
 }
 
-void gtEventSystem::getKeyboardAndMouseStates( void ){
+void gtEventSystem::getKeyboardAndMouseStates(){
 	u32 cur = m_currentEvent;
 	while( true ){
 		if( m_events[ cur ].type == gtEventType::None ){
@@ -76,7 +76,7 @@ bool gtEventSystem::pollEvent( gtEvent& event ){
 	return true;
 }
 
-void gtEventSystem::runEventLoop( void ){
+void gtEventSystem::runEventLoop(){
 
 	while( true ){
 
@@ -110,19 +110,19 @@ void gtEventSystem::addEvent( const gtEvent& ev, u8 prior ){
 	}
 }
 
-bool gtEventSystem::isLMBDown( void ){
+bool gtEventSystem::isLMBDown(){
 	return m_mouseState.bits.b0;
 }
 
-bool gtEventSystem::isRMBDown( void ){
+bool gtEventSystem::isRMBDown(){
 	return m_mouseState.bits.b1;
 }
 
-bool gtEventSystem::isMMBDown( void ){
+bool gtEventSystem::isMMBDown(){
 	return m_mouseState.bits.b2;
 }
 
-const gtVector2<u16>& gtEventSystem::getCursorPosition( void ){
+const gtVector2<u16>& gtEventSystem::getCursorPosition(){
 	return m_cursorPosition;
 }
 

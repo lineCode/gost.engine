@@ -8,7 +8,7 @@ namespace gost{
 	class gtAllocator{
 	public:
 
-		gtAllocator( void ){}
+		gtAllocator(){}
 
 		Type * allocate( u32 size ){
 			return static_cast<Type*>( operator new( size * sizeof( Type ) ) );

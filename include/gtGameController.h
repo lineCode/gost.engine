@@ -55,12 +55,12 @@ namespace gost{
 	protected:
 		gtGameControllerType m_type;
 	public:
-		virtual ~gtGameController( void ){}
-		gtGameControllerType getType( void ) const { return m_type; }
+		virtual ~gtGameController(){}
+		gtGameControllerType getType() const { return m_type; }
 
-		virtual u32 getNumOfActiveDevices( void ) = 0;
+		virtual u32 getNumOfActiveDevices() = 0;
 		virtual gtGameControllerDevice*	getControllerDevice( u32 id ) = 0;
-		virtual void update( void ) = 0;
+		virtual void update() = 0;
 
 	};
 

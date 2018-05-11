@@ -6,11 +6,11 @@ gtPluginImportImage::gtPluginImportImage( gtPluginInfoDL* info ){
 	m_info = *info; 
 }
 
-gtPluginImportImage::~gtPluginImportImage( void ){
+gtPluginImportImage::~gtPluginImportImage(){
 	unload();
 }
 		
-void gtPluginImportImage::load( void ){
+void gtPluginImportImage::load(){
 	if( !m_isLoad ){
 
 		m_info.m_handle = GT_LOAD_LIBRARY((wchar_t*)m_info.m_path.data());
@@ -34,7 +34,7 @@ void gtPluginImportImage::load( void ){
 	}
 }
 
-void gtPluginImportImage::unload( void ){
+void gtPluginImportImage::unload(){
 	if( m_isLoad ){
 
 		if( m_info.m_handle )
@@ -44,7 +44,7 @@ void gtPluginImportImage::unload( void ){
 	}
 }
 
-const gtPluginInfoDL&	gtPluginImportImage::getInfo( void ){
+const gtPluginInfoDL&	gtPluginImportImage::getInfo(){
 	return m_info;
 }
 

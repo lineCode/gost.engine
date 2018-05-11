@@ -12,12 +12,14 @@ namespace gost{
 
 		virtual void	setWindowTitle( const gtString& title ) = 0;
 
-		virtual void*	getHandle( void ) = 0;
+		virtual void*	getHandle() = 0;
 
-		virtual const v4i&		getRect( void ) = 0;
+		virtual const v4i&		getRect() = 0;
 
-		virtual const gtWindowInfo& getWindowInfo( void ) = 0;
+		virtual const gtWindowInfo& getWindowInfo() = 0;
 		
+		virtual void   setOnMove( void(*)(void) ) = 0;
+		virtual void   setOnSize( void(*)(void) ) = 0;
 
 	};
 

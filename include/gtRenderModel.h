@@ -8,15 +8,15 @@ namespace gost{
 	public:
 
 			// \return sub models count
-		virtual u32 getSubModelCount( void ) = 0;
+		virtual u32 getSubModelCount() = 0;
 
 			// \return material
 		virtual gtMaterial*	getMaterial( u32 id ) = 0;
 
-		virtual void		render( void ) = 0;
+		virtual void		render() = 0;
 
-		virtual gtAabb*				getAabb( void ) = 0;
-		virtual gtObb*				getObb( void ) = 0;
+		virtual gtAabb*				getAabb() = 0;
+		virtual gtObb*				getObb() = 0;
 	};
 
 }

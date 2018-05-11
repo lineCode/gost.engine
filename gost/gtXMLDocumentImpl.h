@@ -40,7 +40,7 @@ namespace gost{
 
 		gtArray<_token> m_tokens;
 
-		void getTokens( void );
+		void getTokens();
 		void decodeEnts( gtString& outText );
 		
 		char16_t * getName( char16_t * ptr, gtString& outText, u32& line, u32& col );
@@ -51,19 +51,19 @@ namespace gost{
 		bool charForString( char16_t * ptr );
 		bool charIsSymbol( char16_t * ptr );
 
-		bool analyzeTokens( void );
-		bool buildXMLDocument( void );
+		bool analyzeTokens();
+		bool buildXMLDocument();
 		bool getSubNode( gtXMLNode * node );
 		bool getAttributes( gtXMLNode * node );
-		bool tokenIsName( void );
-		bool nextToken( void );
+		bool tokenIsName();
+		bool nextToken();
 		bool unexpectedToken( const _token& token, gtString expected );
 
-		void skipPrologAndDTD( void );
+		void skipPrologAndDTD();
 
 		void printNode( gtXMLNode* node, u32 indent );
 
-		bool tokenIsString( void );
+		bool tokenIsString();
 
 		bool XPath_getTokens( gtArray<gtXPathToken> * arr, const gtString& XPath_expression );
 		bool XPath_isName( char16_t * ptr );
@@ -73,13 +73,13 @@ namespace gost{
 	public:
 
 		gtXMLDocumentImpl( const gtString& fileName );
-		virtual ~gtXMLDocumentImpl( void );
+		virtual ~gtXMLDocumentImpl();
 
-		bool init( void );
+		bool init();
 
-		gtXMLNode* getRootNode( void );
-		void print( void );
-		const gtString& getText( void );
+		gtXMLNode* getRootNode();
+		void print();
+		const gtString& getText();
 		gtArray<gtXMLNode*> selectNodes( const gtString& XPath_expression );
 	};
 

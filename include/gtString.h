@@ -65,7 +65,7 @@ namespace gost{
 		public:
 
 			// Default constructor
-		gtString_base( void ):
+		gtString_base():
 			m_data( nullptr ),
 			m_allocated( StringWordSize ),
 			m_size( 0u )
@@ -118,7 +118,7 @@ namespace gost{
 		}
 
 			// Destructor
-		~gtString_base( void ){
+		~gtString_base(){
 			if( m_data )
 				delete []m_data;
 		}
@@ -205,14 +205,14 @@ namespace gost{
 			append( buf );
 		}
 
-		gtString_base<char> to_ansiString( void ){
+		gtString_base<char> to_ansiString(){
 			gtString_base<char> ret;
 			ret.reserve(m_size);
 			this->copy(ret.data(),m_data);
 			return ret;
 		}
 
-		gtString_base<char16_t> to_utf16String( void ){
+		gtString_base<char16_t> to_utf16String(){
 			gtString_base<char16_t> ret;
 			ret.reserve(m_size);
 			this->copy(ret.data(),m_data);
@@ -221,19 +221,19 @@ namespace gost{
 
 			// Get 'c' string
 			// \return Pointer to first char of string
-		const_pointer c_str( void ) const {
+		const_pointer c_str() const {
 			return m_data;
 		}
 
 			// Get string buffer
 			// \return Pointer to first char of string
-		pointer data( void ) const {
+		pointer data() const {
 			return m_data;
 		}
 
 			// Get size
 			// \return Size of string
-		const u32 size( void ) const {
+		const u32 size() const {
 			return m_size;
 		}
 
@@ -333,19 +333,19 @@ namespace gost{
 			return true;
 		}
 
-		void clear( void ){
+		void clear(){
 			m_size = 0u;
 			m_data[ m_size ] = static_cast<char_type>(m_size);
 		}
 
-		void pop_back( void ){
+		void pop_back(){
 			if( m_size ){
 				--m_size;
 				m_data[ m_size ] = 0u;
 			}
 		}
 
-		void shrink_to_fit( void ){
+		void shrink_to_fit(){
 			if( m_size ){
 				if( m_allocated > (m_size + StringWordSize) ){
 					reallocate( m_size + 1u );
@@ -379,7 +379,7 @@ namespace gost{
 			m_data[ m_size ] = 0;
 		}
 
-		void pop_front( void ){
+		void pop_front(){
 			erase( 0u, 0u );
 		}
 

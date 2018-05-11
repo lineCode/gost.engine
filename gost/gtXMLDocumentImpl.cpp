@@ -15,10 +15,10 @@ m_isInit( false ){
 	m_tokens.setAddMemoryValue( 4096u );
 }
 
-gtXMLDocumentImpl::~gtXMLDocumentImpl( void ){
+gtXMLDocumentImpl::~gtXMLDocumentImpl(){
 }
 
-bool gtXMLDocumentImpl::init( void ){
+bool gtXMLDocumentImpl::init(){
 
 	if( gtFileSystem::existFile( m_fileName ) ){
 		if( !util::readTextFromFileForUnicode( m_fileName, m_text ) ){
@@ -38,7 +38,7 @@ bool gtXMLDocumentImpl::init( void ){
 	return true;
 }
 
-void gtXMLDocumentImpl::skipPrologAndDTD( void ){
+void gtXMLDocumentImpl::skipPrologAndDTD(){
 	u32 sz = m_tokens.size();
 	while( m_cursor < sz ){
 		if( m_tokens[ m_cursor ].name == m_expect_gt ){
@@ -50,7 +50,7 @@ void gtXMLDocumentImpl::skipPrologAndDTD( void ){
 	}
 }
 
-bool gtXMLDocumentImpl::tokenIsName( void ){
+bool gtXMLDocumentImpl::tokenIsName(){
 	if( m_tokens[ m_cursor ].name == m_expect_lt ) return false;
 	if( m_tokens[ m_cursor ].name == m_expect_gt ) return false;
 	if( m_tokens[ m_cursor ].name == m_expect_sub ) return false;
@@ -62,7 +62,7 @@ bool gtXMLDocumentImpl::tokenIsName( void ){
 	return true;
 }
 
-bool gtXMLDocumentImpl::nextToken( void ){
+bool gtXMLDocumentImpl::nextToken(){
 	++m_cursor;
 	if( m_cursor >= m_sz ){
 		gtLogWriter::printError( u"End of XML" );
@@ -78,7 +78,7 @@ bool gtXMLDocumentImpl::unexpectedToken( const _token& token, gtString expected 
 	return false;
 }
 
-bool gtXMLDocumentImpl::tokenIsString( void ){
+bool gtXMLDocumentImpl::tokenIsString(){
 	return m_tokens[ m_cursor ].type == gtXMLDocumentImpl::_toke_type::tt_string;
 }
 
@@ -289,7 +289,7 @@ newNode:
 	return true;
 }
 
-bool gtXMLDocumentImpl::analyzeTokens( void ){
+bool gtXMLDocumentImpl::analyzeTokens(){
 	u32 sz = m_tokens.size();
 	if( !sz ){
 		gtLogWriter::printError( u"Empty XML" );
@@ -312,12 +312,12 @@ bool gtXMLDocumentImpl::analyzeTokens( void ){
 	return buildXMLDocument();
 }
 
-bool gtXMLDocumentImpl::buildXMLDocument( void ){
+bool gtXMLDocumentImpl::buildXMLDocument(){
 	m_sz = m_tokens.size();
 	return getSubNode( &m_root);
 }
 
-gtXMLNode* gtXMLDocumentImpl::getRootNode( void ){
+gtXMLNode* gtXMLDocumentImpl::getRootNode(){
 	return &m_root;
 }
 
@@ -412,7 +412,7 @@ void gtXMLDocumentImpl::decodeEnts( gtString& str ){
 	util::stringReplaseSubString( str, gtString(u"&amp;"), gtString(u"&") );
 }
 
-void gtXMLDocumentImpl::getTokens( void ){
+void gtXMLDocumentImpl::getTokens(){
 
 	char16_t * ptr = m_text.data();
 	u32 line = 1u;
@@ -559,12 +559,12 @@ void gtXMLDocumentImpl::printNode( gtXMLNode* node, u32 indent ){
 	}
 }
 
-void gtXMLDocumentImpl::print( void ){
+void gtXMLDocumentImpl::print(){
 	gtLogWriter::printInfo( u"XML:" );
 	printNode( &m_root, 0u );
 }
 
-const gtString& gtXMLDocumentImpl::getText( void ){
+const gtString& gtXMLDocumentImpl::getText(){
 	return m_text;
 }
 

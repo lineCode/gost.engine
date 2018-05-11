@@ -21,7 +21,7 @@ namespace gost{
 	using gtLoadGPUDriver_t			= gtDriver*(GT_CDECL*)	(gtDriverInfo);			
 	using gtLoadAudioDriver_t		= gtAudioSystem*(GT_CDECL*)(void);
 	using gtLoadInputDriver_t		= gtGameController*(GT_CDECL*)(void);
-	using gtPluginGetExtCount_t		= u32(GT_CDECL*)		( void );				
+	using gtPluginGetExtCount_t		= u32(GT_CDECL*)		();				
 	using gtPluginGetExtension_t	= s8*(GT_CDECL*)		( u32 id );				
 	using gtPluginLoadImage_t		= bool(GT_CDECL*)		(gtImage*,gtString*);	
 	using gtPluginLoadModel_t		= gtModel*(GT_CDECL*)	(gtString*);			
@@ -36,7 +36,7 @@ namespace gost{
 	class gtPluginSystem : public gtRefObject{
 	public:
 
-		virtual u32	getNumOfPlugins( void ) = 0;
+		virtual u32	getNumOfPlugins() = 0;
 
 		virtual gtPlugin*	getPlugin( const GT_GUID& uid ) = 0;
 
@@ -79,19 +79,19 @@ namespace gost{
 		gtPluginRender( gtPluginInfoDL* info );
 
 			// d-tor
-		~gtPluginRender( void );
+		~gtPluginRender();
 
 		gtLoadGPUDriver_t loadDriverProc/*(const gtDriverInfo& params)*/;
 
 		virtual gtDriver * loadDriver( const gtDriverInfo& params );
 
-		void load( void );
+		void load();
 
-		void unload( void );
+		void unload();
 
-		const gtPluginInfoDL&	getInfo( void );
+		const gtPluginInfoDL&	getInfo();
 
-		bool checkLibraryFunctions( void );
+		bool checkLibraryFunctions();
 	};
 
 		// audio plugin
@@ -101,19 +101,19 @@ namespace gost{
 		gtPluginAudio( gtPluginInfoDL* info );
 
 			// d-tor
-		~gtPluginAudio( void );
+		~gtPluginAudio();
 
 		gtLoadAudioDriver_t loadAudioDriverProc;
 
 		virtual gtAudioSystem* loadAudioDriver();
 
-		void load( void );
+		void load();
 
-		void unload( void );
+		void unload();
 
-		const gtPluginInfoDL&	getInfo( void );
+		const gtPluginInfoDL&	getInfo();
 
-		bool checkLibraryFunctions( void );
+		bool checkLibraryFunctions();
 	};
 
 	class gtPluginInput : public gtPlugin{
@@ -122,19 +122,19 @@ namespace gost{
 		gtPluginInput( gtPluginInfoDL* info );
 
 			// d-tor
-		~gtPluginInput( void );
+		~gtPluginInput();
 
 		gtLoadInputDriver_t loadInputDriverProc;
 
 		virtual gtGameController* loadInputDriver();
 
-		void load( void );
+		void load();
 
-		void unload( void );
+		void unload();
 
-		const gtPluginInfoDL&	getInfo( void );
+		const gtPluginInfoDL&	getInfo();
 
-		bool checkLibraryFunctions( void );
+		bool checkLibraryFunctions();
 	};
 
 	class gtPluginImportModel : public gtPlugin{
@@ -144,17 +144,17 @@ namespace gost{
 		gtPluginImportModel( gtPluginInfoDL* info );
 
 			// d-tor
-		~gtPluginImportModel( void );
+		~gtPluginImportModel();
 		
 		gtPluginLoadModel_t f_loadModel;
 
-		void load( void );
+		void load();
 
-		void unload( void );
+		void unload();
 
-		const gtPluginInfoDL&	getInfo( void );
+		const gtPluginInfoDL&	getInfo();
 
-		bool checkLibraryFunctions( void );
+		bool checkLibraryFunctions();
 
 		gtArray<gtString> m_extensions;
 
@@ -169,17 +169,17 @@ namespace gost{
 		gtPluginImportImage( gtPluginInfoDL* info );
 
 			// d-tor
-		~gtPluginImportImage( void );
+		~gtPluginImportImage();
 
 		gtPluginLoadImage_t f_loadImage/*(gtImage*im,gtString*fileName)*/;
 		
-		void load( void );
+		void load();
 
-		void unload( void );
+		void unload();
 
-		const gtPluginInfoDL&	getInfo( void );
+		const gtPluginInfoDL&	getInfo();
 
-		bool checkLibraryFunctions( void );
+		bool checkLibraryFunctions();
 
 		gtArray<gtString> m_extensions;
 

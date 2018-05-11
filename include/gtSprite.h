@@ -32,7 +32,7 @@ namespace gost{
 		gtAabb m_aabb;
 		gtObb  m_obb;
 
-		gtSprite( void ){};
+		gtSprite(){};
 
 	public:
 
@@ -78,27 +78,27 @@ namespace gost{
 		}
 
 			// d-tor
-		virtual ~gtSprite( void ){
+		virtual ~gtSprite(){
 		}
 
-		gtAabb*				getAabb( void ){
+		gtAabb*				getAabb(){
 			return &m_aabb;
 		}
 
-		gtObb*				getObb( void ){
+		gtObb*				getObb(){
 			return &m_obb;
 		}
 
-		gtObjectType getType( void ){
+		gtObjectType getType(){
 			return m_type;
 		}
 
 		
-		gtTexture*	getTexture( void ){
+		gtTexture*	getTexture(){
 			return m_material.textureLayer[ 0u ].texture;
 		}
 
-		void update( void ){
+		void update(){
 			gtMatrix4 translationMatrix;
 			math::makeTranslationMatrix( translationMatrix, m_position );
 
@@ -135,11 +135,11 @@ namespace gost{
 			m_animation.setReverse( v );
 		}
 
-		bool isInverseHorizontal( void ){
+		bool isInverseHorizontal(){
 			return m_inverseHorizontal;
 		}
 
-		void render( void ){
+		void render(){
 			if( m_isVisible ){
 				updateAnimation();
 				m_driver->drawModel( m_rModel.data() );
@@ -188,7 +188,7 @@ namespace gost{
 				addFrame( rect );
 		}
 
-		u32 getCurrentFrame( void ){
+		u32 getCurrentFrame(){
 			return m_animation.getCurrentFrame();
 		}
 
@@ -196,11 +196,11 @@ namespace gost{
 			return m_frames[ id ];
 		}
 
-		bool isLoop( void ) const {
+		bool isLoop() const {
 			return m_animation.isLoop();
 		}
 
-		bool isPlay( void ) const {
+		bool isPlay() const {
 			return m_animation.isPlay();
 		}
 
@@ -212,19 +212,19 @@ namespace gost{
 			m_animation.setLoopSegment( begin, end );
 		}
 
-		u32 getFrameID( void ) const {
+		u32 getFrameID() const {
 			return m_animation.getCurrentFrame();
 		}
 
-		void playAnimation( void ){
+		void playAnimation(){
 			m_animation.play();
 		}
 			
-		void pauseAnimation( void ){
+		void pauseAnimation(){
 			m_animation.pause();
 		}
 
-		void stopAnimation( void ){
+		void stopAnimation(){
 			m_animation.stop();
 		}
 
@@ -232,7 +232,7 @@ namespace gost{
 			m_animation.setCurrentFrame( frame );
 		}
 
-		void updateAnimation( void ){
+		void updateAnimation(){
 			u32 t1 = 0u;
 			static u32 t2 = 0u;
 			if( m_animation.getFrameCount() > 1u ){
@@ -274,7 +274,7 @@ namespace gost{
 			}
 		}
 
-		f32	getFrameRate( void ) const {
+		f32	getFrameRate() const {
 			return m_animation.getFrameRate();
 		}
 
@@ -285,7 +285,7 @@ namespace gost{
 			m_timerLimit = 1000 / rate;
 		}
 
-		gtMaterial * getMaterial( void ){
+		gtMaterial * getMaterial(){
 			return &m_material;
 		}
 	};

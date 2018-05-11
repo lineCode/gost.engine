@@ -1,6 +1,6 @@
 ﻿#include "common.h"
 
-gtSceneSystemImpl::gtSceneSystemImpl( void ):
+gtSceneSystemImpl::gtSceneSystemImpl():
 	m_mainSystem( nullptr ),
 	m_driver( nullptr ),
 	m_rootNode( nullptr ),
@@ -27,7 +27,7 @@ gtSceneSystemImpl::~gtSceneSystemImpl(){
 	}
 }
 
-void gtSceneSystemImpl::clearScene( void ){
+void gtSceneSystemImpl::clearScene(){
 	if( m_rootNode ){
 		auto * childs = &m_rootNode->getChildList();
 		{
@@ -97,7 +97,7 @@ gtCamera*		gtSceneSystemImpl::addCamera2D( const v4f& viewport, s32 id, bool set
 	return camera;
 }
 
-gtCamera*		gtSceneSystemImpl::getActiveCamera( void ){
+gtCamera*		gtSceneSystemImpl::getActiveCamera(){
 	return m_activeCamera;
 }
 
@@ -148,7 +148,7 @@ gtStaticObject*	gtSceneSystemImpl::addStaticObject( gtRenderModel* model, const 
 	return object.data();
 }
 
-gtGameObject*	gtSceneSystemImpl::getRootObject( void ){
+gtGameObject*	gtSceneSystemImpl::getRootObject(){
 	return m_rootNode;
 }
 
@@ -320,7 +320,7 @@ void gtSceneSystemImpl::sortTransparentDistance( gtArray<gtGameObject*>& in, gtA
 
 }
 
-void gtSceneSystemImpl::renderScene( void ){
+void gtSceneSystemImpl::renderScene(){
 
 	auto * childs = &m_rootNode->getChildList();
 	{

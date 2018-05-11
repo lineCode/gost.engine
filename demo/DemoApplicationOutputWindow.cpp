@@ -2,7 +2,7 @@
 
 #ifdef GT_PLATFORM_WIN32
 
-demo::DemoApplicationOutputWindow::DemoApplicationOutputWindow( void ):
+demo::DemoApplicationOutputWindow::DemoApplicationOutputWindow():
 m_hWnd( nullptr ),
 m_isInit( false ){
 #ifdef GT_DEBUG
@@ -10,7 +10,7 @@ m_isInit( false ){
 #endif
 }
 
-void	demo::DemoApplicationOutputWindow::init( void ){
+void	demo::DemoApplicationOutputWindow::init(){
 	if( !AllocConsole() ){
 		return;
 	}
@@ -19,19 +19,19 @@ void	demo::DemoApplicationOutputWindow::init( void ){
 	m_isInit = true;
 }
 
-void	demo::DemoApplicationOutputWindow::shutdown( void ){
+void	demo::DemoApplicationOutputWindow::shutdown(){
 	if( m_isInit ){
 		if( FreeConsole() )
 			m_isInit = false;
 	}
 }
 
-bool	demo::DemoApplicationOutputWindow::isInit( void ){
+bool	demo::DemoApplicationOutputWindow::isInit(){
 	return m_isInit;
 }
 
-void	demo::DemoApplicationOutputWindow::show( void ){}
-void	demo::DemoApplicationOutputWindow::hide( void ){}
+void	demo::DemoApplicationOutputWindow::show(){}
+void	demo::DemoApplicationOutputWindow::hide(){}
 
 void	demo::DemoApplicationOutputWindow::print( const gtString& s ){
 	if( m_isInit )
@@ -43,7 +43,7 @@ void	demo::DemoApplicationOutputWindow::setWindowText( const gtString& s ){
 		SetWindowText( m_hWnd, (wchar_t*)s.data() );
 }
 
-bool	demo::DemoApplicationOutputWindow::isShow( void ){
+bool	demo::DemoApplicationOutputWindow::isShow(){
 	return true;
 }
 #endif

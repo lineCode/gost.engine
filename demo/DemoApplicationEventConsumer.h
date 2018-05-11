@@ -14,7 +14,7 @@ namespace demo{
 		bool	m_keys[ 256u ];
 	public:
 		DemoApplicationEventConsumer( DemoApplicationContext c );
-		~DemoApplicationEventConsumer( void );
+		~DemoApplicationEventConsumer();
 
 		void processEvent( const gtEvent& ev );
 

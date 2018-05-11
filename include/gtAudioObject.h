@@ -17,17 +17,17 @@ namespace gost{
 	public:
 
 			//	Start playback
-		virtual void play( void ) = 0;
+		virtual void play() = 0;
 
 			//	Check is play
 			//	\return \b true if play
-		virtual bool isPlay( void ) = 0;
+		virtual bool isPlay() = 0;
 
 			//	Pause playback
-		virtual void pause( void ) = 0;
+		virtual void pause() = 0;
 
 			//	Stop playback
-		virtual void stop( void ) = 0;
+		virtual void stop() = 0;
 
 			//	Set volume
 			//	\param volume: new volume
@@ -35,7 +35,7 @@ namespace gost{
 
 			//	Get volume
 			//	\return volume
-		virtual f32  getVolume( void ) = 0;
+		virtual f32  getVolume() = 0;
 
 			//	Set repeat
 			//	\param isLoop: \b true if repeat
@@ -43,18 +43,18 @@ namespace gost{
 
 			//	Check is repeat
 			//	\return \b true if repeat
-		virtual bool isLoop( void ) = 0;
+		virtual bool isLoop() = 0;
 
 			//	Set source
 		virtual void setAudioSource( gtAudioSource* source ) = 0;
 
 			//	Get source
 			//	\return Source object
-		virtual gtAudioSource* getAudioSource( void ) = 0;
+		virtual gtAudioSource* getAudioSource() = 0;
 
 			//	Get name
 			//	\return Name
-		virtual const gtStringA&	getName( void ) = 0;
+		virtual const gtStringA&	getName() = 0;
 
 			//	Set name
 			//	\param name: new name
@@ -72,32 +72,32 @@ namespace gost{
 
 	public:
 
-		gtAudioObjectCommon( void ):
+		gtAudioObjectCommon():
 			m_isLoop( false ),
 			m_state( gtAudioState::stop ),
 			m_time( 0. )
 		{
 		}
 
-		virtual ~gtAudioObjectCommon( void ){}
+		virtual ~gtAudioObjectCommon(){}
 
-		bool isPlay( void ){
+		bool isPlay(){
 			return m_state == gtAudioState::play;
 		}
 
-		bool isPause( void ){
+		bool isPause(){
 			return m_state == gtAudioState::pause;
 		}
 
-		bool isStop( void ){
+		bool isStop(){
 			return m_state == gtAudioState::stop;
 		}
 
-		bool isLoop( void ){
+		bool isLoop(){
 			return m_isLoop;
 		}
 
-		const gtStringA&	getName( void ){
+		const gtStringA&	getName(){
 			return m_name;
 		}
 
@@ -105,7 +105,7 @@ namespace gost{
 			m_name = name;
 		}
 
-		f64 time( void )  { return m_time; }
+		f64 time()  { return m_time; }
 	};
 
 }

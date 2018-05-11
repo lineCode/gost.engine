@@ -34,19 +34,19 @@ namespace gost{
 	class gtCamera : public gtGameObject{
 	public:
 
-		virtual gtCameraType	getCameraType( void ) = 0;
+		virtual gtCameraType	getCameraType() = 0;
 
 		virtual void			setCameraType( gtCameraType type ) = 0;
 
-		virtual const gtMatrix4&	getViewMatrix( void ) = 0;
+		virtual const gtMatrix4&	getViewMatrix() = 0;
 
-		virtual const gtMatrix4&	getProjectionMatrix( void ) = 0;
+		virtual const gtMatrix4&	getProjectionMatrix() = 0;
 
-		virtual const v3f&			getTarget( void ) = 0;
+		virtual const v3f&			getTarget() = 0;
 
 		virtual void				setTarget( const v3f& target ) = 0;
 		
-		virtual const v3f&			getUpVector( void ) = 0;
+		virtual const v3f&			getUpVector() = 0;
 
 		virtual void				setUpVector( const v3f& up ) = 0;
 
@@ -59,18 +59,18 @@ namespace gost{
 		virtual void				setFOV( f32 fov ) = 0;
 
 
-		virtual f32					getNear( void ) = 0;
+		virtual f32					getNear() = 0;
 
-		virtual f32					getFar( void ) = 0;
+		virtual f32					getFar() = 0;
 
-		virtual f32					getAspect( void ) = 0;
+		virtual f32					getAspect() = 0;
 
-		virtual f32					getFOV( void ) = 0;
+		virtual f32					getFOV() = 0;
 
 		virtual void				setViewPort( const v4f& v ) = 0;
 		
-		virtual gtAabb*				getAabb( void ) = 0;
-		virtual gtObb*				getObb( void ) = 0;
+		virtual gtAabb*				getAabb() = 0;
+		virtual gtObb*				getObb() = 0;
 	};
 
 }

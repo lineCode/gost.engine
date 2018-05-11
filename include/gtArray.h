@@ -68,12 +68,12 @@ namespace gost{
 			memcpy( m_data, other.data(), m_size * sizeof( type ) );
 		}
 
-		~gtArray( void ){
+		~gtArray(){
 			clear();
 		}
 
 			//	Get pointer to data
-		pointer data( void ) const {
+		pointer data() const {
 			return m_data;
 		}
 
@@ -83,12 +83,12 @@ namespace gost{
 		}
 
 			//	Get size
-		u32 size( void ) const {
+		u32 size() const {
 			return m_size;
 		}
 
 			//	Get allocated
-		u32 capacity( void ) const {
+		u32 capacity() const {
 			return m_allocated;
 		}
 
@@ -98,7 +98,7 @@ namespace gost{
 
 			//	Check is empty
 			//	\return \b true if empty
-		bool empty( void ) const {
+		bool empty() const {
 			return m_size == 0u;
 		}
 
@@ -123,17 +123,17 @@ namespace gost{
 		}
 
 			//	Get last element
-		reference back( void ){
+		reference back(){
 			return m_data[ m_size - 1u ];
 		}
 
 			//	Get last element
-		const_reference back( void ) const {
+		const_reference back() const {
 			return m_data[ m_size - 1u ];
 		}
 
 			//	Get first element
-		const_reference front( void ) const {
+		const_reference front() const {
 			return m_data[ 0u ];
 		}
 
@@ -154,7 +154,7 @@ namespace gost{
 		}
 
 			//	Remove all elements
-		void clear( void ){
+		void clear(){
 			if( m_data ){
 				for( u32 i = 0u; i < m_size; ++i )
 					m_allocator.destruct( &m_data[i] );
@@ -166,7 +166,7 @@ namespace gost{
 		}
 
 			//	Free not used memory
-		void shrink_to_fit( void ){
+		void shrink_to_fit(){
 			reallocate( m_size - m_addMemory );
 		}
 
@@ -204,7 +204,7 @@ namespace gost{
 			}
 		}
 
-		void sort( void ){
+		void sort(){
 			for( u32 i = 0u; i < m_size; ++i ){
 
 			}
@@ -221,7 +221,7 @@ namespace gost{
 			return *this;
 		}
 
-		/*void pop_back( void ){
+		/*void pop_back(){
 			if( m_size ){
 				m_allocator.destruct( &m_data[ m_size - 1u ] );
 				--m_size;

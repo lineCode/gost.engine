@@ -7,16 +7,16 @@ namespace demo{
 	class DemoExample{
 	public:
 
-		virtual bool Init( void ) = 0;
+		virtual bool Init() = 0;
 
-		virtual void Restart( void ) = 0;
+		virtual void Restart() = 0;
 
-		virtual void Shutdown( void ) = 0;
+		virtual void Shutdown() = 0;
 
-		virtual void Update( void ) = 0;
+		virtual void Update() = 0;
 		virtual void Input( f32 delta ) = 0;
-		virtual void Render( void ) = 0;
-		virtual void Render2D( void ) = 0;
+		virtual void Render() = 0;
+		virtual void Render2D() = 0;
 
 	};
 }

@@ -11,7 +11,7 @@
 
 extern "C"{
 
-	XAudioVersion getXAudioVersion( void ){
+	XAudioVersion getXAudioVersion(){
 		
 		gtString systemPath = gtFileSystem::getSystemPath();
 		
@@ -53,7 +53,7 @@ extern "C"{
 		info.m_build = 1;
 	}
 
-	__declspec(dllexport) gtAudioSystem * gtLoadAudioPlugin( void ){
+	__declspec(dllexport) gtAudioSystem * gtLoadAudioPlugin(){
 
 		XAudioVersion version = getXAudioVersion();
 

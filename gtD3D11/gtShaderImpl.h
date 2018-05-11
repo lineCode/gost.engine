@@ -17,7 +17,7 @@ namespace gost{
 
 	public:
 		gtShaderImpl( gtDriverD3D11* );
-		virtual ~gtShaderImpl( void );
+		virtual ~gtShaderImpl();
 
 		bool			compileShader(
 			gtShaderCallback * callback,
@@ -29,7 +29,7 @@ namespace gost{
 			s8 * pixelEntryPoint,
 			gtVertexType *);
 
-		gtShaderModel	getShaderModel( void );
+		gtShaderModel	getShaderModel();
 
 		bool	createShaderObject( u32 byteSize );
 		

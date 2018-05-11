@@ -4,11 +4,11 @@ gtPluginInput::gtPluginInput( gtPluginInfoDL* info ){
 	m_info = *info;
 }
 
-gtPluginInput::~gtPluginInput( void ){
+gtPluginInput::~gtPluginInput(){
 	if( m_isLoad ) unload();
 }
 
-const gtPluginInfoDL&	gtPluginInput::getInfo( void ){
+const gtPluginInfoDL&	gtPluginInput::getInfo(){
 	return m_info;
 }
 
@@ -39,7 +39,7 @@ gtGameController* gtPluginInput::loadInputDriver(){
 	return nullptr;
 }
 
-void gtPluginInput::load( void ){
+void gtPluginInput::load(){
 
 	if( !m_isLoad ){
 
@@ -60,7 +60,7 @@ void gtPluginInput::load( void ){
 	}
 }
 
-void gtPluginInput::unload( void ){
+void gtPluginInput::unload(){
 	if( m_isLoad ){
 		if( m_info.m_handle )
 			GT_FREE_LIBRARY( m_info.m_handle );

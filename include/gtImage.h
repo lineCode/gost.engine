@@ -12,7 +12,7 @@ namespace gost{
 	public:
 
 			// c-tor
-		gtImage( void ):
+		gtImage():
 			format( Format::FMT_R8G8B8A8 ),
 			width( 0u ),
 			height( 0u ),
@@ -25,7 +25,7 @@ namespace gost{
 		{}
 
 			// d-tor
-		virtual ~gtImage( void ){
+		virtual ~gtImage(){
 			if( data ){
 					gtMainSystem::getInstance()->freeMemory( (void**)&data );
 				data = nullptr;
@@ -163,7 +163,7 @@ namespace gost{
 			format = newFormat;
 		}
 
-		void	makeAlphaFromBlack( void ){
+		void	makeAlphaFromBlack(){
 			if( format == gost::gtImage::FMT_R8G8B8A8){
 				for( u32 i = 0u; i < dataSize; ){
 					u8 r = data[ i ];
@@ -176,7 +176,7 @@ namespace gost{
 		}
 
 			// rgb -> bgr, rgba -> abgr, rgbx -> bgrx...
-		void	flipPixel( void ){
+		void	flipPixel(){
 			if( !data ) return;
 			switch( format ){
 			case gost::gtImage::FMT_ONE_BIT:
@@ -220,7 +220,7 @@ namespace gost{
 			}
 		}
 
-		void flipVertical( void ){
+		void flipVertical(){
 			u8 * line = nullptr;
 			gtMainSystem::getInstance()->allocateMemory( (void**)&line, pitch );
 
@@ -246,7 +246,7 @@ namespace gost{
 	private:
 
 		//	=================	FLIP	PIXEL ============
-		void __flip_pixel_A8R8G8B8( void ){
+		void __flip_pixel_A8R8G8B8(){
 			for( u32 i = 0u; i < dataSize; ){
 				u8 a = data[ i ];
 				u8 r = data[ i+1u ];
@@ -260,7 +260,7 @@ namespace gost{
 			}
 		}
 
-		void __flip_pixel_X8R8G8B8( void ){
+		void __flip_pixel_X8R8G8B8(){
 			for( u32 i = 0u; i < dataSize; ){
 				u8 r = data[ i+1u ];
 				u8 g = data[ i+2u ];
@@ -272,7 +272,7 @@ namespace gost{
 			}
 		}
 
-		void __flip_pixel_X4R4G4B4( void ){
+		void __flip_pixel_X4R4G4B4(){
 			const u32 redMask = 3840u;
 			const u32 greenMask = 240u;
 			const u32 blueMask = 15u;
@@ -291,7 +291,7 @@ namespace gost{
 			}
 		}
 
-		void __flip_pixel_R5G6B5( void ){
+		void __flip_pixel_R5G6B5(){
 			const u32 redMask = 63488u;
 			const u32 greenMask = 2016u;
 			const u32 blueMask = 31u;
@@ -310,7 +310,7 @@ namespace gost{
 			}
 		}
 
-		void __flip_pixel_X1R5G5B5( void ){
+		void __flip_pixel_X1R5G5B5(){
 			const u32 redMask = 31744u;
 			const u32 greenMask = 992u;
 			const u32 blueMask = 31u;
@@ -329,7 +329,7 @@ namespace gost{
 			}
 		}
 
-		void __flip_pixel_A1R5G5B5( void ){
+		void __flip_pixel_A1R5G5B5(){
 			const u32 alphaMask = 32768u;
 			const u32 redMask = 31744u;
 			const u32 greenMask = 992u;
@@ -351,7 +351,7 @@ namespace gost{
 			}
 		}
 
-		void __flip_pixel_R8G8B8( void ){
+		void __flip_pixel_R8G8B8(){
 			for( u32 i = 0u; i < dataSize; ){
 				u8 red = data[ i ];
 				data[ i ] = data[ i+2u ];
@@ -361,7 +361,7 @@ namespace gost{
 		}
 
 		//	===================		CONVERT		=======================================
-		void __R8G8B8_to_A8R8G8B8( void ){
+		void __R8G8B8_to_A8R8G8B8(){
 			u8 * newData = nullptr;
 
 			u32 newSize = dataSize + (dataSize / 3u);
@@ -382,7 +382,7 @@ namespace gost{
 		}
 
 
-		void __A8R8G8B8_to_R8G8B8( void ){
+		void __A8R8G8B8_to_R8G8B8(){
 			u8 * newData = nullptr;
 
 			u32 newSize = dataSize - (dataSize / 4u);
@@ -405,7 +405,7 @@ namespace gost{
 		}
 
 
-		void __A8R8G8B8_to_R8G8B8A8( void ){
+		void __A8R8G8B8_to_R8G8B8A8(){
 			for( u32 i = 0u; i < dataSize; ){
 				u8 a = data[ i ];
 				u8 r = data[ i+1u ];
@@ -419,21 +419,21 @@ namespace gost{
 			}
 		}
 
-		void __A8R8G8B8_to_X8R8G8B8( void ){
+		void __A8R8G8B8_to_X8R8G8B8(){
 			for( u32 i = 0u; i < dataSize; ){
 				data[ i ] = 255;
 				i += 4u;
 			}
 		}
 
-		/*void __X8R8G8B8_to_A8R8G8B8( void ){
+		/*void __X8R8G8B8_to_A8R8G8B8(){
 			for( u32 i = 0u; i < dataSize; ){
 				data[ i ] = 255;
 				i += 4u;
 			}
 		}*/
 
-		void __R8G8B8_to_R8G8B8A8( void ){
+		void __R8G8B8_to_R8G8B8A8(){
 			u8 * newData = nullptr;
 
 			u32 newSize = dataSize + (dataSize / 3u);
@@ -453,7 +453,7 @@ namespace gost{
 			pitch = width * 4u;
 		}
 
-		void __R8G8B8A8_to_R8G8B8( void ){
+		void __R8G8B8A8_to_R8G8B8(){
 			u8 * newData = nullptr;
 
 			u32 newSize = dataSize - (dataSize / 4u);
@@ -475,7 +475,7 @@ namespace gost{
 			pitch = width * 3u;
 		}
 
-		void __R8G8B8A8_to_X8R8G8B8( void ){
+		void __R8G8B8A8_to_X8R8G8B8(){
 			for( u32 i = 0u; i < dataSize; ){
 				u8 r = data[ i ];
 				u8 g = data[ i+1u ];
@@ -488,7 +488,7 @@ namespace gost{
 			}
 		}
 
-		void __R8G8B8A8_to_A8R8G8B8( void ){
+		void __R8G8B8A8_to_A8R8G8B8(){
 			for( u32 i = 0u; i < dataSize; ){
 				u8 r = data[ i ];
 				u8 g = data[ i+1u ];
@@ -502,7 +502,7 @@ namespace gost{
 			}
 		}
 
-		void __X4R4G4B4_to_R8G8B8A8( void ){
+		void __X4R4G4B4_to_R8G8B8A8(){
 			u8 * newData = nullptr;
 
 			u32 newSize = dataSize * 2;
@@ -537,7 +537,7 @@ namespace gost{
 			pitch = width * 4u;
 		}
 
-		void __X4R4G4B4_to_A8R8G8B8( void ){
+		void __X4R4G4B4_to_A8R8G8B8(){
 			u8 * newData = nullptr;
 
 			u32 newSize = dataSize * 2;
@@ -573,7 +573,7 @@ namespace gost{
 			pitch = width * 4u;
 		}
 
-		void __X4R4G4B4_to_R8G8B8( void ){
+		void __X4R4G4B4_to_R8G8B8(){
 			u8 * newData = nullptr;
 
 			u32 sz = dataSize / 2u;
@@ -608,7 +608,7 @@ namespace gost{
 			pitch = width * 3u;
 		}
 
-		void __X1R5G5B5_to_R8G8B8A8( void ){
+		void __X1R5G5B5_to_R8G8B8A8(){
 			u8 * newData = nullptr;
 
 			u32 newSize = dataSize * 2;
@@ -643,7 +643,7 @@ namespace gost{
 			pitch = width * 4u;
 		}
 
-		void __A1R5G5B5_to_R8G8B8A8( void ){
+		void __A1R5G5B5_to_R8G8B8A8(){
 			u8 * newData = nullptr;
 
 			u32 newSize = dataSize * 2;
@@ -679,7 +679,7 @@ namespace gost{
 			pitch = width * 4u;
 		}
 
-		void __R5G6B5_to_R8G8B8A8( void ){
+		void __R5G6B5_to_R8G8B8A8(){
 			u8 * newData = nullptr;
 
 			u32 newSize = dataSize * 2;
@@ -714,7 +714,7 @@ namespace gost{
 			pitch = width * 4u;
 		}
 
-		void __1_to_R8G8B8A8( void ){
+		void __1_to_R8G8B8A8(){
 
 			u8 * newData = nullptr;
 			u32 newSize = dataSize * 8u * 4u;

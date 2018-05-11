@@ -2,20 +2,31 @@
 
 #include "common.h"
 
-gtWindowCommon::gtWindowCommon( void ){
+gtWindowCommon::gtWindowCommon():
+	f_onMove( nullptr ){
 }
 
-gtWindowCommon::~gtWindowCommon( void ){
+gtWindowCommon::~gtWindowCommon(){
 }
 
 
-const v4i&		gtWindowCommon::getRect( void ){
+const v4i&		gtWindowCommon::getRect(){
 	return m_params.m_rect;
 }
 
-const gtWindowInfo& gtWindowCommon::getWindowInfo( void ){
+const gtWindowInfo& gtWindowCommon::getWindowInfo(){
 	return m_params;
 }
+
+void gtWindowCommon::setOnMove( void(*f)(void) ){
+	f_onMove = f;
+}
+
+void gtWindowCommon::setOnSize( void(*f)(void) ){
+	f_onSize = f;
+}
+
+
 
 /*
 Copyright (c) 2017-2018 532235

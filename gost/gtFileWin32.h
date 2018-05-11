@@ -23,20 +23,20 @@ namespace gost{
 			gtFileSystem::FileAction action,
 			gtFileSystem::FileShareMode EFSM,
 			u32 EFA );
-		virtual ~gtFileWin32( void );
+		virtual ~gtFileWin32();
 
 
-		gtTextFileInfo	getTextFileInfo( void );
+		gtTextFileInfo	getTextFileInfo();
 		void			setTextFileInfo( gtTextFileInfo info );
 		
 		u32				write( u8 * data, u32 size );
 		void			write( const gtStringA& string );
 		void			write( const gtString& string );
 		void			write( const gtString32& string );
-		void			flush( void );
+		void			flush();
 		u64				read( u8 * data, u64 size );
-		u64				size( void );
-		u64				tell( void );
+		u64				size();
+		u64				tell();
 		void 			seek( u64 distance, SeekPos pos );
 	};
 

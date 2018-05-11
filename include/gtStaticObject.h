@@ -9,11 +9,11 @@ namespace gost{
 		class gtStaticObject : public gtGameObject{
 	public:
 
-		virtual gtRenderModel*	getModel( void ) = 0;
+		virtual gtRenderModel*	getModel() = 0;
 				
 
-		virtual gtAabb*				getAabb( void ) = 0;
-		virtual gtObb*				getObb( void ) = 0;
+		virtual gtAabb*				getAabb() = 0;
+		virtual gtObb*				getObb() = 0;
 	};
 
 }

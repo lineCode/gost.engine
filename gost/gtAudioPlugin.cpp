@@ -6,11 +6,11 @@ gtPluginAudio::gtPluginAudio( gtPluginInfoDL* info ){
 	m_info = *info;
 }
 
-gtPluginAudio::~gtPluginAudio( void ){
+gtPluginAudio::~gtPluginAudio(){
 	if( m_isLoad ) unload();
 }
 
-const gtPluginInfoDL&	gtPluginAudio::getInfo( void ){
+const gtPluginInfoDL&	gtPluginAudio::getInfo(){
 	return m_info;
 }
 
@@ -41,7 +41,7 @@ gtAudioSystem* gtPluginAudio::loadAudioDriver(){
 	return nullptr;
 }
 
-void gtPluginAudio::load( void ){
+void gtPluginAudio::load(){
 
 	if( !m_isLoad ){
 
@@ -65,7 +65,7 @@ void gtPluginAudio::load( void ){
 
 }
 
-void gtPluginAudio::unload( void ){
+void gtPluginAudio::unload(){
 	if( m_isLoad ){
 		if( m_info.m_handle )
 			GT_FREE_LIBRARY( m_info.m_handle );

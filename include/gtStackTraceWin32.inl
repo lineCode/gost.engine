@@ -3,7 +3,7 @@
 namespace gost{
 
 	
-	GT_FORCE_INLINE void gtStackTrace::initialize( void ){
+	GT_FORCE_INLINE void gtStackTrace::initialize(){
 		if( !m_is_initialized ){
 			//m_mutex = gtMainSystem::getInstance()->createMutex();
 			//m_mutex->lock();
@@ -26,7 +26,7 @@ namespace gost{
 		}
 	}
 
-	GT_FORCE_INLINE void gtStackTrace::shutdown( void ){
+	GT_FORCE_INLINE void gtStackTrace::shutdown(){
 		if( m_is_initialized ){
 			if( !SymCleanup( GetCurrentProcess() ) ){
 				m_log->print(gtLog::msgType::warning, u"%s", u"Can not free memory. Error code [%u]", GetLastError() );

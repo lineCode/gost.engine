@@ -42,7 +42,7 @@ namespace gost{
 	public:
 
 			// c-tor
-		gtGameObject( void ):
+		gtGameObject():
 			m_id( -1 ),
 			m_parent( nullptr ),
 			m_scene( nullptr ),
@@ -56,23 +56,23 @@ namespace gost{
 		}
 
 			// d-tor
-		virtual ~gtGameObject( void ){
+		virtual ~gtGameObject(){
 		}
 
-		virtual gtObjectType		getType( void ) = 0;
+		virtual gtObjectType		getType() = 0;
 
-		virtual void				update( void ) = 0;
+		virtual void				update() = 0;
 
-		virtual void				render( void ) = 0;
+		virtual void				render() = 0;
 
-		virtual gtAabb*				getAabb( void ) = 0;
-		virtual gtObb*				getObb( void ) = 0;
+		virtual gtAabb*				getAabb() = 0;
+		virtual gtObb*				getObb() = 0;
 
-		virtual const v3f&			getPosition( void ){
+		virtual const v3f&			getPosition(){
 			return m_position;
 		}
 
-		virtual v3f			getPositionInSpace( void ){
+		virtual v3f			getPositionInSpace(){
 			return m_worldMatrixAbsolute[ 3 ].getV3();
 		}
 
@@ -96,11 +96,11 @@ namespace gost{
 			}
 		}
 
-		virtual const v3f&			getRotation( void ){
+		virtual const v3f&			getRotation(){
 			return m_rotation;
 		}
 
-		virtual const v3f&			getScale( void ){
+		virtual const v3f&			getScale(){
 			return m_scale;
 		}
 
@@ -115,11 +115,11 @@ namespace gost{
 			recalculateBV();
 		}
 
-		virtual const gtQuaternion& getOrientation( void ){
+		virtual const gtQuaternion& getOrientation(){
 			return m_orientation;
 		}
 
-		virtual void recalculateBV( void ){
+		virtual void recalculateBV(){
 			gtObb * obb = getObb();
 			if( obb ){				
 				gtMatrix4 R, S;
@@ -161,11 +161,11 @@ namespace gost{
 		}
 
 
-		virtual const gtMatrix4&	getAbsoluteWorldMatrix( void ){
+		virtual const gtMatrix4&	getAbsoluteWorldMatrix(){
 			return m_worldMatrixAbsolute;
 		}
 
-		virtual const gtMatrix4&	getWorldMatrix( void ){
+		virtual const gtMatrix4&	getWorldMatrix(){
 			return m_worldMatrix;
 		}
 
@@ -177,7 +177,7 @@ namespace gost{
 			m_worldMatrix = m;
 		}
 
-		virtual const gtStringA&	getName( void ){
+		virtual const gtStringA&	getName(){
 			return m_name;
 		}
 
@@ -185,7 +185,7 @@ namespace gost{
 			m_name = n;
 		}
 
-		virtual s32					getID( void ){
+		virtual s32					getID(){
 			return m_id;
 		}
 
@@ -207,11 +207,11 @@ namespace gost{
 			}
 		}
 
-		virtual gtGameObject * getParent( void ) const {
+		virtual gtGameObject * getParent() const {
 			return m_parent;
 		}
 
-		virtual gtList<gtGameObject*>&	getChildList( void ){
+		virtual gtList<gtGameObject*>&	getChildList(){
 			return m_childs;
 		}
 
@@ -237,7 +237,7 @@ namespace gost{
 			}
 		}
 
-		virtual bool isVisible( void ){
+		virtual bool isVisible(){
 			return m_isVisible;
 		}
 
@@ -249,15 +249,15 @@ namespace gost{
 			m_isBV = v;
 		}
 
-		virtual bool isShowBV( void ){
+		virtual bool isShowBV(){
 			return m_isBV;
 		}
 
-		virtual const f32& getBVSphereRadius( void ) const {
+		virtual const f32& getBVSphereRadius() const {
 			return m_sphereRadius;
 		}
 
-		virtual gtBoundingVolumeType getBVType( void ) const {
+		virtual gtBoundingVolumeType getBVType() const {
 			return m_BVType;
 		}
 

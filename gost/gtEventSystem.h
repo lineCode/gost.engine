@@ -22,24 +22,24 @@ namespace gost{
 	public:
 
 		gtEventSystem( gtEventConsumer* uc = nullptr );
-		virtual ~gtEventSystem( void );
+		virtual ~gtEventSystem();
 
-		void				getKeyboardAndMouseStates( void );
+		void				getKeyboardAndMouseStates();
 
-		gtEventConsumer*	getConsumer( void );
+		gtEventConsumer*	getConsumer();
 
-		void				runEventLoop( void );
+		void				runEventLoop();
 
 		bool				pollEvent( gtEvent& event );
 		bool				isKeyDown( gtKey key );
-		void				resetEvents( void );
+		void				resetEvents();
 
 		void				addEvent( const gtEvent&, u8 prior );
 
-		bool				isLMBDown( void );
-		bool				isRMBDown( void );
-		bool				isMMBDown( void );
-		const gtVector2<u16>& getCursorPosition( void );
+		bool				isLMBDown();
+		bool				isRMBDown();
+		bool				isMMBDown();
+		const gtVector2<u16>& getCursorPosition();
 	};
 
 	//	=============================================================
@@ -47,8 +47,8 @@ namespace gost{
 	class gtEngineEventConsumer : public gtEventConsumer{
 	public:
 
-		gtEngineEventConsumer( void );
-		virtual ~gtEngineEventConsumer( void );
+		gtEngineEventConsumer();
+		virtual ~gtEngineEventConsumer();
 		
 		void processEvent( const gtEvent& ev );
 

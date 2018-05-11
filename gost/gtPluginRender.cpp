@@ -6,7 +6,7 @@ gtPluginRender::gtPluginRender( gtPluginInfoDL* info ){
 	m_info = *info;
 }
 
-gtPluginRender::~gtPluginRender( void ){
+gtPluginRender::~gtPluginRender(){
 	if( m_isLoad ) unload();
 }
 
@@ -22,7 +22,7 @@ gtDriver * gtPluginRender::loadDriver( const gtDriverInfo& params ){
 	return nullptr;
 }
 
-const gtPluginInfoDL&	gtPluginRender::getInfo( void ){
+const gtPluginInfoDL&	gtPluginRender::getInfo(){
 	return m_info;
 }
 
@@ -41,7 +41,7 @@ bool gtPluginRender::checkLibraryFunctions(){
 	return true;
 }
 
-void gtPluginRender::load( void ){
+void gtPluginRender::load(){
 
 	if( !m_isLoad ){
 	
@@ -65,7 +65,7 @@ void gtPluginRender::load( void ){
 
 }
 
-void gtPluginRender::unload( void ){
+void gtPluginRender::unload(){
 	if( m_isLoad ){
 		if( m_info.m_handle )
 			GT_FREE_LIBRARY( m_info.m_handle );

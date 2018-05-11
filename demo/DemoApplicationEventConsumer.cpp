@@ -3,7 +3,7 @@
 demo::DemoApplicationEventConsumer::DemoApplicationEventConsumer( DemoApplicationContext c ):m_context( c ){
 	memset( m_keys, 0, 256u );
 }
-demo::DemoApplicationEventConsumer::~DemoApplicationEventConsumer( void ){
+demo::DemoApplicationEventConsumer::~DemoApplicationEventConsumer(){
 }
 
 void demo::DemoApplicationEventConsumer::processEvent( const gtEvent& ev ){

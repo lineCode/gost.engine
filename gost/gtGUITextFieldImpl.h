@@ -23,30 +23,30 @@ namespace gost{
 		gtPtr<gtGUIShape>			m_backgroundShape;
 		gtArray<gtGUIStaticText*>	m_textWords;
 
-		void update( void );
+		void update();
 
 	public:
 
 		gtGUITextFieldImpl( gtDriver* d );
-		virtual ~gtGUITextFieldImpl( void );
+		virtual ~gtGUITextFieldImpl();
 
 		bool		init( const v4i& rect, gtGUIFont* font, bool fh, bool fw );
 		
 		void		setFont( gtGUIFont * font );
 		void		setFont( const gtPtr<gtGUIFont>& font );
 		void		setText( const gtString& text );
-		const gtString& getText( void );
+		const gtString& getText();
 		void		setTextColor( const gtColor& color );
 		void		setBackgroundVisible( bool value );
 		void		setBackgroundColor( const gtColor& color );
-		void		clear( void );
-		gtGUIShape* getBackgroundShape( void );
+		void		clear();
+		gtGUIShape* getBackgroundShape();
 
-		void		render( void );
+		void		render();
 		void		setOpacity( f32 opacity = 1.f );
-		f32			getOpacity( void );
+		f32			getOpacity();
 
-		const v4i&	getRect( void );
+		const v4i&	getRect();
 	};
 
 }

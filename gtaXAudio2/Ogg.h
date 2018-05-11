@@ -5,7 +5,7 @@
 
 struct Ogg{
 	
-	Ogg( void ):
+	Ogg():
 		m_position( 0 )
 	{
 	}
@@ -17,7 +17,7 @@ struct Ogg{
 		
 	}
 
-	~Ogg( void ){
+	~Ogg(){
 		
 
 	}
@@ -25,10 +25,10 @@ struct Ogg{
 	gtAudioSourceImpl* read( gtAudioSourceInfo info );
 
 	bool	getInfo( gtAudioSourceInfo& info );
-	void	closeStream( void );
+	void	closeStream();
 	bool	prepareToStreaming( IXAudio2SourceVoice*	sourceVoice,  gtAudioState *state);
 	void	setPos( f32 p );
-	f32		getPos( void );
+	f32		getPos();
 
 	gtFile	  * m_file		= nullptr;
 	gtString	m_fileName;

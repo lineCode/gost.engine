@@ -15,15 +15,15 @@ namespace gost{
 		gtGUIShapeType m_shapeType;
 	public:
 
-		virtual ~gtGUIShape( void ){}
+		virtual ~gtGUIShape(){}
 
 		virtual void setColor( const gtColor& color ) = 0;
 
 		virtual void setTexture( gtTexture* texture ) = 0;
-		virtual gtTexture* getTexture( void ) = 0;
-		virtual gtMaterial* getMaterial( void ) = 0;
+		virtual gtTexture* getTexture() = 0;
+		virtual gtMaterial* getMaterial() = 0;
 
-		virtual gtGUIShapeType getShapeType( void ){
+		virtual gtGUIShapeType getShapeType(){
 			return m_shapeType;
 		}
 	};

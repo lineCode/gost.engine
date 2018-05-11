@@ -10,19 +10,19 @@ namespace gost{
 	
 	public:
 
-		gtRefObject( void ) : m_count( 1U ){}
+		gtRefObject() : m_count( 1U ){}
 
-		virtual ~gtRefObject( void ){}
+		virtual ~gtRefObject(){}
 
-		u32 getReferenceCount( void ) const {
+		u32 getReferenceCount() const {
 			return m_count;
 		}
 
-		void addRef( void ) const {
+		void addRef() const {
 			++m_count;
 		}
 
-		void release( void ) const {
+		void release() const {
 			--m_count;
 			if( !m_count ){
 				delete this;

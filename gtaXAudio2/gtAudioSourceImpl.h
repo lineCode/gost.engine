@@ -5,12 +5,12 @@ class gtAudioSourceImpl : public gtAudioSource{
 
 public:
 
-	gtAudioSourceImpl( void );
-	~gtAudioSourceImpl( void );
+	gtAudioSourceImpl();
+	~gtAudioSourceImpl();
 
-	void updateData( void );	
+	void updateData();	
 
-	XAUDIO2_BUFFER&	getXAUDIO2_BUFFER( void ){
+	XAUDIO2_BUFFER&	getXAUDIO2_BUFFER(){
 		return m_xaudio2Buffer;
 	}
 

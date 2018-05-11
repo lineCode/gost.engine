@@ -8,17 +8,17 @@ gtStaticObjectImpl::gtStaticObjectImpl( gtRenderModel* model ):
 	m_obb = *m_model->getObb();
 }
 
-gtStaticObjectImpl::~gtStaticObjectImpl( void ){
+gtStaticObjectImpl::~gtStaticObjectImpl(){
 }
 
 
 //	=================================					gtGameObject
-gtObjectType		gtStaticObjectImpl::getType( void ){
+gtObjectType		gtStaticObjectImpl::getType(){
 	return m_type;
 }
 
 
-void				gtStaticObjectImpl::update( void ){
+void				gtStaticObjectImpl::update(){
 
 	gtMatrix4 translationMatrix;
 	math::makeTranslationMatrix( translationMatrix, m_position );
@@ -46,7 +46,7 @@ void				gtStaticObjectImpl::update( void ){
 	
 }
 
-void				gtStaticObjectImpl::render( void ){
+void				gtStaticObjectImpl::render(){
 	GT_ASSERT1( m_model, "m_model is not valid", "m_model != nullptr" );
 	
 	m_model->render();
@@ -54,15 +54,15 @@ void				gtStaticObjectImpl::render( void ){
 
 
 
-gtRenderModel*	gtStaticObjectImpl::getModel( void ){
+gtRenderModel*	gtStaticObjectImpl::getModel(){
 	return m_model;
 }
 
-gtAabb* gtStaticObjectImpl::getAabb( void ){
+gtAabb* gtStaticObjectImpl::getAabb(){
 	return &m_aabb;
 }
 
-gtObb* gtStaticObjectImpl::getObb( void ){
+gtObb* gtStaticObjectImpl::getObb(){
 	return &m_obb;
 }
 

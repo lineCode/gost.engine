@@ -251,7 +251,7 @@ bool	Ogg::prepareToStreaming(
 	return true;
 }
 
-void	Ogg::closeStream( void ){
+void	Ogg::closeStream(){
 	m_playBackCommand = PlayBackCommand::PBC_STOP;
 	if( m_thread.data() ){
 		m_thread->join();
@@ -265,7 +265,7 @@ void	Ogg::setPos( f32 p ){
 	m_playBackCommand	=	PlayBackCommand::PBC_SETPOS;
 }
 
-f32		Ogg::getPos( void ){
+f32		Ogg::getPos(){
 	return m_position * (1.0 / m_time);
 }
 

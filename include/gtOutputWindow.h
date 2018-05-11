@@ -7,21 +7,21 @@ namespace gost{
 	class gtOutputWindow : public gtRefObject {
 	public:
 
-		virtual	void	init( void ) = 0;
+		virtual	void	init() = 0;
 
-		virtual void	shutdown( void ) = 0;
+		virtual void	shutdown() = 0;
 
-		virtual bool	isInit( void ) = 0;
+		virtual bool	isInit() = 0;
 
-		virtual void	show( void ) = 0;
+		virtual void	show() = 0;
 
-		virtual void	hide( void ) = 0;
+		virtual void	hide() = 0;
 
 		virtual void	print( const gtString& text ) = 0;
 
 		virtual void	setWindowText( const gtString& title ) = 0;
 		
-		virtual bool	isShow( void ) = 0;
+		virtual bool	isShow() = 0;
 	};
 
 }

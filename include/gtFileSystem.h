@@ -37,7 +37,7 @@ namespace gost{
 
 		
 
-		virtual gtTextFileInfo	getTextFileInfo( void ) = 0;
+		virtual gtTextFileInfo	getTextFileInfo() = 0;
 
 		virtual void	setTextFileInfo( gtTextFileInfo info ) = 0;
 			
@@ -49,13 +49,13 @@ namespace gost{
 
 		virtual void	write( const gtString32& string ) = 0;
 
-		virtual void	flush( void ) = 0;
+		virtual void	flush() = 0;
 
 		virtual u64		read( u8 * data, u64 size ) = 0;
 
-		virtual u64		size( void ) = 0;
+		virtual u64		size() = 0;
 
-		virtual u64		tell( void ) = 0;
+		virtual u64		tell() = 0;
 
 		enum SeekPos{
 
@@ -150,7 +150,7 @@ namespace gost{
 
 		struct DirObject{
 			
-			DirObject( void ){
+			DirObject(){
 				memset( path, 0u, GT_MAX_PATH * sizeof(wchar_t) );
 			}
 
@@ -163,15 +163,15 @@ namespace gost{
 
 		GT_API static void scanDirBegin( gtString dir );
 
-		GT_API static void scanDirEnd( void );
+		GT_API static void scanDirEnd();
 
 		GT_API static bool getDirObject( DirObject* inout );
 
 		GT_API static bool copyFile( const gtString& existingFileName, const gtString& newFileName, bool overwrite );
 
-		GT_API static gtString getProgramPath( void );
+		GT_API static gtString getProgramPath();
 
-		GT_API static gtString getSystemPath( void );
+		GT_API static gtString getSystemPath();
 
 		GT_API static gtString getRealPath( const gtString& in );
 

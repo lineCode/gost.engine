@@ -15,11 +15,11 @@ m_material( nullptr ){
 	m_shapeType = gtGUIShapeType::Rectangle;
 }
 
-gtGUIShapeImpl::~gtGUIShapeImpl( void ){
+gtGUIShapeImpl::~gtGUIShapeImpl(){
 	if( m_model ) m_model->release();
 }
 
-void gtGUIShapeImpl::render( void ){
+void gtGUIShapeImpl::render(){
 	if( m_model )
 	if( m_driver ){
 		m_driver->drawModel( m_model );
@@ -30,7 +30,7 @@ void gtGUIShapeImpl::setOpacity( f32 opacity ){
 	m_material->opacity = opacity;
 }
 
-f32  gtGUIShapeImpl::getOpacity( void ){
+f32  gtGUIShapeImpl::getOpacity(){
 	return m_material->opacity;
 }
 
@@ -38,7 +38,7 @@ void gtGUIShapeImpl::setColor( const gtColor& color ){
 	m_material->textureLayer[ 0u ].diffuseColor = color;
 }
 
-gtMaterial* gtGUIShapeImpl::getMaterial( void ){
+gtMaterial* gtGUIShapeImpl::getMaterial(){
 	return m_material;
 }
 
@@ -114,7 +114,7 @@ void gtGUIShapeImpl::setTexture( gtTexture* texture ){
 	m_material->textureLayer[ 0u ].texture = texture;
 }
 
-gtTexture* gtGUIShapeImpl::getTexture( void ){
+gtTexture* gtGUIShapeImpl::getTexture(){
 	return m_material->textureLayer[ 0u ].texture;
 }
 

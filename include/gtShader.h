@@ -30,7 +30,7 @@ namespace gost{
 	class gtShader : public gtRefObject {
 	public:
 
-		virtual gtShaderModel	getShaderModel( void ) = 0;
+		virtual gtShaderModel	getShaderModel() = 0;
 
 		virtual bool	createShaderObject( u32 byteSize ) = 0;
 
@@ -40,10 +40,10 @@ namespace gost{
 	public:
 
 			// c-tor
-		gtShaderProcessing( void ){}
+		gtShaderProcessing(){}
 
 			// d-tor
-		virtual ~gtShaderProcessing( void ){}
+		virtual ~gtShaderProcessing(){}
 
 			// \param un: uniform name
 			// \param v: value

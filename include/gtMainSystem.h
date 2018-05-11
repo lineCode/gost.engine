@@ -36,7 +36,7 @@ namespace gost{
 	struct gtDeviceCreationParameters{
 
 			// c-tor
-		gtDeviceCreationParameters( void ):
+		gtDeviceCreationParameters():
 			m_outputWindow( nullptr ),
 			m_consumer( nullptr )
 		{
@@ -53,7 +53,7 @@ namespace gost{
 		}
 
 			// d-tor
-		~gtDeviceCreationParameters( void ){}
+		~gtDeviceCreationParameters(){}
 
 			// Font for output window
 		gtString			m_fontName;
@@ -71,21 +71,21 @@ namespace gost{
 	public:
 
 			//	send command for stop engine
-		virtual void shutdown( void ) = 0;
+		virtual void shutdown() = 0;
 
 			// check is engine run
 			//	\return \b true if run
-		virtual bool isRun( void ) = 0;
+		virtual bool isRun() = 0;
 
 			//	get output window
 			//	\return output window
-		virtual gtOutputWindow* getOutputWindow( void ) = 0;
+		virtual gtOutputWindow* getOutputWindow() = 0;
 
 			//	\return logger
-		virtual gtLog*		getLog( void ) = 0;
+		virtual gtLog*		getLog() = 0;
 
 			//	\return \b true if engine run
-		virtual	bool	update( void ) = 0;
+		virtual	bool	update() = 0;
 
 		virtual gtPtr<gtAudioSystem> createAudioSystem( const GT_GUID& uid ) = 0;
 
@@ -101,26 +101,26 @@ namespace gost{
 
 		virtual gtPtr<gtImage>	loadImage( const gtString& fileName, const GT_GUID& pluginGUID ) = 0;
 
-		virtual u32			getTime( void ) = 0;
+		virtual u32			getTime() = 0;
 
-		virtual gtTimer*	getTimer( void ) = 0;
+		virtual gtTimer*	getTimer() = 0;
 
 		virtual void		addEvent( const gtEvent& ev, u8 prior = 0u ) = 0;
 
 
-		virtual gtModelSystem*	getModelSystem( void ) = 0;
+		virtual gtModelSystem*	getModelSystem() = 0;
 
-		virtual gtPluginSystem*	getPluginSystem( void ) = 0;
+		virtual gtPluginSystem*	getPluginSystem() = 0;
 
 		virtual gtSceneSystem*	getSceneSystem( gtDriver * currentRenderDriver ) = 0;
 
 		virtual gtGUISystem*	getGUISystem( gtDriver * currentRenderDriver ) = 0;
 
-		virtual const gtMatrix4& getMatrixWorld( void ) = 0;
+		virtual const gtMatrix4& getMatrixWorld() = 0;
 
-		virtual const gtMatrix4& getMatrixView( void ) = 0;
+		virtual const gtMatrix4& getMatrixView() = 0;
 
-		virtual const gtMatrix4& getMatrixProjection( void ) = 0;
+		virtual const gtMatrix4& getMatrixProjection() = 0;
 
 		virtual void setMatrixWorld( const gtMatrix4& m ) = 0;
 
@@ -137,48 +137,48 @@ namespace gost{
 
 			//	Left mouse button down
 			//	\return \b true if down
-		virtual bool isLMBDown( void ) = 0;
+		virtual bool isLMBDown() = 0;
 
 			//	Right mouse button down
 			//	\return \b true if down
-		virtual bool isRMBDown( void ) = 0;
+		virtual bool isRMBDown() = 0;
 
 			//	Middle mouse button down
 			//	\return \b true if down
-		virtual bool isMMBDown( void ) = 0;
+		virtual bool isMMBDown() = 0;
 
 			//	Get cursor position
 			//	\return position
-		virtual const gtVector2<u16>& getCursorPosition( void ) = 0;
+		virtual const gtVector2<u16>& getCursorPosition() = 0;
 
 			//	Get params
-		virtual const gtDeviceCreationParameters& getDeviceCreationParameters( void ) = 0;
+		virtual const gtDeviceCreationParameters& getDeviceCreationParameters() = 0;
 
 			//	Create thread object
-		virtual gtPtr<gtThread> createThread( void ) = 0;
+		virtual gtPtr<gtThread> createThread() = 0;
 
-		virtual gtPtr<gtMutex> createMutex( void ) = 0;
+		virtual gtPtr<gtMutex> createMutex() = 0;
 
 		virtual gtPtr<gtXMLDocument> XMLRead( const gtString& file ) = 0;
 
 		virtual void XMLWrite( const gtString& file, gtXMLNode* rootNode, bool utf8 = false ) = 0;
 
-		virtual u32 getLoadedVideoDriverCount( void ) = 0;
+		virtual u32 getLoadedVideoDriverCount() = 0;
 
 		virtual gtDriver* getLoadedVideoDriver( u32 id ) = 0;
 
-		virtual gtDriver* getMainVideoDriver( void ) = 0;
+		virtual gtDriver* getMainVideoDriver() = 0;
 
 		virtual void setMainVideoDriver( gtDriver* d ) = 0;
 
 		virtual gtPtr<gtGameController> createGameContoller( const GT_GUID& plugin ) = 0;
 
-		virtual v2i getScreenSize( void ) = 0;
+		virtual v2i getScreenSize() = 0;
 
 			// Engine send `System event` when timer = 0
 		virtual void setTimer( u32 milliseconds ) = 0;
 
-		GT_API static gtMainSystem* getInstance( void );
+		GT_API static gtMainSystem* getInstance();
 
 
 	};

@@ -20,7 +20,7 @@ namespace gost{
 	public:
 
 			//	c-tor
-		gtAnimation( void ):
+		gtAnimation():
 			m_loopSegment(0u,0u),
 			m_frames( 0u ),
 			m_currentFrame( 0u ),
@@ -32,7 +32,7 @@ namespace gost{
 
 			//	is reverse play
 			// \return \b true if reverse play
-		bool isReverse( void ) const {
+		bool isReverse() const {
 			return m_reverse;
 		}
 
@@ -43,12 +43,12 @@ namespace gost{
 		}
 
 			//	increase frame count
-		void addFrame( void ){
+		void addFrame(){
 			++m_frames;
 		}
 
 			//	set active next frame
-		void stepFrame( void ){
+		void stepFrame(){
 
 			if( m_reverse ){
 				if( m_currentFrame == 0u || m_currentFrame == m_loopSegment.x ){
@@ -64,13 +64,13 @@ namespace gost{
 
 			//	get count of frames
 			// \return count
-		u32	getFrameCount( void ) const {
+		u32	getFrameCount() const {
 			return m_frames;
 		}
 
 			// get current frame id
 			//	\return current frame
-		u32	getCurrentFrame( void ) const {
+		u32	getCurrentFrame() const {
 			return m_currentFrame;
 		}
 
@@ -84,7 +84,7 @@ namespace gost{
 
 			// get frame rate
 			// \return frame rate
-		f32	getFrameRate( void ) const {
+		f32	getFrameRate() const {
 			return m_frameRate;
 		}
 
@@ -96,13 +96,13 @@ namespace gost{
 
 			// is loop
 			// \return \b true if animation is looped
-		bool isLoop( void ) const {
+		bool isLoop() const {
 			return m_isLoop;
 		}
 
 			// is play
 			// \return \b true if animation is played
-		bool isPlay( void ) const {
+		bool isPlay() const {
 			return m_isPlay;
 		}
 
@@ -122,23 +122,23 @@ namespace gost{
 		}
 
 			// play animation
-		void play( void ){
+		void play(){
 			m_isPlay = true;
 		}
 		
 			// pause animation
-		void pause( void ){
+		void pause(){
 			m_isPlay = false;
 		}
 
 			// stop animation
-		void stop( void ){
+		void stop(){
 			m_isPlay = false;
 			m_currentFrame = 0u;
 		}
 
 			// clear animation
-		void clear( void ){
+		void clear(){
 			m_frames = 0u;
 			m_currentFrame = 0u;
 			m_frameRate = 60.f;
@@ -149,7 +149,7 @@ namespace gost{
 
 			// get loop segment
 			// \return current loop segment
-		const v2u& getLoopSegment( void ){
+		const v2u& getLoopSegment(){
 			return m_loopSegment;
 		}
 

@@ -1,26 +1,26 @@
 #include "common.h"
 
-gtDummyObjectImpl::gtDummyObjectImpl( void ):
+gtDummyObjectImpl::gtDummyObjectImpl():
 	m_type( gtObjectType::DUMMY )
 {
 }
 
-gtDummyObjectImpl::~gtDummyObjectImpl( void ){
+gtDummyObjectImpl::~gtDummyObjectImpl(){
 }
 
-gtObjectType		gtDummyObjectImpl::getType( void ){
+gtObjectType		gtDummyObjectImpl::getType(){
 	return m_type;
 }
 
-gtAabb*				gtDummyObjectImpl::getAabb( void ){
+gtAabb*				gtDummyObjectImpl::getAabb(){
 	return nullptr;
 }
 
-gtObb*				gtDummyObjectImpl::getObb( void ){
+gtObb*				gtDummyObjectImpl::getObb(){
 	return nullptr;
 }
 
-void				gtDummyObjectImpl::update( void ){
+void				gtDummyObjectImpl::update(){
 	gtMatrix4 translationMatrix;
 	math::makeTranslationMatrix( translationMatrix, m_position );
 
@@ -50,7 +50,7 @@ void				gtDummyObjectImpl::update( void ){
 
 }
 
-void				gtDummyObjectImpl::render( void ){}
+void				gtDummyObjectImpl::render(){}
 
 /*
 Copyright (c) 2018 532235

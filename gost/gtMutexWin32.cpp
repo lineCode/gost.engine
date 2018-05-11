@@ -2,21 +2,21 @@
 
 #if defined(GT_PLATFORM_WIN32)
 
-gtMutexWin32::gtMutexWin32( void ){
+gtMutexWin32::gtMutexWin32(){
 	m_isInitialized = true;
 	InitializeCriticalSection( &m_cSection );
 }
 
-gtMutexWin32::~gtMutexWin32( void ){
+gtMutexWin32::~gtMutexWin32(){
 	m_isInitialized = false;
 	DeleteCriticalSection( &m_cSection );
 }
 
-void gtMutexWin32::lock( void ){
+void gtMutexWin32::lock(){
 	EnterCriticalSection( &m_cSection );
 }
 
-void gtMutexWin32::unlock( void ){
+void gtMutexWin32::unlock(){
 	LeaveCriticalSection( &m_cSection );
 }
 

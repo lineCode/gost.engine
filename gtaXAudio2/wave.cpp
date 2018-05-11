@@ -190,7 +190,7 @@ bool	Wave::prepareToStreaming(
 	return true;
 }
 
-void	Wave::closeStream( void ){
+void	Wave::closeStream(){
 	if( m_thread.data() ){
 		m_thread->join();
 		m_thread->release();

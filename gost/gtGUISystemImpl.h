@@ -9,12 +9,12 @@ namespace gost{
 
 	public:
 
-		gtGUISystemImpl( void );
-		~gtGUISystemImpl( void );
+		gtGUISystemImpl();
+		~gtGUISystemImpl();
 		
 
 		gtPtr<gtGUIFont>		createFont( const gtString& fontName, gtImage * fromImage = nullptr );
-		gtPtr<gtGUIFont>		createBuiltInFont( void );
+		gtPtr<gtGUIFont>		createBuiltInFont();
 		gtPtr<gtGUIStaticText>  createStaticText( const gtString& text, s32 positionX, s32 positionY, gtGUIFont* font );
 		gtPtr<gtGUITextField>	createTextField( const v4i& rect, gtGUIFont* font, bool fixedHeight = true, bool fixedWidth = true );
 
@@ -22,7 +22,7 @@ namespace gost{
 
 		void					setCurrentRenderDriver( gtDriver * driver );
 		
-		void					init( void );
+		void					init();
 
 	};
 

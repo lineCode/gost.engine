@@ -24,7 +24,7 @@ namespace gost{
 	class gtTimer : public gtRefObject{
 	public:
 
-		virtual gtRealTime	getRealTime( void ) = 0;
+		virtual gtRealTime	getRealTime() = 0;
 	};
 
 

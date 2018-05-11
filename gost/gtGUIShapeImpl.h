@@ -17,18 +17,18 @@ namespace gost{
 	public:
 
 		gtGUIShapeImpl( gtDriver * );
-		~gtGUIShapeImpl( void );
+		~gtGUIShapeImpl();
 		
 		bool		initRectangle( const v4i& rect, const gtColor& color );
 
-		void		render( void );
+		void		render();
 		void		setOpacity( f32 opacity = 1.f );
-		f32			getOpacity( void );
+		f32			getOpacity();
 
 		void		setColor( const gtColor& color );
 		void		setTexture( gtTexture* texture );
-		gtTexture*	getTexture( void );
-		gtMaterial* getMaterial( void );
+		gtTexture*	getTexture();
+		gtMaterial* getMaterial();
 	};
 
 }

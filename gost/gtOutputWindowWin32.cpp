@@ -9,16 +9,16 @@
 #define GT_MENU_ID_OUTPUT_EDIT_CLEAR 2
 #define GT_MENU_ID_OUTPUT_VIEW_HIDE 3
 
-gtOutputWindowWin32::gtOutputWindowWin32( void ) : m_isInit( false ), m_isShown( true ),
+gtOutputWindowWin32::gtOutputWindowWin32() : m_isInit( false ), m_isShown( true ),
 m_hWnd( nullptr ){
 	memset( &m_wc, 0, sizeof( m_wc ) );
 }
 
-gtOutputWindowWin32::~gtOutputWindowWin32( void ){
+gtOutputWindowWin32::~gtOutputWindowWin32(){
 	shutdown();
 }
 
-void	gtOutputWindowWin32::init( void ){
+void	gtOutputWindowWin32::init(){
 
 	if( m_isInit ) return;
 
@@ -121,7 +121,7 @@ void	gtOutputWindowWin32::init( void ){
 }
 
 
-void	gtOutputWindowWin32::shutdown( void ){
+void	gtOutputWindowWin32::shutdown(){
 	DeleteObject( m_wc.hbrBackground );
 	DeleteObject( m_hbrEditBackground );
 	RemoveFontResource( L"consola.TTF" );
@@ -132,12 +132,12 @@ void	gtOutputWindowWin32::shutdown( void ){
 }
 
 
-bool	gtOutputWindowWin32::isInit( void ){
+bool	gtOutputWindowWin32::isInit(){
 	return m_isInit;
 }
 
 
-void	gtOutputWindowWin32::show( void ){
+void	gtOutputWindowWin32::show(){
 	if( m_isInit ){
 		ShowWindow( m_hWnd, SW_SHOWNORMAL );
 		UpdateWindow( m_hWnd );
@@ -146,7 +146,7 @@ void	gtOutputWindowWin32::show( void ){
 }
 
 
-void	gtOutputWindowWin32::hide( void ){
+void	gtOutputWindowWin32::hide(){
 	if( m_isInit )
 		ShowWindow( m_hWnd, SW_HIDE );
 	m_isShown = false;
@@ -174,7 +174,7 @@ void	gtOutputWindowWin32::print( const gtString& text ){
 	}
 }
 
-bool	gtOutputWindowWin32::isShow( void ){
+bool	gtOutputWindowWin32::isShow(){
 	return m_isShown;
 }
 
@@ -246,11 +246,11 @@ LRESULT CALLBACK gtOutputWindowWin32::OutWndProc( HWND hWnd, UINT uMsg, WPARAM w
     return DefWindowProc( hWnd, uMsg, wParam, lParam );
 }
 
-void gtOutputWindowWin32::clear_buffer( void ){
+void gtOutputWindowWin32::clear_buffer(){
 	SetWindowText( m_hWndBuffer, L"" );
 }
 
-void gtOutputWindowWin32::save( void ){
+void gtOutputWindowWin32::save(){
 #ifdef _MSC_VER
 	IFileDialog *pfd;
     if(SUCCEEDED(CoCreateInstance(CLSID_FileSaveDialog, NULL, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&pfd)))){

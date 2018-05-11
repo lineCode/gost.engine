@@ -2,14 +2,14 @@
 
 #include "BuiltInFont.hpp"
 
-gtGUISystemImpl::gtGUISystemImpl( void ):
+gtGUISystemImpl::gtGUISystemImpl():
 m_driver( nullptr )
 {}
 
-gtGUISystemImpl::~gtGUISystemImpl( void ){
+gtGUISystemImpl::~gtGUISystemImpl(){
 }
 
-void gtGUISystemImpl::init( void ){
+void gtGUISystemImpl::init(){
 }
 
 void gtGUISystemImpl::setCurrentRenderDriver( gtDriver * driver ){
@@ -47,7 +47,7 @@ gtPtr<gtGUIFont> gtGUISystemImpl::createFont( const gtString& fontName, gtImage 
 	return gtPtr<gtGUIFont>( font.data() );
 }
 
-gtPtr<gtGUIFont> gtGUISystemImpl::createBuiltInFont( void ){
+gtPtr<gtGUIFont> gtGUISystemImpl::createBuiltInFont(){
 	gtImage * fontImage = new gtImage;
 
 	fontImage->bits = 1u;

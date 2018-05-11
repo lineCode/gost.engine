@@ -3,11 +3,11 @@
 #include "common.h"
 
 
-gtLogImpl::gtLogImpl( void )
+gtLogImpl::gtLogImpl()
 : m_msgType(msgType::info),
 m_out( nullptr ){}
 
-gtLogImpl::~gtLogImpl( void ){
+gtLogImpl::~gtLogImpl(){
 }
 
 	//	%f - float

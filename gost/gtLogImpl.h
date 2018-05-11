@@ -12,8 +12,8 @@ namespace gost{
 
 
 	public:
-		gtLogImpl( void );
-		virtual ~gtLogImpl( void );
+		gtLogImpl();
+		virtual ~gtLogImpl();
 
 		void print( msgType, const char16_t* str, ... ) GT_FINAL;
 		void print( msgType, const char16_t* str, void * );

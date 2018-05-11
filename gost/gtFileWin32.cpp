@@ -84,7 +84,7 @@ m_pointerPosition( 0u )
 }
 
 
-gtFileWin32::~gtFileWin32( void ){
+gtFileWin32::~gtFileWin32(){
 	if( m_handle ){
 		CloseHandle( m_handle );
 		m_handle = nullptr;
@@ -92,7 +92,7 @@ gtFileWin32::~gtFileWin32( void ){
 }
 
 
-gtTextFileInfo	gtFileWin32::getTextFileInfo( void ){
+gtTextFileInfo	gtFileWin32::getTextFileInfo(){
 	return this->m_textInfo;
 }
 
@@ -204,7 +204,7 @@ void	gtFileWin32::write( const gtString32& string ){
 		m_pointerPosition += string.size() * sizeof(char32_t);
 }
 
-void	gtFileWin32::flush( void ){
+void	gtFileWin32::flush(){
 	if( m_handle ){
 		FlushFileBuffers( m_handle );
 	}
@@ -227,7 +227,7 @@ u64	gtFileWin32::read( u8 * data, u64 size ){
 	return 0u;
 }
 
-u64		gtFileWin32::size( void ){
+u64		gtFileWin32::size(){
 	if( !m_handle ){
 		gtLogWriter::printWarning( u"Can not get file size. m_handle == nullptr" );
 		return 0u;
@@ -236,7 +236,7 @@ u64		gtFileWin32::size( void ){
 }
 
 
-u64		gtFileWin32::tell( void ){
+u64		gtFileWin32::tell(){
 	return m_pointerPosition;
 }
 

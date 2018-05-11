@@ -53,7 +53,7 @@ namespace gost{
 
 	protected:
 
-		void updateTimer( void );
+		void updateTimer();
 
 		gtPtr<gtOutputWindow>		m_output_window;
 		gtList< gtPtr< gtWindow > > m_windowCache;
@@ -82,18 +82,18 @@ namespace gost{
 
 		static gtFileSystemCommon*	s_fileSystem;
 
-		gtMainSystemCommon( void );
-		virtual ~gtMainSystemCommon( void );
+		gtMainSystemCommon();
+		virtual ~gtMainSystemCommon();
 
 		static gtPtr<gtLogImpl> s_log;
 		
-		bool		isRun( void );
-		gtLog*		getLog( void );
-		void		initStackTracer( void );
-		void		initEventSystem( void );
+		bool		isRun();
+		gtLog*		getLog();
+		void		initStackTracer();
+		void		initEventSystem();
 
-		static gtMainSystemCommon * getInstance( void );
-		gtStackTrace*				getStackTracer( void );
+		static gtMainSystemCommon * getInstance();
+		gtStackTrace*				getStackTracer();
 		gtPtr<gtAudioSystem>		createAudioSystem( const GT_GUID& uid );
 		gtPtr<gtDriver>				createVideoDriver( /*gtPlugin* videoDriverPlugin,*/ const gtDriverInfo&, const GT_GUID& uid );
 
@@ -104,29 +104,29 @@ namespace gost{
 		gtPtr<gtImage>	loadImage( const gtString& fileName );
 		gtPtr<gtImage>	loadImage( const gtString& fileName, const GT_GUID& pluginGUID );
 		void			addEvent( const gtEvent&, u8 prior = 0u );
-		gtModelSystem*	getModelSystem( void );
-		gtPluginSystem*	getPluginSystem( void );
+		gtModelSystem*	getModelSystem();
+		gtPluginSystem*	getPluginSystem();
 		gtSceneSystem*	getSceneSystem( gtDriver * currentRenderDriver );
 		gtGUISystem*	getGUISystem( gtDriver * currentRenderDriver );
 
-		const gtMatrix4& getMatrixWorld( void );
-		const gtMatrix4& getMatrixView( void );
-		const gtMatrix4& getMatrixProjection( void );
+		const gtMatrix4& getMatrixWorld();
+		const gtMatrix4& getMatrixView();
+		const gtMatrix4& getMatrixProjection();
 		void setMatrixWorld( const gtMatrix4& );
 		void setMatrixView( const gtMatrix4& );
 		void setMatrixProjection( const gtMatrix4& );
 
 		bool pollEvent( gtEvent& event );
 		bool isKeyPressed( gtKey key );
-		bool isLMBDown( void );
-		bool isRMBDown( void );
-		bool isMMBDown( void );
-		const gtVector2<u16>&				getCursorPosition( void );
-		const gtDeviceCreationParameters&	getDeviceCreationParameters( void );
+		bool isLMBDown();
+		bool isRMBDown();
+		bool isMMBDown();
+		const gtVector2<u16>&				getCursorPosition();
+		const gtDeviceCreationParameters&	getDeviceCreationParameters();
 
 		gtPtr<gtXMLDocument>	XMLRead( const gtString& file );
 		void					XMLWrite( const gtString& file, gtXMLNode* rootNode, bool utf8 = false );
-		u32						getLoadedVideoDriverCount( void );
+		u32						getLoadedVideoDriverCount();
 		gtDriver*				getLoadedVideoDriver( u32 id );
 		gtDriver*				getMainVideoDriver();
 		void					setMainVideoDriver( gtDriver* d );

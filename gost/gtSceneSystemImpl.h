@@ -18,8 +18,8 @@ namespace gost{
 
 	public:
 
-		gtSceneSystemImpl( void );
-		virtual ~gtSceneSystemImpl( void );
+		gtSceneSystemImpl();
+		virtual ~gtSceneSystemImpl();
 
 		gtDummyObject*	addDummyObject( const v3f& position = v3f(), const gtStringA& name = gtStringA(), s32 id = -1 );
 		gtStaticObject*	addStaticObject( gtRenderModel* model, const v3f& position = v3f(), const gtStringA& name = gtStringA(), s32 id = -1 );
@@ -27,13 +27,13 @@ namespace gost{
 		gtCamera*		addCamera2D( const v4f& viewport, s32 id = -1, bool setActive = true );
 		gtSprite*		addSprite( gtTexture * texture, const v2f& size, const v3f& position = v3f(0.f,0.f,5.f), bool asBillboard = false );
 
-		gtCamera*		getActiveCamera( void );
+		gtCamera*		getActiveCamera();
 		void			setActiveCamera( gtCamera* camera );
 
-		gtGameObject*	getRootObject( void );
+		gtGameObject*	getRootObject();
 		void			removeObject( gtGameObject* object );
-		void			renderScene( void );
-		void			clearScene( void );
+		void			renderScene();
+		void			clearScene();
 
 		void			setCurrentRenderDriver( gtDriver * driver );
 	};

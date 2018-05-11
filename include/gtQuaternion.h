@@ -12,7 +12,7 @@ namespace gost{
 		f32 x, y, z, w;
 
 			//	c-tor
-		gtQuaternion( void ){
+		gtQuaternion(){
 			identity();
 		}
 
@@ -53,13 +53,13 @@ namespace gost{
 
 			//	get quaternion in gtVector4f form
 			//	\return vector
-		v4f	get( void ) const {
+		v4f	get() const {
 			return v4f( x, y, z, w );
 		}
 
 			//	get real part
 			//	\return real part
-		f32	getReal( void ) const {
+		f32	getReal() const {
 			return w;
 		}
 
@@ -105,7 +105,7 @@ namespace gost{
 		}
 
 			//	reset quaternion
-		void identity( void ){
+		void identity(){
 			x = 0.f;
 			y = 0.f;
 			z = 0.f;
@@ -188,7 +188,7 @@ namespace gost{
 
 			//	invert
 			// \return new quaternion
-		gtQuaternion operator-( void ){
+		gtQuaternion operator-(){
 			x = -x;
 			y = -y;
 			z = -z;
@@ -197,13 +197,13 @@ namespace gost{
 
 			//	length
 			// \return length
-		f32	getLength( void ){
+		f32	getLength(){
 			return std::sqrt( x*x+y*y+z*z+w*w );
 		}
 
 			//	normalize
 			// \return normalized quaternion
-		gtQuaternion& normalize( void ){
+		gtQuaternion& normalize(){
 			f32 len = this->getLength();
 			if( len ){
 				f32 len2 = 1.f / len;
@@ -216,7 +216,7 @@ namespace gost{
 		}
 
 			//	invert
-		void invert( void ){
+		void invert(){
 			x = -x;
 			y = -y;
 			z = -z;

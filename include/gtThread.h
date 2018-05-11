@@ -23,13 +23,13 @@ namespace gost{
 	public:
 	
 			// Constructor
-		gtThread( void ):
+		gtThread():
 			m_status( gtThreadStatus::not_started ),
 			m_id( 0u )
 		{};
 
 			//	Destructor
-		virtual ~gtThread( void ){};
+		virtual ~gtThread(){};
 
 
 		typedef void * (GT_CDECL *StartFunction)(void*);
@@ -43,19 +43,19 @@ namespace gost{
 		virtual bool start( StartFunction f, void* args, u32 stackSize = 0 ) = 0;
 
 			//	Wait for the thread will be complete.
-		virtual void join( void ) = 0;
+		virtual void join() = 0;
 
 			//	Get handle
 			//	\return handle
-		virtual void * getHandle( void ) = 0;
+		virtual void * getHandle() = 0;
 
 			//	Get current status
 			//	\return \see gtThreadStatus
-		gtThreadStatus status( void ){ return m_status; }
+		gtThreadStatus status(){ return m_status; }
 
 			// Get thread id
 			//	\return thread id
-		u32	id( void ){ return m_id; }
+		u32	id(){ return m_id; }
 
 	};
 

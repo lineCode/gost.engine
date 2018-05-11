@@ -5,35 +5,41 @@
 	Print in output window all supported picture and 3d model formats
 */
 
+class demo::DemoApplication;
 class DemoExample_GetSupportedImportFormats : public demo::DemoExample{
 	gtMainSystem * m_mainSystem;
+	demo::DemoApplication*	m_demoApp;
 public:
 
 	DemoExample_GetSupportedImportFormats();
+	DemoExample_GetSupportedImportFormats( demo::DemoApplication * );
 	~DemoExample_GetSupportedImportFormats();
 
-	bool Init( void );
-	void Restart( void );
-	void Shutdown( void );
-	void Update( void );
+	bool Init();
+	void Restart();
+	void Shutdown();
+	void Update();
 	void Input( f32 );
-	void Render( void );
-	void Render2D( void );
+	void Render();
+	void Render2D();
 };
 
 DemoExample_GetSupportedImportFormats::DemoExample_GetSupportedImportFormats(){}
+DemoExample_GetSupportedImportFormats::DemoExample_GetSupportedImportFormats( demo::DemoApplication * app ):
+	m_demoApp(app)
+{}
 DemoExample_GetSupportedImportFormats::~DemoExample_GetSupportedImportFormats(){}
 
-bool DemoExample_GetSupportedImportFormats::Init( void ){
+bool DemoExample_GetSupportedImportFormats::Init(){
 	m_mainSystem = gtMainSystem::getInstance();
 	return true;
 }
 
-void DemoExample_GetSupportedImportFormats::Restart( void ){}
-void DemoExample_GetSupportedImportFormats::Shutdown( void ){}
+void DemoExample_GetSupportedImportFormats::Restart(){}
+void DemoExample_GetSupportedImportFormats::Shutdown(){}
 void DemoExample_GetSupportedImportFormats::Input( f32 ){}
-void DemoExample_GetSupportedImportFormats::Render( void ){}
-void DemoExample_GetSupportedImportFormats::Render2D( void ){}
+void DemoExample_GetSupportedImportFormats::Render(){}
+void DemoExample_GetSupportedImportFormats::Render2D(){}
 
 void DemoExample_GetSupportedImportFormats::Update(){
 	gtArray<gtString> arr;
@@ -56,6 +62,8 @@ void DemoExample_GetSupportedImportFormats::Update(){
 	for( u32 i = 0u; i < sz; ++i ){
 		gtLogWriter::printInfo( u"\t%s", arr[ i ].data() );
 	}
+
+	m_demoApp->StopDemo();
 }
 
 

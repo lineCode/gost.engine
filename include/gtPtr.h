@@ -10,13 +10,13 @@ namespace gost{
 		Type * m_pointer;
 	
 	protected:
-		gtPtrNew( void ) : m_pointer( nullptr ) {}
+		gtPtrNew() : m_pointer( nullptr ) {}
 
 	public:
 
 		gtPtrNew( Type* o ) : m_pointer( o ){}
 
-		Type*	data( void ) const {
+		Type*	data() const {
 			return m_pointer;
 		}
 	};
@@ -28,7 +28,7 @@ namespace gost{
 
 	public:
 	
-		gtPtr( void ) : m_pointer( nullptr) {}
+		gtPtr() : m_pointer( nullptr) {}
 
 		gtPtr( const gtPtr& ptr ){
 			if( ptr.m_pointer ){
@@ -87,7 +87,7 @@ namespace gost{
 			m_pointer = rp.m_pointer;
 		}
 
-		Type* data( void ) const {
+		Type* data() const {
 			return m_pointer;
 		}
 

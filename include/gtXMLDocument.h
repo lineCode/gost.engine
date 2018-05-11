@@ -54,7 +54,7 @@ namespace gost{
 	};
 
 	struct gtXPathToken{
-		gtXPathToken( void ):
+		gtXPathToken():
 		    m_type( gtXPathTokenType::NONE ),
 		    m_axis(gtXPathAxis::NONE),
 		    m_number( 0.f )
@@ -87,7 +87,7 @@ namespace gost{
 	};
 
 	struct gtXMLNode : public gtRefObject {
-		gtXMLNode( void ){}
+		gtXMLNode(){}
 		gtXMLNode( const gtString& Name ):
 			name( Name )
 		{}
@@ -98,7 +98,7 @@ namespace gost{
 			nodeList = node.nodeList;
 		}
 
-		~gtXMLNode( void ){
+		~gtXMLNode(){
 			clear();
 		}
 
@@ -139,7 +139,7 @@ namespace gost{
 			return nullptr;
 		}
 
-		void clear( void ){
+		void clear(){
 			name.clear();
 			text.clear();
 			u32 sz = attributeList.size();
@@ -158,11 +158,11 @@ namespace gost{
 	class gtXMLDocument : public gtRefObject{
 	public:
 
-		virtual gtXMLNode* getRootNode( void ) = 0;
+		virtual gtXMLNode* getRootNode() = 0;
 
-		virtual void print( void ) = 0;
+		virtual void print() = 0;
 
-		virtual const gtString& getText( void ) = 0;
+		virtual const gtString& getText() = 0;
 
 		virtual gtArray<gtXMLNode*> selectNodes( const gtString& XPath_expression ) = 0;
 	};

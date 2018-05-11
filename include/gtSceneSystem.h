@@ -62,7 +62,7 @@ namespace gost{
 
 			// Get active camera
 			// \return active camera
-		virtual gtCamera*		getActiveCamera( void ) = 0;
+		virtual gtCamera*		getActiveCamera() = 0;
 
 			// Set active camera
 			// \param camera: new active camera
@@ -72,17 +72,17 @@ namespace gost{
 			//	You can change transformation, and all childs change transformations too
 			// \return Main object in virtual scene
 			// \remark do not release or use gtPtr
-		virtual gtGameObject*	getRootObject( void ) = 0;
+		virtual gtGameObject*	getRootObject() = 0;
 
 			// Remove object from scene. Also remove all childs.
 			// \param object: object for remove
 		virtual void removeObject( gtGameObject* object ) = 0;
 
 			//	Render all objects, which added by method with "add" prefix
-		virtual void renderScene( void ) = 0;
+		virtual void renderScene() = 0;
 
 			//	Remove objects from scene
-		virtual void clearScene( void ) = 0;
+		virtual void clearScene() = 0;
 
 		virtual void setCurrentRenderDriver( gtDriver * driver ) = 0;
 

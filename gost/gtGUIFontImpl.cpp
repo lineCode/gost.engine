@@ -7,7 +7,7 @@ m_height(0u){
 	m_type = gtGUIObjectType::Font;
 }
 
-gtGUIFontImpl::~gtGUIFontImpl( void ){
+gtGUIFontImpl::~gtGUIFontImpl(){
 	u32 sz = m_chars.size();
 	for( u32 i = 0u; i < sz; ++i ){
 
@@ -19,7 +19,7 @@ gtGUIFontImpl::~gtGUIFontImpl( void ){
 
 void gtGUIFontImpl::render(){}
 void gtGUIFontImpl::setOpacity( f32 ){}
-f32  gtGUIFontImpl::getOpacity( void ){return 1.f;}
+f32  gtGUIFontImpl::getOpacity(){return 1.f;}
 
 gtVector4<u16>* gtGUIFontImpl::getRect( char16_t c ){
 	if( m_chars[ (u16)c ] )
@@ -271,11 +271,11 @@ bool gtGUIFontImpl::initFromSystem( const gtString& /*font*/ ){
 	return true;
 }
 
-u32 gtGUIFontImpl::getWidth( void ){
+u32 gtGUIFontImpl::getWidth(){
 	return m_width;
 }
 
-u32 gtGUIFontImpl::getHeight( void ){
+u32 gtGUIFontImpl::getHeight(){
 	return m_height;
 }
 

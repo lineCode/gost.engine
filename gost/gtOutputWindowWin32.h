@@ -16,22 +16,22 @@ namespace gost{
 		
 		static LRESULT CALLBACK
 					OutWndProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam );
-		void		clear_buffer( void );
-		void		save( void );
+		void		clear_buffer();
+		void		save();
 
 	public:
 
-		gtOutputWindowWin32( void );
-		virtual ~gtOutputWindowWin32( void );
+		gtOutputWindowWin32();
+		virtual ~gtOutputWindowWin32();
 
-		void	init( void ) GT_FINAL;
-		void	shutdown( void ) GT_FINAL;
-		bool	isInit( void ) GT_FINAL;
-		void	show( void ) GT_FINAL;
-		void	hide( void ) GT_FINAL;
+		void	init() GT_FINAL;
+		void	shutdown() GT_FINAL;
+		bool	isInit() GT_FINAL;
+		void	show() GT_FINAL;
+		void	hide() GT_FINAL;
 		void	print( const gtString& ) GT_FINAL;
 		void	setWindowText( const gtString& ) GT_FINAL;
-		bool	isShow( void );
+		bool	isShow();
 
 		HWND	m_hWndBuffer;
 		HBRUSH	m_hbrEditBackground;

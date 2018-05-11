@@ -7,9 +7,9 @@ namespace gost{
 	class gtMutex : public gtRefObject{
 	public:
 	
-		virtual void lock( void ) = 0;
+		virtual void lock() = 0;
 
-		virtual void unlock( void ) = 0;
+		virtual void unlock() = 0;
 
 	};
 

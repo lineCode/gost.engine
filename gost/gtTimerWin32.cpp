@@ -4,13 +4,13 @@
 
 #if defined(GT_PLATFORM_WIN32)
 
-gtTimerWin32::gtTimerWin32( void ){
+gtTimerWin32::gtTimerWin32(){
 }
 
-gtTimerWin32::~gtTimerWin32( void ){
+gtTimerWin32::~gtTimerWin32(){
 }
 
-gtRealTime	gtTimerWin32::getRealTime( void ){
+gtRealTime	gtTimerWin32::getRealTime(){
 	SYSTEMTIME st;
 	GetLocalTime( &st );
 

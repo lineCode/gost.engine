@@ -11,7 +11,7 @@ gtWindowWin32::gtWindowWin32( gtWindowInfo* wi )
 
 }
 
-gtWindowWin32::~gtWindowWin32( void ){
+gtWindowWin32::~gtWindowWin32(){
 	if( m_isInit ){
 		if( m_hWnd ) DestroyWindow( m_hWnd );
 		UnregisterClass( (wchar_t*)m_className.data(), GetModuleHandle( 0 ) );
@@ -152,7 +152,7 @@ void	gtWindowWin32::setWindowTitle( const gtString& title ){
 	}
 }
 
-void*	gtWindowWin32::getHandle( void ){
+void*	gtWindowWin32::getHandle(){
 	return (void*)m_hWnd;
 }
 
@@ -357,6 +357,11 @@ LRESULT CALLBACK gtWindowWin32::WndProc(HWND hWnd, UINT message, WPARAM wParam, 
 		ev.type   = gtEventType::Window;
 		ev.windowEvent.eventID = GT_EVENT_WINDOW_MOVE;
 		ev.windowEvent.window  = pD;
+		if( pD ){
+			if( pD->f_onMove ){
+				pD->f_onMove();
+			}
+		}
 	break;
 
 	case WM_PAINT:
@@ -387,6 +392,12 @@ LRESULT CALLBACK gtWindowWin32::WndProc(HWND hWnd, UINT message, WPARAM wParam, 
 		RECT rc;
 		GetWindowRect( hWnd, &rc );
 		pD->m_params.m_rect.set( rc.left, rc.top, rc.right, rc.bottom );
+
+		if( pD ){
+			if( pD->f_onSize ){
+				pD->f_onSize();
+			}
+		}
 
 	}break;
 

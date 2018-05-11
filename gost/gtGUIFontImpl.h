@@ -28,16 +28,16 @@ namespace gost{
 	public:
 
 		gtGUIFontImpl( gtDriver * d );
-		~gtGUIFontImpl( void );
+		~gtGUIFontImpl();
 
-		u32			getWidth( void );
-		u32			getHeight( void );
+		u32			getWidth();
+		u32			getHeight();
 
 		bool		init( const gtString& font, gtImage * fromImage );
 
-		void		render( void );
+		void		render();
 		void		setOpacity( f32 );
-		f32			getOpacity( void );
+		f32			getOpacity();
 
 		gtTexture *			getTexture( u32 id );
 		u32					getTextureID( char16_t c );

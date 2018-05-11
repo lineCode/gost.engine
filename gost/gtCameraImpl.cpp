@@ -1,6 +1,6 @@
 #include "common.h"
 
-gtCameraImpl::gtCameraImpl( void ):
+gtCameraImpl::gtCameraImpl():
 	m_up( 0.f, 1.f, 0.f ),
 	m_fov( 0.785398185f ),
 	m_near( 1.f ),
@@ -10,16 +10,16 @@ gtCameraImpl::gtCameraImpl( void ):
 	m_cameraType( gtCameraType::CT_LOOK_AT )
 {}
 
-gtCameraImpl::~gtCameraImpl( void ){
+gtCameraImpl::~gtCameraImpl(){
 }
 
 
 //	=================================					gtGameObject
-gtObjectType		gtCameraImpl::getType( void ){
+gtObjectType		gtCameraImpl::getType(){
 	return m_type;
 }
 
-void				gtCameraImpl::update( void ){
+void				gtCameraImpl::update(){
 
 	gtMatrix4 translationMatrix;
 	math::makeTranslationMatrix( translationMatrix, -m_position );
@@ -40,7 +40,7 @@ void				gtCameraImpl::update( void ){
 	}
 }
 
-void				gtCameraImpl::render( void ){
+void				gtCameraImpl::render(){
 	switch( m_cameraType ){
 	case gost::gtCameraType::CT_LOOK_AT:{
 		math::makePerspectiveRHMatrix(
@@ -104,7 +104,7 @@ void				gtCameraImpl::render( void ){
 
 
 		//	====================================				gtCamera
-gtCameraType	gtCameraImpl::getCameraType( void ){
+gtCameraType	gtCameraImpl::getCameraType(){
 	return m_cameraType;
 }
 
@@ -112,15 +112,15 @@ void		gtCameraImpl::setCameraType( gtCameraType type ){
 	m_cameraType = type;
 }
 
-const gtMatrix4&	gtCameraImpl::getViewMatrix( void ){
+const gtMatrix4&	gtCameraImpl::getViewMatrix(){
 	return m_viewMatrix;
 }
 
-const gtMatrix4&	gtCameraImpl::getProjectionMatrix( void ){
+const gtMatrix4&	gtCameraImpl::getProjectionMatrix(){
 	return m_projectionMatrix;
 }
 
-const v3f&			gtCameraImpl::getTarget( void ){
+const v3f&			gtCameraImpl::getTarget(){
 	return m_target;
 }
 
@@ -128,7 +128,7 @@ void				gtCameraImpl::setTarget( const v3f& t ){
 	m_target = t;
 }
 
-const v3f&			gtCameraImpl::getUpVector( void ){
+const v3f&			gtCameraImpl::getUpVector(){
 	return m_up;
 }
 
@@ -152,19 +152,19 @@ void gtCameraImpl::setFOV( f32 v ){
 	m_fov = v;
 }
 
-f32	gtCameraImpl::getNear( void ){
+f32	gtCameraImpl::getNear(){
 	return m_near;
 }
 
-f32	gtCameraImpl::getFar( void ){
+f32	gtCameraImpl::getFar(){
 	return m_far;
 }
 
-f32	gtCameraImpl::getAspect( void ){
+f32	gtCameraImpl::getAspect(){
 	return m_aspect;
 }
 
-f32	gtCameraImpl::getFOV( void ){
+f32	gtCameraImpl::getFOV(){
 	return m_fov;
 }
 
@@ -173,11 +173,11 @@ void gtCameraImpl::setViewPort( const v4f& v ){
 }
 
 
-gtCameraFrustum* gtCameraImpl::getFrustum( void ){
+gtCameraFrustum* gtCameraImpl::getFrustum(){
 	return &m_frustum;
 }
 
-void gtCameraImpl::calculateFrustum( void ){
+void gtCameraImpl::calculateFrustum(){
 
 	f32 *proj = m_projectionMatrix.getPtr();
 	f32 *modl = m_viewMatrix.getPtr();
@@ -242,10 +242,10 @@ void gtCameraImpl::calculateFrustum( void ){
 
 }
 
-gtAabb*	gtCameraImpl::getAabb( void ){
+gtAabb*	gtCameraImpl::getAabb(){
 	return nullptr;
 }
-gtObb*	gtCameraImpl::getObb( void ){
+gtObb*	gtCameraImpl::getObb(){
 	return nullptr;
 }
 

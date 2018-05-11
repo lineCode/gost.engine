@@ -26,13 +26,13 @@ namespace gost{
 	class gtTexture : public gtRefObject {
 	public:
 
-		virtual gtTextureType	getType( void ) = 0;
+		virtual gtTextureType	getType() = 0;
 
 			// \return width
-		virtual u32				getWidth( void ) = 0;
+		virtual u32				getWidth() = 0;
 
 			// \return height
-		virtual u32				getHeight( void ) = 0;
+		virtual u32				getHeight() = 0;
 
 	};
 

@@ -6,7 +6,7 @@ namespace gost{
 
 		//	Information about audio
 	struct gtAudioSourceInfo{
-		gtAudioSourceInfo( void ):
+		gtAudioSourceInfo():
 			m_formatType( 0u ),
 			m_channels( 0u ),
 			m_sampleRate( 0u ),
@@ -37,13 +37,13 @@ namespace gost{
 	public:
 
 			//	Constructor
-		gtAudioSource( void ):
+		gtAudioSource():
 			m_data( nullptr ),
 			m_dataSize( 0u )
 		{}
 
 			//	Destructor
-		virtual ~gtAudioSource( void ){
+		virtual ~gtAudioSource(){
 			if( m_data ){
 				delete []m_data;
 			}
@@ -64,7 +64,7 @@ namespace gost{
 		}
 
 			//	Get info
-		const gtAudioSourceInfo& getInfo( void ) const {
+		const gtAudioSourceInfo& getInfo() const {
 			return m_info;
 		}
 
@@ -74,12 +74,12 @@ namespace gost{
 		}
 
 			// Get raw data
-		u8	*	getData( void ){
+		u8	*	getData(){
 			return m_data;
 		}
 
 			//	Get data size
-		u32 getDataSize( void ){
+		u32 getDataSize(){
 			return m_dataSize;
 		}
 

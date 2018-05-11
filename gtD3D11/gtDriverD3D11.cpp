@@ -42,17 +42,17 @@ gtDriverD3D11::gtDriverD3D11( /*gtMainSystem* System,*/ gtDriverInfo params ):
 
 gtDriverD3D11* gtDriverD3D11::s_instance = nullptr;
 
-gtDriverD3D11*	gtDriverD3D11::getInstance( void ){
+gtDriverD3D11*	gtDriverD3D11::getInstance(){
 	return s_instance;
 }
-gtTexture * gtDriverD3D11::getStandartTexture( void ){
+gtTexture * gtDriverD3D11::getStandartTexture(){
 	return m_standartTexture.data();
 }
-gtTexture * gtDriverD3D11::getStandartTextureWhiteColor( void ){
+gtTexture * gtDriverD3D11::getStandartTextureWhiteColor(){
 	return m_standartTextureWhiteColor.data();
 }
 
-gtDriverD3D11::~gtDriverD3D11( void ){
+gtDriverD3D11::~gtDriverD3D11(){
 
 	clearTextureCache();
 	clearModelCache();
@@ -130,11 +130,11 @@ gtDriverD3D11::~gtDriverD3D11( void ){
 
 }
 
-HMODULE gtDriverD3D11::getD3DLibraryHandle( void ){
+HMODULE gtDriverD3D11::getD3DLibraryHandle(){
 	return m_D3DLibrary;
 }
 
-ID3D11Device * gtDriverD3D11::getD3DDevice( void ){
+ID3D11Device * gtDriverD3D11::getD3DDevice(){
 	return m_d3d11Device;
 }
 
@@ -146,7 +146,7 @@ void	gtDriverD3D11::setDepthState( bool state ){
 	}
 }
 
-ID3D11DeviceContext * gtDriverD3D11::getD3DDeviceContext( void ){
+ID3D11DeviceContext * gtDriverD3D11::getD3DDeviceContext(){
 	return m_d3d11DevCon;
 }
 
@@ -156,7 +156,7 @@ void gtDriverD3D11::setActiveShader( gtShader* shader ){
 	m_d3d11DevCon->PSSetShader( ((gtShaderImpl*)shader)->m_pShader, 0, 0 );
 }
 
-bool gtDriverD3D11::initialize( void ){
+bool gtDriverD3D11::initialize(){
 
 	if( !m_params.m_outWindow ){
 		gtLogWriter::printError( u"No render out window." );
@@ -417,7 +417,7 @@ bool gtDriverD3D11::initialize( void ){
 	return createShaders();
 }
 
-void	gtDriverD3D11::createStandartTexture( void ){
+void	gtDriverD3D11::createStandartTexture(){
 	{
 		gtImage * i = new gtImage;
 		i->bits = 24u;
@@ -491,7 +491,7 @@ void gtDriverD3D11::beginRender( bool _clearRenderTarget, const gtColor& color )
 	}
 }
 
-void gtDriverD3D11::endRender( void ){
+void gtDriverD3D11::endRender(){
 	if( m_beginRender ){
 		
 		if( m_params.m_vSync )
@@ -979,7 +979,7 @@ gtPtr<gtRenderModel>	gtDriverD3D11::createModel( gtModel* m ){
 }
 
 
-bool	gtDriverD3D11::createShaders( void ){
+bool	gtDriverD3D11::createShaders(){
 	gtShaderModel shaderModel;
 	shaderModel.pixelShaderModel = gtShaderModel::shaderModel::_5_0;
 	shaderModel.vertexShaderModel = gtShaderModel::shaderModel::_5_0;
@@ -1037,7 +1037,7 @@ bool	gtDriverD3D11::createShaders( void ){
 	return true;
 }
 
-void	gtDriverD3D11::applyScissor( void ){
+void	gtDriverD3D11::applyScissor(){
 	m_d3d11DevCon->RSSetScissorRects( m_scissorRects.size(), (D3D11_RECT*)m_scissorRects.data() );
 }
 

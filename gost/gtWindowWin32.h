@@ -12,13 +12,14 @@ namespace gost{
 		gtString	m_className;
 		bool		m_isInit;
 
+
 	public:
 		gtWindowWin32( gtWindowInfo* );
-		virtual ~gtWindowWin32( void );
+		virtual ~gtWindowWin32();
 
 		bool	init( u32 i );
 		void	setWindowTitle( const gtString& ) GT_FINAL;
-		void*	getHandle( void ) GT_FINAL;
+		void*	getHandle() GT_FINAL;
 
 		static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 	};

@@ -10,14 +10,14 @@ namespace gost{
 	};
 
 	struct gtGameControllerDeviceImpl : public gtGameControllerDevice{
-		gtGameControllerDeviceImpl( void ):
+		gtGameControllerDeviceImpl():
 			m_gamepad( nullptr )
 		{
 			caps.dwSize = sizeof(caps);
 			mainSystem = gtMainSystem::getInstance();
 		}
 
-		virtual ~gtGameControllerDeviceImpl( void ){
+		virtual ~gtGameControllerDeviceImpl(){
 		}
 
 		gtMainSystem * mainSystem;
@@ -94,19 +94,19 @@ namespace gost{
 		DI_ENUM_CONTEXT m_context;
 	public:
 
-		gtGameControllerImpl( void );
-		~gtGameControllerImpl( void );
+		gtGameControllerImpl();
+		~gtGameControllerImpl();
 	
 
-		bool init( void );
+		bool init();
 
-		LPDIRECTINPUT8 getDI( void );
+		LPDIRECTINPUT8 getDI();
 		void addGamepad( const DIDEVICEINSTANCE* pdidInstance, LPDIRECTINPUTDEVICE8 );
 
 
-		u32 getNumOfActiveDevices( void );
+		u32 getNumOfActiveDevices();
 		gtGameControllerDevice*	getControllerDevice( u32 id );
-		void update( void );
+		void update();
 	};
 	
 

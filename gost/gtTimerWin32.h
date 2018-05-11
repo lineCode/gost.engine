@@ -11,10 +11,10 @@ namespace gost{
 	class gtTimerWin32 GT_FINAL : public gtTimer{
 	public:
 
-		gtTimerWin32( void );
-		virtual ~gtTimerWin32( void );
+		gtTimerWin32();
+		virtual ~gtTimerWin32();
 
-		gtRealTime	getRealTime( void ) GT_FINAL;
+		gtRealTime	getRealTime() GT_FINAL;
 		
 	};
 

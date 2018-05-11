@@ -9,11 +9,11 @@ namespace gost{
 
 		u8	* data;
 
-		gtVertex( void ):
+		gtVertex():
 			data( nullptr )
 		{}
 
-		~gtVertex( void ){
+		~gtVertex(){
 			if( data ) delete []data;
 		}
 

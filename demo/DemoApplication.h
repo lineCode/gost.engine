@@ -58,9 +58,9 @@ namespace demo{
 		void						playAudio( DemoAudioType );
 
 		gtPtr<gtXMLDocument>		m_xml;
-		void						xmlLoadSettings( void );
-		void						xmlSaveSettings( void );
-		void						xmlCreateDrefaultSettingsFile( void );
+		void						xmlLoadSettings();
+		void						xmlSaveSettings();
+		void						xmlCreateDrefaultSettingsFile();
 		gtString					m_xmlPath;
 
 		gtTexture*					m_backgroundTexture;
@@ -88,22 +88,24 @@ namespace demo{
 		gtPtr<gtGUITextField>	m_pauseTextMainMenuShape;
 		gtPtr<gtGUITextField>	m_pauseTextExitShape;
 		s32						m_pauseMainMenuSelectedId;
-		void					updatePauseMainMenu( void );
+		void					updatePauseMainMenu();
+
 
 		bool					m_isPause;
 		bool					m_isSettings;
 		bool					m_useSound;
 		bool					m_showDescription;
+		bool					m_sceneInitialized;
 
 		gtPtr<gtGUIShape>		m_settingsBackgroundShape;
 		gtPtr<gtGUITextField>	m_settingsTextLanguage;
 		gtPtr<gtGUITextField>	m_settingsTextLanguageName;
 		gtPtr<gtGUITextField>	m_settingsTextSound;
 		gtPtr<gtGUITextField>	m_settingsTextSoundUse;
-		void					updateSettings( void );
+		void					updateSettings();
 		s16						m_settingsTypeID;
 		s16						m_demoPauseMenuID;
-		void					updateDemoPause( void );
+		void					updateDemoPause();
 
 
 		s32		m_languageID;
@@ -128,80 +130,90 @@ namespace demo{
 		bool		m_gamepadButtons[32];
 		f32			m_delta;
 
-		bool initEngine( void );
-		bool initWindow( void );
-		bool initVideoDriver( void );
-		bool initMainMenu( void );
-		bool initStrings( void );
-		void initAudio( void );
+		bool initEngine();
+		bool initWindow();
+		bool initVideoDriver();
+		bool initMainMenu();
+		bool initStrings();
+		void initAudio();
 
 
 		void addDemo( u32 index, const demo::DemoElement& element );
-		void updateDemoText( void );
-		void updateSettingsText( void );
+		void updateDemoText();
+		void updateSettingsText();
 
 		const gtString& getString( const gtString& a );
 
-		void rebuildMainMenuColons( void );
-		bool rebuildMainMenu( void );
+		void rebuildMainMenuColons();
+		bool rebuildMainMenu();
 
-		void updateColons( void );
+		void updateColons();
 
-		void inputMainMenu( void );
-		void inputMainMenuPause( void );
-		void inputDemoMenuPause( void );
+		void inputMainMenu();
+		void inputMainMenuPause();
+		void inputDemoMenuPause();
 
-		void runMainMenu( void );
-		void runDemo( void );
-		void runDemoMenu( void );
+		void runMainMenu();
+		void runDemo();
+		void runDemoMenu();
 
 
-		void renderMainMenu( void );
+		void renderMainMenu();
+		void renderDemoMenu();
+		void renderDemo();
 
 		f32 timer_input;
 		f32 timer_input_limit_first;
 		f32 timer_input_limit_second;
 		f32 timer_input_limit;
 
-		void pauseBackgroundFadeIn( void );
-		void pauseBackgroundFadeOut( void );
+		void pauseBackgroundFadeIn();
+		void pauseBackgroundFadeOut();
+
+		static DemoApplication * s_this;
 
 	public:
-		DemoApplication( void );
-		~DemoApplication( void );
+		DemoApplication();
+		~DemoApplication();
 
-		bool Init( void );
-		void Run( void );
+		bool Init();
+		void Run();
 
-		void RebuildGUI( void );
-		void ScanGamepads( void );
+		void RebuildGUI();
+		void ScanGamepads();
 		void ActivateGamepad( bool, gtGameControllerDevice* d = nullptr );
-		void UpdateGamepad( void );
+		void UpdateGamepad();
 
-		gtMainSystem	*	GetMainSystem( void );
-		demo::DemoApplicationEventConsumer	*	GetEventConsumer( void );
+		gtMainSystem	*	GetMainSystem();
+		demo::DemoApplicationEventConsumer	*	GetEventConsumer();
 		
-		bool InitDefaultScene( void );
-		void RenderDefaultScene( void );
-		void ShutdownDefaultScene( void );
+		bool InitDefaultScene();
+		void RenderDefaultScene();
+		void ShutdownDefaultScene();
 		
-		void Pause( void );
+		void Render();
+		
+		void Pause();
 
-		bool inputGamepadMainMenuUp( void );
-		bool inputGamepadMainMenuDown( void );
-		bool inputGamepadMainMenuLeft( void );
-		bool inputGamepadMainMenuRight( void );
-		bool inputGamepadMainMenuEnter( void );
-		bool inputGamepadMainMenuEscape( void );
-		bool inputGamepadMainMenuStart( void );
-		bool inputGamepadMainMenuSelect( void );
-		bool inputGamepadMainMenuSelectHold( void );
-		bool inputGamepadMainMenuUpHold( void );
-		bool inputGamepadMainMenuDownHold( void );
-		bool inputGamepadMainMenuLeftHold( void );
-		bool inputGamepadMainMenuRightHold( void );
+		bool inputGamepadMainMenuUp();
+		bool inputGamepadMainMenuDown();
+		bool inputGamepadMainMenuLeft();
+		bool inputGamepadMainMenuRight();
+		bool inputGamepadMainMenuEnter();
+		bool inputGamepadMainMenuEscape();
+		bool inputGamepadMainMenuStart();
+		bool inputGamepadMainMenuSelect();
+		bool inputGamepadMainMenuSelectHold();
+		bool inputGamepadMainMenuUpHold();
+		bool inputGamepadMainMenuDownHold();
+		bool inputGamepadMainMenuLeftHold();
+		bool inputGamepadMainMenuRightHold();
 
-		bool update( void );
+		bool update();
+
+		void StopDemo();
+
+		static DemoApplication*	GetThis();
 	};
 
 }

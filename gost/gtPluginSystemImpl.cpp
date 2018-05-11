@@ -2,13 +2,13 @@
 
 #include "common.h"
 
-gtPluginSystemImpl::gtPluginSystemImpl( void ):
+gtPluginSystemImpl::gtPluginSystemImpl():
 	m_numOfPlugins( 0u )
 {
 }
 
 
-gtPluginSystemImpl::~gtPluginSystemImpl( void ){}
+gtPluginSystemImpl::~gtPluginSystemImpl(){}
 
 
 void gtPluginSystemImpl::scanFolder( const gtString& dir ){
@@ -137,7 +137,7 @@ void gtPluginSystemImpl::scanFolder( const gtString& dir ){
 	}
 }
 
-bool gtPluginSystemImpl::init( void ){
+bool gtPluginSystemImpl::init(){
 
 	gtString pluginsDir( gtFileSystem::getProgramPath() + u"plugins/" );
 
@@ -152,7 +152,7 @@ bool gtPluginSystemImpl::init( void ){
 	return true;
 }
 
-u32	gtPluginSystemImpl::getNumOfPlugins( void ){
+u32	gtPluginSystemImpl::getNumOfPlugins(){
 	return m_numOfPlugins;
 }
 

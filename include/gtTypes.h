@@ -142,7 +142,7 @@ namespace gost{
 	};
 
 	union gtByte{
-		gtByte( void ):byte( 0u ){}
+		gtByte():byte( 0u ){}
 		gtBits bits;
 		u8 byte;
 	};

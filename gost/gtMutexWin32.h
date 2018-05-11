@@ -13,11 +13,11 @@ namespace gost{
 
 	public:
 
-		gtMutexWin32( void );
-		~gtMutexWin32( void );
+		gtMutexWin32();
+		~gtMutexWin32();
 
-		void lock( void );
-		void unlock( void );
+		void lock();
+		void unlock();
 
 	};
 

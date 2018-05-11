@@ -25,17 +25,17 @@ namespace gost{
 	public:
 
 		gtTextureD3D11( gtDriverD3D11* );
-		virtual ~gtTextureD3D11( void );
+		virtual ~gtTextureD3D11();
 
 		bool init( gtImage* image, gtTextureFilterType filter );
 
-		ID3D11ShaderResourceView* const * getResourceView( void );
-		ID3D11SamplerState*	const * getSamplerState( void );
+		ID3D11ShaderResourceView* const * getResourceView();
+		ID3D11SamplerState*	const * getSamplerState();
 
 		//	===========================================
-		gtTextureType	getType( void );
-		u32				getWidth( void );
-		u32				getHeight( void );
+		gtTextureType	getType();
+		u32				getWidth();
+		u32				getHeight();
 
 	};
 

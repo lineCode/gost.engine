@@ -10,7 +10,7 @@ gtShaderImpl::gtShaderImpl( gtDriverD3D11 * driver ):
 {}
 
 
-gtShaderImpl::~gtShaderImpl( void ){
+gtShaderImpl::~gtShaderImpl(){
 
 	auto sz = m_constantBuffers.size();
 	for( auto i = 0u; i < sz; ++i ){
@@ -249,7 +249,7 @@ bool gtShaderImpl::compileShader(
 	return true;
 }
 
-gtShaderModel	gtShaderImpl::getShaderModel( void ){
+gtShaderModel	gtShaderImpl::getShaderModel(){
 	return m_shaderModel;
 }
 

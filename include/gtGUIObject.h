@@ -18,19 +18,19 @@ namespace gost{
 		bool			m_visible;
 	public:
 
-		gtGUIObject( void ) : m_visible( true ){}
-		virtual ~gtGUIObject( void ){}
+		gtGUIObject() : m_visible( true ){}
+		virtual ~gtGUIObject(){}
 
-		virtual void render( void ) = 0;
+		virtual void render() = 0;
 
 		virtual void setOpacity( f32 opacity = 1.f ) = 0;
-		virtual f32  getOpacity( void ) = 0;
+		virtual f32  getOpacity() = 0;
 
-		virtual gtGUIObjectType getType( void ){
+		virtual gtGUIObjectType getType(){
 			return m_type;
 		}
 
-		virtual bool isVisible( void ) const {
+		virtual bool isVisible() const {
 			return m_visible;
 		}
 

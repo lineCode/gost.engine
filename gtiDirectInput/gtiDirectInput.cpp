@@ -52,7 +52,7 @@ namespace gost{
 		return DIENUM_CONTINUE;
 	}
 
-	gtGameControllerImpl::gtGameControllerImpl( void ):
+	gtGameControllerImpl::gtGameControllerImpl():
 		m_mainSystem( gtMainSystem::getInstance() ),
 		m_directInput( nullptr ),
 		m_dll(nullptr)
@@ -60,7 +60,7 @@ namespace gost{
 		m_type = gtGameControllerType::Gamepad;
 		m_context.m_di = this;
 	}
-	gtGameControllerImpl::~gtGameControllerImpl( void ){
+	gtGameControllerImpl::~gtGameControllerImpl(){
 
 		auto sz = m_gamepads.size();
 		for( u32 i = 0u; i < sz; ++i ){
@@ -78,11 +78,11 @@ namespace gost{
 			FreeLibrary( m_dll );
 	}
 
-	LPDIRECTINPUT8 gtGameControllerImpl::getDI( void ){
+	LPDIRECTINPUT8 gtGameControllerImpl::getDI(){
 		return m_directInput;
 	}
 
-	u32 gtGameControllerImpl::getNumOfActiveDevices( void ){
+	u32 gtGameControllerImpl::getNumOfActiveDevices(){
 		return m_gamepads.size();
 	}
 
@@ -196,7 +196,7 @@ namespace gost{
 		return;
 	}
 
-	void gtGameControllerImpl::update( void ){
+	void gtGameControllerImpl::update(){
 		HRESULT hr;
 		if( FAILED( hr = m_directInput->EnumDevices( DI8DEVCLASS_GAMECTRL,
                                          EnumJoysticksCallback,
@@ -214,7 +214,7 @@ namespace gost{
 		return nullptr;
 	}
 
-	bool gtGameControllerImpl::init( void ){
+	bool gtGameControllerImpl::init(){
 
 		gtString dinput_path = gtFileSystem::getSystemPath();
 		dinput_path += u"dinput8.dll";

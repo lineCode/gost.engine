@@ -41,7 +41,7 @@ void gtFileSystem::scanDirBegin( gtString dir ){
 	gtMainSystemCommon::s_fileSystem->scanDirBegin( dir2 );
 }
 			
-void gtFileSystem::scanDirEnd( void ){
+void gtFileSystem::scanDirEnd(){
 	gtMainSystemCommon::s_fileSystem->scanDirEnd();
 }
 
@@ -53,11 +53,11 @@ bool gtFileSystem::copyFile( const gtString& existingFileName, const gtString& n
 	return gtMainSystemCommon::s_fileSystem->copyFile( existingFileName, newFileName, overwrite );
 }
 
-gtString gtFileSystem::getProgramPath( void ){
+gtString gtFileSystem::getProgramPath(){
 		return gtMainSystemCommon::s_fileSystem->getProgramPath();
 }
 
-gtString gtFileSystem::getSystemPath( void ){
+gtString gtFileSystem::getSystemPath(){
 	return gtMainSystemCommon::s_fileSystem->getSystemPath();
 }
 

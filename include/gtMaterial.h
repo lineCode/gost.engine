@@ -41,7 +41,7 @@ namespace gost{
 	struct gtMaterialTextureLayer{
 
 			// c-tor
-		gtMaterialTextureLayer( void ):
+		gtMaterialTextureLayer():
 			diffuseColor( 1.f ),
 			blendOperation( gtMaterialBlendOp::BOP_SUBSTRACT ),
 			level( 1.f ),
@@ -69,7 +69,7 @@ namespace gost{
 
 	public:
 			// c-tor
-		gtMaterial( void ):
+		gtMaterial():
 			shader( nullptr ),
 			specularColor( 1.f ),
 			specularLevel( 1.f ),
@@ -84,7 +84,7 @@ namespace gost{
 		{}
 
 			// d-tor
-		~gtMaterial( void ){}
+		~gtMaterial(){}
 
 		gtShader * shader;
 

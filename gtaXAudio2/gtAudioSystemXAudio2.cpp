@@ -2,7 +2,7 @@
 
 gtAudioSystemXAudio2_7* gtAudioSystemXAudio2_7::s_instance = nullptr;
 
-gtAudioSystemXAudio2_7::gtAudioSystemXAudio2_7( void ):
+gtAudioSystemXAudio2_7::gtAudioSystemXAudio2_7():
 	m_XAudio2( nullptr ),
 	m_MasteringVoice( nullptr ),
 	m_ReverbEffect( nullptr ),
@@ -12,7 +12,7 @@ gtAudioSystemXAudio2_7::gtAudioSystemXAudio2_7( void ):
 	CoInitializeEx( NULL, COINIT_MULTITHREADED );
 }
 
-gtAudioSystemXAudio2_7::~gtAudioSystemXAudio2_7( void ){
+gtAudioSystemXAudio2_7::~gtAudioSystemXAudio2_7(){
 	
 	m_SubmixVoice->DestroyVoice();
 
@@ -24,7 +24,7 @@ gtAudioSystemXAudio2_7::~gtAudioSystemXAudio2_7( void ){
 	CoUninitialize();
 }
 
-gtAudioSystemXAudio2_7*	gtAudioSystemXAudio2_7::getInstance( void ){
+gtAudioSystemXAudio2_7*	gtAudioSystemXAudio2_7::getInstance(){
 	return s_instance;
 }
 
@@ -48,7 +48,7 @@ bool	gtAudioSystemXAudio2_7::checkFeature( gtAudioPluginFeatures feature ){
 	}
 }
 
-u32		gtAudioSystemXAudio2_7::getSupportedExtensions( void ){
+u32		gtAudioSystemXAudio2_7::getSupportedExtensions(){
 	return NUM_OF_SUPPORTED_EXTENSIONS;
 }
 
@@ -267,7 +267,7 @@ gtAudioSystemXAudio2_7::gtAudioObjectImpl::gtAudioObjectImpl( gtAudioSource * sr
 	m_callback.p_num_of_played_sounds = &m_numOfPlayedSounds;
 }
 
-gtAudioSystemXAudio2_7::gtAudioObjectImpl::~gtAudioObjectImpl( void ){
+gtAudioSystemXAudio2_7::gtAudioObjectImpl::~gtAudioObjectImpl(){
 	for( u32 i = 0u; i < m_sourceVoice.size(); ++i ){
 		m_sourceVoice[ i ]->Stop();
 		m_sourceVoice[ i ]->FlushSourceBuffers();
@@ -326,7 +326,7 @@ bool gtAudioSystemXAudio2_7::gtAudioObjectImpl::init( u32 sp ){
 
 
 
-void gtAudioSystemXAudio2_7::gtAudioObjectImpl::play( void ){
+void gtAudioSystemXAudio2_7::gtAudioObjectImpl::play(){
 
 	m_state = gtAudioState::play;
 
@@ -349,7 +349,7 @@ void gtAudioSystemXAudio2_7::gtAudioObjectImpl::play( void ){
 
 
 
-void gtAudioSystemXAudio2_7::gtAudioObjectImpl::pause( void ){
+void gtAudioSystemXAudio2_7::gtAudioObjectImpl::pause(){
 
 	if( m_state == gtAudioState::pause ){
 		gtLogWriter::printWarning( u"Can not set pause audio playback" );
@@ -368,7 +368,7 @@ void gtAudioSystemXAudio2_7::gtAudioObjectImpl::pause( void ){
 
 
 
-void gtAudioSystemXAudio2_7::gtAudioObjectImpl::stop( void ){
+void gtAudioSystemXAudio2_7::gtAudioObjectImpl::stop(){
 
 	if( m_state == gtAudioState::stop ){
 		gtLogWriter::printWarning( u"Can not stop audio playback" );
@@ -397,7 +397,7 @@ void gtAudioSystemXAudio2_7::gtAudioObjectImpl::setVolume( f32 volume ){
 		m_sourceVoice[ i ]->SetVolume( volume );
 }
 
-f32  gtAudioSystemXAudio2_7::gtAudioObjectImpl::getVolume( void ){
+f32  gtAudioSystemXAudio2_7::gtAudioObjectImpl::getVolume(){
 	return m_volume;
 }
 
@@ -409,11 +409,11 @@ void gtAudioSystemXAudio2_7::gtAudioObjectImpl::setLoop( bool loop ){
 void gtAudioSystemXAudio2_7::gtAudioObjectImpl::setAudioSource( gtAudioSource* /*source*/ ){
 }
 
-gtAudioSource* gtAudioSystemXAudio2_7::gtAudioObjectImpl::getAudioSource( void ){
+gtAudioSource* gtAudioSystemXAudio2_7::gtAudioObjectImpl::getAudioSource(){
 	return m_source;
 }
 
-void gtAudioSystemXAudio2_7::gtAudioObjectImpl::updateBuffer( void ){
+void gtAudioSystemXAudio2_7::gtAudioObjectImpl::updateBuffer(){
 	if( FAILED( m_sourceVoice[ m_currentSourceVoice ]->SubmitSourceBuffer( &m_sourceImpl->getXAUDIO2_BUFFER() ) ) ){
 		gtLogWriter::printWarning( u"SubmitSourceBuffer failed" );
 	}
@@ -435,11 +435,11 @@ gtAudioSystemXAudio2_7::gtAudioStreamImpl::gtAudioStreamImpl( IXAudio2* d ):
 	m_format( AudioFileFormat::wav )
 {}
 
-gtAudioSystemXAudio2_7::gtAudioStreamImpl::~gtAudioStreamImpl( void ){
+gtAudioSystemXAudio2_7::gtAudioStreamImpl::~gtAudioStreamImpl(){
 	close();
 }
 
-bool	gtAudioSystemXAudio2_7::gtAudioStreamImpl::close( void ){
+bool	gtAudioSystemXAudio2_7::gtAudioStreamImpl::close(){
 
 	m_wave.closeStream();
 	m_ogg.closeStream();
@@ -522,7 +522,7 @@ bool	gtAudioSystemXAudio2_7::gtAudioStreamImpl::open( const gtString& fileName )
 }
 
 
-void	gtAudioSystemXAudio2_7::gtAudioStreamImpl::play( void ){
+void	gtAudioSystemXAudio2_7::gtAudioStreamImpl::play(){
 	if( m_state != gtAudioState::play ){
 		m_ogg.m_playBackCommand = PlayBackCommand::PBC_NONE;
 		m_wave.m_playBackCommand = PlayBackCommand::PBC_NONE;
@@ -554,7 +554,7 @@ void	gtAudioSystemXAudio2_7::gtAudioStreamImpl::play( void ){
 }
 
 
-void			gtAudioSystemXAudio2_7::gtAudioStreamImpl::pause( void ){
+void			gtAudioSystemXAudio2_7::gtAudioStreamImpl::pause(){
 	if( m_state == gtAudioState::play ){
 		m_ogg.m_playBackCommand = PlayBackCommand::PBC_PAUSE;
 		m_wave.m_playBackCommand = PlayBackCommand::PBC_PAUSE;
@@ -563,7 +563,7 @@ void			gtAudioSystemXAudio2_7::gtAudioStreamImpl::pause( void ){
 }
 
 
-void			gtAudioSystemXAudio2_7::gtAudioStreamImpl::stop( void ){
+void			gtAudioSystemXAudio2_7::gtAudioStreamImpl::stop(){
 	if( m_state == gtAudioState::play ){
 		m_ogg.m_playBackCommand = PlayBackCommand::PBC_STOP;
 		m_wave.m_playBackCommand = PlayBackCommand::PBC_STOP;
@@ -576,7 +576,7 @@ void			gtAudioSystemXAudio2_7::gtAudioStreamImpl::setVolume( f32 volume ){
 	m_sourceVoice->SetVolume( m_volume );
 }
 
-f32				gtAudioSystemXAudio2_7::gtAudioStreamImpl::getVolume( void ){
+f32				gtAudioSystemXAudio2_7::gtAudioStreamImpl::getVolume(){
 	return m_volume;
 }
 
@@ -599,7 +599,7 @@ void	gtAudioSystemXAudio2_7::gtAudioStreamImpl::setPlaybackPosition( f32 positio
 	
 }
 
-f32		gtAudioSystemXAudio2_7::gtAudioStreamImpl::getPlaybackPosition( void ){
+f32		gtAudioSystemXAudio2_7::gtAudioStreamImpl::getPlaybackPosition(){
 	if( isOgg() ){
 		return m_ogg.getPos();
 	}else{
@@ -608,7 +608,7 @@ f32		gtAudioSystemXAudio2_7::gtAudioStreamImpl::getPlaybackPosition( void ){
 }
 
 void			gtAudioSystemXAudio2_7::gtAudioStreamImpl::setAudioSource( gtAudioSource* /*source*/ ){}
-gtAudioSource*	gtAudioSystemXAudio2_7::gtAudioStreamImpl::getAudioSource( void ){
+gtAudioSource*	gtAudioSystemXAudio2_7::gtAudioStreamImpl::getAudioSource(){
 	return nullptr;
 }
 

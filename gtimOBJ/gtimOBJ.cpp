@@ -27,7 +27,7 @@ extern "C"{
 		info.m_build = 31;
 	}
 
-	GT_API u32	PluginGetExtCount( void ){
+	GT_API u32	PluginGetExtCount(){
 		return GT_EXT_COUNT;
 	}
 

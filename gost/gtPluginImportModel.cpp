@@ -6,11 +6,11 @@ gtPluginImportModel::gtPluginImportModel( gtPluginInfoDL* info ){
 	m_info = *info;
 }
 
-gtPluginImportModel::~gtPluginImportModel( void ){
+gtPluginImportModel::~gtPluginImportModel(){
 	unload();
 }
 		
-void gtPluginImportModel::load( void ){
+void gtPluginImportModel::load(){
 	if( !m_isLoad ){
 
 		m_info.m_handle = GT_LOAD_LIBRARY((wchar_t*)m_info.m_path.data());
@@ -34,7 +34,7 @@ void gtPluginImportModel::load( void ){
 	}
 }
 
-void gtPluginImportModel::unload( void ){
+void gtPluginImportModel::unload(){
 	if( m_isLoad ){
 
 		if( m_info.m_handle )
@@ -44,7 +44,7 @@ void gtPluginImportModel::unload( void ){
 	}
 }
 
-const gtPluginInfoDL&	gtPluginImportModel::getInfo( void ){
+const gtPluginInfoDL&	gtPluginImportModel::getInfo(){
 	return m_info;
 }
 

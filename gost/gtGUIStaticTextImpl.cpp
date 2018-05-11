@@ -17,7 +17,7 @@ gtGUIStaticTextImpl::gtGUIStaticTextImpl( gtDriver* d ):
 	m_bgColor.set( 0.f, 0.f, 0.f, 1.f );
 }
 
-gtGUIStaticTextImpl::~gtGUIStaticTextImpl( void ){
+gtGUIStaticTextImpl::~gtGUIStaticTextImpl(){
 	clear();
 }
 
@@ -39,7 +39,7 @@ bool gtGUIStaticTextImpl::init( const gtString& text, s32 positionX, s32 positio
 	return true;
 }
 
-void gtGUIStaticTextImpl::clear( void ){
+void gtGUIStaticTextImpl::clear(){
 	m_length = 0.f;
 	m_text.clear();
 	u32 sz = m_buffers.size();
@@ -50,7 +50,7 @@ void gtGUIStaticTextImpl::clear( void ){
 	m_bufferInfo.clear();
 }
 
-void gtGUIStaticTextImpl::updateMaterial( void ){
+void gtGUIStaticTextImpl::updateMaterial(){
 	u32 sz = m_buffers.size();
 	for( u32 i = 0u; i < sz; ++i ){
 		auto * m = m_buffers[ i ]->getMaterial( 0u );
@@ -59,7 +59,7 @@ void gtGUIStaticTextImpl::updateMaterial( void ){
 	}
 }
 
-f32  gtGUIStaticTextImpl::getLength( void ){
+f32  gtGUIStaticTextImpl::getLength(){
 	return m_length;
 }
 
@@ -272,7 +272,7 @@ void gtGUIStaticTextImpl::setText( const gtString& text ){
 
 
 
-void gtGUIStaticTextImpl::updateBackground( void ){
+void gtGUIStaticTextImpl::updateBackground(){
 	gtTexture * t1 = nullptr;
 	gtColor color;
 
@@ -292,7 +292,7 @@ void gtGUIStaticTextImpl::updateBackground( void ){
 	m_backgroundShape->setColor( m_bgColor );
 }
 
-void gtGUIStaticTextImpl::render( void ){
+void gtGUIStaticTextImpl::render(){
 	u32 sz = m_buffers.size();
 	for( u32 i = 0u; i < sz; ++i ){
 		if( m_visible ){
@@ -309,7 +309,7 @@ void gtGUIStaticTextImpl::setOpacity( f32 opacity ){
 	m_backgroundShape->setOpacity( opacity );
 }
 
-f32  gtGUIStaticTextImpl::getOpacity( void ){
+f32  gtGUIStaticTextImpl::getOpacity(){
 	return m_material.opacity;
 }
 
@@ -322,7 +322,7 @@ void gtGUIStaticTextImpl::setBackgroundColor( const gtColor& color ){
 	m_bgColor = color;
 }
 
-gtGUIShape* gtGUIStaticTextImpl::getBackgroundShape( void ){
+gtGUIShape* gtGUIStaticTextImpl::getBackgroundShape(){
 	return m_backgroundShape.data();
 }
 

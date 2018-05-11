@@ -27,7 +27,7 @@ namespace gost{
 	struct gtPluginInfo{
 
 			// c-tor
-		gtPluginInfo( void ):
+		gtPluginInfo():
 			m_type( gtPluginType::unknown ),
 			m_version( 0u ),
 			m_build( 0u )
@@ -67,12 +67,12 @@ namespace gost{
 	struct gtPluginInfoDL{
 
 			// c-tor
-		gtPluginInfoDL( void ):
+		gtPluginInfoDL():
 			m_handle( nullptr )
 		{}
 
 			// d-tor
-		~gtPluginInfoDL( void ){}
+		~gtPluginInfoDL(){}
 
 		gtString m_path;
 		
@@ -97,22 +97,22 @@ namespace gost{
 	public:
 
 			// c-tor
-		gtPlugin( void ):
+		gtPlugin():
 			m_isLoad( false )
 		{}
 
 			// d-tor
-		virtual ~gtPlugin( void ){	}
+		virtual ~gtPlugin(){	}
 
-		bool isLoad( void ) const { return m_isLoad; }
+		bool isLoad() const { return m_isLoad; }
 
-		virtual void load( void ) = 0;
+		virtual void load() = 0;
 
-		virtual void unload( void ) = 0;
+		virtual void unload() = 0;
 
-		virtual const gtPluginInfoDL&	getInfo( void ) = 0;
+		virtual const gtPluginInfoDL&	getInfo() = 0;
 
-		virtual bool checkLibraryFunctions( void ) = 0;
+		virtual bool checkLibraryFunctions() = 0;
 
 	};
 

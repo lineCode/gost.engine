@@ -11,7 +11,7 @@ namespace gost{
 	public:
 
 			// c-tor
-		gtMatrix4( void ){
+		gtMatrix4(){
 			identity();
 		}
 
@@ -42,11 +42,11 @@ namespace gost{
 		}
 
 			// set all components = 0
-		void		zero( void ){
+		void		zero(){
 			fill( 0.f );
 		}
 
-		void		identity( void ){
+		void		identity(){
 			auto * p = this->getPtr();
 			p[ 0u ] = 1.f;
 			p[ 1u ] = 0.f;
@@ -72,7 +72,7 @@ namespace gost{
 
 			// get pointer
 			//	\return pointer
-		f32 *		getPtr( void ){
+		f32 *		getPtr(){
 			return reinterpret_cast<f32*>(&m_data);
 		}
 
@@ -189,7 +189,7 @@ namespace gost{
 		}
 
 			//	transpose
-		void transpose( void ){
+		void transpose(){
 			gtMatrix4 tmp;
 			tmp[ 0 ].x = this->m_data[ 0 ].x; //0
 			tmp[ 0 ].y = this->m_data[ 1 ].x; //1

@@ -42,21 +42,21 @@ namespace gost{
 
 	public:
 
-		gtList( void ):
+		gtList():
 			m_first( nullptr ),
 			m_last( nullptr ),
 			m_size( 0u ){}
-		~gtList( void ){ clear();}
+		~gtList(){ clear();}
 
 		class const_iterator;
 		class iterator{
 		public:
 			node_ptr curr;
-			iterator( void ):curr( nullptr ){}
+			iterator():curr( nullptr ){}
 			iterator( node_ptr p ):curr( p ){}
 
-			iterator&	operator++( void ){ curr = curr->m_next; return *this; }
-			iterator&	operator--( void ){ curr = curr->m_prev; return *this; }
+			iterator&	operator++(){ curr = curr->m_next; return *this; }
+			iterator&	operator--(){ curr = curr->m_prev; return *this; }
 			iterator	operator++( s32 ){ iterator tmp = *this; curr = curr->m_next; return tmp; }
 			iterator	operator--( s32 ){ iterator tmp = *this; curr = curr->m_prev; return tmp; }
 			iterator&	operator+=( s32 num ){
@@ -71,8 +71,8 @@ namespace gost{
 			iterator& operator-=( s32 num ) { return (*this)+=(-num); }
 			iterator  operator-( s32 num ) const { return (*this)+ (-num); }
 
-			element&	operator*( void ){ return curr->m_object; }
-			element*	operator->( void ){ return &curr->m_object; }
+			element&	operator*(){ return curr->m_object; }
+			element*	operator->(){ return &curr->m_object; }
 
 			bool operator==( const iterator& b ) const { return curr == b.curr; }
 			bool operator!=( const iterator& b ) const { return curr != b.curr; }
@@ -86,11 +86,11 @@ namespace gost{
 
 			node_ptr curr;
 
-			const_iterator( void ): curr( nullptr ){}
+			const_iterator(): curr( nullptr ){}
 			const_iterator( const const_iterator& it ): curr( it.curr ){}
 
-			const_iterator&	operator++( void ){ curr = curr->m_next; return *this; }
-			const_iterator&	operator--( void ){ curr = curr->m_prev; return *this; }
+			const_iterator&	operator++(){ curr = curr->m_next; return *this; }
+			const_iterator&	operator--(){ curr = curr->m_prev; return *this; }
 			const_iterator	operator++( s32 ){ const_iterator tmp = *this; curr = curr->m_next; return tmp; }
 			const_iterator	operator--( s32 ){ const_iterator tmp = *this; curr = curr->m_prev; return tmp; }
 			const_iterator&	operator+=( s32 num ){
@@ -105,8 +105,8 @@ namespace gost{
 			const_iterator& operator-=( s32 num ) { return (*this)+=(-num); }
 			const_iterator  operator-( s32 num ) const { return (*this)+ (-num); }
 
-			const element&	operator*( void ){ return curr->m_object; }
-			const element*	operator->( void ){ return &curr->m_object; }
+			const element&	operator*(){ return curr->m_object; }
+			const element*	operator->(){ return &curr->m_object; }
 
 			bool operator==( const const_iterator& b ) const { return curr == b.curr; }
 			bool operator!=( const const_iterator& b ) const { return curr != b.curr; }
@@ -116,22 +116,22 @@ namespace gost{
 			const_iterator& operator=( const iterator & it ){ curr = it.curr; return *this; }
 		};
 
-		iterator	begin( void ){
+		iterator	begin(){
 			return iterator(m_first);
 		}
-		iterator	end( void ){
+		iterator	end(){
 			return iterator( nullptr );
 		}
-		const_iterator	begin( void ) const {
+		const_iterator	begin() const {
 			return const_iterator(m_first);
 		}
-		const_iterator	end( void ) const {
+		const_iterator	end() const {
 			return const_iterator( nullptr );
 		}
 
 
 
-		void clear( void ){
+		void clear(){
 			while( m_first ){
 				node_ptr next = m_first->m_next;
 				m_allocator.destruct( m_first );
@@ -208,11 +208,11 @@ namespace gost{
 			return return_iterator;
 		}
 
-		u32 size( void ) const {
+		u32 size() const {
 			return m_size;
 		}
 
-		bool empty( void ) const {
+		bool empty() const {
 			return (m_first == nullptr);
 		}
 
@@ -228,15 +228,15 @@ namespace gost{
 			}
 		}
 
-		node_ptr getFirst( void ) const {
+		node_ptr getFirst() const {
 			return m_first;
 		}
 
-		node_ptr getLast( void ) const {
+		node_ptr getLast() const {
 			return m_last;
 		}
 
-		void pop_back( void ){
+		void pop_back(){
 			GT_ASSERT2(m_first,"m_first == nullptr");
 			if( m_first )
 				erase(iterator(m_first)+(m_size-1u));

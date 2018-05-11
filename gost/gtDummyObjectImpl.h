@@ -11,14 +11,14 @@ namespace gost{
 
 	public:
 
-		gtDummyObjectImpl( void );
-		~gtDummyObjectImpl( void );
+		gtDummyObjectImpl();
+		~gtDummyObjectImpl();
 
-		gtObjectType		getType( void );
-		void				update( void );
-		void				render( void );
-		gtAabb*				getAabb( void );
-		gtObb*				getObb( void );
+		gtObjectType		getType();
+		void				update();
+		void				render();
+		gtAabb*				getAabb();
+		gtObb*				getObb();
 	};
 
 }

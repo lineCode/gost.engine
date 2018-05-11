@@ -9,7 +9,7 @@ namespace gost{
 	struct gtWindowInfo{
 
 			// c-tor
-		gtWindowInfo( void ):
+		gtWindowInfo():
 		m_owner(nullptr){
 			m_title.assign( u"GoST window" );
 			m_rect.set( 0, 0, 800, 600 );

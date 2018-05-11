@@ -20,8 +20,8 @@ namespace gost{
 
 	public:
 
-		gtFileSystemWin32( void );
-		virtual ~gtFileSystemWin32( void );
+		gtFileSystemWin32();
+		virtual ~gtFileSystemWin32();
 
 
 		gtFile* createFile( const gtString& fileName, gtFileSystem::FileMode mode,
@@ -37,11 +37,11 @@ namespace gost{
 		bool		existDir( const gtString& dir );
 		bool		createDir( const gtString& dir );
 		void		scanDirBegin( gtString dir );
-		void		scanDirEnd( void );
+		void		scanDirEnd();
 		bool		getDirObject( gtFileSystem::DirObject* );
 		bool		copyFile( const gtString& existingFileName, const gtString& newFileName, bool overwrite );
-		gtString	getProgramPath( void );
-		gtString	getSystemPath( void );
+		gtString	getProgramPath();
+		gtString	getSystemPath();
 		gtString	getRealPath( const gtString& in );
 	};
 

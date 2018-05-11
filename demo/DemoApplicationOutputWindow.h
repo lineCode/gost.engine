@@ -9,17 +9,17 @@ namespace demo{
 		HWND m_hWnd;
 		bool m_isInit;
 	public:
-		DemoApplicationOutputWindow( void );
-		virtual ~DemoApplicationOutputWindow( void ){}
+		DemoApplicationOutputWindow();
+		virtual ~DemoApplicationOutputWindow(){}
 
-		void	init( void );
-		void	shutdown( void );
-		bool	isInit( void );
-		void	show( void );
-		void	hide( void );
+		void	init();
+		void	shutdown();
+		bool	isInit();
+		void	show();
+		void	hide();
 		void	print( const gtString& text );
 		void	setWindowText( const gtString& title );
-		bool	isShow( void );
+		bool	isShow();
 	};
 
 }

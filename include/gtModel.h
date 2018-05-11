@@ -13,22 +13,22 @@ namespace gost{
 
 		virtual gtSubModel*	getSubModel( u32 id ) = 0;
 
-		virtual u32		getSubmodelsCount( void ) = 0;
+		virtual u32		getSubmodelsCount() = 0;
 
-		virtual u32		getStride( void ) = 0;
+		virtual u32		getStride() = 0;
 
 
-		virtual gtVertexType*	getTypeArray( void ) = 0;
+		virtual gtVertexType*	getTypeArray() = 0;
 
-		virtual const gtAabb&	getAabb( void ) = 0;
+		virtual const gtAabb&	getAabb() = 0;
 
 		virtual void			setAabb( const gtAabb& aabb ) = 0;
 
-		virtual const gtObb&	getObb( void ) = 0;
+		virtual const gtObb&	getObb() = 0;
 		virtual void			setObb( const gtObb& obb ) = 0;
 
 
-		virtual void			updateBoundingVolume( void ) = 0;
+		virtual void			updateBoundingVolume() = 0;
 	};
 
 }

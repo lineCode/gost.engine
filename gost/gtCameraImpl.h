@@ -24,45 +24,45 @@ namespace gost{
 		gtCameraFrustum m_frustum;
 
 
-		void			calculateFrustum( void );
+		void			calculateFrustum();
 
 	public:
 
-		gtCameraImpl( void );
-		~gtCameraImpl( void );
+		gtCameraImpl();
+		~gtCameraImpl();
 
-		gtCameraFrustum* getFrustum( void );
+		gtCameraFrustum* getFrustum();
 
 
 		//	=================================					gtGameObject
-		gtObjectType		getType( void );
+		gtObjectType		getType();
 		
-		void				update( void );
+		void				update();
 
-		void				render( void );
+		void				render();
 		
 		//	====================================				gtCamera
-		 gtCameraType		getCameraType( void );
+		 gtCameraType		getCameraType();
 		void				setCameraType( gtCameraType type );
-		const gtMatrix4&	getViewMatrix( void );
-		const gtMatrix4&	getProjectionMatrix( void );
-		const v3f&			getTarget( void );
+		const gtMatrix4&	getViewMatrix();
+		const gtMatrix4&	getProjectionMatrix();
+		const v3f&			getTarget();
 		void				setTarget( const v3f& );
-		const v3f&			getUpVector( void );
+		const v3f&			getUpVector();
 		void				setUpVector( const v3f& );
 		void				setNear( f32 );
 		void				setFar( f32 );
 		void				setAspect( f32 );
 		void				setFOV( f32 );
-		f32					getNear( void );
-		f32					getFar( void );
-		f32					getAspect( void );
-		f32					getFOV( void );
+		f32					getNear();
+		f32					getFar();
+		f32					getAspect();
+		f32					getFOV();
 		void				setViewPort( const v4f& v );
 		//void					setZoom( f32 v );
 
-		gtAabb*				getAabb( void );
-		gtObb*				getObb( void );
+		gtAabb*				getAabb();
+		gtObb*				getObb();
 	};
 
 }

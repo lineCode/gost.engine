@@ -26,11 +26,11 @@ namespace gost{
 		virtual bool		existDir( const gtString& dir ) = 0;
 		virtual bool		createDir( const gtString& dir ) = 0;
 		virtual void		scanDirBegin( gtString dir ) = 0;
-		virtual void		scanDirEnd( void ) = 0;
+		virtual void		scanDirEnd() = 0;
 		virtual bool		getDirObject( gtFileSystem::DirObject* ) = 0;
 		virtual bool		copyFile( const gtString& existingFileName, const gtString& newFileName, bool overwrite ) = 0;
-		virtual gtString	getProgramPath( void ) = 0;
-		virtual gtString	getSystemPath( void ) = 0;
+		virtual gtString	getProgramPath() = 0;
+		virtual gtString	getSystemPath() = 0;
 		virtual gtString	getRealPath( const gtString& in ) = 0;
 	};
 

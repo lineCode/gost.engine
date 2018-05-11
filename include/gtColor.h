@@ -167,7 +167,7 @@ namespace gost{
 
 
 	public:
-		gtColor( void ){
+		gtColor(){
 			m_data[ 0u ] = m_data[ 1u ] = m_data[ 2u ] = 0.f;
 			m_data[ 3u ] = 1.f;
 		}
@@ -195,43 +195,43 @@ namespace gost{
 			setAsInteger( uint_data );
 		}
 
-		const f32 getRed( void ) const {
+		const f32 getRed() const {
 			return m_data[ 0u ];
 		}
 
-		const f32 getGreen( void ) const {
+		const f32 getGreen() const {
 			return m_data[ 1u ];
 		}
 
-		const f32 getBlue( void ) const {
+		const f32 getBlue() const {
 			return m_data[ 2u ];
 		}
 
-		const f32 getAlpha( void ) const {
+		const f32 getAlpha() const {
 			return m_data[ 3u ];
 		}
 
-		const f32 * getData( void ) const {
+		const f32 * getData() const {
 			return &m_data[ 0u ];
 		}
 
-		const u8 getAsByteRed( void ) const {
+		const u8 getAsByteRed() const {
 			return static_cast<u8>( m_data[ 0u ] * 255.f );
 		}
 
-		const u8 getAsByteGreen( void ) const {
+		const u8 getAsByteGreen() const {
 			return static_cast<u8>( m_data[ 1u ] * 255.f );
 		}
 
-		const u8 getAsByteBlue( void ) const {
+		const u8 getAsByteBlue() const {
 			return static_cast<u8>( m_data[ 2u ] * 255.f );
 		}
 
-		const u8 getAsByteAlpha( void ) const {
+		const u8 getAsByteAlpha() const {
 			return static_cast<u8>( m_data[ 3u ] * 255.f );
 		}
 
-		u32 getAsInteger( void ){
+		u32 getAsInteger(){
 			return GT_MAKEFOURCC(
 				this->getAsByteBlue(),
 				this->getAsByteGreen(),

@@ -9,10 +9,10 @@ namespace gost{
 	public:
 
 			//	default constructor
-		gtObb( void ){ }
+		gtObb(){ }
 
 			// reset
-		void reset( void ){
+		void reset(){
 			m_max = v3f();
 			m_min = m_center = m_extent = m_max;
 		}
@@ -40,7 +40,7 @@ namespace gost{
 		}
 
 			// \param v: [\b in/out] vector for size
-		void calculateBaseInfo( void ){
+		void calculateBaseInfo(){
 			m_extent = m_max - m_min;
 			m_center = m_min + m_max;       //       v6-----------v2
 			m_center *= 0.5f;				//      /|			/ |

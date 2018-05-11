@@ -21,13 +21,13 @@ namespace gost{
 		gtSubModel*		addSubModel( u32 v_count, u32 i_count, u32 stride );
 		gtSubModel*		addSubModel( gtSubModel* subModel );
 		gtSubModel*		getSubModel( u32 id );
-		u32				getSubmodelsCount( void );
-		u32				getStride( void );
-		gtVertexType*	getTypeArray( void );
-		const gtAabb&	getAabb( void );
+		u32				getSubmodelsCount();
+		u32				getStride();
+		gtVertexType*	getTypeArray();
+		const gtAabb&	getAabb();
 		void			setAabb( const gtAabb& );
-		void			updateBoundingVolume( void );
-		const gtObb&	getObb( void );
+		void			updateBoundingVolume();
+		const gtObb&	getObb();
 		void			setObb( const gtObb& obb );
 	};
 

@@ -4,7 +4,7 @@
 
 #if defined(GT_PLATFORM_WIN32)
 
-gtFileSystemWin32::gtFileSystemWin32( void ):
+gtFileSystemWin32::gtFileSystemWin32():
 	m_dirScanBegin( false ),
 	m_firstCall( false ),
 	hFind( nullptr )
@@ -26,7 +26,7 @@ gtFileSystemWin32::gtFileSystemWin32( void ):
 }
 
 
-gtFileSystemWin32::~gtFileSystemWin32( void ){
+gtFileSystemWin32::~gtFileSystemWin32(){
 	if( hFind )
 		CloseHandle( hFind );
 }
@@ -135,7 +135,7 @@ void gtFileSystemWin32::scanDirBegin( gtString dir ){
 	}
 }
 
-void gtFileSystemWin32::scanDirEnd( void ){
+void gtFileSystemWin32::scanDirEnd(){
 	if( m_dirScanBegin ){
 		m_dirScanBegin = false;
 		m_firstCall = false;
@@ -221,12 +221,12 @@ bool gtFileSystemWin32::copyFile( const gtString& existingFileName, const gtStri
 	return true;
 }
 
-gtString gtFileSystemWin32::getProgramPath( void ){
+gtString gtFileSystemWin32::getProgramPath(){
 	return m_exePath;
 }
 
 
-gtString gtFileSystemWin32::getSystemPath( void ){
+gtString gtFileSystemWin32::getSystemPath(){
 	return m_systemPath;
 }
 

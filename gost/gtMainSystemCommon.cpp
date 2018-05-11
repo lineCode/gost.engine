@@ -5,9 +5,9 @@
 gtPtr<gtLogImpl> gtMainSystemCommon::s_log;
 gtFileSystemCommon* gtMainSystemCommon::s_fileSystem;
 gtMainSystemCommon* gtMainSystemCommon::s_instance;
-gtMainSystemCommon* gtMainSystemCommon::getInstance( void ){return s_instance;}
+gtMainSystemCommon* gtMainSystemCommon::getInstance(){return s_instance;}
 
-gtMainSystemCommon::gtMainSystemCommon( void ) : m_isRun( true ),
+gtMainSystemCommon::gtMainSystemCommon() : m_isRun( true ),
 	m_stackTracer( nullptr ), 
 	m_systemWindowCount( 0u ),
 	m_driver( nullptr ),
@@ -34,32 +34,32 @@ gtMainSystemCommon::~gtMainSystemCommon(){
 	}
 }
 
-gtLog* gtMainSystemCommon::getLog( void ){
+gtLog* gtMainSystemCommon::getLog(){
 	return s_log.data();
 }
 
 
-void gtMainSystemCommon::initStackTracer( void ){
+void gtMainSystemCommon::initStackTracer(){
 	if( !m_stackTracer ){
 		m_stackTracer = new gtStackTrace( this );
 	}
 }
 
-void gtMainSystemCommon::initEventSystem( void ){
+void gtMainSystemCommon::initEventSystem(){
 	m_events		= gtPtrNew<gtEventSystem>( new gtEventSystem( m_params.m_consumer ) );
 }
 
 
 
-gtMainSystem*	gtMainSystem::getInstance( void ){
+gtMainSystem*	gtMainSystem::getInstance(){
 	return gtMainSystemCommon::getInstance();
 }
 			
-gtStackTrace*	gtMainSystemCommon::getStackTracer( void ){
+gtStackTrace*	gtMainSystemCommon::getStackTracer(){
 	return m_stackTracer;
 }
 
-void gtStackTrace::dumpStackTrace( void ){
+void gtStackTrace::dumpStackTrace(){
 	gtMainSystemCommon::getInstance()->getStackTracer()->printStackTrace(2u,3u);
 }
 
@@ -87,7 +87,7 @@ gtPtr<gtDriver> gtMainSystemCommon::createVideoDriver( /*gtPlugin* videoDriverPl
 	return gtPtrNew<gtDriver>(d);
 }
 
-u32 gtMainSystemCommon::getLoadedVideoDriverCount( void ){
+u32 gtMainSystemCommon::getLoadedVideoDriverCount(){
 	return m_drivers.size();
 }
 
@@ -137,11 +137,11 @@ void		gtMainSystemCommon::addEvent( const gtEvent& ev, u8 prior ){
 		m_events->addEvent( ev, prior );
 }
 
-gtModelSystem*	gtMainSystemCommon::getModelSystem( void ){
+gtModelSystem*	gtMainSystemCommon::getModelSystem(){
 	return m_modelSystem.data();
 }
 
-gtPluginSystem*	gtMainSystemCommon::getPluginSystem( void ){
+gtPluginSystem*	gtMainSystemCommon::getPluginSystem(){
 	return m_pluginSystem.data();
 }
 
@@ -158,15 +158,15 @@ gtGUISystem*	gtMainSystemCommon::getGUISystem( gtDriver * currentRenderDriver ){
 	return m_GUISystem.data();
 }
 
-const gtMatrix4& gtMainSystemCommon::getMatrixWorld( void ){
+const gtMatrix4& gtMainSystemCommon::getMatrixWorld(){
 	return m_WVP[ 0u ];
 }
 
-const gtMatrix4& gtMainSystemCommon::getMatrixView( void ){
+const gtMatrix4& gtMainSystemCommon::getMatrixView(){
 	return m_WVP[ 1u ];
 }
 
-const gtMatrix4& gtMainSystemCommon::getMatrixProjection( void ){
+const gtMatrix4& gtMainSystemCommon::getMatrixProjection(){
 	return m_WVP[ 2u ];
 }
 
@@ -191,27 +191,27 @@ bool gtMainSystemCommon::isKeyPressed( gtKey key ){
 	return m_events->isKeyDown( key );
 }
 
-bool gtMainSystemCommon::isLMBDown( void ){
+bool gtMainSystemCommon::isLMBDown(){
 	return m_events->isLMBDown();
 }
 
-bool gtMainSystemCommon::isRMBDown( void ){
+bool gtMainSystemCommon::isRMBDown(){
 	return m_events->isRMBDown();
 }
 
-bool gtMainSystemCommon::isMMBDown( void ){
+bool gtMainSystemCommon::isMMBDown(){
 	return m_events->isMMBDown();
 }
 
-const gtVector2<u16>& gtMainSystemCommon::getCursorPosition( void ){
+const gtVector2<u16>& gtMainSystemCommon::getCursorPosition(){
 	return m_events->getCursorPosition();
 }
 
-const gtDeviceCreationParameters& gtMainSystemCommon::getDeviceCreationParameters( void ){
+const gtDeviceCreationParameters& gtMainSystemCommon::getDeviceCreationParameters(){
 	return m_params;
 }
 
-bool gtMainSystemCommon::isRun( void ){
+bool gtMainSystemCommon::isRun(){
 	if( !m_isRun ){
 	}
 	return m_isRun;
@@ -412,7 +412,7 @@ void gtMainSystemCommon::setTimer( u32 milliseconds ){
 	m_timer = milliseconds;
 }
 
-void gtMainSystemCommon::updateTimer( void ){
+void gtMainSystemCommon::updateTimer(){
 	static u32 t1 = 0u;
 	u32 t2 = getTime();
 	m_tick = t2 - t1;

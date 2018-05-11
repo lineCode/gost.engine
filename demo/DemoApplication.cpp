@@ -3,7 +3,20 @@
 #include "examples\Get_supported_import_formats.hpp"
 #include "examples\Camera.hpp"
 
-demo::DemoApplication::DemoApplication( void ):
+void RedrawWindow(){
+	auto This = demo::DemoApplication::GetThis();
+	if( This ){
+		This->Render();
+	}
+}
+
+demo::DemoApplication*	demo::DemoApplication::GetThis(){
+	return s_this;
+}
+
+demo::DemoApplication* demo::DemoApplication::s_this = nullptr;
+
+demo::DemoApplication::DemoApplication():
 m_guiSystem( nullptr ),
 m_gamepad( nullptr ),
 m_backgroundTexture( nullptr ),
@@ -13,6 +26,7 @@ m_isPause( false ),
 m_isSettings( false ),
 m_useSound( true ),
 m_showDescription( true ),
+m_sceneInitialized( false ),
 m_settingsTypeID( 0 ),
 m_demoPauseMenuID( 0 ),
 m_languageID( 0u ),
@@ -50,9 +64,10 @@ m_delta( 0.f ){
 
 	m_xmlPath = u"../demo/media/settings.xml";
 
+	demo::DemoApplication::s_this = this;
 }
 
-demo::DemoApplication::~DemoApplication( void ){
+demo::DemoApplication::~DemoApplication(){
 	for( u32 i = 0u; i < m_demoArrays->size(); ++i ){
 		for( u32 o = 0u; o < m_demoArrays[i].size(); ++i ){
 			m_demoArrays[ i ][ o ].clear();
@@ -61,15 +76,15 @@ demo::DemoApplication::~DemoApplication( void ){
 	delete m_eventConsumer;
 }
 
-gtMainSystem	*	demo::DemoApplication::GetMainSystem( void ){
+gtMainSystem	*	demo::DemoApplication::GetMainSystem(){
 	return m_mainSystem.data();
 }
 
-demo::DemoApplicationEventConsumer	*	demo::DemoApplication::GetEventConsumer( void ){
+demo::DemoApplicationEventConsumer	*	demo::DemoApplication::GetEventConsumer(){
 	return m_eventConsumer;
 }
 
-bool demo::DemoApplication::Init( void ){
+bool demo::DemoApplication::Init(){
 	if( !initEngine() )
 		return false;
 
@@ -95,14 +110,14 @@ bool demo::DemoApplication::Init( void ){
 
 	addDemo( DEMO_COMMON, demo::DemoElement( u"14", u"15" ) );
 	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"22", u"23", true, new DemoExample_Camera( this ) ) );
-	addDemo( DEMO_OTHER, demo::DemoElement( u"20", u"21", true, new DemoExample_GetSupportedImportFormats ) );
+	addDemo( DEMO_OTHER, demo::DemoElement( u"20", u"21", true, new DemoExample_GetSupportedImportFormats( this ) ) );
 
 	updateDemoText();
 
 	return true;
 }
 
-void demo::DemoApplication::initAudio( void ){
+void demo::DemoApplication::initAudio(){
 	m_audioSystem = m_mainSystem->createAudioSystem( GT_UID_AUDIO_XADUDIO2 );
 	if( m_audioSystem.data() ){
 		m_audioSelect = m_audioSystem->createAudioObject( u"../demo/media/select.ogg" );
@@ -133,14 +148,14 @@ void demo::DemoApplication::playAudio( DemoAudioType type ){
 	}
 }
 
-bool demo::DemoApplication::initEngine( void ){
+bool demo::DemoApplication::initEngine(){
 	m_mainSystem = gost::InitializeGoSTEngine( m_params );
 	if( !m_mainSystem )
 		return false;
 	return true;
 }
 
-bool demo::DemoApplication::initWindow( void ){
+bool demo::DemoApplication::initWindow(){
 	m_windowInfo.m_style |= gtWindowInfo::maximize;
     m_windowInfo.m_style |= gtWindowInfo::resize;
 	m_windowInfo.m_style |= gtWindowInfo::center;
@@ -164,10 +179,13 @@ bool demo::DemoApplication::initWindow( void ){
 		return false;
 	}
 
+	m_mainWindow->setOnMove( RedrawWindow );
+	m_mainWindow->setOnSize( RedrawWindow );
+
 	return true;
 }
 
-bool demo::DemoApplication::initVideoDriver( void ){
+bool demo::DemoApplication::initVideoDriver(){
 	m_driverInfo.m_adapterID		=	0;
 	m_driverInfo.m_backBufferSize.x	=	m_windowInfo.m_rect.getWidth();
 	m_driverInfo.m_backBufferSize.y	=	m_windowInfo.m_rect.getHeight();
@@ -187,7 +205,7 @@ bool demo::DemoApplication::initVideoDriver( void ){
 	return true;
 }
 
-bool demo::DemoApplication::initMainMenu( void ){
+bool demo::DemoApplication::initMainMenu(){
 	gtString logoPath(u"../demo/media/logo.png");
 	gtString gamepadPath(u"../demo/media/gamepad.png");
 
@@ -260,7 +278,7 @@ bool demo::DemoApplication::initMainMenu( void ){
 	return rebuildMainMenu();
 }
 
-bool demo::DemoApplication::initStrings( void ){
+bool demo::DemoApplication::initStrings(){
 	gtArray<gtString> strings;
 	util::getFilesFromDir( &strings, u"../demo/langs/" );
 	
@@ -323,7 +341,7 @@ const gtString& demo::DemoApplication::getString( const gtString& a ){
 	}
 }
 
-void demo::DemoApplication::RebuildGUI( void ){
+void demo::DemoApplication::RebuildGUI(){
 	switch( m_state ){
 	case demo::DemoState::MainMenu:
 		rebuildMainMenu();
@@ -335,7 +353,7 @@ void demo::DemoApplication::RebuildGUI( void ){
 	}
 }
 
-void demo::DemoApplication::rebuildMainMenuColons( void ){
+void demo::DemoApplication::rebuildMainMenuColons(){
 
 	if( !m_welcomeText.data() ) return;
 
@@ -405,7 +423,7 @@ void demo::DemoApplication::rebuildMainMenuColons( void ){
 }
 
 
-bool demo::DemoApplication::rebuildMainMenu( void ){
+bool demo::DemoApplication::rebuildMainMenu(){
 
 	if( !m_driver ) return true;
 
@@ -489,7 +507,7 @@ bool demo::DemoApplication::rebuildMainMenu( void ){
 	return true;
 }
 
-void demo::DemoApplication::updatePauseMainMenu( void ){
+void demo::DemoApplication::updatePauseMainMenu(){
 
 	if( m_pauseMainMenuSelectedId < 0 )
 		m_pauseMainMenuSelectedId = 2;
@@ -522,7 +540,7 @@ void demo::DemoApplication::updatePauseMainMenu( void ){
 
 }
 
-void demo::DemoApplication::pauseBackgroundFadeIn( void ){
+void demo::DemoApplication::pauseBackgroundFadeIn(){
 	auto opBG = m_pauseBackgroundShape->getOpacity();
 	if( opBG < 0.75f ){
 		opBG += 10.f * m_delta;
@@ -536,7 +554,7 @@ void demo::DemoApplication::pauseBackgroundFadeIn( void ){
 	}
 }
 
-void demo::DemoApplication::pauseBackgroundFadeOut( void ){
+void demo::DemoApplication::pauseBackgroundFadeOut(){
 	auto opBG = m_pauseBackgroundShape->getOpacity();
 	if( opBG > 0.f ){
 		opBG -= 10.f * m_delta;
@@ -553,7 +571,7 @@ void demo::DemoApplication::pauseBackgroundFadeOut( void ){
 	}
 }
 
-void demo::DemoApplication::Run( void ){
+void demo::DemoApplication::Run(){
 	m_mainSystem->setTimer( 300 );
 
 	u32 last = 0u;
@@ -584,11 +602,13 @@ void demo::DemoApplication::Run( void ){
 		}break;
 		}
 
+		Render();
+
 		last = now;
 	}
 }
 
-void demo::DemoApplication::renderMainMenu( void ){
+void demo::DemoApplication::renderMainMenu(){
 
 	if( !m_driver ) return;
 
@@ -646,7 +666,50 @@ void demo::DemoApplication::renderMainMenu( void ){
 	m_driver->endRender();
 }
 
-void demo::DemoApplication::ScanGamepads( void ){
+void demo::DemoApplication::renderDemoMenu(){
+	m_driver->beginRender( true, gtColorDarkGray );
+
+	RenderDefaultScene();
+
+	m_demoArrays[m_activeDemoTypeSelected][m_activeDemoSelected].Render();
+
+	m_driver->setDepthState( false );
+	m_pauseBackgroundShape->render();
+	if( m_isPause ){
+		m_description->render();
+		m_pauseShape->render();
+		m_pauseTextContinueShape->render();
+		m_pauseTextExitShape->render();
+		m_pauseTextMainMenuShape->render();
+
+	}
+
+	m_driver->setDepthState();
+
+	m_driver->endRender();
+}
+
+void demo::DemoApplication::renderDemo(){
+	m_driver->beginRender( true, gtColorDarkGray );
+
+	RenderDefaultScene();
+	m_demoArrays[m_activeDemoTypeSelected][m_activeDemoSelected].Render();
+
+	m_driver->setDepthState( false );
+	if( m_showDescription ){
+		m_pauseBackgroundShape->render();
+		m_description->render();
+		m_showDescription = false;
+	}else{
+	}
+	m_demoArrays[m_activeDemoTypeSelected][m_activeDemoSelected].Render2D();
+	m_driver->setDepthState();
+
+
+	m_driver->endRender();
+}
+
+void demo::DemoApplication::ScanGamepads(){
 	if( m_gamepadSystem.data() ){
 		m_mainSystem->setTimer( 300u );
 		if( !m_gamepad )
@@ -668,7 +731,7 @@ void demo::DemoApplication::ActivateGamepad( bool value, gtGameControllerDevice*
 	}
 }
 
-void demo::DemoApplication::updateDemoText( void ){
+void demo::DemoApplication::updateDemoText(){
 	for( u32 i = 0u; i < DEMO_TYPE_NUM; ++i ){
 		u32 sz = m_demoArrays[ i ].size();
 		for( u32 o = 0u; o < sz; ++o ){
@@ -682,7 +745,7 @@ void demo::DemoApplication::addDemo( u32 index, const demo::DemoElement& element
 	m_demoArrays[ index ].push_back( element );
 }
 
-void demo::DemoApplication::updateColons( void ){
+void demo::DemoApplication::updateColons(){
 
 	if( !m_driver ) return;
 
@@ -831,7 +894,7 @@ void demo::DemoApplication::updateColons( void ){
 	}
 }
 
-void demo::DemoApplication::inputMainMenuPause( void ){
+void demo::DemoApplication::inputMainMenuPause(){
 	if( m_eventConsumer->keyDown( gtKey::K_ESCAPE ) || inputGamepadMainMenuStart() || inputGamepadMainMenuEscape() ){
 		playAudio(DemoAudioType::Cancel);
 		if( m_isSettings ){
@@ -940,7 +1003,7 @@ void demo::DemoApplication::inputMainMenuPause( void ){
 	}
 }
 
-void demo::DemoApplication::inputMainMenu( void ){
+void demo::DemoApplication::inputMainMenu(){
 	if( m_eventConsumer->keyDown( gtKey::K_ESCAPE ) ){
 		if( !m_activeDemoType )
 			m_isPause = true;
@@ -1032,7 +1095,7 @@ void demo::DemoApplication::inputMainMenu( void ){
 	}
 }
 
-bool demo::DemoApplication::inputGamepadMainMenuUp( void ){
+bool demo::DemoApplication::inputGamepadMainMenuUp(){
 	if( m_gamepad ){
 		if( !m_DPadOnce ){
 			if( m_DPad[ 0u ] ){
@@ -1044,7 +1107,7 @@ bool demo::DemoApplication::inputGamepadMainMenuUp( void ){
 	return false;
 }
 
-bool demo::DemoApplication::inputGamepadMainMenuRight( void ){
+bool demo::DemoApplication::inputGamepadMainMenuRight(){
 	if( m_gamepad ){
 		if( !m_DPadOnce ){
 			if( m_DPad[ 1u ] ){
@@ -1056,7 +1119,7 @@ bool demo::DemoApplication::inputGamepadMainMenuRight( void ){
 	return false;
 }
 
-bool demo::DemoApplication::inputGamepadMainMenuDown( void ){
+bool demo::DemoApplication::inputGamepadMainMenuDown(){
 	if( m_gamepad ){
 		if( !m_DPadOnce ){
 			if( m_DPad[ 2u ] ){
@@ -1068,7 +1131,7 @@ bool demo::DemoApplication::inputGamepadMainMenuDown( void ){
 	return false;
 }
 
-bool demo::DemoApplication::inputGamepadMainMenuLeft( void ){
+bool demo::DemoApplication::inputGamepadMainMenuLeft(){
 	if( m_gamepad ){
 		if( !m_DPadOnce ){
 			if( m_DPad[ 3u ] ){
@@ -1081,7 +1144,7 @@ bool demo::DemoApplication::inputGamepadMainMenuLeft( void ){
 }
 
 // cross
-bool demo::DemoApplication::inputGamepadMainMenuEnter( void ){
+bool demo::DemoApplication::inputGamepadMainMenuEnter(){
 	if( m_gamepad ){
 		if( m_gamepad->m_buttons[ 2 ] ){
 			if( !m_gamepadButtons[ 2 ] ){
@@ -1094,7 +1157,7 @@ bool demo::DemoApplication::inputGamepadMainMenuEnter( void ){
 }
 
 // triangle
-bool demo::DemoApplication::inputGamepadMainMenuEscape( void ){
+bool demo::DemoApplication::inputGamepadMainMenuEscape(){
 	if( m_gamepad ){
 		if( m_gamepad->m_buttons[ 0 ] ){
 			if( !m_gamepadButtons[ 0 ] ){
@@ -1106,7 +1169,7 @@ bool demo::DemoApplication::inputGamepadMainMenuEscape( void ){
 	return false;
 }
 
-bool demo::DemoApplication::inputGamepadMainMenuStart( void ){
+bool demo::DemoApplication::inputGamepadMainMenuStart(){
 	if( m_gamepad ){
 		if( m_gamepad->m_buttons[ 9 ] ){
 			if( !m_gamepadButtons[ 9 ] ){
@@ -1118,7 +1181,7 @@ bool demo::DemoApplication::inputGamepadMainMenuStart( void ){
 	return false;
 }
 
-bool demo::DemoApplication::inputGamepadMainMenuSelect( void ){
+bool demo::DemoApplication::inputGamepadMainMenuSelect(){
 	if( m_gamepad ){
 		if( m_gamepad->m_buttons[ 8 ] ){
 			if( !m_gamepadButtons[ 8 ] ){
@@ -1130,14 +1193,14 @@ bool demo::DemoApplication::inputGamepadMainMenuSelect( void ){
 	return false;
 }
 
-bool demo::DemoApplication::inputGamepadMainMenuSelectHold( void ){
+bool demo::DemoApplication::inputGamepadMainMenuSelectHold(){
 	if( m_gamepad ){
 		return m_gamepad->m_buttons[ 8 ];
 	}
 	return false;
 }
 
-bool demo::DemoApplication::InitDefaultScene( void ){
+bool demo::DemoApplication::InitDefaultScene(){
 
 	auto m11 = m_sceneSystem->addStaticObject( m_driver->getModel(u"../demo/media/scene/11.obj") );
 	auto f = m_sceneSystem->addStaticObject( m_driver->getModel(u"../demo/media/scene/floor01.obj") );
@@ -1151,58 +1214,62 @@ bool demo::DemoApplication::InitDefaultScene( void ){
 	s->getModel()->getMaterial( 0u )->textureLayer[ 0u ].texture = m_driver->getTexture( u"../demo/media/scene/stairs.png" );
 	t->getModel()->getMaterial( 0u )->textureLayer[ 0u ].texture = m_driver->getTexture( u"../demo/media/scene/tc.png" );
 
+	m_sceneInitialized = true;
 	return true;
 }
 
-void demo::DemoApplication::ShutdownDefaultScene( void ){
-	m_driver->clearModelCache();
-	m_driver->removeTexture(m_driver->getTexture( u"../demo/media/scene/11.png" ));
-	m_driver->removeTexture(m_driver->getTexture( u"../demo/media/scene/floor.png" ));
-	m_driver->removeTexture(m_driver->getTexture( u"../demo/media/scene/pied.png" ));
-	m_driver->removeTexture(m_driver->getTexture( u"../demo/media/scene/stairs.png" ));
-	m_driver->removeTexture(m_driver->getTexture( u"../demo/media/scene/tc.png" ));
+void demo::DemoApplication::ShutdownDefaultScene(){
+	if( m_sceneInitialized ){
+		m_driver->clearModelCache();
+		m_driver->removeTexture(m_driver->getTexture( u"../demo/media/scene/11.png" ));
+		m_driver->removeTexture(m_driver->getTexture( u"../demo/media/scene/floor.png" ));
+		m_driver->removeTexture(m_driver->getTexture( u"../demo/media/scene/pied.png" ));
+		m_driver->removeTexture(m_driver->getTexture( u"../demo/media/scene/stairs.png" ));
+		m_driver->removeTexture(m_driver->getTexture( u"../demo/media/scene/tc.png" ));
+		m_sceneInitialized = false;
+	}
 }
 
-void demo::DemoApplication::RenderDefaultScene( void ){
+void demo::DemoApplication::RenderDefaultScene(){
 	m_sceneSystem->renderScene();
 }
 
-bool demo::DemoApplication::inputGamepadMainMenuUpHold( void ){
+bool demo::DemoApplication::inputGamepadMainMenuUpHold(){
 	if( m_gamepad ){
 		return m_gamepad->m_POV1 == 0 || m_gamepad->m_lY == -1000;
 	}
 	return false;
 }
 
-bool demo::DemoApplication::inputGamepadMainMenuDownHold( void ){
+bool demo::DemoApplication::inputGamepadMainMenuDownHold(){
 	if( m_gamepad ){
 		return m_gamepad->m_POV1 == 18000 || m_gamepad->m_lY == 1000;
 	}
 	return false;
 }
 
-bool demo::DemoApplication::inputGamepadMainMenuLeftHold( void ){
+bool demo::DemoApplication::inputGamepadMainMenuLeftHold(){
 	if( m_gamepad ){
 		return m_gamepad->m_POV1 == 27000 || m_gamepad->m_lX == -1000;
 	}
 	return false;
 }
 
-bool demo::DemoApplication::inputGamepadMainMenuRightHold( void ){
+bool demo::DemoApplication::inputGamepadMainMenuRightHold(){
 	if( m_gamepad ){
 		return m_gamepad->m_POV1 == 9000 || m_gamepad->m_lX == 1000;
 	}
 	return false;
 }
 
-bool demo::DemoApplication::update( void ){
+bool demo::DemoApplication::update(){
 	if( m_gamepad ){
 		m_gamepad->poll();
 	}
 	return m_mainSystem->update();
 }
 
-void demo::DemoApplication::UpdateGamepad( void ){
+void demo::DemoApplication::UpdateGamepad(){
 	
 	timer_input += m_delta;
 
@@ -1237,7 +1304,7 @@ void demo::DemoApplication::UpdateGamepad( void ){
 	}
 }
 
-void demo::DemoApplication::updateSettings( void ){
+void demo::DemoApplication::updateSettings(){
 	if( m_settingsTypeID < 0 ){
 		m_settingsTypeID = 1;
 	}else if( m_settingsTypeID > 1 ){
@@ -1262,7 +1329,7 @@ void demo::DemoApplication::updateSettings( void ){
 
 }
 
-void demo::DemoApplication::updateSettingsText( void ){
+void demo::DemoApplication::updateSettingsText(){
 
 	m_pauseTextContinueShape->setText( getString( u"17" ) );
 	m_pauseTextSettingsShape->setText( getString( u"19" ) );
@@ -1280,7 +1347,7 @@ void demo::DemoApplication::updateSettingsText( void ){
 	m_pauseTextMainMenuShape->setText( getString( u"29" ) );
 }
 
-void demo::DemoApplication::xmlLoadSettings( void ){
+void demo::DemoApplication::xmlLoadSettings(){
 	if( !gtFileSystem::existFile( m_xmlPath ) ){
 		xmlCreateDrefaultSettingsFile();
 	}
@@ -1320,7 +1387,7 @@ void demo::DemoApplication::xmlLoadSettings( void ){
 	}
 }
 
-void demo::DemoApplication::xmlSaveSettings( void ){
+void demo::DemoApplication::xmlSaveSettings(){
 
 	gtString sound( u"SOUND" );
 	gtString lang( u"LANG" );
@@ -1352,7 +1419,7 @@ void demo::DemoApplication::xmlSaveSettings( void ){
 	m_mainSystem->XMLWrite( m_xmlPath, root );
 }
 
-void demo::DemoApplication::xmlCreateDrefaultSettingsFile( void ){
+void demo::DemoApplication::xmlCreateDrefaultSettingsFile(){
 	gtFile_t file = util::createFileForWriteText( m_xmlPath );
 	
 	gtTextFileInfo info;
@@ -1373,13 +1440,22 @@ u"<?xml version=\"1.0\"?>\n\
 
 }
 
-void demo::DemoApplication::Pause( void ){
+void demo::DemoApplication::Pause(){
 	m_state = DemoState::DemoMenu;
 	m_isPause = true;
 	playAudio(DemoAudioType::Accept);
 }
 
-void demo::DemoApplication::inputDemoMenuPause( void ){
+void demo::DemoApplication::StopDemo(){
+	m_state = DemoState::MainMenu;
+	m_isPause = false;
+	m_demoPauseMenuID = 0;
+	updateDemoPause();
+	m_demoArrays[m_activeDemoTypeSelected][m_activeDemoSelected].Shutdown();
+	ShutdownDefaultScene();
+}
+
+void demo::DemoApplication::inputDemoMenuPause(){
 
 	if( m_eventConsumer->keyDown( gtKey::K_ESCAPE ) || inputGamepadMainMenuStart() || inputGamepadMainMenuEscape() ){
 		playAudio(DemoAudioType::Cancel);
@@ -1404,19 +1480,14 @@ void demo::DemoApplication::inputDemoMenuPause( void ){
 		if( m_demoPauseMenuID == 0 ){
 			m_isPause = false;
 		}else if( m_demoPauseMenuID == 1 ){
-			m_state = DemoState::MainMenu;
-			m_isPause = false;
-			m_demoPauseMenuID = 0;
-			updateDemoPause();
-			m_demoArrays[m_activeDemoTypeSelected][m_activeDemoSelected].Shutdown();
-			ShutdownDefaultScene();
+			StopDemo();
 		}else if( m_demoPauseMenuID == 2 ){
 			m_mainSystem->shutdown();
 		}
 	}
 }
 
-void demo::DemoApplication::runMainMenu( void ){
+void demo::DemoApplication::runMainMenu(){
 	if( m_isPause ){
 		pauseBackgroundFadeIn();
 		inputMainMenuPause();
@@ -1424,10 +1495,9 @@ void demo::DemoApplication::runMainMenu( void ){
 		pauseBackgroundFadeOut();
 		inputMainMenu();
 	}
-	renderMainMenu();
 }
 
-void demo::DemoApplication::runDemo( void ){
+void demo::DemoApplication::runDemo(){
 	if( m_mainSystem->isKeyPressed( gtKey::K_F1 ) || inputGamepadMainMenuSelectHold() ){
 		m_showDescription = true;
 		pauseBackgroundFadeIn();
@@ -1437,57 +1507,18 @@ void demo::DemoApplication::runDemo( void ){
 
 	m_demoArrays[m_activeDemoTypeSelected][m_activeDemoSelected].Input( m_delta );
 	m_demoArrays[m_activeDemoTypeSelected][m_activeDemoSelected].Update();
-
-	m_driver->beginRender( true, gtColorDarkGray );
-
-	RenderDefaultScene();
-	m_demoArrays[m_activeDemoTypeSelected][m_activeDemoSelected].Render();
-
-	m_driver->setDepthState( false );
-	if( m_showDescription ){
-		m_pauseBackgroundShape->render();
-		m_description->render();
-		m_showDescription = false;
-	}else{
-	}
-	m_demoArrays[m_activeDemoTypeSelected][m_activeDemoSelected].Render2D();
-	m_driver->setDepthState();
-
-
-	m_driver->endRender();
 }
 
-void demo::DemoApplication::runDemoMenu( void ){
+void demo::DemoApplication::runDemoMenu(){
 	if( m_isPause ){
 		pauseBackgroundFadeIn();
 		inputDemoMenuPause();
 	}else{
 		pauseBackgroundFadeOut();
 	}
-
-	m_driver->beginRender( true, gtColorDarkGray );
-
-	RenderDefaultScene();
-
-	m_demoArrays[m_activeDemoTypeSelected][m_activeDemoSelected].Render();
-
-	m_driver->setDepthState( false );
-	m_pauseBackgroundShape->render();
-	if( m_isPause ){
-		m_description->render();
-		m_pauseShape->render();
-		m_pauseTextContinueShape->render();
-		m_pauseTextExitShape->render();
-		m_pauseTextMainMenuShape->render();
-
-	}
-
-	m_driver->setDepthState();
-
-	m_driver->endRender();
 }
 
-void demo::DemoApplication::updateDemoPause( void ){
+void demo::DemoApplication::updateDemoPause(){
 	if( m_demoPauseMenuID < 0 ){
 		m_demoPauseMenuID = 2;
 	}else if( m_demoPauseMenuID > 2 ){
@@ -1510,6 +1541,20 @@ void demo::DemoApplication::updateDemoPause( void ){
 	}else if( m_demoPauseMenuID == 2 ){
 		m_pauseTextExitShape->setBackgroundColor( gtColorBlack );
 		m_pauseTextExitShape->setTextColor( gtColorLightGray );
+	}
+}
+
+void demo::DemoApplication::Render(){
+	switch( m_state ){
+	case DemoState::DemoMenu:{
+		renderDemoMenu();
+		}break;
+	case DemoState::DemoRun:{
+		renderDemo();
+		}break;
+	case DemoState::MainMenu:{
+		renderMainMenu();
+		}break;
 	}
 }
 

@@ -7,7 +7,7 @@ gtRenderModelD3D11::gtRenderModelD3D11( gtDriverD3D11* d ):
 	m_stride( 0u )
 {}
 
-gtRenderModelD3D11::~gtRenderModelD3D11( void ){
+gtRenderModelD3D11::~gtRenderModelD3D11(){
 	auto sz = m_vBuffers.size();
 	for( auto i = 0u; i < sz; ++i )
 		m_vBuffers[ i ]->Release();
@@ -88,7 +88,7 @@ bool	gtRenderModelD3D11::init( gtModel* m ){
 }
 
 
-u32 gtRenderModelD3D11::getSubModelCount( void ){
+u32 gtRenderModelD3D11::getSubModelCount(){
 	return m_subs.size();
 }
 
@@ -96,15 +96,15 @@ gtMaterial*	gtRenderModelD3D11::getMaterial( u32 id ){
 	return &m_subs[ id ].material;
 }
 
-void		gtRenderModelD3D11::render( void ){
+void		gtRenderModelD3D11::render(){
 	this->m_driver->drawModel( this );
 }
 
-gtAabb* gtRenderModelD3D11::getAabb( void ){
+gtAabb* gtRenderModelD3D11::getAabb(){
 	return &m_aabb;
 }
 
-gtObb* gtRenderModelD3D11::getObb( void ){
+gtObb* gtRenderModelD3D11::getObb(){
 	return &m_obb;
 }
 

@@ -34,13 +34,13 @@ namespace gost{
 
 		bool m_showBackground;
 
-		void updateBackground( void );
-		void updateMaterial( void );
+		void updateBackground();
+		void updateMaterial();
 
 	public:
 
 		gtGUIStaticTextImpl( gtDriver* d );
-		~gtGUIStaticTextImpl( void );
+		~gtGUIStaticTextImpl();
 
 		bool		init( const gtString& text, s32 positionX, s32 positionY, gtGUIFont* font );
 
@@ -53,15 +53,15 @@ namespace gost{
 		void		setBackgroundVisible( bool value );
 		void		setBackgroundColor( const gtColor& color );
 
-		f32			getLength( void );
+		f32			getLength();
 
-		void		clear( void );
-		gtGUIShape* getBackgroundShape( void );
+		void		clear();
+		gtGUIShape* getBackgroundShape();
 
 
-		void		render( void );
+		void		render();
 		void		setOpacity( f32 opacity = 1.f );
-		f32			getOpacity( void );
+		f32			getOpacity();
 
 	};
 

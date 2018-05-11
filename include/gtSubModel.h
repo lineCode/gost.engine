@@ -13,7 +13,7 @@ namespace gost{
 	struct gtSubModel{
 
 			// c-tor
-		gtSubModel( void ):
+		gtSubModel():
 			m_vertices( nullptr ),
 			m_indices( nullptr ),
 			m_vCount( 0u ),
@@ -25,7 +25,7 @@ namespace gost{
 		{}
 
 			// d-tor
-		~gtSubModel( void ){
+		~gtSubModel(){
 			if( m_vertices )
 				delete []m_vertices;
 			if( m_indices )
@@ -72,7 +72,7 @@ namespace gost{
 				m_indices  = new u16[ m_iCount ];
 		}
 
-		void	buildObb( void ){
+		void	buildObb(){
 			m_obb.reset();
 
 			u8 * p8 = &m_vertices[0u];
@@ -85,7 +85,7 @@ namespace gost{
 
 		}
 
-		void	updateAabb( void ){
+		void	updateAabb(){
 			m_aabb.reset();
 
 			m_aabb.add( m_obb.v1 );
@@ -200,7 +200,7 @@ namespace gost{
 		}
 
 			//TEST
-		void	calculate_normals( void ){
+		void	calculate_normals(){
 			u8 * p8 = &m_vertices[0u];
 
 			u32 i1 = m_vertexPosition;

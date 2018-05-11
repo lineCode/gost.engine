@@ -30,11 +30,11 @@ namespace demo{
 
 		~DemoElement(){}
 
-		bool Init( void ){
+		bool Init(){
 			return m_example->Init();
 		}
 
-		void Update( void ){
+		void Update(){
 			m_example->Update();
 		}
 
@@ -42,31 +42,31 @@ namespace demo{
 			m_example->Input( delta );
 		}
 
-		void Render( void ){
+		void Render(){
 			m_example->Render();
 		}
 
-		void Shutdown( void ){
+		void Shutdown(){
 			m_example->Shutdown();
 		}
 
-		void Render2D( void ){
+		void Render2D(){
 			m_example->Render2D();
 		}
 
-		const gtString& GetTitle( void ) const {
+		const gtString& GetTitle() const {
 			return m_title;
 		}
 
-		const gtString& GetDesc( void ) const {
+		const gtString& GetDesc() const {
 			return m_description;
 		}
 
-		const gtString& GetTitleID( void ) const {
+		const gtString& GetTitleID() const {
 			return m_tid;
 		}
 
-		const gtString& GetDescID( void ) const {
+		const gtString& GetDescID() const {
 			return m_did;
 		}
 
@@ -79,11 +79,11 @@ namespace demo{
 		}
 
 
-		bool isDemo( void ) const {
+		bool isDemo() const {
 			return m_example != nullptr;
 		}
 
-		void clear( void ){
+		void clear(){
 			if( m_example )
 				delete m_example;
 		}

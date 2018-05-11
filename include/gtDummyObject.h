@@ -8,8 +8,8 @@ namespace gost{
 	class gtDummyObject : public gtGameObject{
 	public:
 
-		virtual gtAabb*				getAabb( void ) = 0;
-		virtual gtObb*				getObb( void ) = 0;
+		virtual gtAabb*				getAabb() = 0;
+		virtual gtObb*				getObb() = 0;
 	};
 
 }

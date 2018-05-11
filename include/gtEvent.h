@@ -56,7 +56,7 @@ namespace gost{
 
 	struct gtEventMouse{
 
-		gtEventMouse( void );
+		gtEventMouse();
 
 		gtByte	state; /*
 							b0 - lmb down
@@ -83,20 +83,20 @@ namespace gost{
 
 		u16 wheel;	//< Wheel
 
-		bool	isLeftButtonDown( void ){	return state.bits.b0;	}
-		bool	isLeftButtonUp( void )	{	return state.bits.b1;	}
-		bool	isRightButtonDown( void ){	return state.bits.b2;	}
-		bool	isRightButtonUp( void )	{	return state.bits.b3;	}
-		bool	isMiddleButtonDown( void ){	return state.bits.b4;	}
-		bool	isMiddleButtonUp( void ){	return state.bits.b5;	}
-		bool	isLeftButtonDouble( void ){	return state.bits.b6;	}
-		bool	isRightButtonDouble( void ){return state.bits.b7;	}
+		bool	isLeftButtonDown(){	return state.bits.b0;	}
+		bool	isLeftButtonUp()	{	return state.bits.b1;	}
+		bool	isRightButtonDown(){	return state.bits.b2;	}
+		bool	isRightButtonUp()	{	return state.bits.b3;	}
+		bool	isMiddleButtonDown(){	return state.bits.b4;	}
+		bool	isMiddleButtonUp(){	return state.bits.b5;	}
+		bool	isLeftButtonDouble(){	return state.bits.b6;	}
+		bool	isRightButtonDouble(){return state.bits.b7;	}
 
 
-		bool	isExtra1ButtonDown( void ){	return state_extra.bits.b0;	}
-		bool	isExtra1ButtonUp( void ){	return state_extra.bits.b1;	}
-		bool	isExtra2ButtonDown( void ){	return state_extra.bits.b2;	}
-		bool	isExtra2ButtonUp( void ){	return state_extra.bits.b3;	}
+		bool	isExtra1ButtonDown(){	return state_extra.bits.b0;	}
+		bool	isExtra1ButtonUp(){	return state_extra.bits.b1;	}
+		bool	isExtra2ButtonDown(){	return state_extra.bits.b2;	}
+		bool	isExtra2ButtonUp(){	return state_extra.bits.b3;	}
 	};
 
 	struct gtEventKeyboard{
@@ -111,18 +111,18 @@ namespace gost{
 		bool isPressed( gtKey Key )	{	return ((Key == key) && state.bits.b0);	}
 		bool isReleased( gtKey Key ){	return ((Key == key) && state.bits.b1);	}
 
-		bool isCtrl( void )			{	return state.bits.b2;					}
-		bool isShift( void )		{	return state.bits.b3;					}
-		bool isAlt( void )			{	return state.bits.b4;					}
+		bool isCtrl()			{	return state.bits.b2;					}
+		bool isShift()		{	return state.bits.b3;					}
+		bool isAlt()			{	return state.bits.b4;					}
 
 	private:
-		gtEventKeyboard( void ){}
+		gtEventKeyboard(){}
 	};
 
 		
 	struct gtEvent{
 
-		gtEvent( void ){};
+		gtEvent(){};
 
 		union{
 			gtEventKeyboard	keyboardEvent;

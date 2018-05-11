@@ -18,14 +18,14 @@ namespace gost{
 	public:
 
 		gtRenderModelD3D11( gtDriverD3D11* );
-		~gtRenderModelD3D11( void );
+		~gtRenderModelD3D11();
 		
 
 		bool	init( gtModel* );
-		u32		getSubModelCount( void );
+		u32		getSubModelCount();
 
 		gtMaterial*	getMaterial( u32 id );
-		void		render( void );
+		void		render();
 		
 		
 		gtArray<ID3D11Buffer*> m_vBuffers;
@@ -39,8 +39,8 @@ namespace gost{
 
 		u32 m_stride;
 
-		gtAabb*				getAabb( void );
-		gtObb*				getObb( void );
+		gtAabb*				getAabb();
+		gtObb*				getObb();
 	};
 
 }

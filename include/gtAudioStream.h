@@ -9,7 +9,7 @@ namespace gost{
 
 			//	Close stream
 			//	\return \b true if done
-		virtual bool	close( void ) = 0;
+		virtual bool	close() = 0;
 
 			// Open file for streaming
 			//	\param fileName: target file
@@ -22,7 +22,7 @@ namespace gost{
 
 			//	Get playback position
 			//	\return Value from 0 to 1 (begin-end)
-		virtual f32		getPlaybackPosition( void ) = 0;
+		virtual f32		getPlaybackPosition() = 0;
 	};
 
 

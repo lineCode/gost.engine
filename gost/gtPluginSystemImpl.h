@@ -21,12 +21,12 @@ namespace gost{
 		gtArray<gtPtr<gtPluginImportModel>> m_importModelPluginCache;
 		
 	public:
-		gtPluginSystemImpl( void );
-		virtual ~gtPluginSystemImpl( void );
+		gtPluginSystemImpl();
+		virtual ~gtPluginSystemImpl();
 
-		bool		init( void );
+		bool		init();
 		void		scanFolder( const gtString& );
-		u32			getNumOfPlugins( void );
+		u32			getNumOfPlugins();
 		gtPlugin*	getPlugin( const GT_GUID& uid );
 		gtPlugin*	getPlugin( u32 id );
 		gtImage *	importImage( const gtString& fileName, const GT_GUID& guid = GT_GUID(), bool useguid = false );

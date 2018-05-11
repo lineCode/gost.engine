@@ -16,12 +16,12 @@ namespace gost{
 
 	public:
 
-		gtThreadWin32( void );
-		~gtThreadWin32( void );
+		gtThreadWin32();
+		~gtThreadWin32();
 
 		bool start( StartFunction f, void* args, u32 stackSize = 0 );
-		void join( void );
-		void * getHandle( void );
+		void join();
+		void * getHandle();
 
 	};
 

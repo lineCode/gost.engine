@@ -95,22 +95,22 @@ namespace gost{
 		void	setActiveShader( gtShader* );
 		void	_draw2DImage( const v4f& rect, const v8f& region, const gtMaterial& );
 		void	enableBlending( bool, bool atc = false );
-		bool	createShaders( void );
-		void	createStandartTexture( void );
-		void	applyScissor( void );
+		bool	createShaders();
+		void	createStandartTexture();
+		void	applyScissor();
 	public:
 		gtDriverD3D11( /*gtMainSystem* System, */gtDriverInfo params );
-		virtual ~gtDriverD3D11( void );
+		virtual ~gtDriverD3D11();
 
-		bool initialize( void );
+		bool initialize();
 
-		HMODULE getD3DLibraryHandle( void );
-		ID3D11Device * getD3DDevice( void );
-		ID3D11DeviceContext * getD3DDeviceContext( void );
+		HMODULE getD3DLibraryHandle();
+		ID3D11Device * getD3DDevice();
+		ID3D11DeviceContext * getD3DDeviceContext();
 
 
 		void beginRender( bool clearRenderTarget = true, const gtColor& color = gtColor(0.f) );
-		void endRender( void );
+		void endRender();
 
 		void draw2DImage( const v4i& rect, const gtMaterial& );
 		void draw2DImage( const v4i& rect, const v4i& region, const gtMaterial& );
@@ -140,9 +140,9 @@ namespace gost{
 		gtPtr<gtRenderModel>	createModel( gtModel* );
 
 
-		static gtDriverD3D11*	getInstance( void );
-		gtTexture * getStandartTexture( void );
-		gtTexture * getStandartTextureWhiteColor( void );
+		static gtDriverD3D11*	getInstance();
+		gtTexture * getStandartTexture();
+		gtTexture * getStandartTextureWhiteColor();
 
 		void	setDepthState( bool state = true );
 	};

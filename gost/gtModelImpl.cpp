@@ -82,22 +82,22 @@ gtSubModel*	gtModelImpl::getSubModel( u32 id ){
 }
 
 
-u32		gtModelImpl::getSubmodelsCount( void ){
+u32		gtModelImpl::getSubmodelsCount(){
 	return m_submodels.size();
 }
 
 
-u32		gtModelImpl::getStride( void ){
+u32		gtModelImpl::getStride(){
 	return m_stride;
 }
 
 
-gtVertexType*	gtModelImpl::getTypeArray( void ){
+gtVertexType*	gtModelImpl::getTypeArray(){
 	return &m_typeArray[0u];
 }
 
 
-const gtAabb&	gtModelImpl::getAabb( void ){
+const gtAabb&	gtModelImpl::getAabb(){
 	return m_aabb;
 }
 
@@ -107,7 +107,7 @@ void			gtModelImpl::setAabb( const gtAabb& box ){
 }
 
 
-void			gtModelImpl::updateBoundingVolume( void ){
+void			gtModelImpl::updateBoundingVolume(){
 	u32 sz = m_submodels.size();
 	if( sz ){
 
@@ -129,7 +129,7 @@ void			gtModelImpl::updateBoundingVolume( void ){
 	}
 }
 
-const gtObb&	gtModelImpl::getObb( void ){
+const gtObb&	gtModelImpl::getObb(){
 	return m_obb;
 }
 

@@ -13,7 +13,7 @@ gtGUITextFieldImpl::gtGUITextFieldImpl( gtDriver* d ):
 	m_gui = m_mainSystem->getGUISystem( d );
 }
 
-gtGUITextFieldImpl::~gtGUITextFieldImpl( void ){
+gtGUITextFieldImpl::~gtGUITextFieldImpl(){
 	clear();
 }
 
@@ -47,7 +47,7 @@ void gtGUITextFieldImpl::setText( const gtString& text ){
 	update();
 }
 
-const gtString& gtGUITextFieldImpl::getText( void ){
+const gtString& gtGUITextFieldImpl::getText(){
 	return m_text;
 }
 
@@ -68,7 +68,7 @@ void gtGUITextFieldImpl::setBackgroundColor( const gtColor& color ){
 	m_backgroundShape->setColor( color );
 }
 
-void gtGUITextFieldImpl::clear( void ){
+void gtGUITextFieldImpl::clear(){
 	u32 sz = m_textWords.size();
 	for( u32 i = 0u; i < sz; ++i ){
 		m_textWords[ i ]->release();
@@ -76,11 +76,11 @@ void gtGUITextFieldImpl::clear( void ){
 	m_textWords.clear();
 }
 
-gtGUIShape* gtGUITextFieldImpl::getBackgroundShape( void ){
+gtGUIShape* gtGUITextFieldImpl::getBackgroundShape(){
 	return m_backgroundShape.data();
 }
 
-void gtGUITextFieldImpl::render( void ){
+void gtGUITextFieldImpl::render(){
 	if( m_visible ){
 
 		m_driver->scissorClear( false );
@@ -108,11 +108,11 @@ void gtGUITextFieldImpl::setOpacity( f32 opacity ){
 	m_backgroundShape->setOpacity(opacity);
 }
 
-f32 gtGUITextFieldImpl::getOpacity( void ){
+f32 gtGUITextFieldImpl::getOpacity(){
 	return m_material.opacity;
 }
 
-void gtGUITextFieldImpl::update( void ){
+void gtGUITextFieldImpl::update(){
 
 	clear();
 
@@ -196,7 +196,7 @@ void gtGUITextFieldImpl::update( void ){
 	m_backgroundShape->setOpacity( bgop );
 }
 
-const v4i&	gtGUITextFieldImpl::getRect( void ){
+const v4i&	gtGUITextFieldImpl::getRect(){
 	return m_rect;
 }
 

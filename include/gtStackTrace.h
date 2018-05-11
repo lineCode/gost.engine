@@ -24,10 +24,10 @@ namespace gost{
 
 		//gtMutex * m_mutex;
 
-		gtStackTrace( void ){}
+		gtStackTrace(){}
 
-		void initialize( void );	bool m_is_initialized;
-		void shutdown( void );
+		void initialize();	bool m_is_initialized;
+		void shutdown();
 
 	public:
 
@@ -37,13 +37,13 @@ namespace gost{
 			m_log->addRef();
 		}
 
-		virtual ~gtStackTrace( void ){
+		virtual ~gtStackTrace(){
 			m_log->release();
 		}
 
 		void printStackTrace( u32 skip_begin = 1u, u32 skip_end = 7u );
 
-		GT_API static	void dumpStackTrace( void );
+		GT_API static	void dumpStackTrace();
 
 	};
 
