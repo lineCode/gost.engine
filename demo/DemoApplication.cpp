@@ -1193,7 +1193,7 @@ bool demo::DemoApplication::inputGamepadMainMenuSelect(){
 	return false;
 }
 
-bool demo::DemoApplication::inputGamepadMainMenuSelectHold(){
+bool demo::DemoApplication::inputGamepadSelectHold(){
 	if( m_gamepad ){
 		return m_gamepad->m_buttons[ 8 ];
 	}
@@ -1234,28 +1234,42 @@ void demo::DemoApplication::RenderDefaultScene(){
 	m_sceneSystem->renderScene();
 }
 
-bool demo::DemoApplication::inputGamepadMainMenuUpHold(){
+bool demo::DemoApplication::inputGamepadL1Hold(){
+	if( m_gamepad ){
+		return m_gamepad->m_buttons[ 4u ];
+	}
+	return false;
+}
+
+bool demo::DemoApplication::inputGamepadR1Hold(){
+	if( m_gamepad ){
+		return m_gamepad->m_buttons[ 5u ];
+	}
+	return false;
+}
+
+bool demo::DemoApplication::inputGamepadUpHold(){
 	if( m_gamepad ){
 		return m_gamepad->m_POV1 == 0 || m_gamepad->m_lY == -1000;
 	}
 	return false;
 }
 
-bool demo::DemoApplication::inputGamepadMainMenuDownHold(){
+bool demo::DemoApplication::inputGamepadDownHold(){
 	if( m_gamepad ){
 		return m_gamepad->m_POV1 == 18000 || m_gamepad->m_lY == 1000;
 	}
 	return false;
 }
 
-bool demo::DemoApplication::inputGamepadMainMenuLeftHold(){
+bool demo::DemoApplication::inputGamepadLeftHold(){
 	if( m_gamepad ){
 		return m_gamepad->m_POV1 == 27000 || m_gamepad->m_lX == -1000;
 	}
 	return false;
 }
 
-bool demo::DemoApplication::inputGamepadMainMenuRightHold(){
+bool demo::DemoApplication::inputGamepadRightHold(){
 	if( m_gamepad ){
 		return m_gamepad->m_POV1 == 9000 || m_gamepad->m_lX == 1000;
 	}
@@ -1498,7 +1512,7 @@ void demo::DemoApplication::runMainMenu(){
 }
 
 void demo::DemoApplication::runDemo(){
-	if( m_mainSystem->isKeyPressed( gtKey::K_F1 ) || inputGamepadMainMenuSelectHold() ){
+	if( m_mainSystem->isKeyPressed( gtKey::K_F1 ) || inputGamepadSelectHold() ){
 		m_showDescription = true;
 		pauseBackgroundFadeIn();
 	}else{

@@ -203,11 +203,14 @@ namespace demo{
 		bool inputGamepadMainMenuEscape();
 		bool inputGamepadMainMenuStart();
 		bool inputGamepadMainMenuSelect();
-		bool inputGamepadMainMenuSelectHold();
-		bool inputGamepadMainMenuUpHold();
-		bool inputGamepadMainMenuDownHold();
-		bool inputGamepadMainMenuLeftHold();
-		bool inputGamepadMainMenuRightHold();
+
+		bool inputGamepadSelectHold();
+		bool inputGamepadUpHold();
+		bool inputGamepadDownHold();
+		bool inputGamepadLeftHold();
+		bool inputGamepadRightHold();
+		bool inputGamepadL1Hold();
+		bool inputGamepadR1Hold();
 
 		bool update();
 

@@ -22,6 +22,8 @@ class DemoExample_Camera : public demo::DemoExample{
 
 	f32 m_delta;
 
+	u8 m_activeCameraType;
+
 public:
 
 	DemoExample_Camera();
@@ -40,13 +42,15 @@ public:
 DemoExample_Camera::DemoExample_Camera():
 	m_demoApp( nullptr ),
 	m_driver( nullptr ),
-	m_sceneSystem( nullptr )
+	m_sceneSystem( nullptr ),
+	m_activeCameraType( 0 )
 {}
 
 DemoExample_Camera::DemoExample_Camera( demo::DemoApplication * app ):
 	m_demoApp( app ),
 	m_driver( nullptr ),
-	m_sceneSystem( nullptr )
+	m_sceneSystem( nullptr ),
+	m_activeCameraType( 0 )
 {
 	m_eventConsumer = m_demoApp->GetEventConsumer();
 }
@@ -62,10 +66,18 @@ bool DemoExample_Camera::Init(){
 		return false;
 	}
 
+	auto window = m_driver->getParams().m_outWindow;
+	m_camera2D = m_sceneSystem->addCamera2D( v4f( window->getRect() ) );
+
 	m_cameraLookAt = m_sceneSystem->addCamera( v3f( -10.f, 7.f, 10.f ) );
+	m_cameraFPS = m_sceneSystem->addCamera( v3f( -10.f, 7.f, 10.f ) );
+	m_cameraFree = m_sceneSystem->addCamera( v3f( -10.f, 7.f, 10.f ) );
+
+	m_cameraFPS->setCameraType( gtCameraType::CT_FPS );
+	m_cameraFree->setCameraType( gtCameraType::CT_FREE );
 
 	m_cameraActive = m_cameraLookAt;
-
+	m_sceneSystem->setActiveCamera( m_cameraActive );
 
 	return true;
 }
@@ -79,41 +91,66 @@ void DemoExample_Camera::Input( f32 d ){
 	m_delta = d;
 	if( m_mainSystem->isKeyPressed( gtKey::K_W )
 		|| m_mainSystem->isKeyPressed( gtKey::K_UP )
-		|| m_demoApp->inputGamepadMainMenuUpHold() ){
+		|| m_demoApp->inputGamepadUpHold() ){
 		m_cameraActive->setPosition( m_cameraActive->getPosition() + v3f( 0.f, 0.f, 10.f * m_delta ) );
 	}
 
 	if( m_mainSystem->isKeyPressed( gtKey::K_S )
 		|| m_mainSystem->isKeyPressed( gtKey::K_DOWN )
-		|| m_demoApp->inputGamepadMainMenuDownHold() ){
+		|| m_demoApp->inputGamepadDownHold() ){
 		m_cameraActive->setPosition( m_cameraActive->getPosition() - v3f( 0.f, 0.f, 10.f * m_delta ) );
 	}
 
 	if( m_mainSystem->isKeyPressed( gtKey::K_A )
 		|| m_mainSystem->isKeyPressed( gtKey::K_LEFT )
-		|| m_demoApp->inputGamepadMainMenuLeftHold() ){
+		|| m_demoApp->inputGamepadLeftHold() ){
 		m_cameraActive->setPosition( m_cameraActive->getPosition() + v3f( 10.f * m_delta, 0.f, 0.f ) );
 	}
 
 	if( m_mainSystem->isKeyPressed( gtKey::K_D )
 		|| m_mainSystem->isKeyPressed( gtKey::K_RIGHT )
-		|| m_demoApp->inputGamepadMainMenuRightHold() ){
+		|| m_demoApp->inputGamepadRightHold() ){
 		m_cameraActive->setPosition( m_cameraActive->getPosition() - v3f( 10.f * m_delta, 0.f, 0.f ) );
 	}
 
 	if( m_mainSystem->isKeyPressed( gtKey::K_Q )
-		|| m_mainSystem->isKeyPressed( gtKey::K_PGDOWN )){
+		|| m_mainSystem->isKeyPressed( gtKey::K_PGDOWN )
+		|| m_demoApp->inputGamepadL1Hold() ){
 		m_cameraActive->setPosition( m_cameraActive->getPosition() + v3f( 0.f, 10.f * m_delta, 0.f ) );
 	}
 
 	if( m_mainSystem->isKeyPressed( gtKey::K_E )
-		|| m_mainSystem->isKeyPressed( gtKey::K_PGUP )){
+		|| m_mainSystem->isKeyPressed( gtKey::K_PGUP )
+		|| m_demoApp->inputGamepadR1Hold() ){
 		m_cameraActive->setPosition( m_cameraActive->getPosition() - v3f( 0.f, 10.f * m_delta, 0.f ) );
 	}
 
 	if( m_eventConsumer->keyDown( gtKey::K_ESCAPE )
 		|| m_demoApp->inputGamepadMainMenuStart() ){
 		m_demoApp->Pause();
+	}
+
+	if( m_eventConsumer->keyDown( gtKey::K_1 )
+		|| m_demoApp->inputGamepadMainMenuEscape() ){
+		if( ++m_activeCameraType > 3 )
+			m_activeCameraType = 0;
+
+		switch( m_activeCameraType ){
+		case 0u:
+			m_cameraActive = m_cameraLookAt;
+			break;
+		case 1u:
+			m_cameraActive = m_cameraFPS;
+			break;
+		case 2u:
+			m_cameraActive = m_cameraFree;
+			break;
+		case 3u:
+			m_cameraActive = m_camera2D;
+			break;
+		}
+
+		m_sceneSystem->setActiveCamera( m_cameraActive );
 	}
 }
 

@@ -373,6 +373,14 @@ namespace gost{
 			*this = v;
 		}
 
+		template<typename other_type>
+		gtVector4( const gtVector4< other_type >& v ){
+			this->x = static_cast<Type>(v.x);
+			this->y = static_cast<Type>(v.y);
+			this->z = static_cast<Type>(v.z);
+			this->w = static_cast<Type>(v.w);
+		}
+
 		gtVector4( const gtVector3< Type >& v ):
 			x( v.x ),
 			y( v.y ),

@@ -7,7 +7,7 @@ namespace gost{
 		// Camera type
 	enum class gtCameraType{
 		CT_LOOK_AT,
-		//CT_FREE,
+		CT_FREE,
 		CT_FPS,		//< FPS camera
 		CT_2D
 	};
