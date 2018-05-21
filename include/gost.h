@@ -8,6 +8,7 @@
 
 
 //C++
+#include <cstdlib>
 #include <cctype> //isalpha
 #include <cstring>
 #include <fstream>
@@ -16,6 +17,7 @@
 #include <vector>
 #include <typeinfo>
 #include <cmath>
+#include <memory>
 
 //	GOST
 #include <gtInfo.h>

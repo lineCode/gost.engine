@@ -292,7 +292,7 @@
 	#	define GT_LOAD_LIBRARY(x) LoadLibrary(x)
 	#	define GT_LOAD_FUNCTION GetProcAddress
 	#	define GT_FREE_LIBRARY FreeLibrary
-	#elif defined(GT_PLATFORM_LINUX)
+	#elif defined(GT_PLATFORM_LINUX) || defined(GT_PLATFORM_ANDROID)
 	#	define GT_LIBRARY_HANDLE void*
 	#	define GT_LOAD_LIBRARY(x) dlopen((const char*)x,(RTLD_NOW|RTLD_GLOBAL))
 	#	define GT_LOAD_FUNCTION dlsym
