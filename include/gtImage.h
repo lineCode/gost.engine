@@ -27,7 +27,7 @@ namespace gost{
 			// d-tor
 		virtual ~gtImage(){
 			if( data ){
-					gtMainSystem::getInstance()->freeMemory( (void**)&data );
+				gtMainSystem::getInstance()->freeMemory( (void**)&data );
 				data = nullptr;
 			}
 		}
@@ -35,19 +35,53 @@ namespace gost{
 
 		enum Format{
 
-			FMT_ONE_BIT,	// white or black
-			FMT_A1R5G5B5,	// 1 11111 11111 11111
-			FMT_X1R5G5B5,	// x 11111 11111 11111
-			FMT_A4R4G4B4,	// 1111 1111 1111 1111
-			FMT_X4R4G4B4,	// xxxx 1111 1111 1111
-			FMT_R5G6B5,		// 11111 111111 11111
-			FMT_X8R8G8B8,	// u8 u8 u8 u8
-			FMT_A8R8G8B8,	// u8 u8 u8 u8
+			FMT_ONE_BIT,		// white or black
+			
+			FMT_R1,
+			
+			FMT_A1R5G5B5,		// 1 11111 11111 11111
+			FMT_X1R5G5B5,		// x 11111 11111 11111
+			
+			FMT_A4R4G4B4,		// 1111 1111 1111 1111
+			FMT_X4R4G4B4,		// xxxx 1111 1111 1111
+			FMT_B4G4R4A4,
+			
+			FMT_R5G6B5,			// 11111 111111 11111
+			FMT_B5G6R5,
+			FMT_B5G5R5A1,
+			
+			FMT_A8,
+			
+			FMT_R8,
+			FMT_R8G8,
+			FMT_R8G8B8,			// u8 u8 u8
+			FMT_R8G8B8A8,		// u8 u8 u8 u8
+			FMT_R8G8B8G8,
+			FMT_G8R8G8B8,
+			FMT_B8G8R8A8,
+			FMT_B8G8R8X8,
+			FMT_X8R8G8B8,		// u8 u8 u8 u8
+			FMT_A8R8G8B8,		// u8 u8 u8 u8
+			
+			FMT_R9G9B9E5,
+			
+			FMT_R10G10B10A2,
 
-			FMT_R8G8B8A8,	// u8 u8 u8 u8
+			FMT_R11G11B10,
 
-			FMT_R8G8B8,		// u8 u8 u8
-
+			FMT_R16,
+			FMT_R16G16,
+			FMT_R16G16B16A16,
+			
+			FMT_R24G8,
+			FMT_R24X8,
+			FMT_X24G8,
+			
+			FMT_R32,
+			FMT_R32G32,
+			FMT_R32G8X24,
+			FMT_R32G32B32,
+			FMT_R32G32B32A32,	
 
 			//	OpenGL
 			FMT_COMPRESSED_RGBA_S3TC_DXT1 = 0x83F1, // dds dxt1
