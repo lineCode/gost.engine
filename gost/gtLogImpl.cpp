@@ -16,14 +16,37 @@ gtLogImpl::~gtLogImpl(){
 	//	%s - char16_t*
 	//	%c - char16_t
 void gtLogImpl::print( msgType type, const char16_t* str, ... ){
-	gt_va_list args;
-	va_start( args, str );
-	print( type, str, args );
-	va_end( args );
+	if( m_msgType >= type ){
+		gtString message;
+		switch( type ){
+		case gost::gtLog::msgType::error:
+			message.assign(u"Error: ");
+			break;
+		case gost::gtLog::msgType::warning:
+			message.assign(u"Warning: ");
+			break;
+		case gost::gtLog::msgType::info:
+			break;
+		}
+		
+		gt_va_list args;
+		va_start( args, str );
+//	print( type, str, args );
+		deformat( str, args, message );
+		va_end( args );
+		
+		gtFile_t file = util::openFileForWriteText(u"log.txt");
+		file->write( message );
+		file->write( gtString(u"\r\n") );
+
+		if( m_out )
+			m_out->print( message );
+	}
 }
 
 
 void gtLogImpl::print( msgType type, const char16_t* str, void * p ){
+/*
 	if( m_msgType >= type ){
 		gtString message;
 		switch( type ){
@@ -37,7 +60,7 @@ void gtLogImpl::print( msgType type, const char16_t* str, void * p ){
 			break;
 		}
 
-		gt_va_list args = (gt_va_list)p;
+		gt_va_list args;// = static_cast<gt_va_list>(p);
 		deformat( str, args, message );
 
 		gtFile_t file = util::openFileForWriteText(u"log.txt");
@@ -47,6 +70,7 @@ void gtLogImpl::print( msgType type, const char16_t* str, void * p ){
 		if( m_out )
 			m_out->print( message );
 	}
+*/
 }
 
 void gtLogImpl::deformat( const char16_t* fmt,
@@ -79,7 +103,7 @@ void gtLogImpl::deformat( const char16_t* fmt,
 				message += (char16_t*)ss.str().c_str();
 				continue;
 			}else if( fmt[ i ] == u'c' ){
-				message += va_arg( list, char16_t );
+				message += va_arg( list, /*char16_t*/int );
 				continue;
 			}else if( fmt[ i ] == u's' ){
 				char16_t * p2 = va_arg( list, char16_t* );
