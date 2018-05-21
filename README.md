@@ -32,5 +32,6 @@ x64 https://go.microsoft.com/fwlink/?LinkId=746572
 
 x86 https://go.microsoft.com/fwlink/?LinkId=746571
 
-# VS 2015 Redistributable
-http://imsoftworks.info/files/VS%202015%20redist.7z
+# Special thanks
+
+* Nikita Kogut ([MrOnlineCoder](https://github.com/MrOnlineCoder))
