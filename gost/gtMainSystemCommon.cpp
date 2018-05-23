@@ -231,7 +231,7 @@ gtPtr<gtGameController> gtMainSystemCommon::createGameContoller( const GT_GUID& 
 
 			auto * pl = ps->getPlugin( i );
 
-			if( pl->getInfo().m_info.m_type == gtPluginType::audio ){
+			if( pl->getInfo().m_info.m_type == gtPluginType::input ){
 			
 				pluginInput = ps->getAsPluginInput( pl );
 
