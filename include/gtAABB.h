@@ -8,26 +8,11 @@ namespace gost{
 	class gtAabb{
 	public:
 
-			//	default constructor
 		gtAabb(){ }
 
-			// \param min: minimum
-			// \param max: maximum
 		gtAabb( const v3f& min, const v3f& max ):
 			m_min( min ), m_max( max ){ }
 
-			// is empty
-			// \return \b true if empty
-		bool isEmpty() const {
-			return (m_min == m_max);
-		}
-
-			// reset
-		void reset(){
-			m_min = m_max = v3f();
-		}
-
-			//	\param point: vertex position for add
 		void add( const v3f& point ){
 			if( point.x < m_min.x ) m_min.x = point.x;
 			if( point.y < m_min.y ) m_min.y = point.y;
@@ -38,7 +23,6 @@ namespace gost{
 			if( point.z > m_max.z ) m_max.z = point.z;
 		}
 
-			//	\param box: other aabb
 		void add( const gtAabb& box ){
 			if( box.m_min.x < m_min.x ) m_min.x = box.m_min.x;
 			if( box.m_min.y < m_min.y ) m_min.y = box.m_min.y;
@@ -49,21 +33,25 @@ namespace gost{
 			if( box.m_max.z > m_max.z ) m_max.z = box.m_max.z;
 		}
 
-			// \param v: [\b in/out] vector for size
-		void extent( v3f& v ){
-			v = v3f( m_max - m_min );
-		}
-
-			// \param v: [\b in/out] center
 		void center( v3f& v ){
 			v = v3f( m_min + m_max );
 			v *= 0.5f;
 		}
 
-		v3f m_min, m_max; //< components
+		void extent( v3f& v ){
+			v = v3f( m_max - m_min );
+		}
 
+		bool isEmpty() const {
+			return (m_min == m_max);
+		}
+
+		void reset(){
+			m_min = m_max = v3f();
+		}
+
+		v3f m_min, m_max;
 	};
-
 }
 
 

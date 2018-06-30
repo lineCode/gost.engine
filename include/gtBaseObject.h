@@ -6,20 +6,12 @@ namespace gost{
 
 	class gtBaseObject{
 	protected:
-
 		GT_FORCE_INLINE gtBaseObject(){}
-	
 	public:
-
-			//	c-tor
 		virtual ~gtBaseObject(){}
-			
-			//	d-tor
 		virtual void first_vtable_function(){}
-
 	
 	};
-
 }
 
 #endif

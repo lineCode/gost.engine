@@ -6,20 +6,19 @@ namespace gost{
 		
 	class gtAnimation{
 
-		v2u m_loopSegment;	//< loop segment
+		v2u m_loopSegment;
 
-		u32 m_frames;		//< num of frames
-		u32 m_currentFrame; //< current frame id
-		f32 m_frameRate;	//< frames on second
+		u32 m_frames;		// num of frames
+		u32 m_currentFrame;
+		f32 m_frameRate;	// frames on second
 
-		bool m_isLoop;		//< is loop
-		bool m_isPlay;		//< is play
-		bool m_reverse;		//< is reverse play
+		bool m_isLoop;		
+		bool m_isPlay;		
+		bool m_reverse;		
 
 
 	public:
 
-			//	c-tor
 		gtAnimation():
 			m_loopSegment(0u,0u),
 			m_frames( 0u ),
@@ -30,22 +29,41 @@ namespace gost{
 			m_reverse( false )
 		{}
 
-			//	is reverse play
-			// \return \b true if reverse play
-		bool isReverse() const {
-			return m_reverse;
-		}
-
-			//	set reverse play
-			//	\param v: \b true if reverse play
-		void setReverse( bool v ){
-			m_reverse = v;
-		}
-
 			//	increase frame count
-		void addFrame(){
-			++m_frames;
+		void addFrame(){ ++m_frames; }
+
+		void clear(){
+			m_frames = 0u;
+			m_currentFrame = 0u;
+			m_frameRate = 60.f;
+			m_isLoop = false;
+			m_isPlay = false;
+			m_loopSegment = v2u(0u,0u);
 		}
+		u32	getCurrentFrame() const { return m_currentFrame; }
+		u32	getFrameCount() const   { return m_frames; }
+		f32	getFrameRate() const    { return m_frameRate; }
+		const v2u& getLoopSegment() { return m_loopSegment; }
+		bool isLoop() const         { return m_isLoop; }
+		bool isPlay() const         { return m_isPlay; }
+		bool isReverse() const      { return m_reverse; }
+		void pause()                { m_isPlay = false; }
+		void play()                 { m_isPlay = true; }
+
+		void setCurrentFrame( u32 frame ){
+			m_currentFrame = frame;
+			if( m_currentFrame > m_loopSegment.y )
+				m_currentFrame = m_loopSegment.y;
+		}
+		void setFrameRate( f32 rate ){ m_frameRate = rate; }
+		void setLoop( bool value ){ m_isLoop = value; }
+		void setLoopSegment( u32 begin, u32 end ){
+			m_currentFrame = begin;
+			m_loopSegment.x = begin;
+			m_loopSegment.y = end;
+		}
+
+		void setReverse( bool v ){ m_reverse = v; }
 
 			//	set active next frame
 		void stepFrame(){
@@ -62,99 +80,11 @@ namespace gost{
 			}
 		}
 
-			//	get count of frames
-			// \return count
-		u32	getFrameCount() const {
-			return m_frames;
-		}
-
-			// get current frame id
-			//	\return current frame
-		u32	getCurrentFrame() const {
-			return m_currentFrame;
-		}
-
-			//	set current frame id
-			// \param frame: id
-		void setCurrentFrame( u32 frame ){
-			m_currentFrame = frame;
-			if( m_currentFrame > m_loopSegment.y )
-				m_currentFrame = m_loopSegment.y;
-		}
-
-			// get frame rate
-			// \return frame rate
-		f32	getFrameRate() const {
-			return m_frameRate;
-		}
-
-			// set frame rate
-			// \param rate: new frame rate
-		void	setFrameRate( f32 rate ){
-			m_frameRate = rate;
-		}
-
-			// is loop
-			// \return \b true if animation is looped
-		bool isLoop() const {
-			return m_isLoop;
-		}
-
-			// is play
-			// \return \b true if animation is played
-		bool isPlay() const {
-			return m_isPlay;
-		}
-
-			// set loop
-			// \param value: \b true if need for looping animation
-		void setLoop( bool value ){
-			m_isLoop = value;
-		}
-
-			// set loop segment
-			// \param begin: start id
-			// \param end: end id
-		void setLoopSegment( u32 begin, u32 end ){
-			m_currentFrame = begin;
-			m_loopSegment.x = begin;
-			m_loopSegment.y = end;
-		}
-
-			// play animation
-		void play(){
-			m_isPlay = true;
-		}
-		
-			// pause animation
-		void pause(){
-			m_isPlay = false;
-		}
-
-			// stop animation
 		void stop(){
 			m_isPlay = false;
 			m_currentFrame = 0u;
 		}
-
-			// clear animation
-		void clear(){
-			m_frames = 0u;
-			m_currentFrame = 0u;
-			m_frameRate = 60.f;
-			m_isLoop = false;
-			m_isPlay = false;
-			m_loopSegment = v2u(0u,0u);
-		}
-
-			// get loop segment
-			// \return current loop segment
-		const v2u& getLoopSegment(){
-			return m_loopSegment;
-		}
-
 	};
-
 }
 
 #endif

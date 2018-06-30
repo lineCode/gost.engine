@@ -8,55 +8,34 @@
 namespace gost{
 
 	enum class gtAudioPluginFeatures : u32{
-		streaming_audio,
-		reverberation,
-		pitch,
-		_3D
+		Streaming_audio,
+		Reverberation,
+		Pitch,
+		Audio_3D
 	};
 
 	class gtAudioSystem : public gtRefObject{
 	public:
 
+			//	Check supported features
+		virtual bool	checkFeature( gtAudioPluginFeatures feature ) = 0;
+
 			//	Load audio file and create audio object.
-			// \param fileName: audio file
-			//	\param sp: Simultaneous playback.
-			//	\return Audio object for playback
 		virtual gtAudioObject*	createAudioObject( const gtString& fileName, u32 sp = 1u ) = 0;
 
 			//	Create audio object from memmory
-			// \param fileName: audio source
-			//	\param sp: Simultaneous playback.
-			//	\return Audio object for playback
-			//	\remark `source` will be destroyed when `gtAudioObject` destroy. If you need `source`, call `source->addRef();`
 		virtual gtAudioObject*	createAudioObject( gtAudioSource* source, u32 sp = 1u ) = 0;
 
+			//	Open audio file to play streaming audio.
+		virtual gtAudioStream*	createStream( const gtString& fileName ) = 0;
+
+		virtual const s8*		getSupportedExtension( u32 id ) = 0;
+		virtual u32				getSupportedExtensionCount() = 0;
+
 			//	Load audio file
-			//	\param fileName: path to the file
-			//	\return Audio source
 		virtual gtAudioSource*	loadAudioSource( const gtString& fileName ) = 0;
 
-			//	Check supported features
-			//	\param feature: feature to check
-			//	\return \b true if supported
-		virtual bool	checkFeature( gtAudioPluginFeatures feature ) = 0;
-
-			//	Get num of supported file extensions
-			//	\return Num of supported file extensions
-		virtual u32		getSupportedExtensions() = 0;
-
-			//	Get supported extension
-			//	\param id: number of extension. See getSupportedExtensions
-			//	\return Extension
-			//	\remark If `id` invalid (id>=getSupportedExtensions()), this function return `nullptr`
-		virtual const s8*		getSupportedExtension( u32 id ) = 0;
-
-
-			//	Open audio file to play streaming audio.
-			//	\param fileName: path to the file
-			//	\return Audio stream object
-		virtual gtAudioStream*	createStream( const gtString& fileName ) = 0;
 	};
-
 }
 
 #endif

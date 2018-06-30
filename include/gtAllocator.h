@@ -14,17 +14,19 @@ namespace gost{
 			return static_cast<Type*>( operator new( size * sizeof( Type ) ) );
 		}
 
-		void deallocate( Type * ptr ){
-			operator delete( ptr );
-		}
-
 		void construct( Type * new_data, const Type& old_data ){
 			new((void*)new_data) Type( old_data );
+		}
+
+		void deallocate( Type * ptr ){
+			operator delete( ptr );
 		}
 
 		void destruct( Type * ptr ){
 			ptr->~Type();
 		}
+
+
 
 	};
 }

@@ -23,7 +23,7 @@ Wiki for samples https://github.com/532235/GoST/wiki
 
 http://www.imsoftworks.info/contributing.php
 
-
+https://www.patreon.com/Gostengine
 
 [![Support](http://www.imsoftworks.info/gost/support.png)](https://www.paypal.me/supportgost)
 
@@ -32,5 +32,6 @@ x64 https://go.microsoft.com/fwlink/?LinkId=746572
 
 x86 https://go.microsoft.com/fwlink/?LinkId=746571
 
-# VS 2015 Redistributable
-http://imsoftworks.info/files/VS%202015%20redist.7z
+# Special thanks
+
+* Nikita Kogut ([MrOnlineCoder](https://github.com/MrOnlineCoder))

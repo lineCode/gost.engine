@@ -45,7 +45,7 @@ namespace gost{
 #elif defined(GT_PLATFORM_LINUX)
             m_device_type	=	gtDeviceType::Linux;
 #else
-#error "Эта ОС не поддерживается"
+#error "This OS is not supported yet. Visit http://gost.imsoftworks.info/ for additional information."
 #endif
 			m_outputWindow = nullptr;
 

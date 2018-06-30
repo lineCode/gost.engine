@@ -26,30 +26,25 @@ namespace gost{
 		//	Audio source
 	class gtAudioSource : public gtRefObject{
 
-			//	Information
 		gtAudioSourceInfo m_info;
 
 			//	Raw data
 		u8	*	m_data;
-
-			//	Size
 		u32		m_dataSize;
+
 	public:
 
-			//	Constructor
 		gtAudioSource():
 			m_data( nullptr ),
 			m_dataSize( 0u )
 		{}
 
-			//	Destructor
 		virtual ~gtAudioSource(){
 			if( m_data ){
 				delete []m_data;
 			}
 		}
 
-			//	Allocate memory
 		void allocate( u32 size ){
 			if( !m_data ){
 				m_data = new u8[ size ];
@@ -57,35 +52,18 @@ namespace gost{
 			}
 		}
 
-			//	Set data
-		void setRawData( u8 * data, u32 sz ){
+		u8* getData(){ return m_data; }
+		u32 getDataSize(){ return m_dataSize;}
+
+		const gtAudioSourceInfo& getInfo() const { return m_info; }
+		void setInfo( const gtAudioSourceInfo& info ){ m_info = info; }
+		
+		void setData( u8 * data, u32 sz ){
 			m_data = data;
 			m_dataSize = sz;
 		}
 
-			//	Get info
-		const gtAudioSourceInfo& getInfo() const {
-			return m_info;
-		}
-
-			//	Set info
-		void setInfo( const gtAudioSourceInfo& info ){
-			m_info = info;
-		}
-
-			// Get raw data
-		u8	*	getData(){
-			return m_data;
-		}
-
-			//	Get data size
-		u32 getDataSize(){
-			return m_dataSize;
-		}
-
-
 	};
-
 }
 
 #endif

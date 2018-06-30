@@ -8,6 +8,7 @@
 
 
 //C++
+#include <cstdlib>
 #include <cctype> //isalpha
 #include <cstring>
 #include <fstream>
@@ -16,6 +17,7 @@
 #include <vector>
 #include <typeinfo>
 #include <cmath>
+#include <memory>
 
 //	GOST
 #include <gtInfo.h>
@@ -118,16 +120,7 @@
 #endif
 #endif
 
-//	Base namespace for GoST
-//	All GoST objects here
 namespace gost {
-
-/*
-	GoST initialization
-
-	\param params: gtDeviceCreationParameters
-	\return gtMainSystem
-*/
 
 	extern "C" GT_API gtMainSystem* GT_CDECL InitializeGoSTEngine_internal( const gtDeviceCreationParameters& params );
 

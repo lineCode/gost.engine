@@ -7,58 +7,28 @@
 namespace gost{
 
 	enum class gtAudioState : u32{
-		play,
-		pause,
-		stop
+		Play,
+		Pause,
+		Stop
 	};
 
 			//	Common class for all sound objects
 	class gtAudioObject : public gtRefObject{
 	public:
 
-			//	Start playback
-		virtual void play() = 0;
-
-			//	Check is play
-			//	\return \b true if play
+		virtual gtAudioSource* getAudioSource() = 0;
+		virtual const gtStringA& getName() = 0;
+		virtual f32  getVolume() = 0;
+		virtual bool isLoop() = 0;
 		virtual bool isPlay() = 0;
-
-			//	Pause playback
 		virtual void pause() = 0;
-
-			//	Stop playback
+		virtual void play() = 0;
+		virtual void setAudioSource( gtAudioSource* source ) = 0;
+		virtual void setLoop( bool isLoop ) = 0;
+		virtual void setName( const gtStringA& name ) = 0;
+		virtual void setVolume( f32 volume ) = 0;
 		virtual void stop() = 0;
 
-			//	Set volume
-			//	\param volume: new volume
-		virtual void setVolume( f32 volume ) = 0;
-
-			//	Get volume
-			//	\return volume
-		virtual f32  getVolume() = 0;
-
-			//	Set repeat
-			//	\param isLoop: \b true if repeat
-		virtual void setLoop( bool isLoop ) = 0;
-
-			//	Check is repeat
-			//	\return \b true if repeat
-		virtual bool isLoop() = 0;
-
-			//	Set source
-		virtual void setAudioSource( gtAudioSource* source ) = 0;
-
-			//	Get source
-			//	\return Source object
-		virtual gtAudioSource* getAudioSource() = 0;
-
-			//	Get name
-			//	\return Name
-		virtual const gtStringA&	getName() = 0;
-
-			//	Set name
-			//	\param name: new name
-		virtual void setName( const gtStringA& name ) = 0;
 	};
 
 		//	Common class for audio object
@@ -67,45 +37,24 @@ namespace gost{
 		bool			m_isLoop;
 		gtAudioState	m_state;
 		gtStringA		m_name;
-
 		f64				m_time;
-
 	public:
 
 		gtAudioObjectCommon():
 			m_isLoop( false ),
-			m_state( gtAudioState::stop ),
+			m_state( gtAudioState::Stop ),
 			m_time( 0. )
-		{
-		}
+		{}
 
 		virtual ~gtAudioObjectCommon(){}
 
-		bool isPlay(){
-			return m_state == gtAudioState::play;
-		}
-
-		bool isPause(){
-			return m_state == gtAudioState::pause;
-		}
-
-		bool isStop(){
-			return m_state == gtAudioState::stop;
-		}
-
-		bool isLoop(){
-			return m_isLoop;
-		}
-
-		const gtStringA&	getName(){
-			return m_name;
-		}
-
-		void setName( const gtStringA& name ){
-			m_name = name;
-		}
-
-		f64 time()  { return m_time; }
+		bool isPlay() { return m_state == gtAudioState::Play; }
+		bool isPause(){ return m_state == gtAudioState::Pause; }
+		bool isStop() { return m_state == gtAudioState::Stop; }
+		bool isLoop() { return m_isLoop; }
+		const gtStringA& getName(){ return m_name; }
+		void setName( const gtStringA& name ){ m_name = name; }
+		f64 time()    { return m_time; }
 	};
 
 }

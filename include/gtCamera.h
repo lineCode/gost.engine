@@ -4,75 +4,43 @@
 
 namespace gost{
 
-		// Camera type
 	enum class gtCameraType{
-		CT_LOOK_AT,
-		CT_FREE,
-		CT_FPS,		//< FPS camera
-		CT_2D
+		LookAt,
+		Free,
+		FPS,
+		Camera_2D
 	};
 
 
-	/*
-	  |-------x
-	  |  far /|
-	  |     / |
-	  y____/__|
-	 -----x  /
-	|near | /
-	y_____|/
-	*/
 	struct gtCameraFrustum{
-		/*v3f m_farX;
-		v3f m_farY;
-		v3f m_nearX;
-		v3f m_nearY;*/
 		v4f m_planes[ 6u ];
 	};
 
-		//	camera
 	class gtCamera : public gtGameObject{
 	public:
 
-		virtual gtCameraType	getCameraType() = 0;
-
-		virtual void			setCameraType( gtCameraType type ) = 0;
-
+		virtual gtAabb*				getAabb() = 0;
+		virtual f32					getAspect() = 0;
+		virtual gtCameraType		getCameraType() = 0;
+		virtual f32					getFar() = 0;
+		virtual f32					getFOV() = 0;
+		virtual f32					getNear() = 0;
+		virtual gtObb*				getObb() = 0;
+		virtual const gtMatrix4&	getProjectionMatrix() = 0;
+		virtual const v3f&			getTarget() = 0;
+		virtual const v3f&			getUpVector() = 0;
 		virtual const gtMatrix4&	getViewMatrix() = 0;
 
-		virtual const gtMatrix4&	getProjectionMatrix() = 0;
-
-		virtual const v3f&			getTarget() = 0;
-
-		virtual void				setTarget( const v3f& target ) = 0;
-		
-		virtual const v3f&			getUpVector() = 0;
-
-		virtual void				setUpVector( const v3f& up ) = 0;
-
-		virtual void				setNear( f32 Near ) = 0;
-
-		virtual void				setFar( f32 Far ) = 0;
-
 		virtual void				setAspect( f32 aspect ) = 0;
-
+		virtual void				setCameraType( gtCameraType type ) = 0;
+		virtual void				setFar( f32 Far ) = 0;
 		virtual void				setFOV( f32 fov ) = 0;
-
-
-		virtual f32					getNear() = 0;
-
-		virtual f32					getFar() = 0;
-
-		virtual f32					getAspect() = 0;
-
-		virtual f32					getFOV() = 0;
-
+		virtual void				setNear( f32 Near ) = 0;
+		virtual void				setTarget( const v3f& target ) = 0;
+		virtual void				setUpVector( const v3f& up ) = 0;
 		virtual void				setViewPort( const v4f& v ) = 0;
 		
-		virtual gtAabb*				getAabb() = 0;
-		virtual gtObb*				getObb() = 0;
 	};
-
 }
 
 #endif

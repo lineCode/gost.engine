@@ -15,26 +15,18 @@ namespace gost{
 		typedef const type& const_reference;
 
 		pointer m_data;
-
-		u32 m_size;
-		u32 m_allocated;
-
-		u32 m_addMemory;
-
+		u32     m_size;
+		u32     m_allocated;
+		u32     m_addMemory;
 		gtAllocator<type> m_allocator;
 
 		void reallocate( u32 new_capacity ){
-
 			new_capacity += m_addMemory;
-
 			pointer new_data = m_allocator.allocate( new_capacity * sizeof( type ) );
 
 			if( m_data ){
-
 				for( u32 i = 0u; i < m_size; ++i ){
-
 					m_allocator.construct( &new_data[i], m_data[i] );
-
 					m_allocator.destruct( &m_data[i] );
 				}
 
@@ -42,14 +34,11 @@ namespace gost{
 			}
 
 			m_data = new_data;
-
 			m_allocated = new_capacity;
 		}
 
 	public:
 
-			// Constructor.
-			//	\param addSize:
 		gtArray( u32 addSize = 8u ):
 			m_data( nullptr ),
 			m_size( 0u ),
@@ -68,77 +57,23 @@ namespace gost{
 			memcpy( m_data, other.data(), m_size * sizeof( type ) );
 		}
 
-		~gtArray(){
-			clear();
-		}
+		~gtArray(){ clear(); }
+		pointer data() const { return m_data; }
+		void    setSize( u32 s ){ m_size = s; }
+		u32     size() const { return m_size; }
+		u32     capacity() const { return m_allocated; }
+		void    setAddMemoryValue( u32 v ){ m_addMemory = v; }
+		bool    empty() const { return m_size == 0u; }
 
-			//	Get pointer to data
-		pointer data() const {
-			return m_data;
-		}
-
-			//	Set size
-		void setSize( u32 s ){
-			m_size = s;
-		}
-
-			//	Get size
-		u32 size() const {
-			return m_size;
-		}
-
-			//	Get allocated
-		u32 capacity() const {
-			return m_allocated;
-		}
-
-		void setAddMemoryValue( u32 v ){
-			m_addMemory = v;
-		}
-
-			//	Check is empty
-			//	\return \b true if empty
-		bool empty() const {
-			return m_size == 0u;
-		}
-
-			//	Get element
-		const_reference at( u32 id ) const {
-			return m_data[id];
-		}
-
-			//	Get element
-		reference at( u32 id ){
-			return m_data[id];
-		}
-
-			//	Get element
-		const_reference operator[]( u32 id ) const {
-			return m_data[id];
-		}
-
-			//	Get element
-		reference operator[]( u32 id ){
-			return m_data[id];
-		}
-
-			//	Get last element
-		reference back(){
-			return m_data[ m_size - 1u ];
-		}
-
-			//	Get last element
-		const_reference back() const {
-			return m_data[ m_size - 1u ];
-		}
-
-			//	Get first element
-		const_reference front() const {
-			return m_data[ 0u ];
-		}
+		const_reference at( u32 id ) const { return m_data[id]; }
+		reference       at( u32 id ){ return m_data[id]; }
+		const_reference operator[]( u32 id ) const { return m_data[id]; }
+		reference       operator[]( u32 id ){ return m_data[id]; }
+		reference       back(){ return m_data[ m_size - 1u ]; }
+		const_reference back() const { return m_data[ m_size - 1u ]; }
+		const_reference front() const { return m_data[ 0u ]; }
 
 			//	Allocate memory
-			//	\param new_capacity: new size
 		void reserve( u32 new_capacity ){
 			if( new_capacity > m_allocated )
 				reallocate( new_capacity );
@@ -204,11 +139,10 @@ namespace gost{
 			}
 		}
 
-		void sort(){
-			for( u32 i = 0u; i < m_size; ++i ){
-
-			}
-		}
+	//	void sort(){
+	//		for( u32 i = 0u; i < m_size; ++i ){
+	//		}
+	//	}
 
 		gtArray<type>& operator=( const gtArray<type>& other ){
 			clear();
