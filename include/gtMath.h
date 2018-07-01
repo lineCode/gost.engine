@@ -21,7 +21,7 @@ namespace gost{
 	// Here math functions and declarations
 	namespace math{
 
-#define PI	3.14159265358979323846f
+constexpr f32 PI = 3.14159265358979323846f;
 
 		/*Doom 3*/
 		union _flint{
@@ -65,22 +65,11 @@ namespace gost{
 			return radians * static_cast<f64>(57.295779513082320876798154814105);
 		}
 
-		/**IrrLicht*/
-		//! returns linear interpolation of a and b with ratio t
-		//! \return: a if t==0, b if t==1, and the linear interpolation else
 		template<typename T>
 		GT_FORCE_INLINE T lerp( const T& a, const T& b, const f32 t ){
-			return (T)(a*(1.f-t)) + (b*t);
+			return ( T )( a * ( 1.f - t ) ) + ( b * t );
 		}
 
-		/*GT_FORCE_INLINE f32 planeDotCoord( const v3f& plane, const v3f& coord ){
-			return
-				plane.x * coord.x
-				+
-				plane.y * coord.y
-				+
-				plane.z * coord.z;
-		}*/
 	}
 
 }

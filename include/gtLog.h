@@ -10,9 +10,9 @@ namespace gost{
 	public:
 
 		enum class msgType{
-			error,		
-			warning,	
-			info		
+			Error,		
+			Warning,	
+			Info		
 		};
 
 			//	\%f - float

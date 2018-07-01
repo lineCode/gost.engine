@@ -4,37 +4,36 @@
 
 namespace gost{
 
-	enum gtMaterialBlendOp : u32 {
-
+	enum class gtMaterialBlendOp : u32 {
 			//	Result = Source + Destination
-		BOP_ADD,
+		Add,
 
 			//	Result = Source - Destination
-		BOP_SUBSTRACT,
+		Sub,
 
 			//	Result = Destination - Source
-		BOP_SUBSTRACT_REVERSE,
+		Seb_reverse,
 
-		BOP_MIN,
+		Min,
 
-		BOP_MAX
+		Max
 	};
 
-	enum gtMaterialFlag : u32 {
+	enum class gtMaterialFlag : u32 {
 
-		MF_WIREFRAME = 1u,
+		Wireframe = 1u,
 
-		MF_BACKFACE = 2u,
+		Backface = 2u,
 
-		MF_BLEND = 4u,
+		Blend = 4u,
 
-		MF_NOCASTSHADOW = 8u,
+		Nocastshadows = 8u,
 
-		MF_NORECEIVESHADOW = 16u,
+		Noreceiveshadows = 16u,
 
-		MF_NOSELFSHADOW = 32u,
+		Noselfshadows = 32u,
 
-		MF_BLENDDISCARD = 64u
+		Blenddiscard = 64u
 
 	};
 
@@ -43,7 +42,7 @@ namespace gost{
 			// c-tor
 		gtMaterialTextureLayer():
 			diffuseColor( 1.f ),
-			blendOperation( gtMaterialBlendOp::BOP_SUBSTRACT ),
+			blendOperation( gtMaterialBlendOp::Sub ),
 			level( 1.f ),
 			texture( nullptr )
 		{}
