@@ -6,7 +6,6 @@ namespace gost{
 
 	struct gtDriverInfo{
 
-			// c-tor
 		gtDriverInfo():
 			m_fullScreen( false ),
 			m_stencilBuffer( true ),
@@ -33,25 +32,14 @@ namespace gost{
 
 
 		v2i		m_backBufferSize;
-
-
 		bool	m_fullScreen;
-
-
 		bool	m_stencilBuffer;
-
-
 		bool	m_doubleBuffer;
-
-
 		bool	m_vSync;
-
-
 		u8		m_colorDepth;
 
 			// only for Direct3D
 		u32		m_adapterID;
-
 
 		gtWindow * m_outWindow;
 	};
@@ -60,31 +48,17 @@ namespace gost{
 	class gtDriver : public gtRefObject{
 	public:
 
+		virtual void clearModelCache() = 0;
+		virtual void clearTextureCache() = 0;
 
-			// \return gtDriverInfo
-		virtual const gtDriverInfo&	getParams() = 0;
-
-
-		virtual void beginRender( bool clearRenderTarget = true, const gtColor& color = gtColor(0.f) ) = 0;
-
-
-		virtual void endRender() = 0;
-
+		virtual gtPtr<gtRenderModel> createModel( gtModel* software_model ) = 0;
+		virtual gtPtr<gtTexture>     createTexture( gtImage* sourceImage, gtTextureFilterType filter = gtTextureFilterType::FILTER_ANISOTROPIC ) = 0;
 
 		virtual void draw2DImage( const v4i& rect, const gtMaterial& m ) = 0;
-
-
 		virtual void draw2DImage( const v4i& rect, gtTexture* texture ) = 0;
-
-
-		virtual void drawModel( gtRenderModel* model ) = 0;
-
-
 		virtual void draw2DImage( const v4i& rect, const v4i& region, const gtMaterial& m ) = 0;
 		virtual void draw2DImage( const v4i& rect, const v4i& region, gtTexture* texture ) = 0;
-
 		virtual void drawLine( const v3f& start, const v3f& end, const gtColor& color = gtColor( 1.f, 1.f, 1.f, 1.f ) ) = 0;
-
 		/*
 			//       v6-----------v2
 			//      /|			/ |
@@ -106,7 +80,9 @@ namespace gost{
 			const gtColor& color2 = gtColor( 1.f, 1.f, 1.f, 1.f ),
 			const gtColor& color3 = gtColor( 1.f, 1.f, 1.f, 1.f )) = 0;
 
-
+		virtual void drawModel( gtRenderModel* model ) = 0;
+		virtual void beginRender( bool clearRenderTarget = true, const gtColor& color = gtColor(0.f) ) = 0;
+		virtual void endRender() = 0;
 
 		virtual gtShader *	getShader(
 			gtShaderCallback * callback,
@@ -118,43 +94,17 @@ namespace gost{
 			gtVertexType * vertexType
 			) = 0;
 
+		virtual const gtDriverInfo&	getParams() = 0;
 
-
-		virtual gtPtr<gtTexture>	createTexture( gtImage* sourceImage, gtTextureFilterType filter = gtTextureFilterType::FILTER_ANISOTROPIC ) = 0;
-
-
-		virtual gtPtr<gtRenderModel>	createModel( gtModel* software_model ) = 0;
-
-			//	Get texture from texture cache, or load new texture to the cache
-			//	\param fileName: path to the file
-			//	\param filter: filter type
-			//	\param outImage: Loaded gtImage. If set nullptr, gtImage will be removed.
-			//	\return texture
-			//	\remark If you get outImage, don't forget call outImage->release() for delete.
-		virtual gtTexture*		getTexture( const gtString& fileName, gtTextureFilterType filter = gtTextureFilterType::FILTER_ANISOTROPIC, gtImage** outImage = nullptr ) = 0;
-
-			//	Get model from model cache, or load new model to the cache
-			//	\param fileName: path to the file
-			//	\param software_model: Loaded software_model. If set nullptr, gtMoel will be removed.
-			//	\return render model
-			//	\remark If you get software_model, don't forget call software_model->release() for delete.
+		virtual gtTexture*		getTexture( const gtString& fileName, gtTextureFilterType filter = gtTextureFilterType::FILTER_ANISOTROPIC,
+			gtImage** outImage = nullptr ) = 0;
 		virtual gtRenderModel*	getModel( const gtString& fileName, gtModel** software_model = nullptr ) = 0;
 
-			//	clearTextureCache
-		virtual void	clearTextureCache() = 0;
-
-			// clearModelCache
-		virtual void	clearModelCache() = 0;
-
 		virtual bool	removeModel( gtRenderModel* model ) = 0;
-
 		virtual bool	removeTexture( gtTexture* texture ) = 0;
-
-		virtual void	setDepthState( bool state = true ) = 0;
-
-		virtual void	scissorClear( bool setOriginal = true ) = 0;
-
 		virtual void	scissorAdd( const v4i& rect ) = 0;
+		virtual void	scissorClear( bool setOriginal = true ) = 0;
+		virtual void	setDepthState( bool state = true ) = 0;
 	};
 
 
