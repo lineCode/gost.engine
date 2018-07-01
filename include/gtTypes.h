@@ -6,14 +6,14 @@ namespace gost{
 
 	enum class gtSide : unsigned int{
 	  /*POSX, NEGX, POSY,NEGY, POSZ	, NEGZ*/
-		LEFT, RIGHT, UP, DOWN, FRONT, BACK
+		Left, Right, Up, Down, Front, Back
 	};
 
 	enum class gtBoundingVolumeType : unsigned int{
-		sphere,
-		obb,
-		aabb,
-		convex
+		Sphere,
+		Obb,
+		Aabb,
+		Convex
 	};
 
     #if defined(GT_PLATFORM_WIN32)
