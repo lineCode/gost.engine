@@ -43,7 +43,7 @@ gtTexture * gtGUIFontImpl::getTexture( u32 id ){
 bool gtGUIFontImpl::init( const gtString& font, gtImage * image ){
 	if( image ){
 		
-		auto xml = gtMainSystem::getInstance()->XMLRead( font );
+		auto xml = gtFileSystem::XMLRead( font );
 		if( !xml.data() ){
 			gtLogWriter::printWarning( u"Can not read XML string" );
 			return false;
@@ -135,7 +135,7 @@ bool gtGUIFontImpl::initFromFile( const gtString& font ){
 	gtString folderPath = filePath;
 	util::stringPopBackBefore( folderPath, '/' );
 	
-	auto xml = gtMainSystem::getInstance()->XMLRead( filePath );
+	auto xml = gtFileSystem::XMLRead( filePath );
 	if( !xml.data() ){
 		gtLogWriter::printWarning( u"Can not read XML file." );
 		return false;

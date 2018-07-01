@@ -112,8 +112,7 @@ namespace gost{
 		virtual void setTimer( u32 milliseconds ) = 0;
 		virtual void shutdown() = 0;
 		virtual	bool update() = 0;
-		virtual gtPtr<gtXMLDocument> XMLRead( const gtString& file ) = 0;
-		virtual void XMLWrite( const gtString& file, gtXMLNode* rootNode, bool utf8 = false ) = 0;
+		
 
 	};
 

@@ -115,6 +115,8 @@ namespace gost{
 		GT_API static void scanDirBegin( gtString dir );
 		GT_API static void scanDirEnd();
 
+		GT_API static gtPtr<gtXMLDocument> XMLRead( const gtString& file );
+		GT_API static void XMLWrite( const gtString& file, gtXMLNode* rootNode, bool utf8 = false );
 
 	};
 

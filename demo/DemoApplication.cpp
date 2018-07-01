@@ -291,7 +291,7 @@ bool demo::DemoApplication::initStrings(){
 		util::stringToLower( ext );
 		if( ext == u"xml" ){
 
-			auto xml = m_mainSystem->XMLRead( strings[ i ] );
+			auto xml = gtFileSystem::XMLRead( strings[ i ] );
 			if( xml.data() ){
 
 				auto root = xml->getRootNode();
@@ -1366,7 +1366,7 @@ void demo::DemoApplication::xmlLoadSettings(){
 		xmlCreateDrefaultSettingsFile();
 	}
 
-	m_xml = m_mainSystem->XMLRead( m_xmlPath );
+	m_xml = gtFileSystem::XMLRead( m_xmlPath );
 	if( m_xml ){
 		{
 			auto arr = m_xml->selectNodes( u"/GOST_DEMO/SOUND" );
@@ -1430,7 +1430,7 @@ void demo::DemoApplication::xmlSaveSettings(){
 		}
 	}
 
-	m_mainSystem->XMLWrite( m_xmlPath, root );
+	gtFileSystem::XMLWrite( m_xmlPath, root );
 }
 
 void demo::DemoApplication::xmlCreateDrefaultSettingsFile(){

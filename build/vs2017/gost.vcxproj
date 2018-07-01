@@ -252,6 +252,7 @@
     <ClCompile Include="..\..\gost\gtWindowCommon.cpp" />
     <ClCompile Include="..\..\gost\gtWindowWin32.cpp" />
     <ClCompile Include="..\..\gost\gtXMLDocumentImpl.cpp" />
+    <ClCompile Include="..\..\gost\gtXMLImpl.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\gost\gtCameraImpl.h" />

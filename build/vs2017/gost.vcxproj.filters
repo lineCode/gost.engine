@@ -141,6 +141,9 @@
     <ClCompile Include="..\..\gost\gtLogImpl.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\gost\gtXMLImpl.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\gost\gtDriverCommon.h">
