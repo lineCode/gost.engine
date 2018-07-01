@@ -6,174 +6,115 @@ namespace gost{
 
 	constexpr u32 GT_MAX_PATH = 256u;
 
+	enum class TextFileFormat{
+		UTF_8,
+		UTF_16,
+		UTF_32
+	};
+
+	enum class TextFileEndian{
+		Little, //	0xFFFE0000
+		Big // 0x0000FEFF, not implemented !
+	};
+
 	struct gtTextFileInfo{
-
-		enum format{
-
-			//	utf-8
-			utf_8,
-
-			utf_16,
-
-			utf_32
-
-		}m_format;
-
-		enum endian{
-
-			//	0xFFFE0000
-			little,
-
-			//	0x0000FEFF
-			big // not implemented !
-
-		}m_endian;
-
+		TextFileFormat m_format;
+		TextFileEndian m_endian;
 		bool m_hasBOM;
+	};
+
+	enum class gtFileSeekPos{
+		Begin,
+		Current,
+		End
 	};
 
 	class gtFile : public gtRefObject{
 	public:
-
-		
-
-		virtual gtTextFileInfo	getTextFileInfo() = 0;
-
-		virtual void	setTextFileInfo( gtTextFileInfo info ) = 0;
-			
-		virtual u32		write( u8 * data, u32 size ) = 0;
-
-		virtual void	write( const gtStringA& string ) = 0;
-
-		virtual void	write( const gtString& string ) = 0;
-
-		virtual void	write( const gtString32& string ) = 0;
-
 		virtual void	flush() = 0;
-
+		virtual gtTextFileInfo	getTextFileInfo() = 0;
 		virtual u64		read( u8 * data, u64 size ) = 0;
-
+		virtual void	setTextFileInfo( gtTextFileInfo info ) = 0;
+		virtual void	seek( u64 distance, gtFileSeekPos pos ) = 0;
 		virtual u64		size() = 0;
-
 		virtual u64		tell() = 0;
-
-		enum SeekPos{
-
-			ESP_BEGIN,
-
-			ESP_CURRENT,
-
-			ESP_END
-		};
-
-		virtual void	seek( u64 distance, SeekPos pos ) = 0;
+		virtual u32		write( u8 * data, u32 size ) = 0;
+		virtual void	write( const gtStringA& string ) = 0;
+		virtual void	write( const gtString& string ) = 0;
+		virtual void	write( const gtString32& string ) = 0;
 	};
 
-#define gtFile_t gtPtr<gtFile>
+//#define gtFile_t gtPtr<gtFile>
+	GT_TYPE(gtFile_t,gtPtr<gtFile>);
 	
+	enum class gtFileAccessMode{
+		Read,
+		Write,
+		Both,
+		Append
+	};
+	
+	enum class gtFileMode{
+		Text,
+		Binary
+	};
+
+	enum class gtFileShareMode{
+		None,
+		Delete,
+		Read,
+		Write
+	};
+	
+	enum class gtFileAction{
+		Open,
+		Open_new,
+	};
+
+	enum class gtFileAttribute{
+		Normal,
+		Hidden,
+		Readonly
+	};
+
 	class gtFileSystem : public gtRefObject{
 	public:
 
-		enum FileAccessMode{
-
-			EFAM_READ,
-
-			EFAM_WRITE,
-
-			EFAM_BOTH,
-			
-			EFAM_APPEND
-		};
-
-		enum FileMode{
-
-			EFM_TEXT,
-
-			EFM_BINARY
-		};
-
-		enum FileShareMode{
-
-			EFSM_NONE,
-
-			EFSM_DELETE,
-
-			EFSM_READ,
-
-			EFSM_WRITE
-		};
-
-		enum FileAction{
-
-			EFA_OPEN,
-
-			EFA_OPEN_NEW,
-
-		};
-
-		enum FileAttribute{
-
-			EFA_NORMAL,
-
-			EFA_HIDDEN,
-
-			EFA_READONLY
-		};
-
 		GT_API static gtPtrNew<gtFile> createFile( 
 			const gtString& fileName,
-			FileMode mode,
-			FileAccessMode access,
-			FileAction action,
-			FileShareMode shareMode = FileShareMode::EFSM_NONE,
-			u32 attributeFlags = FileAttribute::EFA_NORMAL
+			gtFileMode mode,
+			gtFileAccessMode access,
+			gtFileAction action,
+			gtFileShareMode shareMode = gtFileShareMode::None,
+			u32 attributeFlags = 0u
 		);
 
-		GT_API static bool deleteFile( const gtString& file );
-
-		GT_API static bool deleteDir( const gtString& dir );
-
-		GT_API static bool existFile( const gtString& file );
-
-		GT_API static bool existDir( const gtString& dir );
-
+		GT_API static bool copyFile( const gtString& existingFileName, const gtString& newFileName, bool overwrite );
 		GT_API static bool createDir( const gtString& dir );
+		GT_API static bool deleteDir( const gtString& dir );
+		GT_API static bool deleteFile( const gtString& file );
+		GT_API static bool existDir( const gtString& dir );
+		GT_API static bool existFile( const gtString& file );
+		GT_API static gtString getProgramPath();
+		GT_API static gtString getRealPath( const gtString& in );
+		GT_API static gtString getSystemPath();
 
 		enum class DirObjectType{
-			
 			info,
-
 			folder, 
-
 			file 
 		};
 
 		struct DirObject{
-			
-			DirObject(){
-				memset( path, 0u, GT_MAX_PATH * sizeof(wchar_t) );
-			}
-
+			DirObject(){ memset( path, 0u, GT_MAX_PATH * sizeof(wchar_t) ); }
 			wchar_t path[GT_MAX_PATH];
-
 			DirObjectType type;
-
 			u32 size;
 		};
-
+		GT_API static bool getDirObject( DirObject* inout );
 		GT_API static void scanDirBegin( gtString dir );
-
 		GT_API static void scanDirEnd();
 
-		GT_API static bool getDirObject( DirObject* inout );
-
-		GT_API static bool copyFile( const gtString& existingFileName, const gtString& newFileName, bool overwrite );
-
-		GT_API static gtString getProgramPath();
-
-		GT_API static gtString getSystemPath();
-
-		GT_API static gtString getRealPath( const gtString& in );
 
 	};
 
@@ -181,43 +122,43 @@ namespace gost{
 	
 
 		GT_FORCE_INLINE gtPtrNew<gtFile> openFileForReadText( const gtString& fileName ){
-			return gtFileSystem::createFile( fileName, gtFileSystem::FileMode::EFM_TEXT, gtFileSystem::FileAccessMode::EFAM_READ, 
-				gtFileSystem::FileAction::EFA_OPEN );
+			return gtFileSystem::createFile( fileName, gtFileMode::Text, gtFileAccessMode::Read, 
+				gtFileAction::Open );
 		}
 		
 		GT_FORCE_INLINE gtPtrNew<gtFile> createFileForReadText( const gtString& fileName ){
-			return gtFileSystem::createFile( fileName, gtFileSystem::FileMode::EFM_TEXT, gtFileSystem::FileAccessMode::EFAM_READ, 
-				gtFileSystem::FileAction::EFA_OPEN_NEW );
+			return gtFileSystem::createFile( fileName, gtFileMode::Text, gtFileAccessMode::Read, 
+				gtFileAction::Open_new );
 		}
 
 		GT_FORCE_INLINE gtPtrNew<gtFile> openFileForWriteText( const gtString& fileName ){
-			return gtFileSystem::createFile( fileName, gtFileSystem::FileMode::EFM_TEXT, gtFileSystem::FileAccessMode::EFAM_APPEND, 
-				gtFileSystem::FileAction::EFA_OPEN );
+			return gtFileSystem::createFile( fileName, gtFileMode::Text, gtFileAccessMode::Append, 
+				gtFileAction::Open );
 		}
 		
 		GT_FORCE_INLINE	gtPtrNew<gtFile> createFileForWriteText( const gtString& fileName ){
-			return gtFileSystem::createFile( fileName, gtFileSystem::FileMode::EFM_TEXT, gtFileSystem::FileAccessMode::EFAM_WRITE,
-				gtFileSystem::FileAction::EFA_OPEN_NEW );
+			return gtFileSystem::createFile( fileName, gtFileMode::Text, gtFileAccessMode::Write,
+				gtFileAction::Open_new );
 		}
 
 		GT_FORCE_INLINE gtPtrNew<gtFile> openFileForReadBin( const gtString& fileName ){
-			return gtFileSystem::createFile( fileName, gtFileSystem::FileMode::EFM_BINARY, gtFileSystem::FileAccessMode::EFAM_READ, 
-				gtFileSystem::FileAction::EFA_OPEN );
+			return gtFileSystem::createFile( fileName, gtFileMode::Binary, gtFileAccessMode::Read, 
+				gtFileAction::Open );
 		}
 
 		GT_FORCE_INLINE gtPtrNew<gtFile> openFileForReadBinShared( const gtString& fileName ){
-			return gtFileSystem::createFile( fileName, gtFileSystem::FileMode::EFM_BINARY, gtFileSystem::FileAccessMode::EFAM_READ, 
-				gtFileSystem::FileAction::EFA_OPEN, gtFileSystem::EFSM_READ );
+			return gtFileSystem::createFile( fileName, gtFileMode::Binary, gtFileAccessMode::Read, 
+				gtFileAction::Open, gtFileShareMode::Read );
 		}
 
 		GT_FORCE_INLINE gtPtrNew<gtFile> openFileForWriteBin( const gtString& fileName ){
-			return gtFileSystem::createFile( fileName, gtFileSystem::FileMode::EFM_BINARY, gtFileSystem::FileAccessMode::EFAM_WRITE, 
-				gtFileSystem::FileAction::EFA_OPEN );
+			return gtFileSystem::createFile( fileName, gtFileMode::Binary, gtFileAccessMode::Write, 
+				gtFileAction::Open );
 		}
 
 		GT_FORCE_INLINE gtPtrNew<gtFile> createFileForWriteBin( const gtString& fileName ){
-			return gtFileSystem::createFile( fileName, gtFileSystem::FileMode::EFM_BINARY, gtFileSystem::FileAccessMode::EFAM_WRITE, 
-				gtFileSystem::FileAction::EFA_OPEN_NEW );
+			return gtFileSystem::createFile( fileName, gtFileMode::Binary, gtFileAccessMode::Write, 
+				gtFileAction::Open_new );
 		}
 	}
 
