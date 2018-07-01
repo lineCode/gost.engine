@@ -5,7 +5,7 @@
 namespace gost{
 
 	class gtGUISystemImpl : public gtGUISystem{
-		gtDriver * m_driver;
+		gtGraphicsSystem * m_gs;
 
 	public:
 
@@ -20,7 +20,7 @@ namespace gost{
 
 		gtPtr<gtGUIShape>		createShapeRectangle( const v4i& rect, const gtColor& color );
 
-		void					setCurrentRenderDriver( gtDriver * driver );
+		void					setCurrentRenderDriver( gtGraphicsSystem * driver );
 		
 		void					init();
 

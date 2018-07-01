@@ -9,7 +9,7 @@ class demo::DemoApplication;
 class DemoExample_Camera : public demo::DemoExample{
 	gtMainSystem *			m_mainSystem;
 	gtInputSystem *			m_input;
-	gtDriver *				m_driver;
+	gtGraphicsSystem *				m_gs;
 	gtSceneSystem*			m_sceneSystem;
 	demo::DemoApplicationEventConsumer * m_eventConsumer;
 
@@ -42,14 +42,14 @@ public:
 
 DemoExample_Camera::DemoExample_Camera():
 	m_demoApp( nullptr ),
-	m_driver( nullptr ),
+	m_gs( nullptr ),
 	m_sceneSystem( nullptr ),
 	m_activeCameraType( 0 )
 {}
 
 DemoExample_Camera::DemoExample_Camera( demo::DemoApplication * app ):
 	m_demoApp( app ),
-	m_driver( nullptr ),
+	m_gs( nullptr ),
 	m_sceneSystem( nullptr ),
 	m_activeCameraType( 0 )
 {
@@ -61,14 +61,14 @@ DemoExample_Camera::~DemoExample_Camera(){}
 bool DemoExample_Camera::Init(){
 	m_mainSystem  = gtMainSystem::getInstance();
 	m_input		  = m_mainSystem->getInputSystem();
-	m_driver      = m_mainSystem->getMainVideoDriver();
-	m_sceneSystem = m_mainSystem->getSceneSystem( m_driver );
+	m_gs      = m_mainSystem->getMainVideoDriver();
+	m_sceneSystem = m_mainSystem->getSceneSystem( m_gs );
 
 	if( !m_demoApp->InitDefaultScene() ){
 		return false;
 	}
 
-	auto window = m_driver->getParams().m_outWindow;
+	auto window = m_gs->getParams().m_outWindow;
 	m_camera2D = m_sceneSystem->addCamera2D( v4f( window->getRect() ) );
 
 	m_cameraLookAt = m_sceneSystem->addCamera( v3f( -10.f, 7.f, 10.f ) );

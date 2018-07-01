@@ -3,7 +3,7 @@
 #include "BuiltInFont.hpp"
 
 gtGUISystemImpl::gtGUISystemImpl():
-m_driver( nullptr )
+m_gs( nullptr )
 {}
 
 gtGUISystemImpl::~gtGUISystemImpl(){
@@ -12,12 +12,12 @@ gtGUISystemImpl::~gtGUISystemImpl(){
 void gtGUISystemImpl::init(){
 }
 
-void gtGUISystemImpl::setCurrentRenderDriver( gtDriver * driver ){
-	m_driver = driver;
+void gtGUISystemImpl::setCurrentRenderDriver( gtGraphicsSystem * driver ){
+	m_gs = driver;
 }
 
 gtPtr<gtGUIShape> gtGUISystemImpl::createShapeRectangle( const v4i& rect, const gtColor& color ){
-	gtPtr_t( gtGUIShapeImpl, st, new gtGUIShapeImpl( m_driver ) );
+	gtPtr_t( gtGUIShapeImpl, st, new gtGUIShapeImpl( m_gs ) );
 
 	if( !st.data() )
 		return nullptr;
@@ -32,7 +32,7 @@ gtPtr<gtGUIShape> gtGUISystemImpl::createShapeRectangle( const v4i& rect, const 
 
 gtPtr<gtGUIFont> gtGUISystemImpl::createFont( const gtString& fontName, gtImage * fromImage ){
 
-	gtPtr_t( gtGUIFontImpl, font, new gtGUIFontImpl( m_driver ) );
+	gtPtr_t( gtGUIFontImpl, font, new gtGUIFontImpl( m_gs ) );
 	if( !font.data() ){
 		return nullptr;
 	}
@@ -77,7 +77,7 @@ gtPtr<gtGUIFont> gtGUISystemImpl::createBuiltInFont(){
 }
 
 gtPtr<gtGUITextField>	gtGUISystemImpl::createTextField( const v4i& rect, gtGUIFont* font, bool fh, bool fw ){
-	gtPtr_t( gtGUITextFieldImpl, tf, new gtGUITextFieldImpl( m_driver ) );
+	gtPtr_t( gtGUITextFieldImpl, tf, new gtGUITextFieldImpl( m_gs ) );
 	if( !tf.data() )
 		return nullptr;
 	if( !tf->init( rect, font, fh, fw ) ){
@@ -88,7 +88,7 @@ gtPtr<gtGUITextField>	gtGUISystemImpl::createTextField( const v4i& rect, gtGUIFo
 }
 
 gtPtr<gtGUIStaticText> gtGUISystemImpl::createStaticText( const gtString& text, s32 positionX, s32 positionY, gtGUIFont* font ){
-	gtPtr_t( gtGUIStaticTextImpl, st, new gtGUIStaticTextImpl( m_driver ) );
+	gtPtr_t( gtGUIStaticTextImpl, st, new gtGUIStaticTextImpl( m_gs ) );
 	if( !st.data() )
 		return nullptr;
 	if( !st->init( text, positionX, positionY, font ) ){

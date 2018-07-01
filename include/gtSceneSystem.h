@@ -11,7 +11,7 @@ namespace gost{
 	class gtRenderModel;
 	class gtSprite;
 	class gtTexture;
-	class gtDriver;
+	class gtGraphicsSystem;
 
 	class gtSceneSystem : public gtRefObject{
 	public:
@@ -27,7 +27,7 @@ namespace gost{
 		virtual void			removeObject( gtGameObject* object ) = 0;
 		virtual void			renderScene() = 0;
 		virtual void			setActiveCamera( gtCamera* camera ) = 0;
-		virtual void			setCurrentRenderDriver( gtDriver * driver ) = 0;
+		virtual void			setCurrentRenderDriver( gtGraphicsSystem * driver ) = 0;
 
 	};
 }

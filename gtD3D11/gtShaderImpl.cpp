@@ -6,7 +6,7 @@ gtShaderImpl::gtShaderImpl( gtDriverD3D11 * driver ):
 	m_vShader( nullptr ),
 	m_pShader( nullptr ),
 	m_vLayout( nullptr ),
-	m_driver( driver )
+	m_gs( driver )
 {}
 
 
@@ -58,7 +58,7 @@ bool gtShaderImpl::compileShader(
 			msg += d3dcompiler_num;
 			msg += u".dll (or high) not exist";
 			gtLogWriter::printError( u"%s", msg.data() );
-			MessageBox( (HWND)m_driver->getParams().m_outWindow->getHandle(),
+			MessageBox( (HWND)m_gs->getParams().m_outWindow->getHandle(),
 				(wchar_t*)msg.data(),
 				L"Error", MB_ICONERROR | MB_OK );
 			return false;
@@ -71,7 +71,7 @@ bool gtShaderImpl::compileShader(
 		msg += d3dcompiler_num;
 		msg += u".dll";
 		gtLogWriter::printError( u"%s Error code[%u]", msg.data(), GetLastError() );
-		MessageBox( (HWND)m_driver->getParams().m_outWindow->getHandle(),
+		MessageBox( (HWND)m_gs->getParams().m_outWindow->getHandle(),
 			(wchar_t*)msg.data(),
 			L"Error", MB_ICONERROR | MB_OK );
 		return false;
@@ -84,7 +84,7 @@ bool gtShaderImpl::compileShader(
 		msg += d3dcompiler_num;
 		msg += u".dll";
 		gtLogWriter::printError( u"%s", msg.data() );
-		MessageBox( (HWND)m_driver->getParams().m_outWindow->getHandle(),
+		MessageBox( (HWND)m_gs->getParams().m_outWindow->getHandle(),
 			(wchar_t*)msg.data(),
 			L"Error", MB_ICONERROR | MB_OK );
 		FreeLibrary( lib );
@@ -144,7 +144,7 @@ bool gtShaderImpl::compileShader(
 		return false;
 	}
 
-	auto * d3ddevice = m_driver->getD3DDevice();
+	auto * d3ddevice = m_gs->getD3DDevice();
 
 	hr =  d3ddevice->CreateVertexShader( 
 		m_VsBlob->GetBufferPointer(), 
@@ -265,7 +265,7 @@ bool gtShaderImpl::createShaderObject( u32 byteSize ){
 
 	ID3D11Buffer* buffer = nullptr;
 
-	HRESULT hr	=	m_driver->getD3DDevice()->CreateBuffer( &mbd, 0, &buffer );
+	HRESULT hr	=	m_gs->getD3DDevice()->CreateBuffer( &mbd, 0, &buffer );
 	if( FAILED( hr ) ){
 		gtLogWriter::printError( u"Can't create constant buffer. Error code [%u]", hr );
 		return false;

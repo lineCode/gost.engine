@@ -7,7 +7,7 @@ gtTextureD3D11::gtTextureD3D11( gtDriverD3D11* d ):
 	m_texture( nullptr ),
 	m_textureResView( nullptr ),
 	m_samplerState( nullptr ),
-	m_driver( d )
+	m_gs( d )
 {}
 
 gtTextureD3D11::~gtTextureD3D11(){
@@ -56,7 +56,7 @@ bool gtTextureD3D11::init( gtImage* image, gtTextureFilterType filter ){
 
 	ID3D11Texture2D * texture = nullptr;
 
-	HRESULT hr = m_driver->getD3DDevice()->CreateTexture2D( &desc, &initData, &texture );
+	HRESULT hr = m_gs->getD3DDevice()->CreateTexture2D( &desc, &initData, &texture );
 	if( FAILED( hr ) ){
 		gtLogWriter::printWarning( u"Can't create 2D texture" );
 		return false;
@@ -71,7 +71,7 @@ bool gtTextureD3D11::init( gtImage* image, gtTextureFilterType filter ){
 	SRVDesc.Texture2D.MostDetailedMip	=	0;
 	SRVDesc.Texture2D.MipLevels = -1;
 
-	hr = m_driver->getD3DDevice()->CreateShaderResourceView( m_texture,
+	hr = m_gs->getD3DDevice()->CreateShaderResourceView( m_texture,
 			&SRVDesc, &this->m_textureResView );
 	if( FAILED( hr ) ){
 		gtLogWriter::printWarning( u"Can't create shader resource view" );
@@ -112,7 +112,7 @@ HRESULT	gtTextureD3D11::createSamplerState( D3D11_FILTER filter, D3D11_TEXTURE_A
 
 	samplerDesc.MaxAnisotropy = anisotropic_level;
 
-	return m_driver->getD3DDevice()->CreateSamplerState( &samplerDesc, &this->m_samplerState );
+	return m_gs->getD3DDevice()->CreateSamplerState( &samplerDesc, &this->m_samplerState );
 }
 
 //============================================

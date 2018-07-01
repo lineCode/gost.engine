@@ -13,7 +13,7 @@ namespace gost{
 
 		gtShaderModel m_shaderModel;
 
-		gtDriverD3D11 * m_driver;
+		gtDriverD3D11 * m_gs;
 
 	public:
 		gtShaderImpl( gtDriverD3D11* );

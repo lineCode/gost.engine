@@ -10,7 +10,7 @@ extern "C"{
 		info.m_version = 1;
 		info.m_build = 1;
 	}
-	__declspec(dllexport) gtInputController * gtLoadInputDriver( gtDriverInfo params ){
+	__declspec(dllexport) gtInputController * gtLoadInputDriver( gtGraphicsSystemInfo params ){
 		gtLogWriter::printInfo( u"Init DirectInput..." );
 		gtPtr<gtInputControllerImpl>	 driver = gtPtrNew<gtInputControllerImpl>(new gtInputControllerImpl());
 		

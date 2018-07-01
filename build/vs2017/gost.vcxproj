@@ -298,7 +298,7 @@
     <ClInclude Include="..\..\include\gtBaseObject.h" />
     <ClInclude Include="..\..\include\gtCamera.h" />
     <ClInclude Include="..\..\include\gtColor.h" />
-    <ClInclude Include="..\..\include\gtDriver.h" />
+    <ClInclude Include="..\..\include\gtGraphicsSystem.h" />
     <ClInclude Include="..\..\include\gtDummyObject.h" />
     <ClInclude Include="..\..\include\gtError.h" />
     <ClInclude Include="..\..\include\gtEvent.h" />

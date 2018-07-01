@@ -47,7 +47,7 @@ using gtD3DCompile_t = HRESULT (__stdcall*)(
 
 namespace gost{
 
-	class gtDriverD3D11 GT_FINAL : public gtDriverCommon{
+	class gtDriverD3D11 GT_FINAL : public gtGraphicsSystemCommon{
 
 		gtMainSystem* m_system;
 		static gtDriverD3D11* s_instance;
@@ -99,7 +99,7 @@ namespace gost{
 		void	createStandartTexture();
 		void	applyScissor();
 	public:
-		gtDriverD3D11( /*gtMainSystem* System, */gtDriverInfo params );
+		gtDriverD3D11( /*gtMainSystem* System, */gtGraphicsSystemInfo params );
 		virtual ~gtDriverD3D11();
 
 		bool initialize();

@@ -6,10 +6,10 @@
 
 namespace gost{
 
-	//class gtDriverCommon : public gtDriver{
+	//class gtDriverCommon : public gtGraphicsSystem{
 
 	//		//	параметры запуска
-	//	gtDriverInfo m_params;
+	//	gtGraphicsSystemInfo m_params;
 
 	//public:
 	//	gtDriverCommon();

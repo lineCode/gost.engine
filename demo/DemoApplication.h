@@ -44,7 +44,7 @@ namespace demo{
 		gtPtr<gtWindow>				m_mainWindow;
 
 		gtGUISystem*				m_guiSystem;
-		gtPtr<gtDriver>				m_driver;
+		gtPtr<gtGraphicsSystem>				m_gs;
 		gtPtr<gtInputController>		m_gamepadSystem;
 		gtInputSystem *				m_input;
 		gtInputDevice *				m_gamepad;
@@ -119,7 +119,7 @@ namespace demo{
 		demo::DemoApplicationEventConsumer* m_eventConsumer;
 		gtDeviceCreationParameters  m_params;
 		gtWindowInfo				m_windowInfo;
-		gtDriverInfo				m_driverInfo;
+		gtGraphicsSystemInfo		m_gsInfo;
 
 		DemoState					m_state;
 

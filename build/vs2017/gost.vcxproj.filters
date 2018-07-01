@@ -197,9 +197,6 @@
     <ClInclude Include="..\..\include\gtColor.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\gtDriver.h">
-      <Filter>include</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\gtDummyObject.h">
       <Filter>include</Filter>
     </ClInclude>
@@ -445,6 +442,9 @@
     </ClInclude>
     <ClInclude Include="..\..\gost\gtInputSystemImpl.h">
       <Filter>Headers\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\gtGraphicsSystem.h">
+      <Filter>include</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

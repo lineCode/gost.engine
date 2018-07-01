@@ -22,7 +22,7 @@ namespace gost{
 
 		gtMainSystem * m_mainSystem;
 		gtModelSystem* m_modelSystem;
-		gtDriver*	   m_driver;
+		gtGraphicsSystem*	   m_gs;
 		gtGUISystem*   m_gui;
 
 		gtMaterial		m_material;
@@ -39,7 +39,7 @@ namespace gost{
 
 	public:
 
-		gtGUIStaticTextImpl( gtDriver* d );
+		gtGUIStaticTextImpl( gtGraphicsSystem* d );
 		~gtGUIStaticTextImpl();
 
 		bool		init( const gtString& text, s32 positionX, s32 positionY, gtGUIFont* font );

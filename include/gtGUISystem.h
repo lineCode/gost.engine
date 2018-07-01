@@ -17,7 +17,7 @@ namespace gost{
 
 		virtual gtPtr<gtGUIShape>	createShapeRectangle( const v4i& rect, const gtColor& color ) = 0;
 
-		virtual void setCurrentRenderDriver( gtDriver * driver ) = 0;
+		virtual void setCurrentRenderDriver( gtGraphicsSystem * driver ) = 0;
 
 		//virtual void renderGUI() = 0;
 	};

@@ -98,7 +98,7 @@
 
 #include <gtWindowInfo.h>
 
-#include <gtDriver.h>
+#include <gtGraphicsSystem.h>
 
 #include <gtGameObject.h>
 

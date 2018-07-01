@@ -1,7 +1,7 @@
 #include "common.h"
 
-gtGUIShapeImpl::gtGUIShapeImpl( gtDriver * d ):
-m_driver( d ),
+gtGUIShapeImpl::gtGUIShapeImpl( gtGraphicsSystem * d ):
+m_gs( d ),
 m_mainSystem( nullptr ),
 m_modelSystem( nullptr ),
 m_material( nullptr ){
@@ -21,8 +21,8 @@ gtGUIShapeImpl::~gtGUIShapeImpl(){
 
 void gtGUIShapeImpl::render(){
 	if( m_model )
-	if( m_driver ){
-		m_driver->drawModel( m_model );
+	if( m_gs ){
+		m_gs->drawModel( m_model );
 	}
 }
 
@@ -64,7 +64,7 @@ bool gtGUIShapeImpl::initRectangle( const v4i& rect, const gtColor& color ){
 		v3->pos.zero();
 		v4->pos.zero(); 
 
-		auto params = m_driver->getParams();
+		auto params = m_gs->getParams();
 		auto bbsz = params.m_outWindow->getRect();
 
 		f32 px = (2.f/bbsz.getWidth());
@@ -96,7 +96,7 @@ bool gtGUIShapeImpl::initRectangle( const v4i& rect, const gtColor& color ){
 
 		sub->move( v3f( move_x, move_y, 0.f ) );
 
-		auto rm = m_driver->createModel( soft.data() );
+		auto rm = m_gs->createModel( soft.data() );
 		if( rm.data() ){
 			rm->addRef();
 			m_model = rm.data();

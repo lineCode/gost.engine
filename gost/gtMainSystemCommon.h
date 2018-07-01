@@ -45,7 +45,7 @@ namespace gost{
 		}m_memTable;
 
 
-		gtArray<gtDriver*>	m_drivers;
+		gtArray<gtGraphicsSystem*>	m_drivers;
 		bool				m_useTimer;
 		u32					m_timer;
 		u32					m_time;
@@ -77,7 +77,7 @@ namespace gost{
 
 		gtMatrix4					m_WVP[ 3u ];
 
-		gtDriver *					m_driver;
+		gtGraphicsSystem *					m_gs;
 
 	public:
 
@@ -96,7 +96,7 @@ namespace gost{
 		static gtMainSystemCommon * getInstance();
 		gtStackTracer*				getStackTracer();
 		gtPtr<gtAudioSystem>		createAudioSystem( const GT_GUID& uid );
-		gtPtr<gtDriver>				createVideoDriver( /*gtPlugin* videoDriverPlugin,*/ const gtDriverInfo&, const GT_GUID& uid );
+		gtPtr<gtGraphicsSystem>				createVideoDriver( /*gtPlugin* videoDriverPlugin,*/ const gtGraphicsSystemInfo&, const GT_GUID& uid );
 
 		bool	allocateMemory( void** data, u32 size );
 		void	freeMemory( void** data );
@@ -108,8 +108,8 @@ namespace gost{
 		gtInputSystem*  getInputSystem();
 		gtModelSystem*	getModelSystem();
 		gtPluginSystem*	getPluginSystem();
-		gtSceneSystem*	getSceneSystem( gtDriver * currentRenderDriver );
-		gtGUISystem*	getGUISystem( gtDriver * currentRenderDriver );
+		gtSceneSystem*	getSceneSystem( gtGraphicsSystem * currentRenderDriver );
+		gtGUISystem*	getGUISystem( gtGraphicsSystem * currentRenderDriver );
 
 		const gtMatrix4& getMatrixWorld();
 		const gtMatrix4& getMatrixView();
@@ -124,9 +124,9 @@ namespace gost{
 		gtPtr<gtXMLDocument>	XMLRead( const gtString& file );
 		void					XMLWrite( const gtString& file, gtXMLNode* rootNode, bool utf8 = false );
 		u32						getLoadedVideoDriverCount();
-		gtDriver*				getLoadedVideoDriver( u32 id );
-		gtDriver*				getMainVideoDriver();
-		void					setMainVideoDriver( gtDriver* d );
+		gtGraphicsSystem*				getLoadedVideoDriver( u32 id );
+		gtGraphicsSystem*				getMainVideoDriver();
+		void					setMainVideoDriver( gtGraphicsSystem* d );
 		void					setTimer( u32 milliseconds );
 	};
 	

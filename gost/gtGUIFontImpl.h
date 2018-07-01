@@ -15,7 +15,7 @@ namespace gost{
 
 		gtArray<character_base*> m_chars;
 
-		gtDriver * m_driver;
+		gtGraphicsSystem * m_gs;
 
 		gtArray<gtPtr<gtTexture>> m_textureArray;
 
@@ -27,7 +27,7 @@ namespace gost{
 
 	public:
 
-		gtGUIFontImpl( gtDriver * d );
+		gtGUIFontImpl( gtGraphicsSystem * d );
 		~gtGUIFontImpl();
 
 		u32			getWidth();
@@ -43,7 +43,7 @@ namespace gost{
 		u32					getTextureID( char16_t c );
 		gtVector4<u16>* 	getRect( char16_t c );
 
-		//void setDriver( gtDriver* d );
+		//void setDriver( gtGraphicsSystem* d );
 	};
 
 }

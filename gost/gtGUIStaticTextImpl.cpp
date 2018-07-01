@@ -1,10 +1,10 @@
 #include "common.h"
 
-gtGUIStaticTextImpl::gtGUIStaticTextImpl( gtDriver* d ):
+gtGUIStaticTextImpl::gtGUIStaticTextImpl( gtGraphicsSystem* d ):
 	m_font( nullptr ),
 	m_mainSystem( nullptr ),
 	m_modelSystem( nullptr ),
-	m_driver( d ),
+	m_gs( d ),
 	m_gui( nullptr ),
 	m_length( 0.f ),
 	m_height( 0.f ),
@@ -95,7 +95,7 @@ void uvRectToUV( const rectType& rect, v2f * LT, v2f * RT, v2f * LB, v2f * RB, g
 }
 
 void gtGUIStaticTextImpl::setText( const gtString& text ){
-	GT_ASSERT3(m_driver);
+	GT_ASSERT3(m_gs);
 
 	clear();
 
@@ -106,7 +106,7 @@ void gtGUIStaticTextImpl::setText( const gtString& text ){
 		u32 textSize = m_text.size();
 		if( textSize ){
 
-			auto params = m_driver->getParams();
+			auto params = m_gs->getParams();
 			auto bbsz = params.m_outWindow->getRect();
 
 			gtVertexType vt[ 4 ] = {
@@ -254,7 +254,7 @@ void gtGUIStaticTextImpl::setText( const gtString& text ){
 					sub2->move( v3f( move_x, move_y, 0.f ) );
 				}
 
-				auto rm = m_driver->createModel( soft.data() );
+				auto rm = m_gs->createModel( soft.data() );
 				if( rm.data() ){
 					rm->addRef();
 					m_buffers.push_back( rm.data() );
@@ -298,7 +298,7 @@ void gtGUIStaticTextImpl::render(){
 		if( m_visible ){
 			if( m_showBackground )
 				m_backgroundShape->render();
-			m_driver->drawModel( m_buffers[ i ] );
+			m_gs->drawModel( m_buffers[ i ] );
 		}
 	}
 }

@@ -2,7 +2,7 @@
 
 #include "common.h"
 
-gtDriverD3D11::gtDriverD3D11( /*gtMainSystem* System,*/ gtDriverInfo params ):
+gtDriverD3D11::gtDriverD3D11( /*gtMainSystem* System,*/ gtGraphicsSystemInfo params ):
 	m_beginRender( false ),
 	m_D3DLibrary( nullptr ),
 	m_SwapChain( nullptr ),

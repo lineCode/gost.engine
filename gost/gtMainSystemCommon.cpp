@@ -10,7 +10,7 @@ gtMainSystemCommon* gtMainSystemCommon::getInstance(){return s_instance;}
 gtMainSystemCommon::gtMainSystemCommon() : m_isRun( true ),
 	m_stackTracer( nullptr ), 
 	m_systemWindowCount( 0u ),
-	m_driver( nullptr ),
+	m_gs( nullptr ),
 	m_useTimer( false ),
 	m_timer( 0u ),
 	m_time( 0u ),
@@ -64,7 +64,7 @@ void gtStackTracer::dumpStackTrace(){
 	gtMainSystemCommon::getInstance()->getStackTracer()->printStackTrace(2u,3u);
 }
 
-gtPtr<gtDriver> gtMainSystemCommon::createVideoDriver( /*gtPlugin* videoDriverPlugin,*/ const gtDriverInfo& params, const GT_GUID& uid ){
+gtPtr<gtGraphicsSystem> gtMainSystemCommon::createVideoDriver( /*gtPlugin* videoDriverPlugin,*/ const gtGraphicsSystemInfo& params, const GT_GUID& uid ){
 
 	auto plugin = this->getPluginSystem()->getPlugin( uid );
 
@@ -78,21 +78,21 @@ gtPtr<gtDriver> gtMainSystemCommon::createVideoDriver( /*gtPlugin* videoDriverPl
 		return nullptr;
 	}
 
-	gtDriver * d = ((gtPluginRender*)plugin)->loadDriver( params );
+	gtGraphicsSystem * d = ((gtPluginRender*)plugin)->loadDriver( params );
 
 	if( d )
 		m_drivers.push_back( d );
 
-	m_driver = d;
+	m_gs = d;
 
-	return gtPtrNew<gtDriver>(d);
+	return gtPtrNew<gtGraphicsSystem>(d);
 }
 
 u32 gtMainSystemCommon::getLoadedVideoDriverCount(){
 	return m_drivers.size();
 }
 
-gtDriver* gtMainSystemCommon::getLoadedVideoDriver( u32 id ){
+gtGraphicsSystem* gtMainSystemCommon::getLoadedVideoDriver( u32 id ){
 	if( m_drivers.size() ){
 		GT_ASSERT2( id < m_drivers.size(), "id < m_drivers.size()" );
 		return m_drivers[ id ];
@@ -100,12 +100,12 @@ gtDriver* gtMainSystemCommon::getLoadedVideoDriver( u32 id ){
 	return nullptr;
 }
 
-gtDriver* gtMainSystemCommon::getMainVideoDriver(){
-	return m_driver;
+gtGraphicsSystem* gtMainSystemCommon::getMainVideoDriver(){
+	return m_gs;
 }
 
-void gtMainSystemCommon::setMainVideoDriver( gtDriver* d ){
-	m_driver = d;
+void gtMainSystemCommon::setMainVideoDriver( gtGraphicsSystem* d ){
+	m_gs = d;
 }
 
 bool gtMainSystemCommon::allocateMemory( void** data, u32 size ){
@@ -150,13 +150,13 @@ gtPluginSystem*	gtMainSystemCommon::getPluginSystem(){
 	return m_pluginSystem.data();
 }
 
-gtSceneSystem*	gtMainSystemCommon::getSceneSystem( gtDriver * currentRenderDriver ){
+gtSceneSystem*	gtMainSystemCommon::getSceneSystem( gtGraphicsSystem * currentRenderDriver ){
 	if( currentRenderDriver )
 		m_sceneSystem->setCurrentRenderDriver( currentRenderDriver );
 	return m_sceneSystem.data();
 }
 
-gtGUISystem*	gtMainSystemCommon::getGUISystem( gtDriver * currentRenderDriver ){
+gtGUISystem*	gtMainSystemCommon::getGUISystem( gtGraphicsSystem * currentRenderDriver ){
 	if( currentRenderDriver )
 		m_GUISystem->setCurrentRenderDriver( currentRenderDriver );
 		m_GUISystem->init();

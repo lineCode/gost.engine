@@ -7,7 +7,7 @@ namespace gost{
 	class gtSceneSystemImpl : public gtSceneSystem{
 
 		gtMainSystem *	m_mainSystem;
-		gtDriver *		m_driver;
+		gtGraphicsSystem *		m_gs;
 		gtGameObject *	m_rootNode;
 		gtCamera *		m_activeCamera;
 
@@ -35,7 +35,7 @@ namespace gost{
 		void			renderScene();
 		void			clearScene();
 
-		void			setCurrentRenderDriver( gtDriver * driver );
+		void			setCurrentRenderDriver( gtGraphicsSystem * driver );
 	};
 
 }

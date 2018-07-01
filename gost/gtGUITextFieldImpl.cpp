@@ -1,14 +1,14 @@
 #include "common.h"
 
-gtGUITextFieldImpl::gtGUITextFieldImpl( gtDriver* d ):
-	m_driver(nullptr),
+gtGUITextFieldImpl::gtGUITextFieldImpl( gtGraphicsSystem* d ):
+	m_gs(nullptr),
 	m_font(nullptr),
 	m_fixedH(false),
 	m_fixedW(false),
 	m_showBackground(true){
 	m_type = gtGUIObjectType::TextField;
 	m_mainSystem = gtMainSystem::getInstance();
-	m_driver = m_mainSystem->getMainVideoDriver();
+	m_gs = m_mainSystem->getMainVideoDriver();
 	m_modelSystem= m_mainSystem->getModelSystem();
 	m_gui = m_mainSystem->getGUISystem( d );
 }
@@ -83,8 +83,8 @@ gtGUIShape* gtGUITextFieldImpl::getBackgroundShape(){
 void gtGUITextFieldImpl::render(){
 	if( m_visible ){
 
-		m_driver->scissorClear( false );
-		m_driver->scissorAdd( m_scissorRect );
+		m_gs->scissorClear( false );
+		m_gs->scissorAdd( m_scissorRect );
 
 		if( m_showBackground )
 			m_backgroundShape->render();
@@ -94,7 +94,7 @@ void gtGUITextFieldImpl::render(){
 			m_textWords[ i ]->render();
 		}
 
-		m_driver->scissorClear();
+		m_gs->scissorClear();
 	}
 }
 
@@ -175,15 +175,15 @@ void gtGUITextFieldImpl::update(){
 		bgop = m_backgroundShape->getOpacity();
 	}
 
-	auto rc = m_driver->getParams().m_outWindow->getRect();
+	auto rc = m_gs->getParams().m_outWindow->getRect();
 	auto wndH = rc.getHeight();
 	auto wndW = rc.getWidth();
 
-	auto params = m_driver->getParams();
+	auto params = m_gs->getParams();
 	auto bbsz = params.m_outWindow->getRect();
 
-	f32 mulx = ((f32)m_driver->getParams().m_backBufferSize.x / (f32)wndW);
-	f32 muly = ((f32)m_driver->getParams().m_backBufferSize.y / (f32)wndH);
+	f32 mulx = ((f32)m_gs->getParams().m_backBufferSize.x / (f32)wndW);
+	f32 muly = ((f32)m_gs->getParams().m_backBufferSize.y / (f32)wndH);
 
 	m_scissorRect.x = s32(m_rect.x * mulx);
 	m_scissorRect.y = s32(m_rect.y * muly);

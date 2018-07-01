@@ -18,7 +18,7 @@ namespace gost{
 
 
 	using gtGetPluginInfo			= void(GT_CDECL*)		(gtPluginInfo&);		
-	using gtLoadGPUDriver_t			= gtDriver*(GT_CDECL*)	(gtDriverInfo);			
+	using gtLoadGPUDriver_t			= gtGraphicsSystem*(GT_CDECL*)	(gtGraphicsSystemInfo);			
 	using gtLoadAudioDriver_t		= gtAudioSystem*(GT_CDECL*)(void);
 	using gtLoadInputDriver_t		= gtInputController*(GT_CDECL*)(void);
 	using gtPluginGetExtCount_t		= u32(GT_CDECL*)		();				
@@ -81,9 +81,9 @@ namespace gost{
 			// d-tor
 		~gtPluginRender();
 
-		gtLoadGPUDriver_t loadDriverProc/*(const gtDriverInfo& params)*/;
+		gtLoadGPUDriver_t loadDriverProc/*(const gtGraphicsSystemInfo& params)*/;
 
-		virtual gtDriver * loadDriver( const gtDriverInfo& params );
+		virtual gtGraphicsSystem * loadDriver( const gtGraphicsSystemInfo& params );
 
 		void load();
 

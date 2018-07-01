@@ -105,7 +105,7 @@ bool demo::DemoApplication::Init(){
 
 	initAudio();
 
-	m_sceneSystem	=   m_mainSystem->getSceneSystem( m_driver.data() );
+	m_sceneSystem	=   m_mainSystem->getSceneSystem( m_gs.data() );
 	m_gamepadSystem	=	m_mainSystem->getInputSystem()->createInputContoller( GT_UID_INPUT_DINPUT );
 
 	addDemo( DEMO_COMMON, demo::DemoElement( u"14", u"15" ) );
@@ -189,21 +189,21 @@ bool demo::DemoApplication::initWindow(){
 }
 
 bool demo::DemoApplication::initVideoDriver(){
-	m_driverInfo.m_adapterID		=	0;
-	m_driverInfo.m_backBufferSize.x	=	m_windowInfo.m_rect.getWidth();
-	m_driverInfo.m_backBufferSize.y	=	m_windowInfo.m_rect.getHeight();
-	m_driverInfo.m_colorDepth		=	32;
-	m_driverInfo.m_doubleBuffer		=	true;
-	m_driverInfo.m_fullScreen		=	false;
-	m_driverInfo.m_outWindow		=	m_mainWindow.data();
-	m_driverInfo.m_stencilBuffer	=	true;
-	m_driverInfo.m_vSync			=	false;
+	m_gsInfo.m_adapterID		=	0;
+	m_gsInfo.m_backBufferSize.x	=	m_windowInfo.m_rect.getWidth();
+	m_gsInfo.m_backBufferSize.y	=	m_windowInfo.m_rect.getHeight();
+	m_gsInfo.m_colorDepth		=	32;
+	m_gsInfo.m_doubleBuffer		=	true;
+	m_gsInfo.m_fullScreen		=	false;
+	m_gsInfo.m_outWindow		=	m_mainWindow.data();
+	m_gsInfo.m_stencilBuffer	=	true;
+	m_gsInfo.m_vSync			=	false;
 
-	m_driver = m_mainSystem->createVideoDriver( m_driverInfo, GT_UID_RENDER_D3D11 );
-	if( !m_driver.data() )
+	m_gs = m_mainSystem->createVideoDriver( m_gsInfo, GT_UID_RENDER_D3D11 );
+	if( !m_gs.data() )
 		return false;
 
-	m_guiSystem	=	m_mainSystem->getGUISystem( m_driver.data() );
+	m_guiSystem	=	m_mainSystem->getGUISystem( m_gs.data() );
 
 	return true;
 }
@@ -213,12 +213,12 @@ bool demo::DemoApplication::initMainMenu(){
 	gtString gamepadPath(u"../demo/media/gamepad.png");
 
 	if( gtFileSystem::existFile( logoPath ) )
-		m_backgroundTexture = m_driver->getTexture( logoPath );
+		m_backgroundTexture = m_gs->getTexture( logoPath );
 	else
 		gtLogWriter::printWarning( u"Can not load background texture. File %s not exist.", logoPath.data() );
 
 	if( gtFileSystem::existFile( gamepadPath ) )
-		m_gamepadTexture = m_driver->getTexture( gamepadPath );
+		m_gamepadTexture = m_gs->getTexture( gamepadPath );
 	else
 		gtLogWriter::printWarning( u"Can not load gamepad icon texture. File %s not exist.", gamepadPath.data() );
 	
@@ -428,7 +428,7 @@ void demo::DemoApplication::rebuildMainMenuColons(){
 
 bool demo::DemoApplication::rebuildMainMenu(){
 
-	if( !m_driver ) return true;
+	if( !m_gs ) return true;
 
 	v4i wndrc = m_mainWindow->getRect();
 
@@ -613,11 +613,11 @@ void demo::DemoApplication::Run(){
 
 void demo::DemoApplication::renderMainMenu(){
 
-	if( !m_driver ) return;
+	if( !m_gs ) return;
 
-	m_driver->beginRender();
+	m_gs->beginRender();
 
-	m_driver->setDepthState( false );
+	m_gs->setDepthState( false );
 
 	if( m_backgroundShape )
 		m_backgroundShape->render();
@@ -664,19 +664,19 @@ void demo::DemoApplication::renderMainMenu(){
 		m_settingsTextSoundUse->render();
 	}
 
-	m_driver->setDepthState();
+	m_gs->setDepthState();
 
-	m_driver->endRender();
+	m_gs->endRender();
 }
 
 void demo::DemoApplication::renderDemoMenu(){
-	m_driver->beginRender( true, gtColorDarkGray );
+	m_gs->beginRender( true, gtColorDarkGray );
 
 	RenderDefaultScene();
 
 	m_demoArrays[m_activeDemoTypeSelected][m_activeDemoSelected].Render();
 
-	m_driver->setDepthState( false );
+	m_gs->setDepthState( false );
 	m_pauseBackgroundShape->render();
 	if( m_isPause ){
 		m_description->render();
@@ -687,18 +687,18 @@ void demo::DemoApplication::renderDemoMenu(){
 
 	}
 
-	m_driver->setDepthState();
+	m_gs->setDepthState();
 
-	m_driver->endRender();
+	m_gs->endRender();
 }
 
 void demo::DemoApplication::renderDemo(){
-	m_driver->beginRender( true, gtColorDarkGray );
+	m_gs->beginRender( true, gtColorDarkGray );
 
 	RenderDefaultScene();
 	m_demoArrays[m_activeDemoTypeSelected][m_activeDemoSelected].Render();
 
-	m_driver->setDepthState( false );
+	m_gs->setDepthState( false );
 	if( m_showDescription ){
 		m_pauseBackgroundShape->render();
 		m_description->render();
@@ -706,10 +706,10 @@ void demo::DemoApplication::renderDemo(){
 	}else{
 	}
 	m_demoArrays[m_activeDemoTypeSelected][m_activeDemoSelected].Render2D();
-	m_driver->setDepthState();
+	m_gs->setDepthState();
 
 
-	m_driver->endRender();
+	m_gs->endRender();
 }
 
 void demo::DemoApplication::ScanGamepads(){
@@ -750,7 +750,7 @@ void demo::DemoApplication::addDemo( u32 index, const demo::DemoElement& element
 
 void demo::DemoApplication::updateColons(){
 
-	if( !m_driver ) return;
+	if( !m_gs ) return;
 
 	for( u32 i = 0u; i < DEMO_TYPE_NUM; ++i ){
 		m_leftColonEntity[ i ]->getBackgroundShape()->setOpacity( 0.f );
@@ -1205,17 +1205,17 @@ bool demo::DemoApplication::inputGamepadSelectHold(){
 
 bool demo::DemoApplication::InitDefaultScene(){
 
-	auto m11 = m_sceneSystem->addStaticObject( m_driver->getModel(u"../demo/media/scene/11.obj") );
-	auto f = m_sceneSystem->addStaticObject( m_driver->getModel(u"../demo/media/scene/floor01.obj") );
-	auto p = m_sceneSystem->addStaticObject( m_driver->getModel(u"../demo/media/scene/piedestal.obj") );
-	auto s = m_sceneSystem->addStaticObject( m_driver->getModel(u"../demo/media/scene/stairs.obj") );
-	auto t = m_sceneSystem->addStaticObject( m_driver->getModel(u"../demo/media/scene/tc.obj") );
+	auto m11 = m_sceneSystem->addStaticObject( m_gs->getModel(u"../demo/media/scene/11.obj") );
+	auto f = m_sceneSystem->addStaticObject( m_gs->getModel(u"../demo/media/scene/floor01.obj") );
+	auto p = m_sceneSystem->addStaticObject( m_gs->getModel(u"../demo/media/scene/piedestal.obj") );
+	auto s = m_sceneSystem->addStaticObject( m_gs->getModel(u"../demo/media/scene/stairs.obj") );
+	auto t = m_sceneSystem->addStaticObject( m_gs->getModel(u"../demo/media/scene/tc.obj") );
 
-	m11->getModel()->getMaterial( 0u )->textureLayer[ 0u ].texture = m_driver->getTexture( u"../demo/media/scene/11.png" );
-	f->getModel()->getMaterial( 0u )->textureLayer[ 0u ].texture = m_driver->getTexture( u"../demo/media/scene/floor.png" );
-	p->getModel()->getMaterial( 0u )->textureLayer[ 0u ].texture = m_driver->getTexture( u"../demo/media/scene/pied.png" );
-	s->getModel()->getMaterial( 0u )->textureLayer[ 0u ].texture = m_driver->getTexture( u"../demo/media/scene/stairs.png" );
-	t->getModel()->getMaterial( 0u )->textureLayer[ 0u ].texture = m_driver->getTexture( u"../demo/media/scene/tc.png" );
+	m11->getModel()->getMaterial( 0u )->textureLayer[ 0u ].texture = m_gs->getTexture( u"../demo/media/scene/11.png" );
+	f->getModel()->getMaterial( 0u )->textureLayer[ 0u ].texture = m_gs->getTexture( u"../demo/media/scene/floor.png" );
+	p->getModel()->getMaterial( 0u )->textureLayer[ 0u ].texture = m_gs->getTexture( u"../demo/media/scene/pied.png" );
+	s->getModel()->getMaterial( 0u )->textureLayer[ 0u ].texture = m_gs->getTexture( u"../demo/media/scene/stairs.png" );
+	t->getModel()->getMaterial( 0u )->textureLayer[ 0u ].texture = m_gs->getTexture( u"../demo/media/scene/tc.png" );
 
 	m_sceneInitialized = true;
 	return true;
@@ -1223,12 +1223,12 @@ bool demo::DemoApplication::InitDefaultScene(){
 
 void demo::DemoApplication::ShutdownDefaultScene(){
 	if( m_sceneInitialized ){
-		m_driver->clearModelCache();
-		m_driver->removeTexture(m_driver->getTexture( u"../demo/media/scene/11.png" ));
-		m_driver->removeTexture(m_driver->getTexture( u"../demo/media/scene/floor.png" ));
-		m_driver->removeTexture(m_driver->getTexture( u"../demo/media/scene/pied.png" ));
-		m_driver->removeTexture(m_driver->getTexture( u"../demo/media/scene/stairs.png" ));
-		m_driver->removeTexture(m_driver->getTexture( u"../demo/media/scene/tc.png" ));
+		m_gs->clearModelCache();
+		m_gs->removeTexture(m_gs->getTexture( u"../demo/media/scene/11.png" ));
+		m_gs->removeTexture(m_gs->getTexture( u"../demo/media/scene/floor.png" ));
+		m_gs->removeTexture(m_gs->getTexture( u"../demo/media/scene/pied.png" ));
+		m_gs->removeTexture(m_gs->getTexture( u"../demo/media/scene/stairs.png" ));
+		m_gs->removeTexture(m_gs->getTexture( u"../demo/media/scene/tc.png" ));
 		m_sceneInitialized = false;
 	}
 }

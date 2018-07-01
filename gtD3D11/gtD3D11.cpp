@@ -19,7 +19,7 @@ extern "C"{
 		info.m_build = 18;
 	}
 
-	__declspec(dllexport) gtDriver * gtLoadGPUDriver( /*gtMainSystem* System, */gtDriverInfo params ){
+	__declspec(dllexport) gtGraphicsSystem * gtLoadGPUDriver( /*gtMainSystem* System, */gtGraphicsSystemInfo params ){
 
 		gtLogWriter::printInfo( u"Init D3D11 driver..." );
 

@@ -14,7 +14,7 @@ namespace gost{
 		ID3D11ShaderResourceView*	m_textureResView;
 		ID3D11SamplerState*			m_samplerState;
 
-		gtDriverD3D11*				m_driver;
+		gtDriverD3D11*				m_gs;
 
 		HRESULT	createSamplerState( 
 			D3D11_FILTER filter, 

@@ -1,7 +1,7 @@
 #include "common.h"
 
-gtGUIFontImpl::gtGUIFontImpl( gtDriver * d ):
-m_driver( d ),
+gtGUIFontImpl::gtGUIFontImpl( gtGraphicsSystem * d ):
+m_gs( d ),
 m_width(0u),
 m_height(0u){
 	m_type = gtGUIObjectType::Font;
@@ -52,8 +52,8 @@ bool gtGUIFontImpl::init( const gtString& font, gtImage * image ){
 		image->makeAlphaFromBlack();
 		
 
-		if( m_driver ){
-			auto texure = m_driver->createTexture( image, gtTextureFilterType::Anisotropic );
+		if( m_gs ){
+			auto texure = m_gs->createTexture( image, gtTextureFilterType::Anisotropic );
 			if( !texure.data() ){
 				gtLogWriter::printWarning( u"Can not texture for font" );
 				return false;
@@ -193,7 +193,7 @@ bool gtGUIFontImpl::initFromFile( const gtString& font ){
 
 				
 
-				auto texure = m_driver->createTexture( image.data(), gtTextureFilterType::Anisotropic );
+				auto texure = m_gs->createTexture( image.data(), gtTextureFilterType::Anisotropic );
 				if( !texure.data() ){
 					gtLogWriter::printWarning( u"Can not texture for font." );
 					return false;

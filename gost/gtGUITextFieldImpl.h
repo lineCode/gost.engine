@@ -5,7 +5,7 @@
 namespace gost{
 
 	class gtGUITextFieldImpl : public gtGUITextField{
-		gtDriver *		m_driver;
+		gtGraphicsSystem *		m_gs;
 		gtMainSystem *	m_mainSystem;
 		gtModelSystem*	m_modelSystem;
 		gtGUISystem*	m_gui;
@@ -27,7 +27,7 @@ namespace gost{
 
 	public:
 
-		gtGUITextFieldImpl( gtDriver* d );
+		gtGUITextFieldImpl( gtGraphicsSystem* d );
 		virtual ~gtGUITextFieldImpl();
 
 		bool		init( const v4i& rect, gtGUIFont* font, bool fh, bool fw );

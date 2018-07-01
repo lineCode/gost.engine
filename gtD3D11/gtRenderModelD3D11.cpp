@@ -3,7 +3,7 @@
 
 gtRenderModelD3D11::gtRenderModelD3D11( gtDriverD3D11* d ):
 	//m_sModel( nullptr ),
-	m_driver( d ),
+	m_gs( d ),
 	m_stride( 0u )
 {}
 
@@ -58,7 +58,7 @@ bool	gtRenderModelD3D11::init( gtModel* m ){
 		
 		ID3D11Buffer* vBuffer = nullptr;
 
-		hr = m_driver->getD3DDevice()->CreateBuffer( &vbd, &vData, &vBuffer );
+		hr = m_gs->getD3DDevice()->CreateBuffer( &vbd, &vData, &vBuffer );
 		if( FAILED( hr ) ){
 			gtLogWriter::printWarning( u"Can't create Direct3D 11 vertex buffer [%u]", hr );
 			return false;
@@ -69,7 +69,7 @@ bool	gtRenderModelD3D11::init( gtModel* m ){
 		iData.pSysMem	=	&sub->m_indices[ 0u ];
 
 		ID3D11Buffer* iBuffer = nullptr;
-		hr = m_driver->getD3DDevice()->CreateBuffer( &ibd, &iData, &iBuffer );
+		hr = m_gs->getD3DDevice()->CreateBuffer( &ibd, &iData, &iBuffer );
 		if( FAILED( hr ) ){
 			gtLogWriter::printWarning( u"Can't create Direct3D 11 index buffer [%u]", hr );
 			return false;
@@ -97,7 +97,7 @@ gtMaterial*	gtRenderModelD3D11::getMaterial( u32 id ){
 }
 
 void		gtRenderModelD3D11::render(){
-	this->m_driver->drawModel( this );
+	this->m_gs->drawModel( this );
 }
 
 gtAabb* gtRenderModelD3D11::getAabb(){

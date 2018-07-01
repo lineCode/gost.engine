@@ -4,7 +4,7 @@
 
 namespace gost{
 
-	class gtDriver;
+	class gtGraphicsSystem;
 
 		class gtSprite : public gtGameObject{
 
@@ -19,7 +19,7 @@ namespace gost{
 		gtPtr<gtRenderModel> m_rModel;
 
 		gtMainSystem * m_system;		
-		gtDriver * m_driver;			
+		gtGraphicsSystem * m_gs;			
 
 		bool m_firstFrame;				
 		bool m_inverseHorizontal;		
@@ -36,10 +36,10 @@ namespace gost{
 
 	public:
 
-			gtSprite( gtTexture * t, const v2f& size, gtDriver * d ):
+			gtSprite( gtTexture * t, const v2f& size, gtGraphicsSystem * d ):
 			m_type( gtObjectType::Sprite ),
 			m_rModel( nullptr ),
-			m_driver( d ),
+			m_gs( d ),
 			m_firstFrame( true ),
 			m_inverseHorizontal( false ),
 			m_timer( 0.f ),
@@ -142,7 +142,7 @@ namespace gost{
 		void render(){
 			if( m_isVisible ){
 				updateAnimation();
-				m_driver->drawModel( m_rModel.data() );
+				m_gs->drawModel( m_rModel.data() );
 			}
 		}
 

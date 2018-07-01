@@ -2,7 +2,7 @@
 
 gtSceneSystemImpl::gtSceneSystemImpl():
 	m_mainSystem( nullptr ),
-	m_driver( nullptr ),
+	m_gs( nullptr ),
 	m_rootNode( nullptr ),
 	m_activeCamera( nullptr )
 {
@@ -41,12 +41,12 @@ void gtSceneSystemImpl::clearScene(){
 	m_activeCamera = nullptr;
 }
 
-void gtSceneSystemImpl::setCurrentRenderDriver( gtDriver * driver ){
-	m_driver = driver;
+void gtSceneSystemImpl::setCurrentRenderDriver( gtGraphicsSystem * driver ){
+	m_gs = driver;
 }
 
 gtSprite*		gtSceneSystemImpl::addSprite( gtTexture * texture, const v2f& size, const v3f& position, bool /*asBillboard*/ ){
-	gtSprite * sprite = new gtSprite( texture, size, m_driver );
+	gtSprite * sprite = new gtSprite( texture, size, m_gs );
 
 	if( !sprite ) return nullptr;
 
@@ -73,7 +73,7 @@ gtCamera*		gtSceneSystemImpl::addCamera( const v3f& position, const v3f& target,
 		camera->setName("Camera");
 		m_rootNode->addChild( camera.data() );
 
-		auto rc = m_driver->getParams().m_outWindow->getRect();
+		auto rc = m_gs->getParams().m_outWindow->getRect();
 		camera->setAspect( (f32)rc.getWidth() / (f32)rc.getHeight() );
 	}
 
@@ -398,7 +398,7 @@ void gtSceneSystemImpl::drawObject( gtGameObject * object ){
 			gtColor green( 0.f, 1.f, 0.f );
 			gtColor blue( 0.f, 0.f, 1.f );
 
-			m_driver->drawLineBox(
+			m_gs->drawLineBox(
 				obb->v1,
 				obb->v2,
 				obb->v3,
@@ -423,9 +423,9 @@ void gtSceneSystemImpl::drawObject( gtGameObject * object ){
 				v3f v7 = v3f( v2.x, v1.y, v2.z );
 				v3f v8 = v3f( v2.x, v2.y, v1.z );
 
-				m_driver->drawLineBox( v1, v2, v3, v4, v5, v6, v7, v8, pos, green  );
+				m_gs->drawLineBox( v1, v2, v3, v4, v5, v6, v7, v8, pos, green  );
 			}
-			m_driver->drawLineSphere( pos, object->getBVSphereRadius(), 1u, red, green, blue );
+			m_gs->drawLineSphere( pos, object->getBVSphereRadius(), 1u, red, green, blue );
 		}
 
 	}

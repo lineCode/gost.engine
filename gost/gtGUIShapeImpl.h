@@ -8,7 +8,7 @@ namespace gost{
 	class gtGUIShapeImpl : public gtGUIShape{
 		gtMainSystem *	m_mainSystem;
 		gtModelSystem*	m_modelSystem;
-		gtDriver*		m_driver;
+		gtGraphicsSystem*		m_gs;
 		gtRenderModel*	m_model;
 		gtMaterial*		m_material;
 
@@ -16,7 +16,7 @@ namespace gost{
 
 	public:
 
-		gtGUIShapeImpl( gtDriver * );
+		gtGUIShapeImpl( gtGraphicsSystem * );
 		~gtGUIShapeImpl();
 		
 		bool		initRectangle( const v4i& rect, const gtColor& color );

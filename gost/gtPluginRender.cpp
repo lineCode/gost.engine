@@ -11,7 +11,7 @@ gtPluginRender::~gtPluginRender(){
 }
 
 
-gtDriver * gtPluginRender::loadDriver( const gtDriverInfo& params ){
+gtGraphicsSystem * gtPluginRender::loadDriver( const gtGraphicsSystemInfo& params ){
 	
 	if( !m_isLoad ) load();
 

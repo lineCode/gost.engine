@@ -10,7 +10,7 @@ namespace gost{
 	class gtRenderModelD3D11 : public gtRenderModel{
 
 
-		gtDriverD3D11* m_driver;
+		gtDriverD3D11* m_gs;
 
 		gtAabb m_aabb;
 		gtObb  m_obb;
