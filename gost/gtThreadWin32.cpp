@@ -21,7 +21,7 @@ bool gtThreadWin32::start( StartFunction f, void* args, u32 stackSize ){
 
 	if( !m_handle ) return false;
 
-	m_status = gtThreadStatus::running;
+	m_status = gtThreadStatus::Running;
 
 	return true;
 }
@@ -32,7 +32,7 @@ void gtThreadWin32::join(){
 
 		WaitForSingleObject( m_handle, INFINITE );
 
-		m_status = gtThreadStatus::terminated;
+		m_status = gtThreadStatus::Terminated;
 
 
 		CloseHandle( m_handle );

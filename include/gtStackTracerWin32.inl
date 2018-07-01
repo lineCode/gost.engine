@@ -15,7 +15,7 @@ namespace gost{
 			SetErrorMode( SEM_FAILCRITICALERRORS );
 			
 			if( !SymInitialize( GetCurrentProcess(), NULL, TRUE ) ){
-				m_log->print(gtLog::msgType::warning, u"%s", u"can not initialize stack tracer" );
+				m_log->print(gtLog::msgType::Warning, u"%s", u"can not initialize stack tracer" );
 				return;
 			}
 
@@ -29,7 +29,7 @@ namespace gost{
 	GT_FORCE_INLINE void gtStackTracer::shutdown(){
 		if( m_is_initialized ){
 			if( !SymCleanup( GetCurrentProcess() ) ){
-				m_log->print(gtLog::msgType::warning, u"%s", u"Can not free memory. Error code [%u]", GetLastError() );
+				m_log->print(gtLog::msgType::Warning, u"%s", u"Can not free memory. Error code [%u]", GetLastError() );
 			}
 			//m_mutex->release();
 		}

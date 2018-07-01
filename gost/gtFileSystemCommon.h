@@ -12,10 +12,10 @@ namespace gost{
 		virtual ~gtFileSystemCommon();
 
 
-		virtual gtFile* createFile( const gtString& fileName, gtFileSystem::FileMode mode,
-			gtFileSystem::FileAccessMode access,
-			gtFileSystem::FileAction action,
-			gtFileSystem::FileShareMode EFSM,
+		virtual gtFile* createFile( const gtString& fileName, gtFileMode mode,
+			gtFileAccessMode access,
+			gtFileAction action,
+			gtFileShareMode EFSM,
 			u32 EFA
 		) = 0;
 

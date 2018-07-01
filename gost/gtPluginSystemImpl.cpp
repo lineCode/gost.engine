@@ -59,7 +59,7 @@ void gtPluginSystemImpl::scanFolder( const gtString& dir ){
 				gtPluginInfo pi;
 				f_GetPluginInfo( pi );
 
-				if( pi.m_type == gtPluginType::unknown ){
+				if( pi.m_type == gtPluginType::Unknown ){
 					gtLogWriter::printWarning( u"Unsupported plugin [%s]", o->path );
 					GT_FREE_LIBRARY( lib );
 					continue;
@@ -70,7 +70,7 @@ void gtPluginSystemImpl::scanFolder( const gtString& dir ){
 				pi_dl.m_handle = lib;
 				
 				
-				if( pi.m_type == gtPluginType::render ){
+				if( pi.m_type == gtPluginType::Render ){
 					gtPtr_t(gtPluginRender,plugin, new gtPluginRender( &pi_dl ) );
 
 					if( !plugin->checkLibraryFunctions() ) continue;
@@ -78,7 +78,7 @@ void gtPluginSystemImpl::scanFolder( const gtString& dir ){
 					m_renderPluginCache.push_back( plugin.data() );
 					m_plugins.push_back( plugin.data() );
 
-				}else if( pi.m_type == gtPluginType::import_image ){
+				}else if( pi.m_type == gtPluginType::Import_image ){
 
 					gtPtr_t(gtPluginImportImage,plugin,new gtPluginImportImage( &pi_dl ) );
 
@@ -87,7 +87,7 @@ void gtPluginSystemImpl::scanFolder( const gtString& dir ){
 					m_importImagePluginCache.push_back( plugin.data() );
 					m_plugins.push_back( plugin.data() );
 
-				}else if( pi.m_type == gtPluginType::import_model ){
+				}else if( pi.m_type == gtPluginType::Import_model ){
 
 					gtPtr_t(gtPluginImportModel,plugin,new gtPluginImportModel( &pi_dl ) );
 
@@ -96,7 +96,7 @@ void gtPluginSystemImpl::scanFolder( const gtString& dir ){
 					this->m_importModelPluginCache.push_back( plugin.data() );
 					m_plugins.push_back( plugin.data() );
 
-				}else if( pi.m_type == gtPluginType::audio ){
+				}else if( pi.m_type == gtPluginType::Audio ){
 					
 					gtPtr_t(gtPluginAudio,plugin,new gtPluginAudio( &pi_dl ) );
 
@@ -105,7 +105,7 @@ void gtPluginSystemImpl::scanFolder( const gtString& dir ){
 					m_audioPluginCache.push_back( plugin.data() );
 					m_plugins.push_back( plugin.data() );
 
-				}else if( pi.m_type == gtPluginType::input ){
+				}else if( pi.m_type == gtPluginType::Input ){
 					
 					gtPtr_t(gtPluginInput,plugin,new gtPluginInput( &pi_dl ) );
 

@@ -41,7 +41,7 @@ gtLog* gtMainSystemCommon::getLog(){
 
 void gtMainSystemCommon::initStackTracer(){
 	if( !m_stackTracer ){
-		m_stackTracer = new gtStackTrace( this );
+		m_stackTracer = new gtStackTracer( this );
 	}
 }
 
@@ -55,11 +55,11 @@ gtMainSystem*	gtMainSystem::getInstance(){
 	return gtMainSystemCommon::getInstance();
 }
 			
-gtStackTrace*	gtMainSystemCommon::getStackTracer(){
+gtStackTracer*	gtMainSystemCommon::getStackTracer(){
 	return m_stackTracer;
 }
 
-void gtStackTrace::dumpStackTrace(){
+void gtStackTracer::dumpStackTrace(){
 	gtMainSystemCommon::getInstance()->getStackTracer()->printStackTrace(2u,3u);
 }
 
@@ -72,7 +72,7 @@ gtPtr<gtDriver> gtMainSystemCommon::createVideoDriver( /*gtPlugin* videoDriverPl
 		return nullptr;
 	}
 
-	if( plugin->getInfo().m_info.m_type != gtPluginType::render ){
+	if( plugin->getInfo().m_info.m_type != gtPluginType::Render ){
 		gtLogWriter::printError( u"Can not create video driver" );
 		return nullptr;
 	}
@@ -231,7 +231,7 @@ gtPtr<gtGameController> gtMainSystemCommon::createGameContoller( const GT_GUID& 
 
 			auto * pl = ps->getPlugin( i );
 
-			if( pl->getInfo().m_info.m_type == gtPluginType::input ){
+			if( pl->getInfo().m_info.m_type == gtPluginType::Input ){
 			
 				pluginInput = ps->getAsPluginInput( pl );
 
@@ -264,7 +264,7 @@ gtPtr<gtAudioSystem> gtMainSystemCommon::createAudioSystem( const GT_GUID& uid )
 
 			auto * pl = ps->getPlugin( i );
 
-			if( pl->getInfo().m_info.m_type == gtPluginType::audio ){
+			if( pl->getInfo().m_info.m_type == gtPluginType::Audio ){
 			
 				pluginAudio = ps->getAsPluginAudio( pl );
 
@@ -390,7 +390,7 @@ void gtMainSystemCommon::XMLWrite( const gtString& file, gtXMLNode* rootNode, bo
 	gtTextFileInfo ti;
 	ti.m_hasBOM = true;
 	if( utf8 ){
-		ti.m_format = ti.utf_8;
+		ti.m_format = gtTextFileFormat::UTF_8;
 		out->setTextFileInfo( ti );
 		
 		gtStringA mbstr;
@@ -399,8 +399,8 @@ void gtMainSystemCommon::XMLWrite( const gtString& file, gtXMLNode* rootNode, bo
 		out->write( mbstr );
 
 	}else{
-		ti.m_endian = ti.little;
-		ti.m_format = ti.utf_16;
+		ti.m_endian = gtTextFileEndian::Little;
+		ti.m_format = gtTextFileFormat::UTF_16;
 		out->setTextFileInfo( ti );
 		out->write( outText );
 	}

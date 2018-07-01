@@ -56,11 +56,11 @@ gtPtr<gtGUIFont> gtGUISystemImpl::createBuiltInFont(){
 	util::memoryAllocate( fontImage->data, fontImage->dataSize );
 	memcpy( fontImage->data, gtBuiltInFontBytes, fontImage->dataSize);
 
-	fontImage->format = gtImage::FMT_ONE_BIT;
+	fontImage->format = gtImageFormat::One_bit;
 	fontImage->height = 512u;
 	fontImage->width  = 1024u;
 	fontImage->pitch  = 1024u;
-	fontImage->convert( gtImage::FMT_R8G8B8A8 );
+	fontImage->convert( gtImageFormat::R8G8B8A8 );
 	fontImage->flipVertical();
 
 	const char16_t * xml = reinterpret_cast<const char16_t *>( &gtBuiltInFontXML[ 0u ] );

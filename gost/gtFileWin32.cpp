@@ -4,10 +4,10 @@
 
 #if defined(GT_PLATFORM_WIN32)
 
-gtFileWin32::gtFileWin32( const gtString& fileName, gtFileSystem::FileMode mode,
-			gtFileSystem::FileAccessMode access,
-			gtFileSystem::FileAction action,
-			gtFileSystem::FileShareMode EFSM,
+gtFileWin32::gtFileWin32( const gtString& fileName, gtFileMode mode,
+			gtFileAccessMode access,
+			gtFileAction action,
+			gtFileShareMode EFSM,
 			u32 EFA ):
 m_handle(nullptr), m_isTextFile(false),
 m_pointerPosition( 0u )
@@ -15,16 +15,16 @@ m_pointerPosition( 0u )
 
 	m_desiredAccess = 0;
 	switch( access ){
-	case gost::gtFileSystem::EFAM_READ:
+	case gtFileAccessMode::Read:
 		m_desiredAccess |= GENERIC_READ;
 		break;
-	case gost::gtFileSystem::EFAM_WRITE:
+	case gtFileAccessMode::Write:
 		m_desiredAccess |= GENERIC_WRITE;
 		break;
-	case gost::gtFileSystem::EFAM_BOTH:
+	case gtFileAccessMode::Both:
 		m_desiredAccess |= GENERIC_READ | GENERIC_WRITE;
 		break;
-	case gost::gtFileSystem::EFAM_APPEND:
+	case gtFileAccessMode::Append:
 		m_desiredAccess |= FILE_APPEND_DATA;
 		break;
 	}
@@ -32,42 +32,42 @@ m_pointerPosition( 0u )
 	DWORD ShareMode = 0;
 	switch( EFSM ){
 	default:
-	case gost::gtFileSystem::EFSM_NONE:
+	case gtFileShareMode::None:
 		break;
-	case gost::gtFileSystem::EFSM_DELETE:
+	case gtFileShareMode::Delete:
 		ShareMode = FILE_SHARE_DELETE;
 		break;
-	case gost::gtFileSystem::EFSM_READ:
+	case gtFileShareMode::Read:
 		ShareMode = FILE_SHARE_READ;
 		break;
-	case gost::gtFileSystem::EFSM_WRITE:
+	case gtFileShareMode::Write:
 		ShareMode = FILE_SHARE_WRITE;
 		break;
 	}
 
 	DWORD CreationDisposition = 0;
 	switch( action ){
-	case gost::gtFileSystem::EFA_OPEN:
+	case gtFileAction::Open:
 		CreationDisposition = OPEN_ALWAYS;
 		break;
-	case gost::gtFileSystem::EFA_OPEN_NEW:
+	case gtFileAction::Open_new:
 		CreationDisposition = CREATE_ALWAYS;
 		break;
 	}
 
 	DWORD FlagsAndAttributes = 0;
-	if( EFA & gost::gtFileSystem::EFA_NORMAL ){
+	if( EFA & (u32)gtFileAttribute::Normal ){
 		FlagsAndAttributes |= FILE_ATTRIBUTE_NORMAL;
 	}else{
-		if( EFA & gost::gtFileSystem::EFA_HIDDEN ){
+		if( EFA & (u32)gtFileAttribute::Hidden ){
 			FlagsAndAttributes |= FILE_ATTRIBUTE_HIDDEN;
 		}
-		if( EFA & gost::gtFileSystem::EFA_READONLY ){
+		if( EFA & (u32)gost::gtFileAttribute::Readonly ){
 			FlagsAndAttributes |= FILE_ATTRIBUTE_READONLY;
 		}
 	}
 
-	if( mode == gtFileSystem::FileMode::EFM_TEXT ){
+	if( mode == gtFileMode::Text ){
 		m_isTextFile = true;
 
 	}
@@ -99,7 +99,7 @@ gtTextFileInfo	gtFileWin32::getTextFileInfo(){
 void	gtFileWin32::setTextFileInfo( gtTextFileInfo info ){
 	m_textInfo = info;
 
-	this->seek( 0u, gtFile::SeekPos::ESP_BEGIN );
+	this->seek( 0u, gtFileSeekPos::Begin );
 
 	if( info.m_hasBOM ){
 
@@ -107,33 +107,33 @@ void	gtFileWin32::setTextFileInfo( gtTextFileInfo info ){
 		str.reserve( 256u );
 
 		switch( info.m_format ){
-			case gtTextFileInfo::format::utf_8:{
-				str.data()[ 0u ] = 0xEF;
-				str.data()[ 1u ] = 0xBB;
-				str.data()[ 2u ] = 0xBF;
+			case gtTextFileFormat::UTF_8:{
+				str.data()[ 0u ] = (u8)0xEF;
+				str.data()[ 1u ] = (u8)0xBB;
+				str.data()[ 2u ] = (u8)0xBF;
 				str.setSize( 3u );
 			}break;
-			case gtTextFileInfo::format::utf_16:{
-				if( info.m_endian == gtTextFileInfo::endian::big ){
-					str.data()[ 0u ] = 0xFE;
-					str.data()[ 1u ] = 0xFF;
+			case gtTextFileFormat::UTF_16:{
+				if( info.m_endian == gtTextFileEndian::Big ){
+					str.data()[ 0u ] = (u8)0xFE;
+					str.data()[ 1u ] = (u8)0xFF;
 				}else{
-					str.data()[ 0u ] = 0xFF;
-					str.data()[ 1u ] = 0xFE;
+					str.data()[ 0u ] = (u8)0xFF;
+					str.data()[ 1u ] = (u8)0xFE;
 				}
 				str.setSize( 2u );
 			}break;
-			case gtTextFileInfo::format::utf_32:{
-				if( info.m_endian == gtTextFileInfo::endian::big ){
-					str.data()[ 0u ] = 0x00;
-					str.data()[ 1u ] = 0x00;
-					str.data()[ 2u ] = 0xFE;
-					str.data()[ 3u ] = 0xFF;
+			case gtTextFileFormat::UTF_32:{
+				if( info.m_endian == gtTextFileEndian::Big ){
+					str.data()[ 0u ] = (u8)0x00;
+					str.data()[ 1u ] = (u8)0x00;
+					str.data()[ 2u ] = (u8)0xFE;
+					str.data()[ 3u ] = (u8)0xFF;
 				}else{
-					str.data()[ 0u ] = 0xFF;
-					str.data()[ 1u ] = 0xFE;
-					str.data()[ 2u ] = 0x00;
-					str.data()[ 3u ] = 0x00;
+					str.data()[ 0u ] = (u8)0xFF;
+					str.data()[ 1u ] = (u8)0xFE;
+					str.data()[ 2u ] = (u8)0x00;
+					str.data()[ 3u ] = (u8)0x00;
 				}
 				str.setSize( 4u );
 			}break;
@@ -216,7 +216,7 @@ u64	gtFileWin32::read( u8 * data, u64 size ){
 	if( m_handle ){
 		DWORD readBytesNum = 0u;
 		if( ReadFile(	m_handle,
-						data, size,
+						data, (DWORD)size,
 						&readBytesNum,
 						NULL
 			) == FALSE ){
@@ -241,14 +241,14 @@ u64		gtFileWin32::tell(){
 }
 
 
-void		gtFileWin32::seek( u64 distance, SeekPos pos ){
+void		gtFileWin32::seek( u64 distance, gtFileSeekPos pos ){
 	if( (m_desiredAccess & GENERIC_READ) || (m_desiredAccess & GENERIC_WRITE) ){
 		if( m_handle ){
 
 			LARGE_INTEGER li;
 			li.QuadPart = distance;
 
-			li.LowPart = SetFilePointer( m_handle, li.LowPart, (PLONG)&li.HighPart, pos );
+			li.LowPart = SetFilePointer( m_handle, li.LowPart, (PLONG)&li.HighPart, (DWORD)pos );
 			m_pointerPosition = li.QuadPart;
 
 		}

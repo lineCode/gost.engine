@@ -5,10 +5,10 @@ m_driver( d ),
 m_mainSystem( nullptr ),
 m_modelSystem( nullptr ),
 m_material( nullptr ){
-	vt[ 0u ] = gtVertexType::position;
-	vt[ 1u ] = gtVertexType::uv;
-	vt[ 2u ] = gtVertexType::normal;
-	vt[ 3u ] = gtVertexType::end;
+	vt[ 0u ] = gtVertexType::Position;
+	vt[ 1u ] = gtVertexType::UV;
+	vt[ 2u ] = gtVertexType::Normal;
+	vt[ 3u ] = gtVertexType::End;
 	m_mainSystem = gtMainSystem::getInstance();
 	m_modelSystem = m_mainSystem->getModelSystem();
 	m_type = gtGUIObjectType::Shape;
@@ -49,7 +49,7 @@ bool gtGUIShapeImpl::initRectangle( const v4i& rect, const gtColor& color ){
 	if( soft.data() ){
 		auto * sub = soft->addSubModel( 4u, 6u, gtStrideStandart );
 		sub->m_material.type = gtMaterialType::GUI;
-		sub->m_material.flags |= gtMaterialFlag::MF_BLEND;
+		sub->m_material.flags |= (u32)gtMaterialFlag::Blend;
 		sub->m_material.textureLayer[ 0u ].diffuseColor = color;
 		//sub->m_material.textureLayer[ 0u ].texture = m_font->getTexture( id );
 		u8* v = &sub->m_vertices[ 0u ];

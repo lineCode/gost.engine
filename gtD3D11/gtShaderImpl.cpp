@@ -171,7 +171,7 @@ bool gtShaderImpl::compileShader(
 	u32 vertexLayoutComponentSize = 0u;
 
 	for( u32 i = 0u; i < 1024u; ++i ){
-		if( vertexType[ i ] == gtVertexType::end )
+		if( vertexType[ i ] == gtVertexType::End )
 			break;
 		else
 			vertexLayoutComponentSize++;
@@ -188,32 +188,32 @@ bool gtShaderImpl::compileShader(
 	UINT offset = 0u;
 
 	for( u32 i = 0u; i < vertexLayoutComponentSize; ++i ){
-		if( vertexType[ i ] == gtVertexType::position ){
+		if( vertexType[ i ] == gtVertexType::Position ){
 
 			layout.get()[ i ] = { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, offset,  D3D11_INPUT_PER_VERTEX_DATA, 0 };
 			offset += 16;
 
-		}else if( vertexType[ i ] == gtVertexType::uv ){
+		}else if( vertexType[ i ] == gtVertexType::UV ){
 
 			layout.get()[ i ] = { "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT,    0, offset, D3D11_INPUT_PER_VERTEX_DATA, 0 };
 			offset += 8;
 
-		}else if( vertexType[ i ] == gtVertexType::normal ){
+		}else if( vertexType[ i ] == gtVertexType::Normal ){
 
 			layout.get()[ i ] = { "NORMAL",   0, DXGI_FORMAT_R32G32B32_FLOAT, 0, offset, D3D11_INPUT_PER_VERTEX_DATA, 0 };
 			offset += 12;
 
-		}else if( vertexType[ i ] == gtVertexType::binormal ){
+		}else if( vertexType[ i ] == gtVertexType::Binormal ){
 
 			layout.get()[ i ] = { "BINORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, offset, D3D11_INPUT_PER_VERTEX_DATA, 0 };
 			offset += 12;
 
-		}else if( vertexType[ i ] == gtVertexType::tangent ){
+		}else if( vertexType[ i ] == gtVertexType::Tangent ){
 
 			layout.get()[ i ] = { "TANGENT",  0, DXGI_FORMAT_R32G32B32_FLOAT, 0, offset, D3D11_INPUT_PER_VERTEX_DATA, 0 };
 			offset += 12;
 
-		}else if( vertexType[ i ] == gtVertexType::color ){
+		}else if( vertexType[ i ] == gtVertexType::Color ){
 
 			layout.get()[ i ] = { "COLOR",     0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, offset, D3D11_INPUT_PER_VERTEX_DATA, 0 };
 			offset += 16;

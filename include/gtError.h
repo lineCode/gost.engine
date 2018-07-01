@@ -12,27 +12,27 @@ namespace gost{
 				gtLogWriter::printError(u"Assertion failed: %s", u##str );\
 				gtLogWriter::printError(u"Expected: %s [%u][%u]", u##exprstr, v1, v2 );\
 				gtLogWriter::printError(u"Source: %s, line %i", GT_FILE, GT_LINE );\
-				gtStackTrace::dumpStackTrace();\
+				gtStackTracer::dumpStackTrace();\
 								GT_BREAKPOINT(0) };
 
 #	define GT_ASSERT1(expr,str,exprstr) if(!(expr)){\
 				gtLogWriter::printError(u"Assertion failed: %s", u##str );\
 				gtLogWriter::printError(u"Expected: %s", u##exprstr );\
 				gtLogWriter::printError(u"Source: %s, line %i", GT_FILE, GT_LINE );\
-				gtStackTrace::dumpStackTrace();\
+				gtStackTracer::dumpStackTrace();\
 								GT_BREAKPOINT(0) };
 
 #	define GT_ASSERT2(expr,exprstr) if(!(expr)){\
 				gtLogWriter::printError(u"Assertion failed" );\
 				gtLogWriter::printError(u"Expected: %s", u##exprstr );\
 				gtLogWriter::printError(u"Source: %s, line %i", GT_FILE, GT_LINE );\
-				gtStackTrace::dumpStackTrace();\
+				gtStackTracer::dumpStackTrace();\
 								GT_BREAKPOINT(0) };
 
 #	define GT_ASSERT3(expr) if(!(expr)){\
 				gtLogWriter::printError(u"Assertion failed" );\
 				gtLogWriter::printError(u"Source: %s, line %i", GT_FILE, GT_LINE );\
-				gtStackTrace::dumpStackTrace();\
+				gtStackTracer::dumpStackTrace();\
 								GT_BREAKPOINT(0) };
 
 

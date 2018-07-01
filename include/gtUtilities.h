@@ -178,7 +178,7 @@ namespace gost{
 			auto nop = ps->getNumOfPlugins();
 			for( u32 i = 0u; i < nop; ++i ){
 				auto plg = ps->getPlugin( i );
-				if( plg->getInfo().m_info.m_type == gtPluginType::import_image ){
+				if( plg->getInfo().m_info.m_type == gtPluginType::Import_image ){
 					auto iipl = ps->getAsPluginImportImage( plg );
 					iipl->load();
 					auto isz = iipl->m_extensions.size();
@@ -197,7 +197,7 @@ namespace gost{
 			auto nop = ps->getNumOfPlugins();
 			for( u32 i = 0u; i < nop; ++i ){
 				auto plg = ps->getPlugin( i );
-				if( plg->getInfo().m_info.m_type == gtPluginType::import_model ){
+				if( plg->getInfo().m_info.m_type == gtPluginType::Import_model ){
 					auto iipl = ps->getAsPluginImportModel( plg );
 					iipl->load();
 					auto isz = iipl->m_extensions.size();

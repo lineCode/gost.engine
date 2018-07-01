@@ -52,7 +52,7 @@ namespace gost{
 		virtual void clearTextureCache() = 0;
 
 		virtual gtPtr<gtRenderModel> createModel( gtModel* software_model ) = 0;
-		virtual gtPtr<gtTexture>     createTexture( gtImage* sourceImage, gtTextureFilterType filter = gtTextureFilterType::FILTER_ANISOTROPIC ) = 0;
+		virtual gtPtr<gtTexture>     createTexture( gtImage* sourceImage, gtTextureFilterType filter = gtTextureFilterType::Anisotropic ) = 0;
 
 		virtual void draw2DImage( const v4i& rect, const gtMaterial& m ) = 0;
 		virtual void draw2DImage( const v4i& rect, gtTexture* texture ) = 0;
@@ -96,7 +96,7 @@ namespace gost{
 
 		virtual const gtDriverInfo&	getParams() = 0;
 
-		virtual gtTexture*		getTexture( const gtString& fileName, gtTextureFilterType filter = gtTextureFilterType::FILTER_ANISOTROPIC,
+		virtual gtTexture*		getTexture( const gtString& fileName, gtTextureFilterType filter = gtTextureFilterType::Anisotropic,
 			gtImage** outImage = nullptr ) = 0;
 		virtual gtRenderModel*	getModel( const gtString& fileName, gtModel** software_model = nullptr ) = 0;
 
@@ -331,21 +331,21 @@ namespace gost{
 			u32 s = 9u * q + 1u;
 			f32 m = 40.f / q;
 			for( u32 i = 0u; i < s; ++i ){
-				f32 a = (f32)i * m / 180.f * PI;
+				f32 a = (f32)i * m / 180.f * math::PI;
 				x = std::sin( a );
 				y = std::cos( a );
 				points1.push_back( v3f( x * radius, 0.f, y * radius ) + position );
 			}
 
 			for( u32 i = 0u; i < s; ++i ){
-				f32 a = (f32)i * m / 180.f * PI;
+				f32 a = (f32)i * m / 180.f * math::PI;
 				x = std::sin( a );
 				y = std::cos( a );
 				points2.push_back( v3f( x * radius, y * radius, 0.f ) + position );
 			}
 
 			for( u32 i = 0u; i < s; ++i ){
-				f32 a = (f32)i * m / 180.f * PI;
+				f32 a = (f32)i * m / 180.f * math::PI;
 				x = std::sin( a );
 				y = std::cos( a );
 				points3.push_back( v3f( 0.f, x * radius, y * radius ) + position );

@@ -139,7 +139,7 @@ void gtGUITextFieldImpl::update(){
 			word->setBackgroundVisible( false );
 			word->setColor( m_textColor );
 
-			position_x += word->getLength();
+			position_x += (u32)word->getLength();
 
 			if( m_fixedW ){
 				if( position_x > m_rect.z + 3u ){
@@ -149,7 +149,7 @@ void gtGUITextFieldImpl::update(){
 
 					word->setPosition( v2i( position_x, m_rect.y + m_font->getHeight() + v ) );
 				
-					position_x += word->getLength();
+					position_x += (u32)word->getLength();
 				}
 			}else{
 				m_rect.z = position_x + 4u;
@@ -160,7 +160,7 @@ void gtGUITextFieldImpl::update(){
 	}
 
 	if( !m_fixedH ){
-		if( m_font->getHeight() + v >= m_rect.getHeight() ){
+		if( m_font->getHeight() + v >= (u32)m_rect.getHeight() ){
 			m_rect.w = m_rect.y + m_font->getHeight() + v;
 		}
 	}
@@ -185,10 +185,10 @@ void gtGUITextFieldImpl::update(){
 	f32 mulx = ((f32)m_driver->getParams().m_backBufferSize.x / (f32)wndW);
 	f32 muly = ((f32)m_driver->getParams().m_backBufferSize.y / (f32)wndH);
 
-	m_scissorRect.x = m_rect.x * mulx;
-	m_scissorRect.y = m_rect.y * muly;
-	m_scissorRect.z = m_rect.z * mulx;
-	m_scissorRect.w = m_rect.w * muly;
+	m_scissorRect.x = s32(m_rect.x * mulx);
+	m_scissorRect.y = s32(m_rect.y * muly);
+	m_scissorRect.z = s32(m_rect.z * mulx);
+	m_scissorRect.w = s32(m_rect.w * muly);
 
 	m_backgroundShape = m_gui->createShapeRectangle( m_rect, gtColor( 0.f, 0.f, 0.f, 1.f ) );
 	m_backgroundShape->setTexture( t1 );

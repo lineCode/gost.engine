@@ -48,7 +48,7 @@ extern "C"{
 		info.m_description.assign( u"XAduio2 audio plugin" );
 		info.m_GUID=GT_UID_AUDIO_XADUDIO2;
 		info.m_name.assign( u"XAduio2" );
-		info.m_type = gtPluginType::audio;
+		info.m_type = gtPluginType::Audio;
 		info.m_version = 1;
 		info.m_build = 1;
 	}

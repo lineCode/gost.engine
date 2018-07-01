@@ -5,7 +5,7 @@ gtModelImpl::gtModelImpl( u32 s, gtVertexType* ta ):
 {
 	u32 sz = 0u;
 	gtVertexType * vt = &ta[ 0u ];
-	while( *vt++ != gtVertexType::end ) sz++;
+	while( *vt++ != gtVertexType::End ) sz++;
 
 	m_typeArray = new gtVertexType[ sz + 1u ];
 

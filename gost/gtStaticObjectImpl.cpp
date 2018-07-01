@@ -1,7 +1,7 @@
 #include "common.h"
 
 gtStaticObjectImpl::gtStaticObjectImpl( gtRenderModel* model ):
-	m_type( gtObjectType::STATIC ),
+	m_type( gtObjectType::Static ),
 	m_model( model )
 {
 	m_aabb = *m_model->getAabb();

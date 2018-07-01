@@ -42,7 +42,7 @@ namespace gost{
 			if( this->s_fileSystem->existFile( u"log.txt" ) )
 				this->s_fileSystem->deleteFile( u"log.txt" );
 			
-			gtMainSystemCommon::s_log->print(gtLog::msgType::info, u"Starting GoST version %i.%i", 0, 1 );
+			gtMainSystemCommon::s_log->print( gtLog::msgType::Info, u"Starting GoST version %i.%i", 0, 1 );
 
 			if( !this->m_pluginSystem->init() ){
 				return false;
@@ -98,7 +98,7 @@ namespace gost{
 
 		if( !((gtWindowWin32*)window.data())->init( ++m_systemWindowCount ) ){
 			gtLogWriter::printError( u"Can not create system window" );
-			gtStackTrace::dumpStackTrace();
+			gtStackTracer::dumpStackTrace();
 			return nullptr;
 		}
 

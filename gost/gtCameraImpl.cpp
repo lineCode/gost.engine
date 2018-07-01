@@ -6,8 +6,8 @@ gtCameraImpl::gtCameraImpl():
 	m_near( 1.f ),
 	m_far( 100.f ),
 	m_aspect( 1.333333333f ),
-	m_type( gtObjectType::CAMERA ),
-	m_cameraType( gtCameraType::CT_LOOK_AT )
+	m_type( gtObjectType::Camera ),
+	m_cameraType( gtCameraType::LookAt )
 {}
 
 gtCameraImpl::~gtCameraImpl(){
@@ -42,7 +42,7 @@ void				gtCameraImpl::update(){
 
 void				gtCameraImpl::render(){
 	switch( m_cameraType ){
-	case gost::gtCameraType::CT_LOOK_AT:{
+	case gost::gtCameraType::LookAt:{
 		math::makePerspectiveRHMatrix(
 			m_projectionMatrix,
 			m_fov,
@@ -57,7 +57,7 @@ void				gtCameraImpl::render(){
 		);
 	}break;
 
-	case gost::gtCameraType::CT_2D:{
+	case gost::gtCameraType::Camera_2D:{
 		math::makeOrthoRHMatrix(
 			m_projectionMatrix,
 			m_viewPort.z * 0.02f * m_fov,
@@ -78,7 +78,7 @@ void				gtCameraImpl::render(){
 
 	}break;
 	//case gost::gtCameraType::CT_FREE:
-	case gost::gtCameraType::CT_FPS:{
+	case gost::gtCameraType::FPS:{
 		math::makePerspectiveRHMatrix(
 			m_projectionMatrix,
 			m_fov,

@@ -18,10 +18,10 @@ namespace gost{
 		DWORD			m_desiredAccess;
 		u64				m_pointerPosition;
 	public:
-		gtFileWin32( const gtString& fileName, gtFileSystem::FileMode mode,
-			gtFileSystem::FileAccessMode access,
-			gtFileSystem::FileAction action,
-			gtFileSystem::FileShareMode EFSM,
+		gtFileWin32( const gtString& fileName, gtFileMode mode,
+			gtFileAccessMode access,
+			gtFileAction action,
+			gtFileShareMode EFSM,
 			u32 EFA );
 		virtual ~gtFileWin32();
 
@@ -37,7 +37,7 @@ namespace gost{
 		u64				read( u8 * data, u64 size );
 		u64				size();
 		u64				tell();
-		void 			seek( u64 distance, SeekPos pos );
+		void 			seek( u64 distance, gtFileSeekPos pos );
 	};
 
 }

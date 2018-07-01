@@ -61,7 +61,7 @@ namespace gost{
 		gtDeviceCreationParameters	m_params;
 		bool						m_isRun;
 		
-		gtStackTrace*				m_stackTracer;
+		gtStackTracer*				m_stackTracer;
 		
 		u32							m_systemWindowCount;
 
@@ -93,7 +93,7 @@ namespace gost{
 		void		initEventSystem();
 
 		static gtMainSystemCommon * getInstance();
-		gtStackTrace*				getStackTracer();
+		gtStackTracer*				getStackTracer();
 		gtPtr<gtAudioSystem>		createAudioSystem( const GT_GUID& uid );
 		gtPtr<gtDriver>				createVideoDriver( /*gtPlugin* videoDriverPlugin,*/ const gtDriverInfo&, const GT_GUID& uid );
 

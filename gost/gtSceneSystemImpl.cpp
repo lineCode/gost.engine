@@ -84,9 +84,9 @@ gtCamera*		gtSceneSystemImpl::addCamera2D( const v4f& viewport, s32 id, bool set
 	gtCamera * camera = addCamera(v3f(),v3f(),id,setActive);
 
 	if( camera ){
-		camera->setCameraType( gtCameraType::CT_2D );
+		camera->setCameraType( gtCameraType::Camera_2D );
 		camera->setPosition( v3f( 0.f, 0.f, 0.f ) );
-		camera->setRotation( v3f( 0.f, PI, 0.f ) );
+		camera->setRotation( v3f( 0.f, math::PI, 0.f ) );
 		camera->setNear( 0.1f );
 		camera->setFar( 1000.f );
 		camera->setViewPort( viewport );
@@ -208,15 +208,15 @@ void gtSceneSystemImpl::frustumCull( gtGameObject* root, gtArray<gtGameObject*>&
 		auto * var = *it;
 
 		switch( var->getBVType() ){
-		case gost::gtBoundingVolumeType::sphere:
+		case gost::gtBoundingVolumeType::Sphere:
 			if( sphereInFrustum( frustum, var->getBVSphereRadius(), var->getPositionInSpace() ) ){
 				outArray.push_back( var );
 				addChildsInArray( var, outArray );
 			}
 			break;
-		case gost::gtBoundingVolumeType::obb:
-		case gost::gtBoundingVolumeType::aabb:
-		case gost::gtBoundingVolumeType::convex:
+		case gost::gtBoundingVolumeType::Obb:
+		case gost::gtBoundingVolumeType::Aabb:
+		case gost::gtBoundingVolumeType::Convex:
 		default:
 				frustumCull( var, outArray, frustum );
 			break;
@@ -241,7 +241,7 @@ void gtSceneSystemImpl::sortTransparent(  gtArray<gtGameObject*>& opaque, gtArra
 		auto var = objects[ i ];
 
 		switch( var->getType() ){
-		case gtObjectType::STATIC:{
+		case gtObjectType::Static:{
 
 			auto * model = ((gtStaticObject*)var)->getModel();
 
@@ -250,7 +250,7 @@ void gtSceneSystemImpl::sortTransparent(  gtArray<gtGameObject*>& opaque, gtArra
 			bool isTransparent = false;
 
 			for( u32 i2 = 0u; i2 < smc; ++i2 ){
-				if( model->getMaterial( i2 )->flags & gtMaterialFlag::MF_BLEND ){
+				if( model->getMaterial( i2 )->flags & (u32)gtMaterialFlag::Blend ){
 					transparent.push_back( var );
 					isTransparent = true;
 					break;
@@ -261,14 +261,14 @@ void gtSceneSystemImpl::sortTransparent(  gtArray<gtGameObject*>& opaque, gtArra
 				opaque.push_back( var );
 
 		}break;
-		case gtObjectType::SPRITE:{
-			if( ((gtSprite*)var)->getMaterial()->flags & gtMaterialFlag::MF_BLEND )
+		case gtObjectType::Sprite:{
+			if( ((gtSprite*)var)->getMaterial()->flags & (u32)gtMaterialFlag::Blend )
 				transparent.push_back( var );
 			else
 				opaque.push_back( var );
 		}break;
-		case gtObjectType::CAMERA:
-		case gtObjectType::DUMMY:
+		case gtObjectType::Camera:
+		case gtObjectType::Dummy:
 		default:
 			break;
 		}
@@ -290,7 +290,7 @@ void gtSceneSystemImpl::sortTransparentDistance( gtArray<gtGameObject*>& in, gtA
 
 		f32 dist = 0.f;
 
-		if( m_activeCamera->getCameraType() == gtCameraType::CT_2D ){
+		if( m_activeCamera->getCameraType() == gtCameraType::Camera_2D ){
 			dist = std::abs(in[ i ]->getPositionInSpace().z - position.z);
 		}else{
 			dist = position.distance( in[ i ]->getPositionInSpace() );
@@ -370,9 +370,9 @@ void gtSceneSystemImpl::renderScene(){
 			}
 		}
 	}else{
-		auto * childs = &m_rootNode->getChildList();
-		auto it = childs->begin();
-		for(; it != childs->end(); ++it){
+		auto * childs2 = &m_rootNode->getChildList();
+		auto it = childs2->begin();
+		for(; it != childs2->end(); ++it){
 			drawObject( (*it) );
 		}
 	}

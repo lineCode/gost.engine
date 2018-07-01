@@ -13,10 +13,10 @@ gtPtr<gtModel>	gtModelSystemImpl::createEmpty( u32 stride, gtVertexType* vt ){
 gtPtr<gtModel>	gtModelSystemImpl::createPlane( f32 x, f32 y, gtSide side ){
 
 	gtVertexType vt[ 4 ] = {
-		gtVertexType::position,
-		gtVertexType::uv,
-		gtVertexType::normal,
-		gtVertexType::end
+		gtVertexType::Position,
+		gtVertexType::UV,
+		gtVertexType::Normal,
+		gtVertexType::End
 	};
 
 	gtPtr<gtModel> model = createEmpty( gtStrideStandart, &vt[ 0u ] );
@@ -40,27 +40,27 @@ gtPtr<gtModel>	gtModelSystemImpl::createPlane( f32 x, f32 y, gtSide side ){
 	// down
 	// up
 	switch( side ){
-		case gost::gtSide::LEFT:
-		q.set( v3f( 0.f, PI, PI/2.f ) );
+		case gost::gtSide::Left:
+		q.set( v3f( 0.f, math::PI, math::PI/2.f ) );
 		break;
-		case gost::gtSide::RIGHT:
-		q.set( v3f( 0.f, 0.f, -PI/2.f ) );
-		q = q * gtQuaternion( v3f( 0.f, PI, 0.f ) );
+		case gost::gtSide::Right:
+		q.set( v3f( 0.f, 0.f, -math::PI/2.f ) );
+		q = q * gtQuaternion( v3f( 0.f, math::PI, 0.f ) );
 		break;
-		case gost::gtSide::UP:
-		q.set( v3f( PI, 0.f, 0.f ) );
+		case gost::gtSide::Up:
+		q.set( v3f( math::PI, 0.f, 0.f ) );
 		break;
 		default:
-		case gost::gtSide::DOWN:
+		case gost::gtSide::Down:
 		q.set( v3f( 0.f, 0.f, 0.f ) );
 		break;
-		case gost::gtSide::FRONT:
-		q.set( v3f( PI/2.f, 0.f, 0.f ) );
-		q = q * gtQuaternion( v3f( 0.f, 0.f, -PI/2.f ) );
+		case gost::gtSide::Front:
+		q.set( v3f( math::PI/2.f, 0.f, 0.f ) );
+		q = q * gtQuaternion( v3f( 0.f, 0.f, -math::PI/2.f ) );
 		break;
-		case gost::gtSide::BACK:
-		q.set( v3f( PI/2.f, 0.f, 0.f ) );
-		q = q * gtQuaternion( v3f( 0.f, PI, 0.f ) );
+		case gost::gtSide::Back:
+		q.set( v3f( math::PI/2.f, 0.f, 0.f ) );
+		q = q * gtQuaternion( v3f( 0.f, math::PI, 0.f ) );
 		break;
 	}
 
@@ -121,12 +121,12 @@ gtPtr<gtModel>	gtModelSystemImpl::createPlane( f32 x, f32 y, gtSide side ){
 }
 
 gtPtr<gtModel>	gtModelSystemImpl::createCube( f32 sz ){
-	auto up = createPlane( sz, sz, gtSide::DOWN );
-	auto down = createPlane( sz, sz, gtSide::UP );
-	auto right = createPlane( sz, sz, gtSide::LEFT );
-	auto left = createPlane( sz, sz, gtSide::RIGHT );
-	auto front = createPlane( sz, sz, gtSide::BACK );
-	auto back = createPlane( sz, sz, gtSide::FRONT );
+	auto up = createPlane( sz, sz, gtSide::Down );
+	auto down = createPlane( sz, sz, gtSide::Up );
+	auto right = createPlane( sz, sz, gtSide::Left );
+	auto left = createPlane( sz, sz, gtSide::Right );
+	auto front = createPlane( sz, sz, gtSide::Back );
+	auto back = createPlane( sz, sz, gtSide::Front );
 
 	up->getSubModel( 0u )->move(   v3f( 0.f, sz, 0.f ) );
 	down->getSubModel( 0u )->move( v3f( 0.f, -sz, 0.f ) );
@@ -136,10 +136,10 @@ gtPtr<gtModel>	gtModelSystemImpl::createCube( f32 sz ){
 	back->getSubModel( 0u )->move( v3f( 0.f, 0.f, -sz ) );
 
 	gtVertexType vt[ 4 ] = {
-		gtVertexType::position,
-		gtVertexType::uv,
-		gtVertexType::normal,
-		gtVertexType::end
+		gtVertexType::Position,
+		gtVertexType::UV,
+		gtVertexType::Normal,
+		gtVertexType::End
 	};
 
 	auto cube = createEmpty( gtStrideStandart, vt );

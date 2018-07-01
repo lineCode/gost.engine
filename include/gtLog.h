@@ -24,7 +24,7 @@ namespace gost{
 
 		virtual void setOutputWindow( gtOutputWindow* ) = 0;
 
-		virtual void setInfoType( msgType type = msgType::info ) = 0;
+		virtual void setInfoType( msgType type = msgType::Info ) = 0;
 
 
 	};

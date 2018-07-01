@@ -136,8 +136,8 @@ namespace gost{
 
 		gtAudioSource*	loadAudioSource( const gtString& fileName );
 
-		bool	checkFeature( gtAudioPluginFeatures feature );
-		u32		getSupportedExtensions();
+		bool			checkFeature( gtAudioPluginFeatures feature );
+		u32				getSupportedExtensionCount();
 		const s8*		getSupportedExtension( u32 id );
 
 		gtAudioStream*	createStream( const gtString& fileName );

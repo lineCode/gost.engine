@@ -18,7 +18,7 @@ namespace gost{
 		void print( msgType, const char16_t* str, ... ) GT_FINAL;
 		void print( msgType, const char16_t* str, void * );
 		void setOutputWindow( gtOutputWindow* ) GT_FINAL;
-		void setInfoType( msgType = msgType::info ) GT_FINAL;
+		void setInfoType( msgType = msgType::Info ) GT_FINAL;
 	};
 
 }

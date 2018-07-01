@@ -6,7 +6,7 @@ extern "C"{
 		info.m_description.assign( u"Plugin for using gamepads." );
 		info.m_GUID = GT_UID_INPUT_DINPUT;
 		info.m_name.assign( u"DirectInput" );
-		info.m_type = gtPluginType::input;
+		info.m_type = gtPluginType::Input;
 		info.m_version = 1;
 		info.m_build = 1;
 	}

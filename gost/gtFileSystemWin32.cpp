@@ -32,10 +32,10 @@ gtFileSystemWin32::~gtFileSystemWin32(){
 }
 
 gtFile* gtFileSystemWin32::createFile( const gtString& fileName,
-			gtFileSystem::FileMode mode,
-			gtFileSystem::FileAccessMode access,
-			gtFileSystem::FileAction action,
-			gtFileSystem::FileShareMode EFSM,
+			gtFileMode mode,
+			gtFileAccessMode access,
+			gtFileAction action,
+			gtFileShareMode EFSM,
 			u32 EFA
 		){
 	return new gtFileWin32( fileName, mode, access, action, EFSM, EFA );

@@ -1,7 +1,7 @@
 #include "common.h"
 
 gtDummyObjectImpl::gtDummyObjectImpl():
-	m_type( gtObjectType::DUMMY )
+	m_type( gtObjectType::Dummy )
 {
 }
 

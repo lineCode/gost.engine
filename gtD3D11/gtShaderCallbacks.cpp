@@ -42,7 +42,7 @@ void gtD3D11GUIShaderCallback::onShader( const gtMaterial& m, gtShaderProcessing
 	cbPixel.diffuseColor.y = m.textureLayer[ 0u ].diffuseColor.getGreen();
 	cbPixel.diffuseColor.z = m.textureLayer[ 0u ].diffuseColor.getBlue();
 	cbPixel.diffuseColor.w = m.opacity;
-	cbPixel.boolean[ 0u ]  = (m.flags & gtMaterialFlag::MF_BLENDDISCARD );
+	cbPixel.boolean[ 0u ]  = (m.flags & (u32)gtMaterialFlag::Blenddiscard );
 
 	sp->sendDataPS( &cbPixel, 0, 0u );
 }

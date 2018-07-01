@@ -140,14 +140,14 @@ void	gtWindowWin32::setWindowTitle( const gtString& title ){
 	if( !m_hWnd){
 		gtLogWriter::printWarning( u"Can not set window title" );
 		gtLogWriter::printWarning( u"HWND == 0" );
-		gtStackTrace::dumpStackTrace();
+		gtStackTracer::dumpStackTrace();
 		return;
 	}
 
 
 	if( SetWindowText( m_hWnd, (wchar_t*)title.data() ) == FALSE ){
 		gtLogWriter::printWarning( u"Can not set window title. Code [%u]\n", (u32)GetLastError() );
-		gtStackTrace::dumpStackTrace();
+		gtStackTracer::dumpStackTrace();
 		return;
 	}
 }

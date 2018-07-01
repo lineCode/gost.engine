@@ -15,7 +15,7 @@ extern "C"{
 		info.m_description.assign( u"Import .bmp .dib .rle files" );
 		info.m_GUID=GT_UID_IMPORT_IMAGE_BMP;
 		info.m_name.assign( u"Bitmap file importer" );
-		info.m_type = gtPluginType::import_image;
+		info.m_type = gtPluginType::Import_image;
 		info.m_version = 1;
 		info.m_build = 11;
 	}
@@ -176,7 +176,7 @@ extern "C"{
 
 
 		if( image->bits == 24u ){
-			image->format	= gtImage::Format::FMT_R8G8B8;
+			image->format	= gtImageFormat::R8G8B8;
 			image->pitch	= image->width * 3u;
 			image->dataSize = image->pitch * image->height;
 
@@ -185,7 +185,7 @@ extern "C"{
 				return false;
 			}
 
-			file->seek( 54u, gtFile::SeekPos::ESP_BEGIN );
+			file->seek( 54u, gtFileSeekPos::Begin );
 
 			u32 readNum = file->read( image->data, image->dataSize );
 			if( readNum != image->dataSize ){
@@ -206,11 +206,11 @@ extern "C"{
 			image->pitch = image->width * 4u;
 
 			if( info.bV5Size == 40u ){
-				file->seek( 54u, gtFile::SeekPos::ESP_BEGIN );
-				image->format = gtImage::Format::FMT_A8R8G8B8;
+				file->seek( 54u, gtFileSeekPos::Begin );
+				image->format = gtImageFormat::A8R8G8B8;
 			}else{
-				file->seek( 70u, gtFile::SeekPos::ESP_BEGIN );
-				image->format = gtImage::Format::FMT_X8R8G8B8;
+				file->seek( 70u, gtFileSeekPos::Begin );
+				image->format = gtImageFormat::X8R8G8B8;
 			}
 
 			image->dataSize = image->pitch * image->height;
@@ -240,31 +240,31 @@ extern "C"{
 			image->pitch = image->width * 2u;
 
 			if( info.bV5Size == 40u ){ // x1r5g5b5
-				file->seek( 54u, gtFile::SeekPos::ESP_BEGIN );
-				image->format = gtImage::Format::FMT_X1R5G5B5;
+				file->seek( 54u, gtFileSeekPos::Begin );
+				image->format = gtImageFormat::X1R5G5B5;
 			}else{
 				if( info.bV5RedMask == 3840u &&
 					info.bV5GreenMask == 240u && 
 					info.bV5BlueMask == 15u ){
 					if( info.bV5AlphaMask ){
-						image->format = gtImage::Format::FMT_A4R4G4B4;
+						image->format = gtImageFormat::A4R4G4B4;
 					}else{
-						image->format = gtImage::Format::FMT_X4R4G4B4;
+						image->format = gtImageFormat::X4R4G4B4;
 					}
 				}else if( info.bV5RedMask == 63488u &&
 					info.bV5GreenMask == 2016u && 
 					info.bV5BlueMask == 31u ){
-					image->format = gtImage::Format::FMT_R5G6B5;
+					image->format = gtImageFormat::R5G6B5;
 				}else if( info.bV5RedMask == 31744u &&
 					info.bV5GreenMask == 992u && 
 					info.bV5BlueMask == 31u ){
 					if( info.bV5AlphaMask )
-						image->format = gtImage::Format::FMT_A1R5G5B5;
+						image->format = gtImageFormat::A1R5G5B5;
 				}else{
 					gtLogWriter::printWarning( u"BMP Plugin: unsupported format. [%s]", fileName->data() );
 					return false;
 				}
-				file->seek( 70u, gtFile::SeekPos::ESP_BEGIN );
+				file->seek( 70u, gtFileSeekPos::Begin );
 			}
 
 			image->dataSize = image->pitch * image->height;
@@ -286,12 +286,12 @@ extern "C"{
 			 
 		}else if( image->bits == 8u ){
 			
-			image->format = gtImage::Format::FMT_R8G8B8A8;
+			image->format = gtImageFormat::R8G8B8A8;
 			image->pitch = image->width * 4u;
 			image->dataSize = image->pitch * image->height;
 
 			
-			file->seek( 54u, gtFile::SeekPos::ESP_BEGIN );
+			file->seek( 54u, gtFileSeekPos::Begin );
 
 			u32 tableSize = header.bfOffBits - 54u;
 
@@ -301,7 +301,7 @@ extern "C"{
 			
 			rgbquad * quadTable = reinterpret_cast<rgbquad*>(table.get());
 			
-			file->seek( header.bfOffBits, gtFile::SeekPos::ESP_BEGIN );
+			file->seek( header.bfOffBits, gtFileSeekPos::Begin );
 
 			if( !gtMainSystem::getInstance()->allocateMemory( (void**)&image->data, image->dataSize ) ){
 				gtLogWriter::printWarning( u"BMP Plugin: can not allocate memory. [%s]", fileName->data() );
@@ -343,14 +343,14 @@ extern "C"{
 
 		}else if( image->bits == 4u ){
 
-			image->format = gtImage::Format::FMT_R8G8B8A8;
+			image->format = gtImageFormat::R8G8B8A8;
 
 			image->pitch = image->width * 4u;
 
 			image->dataSize = image->pitch * image->height;
 
 			
-			file->seek( 54u, gtFile::SeekPos::ESP_BEGIN );
+			file->seek( 54u, gtFileSeekPos::Begin );
 
 			u32 tableSize = header.bfOffBits - 54u;
 
@@ -361,7 +361,7 @@ extern "C"{
 
 			rgbquad * quadTable = reinterpret_cast<rgbquad*>(table.get());
 			
-			file->seek( header.bfOffBits, gtFile::SeekPos::ESP_BEGIN );
+			file->seek( header.bfOffBits, gtFileSeekPos::Begin );
 
 			
 			u32 indSize = image->width * image->height/2;
@@ -422,10 +422,10 @@ extern "C"{
 
 
 		}else if( image->bits == 1u ){
-			image->format = gtImage::Format::FMT_ONE_BIT;
+			image->format = gtImageFormat::One_bit;
 			image->pitch = image->width;
 			image->dataSize = info.bV5SizeImage;
-			file->seek( header.bfOffBits, gtFile::SeekPos::ESP_BEGIN );
+			file->seek( header.bfOffBits, gtFileSeekPos::Begin );
 			if( !gtMainSystem::getInstance()->allocateMemory( (void**)&image->data, image->dataSize ) ){
 				gtLogWriter::printWarning( u"BMP Plugin: can not allocate memory. [%s]", fileName->data() );
 				return false;

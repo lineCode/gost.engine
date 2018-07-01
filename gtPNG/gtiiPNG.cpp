@@ -18,7 +18,7 @@ extern "C"{
 		info.m_description.assign( u"Import .png files" );
 		info.m_GUID=GT_UID_IMPORT_IMAGE_PNG;
 		info.m_name.assign( u"PNG file importer" );
-		info.m_type = gtPluginType::import_image;
+		info.m_type = gtPluginType::Import_image;
 		info.m_version = 1;
 		info.m_build = 13;
 	}
@@ -192,10 +192,10 @@ extern "C"{
 			image->height = h;
 
 			if( color_type == PNG_COLOR_TYPE_RGB_ALPHA ){
-				image->format = gtImage::Format::FMT_R8G8B8A8;
+				image->format = gtImageFormat::R8G8B8A8;
 				image->pitch	= image->width * 4u;
 			}else{
-				image->format = gtImage::Format::FMT_R8G8B8;
+				image->format = gtImageFormat::R8G8B8;
 				image->pitch	= image->width * 3u;
 			}
 

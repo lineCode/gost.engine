@@ -73,8 +73,8 @@ bool DemoExample_Camera::Init(){
 	m_cameraFPS = m_sceneSystem->addCamera( v3f( -10.f, 7.f, 10.f ) );
 	m_cameraFree = m_sceneSystem->addCamera( v3f( -10.f, 7.f, 10.f ) );
 
-	m_cameraFPS->setCameraType( gtCameraType::CT_FPS );
-	m_cameraFree->setCameraType( gtCameraType::CT_FREE );
+	m_cameraFPS->setCameraType( gtCameraType::FPS );
+	m_cameraFree->setCameraType( gtCameraType::Free );
 
 	m_cameraActive = m_cameraLookAt;
 	m_sceneSystem->setActiveCamera( m_cameraActive );

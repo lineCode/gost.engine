@@ -110,10 +110,10 @@ void gtGUIStaticTextImpl::setText( const gtString& text ){
 			auto bbsz = params.m_outWindow->getRect();
 
 			gtVertexType vt[ 4 ] = {
-				gtVertexType::position,
-				gtVertexType::uv,
-				gtVertexType::normal,
-				gtVertexType::end
+				gtVertexType::Position,
+				gtVertexType::UV,
+				gtVertexType::Normal,
+				gtVertexType::End
 			};
 
 			const u16 u[6u] = {0U,1U,2U,0U,2U,3U};
@@ -163,14 +163,14 @@ void gtGUIStaticTextImpl::setText( const gtString& text ){
 							delete sub;
 							sub = mainsub;
 							sub->m_material.type = gtMaterialType::GUI;
-							sub->m_material.flags |= gtMaterialFlag::MF_BLEND;
+							sub->m_material.flags |= (u32)gtMaterialFlag::Blend;
 							sub->m_material.textureLayer[ 0u ].texture = m_font->getTexture( id );
 							m_bufferInfo.push_back( bufferInfo( id, mainsub ) );
 						}
 
 					}else{
 						sub->m_material.type = gtMaterialType::GUI;
-						sub->m_material.flags |= gtMaterialFlag::MF_BLEND;
+						sub->m_material.flags |= (u32)gtMaterialFlag::Blend;
 						sub->m_material.textureLayer[ 0u ].texture = m_font->getTexture( id );
 						m_bufferInfo.push_back( bufferInfo( id, mainsub ) );
 					}
@@ -224,7 +224,7 @@ void gtGUIStaticTextImpl::setText( const gtString& text ){
 
 					if( ch == u'\n' ){
 						width = 0;
-						line_interval += m_height;
+						line_interval += (u32)m_height;
 						interval = 0u;
 					}
 
@@ -283,8 +283,8 @@ void gtGUIStaticTextImpl::updateBackground(){
 	m_backgroundShape = m_gui->createShapeRectangle( 
 		v4i( 
 			m_position.x-10u,
-			m_position.y - m_height - 3u,
-			(m_position.x + m_length)+10u,
+			m_position.y - (s32)m_height - 3u,
+			(m_position.x + (s32)m_length)+10u,
 			m_position.y + 3u
 		),
 		gtColor( 0.f, 0.f, 0.f, 1.f ) );

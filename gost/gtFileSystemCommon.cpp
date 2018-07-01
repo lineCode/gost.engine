@@ -7,10 +7,10 @@
 gtFileSystemCommon::gtFileSystemCommon(){}
 gtFileSystemCommon::~gtFileSystemCommon(){}
 
-gtPtrNew<gtFile> gtFileSystem::createFile( const gtString& fileName, FileMode mode,
-			FileAccessMode access,
-			FileAction action,
-			FileShareMode EFSM,
+gtPtrNew<gtFile> gtFileSystem::createFile( const gtString& fileName, gtFileMode mode,
+			gtFileAccessMode access,
+			gtFileAction action,
+			gtFileShareMode EFSM,
 			u32 EFA
 		){
 	return gtPtrNew<gtFile>( gtMainSystemCommon::s_fileSystem->createFile( fileName, mode, access, action, EFSM, EFA ) );;

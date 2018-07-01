@@ -3,7 +3,7 @@
 #include "common.h"
 
 gtTextureD3D11::gtTextureD3D11( gtDriverD3D11* d ):
-	m_type( gtTextureType::TEXTURE_TYPE_2D ),
+	m_type( gtTextureType::Texture_2D ),
 	m_texture( nullptr ),
 	m_textureResView( nullptr ),
 	m_samplerState( nullptr ),
@@ -32,7 +32,7 @@ bool gtTextureD3D11::init( gtImage* image, gtTextureFilterType filter ){
 
 	if( !image ) return false;
 
-	image->convert( gtImage::Format::FMT_R8G8B8A8 );
+	image->convert( gtImageFormat::R8G8B8A8 );
 
 	D3D11_TEXTURE2D_DESC desc;
 	ZeroMemory( &desc, sizeof( desc ) );

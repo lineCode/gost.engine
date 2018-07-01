@@ -13,16 +13,16 @@ size_t	readOgg( void *ptr, size_t size, size_t nmemb, void *datasource ){
 int seekOgg( void *datasource, ogg_int64_t offset, int whence ){
 	gtFile * file = (gtFile*)datasource;
 
-	gtFile::SeekPos pos;
+	gtFileSeekPos pos;
 	switch( whence ){
 		case SEEK_CUR:
-		pos = gtFile::SeekPos::ESP_CURRENT;
+		pos = gtFileSeekPos::Current;
 		break;
 		case SEEK_SET:
-		pos = gtFile::SeekPos::ESP_BEGIN;
+		pos = gtFileSeekPos::Begin;
 		break;
 		case SEEK_END:
-		pos = gtFile::SeekPos::ESP_END;
+		pos = gtFileSeekPos::End;
 		break;
 	}
 
@@ -135,7 +135,7 @@ void	OggStreamFunc( void * arg ){
 
 	OggStream*	args = (OggStream*)arg;
 	
-	*args->state = gtAudioState::play;
+	*args->state = gtAudioState::Play;
 	auto * mainSystem = gtMainSystem::getInstance();
 
 	u8 currentDiskReadBuffer = 0u;
@@ -215,12 +215,12 @@ void	OggStreamFunc( void * arg ){
 
 
 		if( *args->command == PlayBackCommand::PBC_PAUSE){
-			*args->state			=	gtAudioState::pause;
+			*args->state			=	gtAudioState::Pause;
 			ov_clear(&oggFile);
 			return;
 		}else if( *args->command == PlayBackCommand::PBC_STOP){
 			*args->currentPosition	= 0;
-			*args->state			=	gtAudioState::stop;
+			*args->state			=	gtAudioState::Stop;
 			ov_clear(&oggFile);
 			return;
 		}

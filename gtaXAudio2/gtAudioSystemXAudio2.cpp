@@ -30,16 +30,16 @@ gtAudioSystemXAudio2_7*	gtAudioSystemXAudio2_7::getInstance(){
 
 bool	gtAudioSystemXAudio2_7::checkFeature( gtAudioPluginFeatures feature ){
 	switch( feature ){
-		case gost::gtAudioPluginFeatures::streaming_audio:
+		case gost::gtAudioPluginFeatures::Streaming_audio:
 		return true;
 		break;
-		case gost::gtAudioPluginFeatures::reverberation:
+		case gost::gtAudioPluginFeatures::Reverberation:
 		return false;
 		break;
-		case gost::gtAudioPluginFeatures::pitch:
+		case gost::gtAudioPluginFeatures::Pitch:
 		return false;
 		break;
-		case gost::gtAudioPluginFeatures::_3D:
+		case gost::gtAudioPluginFeatures::Audio_3D:
 		return false;
 		break;
 		default:
@@ -48,7 +48,7 @@ bool	gtAudioSystemXAudio2_7::checkFeature( gtAudioPluginFeatures feature ){
 	}
 }
 
-u32		gtAudioSystemXAudio2_7::getSupportedExtensions(){
+u32		gtAudioSystemXAudio2_7::getSupportedExtensionCount(){
 	return NUM_OF_SUPPORTED_EXTENSIONS;
 }
 
@@ -328,7 +328,7 @@ bool gtAudioSystemXAudio2_7::gtAudioObjectImpl::init( u32 sp ){
 
 void gtAudioSystemXAudio2_7::gtAudioObjectImpl::play(){
 
-	m_state = gtAudioState::play;
+	m_state = gtAudioState::Play;
 
 	if( m_numOfPlayedSounds < this->m_sourceMax ){
 		
@@ -351,12 +351,12 @@ void gtAudioSystemXAudio2_7::gtAudioObjectImpl::play(){
 
 void gtAudioSystemXAudio2_7::gtAudioObjectImpl::pause(){
 
-	if( m_state == gtAudioState::pause ){
+	if( m_state == gtAudioState::Pause ){
 		gtLogWriter::printWarning( u"Can not set pause audio playback" );
 		return;
 	}
 
-	m_state = gtAudioState::pause;
+	m_state = gtAudioState::Pause;
 
 	u32 sz = m_sourceVoice.size();
 
@@ -370,12 +370,12 @@ void gtAudioSystemXAudio2_7::gtAudioObjectImpl::pause(){
 
 void gtAudioSystemXAudio2_7::gtAudioObjectImpl::stop(){
 
-	if( m_state == gtAudioState::stop ){
+	if( m_state == gtAudioState::Stop ){
 		gtLogWriter::printWarning( u"Can not stop audio playback" );
 		return;
 	}
 
-	m_state = gtAudioState::stop;
+	m_state = gtAudioState::Stop;
 	
 	u32 sz = this->m_sourceVoice.size();
 
@@ -523,7 +523,7 @@ bool	gtAudioSystemXAudio2_7::gtAudioStreamImpl::open( const gtString& fileName )
 
 
 void	gtAudioSystemXAudio2_7::gtAudioStreamImpl::play(){
-	if( m_state != gtAudioState::play ){
+	if( m_state != gtAudioState::Play ){
 		m_ogg.m_playBackCommand = PlayBackCommand::PBC_NONE;
 		m_wave.m_playBackCommand = PlayBackCommand::PBC_NONE;
 
@@ -555,7 +555,7 @@ void	gtAudioSystemXAudio2_7::gtAudioStreamImpl::play(){
 
 
 void			gtAudioSystemXAudio2_7::gtAudioStreamImpl::pause(){
-	if( m_state == gtAudioState::play ){
+	if( m_state == gtAudioState::Play ){
 		m_ogg.m_playBackCommand = PlayBackCommand::PBC_PAUSE;
 		m_wave.m_playBackCommand = PlayBackCommand::PBC_PAUSE;
 	}else
@@ -564,7 +564,7 @@ void			gtAudioSystemXAudio2_7::gtAudioStreamImpl::pause(){
 
 
 void			gtAudioSystemXAudio2_7::gtAudioStreamImpl::stop(){
-	if( m_state == gtAudioState::play ){
+	if( m_state == gtAudioState::Play ){
 		m_ogg.m_playBackCommand = PlayBackCommand::PBC_STOP;
 		m_wave.m_playBackCommand = PlayBackCommand::PBC_STOP;
 	}else

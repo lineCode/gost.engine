@@ -14,7 +14,7 @@ extern "C"{
 		info.m_description.assign( u"Direct3D 11 renderer" );
 		info.m_GUID=GT_UID_RENDER_D3D11;
 		info.m_name.assign( u"Direct3D 11 renderer" );
-		info.m_type = gtPluginType::render;
+		info.m_type = gtPluginType::Render;
 		info.m_version = 1;
 		info.m_build = 18;
 	}

@@ -67,7 +67,7 @@ gtAudioSourceImpl* Wave::read( gtAudioSourceInfo info ){
 
 	u32 offset = m_file->size() - m_header.subchunk2Size;
 
-	m_file->seek( offset, gtFile::SeekPos::ESP_BEGIN );
+	m_file->seek( offset, gtFileSeekPos::Begin );
 	m_file->read( source->getData(), source->getDataSize() );
 	m_file->release();
 	m_file = nullptr;
@@ -86,7 +86,7 @@ void	WavStreamFunc( void * arg ){
 
 	WaveStream*	args = (WaveStream*)arg;
 	
-	*args->state = gtAudioState::play;
+	*args->state = gtAudioState::Play;
 
 	BYTE buffers[MAX_BUFFER_COUNT][STREAMING_BUFFER_SIZE];
 
@@ -97,7 +97,7 @@ void	WavStreamFunc( void * arg ){
 	do{
 		if( !mainSystem->isRun() ) break;
 
-		file->seek( *args->currentPosition, gtFile::SeekPos::ESP_BEGIN );
+		file->seek( *args->currentPosition, gtFileSeekPos::Begin );
 
 		args->sourceVoice->Start( 0, XAUDIO2_COMMIT_ALL );
 		while( *args->currentPosition < args->waveLength ){
@@ -142,11 +142,11 @@ void	WavStreamFunc( void * arg ){
 		}
 
 		if( *args->command == PlayBackCommand::PBC_PAUSE){
-			*args->state			=	gtAudioState::pause;
+			*args->state			=	gtAudioState::Pause;
 			return;
 		}else if( *args->command == PlayBackCommand::PBC_STOP){
 			*args->currentPosition	= 44u;
-			*args->state			=	gtAudioState::stop;
+			*args->state			=	gtAudioState::Stop;
 			return;
 		}
 		*args->currentPosition	= 44u;

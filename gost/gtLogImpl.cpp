@@ -4,7 +4,7 @@
 
 
 gtLogImpl::gtLogImpl()
-: m_msgType(msgType::info),
+: m_msgType(msgType::Info),
 m_out( nullptr ){}
 
 gtLogImpl::~gtLogImpl(){
@@ -19,13 +19,13 @@ void gtLogImpl::print( msgType type, const char16_t* str, ... ){
 	if( m_msgType >= type ){
 		gtString message;
 		switch( type ){
-		case gost::gtLog::msgType::error:
+		case gost::gtLog::msgType::Error:
 			message.assign(u"Error: ");
 			break;
-		case gost::gtLog::msgType::warning:
+		case gost::gtLog::msgType::Warning:
 			message.assign(u"Warning: ");
 			break;
-		case gost::gtLog::msgType::info:
+		case gost::gtLog::msgType::Info:
 			break;
 		}
 		
@@ -45,7 +45,7 @@ void gtLogImpl::print( msgType type, const char16_t* str, ... ){
 }
 
 
-void gtLogImpl::print( msgType type, const char16_t* str, void * p ){
+void gtLogImpl::print( msgType /*type*/, const char16_t* /*str*/, void * /*p*/ ){
 /*
 	if( m_msgType >= type ){
 		gtString message;
@@ -140,7 +140,7 @@ void gtLogImpl::setInfoType( msgType type ){
 void gtLogWriter::printError( const char16_t* str, ... ){
 	gt_va_list args;
 	va_start( args, str );
-	gtMainSystemCommon::s_log->print( gost::gtLog::msgType::error, str, args );
+	gtMainSystemCommon::s_log->print( gost::gtLog::msgType::Error, str, args );
 	va_end( args );
 }
 
@@ -148,7 +148,7 @@ void gtLogWriter::printError( const char16_t* str, ... ){
 void gtLogWriter::printWarning( const char16_t* str, ... ){
 	gt_va_list args;
 	va_start( args, str );
-	gtMainSystemCommon::s_log->print( gost::gtLog::msgType::warning, str, args );
+	gtMainSystemCommon::s_log->print( gost::gtLog::msgType::Warning, str, args );
 	va_end( args );
 }
 
@@ -156,7 +156,7 @@ void gtLogWriter::printWarning( const char16_t* str, ... ){
 void gtLogWriter::printInfo( const char16_t* str, ... ){
 	gt_va_list args;
 	va_start( args, str );
-	gtMainSystemCommon::s_log->print( gost::gtLog::msgType::info, str, args );
+	gtMainSystemCommon::s_log->print( gost::gtLog::msgType::Info, str, args );
 	va_end( args );
 }
 

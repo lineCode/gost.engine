@@ -22,7 +22,7 @@ extern "C"{
 		info.m_description.assign( u"Import .obj files" );
 		info.m_GUID=GT_UID_IMPORT_MODEL_OBJ;
 		info.m_name.assign( u"OBJ file importer" );
-		info.m_type = gtPluginType::import_model;
+		info.m_type = gtPluginType::Import_model;
 		info.m_version = 1;
 		info.m_build = 31;
 	}
@@ -124,10 +124,10 @@ extern "C"{
 		bool grpFound = false;
 
 		gtVertexType vt[ 4 ] = {
-			gtVertexType::position,
-			gtVertexType::uv,
-			gtVertexType::normal,
-			gtVertexType::end
+			gtVertexType::Position,
+			gtVertexType::UV,
+			gtVertexType::Normal,
+			gtVertexType::End
 		};
 
 		auto model = gtMainSystem::getInstance()->getModelSystem()->createEmpty( gtStrideStandart, &vt[ 0u ] );

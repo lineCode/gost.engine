@@ -425,14 +425,14 @@ void	gtDriverD3D11::createStandartTexture(){
 		i->height = 8u;
 		i->pitch = i->width * 3u;
 		i->dataSize = i->pitch * i->height;
-		i->format = gtImage::Format::FMT_R8G8B8;
+		i->format = gtImageFormat::R8G8B8;
 		i->frames = 1u;
 		i->mipCount = 1u;
 		gtMainSystem::getInstance()->allocateMemory( (void**)&i->data, i->dataSize );
 
 		image::fillCheckerBoard( i, false, gtColor(u8(255),48,224), gtColor(u8(0),0,0) );
 
-		m_standartTexture = this->createTexture( i, gtTextureFilterType::FILTER_PPP );
+		m_standartTexture = this->createTexture( i, gtTextureFilterType::PPP );
 
 		gtMainSystem::getInstance()->freeMemory( (void**)&i->data );
 
@@ -445,14 +445,14 @@ void	gtDriverD3D11::createStandartTexture(){
 		i->height = 8u;
 		i->pitch = i->width * 3u;
 		i->dataSize = i->pitch * i->height;
-		i->format = gtImage::Format::FMT_R8G8B8;
+		i->format = gtImageFormat::R8G8B8;
 		i->frames = 1u;
 		i->mipCount = 1u;
 		gtMainSystem::getInstance()->allocateMemory( (void**)&i->data, i->dataSize );
 
 		image::fillSolid( i, false, gtColor( 1.f ) );
 
-		m_standartTextureWhiteColor = this->createTexture( i, gtTextureFilterType::FILTER_PPP );
+		m_standartTextureWhiteColor = this->createTexture( i, gtTextureFilterType::PPP );
 
 		gtMainSystem::getInstance()->freeMemory( (void**)&i->data );
 
@@ -678,7 +678,7 @@ void gtDriverD3D11::_draw2DImage( const v4f& rect, const v8f& region, const gtMa
 	}
 
 
-	if( material.flags & gtMaterialFlag::MF_BLEND )
+	if( material.flags & (u32)gtMaterialFlag::Blend )
 		enableBlending( true );
 	else
 		enableBlending( false );
@@ -743,18 +743,18 @@ void gtDriverD3D11::drawModel( gtRenderModel* model ){
 		if( shaderD3D11->m_callback )
 			shaderD3D11->m_callback->onShader( *material, m_shaderProcessing.data() );
 
-		if( material->flags & gtMaterialFlag::MF_BLEND )
+		if( material->flags & (u32)gtMaterialFlag::Blend )
 			enableBlending( true, material->alphaToCoverage );
 		else
 			enableBlending( false );
 
-		if( material->flags & gtMaterialFlag::MF_BACKFACE ){
-			if( material->flags & gtMaterialFlag::MF_WIREFRAME )
+		if( material->flags & (u32)gtMaterialFlag::Backface ){
+			if( material->flags & (u32)gtMaterialFlag::Wireframe )
 				m_d3d11DevCon->RSSetState( m_RasterizerWireframeNoBackFaceCulling );
 			else
 				m_d3d11DevCon->RSSetState( m_RasterizerSolidNoBackFaceCulling );
 		}else{
-			if( material->flags & gtMaterialFlag::MF_WIREFRAME )
+			if( material->flags & (u32)gtMaterialFlag::Wireframe )
 				m_d3d11DevCon->RSSetState( m_RasterizerWireframe );
 			else
 				m_d3d11DevCon->RSSetState( m_RasterizerSolid );
@@ -986,8 +986,8 @@ bool	gtDriverD3D11::createShaders(){
 
 	gtVertexType vertexType2D[] = 
 	{
-		{ gtVertexType::position },
-		{ gtVertexType::end }
+		{ gtVertexType::Position },
+		{ gtVertexType::End }
 	};
 
 	m_shader2DStandart = getShader(
@@ -1006,10 +1006,10 @@ bool	gtDriverD3D11::createShaders(){
 
 	gtVertexType vertexType3D[] = 
 	{
-		{ gtVertexType::position },
-		{ gtVertexType::uv },
-		{ gtVertexType::normal },
-		{ gtVertexType::end }
+		{ gtVertexType::Position },
+		{ gtVertexType::UV },
+		{ gtVertexType::Normal },
+		{ gtVertexType::End }
 	};
 	
 	m_shader3DStandartCallback = gtPtrNew<gtD3D11StandartShaderCallback>( new gtD3D11StandartShaderCallback );

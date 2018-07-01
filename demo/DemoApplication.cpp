@@ -1437,8 +1437,8 @@ void demo::DemoApplication::xmlCreateDrefaultSettingsFile(){
 	gtFile_t file = util::createFileForWriteText( m_xmlPath );
 	
 	gtTextFileInfo info;
-	info.m_endian = info.little;
-	info.m_format = info.utf_16;
+	info.m_endian = gtTextFileEndian::Little;
+	info.m_format = gtTextFileFormat::UTF_16;
 	info.m_hasBOM = true;
 
 	file->setTextFileInfo( info );

@@ -6,24 +6,24 @@ namespace gost{
 
 	constexpr u32 GT_MAX_PATH = 256u;
 
-	enum class TextFileFormat{
+	enum class gtTextFileFormat : u32{
 		UTF_8,
 		UTF_16,
 		UTF_32
 	};
 
-	enum class TextFileEndian{
+	enum class gtTextFileEndian : u32{
 		Little, //	0xFFFE0000
 		Big // 0x0000FEFF, not implemented !
 	};
 
 	struct gtTextFileInfo{
-		TextFileFormat m_format;
-		TextFileEndian m_endian;
+		gtTextFileFormat m_format;
+		gtTextFileEndian m_endian;
 		bool m_hasBOM;
 	};
 
-	enum class gtFileSeekPos{
+	enum class gtFileSeekPos : u32{
 		Begin,
 		Current,
 		End
@@ -47,31 +47,31 @@ namespace gost{
 //#define gtFile_t gtPtr<gtFile>
 	GT_TYPE(gtFile_t,gtPtr<gtFile>);
 	
-	enum class gtFileAccessMode{
+	enum class gtFileAccessMode : u32{
 		Read,
 		Write,
 		Both,
 		Append
 	};
 	
-	enum class gtFileMode{
+	enum class gtFileMode : u32{
 		Text,
 		Binary
 	};
 
-	enum class gtFileShareMode{
+	enum class gtFileShareMode : u32{
 		None,
 		Delete,
 		Read,
 		Write
 	};
 	
-	enum class gtFileAction{
+	enum class gtFileAction : u32{
 		Open,
 		Open_new,
 	};
 
-	enum class gtFileAttribute{
+	enum class gtFileAttribute : u32{
 		Normal,
 		Hidden,
 		Readonly
