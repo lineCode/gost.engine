@@ -7,23 +7,16 @@ namespace gost{
 	class gtGUIStaticText : public gtGUIObject{
 	public:
 
-		virtual void setFont( gtGUIFont * font ) = 0;
-		virtual void setFont( const gtPtr<gtGUIFont>& font ) = 0;
-
-		virtual void setText( const gtString& text ) = 0;
-
-		virtual void setColor( const gtColor& color ) = 0;
-
-		virtual void setPosition( const v2i& position ) = 0;
-
+		virtual void clear() = 0;
+		virtual gtGUIShape* getBackgroundShape() = 0;
 		virtual void setBackgroundVisible( bool value ) = 0;
 		virtual void setBackgroundColor( const gtColor& color ) = 0;
-
+		virtual void setColor( const gtColor& color ) = 0;
+		virtual void setFont( gtGUIFont * font ) = 0;
+		virtual void setFont( const gtPtr<gtGUIFont>& font ) = 0;
 		virtual f32  getLength() = 0;
-
-		virtual void clear() = 0;
-
-		virtual gtGUIShape* getBackgroundShape() = 0;
+		virtual void setPosition( const v2i& position ) = 0;
+		virtual void setText( const gtString& text ) = 0;
 	};
 
 }

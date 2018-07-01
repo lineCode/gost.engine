@@ -7,22 +7,16 @@ namespace gost{
 	class gtGUITextField : public gtGUIObject{
 	public:
 
-		virtual void setFont( gtGUIFont * font ) = 0;
-		virtual void setFont( const gtPtr<gtGUIFont>& font ) = 0;
-
-		virtual void setText( const gtString& text ) = 0;
+		virtual void clear() = 0;
+		virtual gtGUIShape* getBackgroundShape() = 0;
+		virtual const v4i&	getRect() = 0;
 		virtual const gtString& getText() = 0;
-
-		virtual void setTextColor( const gtColor& color ) = 0;
-
 		virtual void setBackgroundVisible( bool value ) = 0;
 		virtual void setBackgroundColor( const gtColor& color ) = 0;
-
-		virtual void clear() = 0;
-
-		virtual gtGUIShape* getBackgroundShape() = 0;
-
-		virtual const v4i&	getRect() = 0;
+		virtual void setFont( gtGUIFont * font ) = 0;
+		virtual void setFont( const gtPtr<gtGUIFont>& font ) = 0;
+		virtual void setText( const gtString& text ) = 0;
+		virtual void setTextColor( const gtColor& color ) = 0;
 
 		/*
 		virtual void setAutoScroll( bool enable = true ) = 0;
