@@ -7,13 +7,68 @@ namespace gost{
 
 	class gtMainSystem;
 
+	enum class gtImageFormat{
+		One_bit,		// white or black
+			
+		R1,
+			
+		A1R5G5B5,		// 1 11111 11111 11111
+		X1R5G5B5,		// x 11111 11111 11111
+			
+		A4R4G4B4,		// 1111 1111 1111 1111
+		X4R4G4B4,		// xxxx 1111 1111 1111
+		B4G4R4A4,
+			
+		R5G6B5,			// 11111 111111 11111
+		B5G6R5,
+		B5G5R5A1,
+			
+		A8,
+			
+		R8,
+		R8G8,
+		R8G8B8,			// u8 u8 u8
+		R8G8B8A8,		// u8 u8 u8 u8
+		R8G8B8G8,
+		G8R8G8B8,
+		B8G8R8A8,
+		B8G8R8X8,
+		X8R8G8B8,		// u8 u8 u8 u8
+		A8R8G8B8,		// u8 u8 u8 u8
+			
+		R9G9B9E5,
+			
+		R10G10B10A2,
+
+		R11G11B10,
+
+		R16,
+		R16G16,
+		R16G16B16A16,
+			
+		R24G8,
+		R24X8,
+		X24G8,
+			
+		R32,
+		R32G32,
+		R32G8X24,
+		R32G32B32,
+		R32G32B32A32,	
+
+		//	OpenGL
+		COMPRESSED_RGBA_S3TC_DXT1 = 0x83F1, // dds dxt1
+		COMPRESSED_RGBA_S3TC_DXT3 = 0x83F2, // dds dxt3
+		COMPRESSED_RGBA_S3TC_DXT5 = 0x83F3	// dds dxt5
+
+	};
 		// software image
 	class gtImage : public gtRefObject{
 	public:
 
 			// c-tor
 		gtImage():
-			format( Format::FMT_R8G8B8A8 ),
+			format( gtImageFormat::R8G8B8A8 ),
 			width( 0u ),
 			height( 0u ),
 			bits( 32u ),
@@ -33,62 +88,7 @@ namespace gost{
 		}
 
 
-		enum Format{
-
-			FMT_ONE_BIT,		// white or black
-			
-			FMT_R1,
-			
-			FMT_A1R5G5B5,		// 1 11111 11111 11111
-			FMT_X1R5G5B5,		// x 11111 11111 11111
-			
-			FMT_A4R4G4B4,		// 1111 1111 1111 1111
-			FMT_X4R4G4B4,		// xxxx 1111 1111 1111
-			FMT_B4G4R4A4,
-			
-			FMT_R5G6B5,			// 11111 111111 11111
-			FMT_B5G6R5,
-			FMT_B5G5R5A1,
-			
-			FMT_A8,
-			
-			FMT_R8,
-			FMT_R8G8,
-			FMT_R8G8B8,			// u8 u8 u8
-			FMT_R8G8B8A8,		// u8 u8 u8 u8
-			FMT_R8G8B8G8,
-			FMT_G8R8G8B8,
-			FMT_B8G8R8A8,
-			FMT_B8G8R8X8,
-			FMT_X8R8G8B8,		// u8 u8 u8 u8
-			FMT_A8R8G8B8,		// u8 u8 u8 u8
-			
-			FMT_R9G9B9E5,
-			
-			FMT_R10G10B10A2,
-
-			FMT_R11G11B10,
-
-			FMT_R16,
-			FMT_R16G16,
-			FMT_R16G16B16A16,
-			
-			FMT_R24G8,
-			FMT_R24X8,
-			FMT_X24G8,
-			
-			FMT_R32,
-			FMT_R32G32,
-			FMT_R32G8X24,
-			FMT_R32G32B32,
-			FMT_R32G32B32A32,	
-
-			//	OpenGL
-			FMT_COMPRESSED_RGBA_S3TC_DXT1 = 0x83F1, // dds dxt1
-			FMT_COMPRESSED_RGBA_S3TC_DXT3 = 0x83F2, // dds dxt3
-			FMT_COMPRESSED_RGBA_S3TC_DXT5 = 0x83F3	// dds dxt5
-
-		}format;
+		gtImageFormat format;
 
 		u32		width;
 
@@ -106,90 +106,90 @@ namespace gost{
 
 		u32		frames;
 
-		void	convert( Format newFormat ){
+		void	convert( gtImageFormat newFormat ){
 			if( newFormat == format ) return;
 
-			if( format == FMT_R8G8B8 ){
-				if( newFormat == FMT_A8R8G8B8 ){
+			if( format == gtImageFormat::R8G8B8 ){
+				if( newFormat == gtImageFormat::A8R8G8B8 ){
 					__R8G8B8_to_A8R8G8B8();
-				}else if( newFormat == FMT_R8G8B8A8 ){
+				}else if( newFormat == gtImageFormat::R8G8B8A8 ){
 					__R8G8B8_to_R8G8B8A8();
-				}else if( newFormat == FMT_X8R8G8B8 ){
+				}else if( newFormat == gtImageFormat::X8R8G8B8 ){
 					__R8G8B8_to_A8R8G8B8();
 				}
 
 			//	==================================================
-			}else if( format == FMT_A8R8G8B8 ){
-				if( newFormat == FMT_R8G8B8 ){
+			}else if( format == gtImageFormat::A8R8G8B8 ){
+				if( newFormat == gtImageFormat::R8G8B8 ){
 					__A8R8G8B8_to_R8G8B8();
-				}else if( newFormat == FMT_R8G8B8A8 ){
+				}else if( newFormat == gtImageFormat::R8G8B8A8 ){
 					__A8R8G8B8_to_R8G8B8A8();
-				}else if( newFormat == FMT_X8R8G8B8 ){
+				}else if( newFormat == gtImageFormat::X8R8G8B8 ){
 					__A8R8G8B8_to_X8R8G8B8();
 				}
 			//	==================================================
-			}else if( format == FMT_X8R8G8B8 ){
-				if( newFormat == FMT_R8G8B8 ){
+			}else if( format == gtImageFormat::X8R8G8B8 ){
+				if( newFormat == gtImageFormat::R8G8B8 ){
 					__A8R8G8B8_to_R8G8B8();
-				}else if( newFormat == FMT_R8G8B8A8 ){
+				}else if( newFormat == gtImageFormat::R8G8B8A8 ){
 					__A8R8G8B8_to_R8G8B8A8();
-				}else if( newFormat == FMT_A8R8G8B8 ){
+				}else if( newFormat == gtImageFormat::A8R8G8B8 ){
 					//__X8R8G8B8_to_A8R8G8B8();
 				}
 
 			//	==================================================
-			}else if( format == FMT_R8G8B8A8 ){
-				if( newFormat == FMT_R8G8B8 ){
+			}else if( format == gtImageFormat::R8G8B8A8 ){
+				if( newFormat == gtImageFormat::R8G8B8 ){
 					__R8G8B8A8_to_R8G8B8();
-				}else if( newFormat == FMT_X8R8G8B8 ){
+				}else if( newFormat == gtImageFormat::X8R8G8B8 ){
 					__R8G8B8A8_to_X8R8G8B8();
-				}else if( newFormat == FMT_A8R8G8B8 ){
+				}else if( newFormat == gtImageFormat::A8R8G8B8 ){
 					__R8G8B8A8_to_A8R8G8B8();
 				}
 
 				//	==================================================
-			}else if( format == FMT_X4R4G4B4 ){
-				if( newFormat == FMT_R8G8B8A8 ){
+			}else if( format == gtImageFormat::X4R4G4B4 ){
+				if( newFormat == gtImageFormat::R8G8B8A8 ){
 					__X4R4G4B4_to_R8G8B8A8();
-				}else if( newFormat == FMT_A8R8G8B8 ){
+				}else if( newFormat == gtImageFormat::A8R8G8B8 ){
 					__X4R4G4B4_to_A8R8G8B8();
-				}else if( newFormat == FMT_X8R8G8B8 ){
+				}else if( newFormat == gtImageFormat::X8R8G8B8 ){
 					__X4R4G4B4_to_A8R8G8B8();
-				}else if( newFormat == FMT_R8G8B8 ){
+				}else if( newFormat == gtImageFormat::R8G8B8 ){
 					__X4R4G4B4_to_R8G8B8();
 				}
 
 				//	==================================================
-			}else if( format == FMT_X1R5G5B5 ){
-				if( newFormat == FMT_R8G8B8A8 ){
+			}else if( format == gtImageFormat::X1R5G5B5 ){
+				if( newFormat == gtImageFormat::R8G8B8A8 ){
 					__X1R5G5B5_to_R8G8B8A8();
 				}
 
 				//	==================================================
-			}else if( format == FMT_A1R5G5B5 ){
-				if( newFormat == FMT_R8G8B8A8 ){
+			}else if( format == gtImageFormat::A1R5G5B5 ){
+				if( newFormat == gtImageFormat::R8G8B8A8 ){
 					__A1R5G5B5_to_R8G8B8A8();
 				}
 
-			}else if( format == FMT_R5G6B5 ){
-				if( newFormat == FMT_R8G8B8A8 ){
+			}else if( format == gtImageFormat::R5G6B5 ){
+				if( newFormat == gtImageFormat::R8G8B8A8 ){
 					__R5G6B5_to_R8G8B8A8();
 				}
 
-			}else if( format == FMT_ONE_BIT ){
-				if( newFormat == FMT_R8G8B8A8 ){
+			}else if( format == gtImageFormat::One_bit ){
+				if( newFormat == gtImageFormat::R8G8B8A8 ){
 					__1_to_R8G8B8A8();
 				}
 
 					//	==================================================
-			}else if( format == FMT_A4R4G4B4 ){
-				if( newFormat == FMT_R8G8B8A8 ){
+			}else if( format == gtImageFormat::A4R4G4B4 ){
+				if( newFormat == gtImageFormat::R8G8B8A8 ){
 					__X4R4G4B4_to_R8G8B8A8();
-				}else if( newFormat == FMT_A8R8G8B8 ){
+				}else if( newFormat == gtImageFormat::A8R8G8B8 ){
 					__X4R4G4B4_to_A8R8G8B8();
-				}else if( newFormat == FMT_X8R8G8B8 ){
+				}else if( newFormat == gtImageFormat::X8R8G8B8 ){
 					__X4R4G4B4_to_A8R8G8B8();
-				}else if( newFormat == FMT_R8G8B8 ){
+				}else if( newFormat == gtImageFormat::R8G8B8 ){
 					__X4R4G4B4_to_R8G8B8();
 				}
 			}
@@ -198,7 +198,7 @@ namespace gost{
 		}
 
 		void	makeAlphaFromBlack(){
-			if( format == gost::gtImage::FMT_R8G8B8A8){
+			if( format == gtImageFormat::R8G8B8A8){
 				for( u32 i = 0u; i < dataSize; ){
 					u8 r = data[ i ];
 					u8 g = data[ i+1u ];
@@ -213,41 +213,41 @@ namespace gost{
 		void	flipPixel(){
 			if( !data ) return;
 			switch( format ){
-			case gost::gtImage::FMT_ONE_BIT:
+			case gtImageFormat::One_bit:
 				break;
 
-			case gost::gtImage::FMT_A1R5G5B5:
+			case gtImageFormat::A1R5G5B5:
 				__flip_pixel_A1R5G5B5();
 				break;
-			case gost::gtImage::FMT_X1R5G5B5:
+			case gtImageFormat::X1R5G5B5:
 				__flip_pixel_X1R5G5B5();
 				break;
-			case gost::gtImage::FMT_A4R4G4B4:
+			case gtImageFormat::A4R4G4B4:
 				__flip_pixel_X4R4G4B4();
 				break;
-			case gost::gtImage::FMT_X4R4G4B4:
+			case gtImageFormat::X4R4G4B4:
 				__flip_pixel_X4R4G4B4();
 				break;
-			case gost::gtImage::FMT_R5G6B5:
+			case gtImageFormat::R5G6B5:
 				__flip_pixel_R5G6B5();
 				break;
-			case gost::gtImage::FMT_X8R8G8B8:
+			case gtImageFormat::X8R8G8B8:
 				__flip_pixel_X8R8G8B8();
 				break;
-			case gost::gtImage::FMT_A8R8G8B8:
+			case gtImageFormat::A8R8G8B8:
 				__flip_pixel_A8R8G8B8();
 				break;
-			case gost::gtImage::FMT_R8G8B8A8:
+			case gtImageFormat::R8G8B8A8:
 				__flip_pixel_A8R8G8B8();
 				break;
-			case gost::gtImage::FMT_R8G8B8:
+			case gtImageFormat::R8G8B8:
 				__flip_pixel_R8G8B8();
 				break;
-			case gost::gtImage::FMT_COMPRESSED_RGBA_S3TC_DXT1:
+			case gtImageFormat::COMPRESSED_RGBA_S3TC_DXT1:
 				break;
-			case gost::gtImage::FMT_COMPRESSED_RGBA_S3TC_DXT3:
+			case gtImageFormat::COMPRESSED_RGBA_S3TC_DXT3:
 				break;
-			case gost::gtImage::FMT_COMPRESSED_RGBA_S3TC_DXT5:
+			case gtImageFormat::COMPRESSED_RGBA_S3TC_DXT5:
 				break;
 			default:
 				break;
@@ -785,14 +785,14 @@ namespace gost{
 		}
 
 		GT_FORCE_INLINE void fillSolid( gtImage * i, bool saveAlpha, const gtColor& color ){
-			if( i->format != gtImage::Format::FMT_R8G8B8 &&
-				i->format != gtImage::Format::FMT_R8G8B8A8 )
+			if( i->format != gtImageFormat::R8G8B8 &&
+				i->format != gtImageFormat::R8G8B8A8 )
 				return;
 
 			u8 * ptr = i->data;
 
 			bool rgba = false;
-			if( i->format == gtImage::Format::FMT_R8G8B8A8 ) rgba = true;
+			if( i->format == gtImageFormat::R8G8B8A8 ) rgba = true;
 
 			for( u32 ind = 0u; ind < i->dataSize; ind += 3 ){
 				*ptr = color.getAsByteRed();
@@ -817,14 +817,14 @@ namespace gost{
 			const gtColor& firstColor,
 			const gtColor& secondColor)
 		{
-			if( i->format != gtImage::Format::FMT_R8G8B8 &&
-				i->format != gtImage::Format::FMT_R8G8B8A8 )
+			if( i->format != gtImageFormat::R8G8B8 &&
+				i->format != gtImageFormat::R8G8B8A8 )
 				return;
 
 			u8 * ptr = i->data;
 
 			bool rgba = false;
-			if( i->format == gtImage::Format::FMT_R8G8B8A8 ) rgba = true;
+			if( i->format == gtImageFormat::R8G8B8A8 ) rgba = true;
 
 			bool white = true;
 
