@@ -5,21 +5,17 @@
 namespace gost{
 
 	enum class gtObjectType{
-		CAMERA,
-		STATIC,
-		SPRITE,
-		DUMMY
+		Camera,
+		Static,
+		Sprite,
+		Dummy
 	};
 
 	class gtGameObject : public gtRefObject{
 	protected:
-
 		gtStringA		m_name;
-
 		s32				m_id;
-
 		gtGameObject*	m_parent;
-
 		gtSceneSystem*	m_scene;
 
 		gtList<gtGameObject*> m_childs;
@@ -31,17 +27,13 @@ namespace gost{
 		v3f				m_rotation, m_old_rotation;
 		v3f				m_scale;
 		gtQuaternion	m_orientation;
-
 		bool			m_isVisible;
-
 		bool			m_isBV;
-
 		f32				m_sphereRadius;
 
 		gtBoundingVolumeType m_BVType;
 	public:
 
-			// c-tor
 		gtGameObject():
 			m_id( -1 ),
 			m_parent( nullptr ),
@@ -50,35 +42,22 @@ namespace gost{
 			m_isVisible( true ),
 			m_isBV( false ),
 			m_sphereRadius( 1.f ),
-			m_BVType( gtBoundingVolumeType::sphere )
+			m_BVType( gtBoundingVolumeType::Sphere )
 		{
 			m_scene = gtMainSystem::getInstance()->getSceneSystem( nullptr );
 		}
 
-			// d-tor
-		virtual ~gtGameObject(){
-		}
+		virtual ~gtGameObject(){}
 
 		virtual gtObjectType		getType() = 0;
-
 		virtual void				update() = 0;
-
 		virtual void				render() = 0;
-
 		virtual gtAabb*				getAabb() = 0;
 		virtual gtObb*				getObb() = 0;
 
-		virtual const v3f&			getPosition(){
-			return m_position;
-		}
-
-		virtual v3f			getPositionInSpace(){
-			return m_worldMatrixAbsolute[ 3 ].getV3();
-		}
-
-		virtual void				setPosition( const v3f& p ){
-			m_position = p;
-		}
+		virtual const v3f&			getPosition(){ return m_position; }
+		virtual v3f					getPositionInSpace(){ return m_worldMatrixAbsolute[ 3 ].getV3(); }
+		virtual void				setPosition( const v3f& p ){ m_position = p; }
 
 		virtual void				setRotation( const v3f& rotation ){
 			if( m_old_rotation != rotation ){
@@ -96,14 +75,8 @@ namespace gost{
 			}
 		}
 
-		virtual const v3f&			getRotation(){
-			return m_rotation;
-		}
-
-		virtual const v3f&			getScale(){
-			return m_scale;
-		}
-
+		virtual const v3f&			getRotation(){ return m_rotation; }
+		virtual const v3f&			getScale(){ return m_scale; }
 		virtual void				setScale( const v3f& s ){
 			m_scale = s;
 			recalculateBV();
@@ -161,38 +134,15 @@ namespace gost{
 		}
 
 
-		virtual const gtMatrix4&	getAbsoluteWorldMatrix(){
-			return m_worldMatrixAbsolute;
-		}
-
-		virtual const gtMatrix4&	getWorldMatrix(){
-			return m_worldMatrix;
-		}
-
-		virtual void		setAbsoluteWorldMatrix( const gtMatrix4& m ){
-			m_worldMatrixAbsolute = m;
-		}
-
-		virtual void		setWorldMatrix( const gtMatrix4& m ){
-			m_worldMatrix = m;
-		}
-
-		virtual const gtStringA&	getName(){
-			return m_name;
-		}
-
-		virtual void				setName( const gtStringA& n ){
-			m_name = n;
-		}
-
-		virtual s32					getID(){
-			return m_id;
-		}
-
-		virtual void				setID( s32 i ){
-			m_id = i;
-		}
-
+		virtual const gtMatrix4&	getAbsoluteWorldMatrix(){ return m_worldMatrixAbsolute; }
+		virtual const gtMatrix4&	getWorldMatrix(){ return m_worldMatrix; }
+		virtual void				setAbsoluteWorldMatrix( const gtMatrix4& m ){ m_worldMatrixAbsolute = m; }
+		virtual void				setWorldMatrix( const gtMatrix4& m ){ m_worldMatrix = m; }
+		virtual const gtStringA&	getName(){ return m_name; }
+		virtual void				setName( const gtStringA& n ){ m_name = n; }
+		virtual s32					getID(){ return m_id; }
+		virtual void				setID( s32 i ){ m_id = i; }
+		
 		virtual void	setParent( gtGameObject * parent = nullptr ){
 			if( m_parent )
 				m_parent->removeChild( this );
@@ -207,13 +157,8 @@ namespace gost{
 			}
 		}
 
-		virtual gtGameObject * getParent() const {
-			return m_parent;
-		}
-
-		virtual gtList<gtGameObject*>&	getChildList(){
-			return m_childs;
-		}
+		virtual gtGameObject * getParent() const { return m_parent; }
+		virtual gtList<gtGameObject*>&	getChildList(){ return m_childs; }
 
 		virtual void	addChild( gtGameObject * child ){
 			if( child && (child->m_parent != this) ){
@@ -237,33 +182,15 @@ namespace gost{
 			}
 		}
 
-		virtual bool isVisible(){
-			return m_isVisible;
-		}
+		virtual bool isVisible(){ return m_isVisible; }
+		virtual void setVisible( bool v ){ m_isVisible = v; }
 
-		virtual void setVisible( bool v ){
-			m_isVisible = v;
-		}
+		virtual void showBV( bool v ){ m_isBV = v; }
+		virtual bool isShowBV(){ return m_isBV; }
+		virtual void setBVType( gtBoundingVolumeType type ){ m_BVType = type; }
 
-		virtual void showBV( bool v ){
-			m_isBV = v;
-		}
-
-		virtual bool isShowBV(){
-			return m_isBV;
-		}
-
-		virtual const f32& getBVSphereRadius() const {
-			return m_sphereRadius;
-		}
-
-		virtual gtBoundingVolumeType getBVType() const {
-			return m_BVType;
-		}
-
-		virtual void setBVType( gtBoundingVolumeType type ){
-			m_BVType = type;
-		}
+		virtual const f32&				getBVSphereRadius() const { return m_sphereRadius; }
+		virtual gtBoundingVolumeType	getBVType() const { return m_BVType; }
 	};
 
 }
