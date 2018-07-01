@@ -7,27 +7,16 @@ namespace gost{
 	class gtModel : public gtRefObject{
 	public:
 
-		virtual gtSubModel*	addSubModel( u32 v_count, u32 i_count, u32 stride ) = 0;
-
-		virtual gtSubModel*	addSubModel( gtSubModel* subModel ) = 0;
-
-		virtual gtSubModel*	getSubModel( u32 id ) = 0;
-
-		virtual u32		getSubmodelsCount() = 0;
-
-		virtual u32		getStride() = 0;
-
-
-		virtual gtVertexType*	getTypeArray() = 0;
-
+		virtual gtSubModel*		addSubModel( u32 v_count, u32 i_count, u32 stride ) = 0;
+		virtual gtSubModel*		addSubModel( gtSubModel* subModel ) = 0;
 		virtual const gtAabb&	getAabb() = 0;
-
-		virtual void			setAabb( const gtAabb& aabb ) = 0;
-
 		virtual const gtObb&	getObb() = 0;
+		virtual u32				getStride() = 0;
+		virtual gtSubModel*		getSubModel( u32 id ) = 0;
+		virtual u32				getSubmodelsCount() = 0;
+		virtual gtVertexType*	getTypeArray() = 0;
+		virtual void			setAabb( const gtAabb& aabb ) = 0;
 		virtual void			setObb( const gtObb& obb ) = 0;
-
-
 		virtual void			updateBoundingVolume() = 0;
 	};
 

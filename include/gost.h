@@ -82,7 +82,7 @@
 #define GT_USE_STACK_TRACE
 #endif
 #endif
-#include <gtStackTrace.h>
+#include <gtStackTracer.h>
 
 
 #include <gtSubModel.h>

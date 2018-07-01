@@ -6,44 +6,31 @@ namespace gost{
 
 	template <typename Type>
 	class gtPtrNew{
-
 		Type * m_pointer;
-	
 	protected:
 		gtPtrNew() : m_pointer( nullptr ) {}
-
 	public:
-
 		gtPtrNew( Type* o ) : m_pointer( o ){}
-
-		Type*	data() const {
-			return m_pointer;
-		}
+		Type*	data() const { return m_pointer; }
 	};
 
 	template <typename Type>
 	class gtPtr{
-	
 		Type * m_pointer;
-
 	public:
-	
 		gtPtr() : m_pointer( nullptr) {}
-
 		gtPtr( const gtPtr& ptr ){
 			if( ptr.m_pointer ){
 				ptr.m_pointer->addRef();
 			}
 			m_pointer = ptr.m_pointer;
 		}
-	
 		gtPtr( Type* object ){
 			if( object ){
 				object->addRef();
 			}
 			m_pointer = object;
 		}
-
 		gtPtr( const gtPtrNew<Type>& ptr ){
 			m_pointer = ptr.data();
 		}

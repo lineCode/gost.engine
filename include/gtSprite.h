@@ -37,7 +37,7 @@ namespace gost{
 	public:
 
 			gtSprite( gtTexture * t, const v2f& size, gtDriver * d ):
-			m_type( gtObjectType::SPRITE ),
+			m_type( gtObjectType::Sprite ),
 			m_rModel( nullptr ),
 			m_driver( d ),
 			m_firstFrame( true ),
@@ -46,12 +46,12 @@ namespace gost{
 			m_timerLimit( 1.f )
 		{
 			m_system = gtMainSystem::getInstance();
-			auto model = m_system->getModelSystem()->createPlane( size.y, size.x, gtSide::FRONT );
+			auto model = m_system->getModelSystem()->createPlane( size.y, size.x, gtSide::Front );
 
 			model->getSubModel( 0u )->m_material.textureLayer[ 0u ].texture = t;
 			model->getSubModel( 0u )->m_material.type = gtMaterialType::Sprite;
 			model->getSubModel( 0u )->m_material.owner = this;
-			model->getSubModel( 0u )->m_material.flags = gtMaterialFlag::MF_BLEND;
+			model->getSubModel( 0u )->m_material.flags = (u32)gtMaterialFlag::Blend;
 
 			m_material = model->getSubModel( 0u )->m_material;
 

@@ -336,7 +336,7 @@
     <ClInclude Include="..\..\include\gtSceneSystem.h" />
     <ClInclude Include="..\..\include\gtShader.h" />
     <ClInclude Include="..\..\include\gtSprite.h" />
-    <ClInclude Include="..\..\include\gtStackTrace.h" />
+    <ClInclude Include="..\..\include\gtStackTracer.h" />
     <ClInclude Include="..\..\include\gtStaticObject.h" />
     <ClInclude Include="..\..\include\gtString.h" />
     <ClInclude Include="..\..\include\gtSubModel.h" />
@@ -356,7 +356,7 @@
     <Text Include="..\..\gost\ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\include\gtStackTraceWin32.inl" />
+    <None Include="..\..\include\gtStackTracerWin32.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

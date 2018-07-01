@@ -272,9 +272,6 @@
     <ClInclude Include="..\..\include\gtSprite.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\gtStackTrace.h">
-      <Filter>include</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\gtStaticObject.h">
       <Filter>include</Filter>
     </ClInclude>
@@ -434,6 +431,9 @@
     <ClInclude Include="..\..\gost\gtLogImpl.h">
       <Filter>Headers</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\gtStackTracer.h">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\..\gost\ReadMe.txt">
@@ -441,7 +441,7 @@
     </Text>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\include\gtStackTraceWin32.inl">
+    <None Include="..\..\include\gtStackTracerWin32.inl">
       <Filter>include</Filter>
     </None>
   </ItemGroup>

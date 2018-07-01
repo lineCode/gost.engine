@@ -13,78 +13,21 @@ namespace gost{
 	class gtTexture;
 	class gtDriver;
 
-		// scene system
 	class gtSceneSystem : public gtRefObject{
 	public:
 		
-			//	Add helper object.
-			//	\param position: position
-			//	\param name: name
-			//	\param id: id
-			//	\return created object
-			//	\remark do not call release. For remove object, use gtSceneSystem::removeObject
-		virtual gtDummyObject*	addDummyObject( const v3f& position = v3f(), const gtStringA& name = gtStringA(), s32 id = -1 ) = 0;
-		
-			//	Add static object
-			//	\param model: render model
-			//	\param position: position
-			//	\param name: name
-			//	\param id: id
-			//	\return created static object
-			//	\remark do not call release. For remove object, use gtSceneSystem::removeObject
-		virtual gtStaticObject*	addStaticObject( gtRenderModel* model, const v3f& position = v3f(), const gtStringA& name = gtStringA(), s32 id = -1 ) = 0;
-
-			//	Add target camera
-			//	\param position: position
-			// \param target: target
-			// \param id: id
-			// \param setActive: \b true if this camera is active
-			//	\return created camera
-			//	\remark do not call release. For remove object, use gtSceneSystem::removeObject
 		virtual gtCamera*		addCamera( const v3f& position = v3f(), const v3f& target = v3f(), s32 id = -1, bool setActive = true ) = 0;
-
-			//	Add 2D camera
-			//	\param viewport: viewport coords
-			// \param id: id
-			// \param setActive: \b true if this camera is active
-			//	\return created camera
-			//	\remark do not call release. For remove object, use gtSceneSystem::removeObject
 		virtual gtCamera*		addCamera2D( const v4f& viewport, s32 id = -1, bool setActive = true ) = 0;
-
-			//	Add sprite
-			// \param texture: texture
-			// \param driver: video driver
-			// \param size: width and height
-			// \param position: position
-			// \param asBillboard: \b true if you need billboard
-			//	\return created sprite
+		virtual gtDummyObject*	addDummyObject( const v3f& position = v3f(), const gtStringA& name = gtStringA(), s32 id = -1 ) = 0;
 		virtual gtSprite*		addSprite( gtTexture * texture, const v2f& size, const v3f& position = v3f(0.f,0.f,5.f), bool asBillboard = false ) = 0;
-
-			// Get active camera
-			// \return active camera
+		virtual gtStaticObject*	addStaticObject( gtRenderModel* model, const v3f& position = v3f(), const gtStringA& name = gtStringA(), s32 id = -1 ) = 0;
+		virtual void			clearScene() = 0;
 		virtual gtCamera*		getActiveCamera() = 0;
-
-			// Set active camera
-			// \param camera: new active camera
-		virtual void			setActiveCamera( gtCamera* camera ) = 0;
-
-			// Get main object on scene. All objects added with "add" methods are childs of rootObject.
-			//	You can change transformation, and all childs change transformations too
-			// \return Main object in virtual scene
-			// \remark do not release or use gtPtr
 		virtual gtGameObject*	getRootObject() = 0;
-
-			// Remove object from scene. Also remove all childs.
-			// \param object: object for remove
-		virtual void removeObject( gtGameObject* object ) = 0;
-
-			//	Render all objects, which added by method with "add" prefix
-		virtual void renderScene() = 0;
-
-			//	Remove objects from scene
-		virtual void clearScene() = 0;
-
-		virtual void setCurrentRenderDriver( gtDriver * driver ) = 0;
+		virtual void			removeObject( gtGameObject* object ) = 0;
+		virtual void			renderScene() = 0;
+		virtual void			setActiveCamera( gtCamera* camera ) = 0;
+		virtual void			setCurrentRenderDriver( gtDriver * driver ) = 0;
 
 	};
 }

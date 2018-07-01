@@ -5,30 +5,21 @@
 namespace gost{
 
 	enum class gtPluginType{
-
-		unknown,
-
-		render,
-
-		import_image,
-
-		import_model,
-
-		audio,
-
-		export_image,
-
-		export_model,
-
-		input
-
+		Unknown,
+		Render,
+		Import_image,
+		Import_model,
+		Audio,
+		Export_image,
+		Export_model,
+		Input
 	};
 
 	struct gtPluginInfo{
 
 			// c-tor
 		gtPluginInfo():
-			m_type( gtPluginType::unknown ),
+			m_type( gtPluginType::Unknown ),
 			m_version( 0u ),
 			m_build( 0u )
 		{

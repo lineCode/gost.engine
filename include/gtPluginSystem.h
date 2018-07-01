@@ -43,31 +43,31 @@ namespace gost{
 		virtual gtPlugin*	getPlugin( u32 id ) = 0;
 
 		gtPluginImportImage * getAsPluginImportImage( gtPlugin * plugin ){
-			if( plugin->getInfo().m_info.m_type == gtPluginType::import_image )
+			if( plugin->getInfo().m_info.m_type == gtPluginType::Import_image )
 				return reinterpret_cast<gtPluginImportImage*>(plugin);
 			return nullptr;
 		}
 
 		gtPluginImportModel * getAsPluginImportModel( gtPlugin * plugin ){
-			if( plugin->getInfo().m_info.m_type == gtPluginType::import_model )
+			if( plugin->getInfo().m_info.m_type == gtPluginType::Import_model )
 				return reinterpret_cast<gtPluginImportModel*>(plugin);
 			return nullptr;
 		}
 
 		gtPluginRender * getAsPluginRender( gtPlugin * plugin ){
-			if( plugin->getInfo().m_info.m_type == gtPluginType::render )
+			if( plugin->getInfo().m_info.m_type == gtPluginType::Render )
 				return reinterpret_cast<gtPluginRender*>(plugin);
 			return nullptr;
 		}
 
 		gtPluginAudio * getAsPluginAudio( gtPlugin * plugin ){
-			if( plugin->getInfo().m_info.m_type == gtPluginType::audio )
+			if( plugin->getInfo().m_info.m_type == gtPluginType::Audio )
 				return reinterpret_cast<gtPluginAudio*>(plugin);
 			return nullptr;
 		}
 
 		gtPluginInput * getAsPluginInput( gtPlugin * plugin ){
-			if( plugin->getInfo().m_info.m_type == gtPluginType::input )
+			if( plugin->getInfo().m_info.m_type == gtPluginType::Input )
 				return reinterpret_cast<gtPluginInput*>(plugin);
 			return nullptr;
 		}
