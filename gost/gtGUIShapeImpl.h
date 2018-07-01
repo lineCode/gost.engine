@@ -8,11 +8,11 @@ namespace gost{
 	class gtGUIShapeImpl : public gtGUIShape{
 		gtMainSystem *	m_mainSystem;
 		gtModelSystem*	m_modelSystem;
-		gtGraphicsSystem*		m_gs;
+		gtGraphicsSystem*m_gs;
 		gtRenderModel*	m_model;
 		gtMaterial*		m_material;
 
-		gtVertexType	vt[ 4 ];
+		gtVertexType	vt[ gtConst4U ];
 
 	public:
 
@@ -22,7 +22,7 @@ namespace gost{
 		bool		initRectangle( const v4i& rect, const gtColor& color );
 
 		void		render();
-		void		setOpacity( f32 opacity = 1.f );
+		void		setOpacity( f32 opacity = gtConst1F );
 		f32			getOpacity();
 
 		void		setColor( const gtColor& color );

@@ -131,8 +131,8 @@ namespace gost{
 			bool isOgg(){ return m_format == AudioFileFormat::ogg; }
 		};
 
-		gtAudioObject*	createAudioObject( const gtString& fileName, u32 sp = 1u );
-		gtAudioObject*	createAudioObject( gtAudioSource* source, u32 sp = 1u );
+		gtAudioObject*	createAudioObject( const gtString& fileName, u32 sp = gtConst1U );
+		gtAudioObject*	createAudioObject( gtAudioSource* source, u32 sp = gtConst1U );
 
 		gtAudioSource*	loadAudioSource( const gtString& fileName );
 

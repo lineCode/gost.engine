@@ -3,20 +3,20 @@
 gtModelImpl::gtModelImpl( u32 s, gtVertexType* ta ):
 	m_stride( s )
 {
-	u32 sz = 0u;
-	gtVertexType * vt = &ta[ 0u ];
+	u32 sz = gtConst0U;
+	gtVertexType * vt = &ta[ gtConst0U ];
 	while( *vt++ != gtVertexType::End ) sz++;
 
-	m_typeArray = new gtVertexType[ sz + 1u ];
+	m_typeArray = new gtVertexType[ sz + gtConst1U ];
 
-	memcpy( m_typeArray, ta, (sz + 1u) * sizeof(gtVertexType) );
+	memcpy( m_typeArray, ta, (sz + gtConst1U) * sizeof(gtVertexType) );
 
 }
 
 gtModelImpl::~gtModelImpl(){
 
 	auto sz = m_submodels.size();
-	for( u32 i = 0u; i < sz; ++i ){
+	for( u32 i = gtConst0U; i < sz; ++i ){
 		delete m_submodels[ i ];
 	}
 
@@ -93,7 +93,7 @@ u32		gtModelImpl::getStride(){
 
 
 gtVertexType*	gtModelImpl::getTypeArray(){
-	return &m_typeArray[0u];
+	return &m_typeArray[gtConst0U];
 }
 
 
@@ -115,14 +115,14 @@ void			gtModelImpl::updateBoundingVolume(){
 		m_obb.reset();
 
 		auto msz = m_submodels.size();
-		for( u32 i = 0u; i < msz; ++i ){
+		for( u32 i = gtConst0U; i < msz; ++i ){
 			m_submodels[ i ]->buildObb();
 			m_obb.add(m_submodels[ i ]->m_obb);
 			m_submodels[ i ]->m_obb.calculateBaseInfo();
 		}
 		m_obb.calculateBaseInfo();
 
-		for( u32 i = 0u; i < msz; ++i ){
+		for( u32 i = gtConst0U; i < msz; ++i ){
 			m_submodels[ i ]->updateAabb();
 			m_aabb.add( m_submodels[ i ]->m_aabb );
 		}

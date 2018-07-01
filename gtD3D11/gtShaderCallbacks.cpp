@@ -18,7 +18,7 @@ void gtD3D11StandartShaderCallback::onShader( const gtMaterial& /*m*/, gtShaderP
 
 	cbMatrix.WVP.transpose();
 
-	sp->sendDataVS( &cbMatrix, 0, 0u );
+	sp->sendDataVS( &cbMatrix, 0, gtConst0U );
 
 	sp->setTexture( "", 0 );
 }
@@ -38,13 +38,13 @@ void gtD3D11GUIShaderCallback::onShader( const gtMaterial& m, gtShaderProcessing
 		bool boolean[128u];
 	}cbPixel;
 
-	cbPixel.diffuseColor.x = m.textureLayer[ 0u ].diffuseColor.getRed();
-	cbPixel.diffuseColor.y = m.textureLayer[ 0u ].diffuseColor.getGreen();
-	cbPixel.diffuseColor.z = m.textureLayer[ 0u ].diffuseColor.getBlue();
+	cbPixel.diffuseColor.x = m.textureLayer[ gtConst0U ].diffuseColor.getRed();
+	cbPixel.diffuseColor.y = m.textureLayer[ gtConst0U ].diffuseColor.getGreen();
+	cbPixel.diffuseColor.z = m.textureLayer[ gtConst0U ].diffuseColor.getBlue();
 	cbPixel.diffuseColor.w = m.opacity;
-	cbPixel.boolean[ 0u ]  = (m.flags & (u32)gtMaterialFlag::Blenddiscard );
+	cbPixel.boolean[ gtConst0U ]  = (m.flags & (u32)gtMaterialFlag::Blenddiscard );
 
-	sp->sendDataPS( &cbPixel, 0, 0u );
+	sp->sendDataPS( &cbPixel, 0, gtConst0U );
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -98,7 +98,7 @@ void gtD3D11SpriteShaderCallback::onShader( const gtMaterial& material, gtShader
 	cbPerObject.t3.y = coords->b;
 	cbPerObject.t4.y = coords->d;
 
-	sp->sendDataVS( &cbPerObject, 0, 0u );
+	sp->sendDataVS( &cbPerObject, 0, gtConst0U );
 
 	sp->setTexture( "", 0 );
 }
@@ -133,7 +133,7 @@ void gtD3D11LineShaderCallback::onShader( const gtMaterial& material, gtShaderPr
 	cbPerObject.p2 = e;
 	cbPerObject.color = c;
 
-	sp->sendDataVS( &cbPerObject, 0, 0u );
+	sp->sendDataVS( &cbPerObject, 0, gtConst0U );
 
 }
 

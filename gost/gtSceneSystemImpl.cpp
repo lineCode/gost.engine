@@ -183,7 +183,7 @@ bool aabbInFrustum( gtCameraFrustum * /*frustum*/, gtAabb* aabb, const v3f& posi
 }
 
 bool sphereInFrustum( gtCameraFrustum * frustum, f32 radius, const v3f& position ){
-	for( u32 i = 0u; i < 6u; ++i ){
+	for( u32 i = gtConst0U; i < gtConst6U; ++i ){
 		if( ( frustum->m_planes[ i ].x * position.x + frustum->m_planes[ i ].y * position.y + frustum->m_planes[ i ].z * position.z
 			+ frustum->m_planes[ i ].w ) <= -radius){
 			return false;
@@ -236,7 +236,7 @@ void gtSceneSystemImpl::frustumCull( gtGameObject* root, gtArray<gtGameObject*>&
 
 void gtSceneSystemImpl::sortTransparent(  gtArray<gtGameObject*>& opaque, gtArray<gtGameObject*>& transparent, gtArray<gtGameObject*>& objects ){
 	auto sz = objects.size();
-	for( u32 i = 0u; i < sz; ++i ){
+	for( u32 i = gtConst0U; i < sz; ++i ){
 
 		auto var = objects[ i ];
 
@@ -249,7 +249,7 @@ void gtSceneSystemImpl::sortTransparent(  gtArray<gtGameObject*>& opaque, gtArra
 
 			bool isTransparent = false;
 
-			for( u32 i2 = 0u; i2 < smc; ++i2 ){
+			for( u32 i2 = gtConst0U; i2 < smc; ++i2 ){
 				if( model->getMaterial( i2 )->flags & (u32)gtMaterialFlag::Blend ){
 					transparent.push_back( var );
 					isTransparent = true;
@@ -282,11 +282,11 @@ bool gtPairSortPredGreatOrEqual( const gtPair<f32,gtGameObject*>& o1, const gtPa
 void gtSceneSystemImpl::sortTransparentDistance( gtArray<gtGameObject*>& in, gtArray<gtGameObject*>& out ){
 	v3f position = m_activeCamera->getPositionInSpace();
 
-	gtArray<gtPair<f32,gtGameObject*>> groups[ 4u ];
+	gtArray<gtPair<f32,gtGameObject*>> groups[ gtConst4U ];
 
 
 	auto sz = in.size();
-	for( u32 i = 0u; i < sz; ++i ){
+	for( u32 i = gtConst0U; i < sz; ++i ){
 
 		f32 dist = 0.f;
 
@@ -297,13 +297,13 @@ void gtSceneSystemImpl::sortTransparentDistance( gtArray<gtGameObject*>& in, gtA
 		}
 	
 		if( dist < 10.f ){
-			groups[ 0u ].push_back( gtPair<f32,gtGameObject*>(dist,in[ i ],gtPairSortPredGreatOrEqual) );
+			groups[ gtConst0U ].push_back( gtPair<f32,gtGameObject*>(dist,in[ i ],gtPairSortPredGreatOrEqual) );
 		}else if( dist < 100.f ){
-			groups[ 1u ].push_back( gtPair<f32,gtGameObject*>(dist,in[ i ],gtPairSortPredGreatOrEqual) );
+			groups[ gtConst1U ].push_back( gtPair<f32,gtGameObject*>(dist,in[ i ],gtPairSortPredGreatOrEqual) );
 		}else if( dist < 1000.f ){
-			groups[ 2u ].push_back( gtPair<f32,gtGameObject*>(dist,in[ i ],gtPairSortPredGreatOrEqual) );
+			groups[ gtConst2U ].push_back( gtPair<f32,gtGameObject*>(dist,in[ i ],gtPairSortPredGreatOrEqual) );
 		}else{
-			groups[ 3u ].push_back( gtPair<f32,gtGameObject*>(dist,in[ i ],gtPairSortPredGreatOrEqual) );
+			groups[ gtConst3U ].push_back( gtPair<f32,gtGameObject*>(dist,in[ i ],gtPairSortPredGreatOrEqual) );
 		}
 	}
 
@@ -313,7 +313,7 @@ void gtSceneSystemImpl::sortTransparentDistance( gtArray<gtGameObject*>& in, gtA
 
 		util::mergesort( &groups[ i ], util::predicateGreatOrEqual );
 		
-		for( u32 o = 0u; o < sz; ++o ){
+		for( u32 o = gtConst0U; o < sz; ++o ){
 			out.push_back( groups[ i ][ o ].m_second );
 		}
 	}
@@ -355,7 +355,7 @@ void gtSceneSystemImpl::renderScene(){
 		sortTransparentDistance( transparentUnsortObjects, transparentObjects );
 
 		auto sz = opaqueObjects.size();
-		for( auto i = 0u; i < sz; ++i ){
+		for( auto i = gtConst0U; i < sz; ++i ){
 			auto * var = opaqueObjects[ i ];
 			if( var ){
 				drawObject( var );
@@ -363,7 +363,7 @@ void gtSceneSystemImpl::renderScene(){
 		}
 
 		sz = transparentObjects.size();
-		for( auto i = 0u; i < sz; ++i ){
+		for( auto i = gtConst0U; i < sz; ++i ){
 			auto * var = transparentObjects[ i ];
 			if( var ){
 				drawObject( var );
@@ -425,7 +425,7 @@ void gtSceneSystemImpl::drawObject( gtGameObject * object ){
 
 				m_gs->drawLineBox( v1, v2, v3, v4, v5, v6, v7, v8, pos, green  );
 			}
-			m_gs->drawLineSphere( pos, object->getBVSphereRadius(), 1u, red, green, blue );
+			m_gs->drawLineSphere( pos, object->getBVSphereRadius(), gtConst1U, red, green, blue );
 		}
 
 	}

@@ -35,13 +35,13 @@ namespace gost{
 	public:
 
 		gtGameObject():
-			m_id( -1 ),
+			m_id( gtConst_1 ),
 			m_parent( nullptr ),
 			m_scene( nullptr ),
-			m_scale(1.f),
+			m_scale( gtConst1F ),
 			m_isVisible( true ),
 			m_isBV( false ),
-			m_sphereRadius( 1.f ),
+			m_sphereRadius( gtConst1F ),
 			m_BVType( gtBoundingVolumeType::Sphere )
 		{
 			m_scene = gtMainSystem::getInstance()->getSceneSystem( nullptr );
@@ -56,7 +56,7 @@ namespace gost{
 		virtual gtObb*				getObb() = 0;
 
 		virtual const v3f&			getPosition(){ return m_position; }
-		virtual v3f					getPositionInSpace(){ return m_worldMatrixAbsolute[ 3 ].getV3(); }
+		virtual v3f					getPositionInSpace(){ return m_worldMatrixAbsolute[ gtConst3U ].getV3(); }
 		virtual void				setPosition( const v3f& p ){ m_position = p; }
 
 		virtual void				setRotation( const v3f& rotation ){

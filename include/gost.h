@@ -23,7 +23,6 @@
 #include <gtInfo.h>
 #include <gtTypes.h>
 #include <gtGUID.h>
-
 #include <gtPair.h>
 #include <gtAllocator.h>
 #include <gtArray.h>
@@ -68,6 +67,7 @@
 #include <gtInputController.h>
 #include <gtGUISystem.h>
 #include <gtInputSystem.h>
+
 
 #include <gtMainSystem.h>
 

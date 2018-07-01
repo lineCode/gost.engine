@@ -75,7 +75,7 @@ bool gtPluginImportModel::checkLibraryFunctions(){
 
 	u32 sz = gtPluginGetExtCount();
 	if( sz ){
-		for( u32 i = 0u; i < sz; ++i ){
+		for( u32 i = gtConst0U; i < sz; ++i ){
 			s8 * str = gtPluginGetExtension( i );
 			gtString ext;
 			util::stringAppend( ext, str, u'a' );

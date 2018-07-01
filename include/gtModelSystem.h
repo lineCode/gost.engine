@@ -8,8 +8,8 @@ namespace gost{
 	public:
 			
 		virtual gtPtr<gtModel>	createEmpty( u32 stride, gtVertexType* type ) = 0;
-		virtual gtPtr<gtModel>	createPlane( f32 x = 1.f, f32 y = 1.f, gtSide side = gtSide::Down ) = 0;
-		virtual gtPtr<gtModel>	createCube( f32 sz = 1.f ) = 0;
+		virtual gtPtr<gtModel>	createPlane( f32 x = gtConst1F, f32 y = gtConst1F, gtSide side = gtSide::Down ) = 0;
+		virtual gtPtr<gtModel>	createCube( f32 sz = gtConst1F ) = 0;
 		virtual gtPtr<gtModel>	createFromFile( const gtString& fileName ) = 0;
 
 	};

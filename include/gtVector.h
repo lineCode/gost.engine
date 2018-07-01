@@ -15,9 +15,9 @@ namespace gost{
 
 		Type getComponent( u32 index ){
 			switch( index ){
-			case 0u:
+			case gtConst0U:
 				return x;
-			case 1u:
+			case gtConst1U:
 				return y;
 			default:
 				break;
@@ -25,8 +25,8 @@ namespace gost{
 		}
 
 		gtVector2():
-			x( static_cast< Type >( 0u ) ),
-			y( static_cast< Type >( 0u ) ){
+			x( static_cast< Type >( gtConst0U ) ),
+			y( static_cast< Type >( gtConst0U ) ){
 		}
 
 		gtVector2( const gtVector2< Type >& v ){
@@ -44,7 +44,7 @@ namespace gost{
 		}
 
 		void zero(){
-			x = y = static_cast< Type >( 0u );
+			x = y = static_cast< Type >( gtConst0U );
 		}
 
 		void fill( Type val ){
@@ -149,11 +149,11 @@ namespace gost{
 
 
 		gtVector3< Type > getV3(){
-			return gtVector3< Type >( x, y, static_cast< Type >( 0u ) );
+			return gtVector3< Type >( x, y, static_cast< Type >( gtConst0U ) );
 		}
 
 		gtVector4< Type > getV4(){
-			return gtVector4< Type >( x, y, static_cast< Type >( 0u ), static_cast< Type >( 0u ) );
+			return gtVector4< Type >( x, y, static_cast< Type >( gtConst0U ), static_cast< Type >( gtConst0U ) );
 		}
 
 	};
@@ -165,11 +165,11 @@ namespace gost{
 
 		Type getComponent( u32 index ){
 			switch( index ){
-			case 0u:
+			case gtConst0U:
 				return x;
-			case 1u:
+			case gtConst1U:
 				return y;
-			case 2u:
+			case gtConst2U:
 				return z;
 			default:
 				break;
@@ -177,9 +177,9 @@ namespace gost{
 		}
 
 		gtVector3():
-			x( static_cast< Type >( 0u ) ),
-			y( static_cast< Type >( 0u ) ),
-			z( static_cast< Type >( 0u ) ){
+			x( static_cast< Type >( gtConst0U ) ),
+			y( static_cast< Type >( gtConst0U ) ),
+			z( static_cast< Type >( gtConst0U ) ){
 		}
 
 		gtVector3( const gtVector3< Type >& v ){
@@ -189,7 +189,7 @@ namespace gost{
 		gtVector3( const gtVector2< Type >& v ):
 			x( v.x ),
 			y( v.y ),
-			z( static_cast< Type >( 0u ) ){
+			z( static_cast< Type >( gtConst0U ) ){
 		}
 
 		gtVector3( Type X, Type Y, Type Z ):
@@ -205,7 +205,7 @@ namespace gost{
 		}
 
 		void zero(){
-			x = y = z = static_cast< Type >( 0u );
+			x = y = z = static_cast< Type >( gtConst0U );
 		}
 
 		void fill( Type val ){
@@ -326,16 +326,16 @@ namespace gost{
 		}
 
 		gtVector4< Type > getV4(){
-			return gtVector4< Type >( x, y, z, static_cast< Type >( 0u ) );
+			return gtVector4< Type >( x, y, z, static_cast< Type >( gtConst0U ) );
 		}
 
 		Type& operator[]( u32 i ){
 			switch( i ){
-			case 0u:
+			case gtConst0U:
 				return x;
-			case 1u:
+			case gtConst1U:
 				return y;
-			case 2u:
+			case gtConst2U:
 				return z;
 			}
 			GT_BREAKPOINT(0);
@@ -350,23 +350,23 @@ namespace gost{
 
 		Type getComponent( u32 index ){
 			switch( index ){
-			case 0u:
+			case gtConst0U:
 				return x;
-			case 1u:
+			case gtConst1U:
 				return y;
-			case 2u:
+			case gtConst2U:
 				return z;
-			case 3u:
+			case gtConst3U:
 				return w;
 			}
 			return 0;
 		}
 
 		gtVector4():
-			x( static_cast< Type >( 0u ) ),
-			y( static_cast< Type >( 0u ) ),
-			z( static_cast< Type >( 0u ) ),
-			w( static_cast< Type >( 0u ) ){
+			x( static_cast< Type >( gtConst0U ) ),
+			y( static_cast< Type >( gtConst0U ) ),
+			z( static_cast< Type >( gtConst0U ) ),
+			w( static_cast< Type >( gtConst0U ) ){
 		}
 
 		gtVector4( const gtVector4< Type >& v ){
@@ -385,7 +385,7 @@ namespace gost{
 			x( v.x ),
 			y( v.y ),
 			z( v.z ),
-			w( static_cast< Type >( 0u ) ){
+			w( static_cast< Type >( gtConst0U ) ){
 		}
 
 		gtVector4( Type X, Type Y, Type Z, Type W ):
@@ -403,7 +403,7 @@ namespace gost{
 		}
 
 		void zero(){
-			x = y = z = w = static_cast< Type >( 0u );
+			x = y = z = w = static_cast< Type >( gtConst0U );
 		}
 
 		void fill( Type val ){
@@ -492,7 +492,7 @@ namespace gost{
 			x = v.x;
 			y = v.y;
 			z = v.z;
-			w = static_cast< Type >( 0u );
+			w = static_cast< Type >( gtConst0U );
 		}
 
 		void	setXYZ( Type val ){
@@ -556,26 +556,26 @@ namespace gost{
 
 		Type getComponent( u32 index ){
 			switch( index ){
-			case 0u:
+			case gtConst0U:
 				return x;
-			case 1u:
+			case gtConst1U:
 				return y;
-			case 2u:
+			case gtConst2U:
 				return z;
-			case 3u:
+			case gtConst3U:
 				return w;
-			case 4u:
+			case gtConst4U:
 				return a;
 			}
 			return 0;
 		}
 
 		gtVector5():
-			x( static_cast< Type >( 0u ) ),
-			y( static_cast< Type >( 0u ) ),
-			z( static_cast< Type >( 0u ) ),
-			w( static_cast< Type >( 0u ) ),
-			a( static_cast< Type >( 0u ) ){
+			x( static_cast< Type >( gtConst0U ) ),
+			y( static_cast< Type >( gtConst0U ) ),
+			z( static_cast< Type >( gtConst0U ) ),
+			w( static_cast< Type >( gtConst0U ) ),
+			a( static_cast< Type >( gtConst0U ) ){
 		}
 
 		gtVector5( Type X, Type Y, Type Z, Type W, Type A ):
@@ -595,29 +595,29 @@ namespace gost{
 
 		Type getComponent( u32 index ){
 			switch( index ){
-			case 0u:
+			case gtConst0U:
 				return x;
-			case 1u:
+			case gtConst1U:
 				return y;
-			case 2u:
+			case gtConst2U:
 				return z;
-			case 3u:
+			case gtConst3U:
 				return w;
-			case 4u:
+			case gtConst4U:
 				return a;
-			case 5u:
+			case gtConst5U:
 				return b;
 			}
 			return 0;
 		}
 
 		gtVector6():
-			x( static_cast< Type >( 0u ) ),
-			y( static_cast< Type >( 0u ) ),
-			z( static_cast< Type >( 0u ) ),
-			w( static_cast< Type >( 0u ) ),
-			a( static_cast< Type >( 0u ) ),
-			b( static_cast< Type >( 0u ) ){
+			x( static_cast< Type >( gtConst0U ) ),
+			y( static_cast< Type >( gtConst0U ) ),
+			z( static_cast< Type >( gtConst0U ) ),
+			w( static_cast< Type >( gtConst0U ) ),
+			a( static_cast< Type >( gtConst0U ) ),
+			b( static_cast< Type >( gtConst0U ) ){
 		}
 
 		gtVector6( Type X, Type Y, Type Z, Type W, Type A, Type B ):
@@ -638,32 +638,32 @@ namespace gost{
 
 		Type getComponent( u32 index ){
 			switch( index ){
-			case 0u:
+			case gtConst0U:
 				return x;
-			case 1u:
+			case gtConst1U:
 				return y;
-			case 2u:
+			case gtConst2U:
 				return z;
-			case 3u:
+			case gtConst3U:
 				return w;
-			case 4u:
+			case gtConst4U:
 				return a;
-			case 5u:
+			case gtConst5U:
 				return b;
-			case 6u:
+			case gtConst6U:
 				return c;
 			}
 			return 0;
 		}
 
 		gtVector7():
-			x( static_cast< Type >( 0u ) ),
-			y( static_cast< Type >( 0u ) ),
-			z( static_cast< Type >( 0u ) ),
-			w( static_cast< Type >( 0u ) ),
-			a( static_cast< Type >( 0u ) ),
-			b( static_cast< Type >( 0u ) ),
-			c( static_cast< Type >( 0u ) ){
+			x( static_cast< Type >( gtConst0U ) ),
+			y( static_cast< Type >( gtConst0U ) ),
+			z( static_cast< Type >( gtConst0U ) ),
+			w( static_cast< Type >( gtConst0U ) ),
+			a( static_cast< Type >( gtConst0U ) ),
+			b( static_cast< Type >( gtConst0U ) ),
+			c( static_cast< Type >( gtConst0U ) ){
 		}
 
 		gtVector7( Type X, Type Y, Type Z, Type W, Type A, Type B, Type C ):
@@ -685,35 +685,35 @@ namespace gost{
 
 		Type getComponent( u32 index ){
 			switch( index ){
-			case 0u:
+			case gtConst0U:
 				return x;
-			case 1u:
+			case gtConst1U:
 				return y;
-			case 2u:
+			case gtConst2U:
 				return z;
-			case 3u:
+			case gtConst3U:
 				return w;
-			case 4u:
+			case gtConst4U:
 				return a;
-			case 5u:
+			case gtConst5U:
 				return b;
-			case 6u:
+			case gtConst6U:
 				return c;
-			case 7u:
+			case gtConst7U:
 				return d;
 			}
 			return 0;
 		}
 
 		gtVector8():
-			x( static_cast< Type >( 0u ) ),
-			y( static_cast< Type >( 0u ) ),
-			z( static_cast< Type >( 0u ) ),
-			w( static_cast< Type >( 0u ) ),
-			a( static_cast< Type >( 0u ) ),
-			b( static_cast< Type >( 0u ) ),
-			c( static_cast< Type >( 0u ) ),
-			d( static_cast< Type >( 0u ) ){
+			x( static_cast< Type >( gtConst0U ) ),
+			y( static_cast< Type >( gtConst0U ) ),
+			z( static_cast< Type >( gtConst0U ) ),
+			w( static_cast< Type >( gtConst0U ) ),
+			a( static_cast< Type >( gtConst0U ) ),
+			b( static_cast< Type >( gtConst0U ) ),
+			c( static_cast< Type >( gtConst0U ) ),
+			d( static_cast< Type >( gtConst0U ) ){
 		}
 
 		gtVector8( Type X, Type Y, Type Z, Type W, Type A, Type B, Type C, Type D ){

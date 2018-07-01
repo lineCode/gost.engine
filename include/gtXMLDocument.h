@@ -131,7 +131,7 @@ namespace gost{
 
 		gtXMLAttribute*	getAttribute( const gtString& Name ){
 			u32 sz = attributeList.size();
-			for( u32 i = 0u; i < sz; ++i ){
+			for( u32 i = gtConst0U; i < sz; ++i ){
 				if( attributeList[ i ]->name == Name ){
 					return attributeList[ i ];
 				}
@@ -143,11 +143,11 @@ namespace gost{
 			name.clear();
 			text.clear();
 			u32 sz = attributeList.size();
-			for( u32 i = 0u; i < sz; ++i ){
+			for( u32 i = gtConst0U; i < sz; ++i ){
 				delete attributeList[ i ];
 			}
 			sz = nodeList.size();
-			for( u32 i = 0u; i < sz; ++i ){
+			for( u32 i = gtConst0U; i < sz; ++i ){
 				delete nodeList[ i ];
 			}
 			attributeList.clear();

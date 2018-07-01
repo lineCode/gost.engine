@@ -36,7 +36,7 @@ extern "C"{
 					return XAudioVersion::none;
 				}
 
-				version = (XAudioVersion)((u32)version + 1u);
+				version = (XAudioVersion)((u32)version + gtConst1U);
 			}
 
 		}

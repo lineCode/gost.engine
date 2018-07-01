@@ -421,13 +421,13 @@ void	gtDriverD3D11::createStandartTexture(){
 	{
 		gtImage * i = new gtImage;
 		i->bits = 24u;
-		i->width = 8u;
-		i->height = 8u;
-		i->pitch = i->width * 3u;
+		i->width = gtConst8U;
+		i->height = gtConst8U;
+		i->pitch = i->width * gtConst3U;
 		i->dataSize = i->pitch * i->height;
 		i->format = gtImageFormat::R8G8B8;
-		i->frames = 1u;
-		i->mipCount = 1u;
+		i->frames = gtConst1U;
+		i->mipCount = gtConst1U;
 		gtMainSystem::getInstance()->allocateMemory( (void**)&i->data, i->dataSize );
 
 		image::fillCheckerBoard( i, false, gtColor(u8(255),48,224), gtColor(u8(0),0,0) );
@@ -441,13 +441,13 @@ void	gtDriverD3D11::createStandartTexture(){
 	{
 		gtImage * i = new gtImage;
 		i->bits = 24u;
-		i->width = 8u;
-		i->height = 8u;
-		i->pitch = i->width * 3u;
+		i->width = gtConst8U;
+		i->height = gtConst8U;
+		i->pitch = i->width * gtConst3U;
 		i->dataSize = i->pitch * i->height;
 		i->format = gtImageFormat::R8G8B8;
-		i->frames = 1u;
-		i->mipCount = 1u;
+		i->frames = gtConst1U;
+		i->mipCount = gtConst1U;
 		gtMainSystem::getInstance()->allocateMemory( (void**)&i->data, i->dataSize );
 
 		image::fillSolid( i, false, gtColor( 1.f ) );
@@ -505,13 +505,13 @@ void gtDriverD3D11::endRender(){
 
 void gtDriverD3D11::draw2DImage( const v4i& rect, gtTexture* texture ){
 	gtMaterial m;
-	m.textureLayer[ 0u ].texture = texture;
+	m.textureLayer[ gtConst0U ].texture = texture;
 	draw2DImage( rect, v4i(), m );
 }
 
 void gtDriverD3D11::draw2DImage( const v4i& rect, const v4i& region, gtTexture* texture ){
 	gtMaterial m;
-	m.textureLayer[ 0u ].texture = texture;
+	m.textureLayer[ gtConst0U ].texture = texture;
 	draw2DImage( rect, region, m );
 }
 
@@ -547,12 +547,12 @@ void gtDriverD3D11::draw2DImage( const v4i& rect, const v4i& region, const gtMat
 		rb.y = 1.f;
 
 	}else{
-		GT_ASSERT2( m.textureLayer[ 0u ].texture, "texture != nullptr" );
+		GT_ASSERT2( m.textureLayer[ gtConst0U ].texture, "texture != nullptr" );
 
-		u32 width = 1u, height = 1u;
-		if( m.textureLayer[ 0u ].texture ){
-			width = m.textureLayer[ 0u ].texture->getWidth();
-			height = m.textureLayer[ 0u ].texture->getHeight();
+		u32 width = gtConst1U, height = gtConst1U;
+		if( m.textureLayer[ gtConst0U ].texture ){
+			width = m.textureLayer[ gtConst0U ].texture->getWidth();
+			height = m.textureLayer[ gtConst0U ].texture->getHeight();
 		}
 
 		f32 mulX = 1.f / (f32)width;
@@ -651,7 +651,7 @@ void gtDriverD3D11::_draw2DImage( const v4f& rect, const v8f& region, const gtMa
 		&cb_pixel
 	};
 
-	for( u32 i = 0u; i < sz; ++i ){
+	for( u32 i = gtConst0U; i < sz; ++i ){
 		D3D11_MAPPED_SUBRESOURCE mappedResource;
 		
 		m_d3d11DevCon->Map(
@@ -665,10 +665,10 @@ void gtDriverD3D11::_draw2DImage( const v4f& rect, const v8f& region, const gtMa
 		m_d3d11DevCon->Unmap( ((gtShaderImpl*)shader)->m_constantBuffers[ i ], 0 );
 
 	}
-	m_d3d11DevCon->VSSetConstantBuffers( 0, 1, &((gtShaderImpl*)shader)->m_constantBuffers[ 0u ] );
-	m_d3d11DevCon->PSSetConstantBuffers( 0, 1, &((gtShaderImpl*)shader)->m_constantBuffers[ 1u ] );
+	m_d3d11DevCon->VSSetConstantBuffers( 0, 1, &((gtShaderImpl*)shader)->m_constantBuffers[ gtConst0U ] );
+	m_d3d11DevCon->PSSetConstantBuffers( 0, 1, &((gtShaderImpl*)shader)->m_constantBuffers[ gtConst1U ] );
 
-	for( u32 i = 0u; i < 16u; ++i ){
+	for( u32 i = gtConst0U; i < 16u; ++i ){
 		if( !material.textureLayer[ i ].texture ) break;
 
 		gtTextureD3D11* texture = (gtTextureD3D11*)material.textureLayer[ i ].texture;
@@ -699,9 +699,9 @@ void gtDriverD3D11::drawModel( gtRenderModel* model ){
 
 	gtRenderModelD3D11* d3dm = (gtRenderModelD3D11*)model;
 
-	u32 offset = 0u;
+	u32 offset = gtConst0U;
 
-	for( u32 i( 0u ); i < smc; ++i ){
+	for( u32 i( gtConst0U ); i < smc; ++i ){
 
 		//auto * sub = soft->getSubModel( i );
 		
@@ -815,7 +815,7 @@ gtShader *	gtDriverD3D11::getShader(
 			return nullptr;
 		}
 
-		vertexBuffer.reset( new s8[ sz+1u ] );
+		vertexBuffer.reset( new s8[ sz+gtConst1U ] );
 		vertexBuffer.get()[sz] = 0;
 
 		file->read( (u8*)vertexBuffer.get(), sz );
@@ -828,11 +828,11 @@ gtShader *	gtDriverD3D11::getShader(
 			return nullptr;
 		}
 
-		vertexBuffer.reset( new s8[ sz+1u ] );
+		vertexBuffer.reset( new s8[ sz+gtConst1U ] );
 		vertexBuffer.get()[sz] = 0;
 		auto * data = vertexShader.data();
 
-		for( u32 i = 0u; i < sz; ++i ){
+		for( u32 i = gtConst0U; i < sz; ++i ){
 			auto * b = vertexBuffer.get();
 			b[ i ] = (s8)data[ i ];
 		}
@@ -858,7 +858,7 @@ gtShader *	gtDriverD3D11::getShader(
 		pixelBuffer.reset( new s8[ sz+1 ] );
 		pixelBuffer.get()[sz] = 0;
 		auto * data = pixelShader.data();
-		for( u32 i = 0u; i < sz; ++i ){
+		for( u32 i = gtConst0U; i < sz; ++i ){
 			auto * b = pixelBuffer.get();
 			b[ i ] = (s8)data[ i ];
 		}
@@ -1032,7 +1032,7 @@ bool	gtDriverD3D11::createShaders(){
 	if( m_shader3DStandart ) if( !m_shader3DStandart->createShaderObject( 16u * sizeof(f32) ) ) return false;
 	if( m_shaderSprite ) if( !m_shaderSprite->createShaderObject( 24u * sizeof(f32) ) ) return false;
 	if( m_shaderLine ) if( !m_shaderLine->createShaderObject( 28u * sizeof(f32) ) ) return false;
-	if( m_shaderGUI ) if( !m_shaderGUI->createShaderObject( 4u * sizeof(f32) + 128u ) ) return false;
+	if( m_shaderGUI ) if( !m_shaderGUI->createShaderObject( gtConst4U * sizeof(f32) + 128u ) ) return false;
 
 	return true;
 }

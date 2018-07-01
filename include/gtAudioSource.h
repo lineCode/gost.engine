@@ -7,12 +7,12 @@ namespace gost{
 		//	Information about audio
 	struct gtAudioSourceInfo{
 		gtAudioSourceInfo():
-			m_formatType( 0u ),
-			m_channels( 0u ),
-			m_sampleRate( 0u ),
-			m_bytesPerSec( 0u ),
-			m_blockAlign( 0u ),
-			m_bitsPerSample( 0u )
+			m_formatType( gtConst0U ),
+			m_channels( gtConst0U ),
+			m_sampleRate( gtConst0U ),
+			m_bytesPerSec( gtConst0U ),
+			m_blockAlign( gtConst0U ),
+			m_bitsPerSample( gtConst0U )
 		{}
 
 		u32		m_formatType;	//< for XAudio2 - 1 - PCM
@@ -36,7 +36,7 @@ namespace gost{
 
 		gtAudioSource():
 			m_data( nullptr ),
-			m_dataSize( 0u )
+			m_dataSize( gtConst0U )
 		{}
 
 		virtual ~gtAudioSource(){

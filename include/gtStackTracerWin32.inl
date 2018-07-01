@@ -56,7 +56,7 @@ namespace gost{
 
 		unsigned long * stack[ gtMaxStackFrames ];
 
-		unsigned int frames = CaptureStackBackTrace( 0u, gtMaxStackFrames, (PVOID*)stack, NULL );
+		unsigned int frames = CaptureStackBackTrace( gtConst0U, gtMaxStackFrames, (PVOID*)stack, NULL );
 
 		SYMBOL_INFO_PACKAGE sip;
 		sip.si.SizeOfStruct = sizeof(sip.si);
@@ -64,7 +64,7 @@ namespace gost{
 
 		gtLogWriter::printInfo( u"Dump stack trace:" );
 
-		for( unsigned int i(0u); i < frames; ++i ){
+		for( unsigned int i(gtConst0U); i < frames; ++i ){
 				
 			DWORD64 symbol = (DWORD64)stack[i];
 

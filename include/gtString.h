@@ -46,8 +46,8 @@ namespace gost{
 
 		template<typename other_type>
 		u32 getlen( const other_type* str ){
-			unsigned int len = 0u;
-			const other_type* p = &str[ 0u ];
+			unsigned int len = gtConst0U;
+			const other_type* p = &str[ gtConst0U ];
 			while( *p++ ) len++;
 			return len;
 		}
@@ -68,7 +68,7 @@ namespace gost{
 		gtString_base():
 			m_data( nullptr ),
 			m_allocated( StringWordSize ),
-			m_size( 0u )
+			m_size( gtConst0U )
 		{
 			reallocate( m_allocated );
 		}
@@ -78,7 +78,7 @@ namespace gost{
 		gtString_base( const_pointer str ):
 			m_data( nullptr ),
 			m_allocated( StringWordSize ),
-			m_size( 0u )
+			m_size( gtConst0U )
 		{
 			reallocate( m_allocated );
 			assign( str );
@@ -89,7 +89,7 @@ namespace gost{
 		gtString_base( this_const_reference str ):
 			m_data(nullptr),
 			m_allocated(StringWordSize),
-			m_size(0u)
+			m_size(gtConst0U)
 		{
 			reallocate( m_allocated );
 			assign( str );
@@ -99,7 +99,7 @@ namespace gost{
 		gtString_base( this_type&& str ):
 			m_data( nullptr ),
 			m_allocated( StringWordSize ),
-			m_size( 0u )
+			m_size( gtConst0U )
 		{
 			reallocate( m_allocated );
 			assign( str );
@@ -108,11 +108,11 @@ namespace gost{
 		gtString_base( char_type c ):
 			m_data( nullptr ),
 			m_allocated( StringWordSize ),
-			m_size( 0u )
+			m_size( gtConst0U )
 		{
-			u32 new_size = 1u;
-			reallocate( (new_size + 1u) + StringWordSize );
-			m_data[ 0u ] = c;
+			u32 new_size = gtConst1U;
+			reallocate( (new_size + gtConst1U) + StringWordSize );
+			m_data[ gtConst0U ] = c;
 			m_size = new_size;
 			m_data[ m_size ] = 0x0;
 		}
@@ -136,7 +136,7 @@ namespace gost{
 			// \param str: 'c' string
 		template<typename other_type>
 		void assign( other_type str ){
-			m_size = 0u;
+			m_size = gtConst0U;
 			m_data[ m_size ] = 0x0;
 			append( str );
 		}
@@ -144,7 +144,7 @@ namespace gost{
 			//	Assign other
 			// \param str: Other gtString
 		void assign( this_const_reference str ){
-			m_size = 0u;
+			m_size = gtConst0U;
 			m_data[ m_size ] = 0x0;
 			append( str );
 		}
@@ -155,8 +155,8 @@ namespace gost{
 		void append( const other_type * str ){
 			u32 new_size = getlen( str ) + m_size;
 
-			if( (new_size + 1u) > m_allocated )
-				reallocate( (new_size + 1u) + StringWordSize );
+			if( (new_size + gtConst1U) > m_allocated )
+				reallocate( (new_size + gtConst1U) + StringWordSize );
 
 			copy( &m_data[m_size], str );
 
@@ -173,9 +173,9 @@ namespace gost{
 			// Add char
 			// \param c: char
 		void append( char_type c ){
-			u32 new_size = m_size + 1u;
-			if( (new_size + 1u) > m_allocated )
-				reallocate( (new_size + 1u) + StringWordSize );
+			u32 new_size = m_size + gtConst1U;
+			if( (new_size + gtConst1U) > m_allocated )
+				reallocate( (new_size + gtConst1U) + StringWordSize );
 			m_data[ m_size ] = c;
 			m_size = new_size;
 			m_data[ m_size ] = 0x0;
@@ -316,7 +316,7 @@ namespace gost{
 
 			const u32 sz = other.size();
 			const auto * ptr = other.data();
-			for( u32 i = 0u; i < sz; ++i )
+			for( u32 i = gtConst0U; i < sz; ++i )
 				if( ptr[ i ] != m_data[ i ]  ) return false;
 
 			return true;
@@ -327,28 +327,28 @@ namespace gost{
 
 			const u32 sz = other.size();
 			const auto * ptr = other.data();
-			for( u32 i = 0u; i < sz; ++i )
+			for( u32 i = gtConst0U; i < sz; ++i )
 				if( ptr[ i ] == m_data[ i ]  ) return false;
 
 			return true;
 		}
 
 		void clear(){
-			m_size = 0u;
+			m_size = gtConst0U;
 			m_data[ m_size ] = static_cast<char_type>(m_size);
 		}
 
 		void pop_back(){
 			if( m_size ){
 				--m_size;
-				m_data[ m_size ] = 0u;
+				m_data[ m_size ] = gtConst0U;
 			}
 		}
 
 		void shrink_to_fit(){
 			if( m_size ){
 				if( m_allocated > (m_size + StringWordSize) ){
-					reallocate( m_size + 1u );
+					reallocate( m_size + gtConst1U );
 					m_data[ m_size ] = 0x0;
 				}
 			}
@@ -360,9 +360,9 @@ namespace gost{
 
 		void erase( u32 begin, u32 end ){
 
-			u32 numCharsToDelete = end - begin + 1u; // example, delete first char: 0 - 0 + 1
+			u32 numCharsToDelete = end - begin + gtConst1U; // example, delete first char: 0 - 0 + 1
 
-			u32 next = end + 1u;
+			u32 next = end + gtConst1U;
 
 			for( u32 i = begin; i < m_size; ++i ){
 
@@ -380,7 +380,7 @@ namespace gost{
 		}
 
 		void pop_front(){
-			erase( 0u, 0u );
+			erase( gtConst0U, gtConst0U );
 		}
 
 		bool isSpace( u32 index ){
@@ -404,9 +404,9 @@ namespace gost{
 
 		GT_FORCE_INLINE void changeEndian( gtString_base<char16_t>& string ){
 			u32 sz = string.size();
-			for( u32 i = 0u; i < sz; ++i ){
+			for( u32 i = gtConst0U; i < sz; ++i ){
 				u8* p1 = reinterpret_cast<u8*>( &string.data()[ i ]);
-				u8* p2 = p1 + 1u;
+				u8* p2 = p1 + gtConst1U;
 				u8 c1 = *p1;
 				*p1 = *p2;
 				*p2 = c1;
@@ -415,7 +415,7 @@ namespace gost{
 
 		GT_FORCE_INLINE void utf16_to_utf8( gtString_base<char16_t>& utf16, gtString_base<char>& utf8 ){
 			u32 sz = utf16.size();
-			for( u32 i = 0u; i < sz; ++i ){
+			for( u32 i = gtConst0U; i < sz; ++i ){
 				char16_t ch16 = utf16[ i ];
 				if( ch16 < 0x80 ){
 					utf8 += (char)ch16;
@@ -428,11 +428,11 @@ namespace gost{
 
 		GT_FORCE_INLINE void utf8_to_utf16( gtString_base<char16_t>& utf16, gtString_base<char>& utf8 ){
 			gtArray<u32> unicode;
-			u32 i = 0u;
+			u32 i = gtConst0U;
 			auto sz = utf8.size();
 			while( i < sz ){
-				u32 uni = 0u;
-				u32 todo = 0u;
+				u32 uni = gtConst0U;
+				u32 todo = gtConst0U;
 //				bool error = false;
 				u8 ch = utf8[i++];
 				if( ch <= 0x7F ){
@@ -468,7 +468,7 @@ namespace gost{
 				unicode.push_back(uni);
 			}
 			auto sz2 = unicode.size();
-			for( u32 o = 0u; o < sz2; ++o ){
+			for( u32 o = gtConst0U; o < sz2; ++o ){
 				u32 uni = unicode[o];
 				if( uni <= 0xFFFF ){
 					utf16 += (char16_t)uni;

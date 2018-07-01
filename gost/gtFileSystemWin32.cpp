@@ -79,7 +79,7 @@ void gtFileSystemWin32::deleteFolder( const gtString& dir ){
  	gtFileSystem::scanDirEnd();
 	u32 sz = objs.size();
 
- 	for( u32 i = 0u; i < sz; ++i ){
+ 	for( u32 i = gtConst0U; i < sz; ++i ){
  		auto * o = &objs[ i ];
   		if( o->type == gtFileSystem::DirObjectType::info ){
   			continue;
@@ -128,7 +128,7 @@ void gtFileSystemWin32::scanDirBegin( gtString dir ){
 
 		m_dir = dir;
 
-		if( m_dir[ m_dir.size() - 1u ] != u'/'	&& m_dir[ m_dir.size() - 1u ] != u'\\' )
+		if( m_dir[ m_dir.size() - gtConst1U ] != u'/'	&& m_dir[ m_dir.size() - gtConst1U ] != u'\\' )
 			m_dir.append( u"\\*" );
 		else m_dir.append( u"*" );
 
@@ -172,7 +172,7 @@ bool gtFileSystemWin32::getDirObject( gtFileSystem::DirObject* o ){
 	}
 
 	if( ffd.cFileName[ 0 ] == L'.' ){
-		o->size = 0u;
+		o->size = gtConst0U;
 		o->type = gtFileSystem::DirObjectType::info;
 	}else{
 		gtString fullPath( m_dir );
@@ -186,7 +186,7 @@ bool gtFileSystemWin32::getDirObject( gtFileSystem::DirObject* o ){
 
 		if( ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY ){
 			o->type = gtFileSystem::DirObjectType::folder;
-			o->size = 0u;
+			o->size = gtConst0U;
 		}else{
 			o->type = gtFileSystem::DirObjectType::file;
 
@@ -231,17 +231,17 @@ gtString gtFileSystemWin32::getSystemPath(){
 }
 
 gtString gtFileSystemWin32::getRealPath( const gtString& in ){
-	u32 dots_count = 0u;
+	u32 dots_count = gtConst0U;
 
 	u32 in_sz = in.size();
 
 	u32 last = in_sz - 1;
 
-	for( u32 i = 0u; i < in_sz; ++i ){
+	for( u32 i = gtConst0U; i < in_sz; ++i ){
 		if( in[ i ] == u'.' ){
 
 			if( i < last ){
-				if( in[ i + 1u ] == u'.' ){
+				if( in[ i + gtConst1U ] == u'.' ){
 					++dots_count;
 					++i;// skip second .
 				}
@@ -251,9 +251,9 @@ gtString gtFileSystemWin32::getRealPath( const gtString& in ){
 
 	gtString realPath = m_exePath;
 	gtString relativePath = in;
-	for( u32 i = 0u; i < dots_count; ++i ){
+	for( u32 i = gtConst0U; i < dots_count; ++i ){
 		util::stringPopBackBefore( realPath, '/' );
-		relativePath.erase( 0u, 2u );
+		relativePath.erase( gtConst0U, gtConst2U );
 	}
 
 	realPath += relativePath;

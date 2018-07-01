@@ -233,6 +233,7 @@
     <ClCompile Include="..\..\gost\gtGUIStaticTextImpl.cpp" />
     <ClCompile Include="..\..\gost\gtGUISystemImpl.cpp" />
     <ClCompile Include="..\..\gost\gtGUITextFieldImpl.cpp" />
+    <ClCompile Include="..\..\gost\gtImageImpl.cpp" />
     <ClCompile Include="..\..\gost\gtInputSystemImpl.cpp" />
     <ClCompile Include="..\..\gost\gtLogImpl.cpp" />
     <ClCompile Include="..\..\gost\gtMainSystemCommon.cpp" />
@@ -268,6 +269,7 @@
     <ClInclude Include="..\..\gost\gtGUIStaticTextImpl.h" />
     <ClInclude Include="..\..\gost\gtGUISystemImpl.h" />
     <ClInclude Include="..\..\gost\gtGUITextFieldImpl.h" />
+    <ClInclude Include="..\..\gost\gtImageImpl.h" />
     <ClInclude Include="..\..\gost\gtInputSystemImpl.h" />
     <ClInclude Include="..\..\gost\gtLogImpl.h" />
     <ClInclude Include="..\..\gost\gtMainSystemCommon.h" />
@@ -298,6 +300,7 @@
     <ClInclude Include="..\..\include\gtBaseObject.h" />
     <ClInclude Include="..\..\include\gtCamera.h" />
     <ClInclude Include="..\..\include\gtColor.h" />
+    <ClInclude Include="..\..\include\gtConstants.h" />
     <ClInclude Include="..\..\include\gtGraphicsSystem.h" />
     <ClInclude Include="..\..\include\gtDummyObject.h" />
     <ClInclude Include="..\..\include\gtError.h" />

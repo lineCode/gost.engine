@@ -25,7 +25,7 @@ namespace gost{
 			pointer new_data = m_allocator.allocate( new_capacity * sizeof( type ) );
 
 			if( m_data ){
-				for( u32 i = 0u; i < m_size; ++i ){
+				for( u32 i = gtConst0U; i < m_size; ++i ){
 					m_allocator.construct( &new_data[i], m_data[i] );
 					m_allocator.destruct( &m_data[i] );
 				}
@@ -39,18 +39,18 @@ namespace gost{
 
 	public:
 
-		gtArray( u32 addSize = 8u ):
+		gtArray( u32 addSize = gtConst8U ):
 			m_data( nullptr ),
-			m_size( 0u ),
-			m_allocated( 0u ),
+			m_size( gtConst0U ),
+			m_allocated( gtConst0U ),
 			m_addMemory( addSize )
 		{}
 
 		gtArray( const gtArray& other ):
 			m_data( nullptr ),
-			m_size( 0u ),
-			m_allocated( 0u ),
-			m_addMemory( 8u ){
+			m_size( gtConst0U ),
+			m_allocated( gtConst0U ),
+			m_addMemory( gtConst8U ){
 			m_size = other.size();
 			m_allocated = other.capacity();
 			reallocate( m_allocated );
@@ -58,20 +58,20 @@ namespace gost{
 		}
 
 		~gtArray(){ clear(); }
-		pointer data() const { return m_data; }
-		void    setSize( u32 s ){ m_size = s; }
-		u32     size() const { return m_size; }
+		pointer data() const     { return m_data; }
+		void    setSize( u32 s ) { m_size = s; }
+		u32     size() const     { return m_size; }
 		u32     capacity() const { return m_allocated; }
 		void    setAddMemoryValue( u32 v ){ m_addMemory = v; }
-		bool    empty() const { return m_size == 0u; }
+		bool    empty() const    { return m_size == gtConst0U; }
 
 		const_reference at( u32 id ) const { return m_data[id]; }
 		reference       at( u32 id ){ return m_data[id]; }
 		const_reference operator[]( u32 id ) const { return m_data[id]; }
 		reference       operator[]( u32 id ){ return m_data[id]; }
-		reference       back(){ return m_data[ m_size - 1u ]; }
-		const_reference back() const { return m_data[ m_size - 1u ]; }
-		const_reference front() const { return m_data[ 0u ]; }
+		reference       back(){ return m_data[ m_size - gtConst1U ]; }
+		const_reference back() const { return m_data[ m_size - gtConst1U ]; }
+		const_reference front() const { return m_data[ gtConst0U ]; }
 
 			//	Allocate memory
 		void reserve( u32 new_capacity ){
@@ -81,7 +81,7 @@ namespace gost{
 
 			//	Insert element
 		void push_back( type object ){
-			u32 new_size = m_size + 1u;
+			u32 new_size = m_size + gtConst1U;
 			if( new_size > m_allocated )
 				reallocate( new_size );
 			m_allocator.construct( &m_data[m_size], object );
@@ -91,11 +91,11 @@ namespace gost{
 			//	Remove all elements
 		void clear(){
 			if( m_data ){
-				for( u32 i = 0u; i < m_size; ++i )
+				for( u32 i = gtConst0U; i < m_size; ++i )
 					m_allocator.destruct( &m_data[i] );
 				m_allocator.deallocate( m_data );
 
-				m_allocated = m_size = 0u;
+				m_allocated = m_size = gtConst0U;
 				m_data = nullptr;
 			}
 		}
@@ -114,7 +114,7 @@ namespace gost{
 		void erase( u32 begin, u32 end ){
 			if( m_size ){
 
-				u32 last = m_size - 1u;
+				u32 last = m_size - gtConst1U;
 				u32 len = end - begin;
 
 
@@ -124,7 +124,7 @@ namespace gost{
 
 					if( i < last ){
 
-						u32 next = i + 1u + len;
+						u32 next = i + gtConst1U + len;
 
 						if( next < m_size ){
 
@@ -135,12 +135,12 @@ namespace gost{
 
 				}
 
-				m_size = m_size - 1u - len;
+				m_size = m_size - gtConst1U - len;
 			}
 		}
 
 	//	void sort(){
-	//		for( u32 i = 0u; i < m_size; ++i ){
+	//		for( u32 i = gtConst0U; i < m_size; ++i ){
 	//		}
 	//	}
 
@@ -149,7 +149,7 @@ namespace gost{
 			m_size = other.size();
 			m_allocated = other.capacity();
 			reallocate( m_allocated );
-			for( u32 i = 0u; i < m_size; ++i ){
+			for( u32 i = gtConst0U; i < m_size; ++i ){
 				m_allocator.construct( &m_data[ i ], other.m_data[ i ] );
 			}
 			return *this;
@@ -157,7 +157,7 @@ namespace gost{
 
 		/*void pop_back(){
 			if( m_size ){
-				m_allocator.destruct( &m_data[ m_size - 1u ] );
+				m_allocator.destruct( &m_data[ m_size - gtConst1U ] );
 				--m_size;
 			}
 		}*/
@@ -178,7 +178,7 @@ namespace gost{
 
 		   s32 l1, l2, i;
 
-			for(l1 = low, l2 = mid + 1, i = low; l1 <= mid && l2 <= high; i++) {
+			for(l1 = low, l2 = mid + gtConst1, i = low; l1 <= mid && l2 <= high; i++) {
 			  //if((*a)[l1] >= (*a)[l2])
 				if(pred((*a)[l1],(*a)[l2]))
 					b[i] = (*a)[l1++];
@@ -201,9 +201,9 @@ namespace gost{
 			s32 mid;
 	
 			if( low < high ){
-				mid = (low + high) / 2;
+				mid = (low + high) / gtConst2;
 				__sort( low, mid, arr, pred );
-				__sort( mid + 1, high, arr, pred );
+				__sort( mid + gtConst1, high, arr, pred );
 				__merging( low, mid, high, arr, pred );
 			}else{ 
 				return;
@@ -212,7 +212,7 @@ namespace gost{
 
 		template<typename array_type>
 		void mergesort( gtArray<array_type> * array, bool(*pred)(const array_type& o1, const array_type& o2 ) ){
-			__sort( 0u, (s32)array->size() - 1, array, pred );
+			__sort( gtConst0U, (s32)array->size() - gtConst1, array, pred );
 		}
 	}
 }

@@ -2,7 +2,7 @@
 
 gtInputSystemImpl::gtInputSystemImpl(){
 	memset( m_keysDown, 0, 256u );
-	m_mouseState.byte = 0u;
+	m_mouseState.byte = gtConst0U;
 }
 gtInputSystemImpl::~gtInputSystemImpl(){}
 
@@ -54,7 +54,7 @@ gtPtr<gtInputController> gtInputSystemImpl::createInputContoller( const GT_GUID&
 	if( !plugin ){
 		u32 np = ps->getNumOfPlugins();
 
-		for( u32 i = 0u; i < np; ++i ){
+		for( u32 i = gtConst0U; i < np; ++i ){
 
 			auto * pl = ps->getPlugin( i );
 

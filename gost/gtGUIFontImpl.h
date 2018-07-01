@@ -7,7 +7,7 @@ namespace gost{
 	class gtGUIFontImpl : public gtGUIFont{
 
 		struct character_base{
-			character_base():texture_id(0u){}
+			character_base():texture_id(gtConst0U){}
 			gtVector4<u16>	coords;
 			s16 texture_id; 
 		};

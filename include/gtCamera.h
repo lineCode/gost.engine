@@ -13,7 +13,7 @@ namespace gost{
 
 
 	struct gtCameraFrustum{
-		v4f m_planes[ 6u ];
+		v4f m_planes[ gtConst6U ];
 	};
 
 	class gtCamera : public gtGameObject{

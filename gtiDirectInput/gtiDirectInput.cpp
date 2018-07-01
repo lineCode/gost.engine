@@ -63,7 +63,7 @@ namespace gost{
 	gtInputControllerImpl::~gtInputControllerImpl(){
 
 		auto sz = m_gamepads.size();
-		for( u32 i = 0u; i < sz; ++i ){
+		for( u32 i = gtConst0U; i < sz; ++i ){
 			if( m_gamepads[ i ].m_gamepad ){
 				m_gamepads[ i ].m_gamepad->Unacquire();
 				m_gamepads[ i ].m_gamepad->Release();
@@ -138,7 +138,7 @@ namespace gost{
 		u32 sz = m_gamepads.size();
 		bool old = false;
 		u32 oldID;
-		for( u32 i = 0u; i < sz; ++i ){
+		for( u32 i = gtConst0U; i < sz; ++i ){
 			if( m_gamepads[ i ].guid == device.guid ){
 
 				if( m_gamepads[ i ].m_active )
@@ -177,18 +177,18 @@ namespace gost{
 		device.m_active = true;
 		device.m_gamepad = gamepad;
 		if( !old ){
-			device.m_id   = m_gamepads.size() + 1u;
+			device.m_id   = m_gamepads.size() + gtConst1U;
 			m_gamepads.push_back( device );
 		}else{
 			m_gamepads[ oldID ] = device;
-			device.m_id  = oldID  + 1u;
+			device.m_id  = oldID  + gtConst1U;
 			m_gamepads[ oldID ].m_id = device.m_id;
 		}
 		device.m_gamepad->Acquire();
 		
 		gtEvent event;
 		event.type = gtEventType::Joystick;
-		event.joystickEvent.joystick = old ? &m_gamepads[ oldID ] : &m_gamepads[ m_gamepads.size() - 1u ];
+		event.joystickEvent.joystick = old ? &m_gamepads[ oldID ] : &m_gamepads[ m_gamepads.size() - gtConst1U ];
 		event.joystickEvent.joystickEventID = GT_EVENT_JOYSTICK_ADD;
 		event.joystickEvent.joystickID = device.m_id;
 		gtMainSystem::getInstance()->addEvent( event );

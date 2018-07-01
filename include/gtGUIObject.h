@@ -23,7 +23,7 @@ namespace gost{
 
 		virtual void render() = 0;
 
-		virtual void setOpacity( f32 opacity = 1.f ) = 0;
+		virtual void setOpacity( f32 opacity = gtConst1F ) = 0;
 		virtual f32  getOpacity() = 0;
 
 		virtual gtGUIObjectType getType(){

@@ -147,6 +147,9 @@
     <ClCompile Include="..\..\gost\gtInputSystemImpl.cpp">
       <Filter>Source\Systems</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\gost\gtImageImpl.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\gost\gtDriverCommon.h">
@@ -444,6 +447,12 @@
       <Filter>Headers\Systems</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\gtGraphicsSystem.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\gost\gtImageImpl.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\gtConstants.h">
       <Filter>include</Filter>
     </ClInclude>
   </ItemGroup>

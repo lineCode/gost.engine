@@ -11,7 +11,7 @@
 
 extern "C"{
 
-#define GT_EXT_COUNT 1u
+#define GT_EXT_COUNT gtConst1U
 
 	GT_API void	GetPluginInfo( gtPluginInfo& info ){
 		info.m_author.assign( u"532235" );
@@ -28,7 +28,7 @@ extern "C"{
 	}
 
 	GT_API s8*	PluginGetExtension( u32 id ){
-		GT_ASSERT1( id < GT_EXT_COUNT, "Bad argument", "id < 1u" );
+		GT_ASSERT1( id < GT_EXT_COUNT, "Bad argument", "id < gtConst1U" );
 
 		s8 * exts[ GT_EXT_COUNT ] = {
 			"png"
@@ -193,10 +193,10 @@ extern "C"{
 
 			if( color_type == PNG_COLOR_TYPE_RGB_ALPHA ){
 				image->format = gtImageFormat::R8G8B8A8;
-				image->pitch	= image->width * 4u;
+				image->pitch	= image->width * gtConst4U;
 			}else{
 				image->format = gtImageFormat::R8G8B8;
-				image->pitch	= image->width * 3u;
+				image->pitch	= image->width * gtConst3U;
 			}
 
 
@@ -208,7 +208,7 @@ extern "C"{
 
 			//	указатели на строки/линии
 			std::unique_ptr<png_bytep[]> row_pointers( new png_bytep[ image->height ] );
-			for( u32 row = 0u, p = 0u; row < image->height; ++row ){
+			for( u32 row = gtConst0U, p = gtConst0U; row < image->height; ++row ){
 				row_pointers[ row ] = &image->data[ p ];
 				p += image->pitch;
 			}

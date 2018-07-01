@@ -56,7 +56,7 @@ namespace gost{
 		template<typename Type>
 		inline void stringFlipSlash( Type& str ){
 			u32 sz = str.size();
-			for( u32 i = 0u; i < sz; ++i ){
+			for( u32 i = gtConst0U; i < sz; ++i ){
 				if( str[ i ] == '\\' ) 
 					str[ i ] = '/';
 			}
@@ -66,7 +66,7 @@ namespace gost{
 		template<typename Type>
 		inline void stringFlip( Type& str ){
 			Type flippedStr;
-			for( u32 i = str.size() - 1u; i >= 0u; --i ){
+			for( u32 i = str.size() - gtConst1U; i >= gtConst0U; --i ){
 				flippedStr += str[ i ];
 				if( !i ) break;
 			}
@@ -78,7 +78,7 @@ namespace gost{
 			if( str.size() )
 				str.pop_back();
 			if( str.size() )
-				for( u32 i = str.size() - 1u; i >= 0u; --i ){
+				for( u32 i = str.size() - gtConst1U; i >= gtConst0U; --i ){
 					if( str[ i ] == c ) break;
 					else str.pop_back();
 					if( !i ) break;
@@ -90,7 +90,7 @@ namespace gost{
 			
 			Type ret;
 
-			for( u32 i = str.size() - 1u; i >= 0u; --i ){
+			for( u32 i = str.size() - gtConst1U; i >= gtConst0U; --i ){
 				auto c = str[ i ];
 				if( c == '/' || c == '.' )
 					break;
@@ -109,7 +109,7 @@ namespace gost{
 			
 			u32 sz = str.size();
 
-			for( u32 i = 0u; i < sz; ++i ){
+			for( u32 i = gtConst0U; i < sz; ++i ){
 				auto c = str[ i ];
 				if( c <= 'Z' && c >= 'A' )
 					str[ i ] += 32;
@@ -123,7 +123,7 @@ namespace gost{
 			
 			u32 sz = str.size();
 
-			for( u32 i = 0u; i < sz; ++i ){
+			for( u32 i = gtConst0U; i < sz; ++i ){
 				auto c = str[ i ];
 				if( c >= 'a' && c <= 'z' )
 					str[ i ] -= 32;
@@ -136,13 +136,13 @@ namespace gost{
 		inline void stringTrimSpace( Type& str ){
 			
 			while( true ){
-				if( str.isSpace( 0u ) )
+				if( str.isSpace( gtConst0U ) )
 					str.pop_front();
 				else break;
 			}
 
 			while( true ){
-				if( str.isSpace( str.size() - 1u ) )
+				if( str.isSpace( str.size() - gtConst1U ) )
 					str.pop_back();
 				else break;
 			}
@@ -153,7 +153,7 @@ namespace gost{
 		inline void stringTrimFrontSpace( Type& str ){
 			
 			while( true ){
-				if( str.isSpace( 0u ) )
+				if( str.isSpace( gtConst0U ) )
 					str.pop_front();
 				else break;
 			}
@@ -162,10 +162,10 @@ namespace gost{
 
 		template<typename Type, typename AnotherType, typename charType>
 		inline void stringAppend( Type& str, AnotherType& other, charType /*c*/ ){
-			u32 sz = 0u;
+			u32 sz = gtConst0U;
 			auto * p = &other[0];
 			while( *p++ ) sz++;
-			for( u32 i = 0u; i < sz; ++i )
+			for( u32 i = gtConst0U; i < sz; ++i )
 				str += static_cast<charType>( other[ i ] );
 		}
 
@@ -176,13 +176,13 @@ namespace gost{
 			auto main = gtMainSystem::getInstance();
 			auto ps = main->getPluginSystem();
 			auto nop = ps->getNumOfPlugins();
-			for( u32 i = 0u; i < nop; ++i ){
+			for( u32 i = gtConst0U; i < nop; ++i ){
 				auto plg = ps->getPlugin( i );
 				if( plg->getInfo().m_info.m_type == gtPluginType::Import_image ){
 					auto iipl = ps->getAsPluginImportImage( plg );
 					iipl->load();
 					auto isz = iipl->m_extensions.size();
-					for( u32 o = 0u; o < isz; ++o ){
+					for( u32 o = gtConst0U; o < isz; ++o ){
 						_array.push_back( iipl->m_extensions[ o ] );
 					}
 					iipl->unload();
@@ -195,13 +195,13 @@ namespace gost{
 			auto main = gtMainSystem::getInstance();
 			auto ps = main->getPluginSystem();
 			auto nop = ps->getNumOfPlugins();
-			for( u32 i = 0u; i < nop; ++i ){
+			for( u32 i = gtConst0U; i < nop; ++i ){
 				auto plg = ps->getPlugin( i );
 				if( plg->getInfo().m_info.m_type == gtPluginType::Import_model ){
 					auto iipl = ps->getAsPluginImportModel( plg );
 					iipl->load();
 					auto isz = iipl->m_extensions.size();
-					for( u32 o = 0u; o < isz; ++o ){
+					for( u32 o = gtConst0U; o < isz; ++o ){
 						_array.push_back( iipl->m_extensions[ o ] );
 					}
 					iipl->unload();
@@ -217,29 +217,29 @@ namespace gost{
 			}
 
 			u64 sz = file->size();
-			if( sz < 4u ){
+			if( sz < gtConst4U ){
 				gtLogWriter::printWarning( u"Bad file %s.", fileName.data() );
 				return false;
 			}
 
-			u8 bom[ 3u ];
-			file->read( bom, 3u );
-			file->seek( 0u, gtFileSeekPos::Begin );
+			u8 bom[ gtConst3U ];
+			file->read( bom, gtConst3U );
+			file->seek( gtConst0U, gtFileSeekPos::Begin );
 
 			bool isUTF8 = false;
 			bool isBE = false;
 
-			if( bom[ 0u ] == 0xEF ){
-				file->seek( 3u, gtFileSeekPos::Begin );
+			if( bom[ gtConst0U ] == 0xEF ){
+				file->seek( gtConst3U, gtFileSeekPos::Begin );
 				isUTF8 = true;
-				sz -= 3u;
-			}else if( bom[ 0u ] == 0xFE ){ // utf16 BE
-				file->seek( 2u, gtFileSeekPos::Begin );
+				sz -= gtConst3U;
+			}else if( bom[ gtConst0U ] == 0xFE ){ // utf16 BE
+				file->seek( gtConst2U, gtFileSeekPos::Begin );
 				isBE = true;
-				sz -= 2u;
-			}else if( bom[ 0u ] == 0xFF ){
-				file->seek( 2u, gtFileSeekPos::Begin );
-				sz -= 2u;
+				sz -= gtConst2U;
+			}else if( bom[ gtConst0U ] == 0xFF ){
+				file->seek( gtConst2U, gtFileSeekPos::Begin );
+				sz -= gtConst2U;
 			}else{
 				// else - utf8 w/o bom
 				isUTF8 = true;
@@ -253,26 +253,26 @@ namespace gost{
 			if( !isUTF8 ){
 				union{
 					char16_t unicode;
-					char b[ 2u ];
+					char b[ gtConst2U ];
 				}un;
-				for( u32 i = 0u; i < sz; i += 2u ){
+				for( u32 i = gtConst0U; i < sz; i += gtConst2U ){
 					/*char16_t ch16 = textBytes[ i ];
 
 					if( isBE ){
-						ch16 <<= 8u;
-						ch16 |= textBytes[ i + 1u ];
+						ch16 <<= gtConst8U;
+						ch16 |= textBytes[ i + gtConst1U ];
 					}else{
-						char16_t ch16_2 = textBytes[ i + 1u ];
-						ch16_2 <<= 8u;
+						char16_t ch16_2 = textBytes[ i + gtConst1U ];
+						ch16_2 <<= gtConst8U;
 						ch16 |= ch16_2;
 					}*/
 
 					if( isBE ){
-						un.b[ 0u ] = textBytes[ i + 1u ];
-						un.b[ 1u ] = textBytes[ i ];
+						un.b[ gtConst0U ] = textBytes[ i + gtConst1U ];
+						un.b[ gtConst1U ] = textBytes[ i ];
 					}else{
-						un.b[ 0u ] = textBytes[ i ];
-						un.b[ 1u ] = textBytes[ i + 1u ];
+						un.b[ gtConst0U ] = textBytes[ i ];
+						un.b[ gtConst1U ] = textBytes[ i + gtConst1U ];
 					}
 
 					utf16 += un.unicode;
@@ -293,7 +293,7 @@ namespace gost{
 			u32 target_sz = target.size();
 			u32 text_sz   = text.size();
 
-			for( u32 i = 0u; i < source_sz; ++i ){
+			for( u32 i = gtConst0U; i < source_sz; ++i ){
 				if( (source_sz - i) < target_sz ){
 					for( u32 i2 = i; i2 < source_sz; ++i2 ){
 						result += source[ i2 ];
@@ -302,7 +302,7 @@ namespace gost{
 				}
 
 				bool comp = false;
-				for( u32 o = 0u; o < target_sz; ++o ){
+				for( u32 o = gtConst0U; o < target_sz; ++o ){
 					if( source[ i + o ] == target[ o ] ){
 						if( !comp ){
 							comp = true;
@@ -314,10 +314,10 @@ namespace gost{
 				}
 
 				if( comp ){
-					for( u32 o = 0u; o < text_sz; ++o ){
+					for( u32 o = gtConst0U; o < text_sz; ++o ){
 						result += text[ o ];
 					}
-					i += target_sz - 1u;
+					i += target_sz - gtConst1U;
 				}else{
 					result += source[ i ];
 				}
@@ -347,19 +347,19 @@ namespace gost{
 		template<typename type>
 		type getIntFromString( const gtString& str ){
 			
-			type Integer = 0u;
+			type Integer = gtConst0U;
 
 			gtString s = str;
 			util::stringFlip( s );
 			
-			u32 mul = 1u;
+			u32 mul = gtConst1U;
 
 			auto * ptr = s.data();
 
 			while( *ptr ){
 				u32 code = *ptr - 48u;
 
-				if( code >= 0u && code <= 9u ){
+				if( code >= gtConst0U && code <= gtConst9U ){
 					Integer += mul * code;
 					mul *= 10u;
 				}
@@ -408,7 +408,7 @@ namespace gost{
 
 			gtString word;
 
-			u32 i = 0u;
+			u32 i = gtConst0U;
 
 			while( *ptr ){
 
@@ -418,16 +418,16 @@ namespace gost{
 
 				if( word.size() ){
 					switch( i ){
-					case 0u:
+					case gtConst0U:
 						vec->x = (u16)getIntFromString<u32>( word );
 						break;
-					case 1u:
+					case gtConst1U:
 						vec->y = (u16)getIntFromString<u32>( word );
 						break;
-					case 2u:
+					case gtConst2U:
 						vec->z = (u16)getIntFromString<u32>( word );
 						break;
-					case 3u:
+					case gtConst3U:
 						vec->w = (u16)getIntFromString<u32>( word );
 						break;
 					}

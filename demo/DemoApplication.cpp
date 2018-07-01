@@ -29,7 +29,7 @@ m_showDescription( true ),
 m_sceneInitialized( false ),
 m_settingsTypeID( 0 ),
 m_demoPauseMenuID( 0 ),
-m_languageID( 0u ),
+m_languageID( gtConst0U ),
 m_activeDemoType( 0 ),
 m_activeDemoTypeSelected( 0 ),
 m_activeDemoSelected( 0 ),
@@ -58,7 +58,7 @@ m_delta( 0.f ){
 
 	m_params.m_consumer		= m_eventConsumer;
 
-	memset(m_DPad,0,4u);
+	memset(m_DPad,0,gtConst4U);
 	memset(m_gamepadButtons,0,32u);
 	m_DPadOnce = false;
 
@@ -68,8 +68,8 @@ m_delta( 0.f ){
 }
 
 demo::DemoApplication::~DemoApplication(){
-	for( u32 i = 0u; i < m_demoArrays->size(); ++i ){
-		for( u32 o = 0u; o < m_demoArrays[i].size(); ++i ){
+	for( u32 i = gtConst0U; i < m_demoArrays->size(); ++i ){
+		for( u32 o = gtConst0U; o < m_demoArrays[i].size(); ++i ){
 			m_demoArrays[ i ][ o ].clear();
 		}
 	}
@@ -199,7 +199,7 @@ bool demo::DemoApplication::initVideoDriver(){
 	m_gsInfo.m_stencilBuffer	=	true;
 	m_gsInfo.m_vSync			=	false;
 
-	m_gs = m_mainSystem->createVideoDriver( m_gsInfo, GT_UID_RENDER_D3D11 );
+	m_gs = m_mainSystem->createGraphicsSystem( m_gsInfo, GT_UID_RENDER_D3D11 );
 	if( !m_gs.data() )
 		return false;
 
@@ -289,7 +289,7 @@ bool demo::DemoApplication::initStrings(){
 	u32 dlcount = -1;
 
 	u32 sz = strings.size();
-	for( u32 i = 0u; i < sz; ++i ){
+	for( u32 i = gtConst0U; i < sz; ++i ){
 		auto ext = util::stringGetExtension( strings[ i ] );
 		util::stringToLower( ext );
 		if( ext == u"xml" ){
@@ -306,14 +306,14 @@ bool demo::DemoApplication::initStrings(){
 						++dlcount;
 
 						if( root->attributeList.size() ){
-							if( root->attributeList[ 0u ]->name == u"n" ){
-								m_stringArray[ dlcount ].m_langName = root->attributeList[ 0u ]->value;
+							if( root->attributeList[ gtConst0U ]->name == u"n" ){
+								m_stringArray[ dlcount ].m_langName = root->attributeList[ gtConst0U ]->value;
 
 								auto nodes = xml->selectNodes( u"/Lang/t" );
 								if( nodes.size() ){
 
 									u32 nsz = nodes.size();
-									for( u32 i2 = 0u; i2 < nsz; ++i2 ){
+									for( u32 i2 = gtConst0U; i2 < nsz; ++i2 ){
 										if( nodes[ i2 ]->name == u"t" ){
 
 											gtString a;
@@ -337,7 +337,7 @@ bool demo::DemoApplication::initStrings(){
 
 const gtString& demo::DemoApplication::getString( const gtString& a ){
 	u32 sz = m_stringArray[ m_languageID ].m_stringArray.size();
-	for( u32 i = 0u; i < sz; ++i ){
+	for( u32 i = gtConst0U; i < sz; ++i ){
 		if( m_stringArray[ m_languageID ].m_stringArray[ i ].m_first == a ){
 			return m_stringArray[ m_languageID ].m_stringArray[ i ].m_second;
 		}
@@ -362,14 +362,14 @@ void demo::DemoApplication::rebuildMainMenuColons(){
 
 	v4i r = m_welcomeText->getRect();
 	u32 top = r.w+50;
-	for( u32 i = 0u; i < DEMO_TYPE_NUM; ++i ){
+	for( u32 i = gtConst0U; i < DEMO_TYPE_NUM; ++i ){
 		v4i rc;
 		rc.x = 10;
 		rc.y = top;
 		rc.z = 200;
 
 		m_leftColonEntity[ i ] = m_guiSystem->createTextField( rc, m_mainFont.data(), false );
-		m_leftColonEntity[ i ]->setText( m_stringArray[ m_languageID ].m_stringArray[ i + 1u ].m_second );
+		m_leftColonEntity[ i ]->setText( m_stringArray[ m_languageID ].m_stringArray[ i + gtConst1U ].m_second );
 		m_leftColonEntity[ i ]->getBackgroundShape()->setOpacity( 0.f );
 
 		top = m_leftColonEntity[ i ]->getRect().w-1;
@@ -390,7 +390,7 @@ void demo::DemoApplication::rebuildMainMenuColons(){
 	m_rightColonDefaultText->setTextColor( gtColorLightGray );
 
 	top = r.w+50;
-	for( u32 i = 0u; i < 24u; ++i ){
+	for( u32 i = gtConst0U; i < 24u; ++i ){
 		v4i rc;
 		rc.x = 210;
 		rc.y = top;
@@ -577,8 +577,8 @@ void demo::DemoApplication::pauseBackgroundFadeOut(){
 void demo::DemoApplication::Run(){
 	m_mainSystem->setTimer( 300 );
 
-	u32 last = 0u;
-	u32 now = 0u;
+	u32 last = gtConst0U;
+	u32 now = gtConst0U;
 
 	timer_input = 0.f;
 	timer_input_limit_first = 0.4f;
@@ -630,7 +630,7 @@ void demo::DemoApplication::renderMainMenu(){
 
 	if( m_leftColonShape ){
 		m_leftColonShape->render();
-		for( u32 i = 0u; i < DEMO_TYPE_NUM; ++i ){
+		for( u32 i = gtConst0U; i < DEMO_TYPE_NUM; ++i ){
 			m_leftColonEntity[ i ]->render();
 		}
 	}
@@ -641,7 +641,7 @@ void demo::DemoApplication::renderMainMenu(){
 	if( m_rightColonDefaultText ){
 		m_rightColonDefaultText->render();
 
-		for( u32 i = 0u; i < 24u; ++i ){
+		for( u32 i = gtConst0U; i < 24u; ++i ){
 			m_rightColonEntity[ i ]->render();
 		}
 	}
@@ -735,9 +735,9 @@ void demo::DemoApplication::ActivateGamepad( bool value, gtInputDevice* g ){
 }
 
 void demo::DemoApplication::updateDemoText(){
-	for( u32 i = 0u; i < DEMO_TYPE_NUM; ++i ){
+	for( u32 i = gtConst0U; i < DEMO_TYPE_NUM; ++i ){
 		u32 sz = m_demoArrays[ i ].size();
-		for( u32 o = 0u; o < sz; ++o ){
+		for( u32 o = gtConst0U; o < sz; ++o ){
 			m_demoArrays[ i ][ o ].SetTitle( getString( m_demoArrays[ i ][ o ].GetTitleID() ) );
 			m_demoArrays[ i ][ o ].SetDesc( getString( m_demoArrays[ i ][ o ].GetDescID() ) );
 		}
@@ -752,12 +752,12 @@ void demo::DemoApplication::updateColons(){
 
 	if( !m_gs ) return;
 
-	for( u32 i = 0u; i < DEMO_TYPE_NUM; ++i ){
+	for( u32 i = gtConst0U; i < DEMO_TYPE_NUM; ++i ){
 		m_leftColonEntity[ i ]->getBackgroundShape()->setOpacity( 0.f );
 		m_leftColonEntity[ i ]->setBackgroundColor( gtColorBlack );
 		m_leftColonEntity[ i ]->setTextColor( gtColorLightGray );
 	}
-	for( u32 i = 0u; i < 24u; ++i ){
+	for( u32 i = gtConst0U; i < 24u; ++i ){
 		m_rightColonEntity[ i ]->setOpacity( 0.f );
 		m_rightColonEntity[ i ]->setBackgroundColor( gtColorBlack );
 		m_rightColonEntity[ i ]->setTextColor( gtColorLightGray );
@@ -778,7 +778,7 @@ void demo::DemoApplication::updateColons(){
 			v4i r = m_welcomeText->getRect();
 			u32 top = r.w+50;
 			u32 sz = m_demoArrays[ m_activeDemoTypeSelected ].size();
-			for( u32 i = 0u; i < sz; ++i ){
+			for( u32 i = gtConst0U; i < sz; ++i ){
 
 
 				u32 actualIndex = i;
@@ -814,8 +814,8 @@ void demo::DemoApplication::updateColons(){
 			m_descriptionBackgroundShape->setOpacity( 0.85f );
 
 			v4i rc;
-			rc.x = m_rightColonEntity[ 0u ]->getRect().x;
-			rc.y = m_rightColonEntity[ 0u ]->getRect().y;
+			rc.x = m_rightColonEntity[ gtConst0U ]->getRect().x;
+			rc.y = m_rightColonEntity[ gtConst0U ]->getRect().y;
 			u32 sz = m_demoArrays[ m_activeDemoTypeSelected ].size();
 
 			if( m_activeDemoSelected == sz ){
@@ -849,14 +849,14 @@ void demo::DemoApplication::updateColons(){
 
 			}
 
-			for( u32 i = 0u; i < 24u; ++i ){
+			for( u32 i = gtConst0U; i < 24u; ++i ){
 				if( i == sz ) break;
 
 				m_rightColonEntity[ i ]->setText( 
 					m_demoArrays[m_activeDemoTypeSelected][ m_rightColonFirstID + i ].GetTitle() );
 			}
 
-			for( u32 i = 0u; i < sz; ++i ){
+			for( u32 i = gtConst0U; i < sz; ++i ){
 				if( i > 23u ) break;
 
 				m_rightColonEntity[ i ]->setOpacity( 1.f );
@@ -944,7 +944,7 @@ void demo::DemoApplication::inputMainMenuPause(){
 			if( m_settingsTypeID == 0 ){//lang
 				--m_languageID;
 				if( m_languageID < 0 ){
-					m_languageID = m_stringArray.size() - 1u;
+					m_languageID = m_stringArray.size() - gtConst1U;
 				}
 				m_settingsTextLanguageName->setText( m_stringArray[ m_languageID ].m_langName );
 				updateDemoText();
@@ -1101,7 +1101,7 @@ void demo::DemoApplication::inputMainMenu(){
 bool demo::DemoApplication::inputGamepadMainMenuUp(){
 	if( m_gamepad ){
 		if( !m_DPadOnce ){
-			if( m_DPad[ 0u ] ){
+			if( m_DPad[ gtConst0U ] ){
 				m_DPadOnce = true;
 				return m_DPadOnce;
 			}
@@ -1113,7 +1113,7 @@ bool demo::DemoApplication::inputGamepadMainMenuUp(){
 bool demo::DemoApplication::inputGamepadMainMenuRight(){
 	if( m_gamepad ){
 		if( !m_DPadOnce ){
-			if( m_DPad[ 1u ] ){
+			if( m_DPad[ gtConst1U ] ){
 				m_DPadOnce = true;
 				return m_DPadOnce;
 			}
@@ -1125,7 +1125,7 @@ bool demo::DemoApplication::inputGamepadMainMenuRight(){
 bool demo::DemoApplication::inputGamepadMainMenuDown(){
 	if( m_gamepad ){
 		if( !m_DPadOnce ){
-			if( m_DPad[ 2u ] ){
+			if( m_DPad[ gtConst2U ] ){
 				m_DPadOnce = true;
 				return m_DPadOnce;
 			}
@@ -1137,7 +1137,7 @@ bool demo::DemoApplication::inputGamepadMainMenuDown(){
 bool demo::DemoApplication::inputGamepadMainMenuLeft(){
 	if( m_gamepad ){
 		if( !m_DPadOnce ){
-			if( m_DPad[ 3u ] ){
+			if( m_DPad[ gtConst3U ] ){
 				m_DPadOnce = true;
 				return m_DPadOnce;
 			}
@@ -1211,11 +1211,11 @@ bool demo::DemoApplication::InitDefaultScene(){
 	auto s = m_sceneSystem->addStaticObject( m_gs->getModel(u"../demo/media/scene/stairs.obj") );
 	auto t = m_sceneSystem->addStaticObject( m_gs->getModel(u"../demo/media/scene/tc.obj") );
 
-	m11->getModel()->getMaterial( 0u )->textureLayer[ 0u ].texture = m_gs->getTexture( u"../demo/media/scene/11.png" );
-	f->getModel()->getMaterial( 0u )->textureLayer[ 0u ].texture = m_gs->getTexture( u"../demo/media/scene/floor.png" );
-	p->getModel()->getMaterial( 0u )->textureLayer[ 0u ].texture = m_gs->getTexture( u"../demo/media/scene/pied.png" );
-	s->getModel()->getMaterial( 0u )->textureLayer[ 0u ].texture = m_gs->getTexture( u"../demo/media/scene/stairs.png" );
-	t->getModel()->getMaterial( 0u )->textureLayer[ 0u ].texture = m_gs->getTexture( u"../demo/media/scene/tc.png" );
+	m11->getModel()->getMaterial( gtConst0U )->textureLayer[ gtConst0U ].texture = m_gs->getTexture( u"../demo/media/scene/11.png" );
+	f->getModel()->getMaterial( gtConst0U )->textureLayer[ gtConst0U ].texture = m_gs->getTexture( u"../demo/media/scene/floor.png" );
+	p->getModel()->getMaterial( gtConst0U )->textureLayer[ gtConst0U ].texture = m_gs->getTexture( u"../demo/media/scene/pied.png" );
+	s->getModel()->getMaterial( gtConst0U )->textureLayer[ gtConst0U ].texture = m_gs->getTexture( u"../demo/media/scene/stairs.png" );
+	t->getModel()->getMaterial( gtConst0U )->textureLayer[ gtConst0U ].texture = m_gs->getTexture( u"../demo/media/scene/tc.png" );
 
 	m_sceneInitialized = true;
 	return true;
@@ -1239,14 +1239,14 @@ void demo::DemoApplication::RenderDefaultScene(){
 
 bool demo::DemoApplication::inputGamepadL1Hold(){
 	if( m_gamepad ){
-		return m_gamepad->m_buttons[ 4u ];
+		return m_gamepad->m_buttons[ gtConst4U ];
 	}
 	return false;
 }
 
 bool demo::DemoApplication::inputGamepadR1Hold(){
 	if( m_gamepad ){
-		return m_gamepad->m_buttons[ 5u ];
+		return m_gamepad->m_buttons[ gtConst5U ];
 	}
 	return false;
 }
@@ -1292,10 +1292,10 @@ void demo::DemoApplication::UpdateGamepad(){
 
 	if( m_gamepad ){
 		m_gamepad->poll();
-		m_DPad[ 0u ] = m_gamepad->m_POV1 == 0 || m_gamepad->m_lY == -1000;
-		m_DPad[ 1u ] = m_gamepad->m_POV1 == 9000 || m_gamepad->m_lX == 1000;
-		m_DPad[ 2u ] = m_gamepad->m_POV1 == 18000 || m_gamepad->m_lY == 1000;
-		m_DPad[ 3u ] = m_gamepad->m_POV1 == 27000 || m_gamepad->m_lX == -1000;
+		m_DPad[ gtConst0U ] = m_gamepad->m_POV1 == 0 || m_gamepad->m_lY == -1000;
+		m_DPad[ gtConst1U ] = m_gamepad->m_POV1 == 9000 || m_gamepad->m_lX == 1000;
+		m_DPad[ gtConst2U ] = m_gamepad->m_POV1 == 18000 || m_gamepad->m_lY == 1000;
+		m_DPad[ gtConst3U ] = m_gamepad->m_POV1 == 27000 || m_gamepad->m_lX == -1000;
 
 		if( m_gamepad->m_POV1 == -1 ){
 			if(m_gamepad->m_lY > -50 && m_gamepad->m_lY < 50){
@@ -1307,7 +1307,7 @@ void demo::DemoApplication::UpdateGamepad(){
 			}
 		}
 
-		for( u32 i = 0u; i < 32u; ++i ){
+		for( u32 i = gtConst0U; i < 32u; ++i ){
 			if( !m_gamepad->m_buttons[ i ] ){
 				m_gamepadButtons[ i ] = false;
 			}
@@ -1374,9 +1374,9 @@ void demo::DemoApplication::xmlLoadSettings(){
 		{
 			auto arr = m_xml->selectNodes( u"/GOST_DEMO/SOUND" );
 			if( arr.size() ){
-				if( arr[ 0u ]->attributeList.size() ){
-					if( arr[ 0u ]->attributeList[ 0u ]->name == u"a" ){
-						if( arr[ 0u ]->attributeList[ 0u ]->value == u"1" ){
+				if( arr[ gtConst0U ]->attributeList.size() ){
+					if( arr[ gtConst0U ]->attributeList[ gtConst0U ]->name == u"a" ){
+						if( arr[ gtConst0U ]->attributeList[ gtConst0U ]->value == u"1" ){
 							m_useSound = true;
 						}else{
 							m_useSound = false;
@@ -1388,11 +1388,11 @@ void demo::DemoApplication::xmlLoadSettings(){
 		{
 			auto arr = m_xml->selectNodes( u"/GOST_DEMO/LANG" );
 			if( arr.size() ){
-				if( arr[ 0u ]->attributeList.size() ){
-					if( arr[ 0u ]->attributeList[ 0u ]->name == u"a" ){
+				if( arr[ gtConst0U ]->attributeList.size() ){
+					if( arr[ gtConst0U ]->attributeList[ gtConst0U ]->name == u"a" ){
 						auto sz = m_stringArray.size();
-						for( u32 i = 0u; i < sz; ++i ){
-							if( m_stringArray[ i ].m_langName == arr[ 0u ]->attributeList[ 0u ]->value ){
+						for( u32 i = gtConst0U; i < sz; ++i ){
+							if( m_stringArray[ i ].m_langName == arr[ gtConst0U ]->attributeList[ gtConst0U ]->value ){
 								m_languageID = i;
 								break;
 							}
@@ -1411,11 +1411,11 @@ void demo::DemoApplication::xmlSaveSettings(){
 
 	auto root = m_xml->getRootNode();
 	auto sz = root->nodeList.size();
-	for( u32 i = 0u; i < sz; ++i ){
+	for( u32 i = gtConst0U; i < sz; ++i ){
 		auto atrsz = root->nodeList[ i ]->attributeList.size();
 
 		if( root->nodeList[ i ]->name == sound ){
-			for( u32 o = 0u; o < atrsz; ++o ){
+			for( u32 o = gtConst0U; o < atrsz; ++o ){
 				if( root->nodeList[ i ]->attributeList[ o ]->name == u"a" ){
 					if( m_useSound ){
 						root->nodeList[ i ]->attributeList[ o ]->value = u"1";
@@ -1425,7 +1425,7 @@ void demo::DemoApplication::xmlSaveSettings(){
 				}
 			}
 		}else if( root->nodeList[ i ]->name == lang ){
-			for( u32 o = 0u; o < atrsz; ++o ){
+			for( u32 o = gtConst0U; o < atrsz; ++o ){
 				if( root->nodeList[ i ]->attributeList[ o ]->name == u"a" ){
 					root->nodeList[ i ]->attributeList[ o ]->value = m_stringArray[ m_languageID ].m_langName;
 				}

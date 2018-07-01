@@ -86,7 +86,7 @@ namespace gost{
 			gtFileAccessMode access,
 			gtFileAction action,
 			gtFileShareMode shareMode = gtFileShareMode::None,
-			u32 attributeFlags = 0u
+			u32 attributeFlags = gtConst0U
 		);
 
 		GT_API static bool copyFile( const gtString& existingFileName, const gtString& newFileName, bool overwrite );
@@ -106,7 +106,7 @@ namespace gost{
 		};
 
 		struct DirObject{
-			DirObject(){ memset( path, 0u, GT_MAX_PATH * sizeof(wchar_t) ); }
+			DirObject(){ memset( path, gtConst0U, GT_MAX_PATH * sizeof(wchar_t) ); }
 			wchar_t path[GT_MAX_PATH];
 			DirObjectType type;
 			u32 size;

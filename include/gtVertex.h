@@ -3,7 +3,7 @@
 #define __GT_VERTEX_H__
 
 namespace gost{
-	constexpr u32 gtStrideStandart = sizeof( gtReal ) * 9u;
+	constexpr u32 gtStrideStandart = sizeof( gtReal ) * gtConst9U;
 
 	struct gtVertex{
 

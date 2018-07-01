@@ -41,7 +41,7 @@ namespace gost{
 			m_log->release();
 		}
 
-		void printStackTrace( u32 skip_begin = 1u, u32 skip_end = 7u );
+		void printStackTrace( u32 skip_begin = gtConst1U, u32 skip_end = gtConst7U );
 
 		GT_API static	void dumpStackTrace();
 

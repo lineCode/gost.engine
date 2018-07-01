@@ -4,16 +4,16 @@
 gtRenderModelD3D11::gtRenderModelD3D11( gtDriverD3D11* d ):
 	//m_sModel( nullptr ),
 	m_gs( d ),
-	m_stride( 0u )
+	m_stride( gtConst0U )
 {}
 
 gtRenderModelD3D11::~gtRenderModelD3D11(){
 	auto sz = m_vBuffers.size();
-	for( auto i = 0u; i < sz; ++i )
+	for( auto i = gtConst0U; i < sz; ++i )
 		m_vBuffers[ i ]->Release();
 
 	sz = m_iBuffers.size();
-	for( auto i = 0u; i < sz; ++i )
+	for( auto i = gtConst0U; i < sz; ++i )
 		m_iBuffers[ i ]->Release();
 }
 
@@ -44,7 +44,7 @@ bool	gtRenderModelD3D11::init( gtModel* m ){
 
 	m_stride = m->getStride();
 
-	for( u32 i( 0u ); i < smc; ++i ){
+	for( u32 i( gtConst0U ); i < smc; ++i ){
 
 		auto * sub = m->getSubModel( i );
 		
@@ -66,7 +66,7 @@ bool	gtRenderModelD3D11::init( gtModel* m ){
 		this->m_vBuffers.push_back( vBuffer );
 
 		ibd.ByteWidth	=	sizeof( u16 ) * sub->m_iCount;
-		iData.pSysMem	=	&sub->m_indices[ 0u ];
+		iData.pSysMem	=	&sub->m_indices[ gtConst0U ];
 
 		ID3D11Buffer* iBuffer = nullptr;
 		hr = m_gs->getD3DDevice()->CreateBuffer( &ibd, &iData, &iBuffer );

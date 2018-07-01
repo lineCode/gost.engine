@@ -50,7 +50,7 @@ gtPtr<gtGUIFont> gtGUISystemImpl::createFont( const gtString& fontName, gtImage 
 gtPtr<gtGUIFont> gtGUISystemImpl::createBuiltInFont(){
 	gtImage * fontImage = new gtImage;
 
-	fontImage->bits = 1u;
+	fontImage->bits = gtConst1U;
 	fontImage->dataSize = 65536;
 		
 	util::memoryAllocate( fontImage->data, fontImage->dataSize );
@@ -63,7 +63,7 @@ gtPtr<gtGUIFont> gtGUISystemImpl::createBuiltInFont(){
 	fontImage->convert( gtImageFormat::R8G8B8A8 );
 	fontImage->flipVertical();
 
-	const char16_t * xml = reinterpret_cast<const char16_t *>( &gtBuiltInFontXML[ 0u ] );
+	const char16_t * xml = reinterpret_cast<const char16_t *>( &gtBuiltInFontXML[ gtConst0U ] );
 
 	auto font = createFont( gtString( xml ), fontImage );
 	fontImage->release();

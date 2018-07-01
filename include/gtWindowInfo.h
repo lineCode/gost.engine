@@ -13,7 +13,7 @@ namespace gost{
 		m_owner(nullptr){
 			m_title.assign( u"GoST window" );
 			m_rect.set( 0, 0, 800, 600 );
-			m_style = 0u;
+			m_style = gtConst0U;
 		}
 		
 		gtString	m_title;
@@ -27,13 +27,13 @@ namespace gost{
 
 			standart,
 
-			popup = 1u,
+			popup = gtConst1U,
 
-			resize = 2u,
+			resize = gtConst2U,
 
-			maximize = 4u,
+			maximize = gtConst4U,
 
-			center = 8u
+			center = gtConst8U
 
 		};
 

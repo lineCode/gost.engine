@@ -48,7 +48,7 @@ void DemoExample_GetSupportedImportFormats::Update(){
 	gtLogWriter::printInfo( u"Supported picture formats:" );
 
 	u32 sz = arr.size();
-	for( u32 i = 0u; i < sz; ++i ){
+	for( u32 i = gtConst0U; i < sz; ++i ){
 		gtLogWriter::printInfo( u"\t%s", arr[ i ].data() );
 	}
 
@@ -59,7 +59,7 @@ void DemoExample_GetSupportedImportFormats::Update(){
 	gtLogWriter::printInfo( u"Supported 3d model formats:" );
 
 	sz = arr.size();
-	for( u32 i = 0u; i < sz; ++i ){
+	for( u32 i = gtConst0U; i < sz; ++i ){
 		gtLogWriter::printInfo( u"\t%s", arr[ i ].data() );
 	}
 

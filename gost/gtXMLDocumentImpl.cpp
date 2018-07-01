@@ -11,7 +11,7 @@ m_isInit( false ){
 	m_expect_gt   = u">";
 	m_expect_sub  = u"-";
 	m_expect_ex   = u"!";
-	m_cursor = m_sz = 0u;
+	m_cursor = m_sz = gtConst0U;
 	m_tokens.setAddMemoryValue( 4096u );
 }
 
@@ -296,17 +296,17 @@ bool gtXMLDocumentImpl::analyzeTokens(){
 		return false;
 	}
 
-	m_cursor = 0u;
-	if( m_tokens[ 0u ].name == u"<" )
-		if( m_tokens[ 1u ].name == u"?" )
-			if( m_tokens[ 2u ].name == u"xml" ){
-				m_cursor = 2u;
+	m_cursor = gtConst0U;
+	if( m_tokens[ gtConst0U ].name == u"<" )
+		if( m_tokens[ gtConst1U ].name == u"?" )
+			if( m_tokens[ gtConst2U ].name == u"xml" ){
+				m_cursor = gtConst2U;
 				skipPrologAndDTD();
 			}
 
 	if( m_tokens[ m_cursor ].name == u"<" )
-		if( m_tokens[ m_cursor + 1u ].name == u"!" )
-			if( m_tokens[ m_cursor + 2u ].name == u"DOCTYPE" )
+		if( m_tokens[ m_cursor + gtConst1U ].name == u"!" )
+			if( m_tokens[ m_cursor + gtConst2U ].name == u"DOCTYPE" )
 				skipPrologAndDTD();
 
 	return buildXMLDocument();
@@ -374,7 +374,7 @@ char16_t * gtXMLDocumentImpl::getString( char16_t * ptr, gtString& outText, u32&
 	while( *ptr ){
 		if( *ptr == u'\n' ){
 			++line;
-			col = 1u;
+			col = gtConst1U;
 			outText += *ptr;
 			++ptr;
 		}else if( *ptr == u'<' ){
@@ -392,7 +392,7 @@ char16_t * gtXMLDocumentImpl::skipSpace( char16_t * ptr, u32& line, u32& col ){
 	while( *ptr ){
 		if( *ptr == u'\n' ){
 			++line;
-			col = 1u;
+			col = gtConst1U;
 			++ptr;
 		}else if( (*ptr == u'\r')
 			|| (*ptr == u'\t')
@@ -415,8 +415,8 @@ void gtXMLDocumentImpl::decodeEnts( gtString& str ){
 void gtXMLDocumentImpl::getTokens(){
 
 	char16_t * ptr = m_text.data();
-	u32 line = 1u;
-	u32 col = 1u;
+	u32 line = gtConst1U;
+	u32 col = gtConst1U;
 
 	bool isString = false;
 
@@ -424,12 +424,12 @@ void gtXMLDocumentImpl::getTokens(){
 
 	gtString str;
 	
-	u32 oldCol = 0u;
+	u32 oldCol = gtConst0U;
 
 	while( *ptr ){
 
 		if( *ptr == u'\n' ){
-			col = 0u;
+			col = gtConst0U;
 			++line;
 		}else{
 
@@ -476,7 +476,7 @@ void gtXMLDocumentImpl::getTokens(){
 					if( *ptr == u'\'' )
 					{
 						decodeEnts( str );
-						m_tokens.push_back( _token( str, line, oldCol+1u, gtXMLDocumentImpl::_toke_type::tt_string ) );
+						m_tokens.push_back( _token( str, line, oldCol+gtConst1U, gtXMLDocumentImpl::_toke_type::tt_string ) );
 						m_tokens.push_back( _token( gtString( *ptr ), line, col ) );
 						str.clear();
 						isString = false;
@@ -486,7 +486,7 @@ void gtXMLDocumentImpl::getTokens(){
 					if( *ptr == u'\"' )
 					{
 						decodeEnts( str );
-						m_tokens.push_back( _token( str, line, oldCol+1u, gtXMLDocumentImpl::_toke_type::tt_string ) );
+						m_tokens.push_back( _token( str, line, oldCol+gtConst1U, gtXMLDocumentImpl::_toke_type::tt_string ) );
 						m_tokens.push_back( _token( gtString( *ptr ), line, col ) );
 						str.clear();
 						isString = false;
@@ -509,7 +509,7 @@ void gtXMLDocumentImpl::printNode( gtXMLNode* node, u32 indent ){
 
 		gtString line;
 
-		for( u32 i = 0u; i < indent; ++i ){
+		for( u32 i = gtConst0U; i < indent; ++i ){
 			line += u" ";
 		}
 		
@@ -521,7 +521,7 @@ void gtXMLDocumentImpl::printNode( gtXMLNode* node, u32 indent ){
 
 			line += u" ( ";
 
-			for( u32 i = 0u; i < node->attributeList.size(); ++i ){
+			for( u32 i = gtConst0U; i < node->attributeList.size(); ++i ){
 				const gtXMLAttribute * at = node->attributeList[ i ];
 
 				if( at->name.size() ){
@@ -550,7 +550,7 @@ void gtXMLDocumentImpl::printNode( gtXMLNode* node, u32 indent ){
 		gtLogWriter::printInfo( u"%s", line.data() );
 
 		if( node->nodeList.size() ){
-			for( u32 i = 0u; i < node->nodeList.size(); ++i ){
+			for( u32 i = gtConst0U; i < node->nodeList.size(); ++i ){
 				printNode( node->nodeList[ i ], ++indent );
 				--indent;
 			}
@@ -561,7 +561,7 @@ void gtXMLDocumentImpl::printNode( gtXMLNode* node, u32 indent ){
 
 void gtXMLDocumentImpl::print(){
 	gtLogWriter::printInfo( u"XML:" );
-	printNode( &m_root, 0u );
+	printNode( &m_root, gtConst0U );
 }
 
 const gtString& gtXMLDocumentImpl::getText(){
@@ -571,7 +571,7 @@ const gtString& gtXMLDocumentImpl::getText(){
 bool gtXMLDocumentImpl::XPath_isName( char16_t * ptr ){
 
 	if( *ptr == u':' ){
-		if( *(ptr + 1u) == u':' ){
+		if( *(ptr + gtConst1U) == u':' ){
 			return false;
 		}
 	}
@@ -610,7 +610,7 @@ bool gtXMLDocumentImpl::XPath_getTokens( gtArray<gtXPathToken> * arr, const gtSt
 		
 		name.clear();
 
-		next = *(ptr + 1u);
+		next = *(ptr + gtConst1U);
 
 		gtXPathToken token;
 
@@ -743,11 +743,11 @@ gtArray<gtXMLNode*> gtXMLDocumentImpl::selectNodes( const gtString& XPath_expres
 
 	gtArray<gtString*> elements;
 
-	u32 next = 0u;
+	u32 next = gtConst0U;
 	u32 sz = XPathTokens.size();
-	for( u32 i = 0u; i < sz; ++i ){
-		next = i + 1u;
-		if( i == 0u ){
+	for( u32 i = gtConst0U; i < sz; ++i ){
+		next = i + gtConst1U;
+		if( i == gtConst0U ){
 			if( XPathTokens[ i ].m_type != gtXPathTokenType::Slash
 				&& XPathTokens[ i ].m_type != gtXPathTokenType::Double_slash){
 				gtLogWriter::printError( u"Bad XPath expression \"%s\". Expression must begin with `/`", XPath_expression.data() );
@@ -778,7 +778,7 @@ gtArray<gtXMLNode*> gtXMLDocumentImpl::selectNodes( const gtString& XPath_expres
 
 	if( elements.size() ){
 		sz = elements.size();
-		XPathGetNodes( 0u, sz - 1u, elements, &m_root, &a );
+		XPathGetNodes( gtConst0U, sz - gtConst1U, elements, &m_root, &a );
 
 	}
 
@@ -799,8 +799,8 @@ void gtXMLDocumentImpl::XPathGetNodes(
 			return;
 		}else{
 			u32 sz = node->nodeList.size();
-			for( u32  i = 0u; i < sz; ++i ){
-				XPathGetNodes( level + 1u, maxLevel, elements, node->nodeList[ i ], outArr );
+			for( u32  i = gtConst0U; i < sz; ++i ){
+				XPathGetNodes( level + gtConst1U, maxLevel, elements, node->nodeList[ i ], outArr );
 			}
 		}
 

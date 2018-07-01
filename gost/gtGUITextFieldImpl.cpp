@@ -54,7 +54,7 @@ const gtString& gtGUITextFieldImpl::getText(){
 void gtGUITextFieldImpl::setTextColor( const gtColor& color ){
 	m_textColor = color;
 	u32 sz = m_textWords.size();
-	for( u32 i = 0u; i < sz; ++i ){
+	for( u32 i = gtConst0U; i < sz; ++i ){
 		m_textWords[ i ]->setColor( color );
 	}
 }
@@ -70,7 +70,7 @@ void gtGUITextFieldImpl::setBackgroundColor( const gtColor& color ){
 
 void gtGUITextFieldImpl::clear(){
 	u32 sz = m_textWords.size();
-	for( u32 i = 0u; i < sz; ++i ){
+	for( u32 i = gtConst0U; i < sz; ++i ){
 		m_textWords[ i ]->release();
 	}
 	m_textWords.clear();
@@ -90,7 +90,7 @@ void gtGUITextFieldImpl::render(){
 			m_backgroundShape->render();
 
 		u32 sz = m_textWords.size();
-		for( u32 i = 0u; i < sz; ++i ){
+		for( u32 i = gtConst0U; i < sz; ++i ){
 			m_textWords[ i ]->render();
 		}
 
@@ -102,7 +102,7 @@ void gtGUITextFieldImpl::setOpacity( f32 opacity ){
 	m_material.opacity = opacity;
 
 	u32 sz = m_textWords.size();
-	for( u32 i = 0u; i < sz; ++i ){
+	for( u32 i = gtConst0U; i < sz; ++i ){
 		m_textWords[ i ]->setOpacity(opacity);
 	}
 	m_backgroundShape->setOpacity(opacity);
@@ -119,19 +119,19 @@ void gtGUITextFieldImpl::update(){
 	gtArray<gtString> words;
 	util::stringGetWords<char16_t>( &words, m_text, true, true, true );
 	
-	u32 v = 0u;
+	u32 v = gtConst0U;
 	
-	u32 position_x = m_rect.x + 3u;
+	u32 position_x = m_rect.x + gtConst3U;
 
 	u32 sz = words.size();
 	for( u32 i = 0; i < sz; ++i ){
 		if( words[ i ] == u" " ){
-			position_x += 7u;
+			position_x += gtConst7U;
 		}else if( words[ i ] == u"\t" ){
 			position_x += 14u;
 		}else if( words[ i ] == u"\n" ){
 			position_x = m_rect.x + 14u;
-			v += m_font->getHeight() + 3u;
+			v += m_font->getHeight() + gtConst3U;
 		}else{
 
 			auto word = m_gui->createStaticText( words[ i ], position_x, m_rect.y + m_font->getHeight() + v, m_font );
@@ -142,17 +142,17 @@ void gtGUITextFieldImpl::update(){
 			position_x += (u32)word->getLength();
 
 			if( m_fixedW ){
-				if( position_x > m_rect.z + 3u ){
-					position_x = m_rect.x + 3u;
+				if( position_x > m_rect.z + gtConst3U ){
+					position_x = m_rect.x + gtConst3U;
 
-					v += m_font->getHeight() + 3u;
+					v += m_font->getHeight() + gtConst3U;
 
 					word->setPosition( v2i( position_x, m_rect.y + m_font->getHeight() + v ) );
 				
 					position_x += (u32)word->getLength();
 				}
 			}else{
-				m_rect.z = position_x + 4u;
+				m_rect.z = position_x + gtConst4U;
 			}
 
 			m_textWords.push_back( word.data() );

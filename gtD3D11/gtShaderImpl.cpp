@@ -13,7 +13,7 @@ gtShaderImpl::gtShaderImpl( gtDriverD3D11 * driver ):
 gtShaderImpl::~gtShaderImpl(){
 
 	auto sz = m_constantBuffers.size();
-	for( auto i = 0u; i < sz; ++i ){
+	for( auto i = gtConst0U; i < sz; ++i ){
 		m_constantBuffers[ i ]->Release();
 	}
 
@@ -111,7 +111,7 @@ bool gtShaderImpl::compileShader(
 		gtString errorMessage;
 		s8 * message = (s8*)m_errorBlob->GetBufferPointer();
 		u32 len = strlen(message);
-		for( u32 i = 0u; i < len; ++i )
+		for( u32 i = gtConst0U; i < len; ++i )
 			errorMessage += (char16_t)message[ i ];
 		gtLogWriter::printError( u"Vertex shader compile error: %s", errorMessage.data() );
 		FreeLibrary( lib );
@@ -137,7 +137,7 @@ bool gtShaderImpl::compileShader(
 		gtString errorMessage;
 		s8 * message = (s8*)m_errorBlob->GetBufferPointer();
 		u32 len = strlen(message);
-		for( u32 i = 0u; i < len; ++i )
+		for( u32 i = gtConst0U; i < len; ++i )
 			errorMessage += (char16_t)message[ i ];
 		gtLogWriter::printError( u"Pixel shader compile error: %s", errorMessage.data() );
 		FreeLibrary( lib );
@@ -168,9 +168,9 @@ bool gtShaderImpl::compileShader(
 		return false;
 	}
 
-	u32 vertexLayoutComponentSize = 0u;
+	u32 vertexLayoutComponentSize = gtConst0U;
 
-	for( u32 i = 0u; i < 1024u; ++i ){
+	for( u32 i = gtConst0U; i < 1024u; ++i ){
 		if( vertexType[ i ] == gtVertexType::End )
 			break;
 		else
@@ -185,9 +185,9 @@ bool gtShaderImpl::compileShader(
 
 	std::unique_ptr< D3D11_INPUT_ELEMENT_DESC[] > layout( new D3D11_INPUT_ELEMENT_DESC[ vertexLayoutComponentSize ] );
 
-	UINT offset = 0u;
+	UINT offset = gtConst0U;
 
-	for( u32 i = 0u; i < vertexLayoutComponentSize; ++i ){
+	for( u32 i = gtConst0U; i < vertexLayoutComponentSize; ++i ){
 		if( vertexType[ i ] == gtVertexType::Position ){
 
 			layout.get()[ i ] = { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, offset,  D3D11_INPUT_PER_VERTEX_DATA, 0 };

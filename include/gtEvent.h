@@ -7,26 +7,26 @@ namespace gost{
 	class gtWindow;
 	struct gtInputDevice;
 
-constexpr u32 GT_EVENT_WINDOW_SIZING   = 1u;
-constexpr u32 GT_EVENT_WINDOW_RESTORE  = 2u;
-constexpr u32 GT_EVENT_WINDOW_MAXIMIZE = 3u;
-constexpr u32 GT_EVENT_WINDOW_MINIMIZE = 4u;
-constexpr u32 GT_EVENT_WINDOW_MOVE     = 5u;
-constexpr u32 GT_EVENT_WINDOW_PAINT    = 6u;
+constexpr u32 GT_EVENT_WINDOW_SIZING   = gtConst1U;
+constexpr u32 GT_EVENT_WINDOW_RESTORE  = gtConst2U;
+constexpr u32 GT_EVENT_WINDOW_MAXIMIZE = gtConst3U;
+constexpr u32 GT_EVENT_WINDOW_MINIMIZE = gtConst4U;
+constexpr u32 GT_EVENT_WINDOW_MOVE     = gtConst5U;
+constexpr u32 GT_EVENT_WINDOW_PAINT    = gtConst6U;
 
-constexpr u32 GT_EVENT_JOYSTICK_ADD    = 1u;
-constexpr u32 GT_EVENT_JOYSTICK_REMOVE = 2u;
+constexpr u32 GT_EVENT_JOYSTICK_ADD    = gtConst1U;
+constexpr u32 GT_EVENT_JOYSTICK_REMOVE = gtConst2U;
 
-constexpr u32 GT_EVENT_SYSTEM_TIMER    = 1u;
+constexpr u32 GT_EVENT_SYSTEM_TIMER    = gtConst1U;
 
 
-constexpr u32 GT_EVENT_MASK_MOUSE_LMB	= 1u;
-constexpr u32 GT_EVENT_MASK_MOUSE_RMB	= 2u;
-constexpr u32 GT_EVENT_MASK_MOUSE_MMB	= 4u;
-constexpr u32 GT_EVENT_MASK_MOUSE_EXTRA1 = 8u;
-constexpr u32 GT_EVENT_MASK_MOUSE_EXTRA2 = 16u;
-constexpr u32 GT_EVENT_MASK_MOUSE_LMB_DBL = 32u;
-constexpr u32 GT_EVENT_MASK_MOUSE_RMB_DBL = 64u;
+constexpr u32 GT_EVENT_MASK_MOUSE_LMB	= gtConst1U;
+constexpr u32 GT_EVENT_MASK_MOUSE_RMB	= gtConst2U;
+constexpr u32 GT_EVENT_MASK_MOUSE_MMB	= gtConst4U;
+constexpr u32 GT_EVENT_MASK_MOUSE_EXTRA1 = gtConst8U;
+constexpr u32 GT_EVENT_MASK_MOUSE_EXTRA2 = gtConst16U;
+constexpr u32 GT_EVENT_MASK_MOUSE_LMB_DBL = gtConst32U;
+constexpr u32 GT_EVENT_MASK_MOUSE_RMB_DBL = gtConst64U;
 
 	
 	enum class gtEventType : u32 {
@@ -134,7 +134,7 @@ constexpr u32 GT_EVENT_MASK_MOUSE_RMB_DBL = 64u;
 
 		gtEventType type = gtEventType::None;
 		
-		u32 dataSize	= 0u;		
+		u32 dataSize	= gtConst0U;		
 		void* data		= nullptr;
 
 	};

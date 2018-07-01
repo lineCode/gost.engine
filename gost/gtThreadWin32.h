@@ -19,7 +19,7 @@ namespace gost{
 		gtThreadWin32();
 		~gtThreadWin32();
 
-		bool start( StartFunction f, void* args, u32 stackSize = 0 );
+		bool start( StartFunction f, void* args, u32 stackSize = gtConst0U );
 		void join();
 		void * getHandle();
 

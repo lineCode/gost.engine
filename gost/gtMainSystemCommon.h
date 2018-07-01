@@ -8,43 +8,7 @@ namespace gost{
 	class gtLogImpl;
 
 	class gtMainSystemCommon : public gtMainSystem{
-
-		struct gtMemoryTableNode{
-			gtMemoryTableNode():m_address(nullptr), m_size( 0u ){}
-			gtMemoryTableNode(gtAddressType*A,gtAddressType S):m_address(A), m_size(S){}
-			gtAddressType*m_address;
-			gtAddressType m_size;
-		};
-
-		struct gtMemoryTable{
-			gtMemoryTable():m_used(0u){}
-
-			gtList<gtMemoryTableNode> m_table;
-			gtAddressType m_used;
-
-			void add( void ** address, gtAddressType size ){
-				m_table.push_back( gtMemoryTableNode( (gtAddressType*)*address, size ) );
-				m_used += size;
-				gtLogWriter::printInfo( u"Mem: %u", m_used );
-			}
-
-			void remove( void ** address ){
-				gtAddressType* ad = (gtAddressType*)*address;
-
-				auto it = m_table.begin();
-				for(; it != m_table.end(); ++it){
-					if( (*it).m_address == ad ){
-						break;
-					}
-				}
-
-				m_used -= (*it).m_size;
-				m_table.erase( it );
-			}
-
-		}m_memTable;
-
-
+		
 		gtArray<gtGraphicsSystem*>	m_drivers;
 		bool				m_useTimer;
 		u32					m_timer;
@@ -75,7 +39,7 @@ namespace gost{
 
 		static gtMainSystemCommon*	s_instance;
 
-		gtMatrix4					m_WVP[ 3u ];
+		gtMatrix4					m_WVP[ gtConst3U ];
 
 		gtGraphicsSystem *					m_gs;
 
@@ -96,7 +60,7 @@ namespace gost{
 		static gtMainSystemCommon * getInstance();
 		gtStackTracer*				getStackTracer();
 		gtPtr<gtAudioSystem>		createAudioSystem( const GT_GUID& uid );
-		gtPtr<gtGraphicsSystem>				createVideoDriver( /*gtPlugin* videoDriverPlugin,*/ const gtGraphicsSystemInfo&, const GT_GUID& uid );
+		gtPtr<gtGraphicsSystem>		createGraphicsSystem( /*gtPlugin* videoDriverPlugin,*/ const gtGraphicsSystemInfo&, const GT_GUID& uid );
 
 		bool	allocateMemory( void** data, u32 size );
 		void	freeMemory( void** data );
@@ -104,7 +68,7 @@ namespace gost{
 		
 		gtPtr<gtImage>	loadImage( const gtString& fileName );
 		gtPtr<gtImage>	loadImage( const gtString& fileName, const GT_GUID& pluginGUID );
-		void			addEvent( const gtEvent&, u8 prior = 0u );
+		void			addEvent( const gtEvent&, u8 prior = gtConst0U );
 		gtInputSystem*  getInputSystem();
 		gtModelSystem*	getModelSystem();
 		gtPluginSystem*	getPluginSystem();
@@ -121,11 +85,9 @@ namespace gost{
 		bool pollEvent( gtEvent& event );
 		const gtDeviceCreationParameters&	getDeviceCreationParameters();
 
-		gtPtr<gtXMLDocument>	XMLRead( const gtString& file );
-		void					XMLWrite( const gtString& file, gtXMLNode* rootNode, bool utf8 = false );
 		u32						getLoadedVideoDriverCount();
-		gtGraphicsSystem*				getLoadedVideoDriver( u32 id );
-		gtGraphicsSystem*				getMainVideoDriver();
+		gtGraphicsSystem*		getLoadedVideoDriver( u32 id );
+		gtGraphicsSystem*		getMainVideoDriver();
 		void					setMainVideoDriver( gtGraphicsSystem* d );
 		void					setTimer( u32 milliseconds );
 	};

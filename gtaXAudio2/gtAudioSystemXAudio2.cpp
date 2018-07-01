@@ -75,7 +75,7 @@ bool gtAudioSystemXAudio2_7::initialize( XAudioVersion version ){
 		return false;
 	}
 
-	u32 flags = 0u;
+	u32 flags = gtConst0U;
 	HRESULT hr = 0;
 
 	if( FAILED( hr = XAudio2Create( &m_XAudio2, flags, XAUDIO2_DEFAULT_PROCESSOR ) ) ){
@@ -261,14 +261,14 @@ gtAudioSystemXAudio2_7::gtAudioObjectImpl::gtAudioObjectImpl( gtAudioSource * sr
 	m_source( src ),
 	m_volume( 1.f ),
 	m_sourceImpl( (gtAudioSourceImpl*)src ),
-	m_currentSourceVoice( 0u ),
-	m_numOfPlayedSounds( 0u )
+	m_currentSourceVoice( gtConst0U ),
+	m_numOfPlayedSounds( gtConst0U )
 {
 	m_callback.p_num_of_played_sounds = &m_numOfPlayedSounds;
 }
 
 gtAudioSystemXAudio2_7::gtAudioObjectImpl::~gtAudioObjectImpl(){
-	for( u32 i = 0u; i < m_sourceVoice.size(); ++i ){
+	for( u32 i = gtConst0U; i < m_sourceVoice.size(); ++i ){
 		m_sourceVoice[ i ]->Stop();
 		m_sourceVoice[ i ]->FlushSourceBuffers();
 		m_sourceVoice[ i ]->DestroyVoice();
@@ -299,7 +299,7 @@ bool gtAudioSystemXAudio2_7::gtAudioObjectImpl::init( u32 sp ){
 	ZeroMemory( &wfex, sizeof( wfex ) );
 
 	const gtAudioSourceInfo& info = source->getInfo();
-	wfex.cbSize				= 0u;//source->getDataSize();
+	wfex.cbSize				= gtConst0U;//source->getDataSize();
 	wfex.nAvgBytesPerSec	= info.m_bytesPerSec;
 	wfex.nBlockAlign		= (WORD)info.m_blockAlign;
 	wfex.nChannels			= (WORD)info.m_channels;
@@ -311,7 +311,7 @@ bool gtAudioSystemXAudio2_7::gtAudioObjectImpl::init( u32 sp ){
 
 	IXAudio2SourceVoice* sv = nullptr;
 
-	for( u32 i = 0u; i < m_sourceMax; ++i ){
+	for( u32 i = gtConst0U; i < m_sourceMax; ++i ){
 		if( FAILED( asys->m_XAudio2->CreateSourceVoice( &sv, &wfex, 0,
 			XAUDIO2_DEFAULT_FREQ_RATIO, &m_callback, &sendList ) ) ){
 			gtLogWriter::printWarning( u"Can not create source voice" );
@@ -334,14 +334,14 @@ void gtAudioSystemXAudio2_7::gtAudioObjectImpl::play(){
 		
 		updateBuffer();
 
-		if( FAILED( m_sourceVoice[ m_currentSourceVoice ]->Start( 0u, XAUDIO2_COMMIT_ALL ) ) ){
+		if( FAILED( m_sourceVoice[ m_currentSourceVoice ]->Start( gtConst0U, XAUDIO2_COMMIT_ALL ) ) ){
 			gtLogWriter::printWarning( u"m_sourceVoice->Start failed" );
 		}
 
 		++m_currentSourceVoice;
 
 		if( m_currentSourceVoice == this->m_sourceMax )
-			m_currentSourceVoice = 0u;
+			m_currentSourceVoice = gtConst0U;
 
 		++m_numOfPlayedSounds;
 	}
@@ -360,9 +360,9 @@ void gtAudioSystemXAudio2_7::gtAudioObjectImpl::pause(){
 
 	u32 sz = m_sourceVoice.size();
 
-	m_numOfPlayedSounds = 0u;
+	m_numOfPlayedSounds = gtConst0U;
 
-	for( u32 i = 0u; i < sz; ++i )
+	for( u32 i = gtConst0U; i < sz; ++i )
 		m_sourceVoice[ i ]->Stop();
 }
 
@@ -379,11 +379,11 @@ void gtAudioSystemXAudio2_7::gtAudioObjectImpl::stop(){
 	
 	u32 sz = this->m_sourceVoice.size();
 
-	m_currentSourceVoice = 0u;
+	m_currentSourceVoice = gtConst0U;
 
-	m_numOfPlayedSounds = 0u;
+	m_numOfPlayedSounds = gtConst0U;
 
-	for( u32 i = 0u; i < sz; ++i ){
+	for( u32 i = gtConst0U; i < sz; ++i ){
 		m_sourceVoice[ i ]->Stop();
 		m_sourceVoice[ i ]->FlushSourceBuffers();
 	}
@@ -393,7 +393,7 @@ void gtAudioSystemXAudio2_7::gtAudioObjectImpl::setVolume( f32 volume ){
 	m_volume = volume;
 
 	u32 sz = m_sourceVoice.size();
-	for( u32 i = 0u; i < sz; ++i )
+	for( u32 i = gtConst0U; i < sz; ++i )
 		m_sourceVoice[ i ]->SetVolume( volume );
 }
 
@@ -582,8 +582,8 @@ f32				gtAudioSystemXAudio2_7::gtAudioStreamImpl::getVolume(){
 
 void			gtAudioSystemXAudio2_7::gtAudioStreamImpl::setLoop( bool loop ){
 	m_isLoop = loop;
-	m_wave.m_isLoop = loop ? 1u : 0u;
-	m_ogg.m_isLoop = loop ? 1u : 0u;
+	m_wave.m_isLoop = loop ? gtConst1U : gtConst0U;
+	m_ogg.m_isLoop = loop ? gtConst1U : gtConst0U;
 }
 
 void	gtAudioSystemXAudio2_7::gtAudioStreamImpl::setPlaybackPosition( f32 position ){

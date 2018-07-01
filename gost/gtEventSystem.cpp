@@ -4,8 +4,8 @@
 
 gtEventSystem::gtEventSystem( gtInputSystemImpl * i, gtEventConsumer* uc ) :
 	m_userConsumer( uc ),
-	m_numOfEvents( 0u ),
-	m_currentEvent( 0u ),
+	m_numOfEvents( gtConst0U ),
+	m_currentEvent( gtConst0U ),
 	m_input( i )
 {
 	memset( m_events, 0, EventMax * sizeof( gtEvent ) );
@@ -19,7 +19,7 @@ gtEventConsumer* gtEventSystem::getConsumer(){
 }
 
 void gtEventSystem::resetEvents(){
-	m_numOfEvents = 0u;
+	m_numOfEvents = gtConst0U;
 }
 
 void gtEventSystem::getKeyboardAndMouseStates(){
@@ -57,7 +57,7 @@ void gtEventSystem::getKeyboardAndMouseStates(){
 
 bool gtEventSystem::pollEvent( gtEvent& event ){
 	if( m_events[ m_currentEvent ].type == gtEventType::None ){
-		m_numOfEvents = 0u;
+		m_numOfEvents = gtConst0U;
 		return false;
 	}
 
@@ -66,7 +66,7 @@ bool gtEventSystem::pollEvent( gtEvent& event ){
 	++m_currentEvent;
 
 	if( m_currentEvent == m_numOfEvents )
-			m_currentEvent = 0u;
+			m_currentEvent = gtConst0U;
 
 	return true;
 }
@@ -87,7 +87,7 @@ void gtEventSystem::runEventLoop(){
 		++m_currentEvent;
 
 		if( m_currentEvent == m_numOfEvents )
-			m_currentEvent = 0u;
+			m_currentEvent = gtConst0U;
 	}
 
 }
@@ -96,7 +96,7 @@ void gtEventSystem::addEvent( const gtEvent& ev, u8 prior ){
 	if( m_numOfEvents < EventMax ){
 
 		if( prior ){
-			//m_events[ m_currentEvent + prior-1u ] = ev;
+			//m_events[ m_currentEvent + prior-gtConst1U ] = ev;
 		}else{
 		}
 

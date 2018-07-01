@@ -60,7 +60,7 @@ namespace gost{
 
 
 		void		render();
-		void		setOpacity( f32 opacity = 1.f );
+		void		setOpacity( f32 opacity = gtConst1F );
 		f32			getOpacity();
 
 	};

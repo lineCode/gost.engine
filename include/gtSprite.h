@@ -42,18 +42,18 @@ namespace gost{
 			m_gs( d ),
 			m_firstFrame( true ),
 			m_inverseHorizontal( false ),
-			m_timer( 0.f ),
-			m_timerLimit( 1.f )
+			m_timer( gtConst0F ),
+			m_timerLimit( gtConst1F )
 		{
 			m_system = gtMainSystem::getInstance();
 			auto model = m_system->getModelSystem()->createPlane( size.y, size.x, gtSide::Front );
 
-			model->getSubModel( 0u )->m_material.textureLayer[ 0u ].texture = t;
-			model->getSubModel( 0u )->m_material.type = gtMaterialType::Sprite;
-			model->getSubModel( 0u )->m_material.owner = this;
-			model->getSubModel( 0u )->m_material.flags = (u32)gtMaterialFlag::Blend;
+			model->getSubModel( gtConst0U )->m_material.textureLayer[ gtConst0U ].texture = t;
+			model->getSubModel( gtConst0U )->m_material.type = gtMaterialType::Sprite;
+			model->getSubModel( gtConst0U )->m_material.owner = this;
+			model->getSubModel( gtConst0U )->m_material.flags = (u32)gtMaterialFlag::Blend;
 
-			m_material = model->getSubModel( 0u )->m_material;
+			m_material = model->getSubModel( gtConst0U )->m_material;
 
 			m_texture = t;
 
@@ -62,10 +62,10 @@ namespace gost{
 			m_aabb = *m_rModel->getAabb();
 			m_obb = *m_rModel->getObb();
 
-			width = 1u, height = 1u;
-			if( m_material.textureLayer[ 0u ].texture ){
-				width = m_material.textureLayer[ 0u ].texture->getWidth();
-				height = m_material.textureLayer[ 0u ].texture->getHeight();
+			width = gtConst1U, height = gtConst1U;
+			if( m_material.textureLayer[ gtConst0U ].texture ){
+				width = m_material.textureLayer[ gtConst0U ].texture->getWidth();
+				height = m_material.textureLayer[ gtConst0U ].texture->getHeight();
 			}
 
 		//	m_quaternion.set(v3f_t(0.f,0.f,-PI/2.f));
@@ -95,7 +95,7 @@ namespace gost{
 
 		
 		gtTexture*	getTexture(){
-			return m_material.textureLayer[ 0u ].texture;
+			return m_material.textureLayer[ gtConst0U ].texture;
 		}
 
 		void update(){
@@ -106,9 +106,9 @@ namespace gost{
 			math::makeRotationMatrix( rotationMatrix, m_orientation );
 
 			gtMatrix4	scaleMatrix;
-			scaleMatrix[ 0u ] *= m_scale.x;
-			scaleMatrix[ 1u ] *= m_scale.y;
-			scaleMatrix[ 2u ] *= m_scale.z;
+			scaleMatrix[ gtConst0U ] *= m_scale.x;
+			scaleMatrix[ gtConst1U ] *= m_scale.y;
+			scaleMatrix[ gtConst2U ] *= m_scale.z;
 
 			m_worldMatrix = translationMatrix * rotationMatrix * scaleMatrix;
 
@@ -150,8 +150,8 @@ namespace gost{
 
 			v2f lt, rb;
 
-			f32 mulX = 1.f / (f32)width;
-			f32 mulY = 1.f / (f32)height;
+			f32 mulX = gtConst1F / (f32)width;
+			f32 mulY = gtConst1F / (f32)height;
 
 			lt.x = rect.x * mulX;
 			lt.y = rect.y * mulY;
@@ -173,7 +173,7 @@ namespace gost{
 
 			m_animation.addFrame();
 			auto * ls = &m_animation.getLoopSegment();
-			m_animation.setLoopSegment( ls->x, m_frames.size() - 1u );
+			m_animation.setLoopSegment( ls->x, m_frames.size() - gtConst1U );
 		}
 
 		void resetAnimation( bool full = true, const v4u& rect = v4u() ){
@@ -181,7 +181,7 @@ namespace gost{
 			m_frames.clear();
 			
 			if( full ){
-				v4u rect2( 0u, 0u, m_texture->getWidth(), m_texture->getHeight() );
+				v4u rect2( gtConst0U, gtConst0U, m_texture->getWidth(), m_texture->getHeight() );
 				addFrame( rect2 );
 			}
 			else
@@ -233,16 +233,16 @@ namespace gost{
 		}
 
 		void updateAnimation(){
-			u32 t1 = 0u;
-			static u32 t2 = 0u;
-			if( m_animation.getFrameCount() > 1u ){
+			u32 t1 = gtConst0U;
+			static u32 t2 = gtConst0U;
+			if( m_animation.getFrameCount() > gtConst1U ){
 				if( m_animation.isPlay() ){
 					
 					t1 = m_system->getTime();
 					
 					if( m_timer > m_timerLimit ){
 						m_animation.stepFrame();
-						m_timer = 0u;
+						m_timer = gtConst0U;
 					}
 
 					m_timer += t1 - t2;
@@ -257,15 +257,15 @@ namespace gost{
 			m_animation.clear();
 			m_frames.clear();
 
-			u32 x1 = 0u, y1 = 0u;
+			u32 x1 = gtConst0U, y1 = gtConst0U;
 			u32 x2 = size.x, y2 = size.y;
 			if( directionIsHorizontal ){
-				for( u32 i = 0u; i < numOfFrames; ++i ){
+				for( u32 i = gtConst0U; i < numOfFrames; ++i ){
 					addFrame( v4u( x1, y1, x2, y2 ) );
 					x1 += size.x;
 					x2 += size.x;
 					if( x2 > width ){
-						x1 = 0u;
+						x1 = gtConst0U;
 						x2 = size.x;
 						y1 += size.y;
 						y2 += size.y;
@@ -279,8 +279,8 @@ namespace gost{
 		}
 
 		void	setFrameRate( f32 rate ){
-			if( rate == 0 )
-				rate = 1;
+			if( rate == gtConst0F )
+				rate = gtConst1F;
 			m_animation.setFrameRate( rate );
 			m_timerLimit = 1000 / rate;
 		}

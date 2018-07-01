@@ -20,10 +20,10 @@ namespace gost{
 	public:
 
 		gtAnimation():
-			m_loopSegment(0u,0u),
-			m_frames( 0u ),
-			m_currentFrame( 0u ),
-			m_frameRate( 60.f ),
+			m_loopSegment( gtConst0U, gtConst0U ),
+			m_frames( gtConst0U ),
+			m_currentFrame( gtConst0U ),
+			m_frameRate( gtConst60F ),
 			m_isLoop( false ),
 			m_isPlay( false ),
 			m_reverse( false )
@@ -33,12 +33,12 @@ namespace gost{
 		void addFrame(){ ++m_frames; }
 
 		void clear(){
-			m_frames = 0u;
-			m_currentFrame = 0u;
-			m_frameRate = 60.f;
+			m_frames = gtConst0U;
+			m_currentFrame = gtConst0U;
+			m_frameRate = gtConst60F;
 			m_isLoop = false;
 			m_isPlay = false;
-			m_loopSegment = v2u(0u,0u);
+			m_loopSegment = v2u( gtConst0U, gtConst0U );
 		}
 		u32	getCurrentFrame() const { return m_currentFrame; }
 		u32	getFrameCount() const   { return m_frames; }
@@ -69,7 +69,7 @@ namespace gost{
 		void stepFrame(){
 
 			if( m_reverse ){
-				if( m_currentFrame == 0u || m_currentFrame == m_loopSegment.x ){
+				if( m_currentFrame == gtConst0U || m_currentFrame == m_loopSegment.x ){
 					m_currentFrame = m_loopSegment.y;
 				}else --m_currentFrame;
 			}else{
@@ -82,7 +82,7 @@ namespace gost{
 
 		void stop(){
 			m_isPlay = false;
-			m_currentFrame = 0u;
+			m_currentFrame = gtConst0U;
 		}
 	};
 }

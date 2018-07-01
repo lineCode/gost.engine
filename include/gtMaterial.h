@@ -21,19 +21,19 @@ namespace gost{
 
 	enum class gtMaterialFlag : u32 {
 
-		Wireframe = 1u,
+		Wireframe = gtConst1U,
 
-		Backface = 2u,
+		Backface = gtConst2U,
 
-		Blend = 4u,
+		Blend = gtConst4U,
 
-		Nocastshadows = 8u,
+		Nocastshadows = gtConst8U,
 
-		Noreceiveshadows = 16u,
+		Noreceiveshadows = gtConst16U,
 
-		Noselfshadows = 32u,
+		Noselfshadows = gtConst32U,
 
-		Blenddiscard = 64u
+		Blenddiscard = gtConst64U
 
 	};
 
@@ -41,9 +41,9 @@ namespace gost{
 
 			// c-tor
 		gtMaterialTextureLayer():
-			diffuseColor( 1.f ),
+			diffuseColor( gtConst1F ),
 			blendOperation( gtMaterialBlendOp::Sub ),
-			level( 1.f ),
+			level( gtConst1F ),
 			texture( nullptr )
 		{}
 
@@ -70,13 +70,13 @@ namespace gost{
 			// c-tor
 		gtMaterial():
 			shader( nullptr ),
-			specularColor( 1.f ),
-			specularLevel( 1.f ),
-			glossiness( 0.f ),
-			roughness( 0.f ),
-			opacity( 1.f ),
-			fresnel( 1.f ),
-			flags( 0u ),
+			specularColor( gtConst1F ),
+			specularLevel( gtConst1F ),
+			glossiness( gtConst0F ),
+			roughness( gtConst0F ),
+			opacity( gtConst1F ),
+			fresnel( gtConst1F ),
+			flags( gtConst0U ),
 			type( gtMaterialType::Standart ),
 			owner( nullptr ),
 			alphaToCoverage( false )
@@ -104,7 +104,7 @@ namespace gost{
 
 		u32		flags;
 
-		gtMaterialTextureLayer	textureLayer[ 16u ];
+		gtMaterialTextureLayer	textureLayer[ gtConst16U ];
 
 		gtMaterialType type;
 

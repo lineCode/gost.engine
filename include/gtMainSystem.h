@@ -70,22 +70,22 @@ namespace gost{
 	class gtMainSystem : public gtRefObject{
 	public:
 	
-		virtual void addEvent( const gtEvent& ev, u8 prior = 0u ) = 0;
+		virtual void addEvent( const gtEvent& ev, u8 prior = gtConst0U ) = 0;
 		virtual bool allocateMemory( void** data, u32 size ) = 0;
 		virtual gtPtr<gtAudioSystem>    createAudioSystem( const GT_GUID& uid ) = 0;
 		virtual gtPtr<gtMutex>          createMutex() = 0;
 		virtual gtPtr<gtThread>         createThread() = 0;
 		virtual gtPtr<gtWindow>	        createSystemWindow( gtWindowInfo* wi ) = 0;
-		virtual gtPtr<gtGraphicsSystem>         createVideoDriver( const gtGraphicsSystemInfo& di, const GT_GUID& uid ) = 0;
+		virtual gtPtr<gtGraphicsSystem> createGraphicsSystem( const gtGraphicsSystemInfo& di, const GT_GUID& uid ) = 0;
 		virtual void freeMemory( void** data ) = 0;
 		virtual const gtDeviceCreationParameters& getDeviceCreationParameters() = 0;
 		virtual gtGUISystem* getGUISystem( gtGraphicsSystem * currentRenderDriver ) = 0;
 		GT_API static gtMainSystem* getInstance();
 		virtual gtInputSystem*   getInputSystem() = 0;
-		virtual gtGraphicsSystem*        getLoadedVideoDriver( u32 id ) = 0;
+		virtual gtGraphicsSystem*getLoadedVideoDriver( u32 id ) = 0;
 		virtual u32              getLoadedVideoDriverCount() = 0;
 		virtual gtLog*           getLog() = 0;
-		virtual gtGraphicsSystem*        getMainVideoDriver() = 0;
+		virtual gtGraphicsSystem*getMainVideoDriver() = 0;
 		virtual const gtMatrix4& getMatrixProjection() = 0;
 		virtual const gtMatrix4& getMatrixView() = 0;
 		virtual const gtMatrix4& getMatrixWorld() = 0;

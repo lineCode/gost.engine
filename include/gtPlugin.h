@@ -20,15 +20,15 @@ namespace gost{
 			// c-tor
 		gtPluginInfo():
 			m_type( gtPluginType::Unknown ),
-			m_version( 0u ),
-			m_build( 0u )
+			m_version( gtConst0U ),
+			m_build( gtConst0U )
 		{
-			m_name.reserve( 64u );
-			m_author.reserve( 64u );
-			m_url.reserve( 64u );
-			m_email.reserve( 64u );
-			m_company.reserve( 64u );
-			m_description.reserve( 512u );
+			m_name.reserve( gtConst64U );
+			m_author.reserve( gtConst64U );
+			m_url.reserve( gtConst64U );
+			m_email.reserve( gtConst64U );
+			m_company.reserve( gtConst64U );
+			m_description.reserve( gtConst512U );
 		}
 
 		gtPluginType m_type;

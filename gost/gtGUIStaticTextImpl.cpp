@@ -43,7 +43,7 @@ void gtGUIStaticTextImpl::clear(){
 	m_length = 0.f;
 	m_text.clear();
 	u32 sz = m_buffers.size();
-	for( u32 i = 0u; i < sz; ++i ){
+	for( u32 i = gtConst0U; i < sz; ++i ){
 		m_buffers[ i ]->release();
 	}
 	m_buffers.clear();
@@ -52,9 +52,9 @@ void gtGUIStaticTextImpl::clear(){
 
 void gtGUIStaticTextImpl::updateMaterial(){
 	u32 sz = m_buffers.size();
-	for( u32 i = 0u; i < sz; ++i ){
-		auto * m = m_buffers[ i ]->getMaterial( 0u );
-		m->textureLayer[ 0u ].diffuseColor = m_material.textureLayer[ 0u ].diffuseColor;
+	for( u32 i = gtConst0U; i < sz; ++i ){
+		auto * m = m_buffers[ i ]->getMaterial( gtConst0U );
+		m->textureLayer[ gtConst0U ].diffuseColor = m_material.textureLayer[ gtConst0U ].diffuseColor;
 		m->opacity = m_material.opacity;
 	}
 }
@@ -64,7 +64,7 @@ f32  gtGUIStaticTextImpl::getLength(){
 }
 
 void gtGUIStaticTextImpl::setColor( const gtColor& color ){
-	m_material.textureLayer[ 0u ].diffuseColor = color;
+	m_material.textureLayer[ gtConst0U ].diffuseColor = color;
 	updateMaterial();
 }
 
@@ -116,17 +116,17 @@ void gtGUIStaticTextImpl::setText( const gtString& text ){
 				gtVertexType::End
 			};
 
-			const u16 u[6u] = {0U,1U,2U,0U,2U,3U};
+			const u16 u[gtConst6U] = {0U,1U,2U,0U,2U,3U};
 
-			gtPtr<gtModel> soft = m_modelSystem->createEmpty( gtStrideStandart, &vt[ 0u ] );
+			gtPtr<gtModel> soft = m_modelSystem->createEmpty( gtStrideStandart, &vt[ gtConst0U ] );
 
 			if( soft.data() ){
 
-				auto * mainsub = soft->addSubModel( 4u, 6u, gtStrideStandart );
+				auto * mainsub = soft->addSubModel( gtConst4U, gtConst6U, gtStrideStandart );
 				auto * sub = mainsub;
 
-				u32 interval = 0u;
-				u32 line_interval = 0u;
+				u32 interval = gtConst0U;
+				u32 line_interval = gtConst0U;
 
 				f32 px = (2.f/bbsz.getWidth());
 				f32 py = (2.f/bbsz.getHeight());
@@ -135,7 +135,7 @@ void gtGUIStaticTextImpl::setText( const gtString& text ){
 				
 				m_height = 0;
 
-				for( u32 i = 0u; i < textSize; ++i ){
+				for( u32 i = gtConst0U; i < textSize; ++i ){
 				
 					auto ch = m_text[i];
 			
@@ -143,14 +143,14 @@ void gtGUIStaticTextImpl::setText( const gtString& text ){
 
 					if( i ){
 						sub = new gtSubModel;
-						sub->m_iCount = 6u;
-						sub->m_vCount = 4u;
+						sub->m_iCount = gtConst6U;
+						sub->m_vCount = gtConst4U;
 						sub->allocate( gtStrideStandart );
 
 						bool notFound = true;
 
 						u32 bisz = m_bufferInfo.size();
-						for( u32 o = 0u; o < bisz; ++o ){
+						for( u32 o = gtConst0U; o < bisz; ++o ){
 							if( m_bufferInfo[ o ].texture_id == id ){
 								notFound = false;
 
@@ -159,23 +159,23 @@ void gtGUIStaticTextImpl::setText( const gtString& text ){
 						}
 
 						if( notFound ){
-							mainsub = soft->addSubModel( 4u, 6u, gtStrideStandart );
+							mainsub = soft->addSubModel( gtConst4U, gtConst6U, gtStrideStandart );
 							delete sub;
 							sub = mainsub;
 							sub->m_material.type = gtMaterialType::GUI;
 							sub->m_material.flags |= (u32)gtMaterialFlag::Blend;
-							sub->m_material.textureLayer[ 0u ].texture = m_font->getTexture( id );
+							sub->m_material.textureLayer[ gtConst0U ].texture = m_font->getTexture( id );
 							m_bufferInfo.push_back( bufferInfo( id, mainsub ) );
 						}
 
 					}else{
 						sub->m_material.type = gtMaterialType::GUI;
 						sub->m_material.flags |= (u32)gtMaterialFlag::Blend;
-						sub->m_material.textureLayer[ 0u ].texture = m_font->getTexture( id );
+						sub->m_material.textureLayer[ gtConst0U ].texture = m_font->getTexture( id );
 						m_bufferInfo.push_back( bufferInfo( id, mainsub ) );
 					}
 
-					u8* v = &sub->m_vertices[ 0u ];
+					u8* v = &sub->m_vertices[ gtConst0U ];
 
 					sub->fillIndices( u );
 
@@ -194,8 +194,8 @@ void gtGUIStaticTextImpl::setText( const gtString& text ){
 					if( ch != u' ' && ch != u'\t' )
 						rect = m_font->getRect( ch );
 				
-					u16 width = 0u;
-					u16 height = 0u;
+					u16 width = gtConst0U;
+					u16 height = gtConst0U;
 
 
 					if( rect ){
@@ -225,13 +225,13 @@ void gtGUIStaticTextImpl::setText( const gtString& text ){
 					if( ch == u'\n' ){
 						width = 0;
 						line_interval += (u32)m_height;
-						interval = 0u;
+						interval = gtConst0U;
 					}
 
 					sub->move( v3f( (f32)interval * px, -((f32)line_interval * py), 0.1f ) );
 
 					if( ch != u'\n' ){
-						interval += width + 2u;
+						interval += width + gtConst2U;
 						m_length = (f32)(interval);
 					}
 
@@ -249,7 +249,7 @@ void gtGUIStaticTextImpl::setText( const gtString& text ){
 				f32 move_y = 1.f - m_position.y * muly;
 
 				u32 sz = m_bufferInfo.size();
-				for( u32 i = 0u; i < sz; ++i ){
+				for( u32 i = gtConst0U; i < sz; ++i ){
 					auto * sub2 = m_bufferInfo[ i ].sub;
 					sub2->move( v3f( move_x, move_y, 0.f ) );
 				}
@@ -283,9 +283,9 @@ void gtGUIStaticTextImpl::updateBackground(){
 	m_backgroundShape = m_gui->createShapeRectangle( 
 		v4i( 
 			m_position.x-10u,
-			m_position.y - (s32)m_height - 3u,
+			m_position.y - (s32)m_height - gtConst3U,
 			(m_position.x + (s32)m_length)+10u,
-			m_position.y + 3u
+			m_position.y + gtConst3U
 		),
 		gtColor( 0.f, 0.f, 0.f, 1.f ) );
 	m_backgroundShape->setTexture( t1 );
@@ -294,7 +294,7 @@ void gtGUIStaticTextImpl::updateBackground(){
 
 void gtGUIStaticTextImpl::render(){
 	u32 sz = m_buffers.size();
-	for( u32 i = 0u; i < sz; ++i ){
+	for( u32 i = gtConst0U; i < sz; ++i ){
 		if( m_visible ){
 			if( m_showBackground )
 				m_backgroundShape->render();

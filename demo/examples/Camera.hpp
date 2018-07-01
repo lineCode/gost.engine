@@ -138,16 +138,16 @@ void DemoExample_Camera::Input( f32 d ){
 			m_activeCameraType = 0;
 
 		switch( m_activeCameraType ){
-		case 0u:
+		case gtConst0U:
 			m_cameraActive = m_cameraLookAt;
 			break;
-		case 1u:
+		case gtConst1U:
 			m_cameraActive = m_cameraFPS;
 			break;
-		case 2u:
+		case gtConst2U:
 			m_cameraActive = m_cameraFree;
 			break;
-		case 3u:
+		case gtConst3U:
 			m_cameraActive = m_camera2D;
 			break;
 		}

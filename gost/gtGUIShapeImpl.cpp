@@ -5,10 +5,10 @@ m_gs( d ),
 m_mainSystem( nullptr ),
 m_modelSystem( nullptr ),
 m_material( nullptr ){
-	vt[ 0u ] = gtVertexType::Position;
-	vt[ 1u ] = gtVertexType::UV;
-	vt[ 2u ] = gtVertexType::Normal;
-	vt[ 3u ] = gtVertexType::End;
+	vt[ gtConst0U ] = gtVertexType::Position;
+	vt[ gtConst1U ] = gtVertexType::UV;
+	vt[ gtConst2U ] = gtVertexType::Normal;
+	vt[ gtConst3U ] = gtVertexType::End;
 	m_mainSystem = gtMainSystem::getInstance();
 	m_modelSystem = m_mainSystem->getModelSystem();
 	m_type = gtGUIObjectType::Shape;
@@ -35,7 +35,7 @@ f32  gtGUIShapeImpl::getOpacity(){
 }
 
 void gtGUIShapeImpl::setColor( const gtColor& color ){
-	m_material->textureLayer[ 0u ].diffuseColor = color;
+	m_material->textureLayer[ gtConst0U ].diffuseColor = color;
 }
 
 gtMaterial* gtGUIShapeImpl::getMaterial(){
@@ -43,16 +43,16 @@ gtMaterial* gtGUIShapeImpl::getMaterial(){
 }
 
 bool gtGUIShapeImpl::initRectangle( const v4i& rect, const gtColor& color ){
-	const u16 u[6u] = {0U,1U,2U,0U,2U,3U};
-	gtPtr<gtModel> soft = m_modelSystem->createEmpty( gtStrideStandart, &vt[ 0u ] );
+	const u16 u[gtConst6U] = {0U,1U,2U,0U,2U,3U};
+	gtPtr<gtModel> soft = m_modelSystem->createEmpty( gtStrideStandart, &vt[ gtConst0U ] );
 
 	if( soft.data() ){
-		auto * sub = soft->addSubModel( 4u, 6u, gtStrideStandart );
+		auto * sub = soft->addSubModel( gtConst4U, gtConst6U, gtStrideStandart );
 		sub->m_material.type = gtMaterialType::GUI;
 		sub->m_material.flags |= (u32)gtMaterialFlag::Blend;
-		sub->m_material.textureLayer[ 0u ].diffuseColor = color;
-		//sub->m_material.textureLayer[ 0u ].texture = m_font->getTexture( id );
-		u8* v = &sub->m_vertices[ 0u ];
+		sub->m_material.textureLayer[ gtConst0U ].diffuseColor = color;
+		//sub->m_material.textureLayer[ gtConst0U ].texture = m_font->getTexture( id );
+		u8* v = &sub->m_vertices[ gtConst0U ];
 		sub->fillIndices( u );
 
 		gtStandartVertex * v1 = (gtStandartVertex*)v;
@@ -100,7 +100,7 @@ bool gtGUIShapeImpl::initRectangle( const v4i& rect, const gtColor& color ){
 		if( rm.data() ){
 			rm->addRef();
 			m_model = rm.data();
-			m_material = m_model->getMaterial( 0u );
+			m_material = m_model->getMaterial( gtConst0U );
 		}else{
 			gtLogWriter::printWarning( u"Can not create static text" );
 		}
@@ -111,11 +111,11 @@ bool gtGUIShapeImpl::initRectangle( const v4i& rect, const gtColor& color ){
 }
 
 void gtGUIShapeImpl::setTexture( gtTexture* texture ){
-	m_material->textureLayer[ 0u ].texture = texture;
+	m_material->textureLayer[ gtConst0U ].texture = texture;
 }
 
 gtTexture* gtGUIShapeImpl::getTexture(){
-	return m_material->textureLayer[ 0u ].texture;
+	return m_material->textureLayer[ gtConst0U ].texture;
 }
 
 

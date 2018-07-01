@@ -11,33 +11,33 @@ namespace gost{
 			Data1 = d1;
 			Data2 = d2;
 			Data3 = d3;
-			Data4[ 0u ] = d4;
-			Data4[ 1u ] = d5;
-			Data4[ 2u ] = d6;
-			Data4[ 3u ] = d7;
-			Data4[ 4u ] = d8;
-			Data4[ 5u ] = d9;
-			Data4[ 6u ] = d10;
-			Data4[ 7u ] = d11;
+			Data4[ gtConst0U ] = d4;
+			Data4[ gtConst1U ] = d5;
+			Data4[ gtConst2U ] = d6;
+			Data4[ gtConst3U ] = d7;
+			Data4[ gtConst4U ] = d8;
+			Data4[ gtConst5U ] = d9;
+			Data4[ gtConst6U ] = d10;
+			Data4[ gtConst7U ] = d11;
 		}
 
 		u32 Data1;
 		u16 Data2;
 		u16 Data3;
-		u8  Data4[ 8u ];
+		u8  Data4[ gtConst8U ];
 
 		bool operator==( const GT_GUID& other )const{
 			if( Data1 == other.Data1 )
 				if( Data2 == other.Data2 )
 					if( Data3 == other.Data3 )
-						if( Data4[ 0u ] == other.Data4[ 0u ] )
-							if( Data4[ 1u ] == other.Data4[ 1u ] )
-								if( Data4[ 2u ] == other.Data4[ 2u ] )
-									if( Data4[ 3u ] == other.Data4[ 3u ] )
-										if( Data4[ 4u ] == other.Data4[ 4u ] )
-											if( Data4[ 5u ] == other.Data4[ 5u ] )
-												if( Data4[ 6u ] == other.Data4[ 6u ] )
-													if( Data4[ 7u ] == other.Data4[ 7u ] )
+						if( Data4[ gtConst0U ] == other.Data4[ gtConst0U ] )
+							if( Data4[ gtConst1U ] == other.Data4[ gtConst1U ] )
+								if( Data4[ gtConst2U ] == other.Data4[ gtConst2U ] )
+									if( Data4[ gtConst3U ] == other.Data4[ gtConst3U ] )
+										if( Data4[ gtConst4U ] == other.Data4[ gtConst4U ] )
+											if( Data4[ gtConst5U ] == other.Data4[ gtConst5U ] )
+												if( Data4[ gtConst6U ] == other.Data4[ gtConst6U ] )
+													if( Data4[ gtConst7U ] == other.Data4[ gtConst7U ] )
 														return true;
 			return false;
 		}

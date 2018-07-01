@@ -25,7 +25,7 @@ namespace gost{
 			// Constructor
 		gtThread():
 			m_status( gtThreadStatus::Not_started ),
-			m_id( 0u )
+			m_id( gtConst0U )
 		{};
 
 			//	Destructor

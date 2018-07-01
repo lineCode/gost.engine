@@ -21,13 +21,13 @@ extern "C"{
 	}
 
 	GT_API u32	__cdecl PluginGetExtCount(){
-		return 3u;
+		return gtConst3U;
 	}
 
 	GT_API s8*	__cdecl PluginGetExtension( u32 id ){
-		GT_ASSERT1( id < 3u, "Bad argument", "id < 3u" );
+		GT_ASSERT1( id < gtConst3U, "Bad argument", "id < gtConst3U" );
 
-		s8 * exts[ 3u ] = {
+		s8 * exts[ gtConst3U ] = {
 			"bmp",
 			"dib",
 			"rle"
@@ -139,7 +139,7 @@ extern "C"{
 			readNum = file->read( reinterpret_cast<u8*>(&info), sizeof(BitmapInfoHeader_v5) );
 		}
 
-		if( info.bV5Size < 40u ){
+		if( info.bV5Size < 40U ){
 			gtLogWriter::printWarning( u"BMP Plugin: Bad header size [%s]", fileName->data() );
 			return false;
 		}
@@ -154,9 +154,9 @@ extern "C"{
 			return false;
 		}
 
-		if( info.bV5BitCount != 1u &&
-			info.bV5BitCount != 4u &&
-			info.bV5BitCount != 8u &&
+		if( info.bV5BitCount != gtConst1U &&
+			info.bV5BitCount != gtConst4U &&
+			info.bV5BitCount != gtConst8U &&
 			info.bV5BitCount != 16u &&
 			info.bV5BitCount != 24u &&
 			info.bV5BitCount != 32u ){
@@ -177,7 +177,7 @@ extern "C"{
 
 		if( image->bits == 24u ){
 			image->format	= gtImageFormat::R8G8B8;
-			image->pitch	= image->width * 3u;
+			image->pitch	= image->width * gtConst3U;
 			image->dataSize = image->pitch * image->height;
 
 			if( !gtMainSystem::getInstance()->allocateMemory( (void**)&image->data, image->dataSize ) ){
@@ -198,18 +198,18 @@ extern "C"{
 
 		}else if( image->bits == 32u ){
 
-			if( info.bV5Size != 40u && info.bV5Size != 56u ){
+			if( info.bV5Size != 40U && info.bV5Size != 56u ){
 				gtLogWriter::printWarning( u"BMP Plugin: unsupported format. [%s]", fileName->data() );
 				return false;
 			}
 
-			image->pitch = image->width * 4u;
+			image->pitch = image->width * gtConst4U;
 
-			if( info.bV5Size == 40u ){
+			if( info.bV5Size == 40U ){
 				file->seek( 54u, gtFileSeekPos::Begin );
 				image->format = gtImageFormat::A8R8G8B8;
 			}else{
-				file->seek( 70u, gtFileSeekPos::Begin );
+				file->seek( 70U, gtFileSeekPos::Begin );
 				image->format = gtImageFormat::X8R8G8B8;
 			}
 
@@ -232,19 +232,19 @@ extern "C"{
 
 		}else if( image->bits == 16u ){
 
-			if( info.bV5Size != 40u && info.bV5Size != 56u ){
+			if( info.bV5Size != 40U && info.bV5Size != 56u ){
 				gtLogWriter::printWarning( u"BMP Plugin: unsupported format. [%s]", fileName->data() );
 				return false;
 			}
 
-			image->pitch = image->width * 2u;
+			image->pitch = image->width * gtConst2U;
 
-			if( info.bV5Size == 40u ){ // x1r5g5b5
+			if( info.bV5Size == 40U ){ // x1r5g5b5
 				file->seek( 54u, gtFileSeekPos::Begin );
 				image->format = gtImageFormat::X1R5G5B5;
 			}else{
-				if( info.bV5RedMask == 3840u &&
-					info.bV5GreenMask == 240u && 
+				if( info.bV5RedMask == 3840U &&
+					info.bV5GreenMask == 240U && 
 					info.bV5BlueMask == 15u ){
 					if( info.bV5AlphaMask ){
 						image->format = gtImageFormat::A4R4G4B4;
@@ -264,7 +264,7 @@ extern "C"{
 					gtLogWriter::printWarning( u"BMP Plugin: unsupported format. [%s]", fileName->data() );
 					return false;
 				}
-				file->seek( 70u, gtFileSeekPos::Begin );
+				file->seek( 70U, gtFileSeekPos::Begin );
 			}
 
 			image->dataSize = image->pitch * image->height;
@@ -284,10 +284,10 @@ extern "C"{
 
 
 			 
-		}else if( image->bits == 8u ){
+		}else if( image->bits == gtConst8U ){
 			
 			image->format = gtImageFormat::R8G8B8A8;
-			image->pitch = image->width * 4u;
+			image->pitch = image->width * gtConst4U;
 			image->dataSize = image->pitch * image->height;
 
 			
@@ -332,20 +332,20 @@ extern "C"{
 
 			u8 * u8_ptr = inds.get();
 
-			for( u32 i = 0u, count = 0u; i < indSize; ){
+			for( u32 i = gtConst0U, count = gtConst0U; i < indSize; ){
 				image->data[ count ] = quadTable[ u8_ptr[ i ] ].Red;
-				image->data[ count+1u ] = quadTable[ u8_ptr[ i ] ].Green;
-				image->data[ count+2u ] = quadTable[ u8_ptr[ i ] ].Blue;
-				image->data[ count+3u ] = 255u;
-				count += 4u;
-				i += 1u;
+				image->data[ count+gtConst1U ] = quadTable[ u8_ptr[ i ] ].Green;
+				image->data[ count+gtConst2U ] = quadTable[ u8_ptr[ i ] ].Blue;
+				image->data[ count+gtConst3U ] = 255u;
+				count += gtConst4U;
+				i += gtConst1U;
 			}
 
-		}else if( image->bits == 4u ){
+		}else if( image->bits == gtConst4U ){
 
 			image->format = gtImageFormat::R8G8B8A8;
 
-			image->pitch = image->width * 4u;
+			image->pitch = image->width * gtConst4U;
 
 			image->dataSize = image->pitch * image->height;
 
@@ -400,28 +400,28 @@ extern "C"{
 			
 
 
-			for( u32 i = 0u, count = 0u; i < indSize; ){
+			for( u32 i = gtConst0U, count = gtConst0U; i < indSize; ){
 
 				u8 color = u8_ptr[ i ];
 				u8 part1 = color & 15u;
-				u8 part2 = (color & 240u)>>4u;
+				u8 part2 = (color & 240U)>>gtConst4U;
 
 				image->data[ count ] = quadTable[ part1 ].Red;
-				image->data[ count+1u ] = quadTable[ part1 ].Green;
-				image->data[ count+2u ] = quadTable[ part1 ].Blue;
-				image->data[ count+3u ] = 255u;
-				image->data[ count+4u ] = quadTable[ part2 ].Red;
-				image->data[ count+5u ] = quadTable[ part2 ].Green;
-				image->data[ count+6u ] = quadTable[ part2 ].Blue;
-				image->data[ count+7u ] = 255u;
-				count += 8u;
-				i += 1u;
+				image->data[ count+gtConst1U ] = quadTable[ part1 ].Green;
+				image->data[ count+gtConst2U ] = quadTable[ part1 ].Blue;
+				image->data[ count+gtConst3U ] = 255u;
+				image->data[ count+gtConst4U ] = quadTable[ part2 ].Red;
+				image->data[ count+gtConst5U ] = quadTable[ part2 ].Green;
+				image->data[ count+gtConst6U ] = quadTable[ part2 ].Blue;
+				image->data[ count+gtConst7U ] = 255u;
+				count += gtConst8U;
+				i += gtConst1U;
 			}
 
 			
 
 
-		}else if( image->bits == 1u ){
+		}else if( image->bits == gtConst1U ){
 			image->format = gtImageFormat::One_bit;
 			image->pitch = image->width;
 			image->dataSize = info.bV5SizeImage;
@@ -451,7 +451,7 @@ extern "C"{
 
 //	irrlicht
 void decompress4BitRLE( u8*& rleData, u8*& inds, u32 size, u32 width, u32 height ){
-		u32 lineWidth = (width+1u)/2u/*+pitch*/;
+		u32 lineWidth = (width+gtConst1U)/gtConst2U/*+pitch*/;
 		u8* p = rleData;
 		u8* newBmp = inds;
 		u8* d = newBmp;

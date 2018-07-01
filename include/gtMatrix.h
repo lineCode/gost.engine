@@ -6,7 +6,7 @@ namespace gost{
 	
 	class gtMatrix4{
 
-		v4f m_data[ 4u ]; //< components
+		v4f m_data[ gtConst4U ]; //< components
 
 	public:
 
@@ -27,46 +27,46 @@ namespace gost{
 
 			//	set matrix 4 vectors
 		gtMatrix4( const v4f& x, const v4f& y, const v4f& z, const v4f& w ){
-			m_data[ 0 ] = x;
-			m_data[ 1 ] = y;
-			m_data[ 2 ] = z;
-			m_data[ 3 ] = w;
+			m_data[ gtConst0U ] = x;
+			m_data[ gtConst1U ] = y;
+			m_data[ gtConst2U ] = z;
+			m_data[ gtConst3U ] = w;
 		}
 
 			//	fill matrix with one value
 		void		fill( f32 v ){
-			m_data[ 0u ].fill( v );
-			m_data[ 1u ].fill( v );
-			m_data[ 2u ].fill( v );
-			m_data[ 3u ].fill( v );
+			m_data[ gtConst0U ].fill( v );
+			m_data[ gtConst1U ].fill( v );
+			m_data[ gtConst2U ].fill( v );
+			m_data[ gtConst3U ].fill( v );
 		}
 
 			// set all components = 0
 		void		zero(){
-			fill( 0.f );
+			fill( gtConst0F );
 		}
 
 		void		identity(){
 			auto * p = this->getPtr();
-			p[ 0u ] = 1.f;
-			p[ 1u ] = 0.f;
-			p[ 2u ] = 0.f;
-			p[ 3u ] = 0.f;
+			p[ gtConst0U ] = gtConst1F;
+			p[ gtConst1U ] = gtConst0F;
+			p[ gtConst2U ] = gtConst0F;
+			p[ gtConst3U ] = gtConst0F;
 
-			p[ 4u ] = 0.f;
-			p[ 5u ] = 1.f;
-			p[ 6u ] = 0.f;
-			p[ 7u ] = 0.f;
+			p[ gtConst4U ] = gtConst0F;
+			p[ gtConst5U ] = gtConst1F;
+			p[ gtConst6U ] = gtConst0F;
+			p[ gtConst7U ] = gtConst0F;
 
-			p[ 8u ] = 0.f;
-			p[ 9u ] = 0.f;
-			p[ 10u ] = 1.f;
-			p[ 11u ] = 0.f;
+			p[ gtConst8U ] = gtConst0F;
+			p[ gtConst9U ] = gtConst0F;
+			p[ gtConst10U ] = gtConst1F;
+			p[ gtConst11U ] = gtConst0F;
 
-			p[ 12u ] = 0.f;
-			p[ 13u ] = 0.f;
-			p[ 14u ] = 0.f;
-			p[ 15u ] = 1.f;
+			p[ gtConst12U ] = gtConst0F;
+			p[ gtConst13U ] = gtConst0F;
+			p[ gtConst14U ] = gtConst0F;
+			p[ gtConst15U ] = gtConst1F;
 
 		}
 
@@ -96,10 +96,10 @@ namespace gost{
 		gtMatrix4 operator+( const gtMatrix4& m ) const {
 			gtMatrix4 out = *this;
 
-			out[ 0u ] += m[ 0u ];
-			out[ 1u ] += m[ 1u ];
-			out[ 2u ] += m[ 2u ];
-			out[ 3u ] += m[ 3u ];
+			out[ gtConst0U ] += m[ gtConst0U ];
+			out[ gtConst1U ] += m[ gtConst1U ];
+			out[ gtConst2U ] += m[ gtConst2U ];
+			out[ gtConst3U ] += m[ gtConst3U ];
 
 			return out;
 		}
@@ -110,10 +110,10 @@ namespace gost{
 		gtMatrix4 operator-( const gtMatrix4& m ) const {
 			gtMatrix4 out = *this;
 
-			out[ 0u ] -= m[ 0u ];
-			out[ 1u ] -= m[ 1u ];
-			out[ 2u ] -= m[ 2u ];
-			out[ 3u ] -= m[ 3u ];
+			out[ gtConst0U ] -= m[ gtConst0U ];
+			out[ gtConst1U ] -= m[ gtConst1U ];
+			out[ gtConst2U ] -= m[ gtConst2U ];
+			out[ gtConst3U ] -= m[ gtConst3U ];
 
 			return out;
 		}
@@ -123,10 +123,10 @@ namespace gost{
 			// \return new matrix
 		gtMatrix4 operator*( const gtMatrix4& m ) const {
 			return gtMatrix4(
-				m_data[ 0 ] * m[0].x + m_data[ 1 ] * m[0].y + m_data[ 2 ] * m[0].z + m_data[ 3 ] * m[0].w,
-				m_data[ 0 ] * m[1].x + m_data[ 1 ] * m[1].y + m_data[ 2 ] * m[1].z + m_data[ 3 ] * m[1].w,
-				m_data[ 0 ] * m[2].x + m_data[ 1 ] * m[2].y + m_data[ 2 ] * m[2].z + m_data[ 3 ] * m[2].w,
-				m_data[ 0 ] * m[3].x + m_data[ 1 ] * m[3].y + m_data[ 2 ] * m[3].z + m_data[ 3 ] * m[3].w
+				m_data[ gtConst0U ] * m[ gtConst0U ].x + m_data[ gtConst1U ] * m[ gtConst0U ].y + m_data[ gtConst2U ] * m[ gtConst0U ].z + m_data[ gtConst3U ] * m[ gtConst0U ].w,
+				m_data[ gtConst0U ] * m[ gtConst1U ].x + m_data[ gtConst1U ] * m[ gtConst1U ].y + m_data[ gtConst2U ] * m[ gtConst1U ].z + m_data[ gtConst3U ] * m[ gtConst1U ].w,
+				m_data[ gtConst0U ] * m[ gtConst2U ].x + m_data[ gtConst1U ] * m[ gtConst2U ].y + m_data[ gtConst2U ] * m[ gtConst2U ].z + m_data[ gtConst3U ] * m[ gtConst2U ].w,
+				m_data[ gtConst0U ] * m[ gtConst3U ].x + m_data[ gtConst1U ] * m[ gtConst3U ].y + m_data[ gtConst2U ] * m[ gtConst3U ].z + m_data[ gtConst3U ] * m[ gtConst3U ].w
 			);
 		}
 
@@ -136,10 +136,10 @@ namespace gost{
 		gtMatrix4 operator/( const gtMatrix4& m ) const {
 			gtMatrix4 out = *this;
 
-			out[ 0u ] /= m[ 0u ];
-			out[ 1u ] /= m[ 1u ];
-			out[ 2u ] /= m[ 2u ];
-			out[ 3u ] /= m[ 3u ];
+			out[ gtConst0U ] /= m[ gtConst0U ];
+			out[ gtConst1U ] /= m[ gtConst1U ];
+			out[ gtConst2U ] /= m[ gtConst2U ];
+			out[ gtConst3U ] /= m[ gtConst3U ];
 
 			return out;
 		}
@@ -148,10 +148,10 @@ namespace gost{
 			// \param m: other matrix
 			// \return this matrix
 		gtMatrix4& operator+=( const gtMatrix4& m ){
-			m_data[ 0u ] += m[ 0u ];
-			m_data[ 1u ] += m[ 1u ];
-			m_data[ 2u ] += m[ 2u ];
-			m_data[ 3u ] += m[ 3u ];
+			m_data[ gtConst0U ] += m[ gtConst0U ];
+			m_data[ gtConst1U ] += m[ gtConst1U ];
+			m_data[ gtConst2U ] += m[ gtConst2U ];
+			m_data[ gtConst3U ] += m[ gtConst3U ];
 			return *this;
 		}
 
@@ -159,10 +159,10 @@ namespace gost{
 			// \param m: other matrix
 			// \return this matrix
 		gtMatrix4& operator-=( const gtMatrix4& m ){
-			m_data[ 0u ] -= m[ 0u ];
-			m_data[ 1u ] -= m[ 1u ];
-			m_data[ 2u ] -= m[ 2u ];
-			m_data[ 3u ] -= m[ 3u ];
+			m_data[ gtConst0U ] -= m[ gtConst0U ];
+			m_data[ gtConst1U ] -= m[ gtConst1U ];
+			m_data[ gtConst2U ] -= m[ gtConst2U ];
+			m_data[ gtConst3U ] -= m[ gtConst3U ];
 			return *this;
 		}
 
@@ -170,10 +170,10 @@ namespace gost{
 			// \param m: other matrix
 			// \return this matrix
 		gtMatrix4& operator*=( const gtMatrix4& m ){
-			m_data[ 0u ] *= m[ 0u ];
-			m_data[ 1u ] *= m[ 1u ];
-			m_data[ 2u ] *= m[ 2u ];
-			m_data[ 3u ] *= m[ 3u ];
+			m_data[ gtConst0U ] *= m[ gtConst0U ];
+			m_data[ gtConst1U ] *= m[ gtConst1U ];
+			m_data[ gtConst2U ] *= m[ gtConst2U ];
+			m_data[ gtConst3U ] *= m[ gtConst3U ];
 			return *this;
 		}
 
@@ -181,39 +181,39 @@ namespace gost{
 			// \param m: other matrix
 			// \return this matrix
 		gtMatrix4& operator/=( const gtMatrix4& m ){
-			m_data[ 0u ] /= m[ 0u ];
-			m_data[ 1u ] /= m[ 1u ];
-			m_data[ 2u ] /= m[ 2u ];
-			m_data[ 3u ] /= m[ 3u ];
+			m_data[ gtConst0U ] /= m[ gtConst0U ];
+			m_data[ gtConst1U ] /= m[ gtConst1U ];
+			m_data[ gtConst2U ] /= m[ gtConst2U ];
+			m_data[ gtConst3U ] /= m[ gtConst3U ];
 			return *this;
 		}
 
 			//	transpose
 		void transpose(){
 			gtMatrix4 tmp;
-			tmp[ 0 ].x = this->m_data[ 0 ].x; //0
-			tmp[ 0 ].y = this->m_data[ 1 ].x; //1
-			tmp[ 0 ].z = this->m_data[ 2 ].x; //2
-			tmp[ 0 ].w = this->m_data[ 3 ].x; //3
+			tmp[ gtConst0U ].x = this->m_data[ gtConst0U ].x; //0
+			tmp[ gtConst0U ].y = this->m_data[ gtConst1U ].x; //1
+			tmp[ gtConst0U ].z = this->m_data[ gtConst2U ].x; //2
+			tmp[ gtConst0U ].w = this->m_data[ gtConst3U ].x; //3
 
-			tmp[ 1 ].x = this->m_data[ 0 ].y; //4
-			tmp[ 1 ].y = this->m_data[ 1 ].y; //5
-			tmp[ 1 ].z = this->m_data[ 2 ].y; //6
-			tmp[ 1 ].w = this->m_data[ 3 ].y; //7
+			tmp[ gtConst1U ].x = this->m_data[ gtConst0U ].y; //4
+			tmp[ gtConst1U ].y = this->m_data[ gtConst1U ].y; //5
+			tmp[ gtConst1U ].z = this->m_data[ gtConst2U ].y; //6
+			tmp[ gtConst1U ].w = this->m_data[ gtConst3U ].y; //7
 
-			tmp[ 2 ].x = this->m_data[ 0 ].z; //8
-			tmp[ 2 ].y = this->m_data[ 1 ].z; //9
-			tmp[ 2 ].z = this->m_data[ 2 ].z; //10
-			tmp[ 2 ].w = this->m_data[ 3 ].z; //11
+			tmp[ gtConst2U ].x = this->m_data[ gtConst0U ].z; //8
+			tmp[ gtConst2U ].y = this->m_data[ gtConst1U ].z; //9
+			tmp[ gtConst2U ].z = this->m_data[ gtConst2U ].z; //10
+			tmp[ gtConst2U ].w = this->m_data[ gtConst3U ].z; //11
 
-			tmp[ 3 ].x = this->m_data[ 0 ].w; //12
-			tmp[ 3 ].y = this->m_data[ 1 ].w; //13
-			tmp[ 3 ].z = this->m_data[ 2 ].w; //14
-			tmp[ 3 ].w = this->m_data[ 3 ].w; //15
-			this->m_data[ 0 ] = tmp[ 0 ];
-			this->m_data[ 1 ] = tmp[ 1 ];
-			this->m_data[ 2 ] = tmp[ 2 ];
-			this->m_data[ 3 ] = tmp[ 3 ];
+			tmp[ gtConst3U ].x = this->m_data[ gtConst0U ].w; //12
+			tmp[ gtConst3U ].y = this->m_data[ gtConst1U ].w; //13
+			tmp[ gtConst3U ].z = this->m_data[ gtConst2U ].w; //14
+			tmp[ gtConst3U ].w = this->m_data[ gtConst3U ].w; //15
+			this->m_data[ gtConst0U ] = tmp[ gtConst0U ];
+			this->m_data[ gtConst1U ] = tmp[ gtConst1U ];
+			this->m_data[ gtConst2U ] = tmp[ gtConst2U ];
+			this->m_data[ gtConst3U ] = tmp[ gtConst3U ];
 		}
 	};
 
@@ -227,14 +227,14 @@ namespace gost{
 			// \param Far: far clip plane
 		GT_FORCE_INLINE void  makePerspectiveLHMatrix( gtMatrix4& in_out, f32 FOV, f32 aspect,
 			f32 Near, f32 Far){
-			f32 S	=	std::sin( 0.5f * FOV );
-			f32 C	=	std::cos( 0.5f * FOV );
+			f32 S	=	std::sin( gtConst05F * FOV );
+			f32 C	=	std::cos( gtConst05F * FOV );
 			f32 H = C / S;
 			f32 W = H / aspect;
-			in_out[0] = v4f( W, 0.f, 0.f, 0.f );
-			in_out[1] = v4f( 0.f, H, 0.f, 0.f );
-			in_out[2] = v4f( 0.f, 0.f, Far / (Near - Far), 1.f );
-			in_out[3] = v4f( 0.f, 0.f, -in_out[2].z * Near, 0.f );
+			in_out[ gtConst0U ] = v4f( W, gtConst0F, gtConst0F, gtConst0F );
+			in_out[ gtConst1U ] = v4f( gtConst0F, H, gtConst0F, gtConst0F );
+			in_out[ gtConst2U ] = v4f( gtConst0F, gtConst0F, Far / (Near - Far), gtConst1F );
+			in_out[ gtConst3U ] = v4f( gtConst0F, gtConst0F, -in_out[ gtConst2U ].z * Near, gtConst0F );
 		}
 
 			//	create perspective matrix for right hand coordinate system
@@ -245,14 +245,14 @@ namespace gost{
 			// \param Far: far clip plane
 		GT_FORCE_INLINE void  makePerspectiveRHMatrix( gtMatrix4& in_out, f32 FOV, f32 aspect,
 			f32 Near, f32 Far){
-			f32 S	=	std::sin( 0.5f * FOV );
-			f32 C	=	std::cos( 0.5f * FOV );
+			f32 S	=	std::sin( gtConst05F * FOV );
+			f32 C	=	std::cos( gtConst05F * FOV );
 			f32 H = C / S;
 			f32 W = H / aspect;
-			in_out[0] = v4f( W, 0.f, 0.f, 0.f );
-			in_out[1] = v4f( 0.f, H, 0.f, 0.f );
-			in_out[2] = v4f( 0.f, 0.f, Far / (Near - Far), -1.f );
-			in_out[3] = v4f( 0.f, 0.f, in_out[2].z * Near, 0.f );
+			in_out[ gtConst0U ] = v4f( W, gtConst0F, gtConst0F, gtConst0F );
+			in_out[ gtConst1U ] = v4f( gtConst0F, H, gtConst0F, gtConst0F );
+			in_out[ gtConst2U ] = v4f( gtConst0F, gtConst0F, Far / (Near - Far), -gtConst1F );
+			in_out[ gtConst3U ] = v4f( gtConst0F, gtConst0F, in_out[ gtConst2U ].z * Near, gtConst0F );
 		}
 
 			//	create orthogonal matrix for right hand coordinate system
@@ -263,10 +263,10 @@ namespace gost{
 			// \param Far: far clip plane
 		GT_FORCE_INLINE void  makeOrthoRHMatrix( gtMatrix4& in_out, f32 width, f32 height,
 			f32& Near, f32 Far ){
-			in_out[0] = v4f( 2.f / width, 0.f, 0.f, 0.f );
-			in_out[1] = v4f( 0.f, 2.f / height, 0.f, 0.f );
-			in_out[2] = v4f( 0.f, 0.f, 1.f / (Near - Far), 0.f );
-			in_out[3] = v4f( 0.f, 0.f, in_out[2].z * Near, 1.f );
+			in_out[ gtConst0U ] = v4f( gtConst2F / width, gtConst0F, gtConst0F, gtConst0F );
+			in_out[ gtConst1U ] = v4f( gtConst0F, gtConst2F / height, gtConst0F, gtConst0F );
+			in_out[ gtConst2U ] = v4f( gtConst0F, gtConst0F, gtConst1F / (Near - Far), gtConst0F );
+			in_out[ gtConst3U ] = v4f( gtConst0F, gtConst0F, in_out[ gtConst2U ].z * Near, gtConst1F );
 		}
 		
 			//	create \a look \a at matrix for right hand coordinate system
@@ -285,18 +285,18 @@ namespace gost{
 
 			in_out.identity();
 
-			in_out[0].x = s.x;
-			in_out[1].x = s.y;
-			in_out[2].x = s.z;
-			in_out[0].y = u.x;
-			in_out[1].y = u.y;
-			in_out[2].y = u.z;
-			in_out[0].z =-f.x;
-			in_out[1].z =-f.y;
-			in_out[2].z =-f.z;
-			in_out[3].x =-math::dot( s, eye );
-			in_out[3].y =-math::dot( u, eye );
-			in_out[3].z = math::dot( f, eye );
+			in_out[ gtConst0U ].x = s.x;
+			in_out[ gtConst1U ].x = s.y;
+			in_out[ gtConst2U ].x = s.z;
+			in_out[ gtConst0U ].y = u.x;
+			in_out[ gtConst1U ].y = u.y;
+			in_out[ gtConst2U ].y = u.z;
+			in_out[ gtConst0U ].z =-f.x;
+			in_out[ gtConst1U ].z =-f.y;
+			in_out[ gtConst2U ].z =-f.z;
+			in_out[ gtConst3U ].x =-math::dot( s, eye );
+			in_out[ gtConst3U ].y =-math::dot( u, eye );
+			in_out[ gtConst3U ].z = math::dot( f, eye );
 		}
 
 			//	create \a look \a at matrix for left hand coordinate system
@@ -315,33 +315,33 @@ namespace gost{
 
 			in_out.identity();
 
-			in_out[0].x = s.x;
-			in_out[1].x = s.y;
-			in_out[2].x = s.z;
-			in_out[0].y = u.x;
-			in_out[1].y = u.y;
-			in_out[2].y = u.z;
-			in_out[0].z = f.x;
-			in_out[1].z = f.y;
-			in_out[2].z = f.z;
-			in_out[3].x =-math::dot( s, eye );
-			in_out[3].y =-math::dot( u, eye );
-			in_out[3].z =-math::dot( f, eye );
+			in_out[ gtConst0U ].x = s.x;
+			in_out[ gtConst1U ].x = s.y;
+			in_out[ gtConst2U ].x = s.z;
+			in_out[ gtConst0U ].y = u.x;
+			in_out[ gtConst1U ].y = u.y;
+			in_out[ gtConst2U ].y = u.z;
+			in_out[ gtConst0U ].z = f.x;
+			in_out[ gtConst1U ].z = f.y;
+			in_out[ gtConst2U ].z = f.z;
+			in_out[ gtConst3U ].x =-math::dot( s, eye );
+			in_out[ gtConst3U ].y =-math::dot( u, eye );
+			in_out[ gtConst3U ].z =-math::dot( f, eye );
 		}
 
 			//	create translation matrix
 			// \param in_out: translation matrix
 			// \param position: position
 		GT_FORCE_INLINE void makeTranslationMatrix( gtMatrix4& in_out, const v3f& position ){
-			in_out[ 3 ].x = position.x;
-			in_out[ 3 ].y = position.y;
-			in_out[ 3 ].z = position.z;
+			in_out[ gtConst3U ].x = position.x;
+			in_out[ gtConst3U ].y = position.y;
+			in_out[ gtConst3U ].z = position.z;
 		}
 
 		GT_FORCE_INLINE void makeScaleMatrix( gtMatrix4& in_out, const v3f& scale ){
-			in_out[ 0 ].x = scale.x;
-			in_out[ 1 ].y = scale.y;
-			in_out[ 2 ].z = scale.z;
+			in_out[ gtConst0U ].x = scale.x;
+			in_out[ gtConst1U ].y = scale.y;
+			in_out[ gtConst2U ].z = scale.z;
 		}
 
 			//	create rotation matrix
@@ -370,29 +370,29 @@ namespace gost{
 			wy = p.w * y2;
 			wz = p.w * z2;
 
-			in_out[ 0 ].x = 1.0f - ( yy + zz );
-			in_out[ 0 ].y = xy - wz;
-			in_out[ 0 ].z = xz + wy;
+			in_out[ gtConst0U ].x = gtConst1F - ( yy + zz );
+			in_out[ gtConst0U ].y = xy - wz;
+			in_out[ gtConst0U ].z = xz + wy;
 
-			in_out[ 1 ].x = xy + wz;
-			in_out[ 1 ].y = 1.0f - ( xx + zz );
-			in_out[ 1 ].z = yz - wx;
+			in_out[ gtConst1U ].x = xy + wz;
+			in_out[ gtConst1U ].y = gtConst1F - ( xx + zz );
+			in_out[ gtConst1U ].z = yz - wx;
 
-			in_out[ 2 ].x = xz - wy;
-			in_out[ 2 ].y = yz + wx;
-			in_out[ 2 ].z = 1.0f - ( xx + yy );
+			in_out[ gtConst2U ].x = xz - wy;
+			in_out[ gtConst2U ].y = yz + wx;
+			in_out[ gtConst2U ].z = gtConst1F - ( xx + yy );
 
 
-			in_out[0].w	=	in_out[1].w = in_out[2].w = in_out[3].x = in_out[3].y = in_out[3].z = 0.f;
-			in_out[3].w  = 1.f;
+			in_out[ gtConst0U ].w	=	in_out[ gtConst1U ].w = in_out[ gtConst2U ].w = in_out[ gtConst3U ].x = in_out[ gtConst3U ].y = in_out[ gtConst3U ].z = gtConst0F;
+			in_out[ gtConst3U ].w  = gtConst1F;
 		}
 
 			//Vector-matrix product
 		GT_FORCE_INLINE v3f mul( const v3f& vec, const gtMatrix4& mat ){
 			return v3f(
-				mat[ 0u ].x * vec.x + mat[ 1u ].x * vec.y + mat[ 2u ].x * vec.z,
-				mat[ 0u ].y * vec.x + mat[ 1u ].y * vec.y + mat[ 2u ].y * vec.z,
-				mat[ 0u ].z * vec.x + mat[ 1u ].z * vec.y + mat[ 2u ].z * vec.z
+				mat[ gtConst0U ].x * vec.x + mat[ gtConst1U ].x * vec.y + mat[ gtConst2U ].x * vec.z,
+				mat[ gtConst0U ].y * vec.x + mat[ gtConst1U ].y * vec.y + mat[ gtConst2U ].y * vec.z,
+				mat[ gtConst0U ].z * vec.x + mat[ gtConst1U ].z * vec.y + mat[ gtConst2U ].z * vec.z
 			);
 		}
 

@@ -10,7 +10,7 @@ gtFileWin32::gtFileWin32( const gtString& fileName, gtFileMode mode,
 			gtFileShareMode EFSM,
 			u32 EFA ):
 m_handle(nullptr), m_isTextFile(false),
-m_pointerPosition( 0u )
+m_pointerPosition( gtConst0U )
 {
 
 	m_desiredAccess = 0;
@@ -99,7 +99,7 @@ gtTextFileInfo	gtFileWin32::getTextFileInfo(){
 void	gtFileWin32::setTextFileInfo( gtTextFileInfo info ){
 	m_textInfo = info;
 
-	this->seek( 0u, gtFileSeekPos::Begin );
+	this->seek( gtConst0U, gtFileSeekPos::Begin );
 
 	if( info.m_hasBOM ){
 
@@ -108,34 +108,34 @@ void	gtFileWin32::setTextFileInfo( gtTextFileInfo info ){
 
 		switch( info.m_format ){
 			case gtTextFileFormat::UTF_8:{
-				str.data()[ 0u ] = (u8)0xEF;
-				str.data()[ 1u ] = (u8)0xBB;
-				str.data()[ 2u ] = (u8)0xBF;
-				str.setSize( 3u );
+				str.data()[ gtConst0U ] = (u8)0xEF;
+				str.data()[ gtConst1U ] = (u8)0xBB;
+				str.data()[ gtConst2U ] = (u8)0xBF;
+				str.setSize( gtConst3U );
 			}break;
 			case gtTextFileFormat::UTF_16:{
 				if( info.m_endian == gtTextFileEndian::Big ){
-					str.data()[ 0u ] = (u8)0xFE;
-					str.data()[ 1u ] = (u8)0xFF;
+					str.data()[ gtConst0U ] = (u8)0xFE;
+					str.data()[ gtConst1U ] = (u8)0xFF;
 				}else{
-					str.data()[ 0u ] = (u8)0xFF;
-					str.data()[ 1u ] = (u8)0xFE;
+					str.data()[ gtConst0U ] = (u8)0xFF;
+					str.data()[ gtConst1U ] = (u8)0xFE;
 				}
-				str.setSize( 2u );
+				str.setSize( gtConst2U );
 			}break;
 			case gtTextFileFormat::UTF_32:{
 				if( info.m_endian == gtTextFileEndian::Big ){
-					str.data()[ 0u ] = (u8)0x00;
-					str.data()[ 1u ] = (u8)0x00;
-					str.data()[ 2u ] = (u8)0xFE;
-					str.data()[ 3u ] = (u8)0xFF;
+					str.data()[ gtConst0U ] = (u8)0x00;
+					str.data()[ gtConst1U ] = (u8)0x00;
+					str.data()[ gtConst2U ] = (u8)0xFE;
+					str.data()[ gtConst3U ] = (u8)0xFF;
 				}else{
-					str.data()[ 0u ] = (u8)0xFF;
-					str.data()[ 1u ] = (u8)0xFE;
-					str.data()[ 2u ] = (u8)0x00;
-					str.data()[ 3u ] = (u8)0x00;
+					str.data()[ gtConst0U ] = (u8)0xFF;
+					str.data()[ gtConst1U ] = (u8)0xFE;
+					str.data()[ gtConst2U ] = (u8)0x00;
+					str.data()[ gtConst3U ] = (u8)0x00;
 				}
-				str.setSize( 4u );
+				str.setSize( gtConst4U );
 			}break;
 		}
 		this->write( str );
@@ -214,7 +214,7 @@ void	gtFileWin32::flush(){
 u64	gtFileWin32::read( u8 * data, u64 size ){
 	GT_ASSERT1( (m_desiredAccess & GENERIC_READ), "Can not read from file.", "File open in WRITE_ONLY mode" );
 	if( m_handle ){
-		DWORD readBytesNum = 0u;
+		DWORD readBytesNum = gtConst0U;
 		if( ReadFile(	m_handle,
 						data, (DWORD)size,
 						&readBytesNum,
@@ -224,13 +224,13 @@ u64	gtFileWin32::read( u8 * data, u64 size ){
 		}
 		return readBytesNum;
 	}
-	return 0u;
+	return gtConst0U;
 }
 
 u64		gtFileWin32::size(){
 	if( !m_handle ){
 		gtLogWriter::printWarning( u"Can not get file size. m_handle == nullptr" );
-		return 0u;
+		return gtConst0U;
 	}
 	return static_cast<u64>( GetFileSize( m_handle, NULL ) );
 }

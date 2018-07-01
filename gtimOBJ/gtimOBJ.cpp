@@ -13,7 +13,7 @@ using namespace gost;
 #pragma comment(lib, "gost.lib")
 #endif
 
-#define GT_EXT_COUNT 1u
+#define GT_EXT_COUNT gtConst1U
 
 extern "C"{
 	
@@ -95,12 +95,12 @@ extern "C"{
 
 		gtLogWriter::printInfo( u"Loading model: %s", fileName->data() );
 
-		u32 fileSz = 0u;
+		u32 fileSz = gtConst0U;
 		std::unique_ptr<u8[]> data;
 		{
 			gtFile_t file = util::openFileForReadBin( *fileName );
 			fileSz = file->size();
-			data.reset( new u8[ fileSz+1u ] );
+			data.reset( new u8[ fileSz+gtConst1U ] );
 			file->read( data.get(), fileSz );
 		}
 
@@ -130,7 +130,7 @@ extern "C"{
 			gtVertexType::End
 		};
 
-		auto model = gtMainSystem::getInstance()->getModelSystem()->createEmpty( gtStrideStandart, &vt[ 0u ] );
+		auto model = gtMainSystem::getInstance()->getModelSystem()->createEmpty( gtStrideStandart, &vt[ gtConst0U ] );
 
 		/*для удобства*/
 		struct vert_t{
@@ -156,7 +156,7 @@ extern "C"{
 		gtArray<CacheEntry*>	m_VertexCache_trash;
 		gtArray<VERTEX> m_Vertices;      // Filled and copied to the vertex buffer
 		gtArray<u32>	m_Indices;       // Filled and copied to the index buffer
-		u32 index = 0u;
+		u32 index = gtConst0U;
 
 		bool groupBegin = false;
 
@@ -211,7 +211,7 @@ extern "C"{
 				VERTEX vertex;
 				u32 iPosition, iTexCoord, iNormal;
 
-				for( u32 iFace = 0; iFace < 3u; iFace++ ){
+				for( u32 iFace = 0; iFace < gtConst3U; iFace++ ){
 					ZeroMemory( &vertex, sizeof( VERTEX ) );
 
 
@@ -430,7 +430,7 @@ extern "C"{
 		s8 str[ 32u ];
 		memset( str, 0, 32 );
 
-		s8 * p = &str[ 0u ];
+		s8 * p = &str[ gtConst0U ];
 		while( *ptr ){
 			if( !isdigit(*ptr) && (*ptr != '-') && (*ptr != '.')  ) break;
 
@@ -518,10 +518,10 @@ extern "C"{
 	}
 
 	u8 * getInt( u8 * p, int& i ){
-		s8 str[ 8u ];
+		s8 str[ gtConst8U ];
 		memset( str, 0, 8 );
 
-		s8 * pi = &str[ 0u ];
+		s8 * pi = &str[ gtConst0U ];
 
 		while( *p ){
 
@@ -548,9 +548,9 @@ extern "C"{
 
 		s32 p, n, t;
 
-		u32 id1 = 0u; /*проба изменить порядок обхода вершин*/
-		u32 id2 = 2u; /*сделать по часовой стрелке*/
-		u32 id3 = 1u; /*оригинал 0 1 2*/
+		u32 id1 = gtConst0U; /*проба изменить порядок обхода вершин*/
+		u32 id2 = gtConst2U; /*сделать по часовой стрелке*/
+		u32 id3 = gtConst1U; /*оригинал 0 1 2*/
 
 		p1 = getInt( p1, p );
 		p1 = getInt( p1, t );

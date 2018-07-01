@@ -28,9 +28,9 @@ void				gtDummyObjectImpl::update(){
 	math::makeRotationMatrix( rotationMatrix, m_orientation );
 
 	gtMatrix4	scaleMatrix;
-	scaleMatrix[ 0u ].fill(1.f);
-	scaleMatrix[ 1u ].fill(1.f);
-	scaleMatrix[ 2u ].fill(1.f);
+	scaleMatrix[ gtConst0U ].fill(1.f);
+	scaleMatrix[ gtConst1U ].fill(1.f);
+	scaleMatrix[ gtConst2U ].fill(1.f);
 
 	m_worldMatrix = translationMatrix * rotationMatrix * scaleMatrix;
 

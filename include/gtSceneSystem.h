@@ -16,11 +16,11 @@ namespace gost{
 	class gtSceneSystem : public gtRefObject{
 	public:
 		
-		virtual gtCamera*		addCamera( const v3f& position = v3f(), const v3f& target = v3f(), s32 id = -1, bool setActive = true ) = 0;
+		virtual gtCamera*		addCamera( const v3f& position = v3f(), const v3f& target = v3f(), s32 id = gtConst_1, bool setActive = true ) = 0;
 		virtual gtCamera*		addCamera2D( const v4f& viewport, s32 id = -1, bool setActive = true ) = 0;
-		virtual gtDummyObject*	addDummyObject( const v3f& position = v3f(), const gtStringA& name = gtStringA(), s32 id = -1 ) = 0;
-		virtual gtSprite*		addSprite( gtTexture * texture, const v2f& size, const v3f& position = v3f(0.f,0.f,5.f), bool asBillboard = false ) = 0;
-		virtual gtStaticObject*	addStaticObject( gtRenderModel* model, const v3f& position = v3f(), const gtStringA& name = gtStringA(), s32 id = -1 ) = 0;
+		virtual gtDummyObject*	addDummyObject( const v3f& position = v3f(), const gtStringA& name = gtStringA(), s32 id = gtConst_1 ) = 0;
+		virtual gtSprite*		addSprite( gtTexture * texture, const v2f& size, const v3f& position = v3f(gtConst0F,gtConst0F,5.f), bool asBillboard = false ) = 0;
+		virtual gtStaticObject*	addStaticObject( gtRenderModel* model, const v3f& position = v3f(), const gtStringA& name = gtStringA(), s32 id = -gtConst_1 ) = 0;
 		virtual void			clearScene() = 0;
 		virtual gtCamera*		getActiveCamera() = 0;
 		virtual gtGameObject*	getRootObject() = 0;

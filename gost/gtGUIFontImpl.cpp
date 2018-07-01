@@ -2,14 +2,14 @@
 
 gtGUIFontImpl::gtGUIFontImpl( gtGraphicsSystem * d ):
 m_gs( d ),
-m_width(0u),
-m_height(0u){
+m_width(gtConst0U),
+m_height(gtConst0U){
 	m_type = gtGUIObjectType::Font;
 }
 
 gtGUIFontImpl::~gtGUIFontImpl(){
 	u32 sz = m_chars.size();
-	for( u32 i = 0u; i < sz; ++i ){
+	for( u32 i = gtConst0U; i < sz; ++i ){
 
 		if( m_chars[ i ] ){
 			delete m_chars[ i ];
@@ -30,7 +30,7 @@ gtVector4<u16>* gtGUIFontImpl::getRect( char16_t c ){
 u32 gtGUIFontImpl::getTextureID( char16_t c ){
 	if( m_chars[ (u16)c ] )
 			return m_chars[ (u16)c ]->texture_id;
-	return 0u;
+	return gtConst0U;
 }
 
 gtTexture * gtGUIFontImpl::getTexture( u32 id ){
@@ -62,7 +62,7 @@ bool gtGUIFontImpl::init( const gtString& font, gtImage * image ){
 		}
 
 		m_chars.reserve( 0xffff );
-		for( u32 i = 0u; i < 65535; ++i ){
+		for( u32 i = gtConst0U; i < 65535; ++i ){
 			m_chars.push_back( nullptr );
 		}
 	
@@ -74,7 +74,7 @@ bool gtGUIFontImpl::init( const gtString& font, gtImage * image ){
 
 		auto sz = arr_nodes.size();
 
-		for( u32 i = 0u; i < sz; ++i ){
+		for( u32 i = gtConst0U; i < sz; ++i ){
 
 			gtXMLNode * n = arr_nodes[ i ];
 
@@ -82,7 +82,7 @@ bool gtGUIFontImpl::init( const gtString& font, gtImage * image ){
 				gtXMLAttribute * a = n->getAttribute( u"c" );
 				if( a ){
 
-					u32 val = (u32)a->value[ 0u ];
+					u32 val = (u32)a->value[ gtConst0U ];
 					if( val >= 0xffff ) continue;
 
 					m_chars[ val ] = new character_base;
@@ -149,7 +149,7 @@ bool gtGUIFontImpl::initFromFile( const gtString& font ){
 
 	u32 sz = arr_nodes.size();
 	gtString textureFilePath;
-	for( u32 i = 0u; i < sz; ++i ){
+	for( u32 i = gtConst0U; i < sz; ++i ){
 		textureFilePath = folderPath;
 		gtXMLNode * node = arr_nodes[ i ];
 		u32 asz = node->attributeList.size();
@@ -157,7 +157,7 @@ bool gtGUIFontImpl::initFromFile( const gtString& font ){
 			gtLogWriter::printWarning( u"Wrong XML file. Can not find attributes" );
 			return false;
 		}
-		for( u32 o = 0u; o < asz; ++o ){
+		for( u32 o = gtConst0U; o < asz; ++o ){
 			gtXMLAttribute * att = node->attributeList[ o ];
 			if( !att ){
 				gtLogWriter::printWarning( u"gtXMLAttribute == nullptr" );
@@ -171,7 +171,7 @@ bool gtGUIFontImpl::initFromFile( const gtString& font ){
 			}
 		}
 
-		for( u32 o = 0u; o < asz; ++o ){
+		for( u32 o = gtConst0U; o < asz; ++o ){
 			gtXMLAttribute * att = node->attributeList[ o ];
 			if( att->name == u"filename" ){
 				if( !att->value.size() ){
@@ -206,7 +206,7 @@ bool gtGUIFontImpl::initFromFile( const gtString& font ){
 
 
 	m_chars.reserve( 0xffff );
-	for( u32 i = 0u; i < 65535; ++i ){
+	for( u32 i = gtConst0U; i < 65535; ++i ){
 		m_chars.push_back( nullptr );
 	}
 	
@@ -218,7 +218,7 @@ bool gtGUIFontImpl::initFromFile( const gtString& font ){
 
 	sz = arr_nodes.size();
 
-	for( u32 i = 0u; i < sz; ++i ){
+	for( u32 i = gtConst0U; i < sz; ++i ){
 
 		gtXMLNode * n = arr_nodes[ i ];
 
@@ -226,7 +226,7 @@ bool gtGUIFontImpl::initFromFile( const gtString& font ){
 			gtXMLAttribute * a = n->getAttribute( u"c" );
 			if( a ){
 
-				u32 val = (u32)a->value[ 0u ];
+				u32 val = (u32)a->value[ gtConst0U ];
 				if( val >= 0xffff ) continue;
 
 				m_chars[ val ] = new character_base;

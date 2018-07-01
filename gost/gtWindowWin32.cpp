@@ -5,7 +5,7 @@
 #if defined(GT_PLATFORM_WIN32)
 
 gtWindowWin32::gtWindowWin32( gtWindowInfo* wi )
-	:	m_hWnd( 0u ), m_isInit( false )
+	:	m_hWnd( gtConst0U ), m_isInit( false )
 {
 	m_params = *wi;
 
@@ -494,7 +494,7 @@ LRESULT CALLBACK gtWindowWin32::WndProc(HWND hWnd, UINT message, WPARAM wParam, 
 
 		u8 keys[ 256u ];
 		GetKeyboardState( keys );
-		WORD chars[ 2u ];
+		WORD chars[ gtConst2U ];
 
 		if( ToAsciiEx( (UINT)wParam, HIWORD(lParam), keys, chars, 0, KEYBOARD_INPUT_HKL ) == 1 ){
 			WORD uChar;

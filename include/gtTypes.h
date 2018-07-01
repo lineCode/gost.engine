@@ -101,6 +101,8 @@ namespace gost{
 	GT_TYPE( gtReal, f32 );				//< See \ref _GT_TYPE
 	#endif
 
+	#include <gtConstants.h>
+
 
 
 	#define GT_FUNCTION __FUNCTION__
@@ -142,7 +144,7 @@ namespace gost{
 	};
 
 	union gtByte{
-		gtByte():byte( 0u ){}
+		gtByte():byte( gtConst0U ){}
 		gtBits bits;
 		u8 byte;
 	};

@@ -3,7 +3,7 @@
 #include "common.h"
 
 gtPluginSystemImpl::gtPluginSystemImpl():
-	m_numOfPlugins( 0u )
+	m_numOfPlugins( gtConst0U )
 {
 }
 
@@ -23,7 +23,7 @@ void gtPluginSystemImpl::scanFolder( const gtString& dir ){
 
 	u32 sz = objs.size();
 
-	for( u32 i = 0u; i < sz; ++i ){
+	for( u32 i = gtConst0U; i < sz; ++i ){
 		auto * o = &objs[ i ];
 		if( o->type == gtFileSystem::DirObjectType::file ){
 			gtString extension = util::stringGetExtension( gtString((char16_t*)o->path) );
@@ -128,7 +128,7 @@ void gtPluginSystemImpl::scanFolder( const gtString& dir ){
 		}
 	}
 
-	for( u32 i = 0u; i < sz; ++i ){
+	for( u32 i = gtConst0U; i < sz; ++i ){
 		auto * o = &objs[ i ];
 
 		if( o->type == gtFileSystem::DirObjectType::folder ){
@@ -161,7 +161,7 @@ gtPlugin*	gtPluginSystemImpl::getPlugin( const GT_GUID& uid ){
 
 	if( !sz ) return nullptr;
 
-	for( u32 i = 0u; i < sz; ++i ){
+	for( u32 i = gtConst0U; i < sz; ++i ){
 		auto * o = m_plugins[ i ];
 		if( o->getInfo().m_info.m_GUID == uid ){
 			return o;
@@ -205,7 +205,7 @@ gtImage * gtPluginSystemImpl::importImage( const gtString& fileName, const GT_GU
 	gtImage * image = new gtImage;
 
 	u32 sz = this->m_importImagePluginCache.size();
-	for( u32 i = 0u; i < sz; ++i ){
+	for( u32 i = gtConst0U; i < sz; ++i ){
 		auto * o = &this->m_importImagePluginCache[ i ];
 
 		if( useguid ){
@@ -216,7 +216,7 @@ gtImage * gtPluginSystemImpl::importImage( const gtString& fileName, const GT_GU
 			}
 		}else{
 			u32 esz = o->data()->m_extensions.size();
-			for( u32 j = 0u; j < esz; ++j ){
+			for( u32 j = gtConst0U; j < esz; ++j ){
 				if( o->data()->m_extensions[ j ] == ext ){
 					o->data()->load();
 					o->data()->loadImage( &file, &image );
@@ -254,7 +254,7 @@ gtModel * gtPluginSystemImpl::importModel( const gtString& fileName, const GT_GU
 	gtModel * model = nullptr;//= gtMainSystem::getInstance()->getModelSystem()->createEmpty(;
 
 	u32 sz = this->m_importModelPluginCache.size();
-	for( u32 i = 0u; i < sz; ++i ){
+	for( u32 i = gtConst0U; i < sz; ++i ){
 		auto * o = &this->m_importModelPluginCache[ i ];
 
 		if( useguid ){
@@ -264,7 +264,7 @@ gtModel * gtPluginSystemImpl::importModel( const gtString& fileName, const GT_GU
 			}
 		}else{
 			u32 esz = o->data()->m_extensions.size();
-			for( u32 j = 0u; j < esz; ++j ){
+			for( u32 j = gtConst0U; j < esz; ++j ){
 				if( o->data()->m_extensions[ j ] == ext ){
 					o->data()->load();
 					return o->data()->loadModel( &file );

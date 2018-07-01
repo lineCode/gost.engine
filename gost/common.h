@@ -16,7 +16,7 @@ using namespace gost;
 
 
 //	GOST
-
+#include "gtImageImpl.h"
 #include "gtCameraImpl.h"
 #include "gtStaticObjectImpl.h"
 #include "gtDummyObjectImpl.h"

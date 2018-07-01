@@ -35,7 +35,7 @@ namespace gost{
 
 		void center( v3f& v ){
 			v = v3f( m_min + m_max );
-			v *= 0.5f;
+			v *= gtConst05F;
 		}
 
 		void extent( v3f& v ){

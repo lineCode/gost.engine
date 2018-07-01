@@ -28,7 +28,7 @@ bool Wave::getInfo( gtAudioSourceInfo& info ){
 		return false;
 	}*/
 
-	if( m_header.audioFormat != 1u ){
+	if( m_header.audioFormat != gtConst1U ){
 		gtLogWriter::printWarning( u"Unsupported wav format." );
 		return false;
 	}

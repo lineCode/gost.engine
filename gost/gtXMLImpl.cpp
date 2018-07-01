@@ -18,7 +18,7 @@ gtPtr<gtXMLDocument> gtFileSystem::XMLRead( const gtString& file ){
 
 void writeText( gtString& outText, const gtString& inText ){
 	u32 sz = inText.size();
-	for( u32 i = 0u; i < sz; ++i ){
+	for( u32 i = gtConst0U; i < sz; ++i ){
 		if( inText[ i ] == u'\'' ){
 			outText += u"&apos;";
 		}else if( inText[ i ] == u'\"' ){
@@ -41,7 +41,7 @@ void writeName( gtString& outText, const gtString& inText ){
 }
 
 bool writeNodes( gtString& outText, gtXMLNode* node, u32 tabCount ){
-	for( u32 i = 0u; i < tabCount; ++i ){
+	for( u32 i = gtConst0U; i < tabCount; ++i ){
 		outText += u"\t";
 	}
 
@@ -51,7 +51,7 @@ bool writeNodes( gtString& outText, gtXMLNode* node, u32 tabCount ){
 	
 	u32 sz = node->attributeList.size();
 	if( sz ){
-		for( u32 i = 0u; i < sz; ++i ){
+		for( u32 i = gtConst0U; i < sz; ++i ){
 			outText += u" ";
 			outText += node->attributeList[ i ]->name;
 			outText += u"=";
@@ -67,9 +67,9 @@ bool writeNodes( gtString& outText, gtXMLNode* node, u32 tabCount ){
 	}else{
 		outText += u">\r\n";
 		sz = node->nodeList.size();
-		for( u32 i = 0u; i < sz; ++i ){
+		for( u32 i = gtConst0U; i < sz; ++i ){
 			if( !writeNodes( outText, node->nodeList[ i ], tabCount ) ){
-				for( u32 o = 0u; o < tabCount; ++o ){
+				for( u32 o = gtConst0U; o < tabCount; ++o ){
 					outText += u"\t";
 				}
 				outText += u"</";
@@ -80,7 +80,7 @@ bool writeNodes( gtString& outText, gtXMLNode* node, u32 tabCount ){
 	}
 
 	if( node->text.size() ){
-		for( u32 o = 0u; o < tabCount; ++o ){
+		for( u32 o = gtConst0U; o < tabCount; ++o ){
 			outText += u"\t";
 		}
 		writeText( outText, node->text );

@@ -84,7 +84,7 @@ void gtLogImpl::deformat( const char16_t* fmt,
 	va_list list = (va_list)args;
 
 	bool S = false;
-	for( u32 i(0u); i < len; ++i ){
+	for( u32 i(gtConst0U); i < len; ++i ){
 
 		std::wostringstream ss;
 
@@ -110,7 +110,7 @@ void gtLogImpl::deformat( const char16_t* fmt,
 				u32 len2( 0U );
 				do{ ++len2; } while(*p2++);
 				p2 -= len2;
-				for( u32 o(0U); o < len2-1u; ++o )
+				for( u32 o(0U); o < len2-gtConst1U; ++o )
 					message += p2[ o ];
 				continue;
 			}

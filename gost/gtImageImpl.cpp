@@ -1,37 +1,8 @@
-#pragma once
-#ifndef __GT_INPUT_SYSTEM_IMPL_H__
-#define __GT_INPUT_SYSTEM_IMPL_H__
-
-namespace gost{
-
-	class gtInputSystemImpl : public gtInputSystem{
-		bool			m_keysDown[ gtConst256U ];
-		gtVector2<u16>	m_cursorPosition;
-		gtByte			m_mouseState;
-	public:
-		gtInputSystemImpl();
-		virtual ~gtInputSystemImpl();
-
-		gtPtr<gtInputController> createInputContoller( const GT_GUID& plugin );
-		bool isKeyDown( gtKey key );
-		const gtVector2<u16>& getCursorPosition();
-		bool isLMBDown();
-		bool isRMBDown();
-		bool isMMBDown();
-
-		void reset();
-		void setKeyboardState( gtEventKeyboard * e );
-		void setMouseState( gtEventMouse * e );
-	};
-
-
-}
-
-#endif
+#include "common.h"
 
 
 /*
-Copyright (c) 2017-2018 532235
+Copyright (c) 2018 532235
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
 and associated documentation files (the "Software"), to deal in the Software without restriction, 

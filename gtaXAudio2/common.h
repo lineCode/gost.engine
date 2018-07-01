@@ -53,7 +53,7 @@ enum class XAudioVersion : u32{
 	none
 };
 
-#define NUM_OF_SUPPORTED_EXTENSIONS 2u
+#define NUM_OF_SUPPORTED_EXTENSIONS gtConst2U
 
 constexpr s8* Extensions[ NUM_OF_SUPPORTED_EXTENSIONS ] = {
 	"wav",

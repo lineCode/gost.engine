@@ -14,19 +14,19 @@ namespace gost{
 
 	struct gtInputDevice{
 		gtInputDevice():
-			m_POV1(-1),
-			m_POV2(-1),
-			m_POV3(-1),
-			m_POV4(-1),
-			m_lX(0),
-			m_lY(0),
-			m_lZ(0),
-			m_lRx(0),
-			m_lRy(0),
-			m_lRz(0),
+			m_POV1(gtConst_1),
+			m_POV2(gtConst_1),
+			m_POV3(gtConst_1),
+			m_POV4(gtConst_1),
+			m_lX(gtConst0),
+			m_lY(gtConst0),
+			m_lZ(gtConst0),
+			m_lRx(gtConst0),
+			m_lRy(gtConst0),
+			m_lRz(gtConst0),
 			m_active( false )
 		{
-			memset(m_buttons,0,256u);
+			memset(m_buttons,gtConst0,gtConst256U);
 		}
 
 		virtual ~gtInputDevice(){}
@@ -34,7 +34,7 @@ namespace gost{
 		GT_GUID guid;
 		GT_GUID guidManufacturer;
 		gtString name;
-		u8 m_buttons[256u];
+		u8 m_buttons[ gtConst256U ];
 		s32 m_POV1;
 		s32 m_POV2;
 		s32 m_POV3;

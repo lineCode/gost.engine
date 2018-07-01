@@ -11,8 +11,8 @@ namespace gost{
 			m_stencilBuffer( true ),
 			m_doubleBuffer( true ),
 			m_vSync( false ),
-			m_colorDepth( 32u ),
-			m_adapterID( 0u ),
+			m_colorDepth( gtConst32U ),
+			m_adapterID( gtConst0U ),
 			m_outWindow( nullptr )
 		{
 			m_backBufferSize.set( 800, 600 );
@@ -23,8 +23,8 @@ namespace gost{
 			m_stencilBuffer( true ),
 			m_doubleBuffer( true ),
 			m_vSync( false ),
-			m_colorDepth( 32u ),
-			m_adapterID( 0u ),
+			m_colorDepth( gtConst32U ),
+			m_adapterID( gtConst0U ),
 			m_outWindow( wi->m_owner )
 		{
 			m_backBufferSize.set( wi->m_rect.getWidth(), wi->m_rect.getHeight() );
@@ -58,7 +58,7 @@ namespace gost{
 		virtual void draw2DImage( const v4i& rect, gtTexture* texture ) = 0;
 		virtual void draw2DImage( const v4i& rect, const v4i& region, const gtMaterial& m ) = 0;
 		virtual void draw2DImage( const v4i& rect, const v4i& region, gtTexture* texture ) = 0;
-		virtual void drawLine( const v3f& start, const v3f& end, const gtColor& color = gtColor( 1.f, 1.f, 1.f, 1.f ) ) = 0;
+		virtual void drawLine( const v3f& start, const v3f& end, const gtColor& color = gtColor( gtColorWhite ) ) = 0;
 		/*
 			//       v6-----------v2
 			//      /|			/ |
@@ -74,14 +74,14 @@ namespace gost{
 		*/
 		virtual void drawLineBox( const v3f& v1, const v3f& v2, const v3f& v3, const v3f& v4,
 			const v3f& v5, const v3f& v6, const v3f& v7, const v3f& v8,
-			const v3f& positionOffset = v3f(), const gtColor& color = gtColor( 1.f, 1.f, 1.f, 1.f ) ) = 0;
+			const v3f& positionOffset = v3f(), const gtColor& color = gtColor( gtColorWhite ) ) = 0;
 
-		virtual void drawLineSphere( const v3f& position, f32 radius, u32 smoothLevel = 1u, const gtColor& color1 = gtColor( 1.f, 1.f, 1.f, 1.f ),
-			const gtColor& color2 = gtColor( 1.f, 1.f, 1.f, 1.f ),
-			const gtColor& color3 = gtColor( 1.f, 1.f, 1.f, 1.f )) = 0;
+		virtual void drawLineSphere( const v3f& position, f32 radius, u32 smoothLevel = gtConst1U, const gtColor& color1 = gtColor( gtColorWhite ),
+			const gtColor& color2 = gtColor( gtColorWhite ),
+			const gtColor& color3 = gtColor( gtColorWhite )) = 0;
 
 		virtual void drawModel( gtRenderModel* model ) = 0;
-		virtual void beginRender( bool clearRenderTarget = true, const gtColor& color = gtColor(0.f) ) = 0;
+		virtual void beginRender( bool clearRenderTarget = true, const gtColor& color = gtColor( gtColorBlack ) ) = 0;
 		virtual void endRender() = 0;
 
 		virtual gtShader *	getShader(
@@ -135,7 +135,7 @@ namespace gost{
 
 		gtTexture* get_texture( const gtString& path, gtTextureFilterType filter, gtImage** im ){
 			u32 sz = m_textures.size();
-			for( u32 i = 0u; i < sz; ++i ){
+			for( u32 i = gtConst0U; i < sz; ++i ){
 				if( path == m_textures[ i ].m_path )
 					return m_textures[ i ].m_object.data();
 			}
@@ -165,7 +165,7 @@ namespace gost{
 
 		gtRenderModel* get_model( const gtString& path, gtModel** m ){
 			u32 sz = m_models.size();
-			for( u32 i = 0u; i < sz; ++i ){
+			for( u32 i = gtConst0U; i < sz; ++i ){
 				if( path == m_models[ i ].m_path )
 					return m_models[ i ].m_object.data();
 			}
@@ -195,7 +195,7 @@ namespace gost{
 
 		bool remove_model( gtRenderModel* model ){
 			u32 sz = m_models.size();
-			for( u32 i = 0u; i < sz; ++i ){
+			for( u32 i = gtConst0U; i < sz; ++i ){
 				if( model == m_models[ i ].m_object.data() ){
 			//		model->release();
 					m_models.erase(i);
@@ -207,7 +207,7 @@ namespace gost{
 
 		bool remove_texture( gtTexture* texture ){
 			u32 sz = m_textures.size();
-			for( u32 i = 0u; i < sz; ++i ){
+			for( u32 i = gtConst0U; i < sz; ++i ){
 				if( texture == m_textures[ i ].m_object.data() ){
 				//	texture->release();
 					m_textures.erase(i);
@@ -233,7 +233,7 @@ namespace gost{
 		virtual void	scissorClear( bool setOriginal ){
 			m_scissorRects.clear();
 			if( setOriginal )
-				m_scissorRects.push_back( v4i( 0, 0, m_params.m_backBufferSize.x, m_params.m_backBufferSize.y ) );
+				m_scissorRects.push_back( v4i( gtConst0, gtConst0, m_params.m_backBufferSize.x, m_params.m_backBufferSize.y ) );
 			applyScissor();
 		}
 
@@ -325,44 +325,44 @@ namespace gost{
 
 			u32 q = smoothLevel;
 
-			if( !q ) q = 1u;
+			if( !q ) q = gtConst1U;
 
-			u32 s = 9u * q + 1u;
-			f32 m = 40.f / q;
-			for( u32 i = 0u; i < s; ++i ){
-				f32 a = (f32)i * m / 180.f * math::PI;
+			u32 s = gtConst9U * q + gtConst1U;
+			f32 m = gtConst40F / q;
+			for( u32 i = gtConst0U; i < s; ++i ){
+				f32 a = (f32)i * m / gtConst180F * math::PI;
 				x = std::sin( a );
 				y = std::cos( a );
-				points1.push_back( v3f( x * radius, 0.f, y * radius ) + position );
+				points1.push_back( v3f( x * radius, gtConst0F, y * radius ) + position );
 			}
 
-			for( u32 i = 0u; i < s; ++i ){
-				f32 a = (f32)i * m / 180.f * math::PI;
+			for( u32 i = gtConst0U; i < s; ++i ){
+				f32 a = (f32)i * m / gtConst180F * math::PI;
 				x = std::sin( a );
 				y = std::cos( a );
-				points2.push_back( v3f( x * radius, y * radius, 0.f ) + position );
+				points2.push_back( v3f( x * radius, y * radius, gtConst0F ) + position );
 			}
 
-			for( u32 i = 0u; i < s; ++i ){
-				f32 a = (f32)i * m / 180.f * math::PI;
+			for( u32 i = gtConst0U; i < s; ++i ){
+				f32 a = (f32)i * m / gtConst180F * math::PI;
 				x = std::sin( a );
 				y = std::cos( a );
-				points3.push_back( v3f( 0.f, x * radius, y * radius ) + position );
+				points3.push_back( v3f( gtConst0F, x * radius, y * radius ) + position );
 			}
 
 			u32 sz = points1.size();
-			for( u32 i = 1u; i < sz; ++i ){
-				drawLine( points1[ i ], points1[ i - 1u ], color1 );
+			for( u32 i = gtConst1U; i < sz; ++i ){
+				drawLine( points1[ i ], points1[ i - gtConst1U ], color1 );
 			}
 
 			sz = points2.size();
-			for( u32 i = 1u; i < sz; ++i ){
-				drawLine( points2[ i ], points2[ i - 1u ], color2 );
+			for( u32 i = gtConst1U; i < sz; ++i ){
+				drawLine( points2[ i ], points2[ i - gtConst1U ], color2 );
 			}
 
 			sz = points3.size();
-			for( u32 i = 1u; i < sz; ++i ){
-				drawLine( points3[ i ], points3[ i - 1u ], color3 );
+			for( u32 i = gtConst1U; i < sz; ++i ){
+				drawLine( points3[ i ], points3[ i - gtConst1U ], color3 );
 			}
 
 		}

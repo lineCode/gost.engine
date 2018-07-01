@@ -138,7 +138,7 @@ void	OggStreamFunc( void * arg ){
 	*args->state = gtAudioState::Play;
 	auto * mainSystem = gtMainSystem::getInstance();
 
-	u8 currentDiskReadBuffer = 0u;
+	u8 currentDiskReadBuffer = gtConst0U;
 
 	gtFile_t file = util::openFileForReadBinShared( args->filePath );
 	
