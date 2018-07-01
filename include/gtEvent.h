@@ -7,26 +7,26 @@ namespace gost{
 	class gtWindow;
 	struct gtGameControllerDevice;
 
-#define GT_EVENT_WINDOW_SIZING   1u		
-#define GT_EVENT_WINDOW_RESTORE  2u		
-#define GT_EVENT_WINDOW_MAXIMIZE 3u		
-#define GT_EVENT_WINDOW_MINIMIZE 4u		
-#define GT_EVENT_WINDOW_MOVE     5u		
-#define GT_EVENT_WINDOW_PAINT    6u		
+constexpr u32 GT_EVENT_WINDOW_SIZING   = 1u;
+constexpr u32 GT_EVENT_WINDOW_RESTORE  = 2u;
+constexpr u32 GT_EVENT_WINDOW_MAXIMIZE = 3u;
+constexpr u32 GT_EVENT_WINDOW_MINIMIZE = 4u;
+constexpr u32 GT_EVENT_WINDOW_MOVE     = 5u;
+constexpr u32 GT_EVENT_WINDOW_PAINT    = 6u;
 
-#define GT_EVENT_JOYSTICK_ADD    1u
-#define GT_EVENT_JOYSTICK_REMOVE 2u
+constexpr u32 GT_EVENT_JOYSTICK_ADD    = 1u;
+constexpr u32 GT_EVENT_JOYSTICK_REMOVE = 2u;
 
-#define GT_EVENT_SYSTEM_TIMER    1u
+constexpr u32 GT_EVENT_SYSTEM_TIMER    = 1u;
 
 
-#define GT_EVENT_MASK_MOUSE_LMB	1u			
-#define GT_EVENT_MASK_MOUSE_RMB	2u			
-#define GT_EVENT_MASK_MOUSE_MMB	4u			
-#define GT_EVENT_MASK_MOUSE_EXTRA1 8u		
-#define GT_EVENT_MASK_MOUSE_EXTRA2 16u		
-#define GT_EVENT_MASK_MOUSE_LMB_DBL 32u		
-#define GT_EVENT_MASK_MOUSE_RMB_DBL 64u		
+constexpr u32 GT_EVENT_MASK_MOUSE_LMB	= 1u;
+constexpr u32 GT_EVENT_MASK_MOUSE_RMB	= 2u;
+constexpr u32 GT_EVENT_MASK_MOUSE_MMB	= 4u;
+constexpr u32 GT_EVENT_MASK_MOUSE_EXTRA1 = 8u;
+constexpr u32 GT_EVENT_MASK_MOUSE_EXTRA2 = 16u;
+constexpr u32 GT_EVENT_MASK_MOUSE_LMB_DBL = 32u;
+constexpr u32 GT_EVENT_MASK_MOUSE_RMB_DBL = 64u;
 
 	
 	enum class gtEventType : u32 {
