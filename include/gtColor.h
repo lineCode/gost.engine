@@ -14,47 +14,47 @@ namespace math{
 }
 
 		//	HTML colors
-	constexpr u32 gtColorWhite           = 0xffffffff;
-	constexpr u32 gtColorAliceBlue       = 0xffF0F8FF;
-	constexpr u32 gtColorAntiqueWhite    = 0xffFAEBD7;
-	constexpr u32 gtColorAqua            = 0xff00FFFF;
-	constexpr u32 gtColorAquamarine      = 0xff7FFFD4;
-	constexpr u32 gtColorAzure           = 0xffF0FFFF;
-	constexpr u32 gtColorBeige           = 0xffF5F5DC;
-	constexpr u32 gtColorBisque          = 0xffFFE4C4;
-	constexpr u32 gtColorBlack           = 0xff000000;
-	constexpr u32 gtColorBlanchedAlmond  = 0xffFFEBCD;
-	constexpr u32 gtColorBlue            = 0xff0000FF;
-	constexpr u32 gtColorBlueViolet      = 0xff8A2BE2;
-	constexpr u32 gtColorBrown           = 0xffA52A2A;
-	constexpr u32 gtColorBurlyWood       = 0xffDEB887;
-	constexpr u32 gtColorCadetBlue       = 0xff5F9EA0;
-	constexpr u32 gtColorChartreuse      = 0xff7FFF00;
-	constexpr u32 gtColorChocolate       = 0xffD2691E;
-	constexpr u32 gtColorCoral           = 0xffFF7F50;
-	constexpr u32 gtColorCornflowerBlue  = 0xff6495ED;
-	constexpr u32 gtColorCornsilk        = 0xffFFF8DC;
-	constexpr u32 gtColorCrimson         = 0xffDC143C;
-	constexpr u32 gtColorCyan            = 0xff00FFFF;
-	constexpr u32 gtColorDarkBlue        = 0xff00008B;
-	constexpr u32 gtColorDarkCyan        = 0xff008B8B;
-	constexpr u32 gtColorDarkGoldenRod   = 0xffB8860B;
-	constexpr u32 gtColorDarkGray        = 0xffA9A9A9;
-	constexpr u32 gtColorDarkGrey        = 0xffA9A9A9;
-	constexpr u32 gtColorDarkGreen       = 0xff006400;
-	constexpr u32 gtColorDarkKhaki       = 0xffBDB76B;
-	constexpr u32 gtColorDarkMagenta     = 0xff8B008B;
-	constexpr u32 gtColorDarkOliveGreen  = 0xff556B2F;
-	constexpr u32 gtColorDarkOrange      = 0xffFF8C00;
-	constexpr u32 gtColorDarkOrchid      = 0xff9932CC;
-	constexpr u32 gtColorDarkRed         = 0xff8B0000;
-	constexpr u32 gtColorDarkSalmon      = 0xffE9967A;
-	constexpr u32 gtColorDarkSeaGreen    = 0xff8FBC8F;
-	constexpr u32 gtColorDarkSlateBlue   = 0xff483D8B;
-	constexpr u32 gtColorDarkSlateGray   = 0xff2F4F4F;
-	constexpr u32 gtColorDarkSlateGrey   = 0xff2F4F4F;
-	constexpr u32 gtColorDarkTurquoise   = 0xff00CED1;
-	constexpr u32 gtColorDarkViolet      = 0xff9400D3;
+	constexpr u32 gtColorWhite                = 0xffffffff;
+	constexpr u32 gtColorAliceBlue            = 0xffF0F8FF;
+	constexpr u32 gtColorAntiqueWhite         = 0xffFAEBD7;
+	constexpr u32 gtColorAqua                 = 0xff00FFFF;
+	constexpr u32 gtColorAquamarine           = 0xff7FFFD4;
+	constexpr u32 gtColorAzure                = 0xffF0FFFF;
+	constexpr u32 gtColorBeige                = 0xffF5F5DC;
+	constexpr u32 gtColorBisque               = 0xffFFE4C4;
+	constexpr u32 gtColorBlack                = 0xff000000;
+	constexpr u32 gtColorBlanchedAlmond       = 0xffFFEBCD;
+	constexpr u32 gtColorBlue                 = 0xff0000FF;
+	constexpr u32 gtColorBlueViolet           = 0xff8A2BE2;
+	constexpr u32 gtColorBrown                = 0xffA52A2A;
+	constexpr u32 gtColorBurlyWood            = 0xffDEB887;
+	constexpr u32 gtColorCadetBlue            = 0xff5F9EA0;
+	constexpr u32 gtColorChartreuse           = 0xff7FFF00;
+	constexpr u32 gtColorChocolate            = 0xffD2691E;
+	constexpr u32 gtColorCoral                = 0xffFF7F50;
+	constexpr u32 gtColorCornflowerBlue       = 0xff6495ED;
+	constexpr u32 gtColorCornsilk             = 0xffFFF8DC;
+	constexpr u32 gtColorCrimson              = 0xffDC143C;
+	constexpr u32 gtColorCyan                 = 0xff00FFFF;
+	constexpr u32 gtColorDarkBlue             = 0xff00008B;
+	constexpr u32 gtColorDarkCyan             = 0xff008B8B;
+	constexpr u32 gtColorDarkGoldenRod        = 0xffB8860B;
+	constexpr u32 gtColorDarkGray             = 0xffA9A9A9;
+	constexpr u32 gtColorDarkGrey             = 0xffA9A9A9;
+	constexpr u32 gtColorDarkGreen            = 0xff006400;
+	constexpr u32 gtColorDarkKhaki            = 0xffBDB76B;
+	constexpr u32 gtColorDarkMagenta          = 0xff8B008B;
+	constexpr u32 gtColorDarkOliveGreen       = 0xff556B2F;
+	constexpr u32 gtColorDarkOrange           = 0xffFF8C00;
+	constexpr u32 gtColorDarkOrchid           = 0xff9932CC;
+	constexpr u32 gtColorDarkRed              = 0xff8B0000;
+	constexpr u32 gtColorDarkSalmon           = 0xffE9967A;
+	constexpr u32 gtColorDarkSeaGreen         = 0xff8FBC8F;
+	constexpr u32 gtColorDarkSlateBlue        = 0xff483D8B;
+	constexpr u32 gtColorDarkSlateGray        = 0xff2F4F4F;
+	constexpr u32 gtColorDarkSlateGrey        = 0xff2F4F4F;
+	constexpr u32 gtColorDarkTurquoise        = 0xff00CED1;
+	constexpr u32 gtColorDarkViolet           = 0xff9400D3;
 	constexpr u32 gtColorDeepPink             = 0xffFF1493;
 	constexpr u32 gtColorDeepSkyBlue          = 0xff00BFFF;
 	constexpr u32 gtColorDimGray              = 0xff696969;
@@ -86,82 +86,82 @@ namespace math{
 	constexpr u32 gtColorLightCoral           = 0xffF08080;
 	constexpr u32 gtColorLightCyan            = 0xffE0FFFF;
 	constexpr u32 gtColorLightGoldenRodYellow = 0xffFAFAD2;
-	constexpr u32 gtColorLightGray = 0xffD3D3D3;
-	constexpr u32 gtColorLightGrey = 0xffD3D3D3;
-	constexpr u32 gtColorLightGreen = 0xff90EE90;
-	constexpr u32 gtColorLightPink = 0xffFFB6C1;
-	constexpr u32 gtColorLightSalmon = 0xffFFA07A;
-	constexpr u32 gtColorLightSeaGreen = 0xff20B2AA;
-	constexpr u32 gtColorLightSkyBlue = 0xff87CEFA;
-	constexpr u32 gtColorLightSlateGray = 0xff778899;
-	constexpr u32 gtColorLightSlateGrey = 0xff778899;
-	constexpr u32 gtColorLightSteelBlue = 0xffB0C4DE;
-	constexpr u32 gtColorLightYellow = 0xffFFFFE0;
-	constexpr u32 gtColorLime = 0xff00FF00;
-	constexpr u32 gtColorLimeGreen = 0xff32CD32;
-	constexpr u32 gtColorLinen = 0xffFAF0E6;
-	constexpr u32 gtColorMagenta = 0xffFF00FF;
-	constexpr u32 gtColorMaroon = 0xff800000;
-	constexpr u32 gtColorMediumAquaMarine = 0xff66CDAA;
-	constexpr u32 gtColorMediumBlue = 0xff0000CD;
-	constexpr u32 gtColorMediumOrchid = 0xffBA55D3;
-	constexpr u32 gtColorMediumPurple = 0xff9370DB;
-	constexpr u32 gtColorMediumSeaGreen = 0xff3CB371;
-	constexpr u32 gtColorMediumSlateBlue = 0xff7B68EE;
-	constexpr u32 gtColorMediumSpringGreen = 0xff00FA9A;
-	constexpr u32 gtColorMediumTurquoise = 0xff48D1CC;
-	constexpr u32 gtColorMediumVioletRed = 0xffC71585;
-	constexpr u32 gtColorMidnightBlue = 0xff191970;
-	constexpr u32 gtColorMintCream = 0xffF5FFFA;
-	constexpr u32 gtColorMistyRose = 0xffFFE4E1;
-	constexpr u32 gtColorMoccasin = 0xffFFE4B5;
-	constexpr u32 gtColorNavajoWhite = 0xffFFDEAD;
-	constexpr u32 gtColorNavy = 0xff000080;
-	constexpr u32 gtColorOldLace = 0xffFDF5E6;
-	constexpr u32 gtColorOlive = 0xff808000;
-	constexpr u32 gtColorOliveDrab = 0xff6B8E23;
-	constexpr u32 gtColorOrange = 0xffFFA500;
-	constexpr u32 gtColorOrangeRed = 0xffFF4500;
-	constexpr u32 gtColorOrchid = 0xffDA70D6;
-	constexpr u32 gtColorPaleGoldenRod = 0xffEEE8AA;
-	constexpr u32 gtColorPaleGreen = 0xff98FB98;
-	constexpr u32 gtColorPaleTurquoise = 0xffAFEEEE;
-	constexpr u32 gtColorPaleVioletRed = 0xffDB7093;
-	constexpr u32 gtColorPapayaWhip = 0xffFFEFD5;
-	constexpr u32 gtColorPeachPuff = 0xffFFDAB9;
-	constexpr u32 gtColorPeru = 0xffCD853F;
-	constexpr u32 gtColorPink = 0xffFFC0CB;
-	constexpr u32 gtColorPlum = 0xffDDA0DD;
-	constexpr u32 gtColorPowderBlue = 0xffB0E0E6;
-	constexpr u32 gtColorPurple = 0xff800080;
-	constexpr u32 gtColorRebeccaPurple = 0xff663399;
-	constexpr u32 gtColorRed = 0xffFF0000;
-	constexpr u32 gtColorRosyBrown = 0xffBC8F8F;
-	constexpr u32 gtColorRoyalBlue = 0xff4169E1;
-	constexpr u32 gtColorSaddleBrown = 0xff8B4513;
-	constexpr u32 gtColorSalmon = 0xffFA8072;
-	constexpr u32 gtColorSandyBrown = 0xffF4A460;
-	constexpr u32 gtColorSeaGreen = 0xff2E8B57;
-	constexpr u32 gtColorSeaShell = 0xffFFF5EE;
-	constexpr u32 gtColorSienna = 0xffA0522D;
-	constexpr u32 gtColorSilver = 0xffC0C0C0;
-	constexpr u32 gtColorSkyBlue = 0xff87CEEB;
-	constexpr u32 gtColorSlateBlue = 0xff6A5ACD;
-	constexpr u32 gtColorSlateGray = 0xff708090;
-	constexpr u32 gtColorSlateGrey = 0xff708090;
-	constexpr u32 gtColorSnow = 0xffFFFAFA;
-	constexpr u32 gtColorSpringGreen = 0xff00FF7F;
-	constexpr u32 gtColorSteelBlue = 0xff4682B4;
-	constexpr u32 gtColorTan = 0xffD2B48C;
-	constexpr u32 gtColorTeal = 0xff008080;
-	constexpr u32 gtColorThistle = 0xffD8BFD8;
-	constexpr u32 gtColorTomato = 0xffFF6347;
-	constexpr u32 gtColorTurquoise = 0xff40E0D0;
-	constexpr u32 gtColorViolet = 0xffEE82EE;
-	constexpr u32 gtColorWheat = 0xffF5DEB3;
-	constexpr u32 gtColorWhiteSmoke = 0xffF5F5F5;
-	constexpr u32 gtColorYellow = 0xffFFFF00;
-	constexpr u32 gtColorYellowGreen = 0xff9ACD32;
+	constexpr u32 gtColorLightGray            = 0xffD3D3D3;
+	constexpr u32 gtColorLightGrey            = 0xffD3D3D3;
+	constexpr u32 gtColorLightGreen           = 0xff90EE90;
+	constexpr u32 gtColorLightPink            = 0xffFFB6C1;
+	constexpr u32 gtColorLightSalmon          = 0xffFFA07A;
+	constexpr u32 gtColorLightSeaGreen        = 0xff20B2AA;
+	constexpr u32 gtColorLightSkyBlue         = 0xff87CEFA;
+	constexpr u32 gtColorLightSlateGray       = 0xff778899;
+	constexpr u32 gtColorLightSlateGrey       = 0xff778899;
+	constexpr u32 gtColorLightSteelBlue       = 0xffB0C4DE;
+	constexpr u32 gtColorLightYellow          = 0xffFFFFE0;
+	constexpr u32 gtColorLime                 = 0xff00FF00;
+	constexpr u32 gtColorLimeGreen            = 0xff32CD32;
+	constexpr u32 gtColorLinen                = 0xffFAF0E6;
+	constexpr u32 gtColorMagenta              = 0xffFF00FF;
+	constexpr u32 gtColorMaroon               = 0xff800000;
+	constexpr u32 gtColorMediumAquaMarine     = 0xff66CDAA;
+	constexpr u32 gtColorMediumBlue           = 0xff0000CD;
+	constexpr u32 gtColorMediumOrchid         = 0xffBA55D3;
+	constexpr u32 gtColorMediumPurple         = 0xff9370DB;
+	constexpr u32 gtColorMediumSeaGreen       = 0xff3CB371;
+	constexpr u32 gtColorMediumSlateBlue      = 0xff7B68EE;
+	constexpr u32 gtColorMediumSpringGreen    = 0xff00FA9A;
+	constexpr u32 gtColorMediumTurquoise      = 0xff48D1CC;
+	constexpr u32 gtColorMediumVioletRed      = 0xffC71585;
+	constexpr u32 gtColorMidnightBlue         = 0xff191970;
+	constexpr u32 gtColorMintCream            = 0xffF5FFFA;
+	constexpr u32 gtColorMistyRose            = 0xffFFE4E1;
+	constexpr u32 gtColorMoccasin             = 0xffFFE4B5;
+	constexpr u32 gtColorNavajoWhite          = 0xffFFDEAD;
+	constexpr u32 gtColorNavy                 = 0xff000080;
+	constexpr u32 gtColorOldLace              = 0xffFDF5E6;
+	constexpr u32 gtColorOlive                = 0xff808000;
+	constexpr u32 gtColorOliveDrab            = 0xff6B8E23;
+	constexpr u32 gtColorOrange               = 0xffFFA500;
+	constexpr u32 gtColorOrangeRed            = 0xffFF4500;
+	constexpr u32 gtColorOrchid               = 0xffDA70D6;
+	constexpr u32 gtColorPaleGoldenRod        = 0xffEEE8AA;
+	constexpr u32 gtColorPaleGreen            = 0xff98FB98;
+	constexpr u32 gtColorPaleTurquoise        = 0xffAFEEEE;
+	constexpr u32 gtColorPaleVioletRed        = 0xffDB7093;
+	constexpr u32 gtColorPapayaWhip           = 0xffFFEFD5;
+	constexpr u32 gtColorPeachPuff            = 0xffFFDAB9;
+	constexpr u32 gtColorPeru                 = 0xffCD853F;
+	constexpr u32 gtColorPink                 = 0xffFFC0CB;
+	constexpr u32 gtColorPlum                 = 0xffDDA0DD;
+	constexpr u32 gtColorPowderBlue           = 0xffB0E0E6;
+	constexpr u32 gtColorPurple               = 0xff800080;
+	constexpr u32 gtColorRebeccaPurple        = 0xff663399;
+	constexpr u32 gtColorRed                  = 0xffFF0000;
+	constexpr u32 gtColorRosyBrown            = 0xffBC8F8F;
+	constexpr u32 gtColorRoyalBlue            = 0xff4169E1;
+	constexpr u32 gtColorSaddleBrown          = 0xff8B4513;
+	constexpr u32 gtColorSalmon               = 0xffFA8072;
+	constexpr u32 gtColorSandyBrown           = 0xffF4A460;
+	constexpr u32 gtColorSeaGreen             = 0xff2E8B57;
+	constexpr u32 gtColorSeaShell             = 0xffFFF5EE;
+	constexpr u32 gtColorSienna               = 0xffA0522D;
+	constexpr u32 gtColorSilver               = 0xffC0C0C0;
+	constexpr u32 gtColorSkyBlue              = 0xff87CEEB;
+	constexpr u32 gtColorSlateBlue            = 0xff6A5ACD;
+	constexpr u32 gtColorSlateGray            = 0xff708090;
+	constexpr u32 gtColorSlateGrey            = 0xff708090;
+	constexpr u32 gtColorSnow                 = 0xffFFFAFA;
+	constexpr u32 gtColorSpringGreen          = 0xff00FF7F;
+	constexpr u32 gtColorSteelBlue            = 0xff4682B4;
+	constexpr u32 gtColorTan                  = 0xffD2B48C;
+	constexpr u32 gtColorTeal                 = 0xff008080;
+	constexpr u32 gtColorThistle              = 0xffD8BFD8;
+	constexpr u32 gtColorTomato               = 0xffFF6347;
+	constexpr u32 gtColorTurquoise            = 0xff40E0D0;
+	constexpr u32 gtColorViolet               = 0xffEE82EE;
+	constexpr u32 gtColorWheat                = 0xffF5DEB3;
+	constexpr u32 gtColorWhiteSmoke           = 0xffF5F5F5;
+	constexpr u32 gtColorYellow               = 0xffFFFF00;
+	constexpr u32 gtColorYellowGreen          = 0xff9ACD32;
 
 	class gtColor{
 
@@ -197,41 +197,17 @@ namespace math{
 			setAsInteger( uint_data );
 		}
 
-		const f32 getRed() const {
-			return m_data[ 0u ];
-		}
+		const f32 * getData() const { return &m_data[ 0u ]; }
 
-		const f32 getGreen() const {
-			return m_data[ 1u ];
-		}
+		const f32 getRed() const   { return m_data[ 0u ]; }
+		const f32 getGreen() const { return m_data[ 1u ]; }
+		const f32 getBlue() const  { return m_data[ 2u ]; }
+		const f32 getAlpha() const { return m_data[ 3u ]; }
 
-		const f32 getBlue() const {
-			return m_data[ 2u ];
-		}
-
-		const f32 getAlpha() const {
-			return m_data[ 3u ];
-		}
-
-		const f32 * getData() const {
-			return &m_data[ 0u ];
-		}
-
-		const u8 getAsByteRed() const {
-			return static_cast<u8>( m_data[ 0u ] * 255.f );
-		}
-
-		const u8 getAsByteGreen() const {
-			return static_cast<u8>( m_data[ 1u ] * 255.f );
-		}
-
-		const u8 getAsByteBlue() const {
-			return static_cast<u8>( m_data[ 2u ] * 255.f );
-		}
-
-		const u8 getAsByteAlpha() const {
-			return static_cast<u8>( m_data[ 3u ] * 255.f );
-		}
+		const u8 getAsByteRed() const   { return static_cast<u8>( m_data[ 0u ] * 255.f ); }
+		const u8 getAsByteGreen() const { return static_cast<u8>( m_data[ 1u ] * 255.f ); }
+		const u8 getAsByteBlue() const  { return static_cast<u8>( m_data[ 2u ] * 255.f ); }
+		const u8 getAsByteAlpha() const { return static_cast<u8>( m_data[ 3u ] * 255.f ); }
 
 		u32 getAsInteger(){
 			return GT_MAKEFOURCC(
@@ -242,29 +218,15 @@ namespace math{
 			);
 		}
 
-		void setAlpha( f32 v ){	m_data[ 3u ] = v;	}
+		void setAlpha( f32 v ){ m_data[ 3u ] = v;	}
+		void setRed( f32 v )  { m_data[ 0u ] = v;	}
+		void setGreen( f32 v ){ m_data[ 1u ] = v;	}
+		void setBlue( f32 v ) { m_data[ 2u ] = v;	}
 
-		void setRed( f32 v ){	m_data[ 0u ] = v;	}
-
-		void setGreen( f32 v ){	m_data[ 1u ] = v;	}
-
-		void setBlue( f32 v ){	m_data[ 2u ] = v;	}
-
-		void setAsByteAlpha( s32 v ){
-			m_data[ 3u ] = static_cast<f32>(v) * gtColorDivider;
-		}
-
-		void setAsByteRed( s32 v ){
-			m_data[ 0u ] = static_cast<f32>(v) * gtColorDivider;
-		}
-
-		void setAsByteGreen( s32 v ){
-			m_data[ 1u ] = static_cast<f32>(v) * gtColorDivider;
-		}
-
-		void setAsByteBlue( s32 v ){
-			m_data[ 2u ] = static_cast<f32>(v) * gtColorDivider;
-		}
+		void setAsByteAlpha( s32 v ){ m_data[ 3u ] = static_cast<f32>(v) * math::gtColorDivider; }
+		void setAsByteRed( s32 v )  { m_data[ 0u ] = static_cast<f32>(v) * math::gtColorDivider; }
+		void setAsByteGreen( s32 v ){ m_data[ 1u ] = static_cast<f32>(v) * math::gtColorDivider; }
+		void setAsByteBlue( s32 v ) { m_data[ 2u ] = static_cast<f32>(v) * math::gtColorDivider; }
 
 			//	argb
 			//	\param v: u32 color
