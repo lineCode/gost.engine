@@ -20,62 +20,60 @@
 #include <memory>
 
 //	GOST
-#include <gtInfo.h>
-#include <gtTypes.h>
-#include <gtGUID.h>
-#include <gtPair.h>
-#include <gtAllocator.h>
-#include <gtArray.h>
-#include <gtList.h>
-#include <gtPriorQueue.h>
-#include <gtString.h>
+#include <Common/gtInfo.h>
+#include <Common/gtTypes.h>
+#include <Classes/Common/gtGUID.h>
+#include <Classes/Containers/gtPair.h>
+#include <Classes/Common/gtAllocator.h>
+#include <Classes/Containers/gtArray.h>
+#include <Classes/Containers/gtList.h>
+#include <Classes/Containers/gtPriorQueue.h>
+#include <Classes/Containers/gtString.h>
 
-#include <gtBaseObject.h>
-#include <gtRefObject.h>
-#include <gtPtr.h>
+#include <Classes/Common/gtBaseObject.h>
+#include <Classes/Common/gtRefObject.h>
+#include <Classes/Common/gtPtr.h>
 
-#include <gtLog.h>
+#include <Common/gtLog.h>
 
-#include <gtError.h>
+#include <Common/gtError.h>
 
-#include <gtInput.h>
-#include <gtEvent.h>
+#include <InputSystem/gtInput.h>
+#include <MainSystem/gtEvent.h>
 
-#include <gtXMLDocument.h>
+#include <FileSystem/gtXMLDocument.h>
 
-#include <gtMath.h>
-#include <gtVector.h>
-#include <gtQuaternion.h>
-#include <gtMatrix.h>
-#include <gtColor.h>
+#include <Common/gtMath.h>
+#include <Classes/Math/gtVector.h>
+#include <Classes/Math/gtQuaternion.h>
+#include <Classes/Math/gtMatrix.h>
 
-#include <gtAnimation.h>
+#include <Classes/gtColor.h>
+#include <Classes/gtAnimation.h>
+#include <Classes/gtVertex.h>
+#include <Classes/gtAABB.h>
+#include <Classes/gtOBB.h>
 
-#include <gtVertex.h>
+#include <MainSystem/gtThread.h>
+#include <MainSystem/gtMutex.h>
 
-#include <gtAABB.h>
-#include <gtOBB.h>
-
-#include <gtThread.h>
-#include <gtMutex.h>
-
-#include <gtGUIObject.h>
+#include <GUISystem/gtGUIObject.h>
 
 
-#include <gtSceneSystem.h>
-#include <gtAudioSystem.h>
-#include <gtInputController.h>
-#include <gtGUISystem.h>
-#include <gtInputSystem.h>
+#include <SceneSystem/gtSceneSystem.h>
+#include <AudioSystem/gtAudioSystem.h>
+#include <InputSystem/gtInputController.h>
+#include <GUISystem/gtGUISystem.h>
+#include <InputSystem/gtInputSystem.h>
 
 
-#include <gtMainSystem.h>
+#include <MainSystem/gtMainSystem.h>
 
 
-#include <gtImage.h>
-#include <gtTexture.h>
-#include <gtShader.h>
-#include <gtMaterial.h>
+#include <Classes/gtImage.h>
+#include <GraphicsSystem/gtTexture.h>
+#include <GraphicsSystem/gtShader.h>
+#include <Classes/gtMaterial.h>
 
 
 #ifdef GT_DEBUG
@@ -83,32 +81,32 @@
 #define GT_USE_STACK_TRACE
 #endif
 #endif
-#include <gtStackTracer.h>
+#include <MainSystem/gtStackTracer.h>
 
 
-#include <gtSubModel.h>
-#include <gtModel.h>
-#include <gtRenderModel.h>
-#include <gtModelSystem.h>
+#include <Classes/gtSubModel.h>
+#include <Classes/gtModel.h>
+#include <GraphicsSystem/gtRenderModel.h>
+#include <Classes/gtModelSystem.h>
 
 
-#include <gtTimer.h>
+#include <MainSystem/gtTimer.h>
 
-#include <gtFileSystem.h>
+#include <FileSystem/gtFileSystem.h>
 
-#include <gtWindowInfo.h>
+#include <MainSystem/gtWindowInfo.h>
 
-#include <gtGraphicsSystem.h>
+#include <GraphicsSystem/gtGraphicsSystem.h>
 
-#include <gtGameObject.h>
+#include <SceneSystem/gtGameObject.h>
 
-#include <gtPluginSystem.h>
+#include <PluginSystem/gtPluginSystem.h>
 
-#include <gtWindow.h>
+#include <MainSystem/gtWindow.h>
 
-#include <gtOutputWindow.h>
+#include <MainSystem/gtOutputWindow.h>
 
-#include <gtUtilities.h>
+#include <Common/gtUtilities.h>
 
 
 #if defined(_MSC_VER)

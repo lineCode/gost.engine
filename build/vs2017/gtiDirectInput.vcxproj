@@ -27,12 +27,12 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\gtiDirectInput\common.h" />
-    <ClInclude Include="..\..\gtiDirectInput\gtiDirectInput.h" />
+    <ClInclude Include="..\..\source\gtiDirectInput\common.h" />
+    <ClInclude Include="..\..\source\gtiDirectInput\gtiDirectInput.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\gtiDirectInput\dllmain.cpp" />
-    <ClCompile Include="..\..\gtiDirectInput\gtiDirectInput.cpp" />
+    <ClCompile Include="..\..\source\gtiDirectInput\dllmain.cpp" />
+    <ClCompile Include="..\..\source\gtiDirectInput\gtiDirectInput.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{EBBB577C-2BFF-4309-A0D4-50FAA687A5A3}</ProjectGuid>
@@ -150,7 +150,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <WarningLevel>EnableAllWarnings</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>false</SDLCheck>
       <AdditionalIncludeDirectories>../../include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>

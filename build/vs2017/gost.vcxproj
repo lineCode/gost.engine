@@ -129,7 +129,7 @@
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>false</SDLCheck>
-      <AdditionalIncludeDirectories>../../include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../include;../../source/gost;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -140,10 +140,10 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <WarningLevel>EnableAllWarnings</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>false</SDLCheck>
-      <AdditionalIncludeDirectories>../../include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../include;../../source/gost;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -157,7 +157,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>false</SDLCheck>
-      <AdditionalIncludeDirectories>../../include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../include;../../source/gost;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
@@ -175,7 +175,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>false</SDLCheck>
-      <AdditionalIncludeDirectories>../../include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../include;../../source/gost;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -192,7 +192,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>false</SDLCheck>
-      <AdditionalIncludeDirectories>../../include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../include;../../source/gost;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -207,7 +207,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>../../include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../include;../../source/gost;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -217,153 +217,148 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\gost\dllmain.cpp" />
-    <ClCompile Include="..\..\gost\gost.cpp" />
-    <ClCompile Include="..\..\gost\gtAudioPlugin.cpp" />
-    <ClCompile Include="..\..\gost\gtCameraImpl.cpp" />
-    <ClCompile Include="..\..\gost\gtDriverCommon.cpp" />
-    <ClCompile Include="..\..\gost\gtDummyObjectImpl.cpp" />
-    <ClCompile Include="..\..\gost\gtEventSystem.cpp" />
-    <ClCompile Include="..\..\gost\gtFileSystemCommon.cpp" />
-    <ClCompile Include="..\..\gost\gtFileSystemImpl.cpp" />
-    <ClCompile Include="..\..\gost\gtFileSystemWin32.cpp" />
-    <ClCompile Include="..\..\gost\gtFileWin32.cpp" />
-    <ClCompile Include="..\..\gost\gtGUIFontImpl.cpp" />
-    <ClCompile Include="..\..\gost\gtGUIShapeImpl.cpp" />
-    <ClCompile Include="..\..\gost\gtGUIStaticTextImpl.cpp" />
-    <ClCompile Include="..\..\gost\gtGUISystemImpl.cpp" />
-    <ClCompile Include="..\..\gost\gtGUITextFieldImpl.cpp" />
-    <ClCompile Include="..\..\gost\gtImageImpl.cpp" />
-    <ClCompile Include="..\..\gost\gtInputSystemImpl.cpp" />
-    <ClCompile Include="..\..\gost\gtLogImpl.cpp" />
-    <ClCompile Include="..\..\gost\gtMainSystemCommon.cpp" />
-    <ClCompile Include="..\..\gost\gtMainSystemWin32.cpp" />
-    <ClCompile Include="..\..\gost\gtModelImpl.cpp" />
-    <ClCompile Include="..\..\gost\gtModelSystemImpl.cpp" />
-    <ClCompile Include="..\..\gost\gtMutexWin32.cpp" />
-    <ClCompile Include="..\..\gost\gtOutputWindowWin32.cpp" />
-    <ClCompile Include="..\..\gost\gtPluginImportImage.cpp" />
-    <ClCompile Include="..\..\gost\gtPluginImportModel.cpp" />
-    <ClCompile Include="..\..\gost\gtPluginInput.cpp" />
-    <ClCompile Include="..\..\gost\gtPluginRender.cpp" />
-    <ClCompile Include="..\..\gost\gtPluginSystemImpl.cpp" />
-    <ClCompile Include="..\..\gost\gtSceneSystemImpl.cpp" />
-    <ClCompile Include="..\..\gost\gtStaticObjectImpl.cpp" />
-    <ClCompile Include="..\..\gost\gtThreadWin32.cpp" />
-    <ClCompile Include="..\..\gost\gtTimerWin32.cpp" />
-    <ClCompile Include="..\..\gost\gtWindowCommon.cpp" />
-    <ClCompile Include="..\..\gost\gtWindowWin32.cpp" />
-    <ClCompile Include="..\..\gost\gtXMLDocumentImpl.cpp" />
-    <ClCompile Include="..\..\gost\gtXMLImpl.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\gost\gtCameraImpl.h" />
-    <ClInclude Include="..\..\gost\gtDriverCommon.h" />
-    <ClInclude Include="..\..\gost\gtDummyObjectImpl.h" />
-    <ClInclude Include="..\..\gost\gtEventSystem.h" />
-    <ClInclude Include="..\..\gost\gtFileSystemCommon.h" />
-    <ClInclude Include="..\..\gost\gtFileSystemWin32.h" />
-    <ClInclude Include="..\..\gost\gtFileWin32.h" />
-    <ClInclude Include="..\..\gost\gtGUIFontImpl.h" />
-    <ClInclude Include="..\..\gost\gtGUIShapeImpl.h" />
-    <ClInclude Include="..\..\gost\gtGUIStaticTextImpl.h" />
-    <ClInclude Include="..\..\gost\gtGUISystemImpl.h" />
-    <ClInclude Include="..\..\gost\gtGUITextFieldImpl.h" />
-    <ClInclude Include="..\..\gost\gtImageImpl.h" />
-    <ClInclude Include="..\..\gost\gtInputSystemImpl.h" />
-    <ClInclude Include="..\..\gost\gtLogImpl.h" />
-    <ClInclude Include="..\..\gost\gtMainSystemCommon.h" />
-    <ClInclude Include="..\..\gost\gtMainSystemWin32.h" />
-    <ClInclude Include="..\..\gost\gtModelImpl.h" />
-    <ClInclude Include="..\..\gost\gtModelSystemImpl.h" />
-    <ClInclude Include="..\..\gost\gtMutexWin32.h" />
-    <ClInclude Include="..\..\gost\gtOutputWindowWin32.h" />
-    <ClInclude Include="..\..\gost\gtPluginSystemImpl.h" />
-    <ClInclude Include="..\..\gost\gtSceneSystemImpl.h" />
-    <ClInclude Include="..\..\gost\gtStaticObjectImpl.h" />
-    <ClInclude Include="..\..\gost\gtThreadWin32.h" />
-    <ClInclude Include="..\..\gost\gtTimerWin32.h" />
-    <ClInclude Include="..\..\gost\gtWindowCommon.h" />
-    <ClInclude Include="..\..\gost\gtWindowWin32.h" />
-    <ClInclude Include="..\..\gost\common.h" />
-    <ClInclude Include="..\..\gost\gtXMLDocumentImpl.h" />
-    <ClInclude Include="..\..\include\BuiltInFont.hpp" />
+    <ClInclude Include="..\..\include\AudioSystem\gtAudioObject.h" />
+    <ClInclude Include="..\..\include\AudioSystem\gtAudioSource.h" />
+    <ClInclude Include="..\..\include\AudioSystem\gtAudioStream.h" />
+    <ClInclude Include="..\..\include\AudioSystem\gtAudioSystem.h" />
+    <ClInclude Include="..\..\include\Classes\Common\gtAllocator.h" />
+    <ClInclude Include="..\..\include\Classes\Common\gtBaseObject.h" />
+    <ClInclude Include="..\..\include\Classes\Common\gtGUID.h" />
+    <ClInclude Include="..\..\include\Classes\Common\gtPtr.h" />
+    <ClInclude Include="..\..\include\Classes\Common\gtRefObject.h" />
+    <ClInclude Include="..\..\include\Classes\Containers\gtArray.h" />
+    <ClInclude Include="..\..\include\Classes\Containers\gtList.h" />
+    <ClInclude Include="..\..\include\Classes\Containers\gtPair.h" />
+    <ClInclude Include="..\..\include\Classes\Containers\gtPriorQueue.h" />
+    <ClInclude Include="..\..\include\Classes\Containers\gtString.h" />
+    <ClInclude Include="..\..\include\Classes\gtAABB.h" />
+    <ClInclude Include="..\..\include\Classes\gtAnimation.h" />
+    <ClInclude Include="..\..\include\Classes\gtColor.h" />
+    <ClInclude Include="..\..\include\Classes\gtImage.h" />
+    <ClInclude Include="..\..\include\Classes\gtMaterial.h" />
+    <ClInclude Include="..\..\include\Classes\gtModel.h" />
+    <ClInclude Include="..\..\include\Classes\gtModelSystem.h" />
+    <ClInclude Include="..\..\include\Classes\gtOBB.h" />
+    <ClInclude Include="..\..\include\Classes\gtSubModel.h" />
+    <ClInclude Include="..\..\include\Classes\gtVertex.h" />
+    <ClInclude Include="..\..\include\Classes\Math\gtMatrix.h" />
+    <ClInclude Include="..\..\include\Classes\Math\gtQuaternion.h" />
+    <ClInclude Include="..\..\include\Classes\Math\gtVector.h" />
+    <ClInclude Include="..\..\include\Common\gtConstants.h" />
+    <ClInclude Include="..\..\include\Common\gtError.h" />
+    <ClInclude Include="..\..\include\Common\gtInfo.h" />
+    <ClInclude Include="..\..\include\Common\gtLog.h" />
+    <ClInclude Include="..\..\include\Common\gtMath.h" />
+    <ClInclude Include="..\..\include\Common\gtPackOff.h" />
+    <ClInclude Include="..\..\include\Common\gtPackOn.h" />
+    <ClInclude Include="..\..\include\Common\gtTypes.h" />
+    <ClInclude Include="..\..\include\Common\gtUtilities.h" />
+    <ClInclude Include="..\..\include\Common\iSqrt_table.hpp" />
+    <ClInclude Include="..\..\include\FileSystem\gtFileSystem.h" />
+    <ClInclude Include="..\..\include\FileSystem\gtXMLDocument.h" />
     <ClInclude Include="..\..\include\gost.h" />
-    <ClInclude Include="..\..\include\gtAABB.h" />
-    <ClInclude Include="..\..\include\gtAllocator.h" />
-    <ClInclude Include="..\..\include\gtAnimation.h" />
-    <ClInclude Include="..\..\include\gtArray.h" />
-    <ClInclude Include="..\..\include\gtAudioObject.h" />
-    <ClInclude Include="..\..\include\gtAudioSource.h" />
-    <ClInclude Include="..\..\include\gtAudioStream.h" />
-    <ClInclude Include="..\..\include\gtAudioSystem.h" />
-    <ClInclude Include="..\..\include\gtBaseObject.h" />
-    <ClInclude Include="..\..\include\gtCamera.h" />
-    <ClInclude Include="..\..\include\gtColor.h" />
-    <ClInclude Include="..\..\include\gtConstants.h" />
-    <ClInclude Include="..\..\include\gtGraphicsSystem.h" />
-    <ClInclude Include="..\..\include\gtDummyObject.h" />
-    <ClInclude Include="..\..\include\gtError.h" />
-    <ClInclude Include="..\..\include\gtEvent.h" />
-    <ClInclude Include="..\..\include\gtFileSystem.h" />
-    <ClInclude Include="..\..\include\gtGameObject.h" />
-    <ClInclude Include="..\..\include\gtGUID.h" />
-    <ClInclude Include="..\..\include\gtGUIFont.h" />
-    <ClInclude Include="..\..\include\gtGUIObject.h" />
-    <ClInclude Include="..\..\include\gtGUIShape.h" />
-    <ClInclude Include="..\..\include\gtGUIStaticText.h" />
-    <ClInclude Include="..\..\include\gtGUISystem.h" />
-    <ClInclude Include="..\..\include\gtGUITextField.h" />
-    <ClInclude Include="..\..\include\gtImage.h" />
-    <ClInclude Include="..\..\include\gtInfo.h" />
-    <ClInclude Include="..\..\include\gtInput.h" />
-    <ClInclude Include="..\..\include\gtInputController.h" />
-    <ClInclude Include="..\..\include\gtInputSystem.h" />
-    <ClInclude Include="..\..\include\gtList.h" />
-    <ClInclude Include="..\..\include\gtLog.h" />
-    <ClInclude Include="..\..\include\gtMainSystem.h" />
-    <ClInclude Include="..\..\include\gtMaterial.h" />
-    <ClInclude Include="..\..\include\gtMath.h" />
-    <ClInclude Include="..\..\include\gtMatrix.h" />
-    <ClInclude Include="..\..\include\gtModel.h" />
-    <ClInclude Include="..\..\include\gtModelSystem.h" />
-    <ClInclude Include="..\..\include\gtMutex.h" />
-    <ClInclude Include="..\..\include\gtOBB.h" />
-    <ClInclude Include="..\..\include\gtOutputWindow.h" />
-    <ClInclude Include="..\..\include\gtPackOff.h" />
-    <ClInclude Include="..\..\include\gtPackOn.h" />
-    <ClInclude Include="..\..\include\gtPair.h" />
-    <ClInclude Include="..\..\include\gtPlugin.h" />
-    <ClInclude Include="..\..\include\gtPluginSystem.h" />
-    <ClInclude Include="..\..\include\gtPriorQueue.h" />
-    <ClInclude Include="..\..\include\gtPtr.h" />
-    <ClInclude Include="..\..\include\gtQuaternion.h" />
-    <ClInclude Include="..\..\include\gtRefObject.h" />
-    <ClInclude Include="..\..\include\gtRenderModel.h" />
-    <ClInclude Include="..\..\include\gtSceneSystem.h" />
-    <ClInclude Include="..\..\include\gtShader.h" />
-    <ClInclude Include="..\..\include\gtSprite.h" />
-    <ClInclude Include="..\..\include\gtStackTracer.h" />
-    <ClInclude Include="..\..\include\gtStaticObject.h" />
-    <ClInclude Include="..\..\include\gtString.h" />
-    <ClInclude Include="..\..\include\gtSubModel.h" />
-    <ClInclude Include="..\..\include\gtTexture.h" />
-    <ClInclude Include="..\..\include\gtThread.h" />
-    <ClInclude Include="..\..\include\gtTimer.h" />
-    <ClInclude Include="..\..\include\gtTypes.h" />
-    <ClInclude Include="..\..\include\gtUtilities.h" />
-    <ClInclude Include="..\..\include\gtVector.h" />
-    <ClInclude Include="..\..\include\gtVertex.h" />
-    <ClInclude Include="..\..\include\gtWindow.h" />
-    <ClInclude Include="..\..\include\gtWindowInfo.h" />
-    <ClInclude Include="..\..\include\gtXMLDocument.h" />
-    <ClInclude Include="..\..\include\iSqrt_table.hpp" />
+    <ClInclude Include="..\..\include\GraphicsSystem\gtGraphicsSystem.h" />
+    <ClInclude Include="..\..\include\GraphicsSystem\gtRenderModel.h" />
+    <ClInclude Include="..\..\include\GraphicsSystem\gtShader.h" />
+    <ClInclude Include="..\..\include\GraphicsSystem\gtTexture.h" />
+    <ClInclude Include="..\..\include\GUISystem\BuiltInFont.hpp" />
+    <ClInclude Include="..\..\include\GUISystem\gtGUIFont.h" />
+    <ClInclude Include="..\..\include\GUISystem\gtGUIObject.h" />
+    <ClInclude Include="..\..\include\GUISystem\gtGUIShape.h" />
+    <ClInclude Include="..\..\include\GUISystem\gtGUIStaticText.h" />
+    <ClInclude Include="..\..\include\GUISystem\gtGUISystem.h" />
+    <ClInclude Include="..\..\include\GUISystem\gtGUITextField.h" />
+    <ClInclude Include="..\..\include\InputSystem\gtInput.h" />
+    <ClInclude Include="..\..\include\InputSystem\gtInputController.h" />
+    <ClInclude Include="..\..\include\InputSystem\gtInputSystem.h" />
+    <ClInclude Include="..\..\include\MainSystem\gtEvent.h" />
+    <ClInclude Include="..\..\include\MainSystem\gtMainSystem.h" />
+    <ClInclude Include="..\..\include\MainSystem\gtMutex.h" />
+    <ClInclude Include="..\..\include\MainSystem\gtOutputWindow.h" />
+    <ClInclude Include="..\..\include\MainSystem\gtStackTracer.h" />
+    <ClInclude Include="..\..\include\MainSystem\gtThread.h" />
+    <ClInclude Include="..\..\include\MainSystem\gtTimer.h" />
+    <ClInclude Include="..\..\include\MainSystem\gtWindow.h" />
+    <ClInclude Include="..\..\include\MainSystem\gtWindowInfo.h" />
+    <ClInclude Include="..\..\include\PluginSystem\gtPlugin.h" />
+    <ClInclude Include="..\..\include\PluginSystem\gtPluginSystem.h" />
+    <ClInclude Include="..\..\include\SceneSystem\gtCamera.h" />
+    <ClInclude Include="..\..\include\SceneSystem\gtDummyObject.h" />
+    <ClInclude Include="..\..\include\SceneSystem\gtGameObject.h" />
+    <ClInclude Include="..\..\include\SceneSystem\gtSceneSystem.h" />
+    <ClInclude Include="..\..\include\SceneSystem\gtSprite.h" />
+    <ClInclude Include="..\..\include\SceneSystem\gtStaticObject.h" />
+    <ClInclude Include="..\..\source\gost\common.h" />
+    <ClInclude Include="..\..\source\gost\FileSystem\System\gtFileSystemCommon.h" />
+    <ClInclude Include="..\..\source\gost\FileSystem\System\gtFileSystemWin32.h" />
+    <ClInclude Include="..\..\source\gost\FileSystem\System\gtFileWin32.h" />
+    <ClInclude Include="..\..\source\gost\FileSystem\XML\gtXMLDocumentImpl.h" />
+    <ClInclude Include="..\..\source\gost\GUISystem\Fonts\gtGUIFontImpl.h" />
+    <ClInclude Include="..\..\source\gost\GUISystem\Objects\gtGUIShapeImpl.h" />
+    <ClInclude Include="..\..\source\gost\GUISystem\Objects\gtGUIStaticTextImpl.h" />
+    <ClInclude Include="..\..\source\gost\GUISystem\Objects\gtGUITextFieldImpl.h" />
+    <ClInclude Include="..\..\source\gost\GUISystem\System\gtGUISystemImpl.h" />
+    <ClInclude Include="..\..\source\gost\Image\gtImageImpl.h" />
+    <ClInclude Include="..\..\source\gost\InputSystem\gtInputSystemImpl.h" />
+    <ClInclude Include="..\..\source\gost\MainSystem\Async\gtMutexWin32.h" />
+    <ClInclude Include="..\..\source\gost\MainSystem\Async\gtThreadWin32.h" />
+    <ClInclude Include="..\..\source\gost\MainSystem\Events\gtEventSystem.h" />
+    <ClInclude Include="..\..\source\gost\MainSystem\Log\gtLogImpl.h" />
+    <ClInclude Include="..\..\source\gost\MainSystem\System\gtMainSystemCommon.h" />
+    <ClInclude Include="..\..\source\gost\MainSystem\System\gtMainSystemWin32.h" />
+    <ClInclude Include="..\..\source\gost\MainSystem\Timer\gtTimerWin32.h" />
+    <ClInclude Include="..\..\source\gost\MainSystem\Window\gtOutputWindowWin32.h" />
+    <ClInclude Include="..\..\source\gost\MainSystem\Window\gtWindowCommon.h" />
+    <ClInclude Include="..\..\source\gost\MainSystem\Window\gtWindowWin32.h" />
+    <ClInclude Include="..\..\source\gost\ModelSystem\gtModelImpl.h" />
+    <ClInclude Include="..\..\source\gost\ModelSystem\gtModelSystemImpl.h" />
+    <ClInclude Include="..\..\source\gost\PluginSystem\System\gtPluginSystemImpl.h" />
+    <ClInclude Include="..\..\source\gost\SceneSystem\Objects\gtCameraImpl.h" />
+    <ClInclude Include="..\..\source\gost\SceneSystem\Objects\gtDummyObjectImpl.h" />
+    <ClInclude Include="..\..\source\gost\SceneSystem\Objects\gtStaticObjectImpl.h" />
+    <ClInclude Include="..\..\source\gost\SceneSystem\System\gtSceneSystemImpl.h" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="..\..\gost\ReadMe.txt" />
+    <None Include="..\..\include\MainSystem\gtStackTracerWin32.inl" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\include\gtStackTracerWin32.inl" />
+    <ClCompile Include="..\..\source\gost\dllmain.cpp" />
+    <ClCompile Include="..\..\source\gost\FileSystem\System\gtFileSystemCommon.cpp" />
+    <ClCompile Include="..\..\source\gost\FileSystem\System\gtFileSystemImpl.cpp" />
+    <ClCompile Include="..\..\source\gost\FileSystem\System\gtFileSystemWin32.cpp" />
+    <ClCompile Include="..\..\source\gost\FileSystem\System\gtFileWin32.cpp" />
+    <ClCompile Include="..\..\source\gost\FileSystem\XML\gtXMLDocumentImpl.cpp" />
+    <ClCompile Include="..\..\source\gost\FileSystem\XML\gtXMLImpl.cpp" />
+    <ClCompile Include="..\..\source\gost\gost.cpp" />
+    <ClCompile Include="..\..\source\gost\GUISystem\Fonts\gtGUIFontImpl.cpp" />
+    <ClCompile Include="..\..\source\gost\GUISystem\Objects\gtGUIShapeImpl.cpp" />
+    <ClCompile Include="..\..\source\gost\GUISystem\Objects\gtGUIStaticTextImpl.cpp" />
+    <ClCompile Include="..\..\source\gost\GUISystem\Objects\gtGUITextFieldImpl.cpp" />
+    <ClCompile Include="..\..\source\gost\GUISystem\System\gtGUISystemImpl.cpp" />
+    <ClCompile Include="..\..\source\gost\Image\gtImageImpl.cpp" />
+    <ClCompile Include="..\..\source\gost\InputSystem\gtInputSystemImpl.cpp" />
+    <ClCompile Include="..\..\source\gost\MainSystem\Async\gtMutexWin32.cpp" />
+    <ClCompile Include="..\..\source\gost\MainSystem\Async\gtThreadWin32.cpp" />
+    <ClCompile Include="..\..\source\gost\MainSystem\Events\gtEventSystem.cpp" />
+    <ClCompile Include="..\..\source\gost\MainSystem\Log\gtLogImpl.cpp" />
+    <ClCompile Include="..\..\source\gost\MainSystem\System\gtMainSystemCommon.cpp" />
+    <ClCompile Include="..\..\source\gost\MainSystem\System\gtMainSystemWin32.cpp" />
+    <ClCompile Include="..\..\source\gost\MainSystem\Timer\gtTimerWin32.cpp" />
+    <ClCompile Include="..\..\source\gost\MainSystem\Window\gtOutputWindowWin32.cpp" />
+    <ClCompile Include="..\..\source\gost\MainSystem\Window\gtWindowCommon.cpp" />
+    <ClCompile Include="..\..\source\gost\MainSystem\Window\gtWindowWin32.cpp" />
+    <ClCompile Include="..\..\source\gost\ModelSystem\gtModelImpl.cpp" />
+    <ClCompile Include="..\..\source\gost\ModelSystem\gtModelSystemImpl.cpp" />
+    <ClCompile Include="..\..\source\gost\PluginSystem\Plugins\gtAudioPlugin.cpp" />
+    <ClCompile Include="..\..\source\gost\PluginSystem\Plugins\gtPluginImportImage.cpp" />
+    <ClCompile Include="..\..\source\gost\PluginSystem\Plugins\gtPluginImportModel.cpp" />
+    <ClCompile Include="..\..\source\gost\PluginSystem\Plugins\gtPluginInput.cpp" />
+    <ClCompile Include="..\..\source\gost\PluginSystem\Plugins\gtPluginRender.cpp" />
+    <ClCompile Include="..\..\source\gost\PluginSystem\System\gtPluginSystemImpl.cpp" />
+    <ClCompile Include="..\..\source\gost\SceneSystem\Objects\gtCameraImpl.cpp" />
+    <ClCompile Include="..\..\source\gost\SceneSystem\Objects\gtDummyObjectImpl.cpp" />
+    <ClCompile Include="..\..\source\gost\SceneSystem\Objects\gtStaticObjectImpl.cpp" />
+    <ClCompile Include="..\..\source\gost\SceneSystem\System\gtSceneSystemImpl.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -12,20 +12,20 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\gtimOBJ\gtimOBJ.cpp">
+    <ClCompile Include="..\..\source\gtimOBJ\gtimOBJ.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\gtimOBJ\dllmain.cpp">
+    <ClCompile Include="..\..\source\gtimOBJ\dllmain.cpp">
       <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\gtimOBJ\common.h">
+    <ClInclude Include="..\..\source\gtimOBJ\common.h">
       <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="..\..\gtimOBJ\ReadMe.txt">
+    <Text Include="..\..\source\gtimOBJ\ReadMe.txt">
       <Filter>Resource</Filter>
     </Text>
   </ItemGroup>

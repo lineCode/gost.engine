@@ -132,7 +132,7 @@
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>false</SDLCheck>
-      <AdditionalIncludeDirectories>../../include;../../external/lpng1628;../../external/zlib-1.2.11;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../include;../../thirdparty/lpng1628;../../thirdparty/zlib-1.2.11;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -143,10 +143,10 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <WarningLevel>EnableAllWarnings</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>false</SDLCheck>
-      <AdditionalIncludeDirectories>../../include;../../external/lpng1628;../../external/zlib-1.2.11;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../include;../../thirdparty/lpng1628;../../thirdparty/zlib-1.2.11;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -160,7 +160,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>false</SDLCheck>
-      <AdditionalIncludeDirectories>../../include;../../external/lpng1628;../../external/zlib-1.2.11;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../include;../../thirdparty/lpng1628;../../thirdparty/zlib-1.2.11;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -176,7 +176,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>false</SDLCheck>
-      <AdditionalIncludeDirectories>../../include;../../external/lpng1628;../../external/zlib-1.2.11;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../include;../../thirdparty/lpng1628;../../thirdparty/zlib-1.2.11;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -192,7 +192,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>false</SDLCheck>
-      <AdditionalIncludeDirectories>../../include;../../external/lpng1628;../../external/zlib-1.2.11;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../include;../../thirdparty/lpng1628;../../thirdparty/zlib-1.2.11;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -207,7 +207,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>false</SDLCheck>
-      <AdditionalIncludeDirectories>../../include;../../external/lpng1628;../../external/zlib-1.2.11;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../include;../../thirdparty/lpng1628;../../thirdparty/zlib-1.2.11;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -216,45 +216,45 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\external\lpng1628\png.c" />
-    <ClCompile Include="..\..\external\lpng1628\pngerror.c" />
-    <ClCompile Include="..\..\external\lpng1628\pngget.c" />
-    <ClCompile Include="..\..\external\lpng1628\pngmem.c" />
-    <ClCompile Include="..\..\external\lpng1628\pngpread.c" />
-    <ClCompile Include="..\..\external\lpng1628\pngread.c" />
-    <ClCompile Include="..\..\external\lpng1628\pngrio.c" />
-    <ClCompile Include="..\..\external\lpng1628\pngrtran.c" />
-    <ClCompile Include="..\..\external\lpng1628\pngrutil.c" />
-    <ClCompile Include="..\..\external\lpng1628\pngset.c" />
-    <ClCompile Include="..\..\external\lpng1628\pngtest.c" />
-    <ClCompile Include="..\..\external\lpng1628\pngtrans.c" />
-    <ClCompile Include="..\..\external\lpng1628\pngwio.c" />
-    <ClCompile Include="..\..\external\lpng1628\pngwrite.c" />
-    <ClCompile Include="..\..\external\lpng1628\pngwtran.c" />
-    <ClCompile Include="..\..\external\lpng1628\pngwutil.c" />
-    <ClCompile Include="..\..\external\zlib-1.2.11\adler32.c" />
-    <ClCompile Include="..\..\external\zlib-1.2.11\compress.c" />
-    <ClCompile Include="..\..\external\zlib-1.2.11\crc32.c" />
-    <ClCompile Include="..\..\external\zlib-1.2.11\deflate.c" />
-    <ClCompile Include="..\..\external\zlib-1.2.11\gzclose.c" />
-    <ClCompile Include="..\..\external\zlib-1.2.11\gzlib.c" />
-    <ClCompile Include="..\..\external\zlib-1.2.11\gzread.c" />
-    <ClCompile Include="..\..\external\zlib-1.2.11\gzwrite.c" />
-    <ClCompile Include="..\..\external\zlib-1.2.11\infback.c" />
-    <ClCompile Include="..\..\external\zlib-1.2.11\inffast.c" />
-    <ClCompile Include="..\..\external\zlib-1.2.11\inflate.c" />
-    <ClCompile Include="..\..\external\zlib-1.2.11\inftrees.c" />
-    <ClCompile Include="..\..\external\zlib-1.2.11\trees.c" />
-    <ClCompile Include="..\..\external\zlib-1.2.11\uncompr.c" />
-    <ClCompile Include="..\..\external\zlib-1.2.11\zutil.c" />
-    <ClCompile Include="..\..\gtPNG\dllmain.cpp" />
-    <ClCompile Include="..\..\gtPNG\gtiiPNG.cpp" />
+    <ClCompile Include="..\..\thirdparty\lpng1628\png.c" />
+    <ClCompile Include="..\..\thirdparty\lpng1628\pngerror.c" />
+    <ClCompile Include="..\..\thirdparty\lpng1628\pngget.c" />
+    <ClCompile Include="..\..\thirdparty\lpng1628\pngmem.c" />
+    <ClCompile Include="..\..\thirdparty\lpng1628\pngpread.c" />
+    <ClCompile Include="..\..\thirdparty\lpng1628\pngread.c" />
+    <ClCompile Include="..\..\thirdparty\lpng1628\pngrio.c" />
+    <ClCompile Include="..\..\thirdparty\lpng1628\pngrtran.c" />
+    <ClCompile Include="..\..\thirdparty\lpng1628\pngrutil.c" />
+    <ClCompile Include="..\..\thirdparty\lpng1628\pngset.c" />
+    <ClCompile Include="..\..\thirdparty\lpng1628\pngtest.c" />
+    <ClCompile Include="..\..\thirdparty\lpng1628\pngtrans.c" />
+    <ClCompile Include="..\..\thirdparty\lpng1628\pngwio.c" />
+    <ClCompile Include="..\..\thirdparty\lpng1628\pngwrite.c" />
+    <ClCompile Include="..\..\thirdparty\lpng1628\pngwtran.c" />
+    <ClCompile Include="..\..\thirdparty\lpng1628\pngwutil.c" />
+    <ClCompile Include="..\..\thirdparty\zlib-1.2.11\adler32.c" />
+    <ClCompile Include="..\..\thirdparty\zlib-1.2.11\compress.c" />
+    <ClCompile Include="..\..\thirdparty\zlib-1.2.11\crc32.c" />
+    <ClCompile Include="..\..\thirdparty\zlib-1.2.11\deflate.c" />
+    <ClCompile Include="..\..\thirdparty\zlib-1.2.11\gzclose.c" />
+    <ClCompile Include="..\..\thirdparty\zlib-1.2.11\gzlib.c" />
+    <ClCompile Include="..\..\thirdparty\zlib-1.2.11\gzread.c" />
+    <ClCompile Include="..\..\thirdparty\zlib-1.2.11\gzwrite.c" />
+    <ClCompile Include="..\..\thirdparty\zlib-1.2.11\infback.c" />
+    <ClCompile Include="..\..\thirdparty\zlib-1.2.11\inffast.c" />
+    <ClCompile Include="..\..\thirdparty\zlib-1.2.11\inflate.c" />
+    <ClCompile Include="..\..\thirdparty\zlib-1.2.11\inftrees.c" />
+    <ClCompile Include="..\..\thirdparty\zlib-1.2.11\trees.c" />
+    <ClCompile Include="..\..\thirdparty\zlib-1.2.11\uncompr.c" />
+    <ClCompile Include="..\..\thirdparty\zlib-1.2.11\zutil.c" />
+    <ClCompile Include="..\..\source\gtPNG\dllmain.cpp" />
+    <ClCompile Include="..\..\source\gtPNG\gtiiPNG.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\gtPNG\common.h" />
+    <ClInclude Include="..\..\source\gtPNG\common.h" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="..\..\gtPNG\ReadMe.txt" />
+    <Text Include="..\..\source\gtPNG\ReadMe.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

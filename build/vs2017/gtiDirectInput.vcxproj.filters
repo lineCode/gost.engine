@@ -9,18 +9,18 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\gtiDirectInput\common.h">
+    <ClInclude Include="..\..\source\gtiDirectInput\common.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\gtiDirectInput\gtiDirectInput.h">
+    <ClInclude Include="..\..\source\gtiDirectInput\gtiDirectInput.h">
       <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\gtiDirectInput\dllmain.cpp">
+    <ClCompile Include="..\..\source\gtiDirectInput\dllmain.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\gtiDirectInput\gtiDirectInput.cpp">
+    <ClCompile Include="..\..\source\gtiDirectInput\gtiDirectInput.cpp">
       <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>

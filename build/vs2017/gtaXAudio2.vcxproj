@@ -27,66 +27,66 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\external\libvorbis-1.3.5\lib\backends.h" />
-    <ClInclude Include="..\..\external\libvorbis-1.3.5\lib\bitrate.h" />
-    <ClInclude Include="..\..\external\libvorbis-1.3.5\lib\codebook.h" />
-    <ClInclude Include="..\..\external\libvorbis-1.3.5\lib\codec_internal.h" />
-    <ClInclude Include="..\..\external\libvorbis-1.3.5\lib\envelope.h" />
-    <ClInclude Include="..\..\external\libvorbis-1.3.5\lib\highlevel.h" />
-    <ClInclude Include="..\..\external\libvorbis-1.3.5\lib\lookup.h" />
-    <ClInclude Include="..\..\external\libvorbis-1.3.5\lib\lookup_data.h" />
-    <ClInclude Include="..\..\external\libvorbis-1.3.5\lib\lpc.h" />
-    <ClInclude Include="..\..\external\libvorbis-1.3.5\lib\lsp.h" />
-    <ClInclude Include="..\..\external\libvorbis-1.3.5\lib\masking.h" />
-    <ClInclude Include="..\..\external\libvorbis-1.3.5\lib\mdct.h" />
-    <ClInclude Include="..\..\external\libvorbis-1.3.5\lib\misc.h" />
-    <ClInclude Include="..\..\external\libvorbis-1.3.5\lib\os.h" />
-    <ClInclude Include="..\..\external\libvorbis-1.3.5\lib\psy.h" />
-    <ClInclude Include="..\..\external\libvorbis-1.3.5\lib\registry.h" />
-    <ClInclude Include="..\..\external\libvorbis-1.3.5\lib\scales.h" />
-    <ClInclude Include="..\..\external\libvorbis-1.3.5\lib\smallft.h" />
-    <ClInclude Include="..\..\external\libvorbis-1.3.5\lib\window.h" />
-    <ClInclude Include="..\..\gtaXAudio2\gtAudioSourceImpl.h" />
-    <ClInclude Include="..\..\gtaXAudio2\gtAudioSystemXAudio2.h" />
-    <ClInclude Include="..\..\gtaXAudio2\common.h" />
-    <ClInclude Include="..\..\gtaXAudio2\Ogg.h" />
-    <ClInclude Include="..\..\gtaXAudio2\wave.h" />
+    <ClInclude Include="..\..\thirdparty\libvorbis-1.3.5\lib\backends.h" />
+    <ClInclude Include="..\..\thirdparty\libvorbis-1.3.5\lib\bitrate.h" />
+    <ClInclude Include="..\..\thirdparty\libvorbis-1.3.5\lib\codebook.h" />
+    <ClInclude Include="..\..\thirdparty\libvorbis-1.3.5\lib\codec_internal.h" />
+    <ClInclude Include="..\..\thirdparty\libvorbis-1.3.5\lib\envelope.h" />
+    <ClInclude Include="..\..\thirdparty\libvorbis-1.3.5\lib\highlevel.h" />
+    <ClInclude Include="..\..\thirdparty\libvorbis-1.3.5\lib\lookup.h" />
+    <ClInclude Include="..\..\thirdparty\libvorbis-1.3.5\lib\lookup_data.h" />
+    <ClInclude Include="..\..\thirdparty\libvorbis-1.3.5\lib\lpc.h" />
+    <ClInclude Include="..\..\thirdparty\libvorbis-1.3.5\lib\lsp.h" />
+    <ClInclude Include="..\..\thirdparty\libvorbis-1.3.5\lib\masking.h" />
+    <ClInclude Include="..\..\thirdparty\libvorbis-1.3.5\lib\mdct.h" />
+    <ClInclude Include="..\..\thirdparty\libvorbis-1.3.5\lib\misc.h" />
+    <ClInclude Include="..\..\thirdparty\libvorbis-1.3.5\lib\os.h" />
+    <ClInclude Include="..\..\thirdparty\libvorbis-1.3.5\lib\psy.h" />
+    <ClInclude Include="..\..\thirdparty\libvorbis-1.3.5\lib\registry.h" />
+    <ClInclude Include="..\..\thirdparty\libvorbis-1.3.5\lib\scales.h" />
+    <ClInclude Include="..\..\thirdparty\libvorbis-1.3.5\lib\smallft.h" />
+    <ClInclude Include="..\..\thirdparty\libvorbis-1.3.5\lib\window.h" />
+    <ClInclude Include="..\..\source\gtaXAudio2\gtAudioSourceImpl.h" />
+    <ClInclude Include="..\..\source\gtaXAudio2\gtAudioSystemXAudio2.h" />
+    <ClInclude Include="..\..\source\gtaXAudio2\common.h" />
+    <ClInclude Include="..\..\source\gtaXAudio2\Ogg.h" />
+    <ClInclude Include="..\..\source\gtaXAudio2\wave.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\external\libogg-1.3.3\src\bitwise.c" />
-    <ClCompile Include="..\..\external\libogg-1.3.3\src\framing.c" />
-    <ClCompile Include="..\..\external\libvorbis-1.3.5\lib\analysis.c" />
-    <ClCompile Include="..\..\external\libvorbis-1.3.5\lib\barkmel.c" />
-    <ClCompile Include="..\..\external\libvorbis-1.3.5\lib\bitrate.c" />
-    <ClCompile Include="..\..\external\libvorbis-1.3.5\lib\block.c" />
-    <ClCompile Include="..\..\external\libvorbis-1.3.5\lib\codebook.c" />
-    <ClCompile Include="..\..\external\libvorbis-1.3.5\lib\envelope.c" />
-    <ClCompile Include="..\..\external\libvorbis-1.3.5\lib\floor0.c" />
-    <ClCompile Include="..\..\external\libvorbis-1.3.5\lib\floor1.c" />
-    <ClCompile Include="..\..\external\libvorbis-1.3.5\lib\info.c" />
-    <ClCompile Include="..\..\external\libvorbis-1.3.5\lib\lookup.c" />
-    <ClCompile Include="..\..\external\libvorbis-1.3.5\lib\lpc.c" />
-    <ClCompile Include="..\..\external\libvorbis-1.3.5\lib\lsp.c" />
-    <ClCompile Include="..\..\external\libvorbis-1.3.5\lib\mapping0.c" />
-    <ClCompile Include="..\..\external\libvorbis-1.3.5\lib\mdct.c" />
-    <ClCompile Include="..\..\external\libvorbis-1.3.5\lib\psy.c" />
-    <ClCompile Include="..\..\external\libvorbis-1.3.5\lib\registry.c" />
-    <ClCompile Include="..\..\external\libvorbis-1.3.5\lib\res0.c" />
-    <ClCompile Include="..\..\external\libvorbis-1.3.5\lib\sharedbook.c" />
-    <ClCompile Include="..\..\external\libvorbis-1.3.5\lib\smallft.c" />
-    <ClCompile Include="..\..\external\libvorbis-1.3.5\lib\synthesis.c" />
-    <ClCompile Include="..\..\external\libvorbis-1.3.5\lib\vorbisenc.c" />
-    <ClCompile Include="..\..\external\libvorbis-1.3.5\lib\vorbisfile.c" />
-    <ClCompile Include="..\..\external\libvorbis-1.3.5\lib\window.c" />
-    <ClCompile Include="..\..\gtaXAudio2\dllmain.cpp" />
-    <ClCompile Include="..\..\gtaXAudio2\gtAudioSourceImpl.cpp" />
-    <ClCompile Include="..\..\gtaXAudio2\gtAudioSystemXAudio2.cpp" />
-    <ClCompile Include="..\..\gtaXAudio2\gtaXAudio2.cpp" />
-    <ClCompile Include="..\..\gtaXAudio2\Ogg.cpp" />
-    <ClCompile Include="..\..\gtaXAudio2\wave.cpp" />
+    <ClCompile Include="..\..\thirdparty\libogg-1.3.3\src\bitwise.c" />
+    <ClCompile Include="..\..\thirdparty\libogg-1.3.3\src\framing.c" />
+    <ClCompile Include="..\..\thirdparty\libvorbis-1.3.5\lib\analysis.c" />
+    <ClCompile Include="..\..\thirdparty\libvorbis-1.3.5\lib\barkmel.c" />
+    <ClCompile Include="..\..\thirdparty\libvorbis-1.3.5\lib\bitrate.c" />
+    <ClCompile Include="..\..\thirdparty\libvorbis-1.3.5\lib\block.c" />
+    <ClCompile Include="..\..\thirdparty\libvorbis-1.3.5\lib\codebook.c" />
+    <ClCompile Include="..\..\thirdparty\libvorbis-1.3.5\lib\envelope.c" />
+    <ClCompile Include="..\..\thirdparty\libvorbis-1.3.5\lib\floor0.c" />
+    <ClCompile Include="..\..\thirdparty\libvorbis-1.3.5\lib\floor1.c" />
+    <ClCompile Include="..\..\thirdparty\libvorbis-1.3.5\lib\info.c" />
+    <ClCompile Include="..\..\thirdparty\libvorbis-1.3.5\lib\lookup.c" />
+    <ClCompile Include="..\..\thirdparty\libvorbis-1.3.5\lib\lpc.c" />
+    <ClCompile Include="..\..\thirdparty\libvorbis-1.3.5\lib\lsp.c" />
+    <ClCompile Include="..\..\thirdparty\libvorbis-1.3.5\lib\mapping0.c" />
+    <ClCompile Include="..\..\thirdparty\libvorbis-1.3.5\lib\mdct.c" />
+    <ClCompile Include="..\..\thirdparty\libvorbis-1.3.5\lib\psy.c" />
+    <ClCompile Include="..\..\thirdparty\libvorbis-1.3.5\lib\registry.c" />
+    <ClCompile Include="..\..\thirdparty\libvorbis-1.3.5\lib\res0.c" />
+    <ClCompile Include="..\..\thirdparty\libvorbis-1.3.5\lib\sharedbook.c" />
+    <ClCompile Include="..\..\thirdparty\libvorbis-1.3.5\lib\smallft.c" />
+    <ClCompile Include="..\..\thirdparty\libvorbis-1.3.5\lib\synthesis.c" />
+    <ClCompile Include="..\..\thirdparty\libvorbis-1.3.5\lib\vorbisenc.c" />
+    <ClCompile Include="..\..\thirdparty\libvorbis-1.3.5\lib\vorbisfile.c" />
+    <ClCompile Include="..\..\thirdparty\libvorbis-1.3.5\lib\window.c" />
+    <ClCompile Include="..\..\source\gtaXAudio2\dllmain.cpp" />
+    <ClCompile Include="..\..\source\gtaXAudio2\gtAudioSourceImpl.cpp" />
+    <ClCompile Include="..\..\source\gtaXAudio2\gtAudioSystemXAudio2.cpp" />
+    <ClCompile Include="..\..\source\gtaXAudio2\gtaXAudio2.cpp" />
+    <ClCompile Include="..\..\source\gtaXAudio2\Ogg.cpp" />
+    <ClCompile Include="..\..\source\gtaXAudio2\wave.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="..\..\gtaXAudio2\ReadMe.txt" />
+    <Text Include="..\..\source\gtaXAudio2\ReadMe.txt" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{63E1A72E-31DD-4B7C-9B13-B7D8C3443845}</ProjectGuid>
@@ -194,7 +194,7 @@
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>false</SDLCheck>
-      <AdditionalIncludeDirectories>../../include;D:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;../../external/libogg-1.3.3/include/;../../external/libvorbis-1.3.5/include/;../../external/lame-3.100/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../include;D:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;../../thirdparty/libogg-1.3.3/include/;../../thirdparty/libvorbis-1.3.5/include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -204,10 +204,10 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <WarningLevel>EnableAllWarnings</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>false</SDLCheck>
-      <AdditionalIncludeDirectories>../../include;D:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;../../external/libogg-1.3.3/include/;../../external/libvorbis-1.3.5/include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../include;D:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;../../thirdparty/libogg-1.3.3/include/;../../thirdparty/libvorbis-1.3.5/include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -221,7 +221,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>false</SDLCheck>
-      <AdditionalIncludeDirectories>../../include;D:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;../../external/libogg-1.3.3/include/;../../external/libvorbis-1.3.5/include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../include;D:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;../../thirdparty/libogg-1.3.3/include/;../../thirdparty/libvorbis-1.3.5/include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -236,7 +236,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>false</SDLCheck>
-      <AdditionalIncludeDirectories>../../include;D:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;../../external/libogg-1.3.3/include/;../../external/libvorbis-1.3.5/include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../include;D:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;../../thirdparty/libogg-1.3.3/include/;../../thirdparty/libvorbis-1.3.5/include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -253,7 +253,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>false</SDLCheck>
-      <AdditionalIncludeDirectories>../../include;D:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;../../external/libogg-1.3.3/include/;../../external/libvorbis-1.3.5/include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../include;D:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;../../thirdparty/libogg-1.3.3/include/;../../thirdparty/libvorbis-1.3.5/include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -268,7 +268,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>false</SDLCheck>
-      <AdditionalIncludeDirectories>../../include;D:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;../../external/libogg-1.3.3/include/;../../external/libvorbis-1.3.5/include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../include;D:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;../../thirdparty/libogg-1.3.3/include/;../../thirdparty/libvorbis-1.3.5/include/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>

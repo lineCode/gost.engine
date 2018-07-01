@@ -13,180 +13,177 @@
     <Filter Include="Source\libvorbis">
       <UniqueIdentifier>{b80dcf25-277a-4670-afa3-d531c8c9d939}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\libmp3lame">
-      <UniqueIdentifier>{3003d515-5c1a-490a-bf41-2491adaa4198}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\gtaXAudio2\gtAudioSystemXAudio2.h">
+    <ClInclude Include="..\..\source\gtaXAudio2\gtAudioSystemXAudio2.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\gtaXAudio2\common.h">
+    <ClInclude Include="..\..\source\gtaXAudio2\common.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\gtaXAudio2\wave.h">
+    <ClInclude Include="..\..\source\gtaXAudio2\wave.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\gtaXAudio2\gtAudioSourceImpl.h">
+    <ClInclude Include="..\..\source\gtaXAudio2\gtAudioSourceImpl.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\gtaXAudio2\Ogg.h">
+    <ClInclude Include="..\..\source\gtaXAudio2\Ogg.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\external\libvorbis-1.3.5\lib\backends.h">
+    <ClInclude Include="..\..\thirdparty\libvorbis-1.3.5\lib\backends.h">
       <Filter>Source\libvorbis</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\external\libvorbis-1.3.5\lib\bitrate.h">
+    <ClInclude Include="..\..\thirdparty\libvorbis-1.3.5\lib\bitrate.h">
       <Filter>Source\libvorbis</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\external\libvorbis-1.3.5\lib\codebook.h">
+    <ClInclude Include="..\..\thirdparty\libvorbis-1.3.5\lib\codebook.h">
       <Filter>Source\libvorbis</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\external\libvorbis-1.3.5\lib\codec_internal.h">
+    <ClInclude Include="..\..\thirdparty\libvorbis-1.3.5\lib\codec_internal.h">
       <Filter>Source\libvorbis</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\external\libvorbis-1.3.5\lib\envelope.h">
+    <ClInclude Include="..\..\thirdparty\libvorbis-1.3.5\lib\envelope.h">
       <Filter>Source\libvorbis</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\external\libvorbis-1.3.5\lib\highlevel.h">
+    <ClInclude Include="..\..\thirdparty\libvorbis-1.3.5\lib\highlevel.h">
       <Filter>Source\libvorbis</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\external\libvorbis-1.3.5\lib\lookup.h">
+    <ClInclude Include="..\..\thirdparty\libvorbis-1.3.5\lib\lookup.h">
       <Filter>Source\libvorbis</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\external\libvorbis-1.3.5\lib\lookup_data.h">
+    <ClInclude Include="..\..\thirdparty\libvorbis-1.3.5\lib\lookup_data.h">
       <Filter>Source\libvorbis</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\external\libvorbis-1.3.5\lib\lpc.h">
+    <ClInclude Include="..\..\thirdparty\libvorbis-1.3.5\lib\lpc.h">
       <Filter>Source\libvorbis</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\external\libvorbis-1.3.5\lib\lsp.h">
+    <ClInclude Include="..\..\thirdparty\libvorbis-1.3.5\lib\lsp.h">
       <Filter>Source\libvorbis</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\external\libvorbis-1.3.5\lib\masking.h">
+    <ClInclude Include="..\..\thirdparty\libvorbis-1.3.5\lib\masking.h">
       <Filter>Source\libvorbis</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\external\libvorbis-1.3.5\lib\mdct.h">
+    <ClInclude Include="..\..\thirdparty\libvorbis-1.3.5\lib\mdct.h">
       <Filter>Source\libvorbis</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\external\libvorbis-1.3.5\lib\misc.h">
+    <ClInclude Include="..\..\thirdparty\libvorbis-1.3.5\lib\misc.h">
       <Filter>Source\libvorbis</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\external\libvorbis-1.3.5\lib\os.h">
+    <ClInclude Include="..\..\thirdparty\libvorbis-1.3.5\lib\os.h">
       <Filter>Source\libvorbis</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\external\libvorbis-1.3.5\lib\psy.h">
+    <ClInclude Include="..\..\thirdparty\libvorbis-1.3.5\lib\psy.h">
       <Filter>Source\libvorbis</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\external\libvorbis-1.3.5\lib\registry.h">
+    <ClInclude Include="..\..\thirdparty\libvorbis-1.3.5\lib\registry.h">
       <Filter>Source\libvorbis</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\external\libvorbis-1.3.5\lib\scales.h">
+    <ClInclude Include="..\..\thirdparty\libvorbis-1.3.5\lib\scales.h">
       <Filter>Source\libvorbis</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\external\libvorbis-1.3.5\lib\smallft.h">
+    <ClInclude Include="..\..\thirdparty\libvorbis-1.3.5\lib\smallft.h">
       <Filter>Source\libvorbis</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\external\libvorbis-1.3.5\lib\window.h">
+    <ClInclude Include="..\..\thirdparty\libvorbis-1.3.5\lib\window.h">
       <Filter>Source\libvorbis</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\gtaXAudio2\dllmain.cpp">
+    <ClCompile Include="..\..\source\gtaXAudio2\dllmain.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\gtaXAudio2\gtAudioSystemXAudio2.cpp">
+    <ClCompile Include="..\..\source\gtaXAudio2\gtAudioSystemXAudio2.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\gtaXAudio2\gtaXAudio2.cpp">
+    <ClCompile Include="..\..\source\gtaXAudio2\gtaXAudio2.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\gtaXAudio2\wave.cpp">
+    <ClCompile Include="..\..\source\gtaXAudio2\wave.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\gtaXAudio2\gtAudioSourceImpl.cpp">
+    <ClCompile Include="..\..\source\gtaXAudio2\gtAudioSourceImpl.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\external\libogg-1.3.3\src\bitwise.c">
+    <ClCompile Include="..\..\thirdparty\libogg-1.3.3\src\bitwise.c">
       <Filter>Source\libogg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\external\libogg-1.3.3\src\framing.c">
+    <ClCompile Include="..\..\thirdparty\libogg-1.3.3\src\framing.c">
       <Filter>Source\libogg</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\gtaXAudio2\Ogg.cpp">
+    <ClCompile Include="..\..\source\gtaXAudio2\Ogg.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\external\libvorbis-1.3.5\lib\mapping0.c">
+    <ClCompile Include="..\..\thirdparty\libvorbis-1.3.5\lib\mapping0.c">
       <Filter>Source\libvorbis</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\external\libvorbis-1.3.5\lib\mdct.c">
+    <ClCompile Include="..\..\thirdparty\libvorbis-1.3.5\lib\mdct.c">
       <Filter>Source\libvorbis</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\external\libvorbis-1.3.5\lib\psy.c">
+    <ClCompile Include="..\..\thirdparty\libvorbis-1.3.5\lib\psy.c">
       <Filter>Source\libvorbis</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\external\libvorbis-1.3.5\lib\registry.c">
+    <ClCompile Include="..\..\thirdparty\libvorbis-1.3.5\lib\registry.c">
       <Filter>Source\libvorbis</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\external\libvorbis-1.3.5\lib\res0.c">
+    <ClCompile Include="..\..\thirdparty\libvorbis-1.3.5\lib\res0.c">
       <Filter>Source\libvorbis</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\external\libvorbis-1.3.5\lib\sharedbook.c">
+    <ClCompile Include="..\..\thirdparty\libvorbis-1.3.5\lib\sharedbook.c">
       <Filter>Source\libvorbis</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\external\libvorbis-1.3.5\lib\smallft.c">
+    <ClCompile Include="..\..\thirdparty\libvorbis-1.3.5\lib\smallft.c">
       <Filter>Source\libvorbis</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\external\libvorbis-1.3.5\lib\synthesis.c">
+    <ClCompile Include="..\..\thirdparty\libvorbis-1.3.5\lib\synthesis.c">
       <Filter>Source\libvorbis</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\external\libvorbis-1.3.5\lib\vorbisenc.c">
+    <ClCompile Include="..\..\thirdparty\libvorbis-1.3.5\lib\vorbisenc.c">
       <Filter>Source\libvorbis</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\external\libvorbis-1.3.5\lib\vorbisfile.c">
+    <ClCompile Include="..\..\thirdparty\libvorbis-1.3.5\lib\vorbisfile.c">
       <Filter>Source\libvorbis</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\external\libvorbis-1.3.5\lib\window.c">
+    <ClCompile Include="..\..\thirdparty\libvorbis-1.3.5\lib\window.c">
       <Filter>Source\libvorbis</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\external\libvorbis-1.3.5\lib\analysis.c">
+    <ClCompile Include="..\..\thirdparty\libvorbis-1.3.5\lib\analysis.c">
       <Filter>Source\libvorbis</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\external\libvorbis-1.3.5\lib\barkmel.c">
+    <ClCompile Include="..\..\thirdparty\libvorbis-1.3.5\lib\barkmel.c">
       <Filter>Source\libvorbis</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\external\libvorbis-1.3.5\lib\bitrate.c">
+    <ClCompile Include="..\..\thirdparty\libvorbis-1.3.5\lib\bitrate.c">
       <Filter>Source\libvorbis</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\external\libvorbis-1.3.5\lib\block.c">
+    <ClCompile Include="..\..\thirdparty\libvorbis-1.3.5\lib\block.c">
       <Filter>Source\libvorbis</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\external\libvorbis-1.3.5\lib\codebook.c">
+    <ClCompile Include="..\..\thirdparty\libvorbis-1.3.5\lib\codebook.c">
       <Filter>Source\libvorbis</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\external\libvorbis-1.3.5\lib\envelope.c">
+    <ClCompile Include="..\..\thirdparty\libvorbis-1.3.5\lib\envelope.c">
       <Filter>Source\libvorbis</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\external\libvorbis-1.3.5\lib\floor0.c">
+    <ClCompile Include="..\..\thirdparty\libvorbis-1.3.5\lib\floor0.c">
       <Filter>Source\libvorbis</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\external\libvorbis-1.3.5\lib\floor1.c">
+    <ClCompile Include="..\..\thirdparty\libvorbis-1.3.5\lib\floor1.c">
       <Filter>Source\libvorbis</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\external\libvorbis-1.3.5\lib\info.c">
+    <ClCompile Include="..\..\thirdparty\libvorbis-1.3.5\lib\info.c">
       <Filter>Source\libvorbis</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\external\libvorbis-1.3.5\lib\lookup.c">
+    <ClCompile Include="..\..\thirdparty\libvorbis-1.3.5\lib\lookup.c">
       <Filter>Source\libvorbis</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\external\libvorbis-1.3.5\lib\lpc.c">
+    <ClCompile Include="..\..\thirdparty\libvorbis-1.3.5\lib\lpc.c">
       <Filter>Source\libvorbis</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\external\libvorbis-1.3.5\lib\lsp.c">
+    <ClCompile Include="..\..\thirdparty\libvorbis-1.3.5\lib\lsp.c">
       <Filter>Source\libvorbis</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="..\..\gtaXAudio2\ReadMe.txt" />
+    <Text Include="..\..\source\gtaXAudio2\ReadMe.txt" />
   </ItemGroup>
 </Project>

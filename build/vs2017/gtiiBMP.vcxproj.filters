@@ -12,20 +12,20 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\gtiiBMP\dllmain.cpp">
+    <ClCompile Include="..\..\source\gtiiBMP\dllmain.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\gtiiBMP\gtiiBMP.cpp">
+    <ClCompile Include="..\..\source\gtiiBMP\gtiiBMP.cpp">
       <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\gtiiBMP\common.h">
+    <ClInclude Include="..\..\source\gtiiBMP\common.h">
       <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="..\..\gtiiBMP\ReadMe.txt">
+    <Text Include="..\..\source\gtiiBMP\ReadMe.txt">
       <Filter>Resource</Filter>
     </Text>
   </ItemGroup>
