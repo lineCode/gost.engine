@@ -5,19 +5,12 @@
 namespace gost{
 	
 	struct gtRealTime{
-		
 		s32 m_year;
-
 		u32 m_month;
-
 		u32 m_day;
-
 		u32 m_dayWheek;
-
 		u32 m_hour;
-
 		u32 m_minute;
-
 		u32 m_second;
 	};
 

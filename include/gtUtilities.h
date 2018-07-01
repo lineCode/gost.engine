@@ -224,21 +224,21 @@ namespace gost{
 
 			u8 bom[ 3u ];
 			file->read( bom, 3u );
-			file->seek( 0u, gtFile::SeekPos::ESP_BEGIN );
+			file->seek( 0u, gtFileSeekPos::Begin );
 
 			bool isUTF8 = false;
 			bool isBE = false;
 
 			if( bom[ 0u ] == 0xEF ){
-				file->seek( 3u, gtFile::SeekPos::ESP_BEGIN );
+				file->seek( 3u, gtFileSeekPos::Begin );
 				isUTF8 = true;
 				sz -= 3u;
 			}else if( bom[ 0u ] == 0xFE ){ // utf16 BE
-				file->seek( 2u, gtFile::SeekPos::ESP_BEGIN );
+				file->seek( 2u, gtFileSeekPos::Begin );
 				isBE = true;
 				sz -= 2u;
 			}else if( bom[ 0u ] == 0xFF ){
-				file->seek( 2u, gtFile::SeekPos::ESP_BEGIN );
+				file->seek( 2u, gtFileSeekPos::Begin );
 				sz -= 2u;
 			}else{
 				// else - utf8 w/o bom

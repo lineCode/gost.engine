@@ -25,13 +25,13 @@ namespace gost{
 	};
 
 	enum class gtVertexType{
-		position,	//< 4 * sizeof( gtReal )
-		normal,		//< 3 * sizeof( gtReal )
-		uv,			//< 2 * sizeof( gtReal )
-		color,		//< 4 * sizeof( gtReal )
-		binormal,	//< 3 * sizeof( gtReal )
-		tangent,	//< 3 * sizeof( gtReal )
-		end			
+		Position,	//< 4 * sizeof( gtReal )
+		Normal,		//< 3 * sizeof( gtReal )
+		UV,			//< 2 * sizeof( gtReal )
+		Color,		//< 4 * sizeof( gtReal )
+		Binormal,	//< 3 * sizeof( gtReal )
+		Tangent,	//< 3 * sizeof( gtReal )
+		End			
 	};
 
 

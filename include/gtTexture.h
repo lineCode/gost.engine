@@ -4,34 +4,28 @@
 
 namespace gost{
 
-	enum gtTextureType : u32 {
-
-		TEXTURE_TYPE_2D,
-
-		TEXTURE_TYPE_CUBE
+	enum class gtTextureType : u32 {
+		Texture_2D,
+		Cubemap
 	};
 
-	enum gtTextureFilterType : u32 {
-		FILTER_PPP	= 0,				//< D3D11_FILTER_MIN_MAG_MIP_POINT
-        FILTER_PPL	= 0x1,				//< D3D11_FILTER_MIN_MAG_POINT_MIP_LINEAR
-        FILTER_PLP	= 0x4,				//< D3D11_FILTER_MIN_POINT_MAG_LINEAR_MIP_POINT
-        FILTER_PLL	= 0x5,				//< D3D11_FILTER_MIN_POINT_MAG_MIP_LINEAR
-        FILTER_LPP	= 0x10,				//< D3D11_FILTER_MIN_LINEAR_MAG_MIP_POINT
-        FILTER_LPL	= 0x11,				//< D3D11_FILTER_MIN_LINEAR_MAG_POINT_MIP_LINEAR
-        FILTER_LLP	= 0x14,				//< D3D11_FILTER_MIN_MAG_LINEAR_MIP_POINT
-        FILTER_LLL	= 0x15,				//< D3D11_FILTER_MIN_MAG_MIP_LINEAR
-        FILTER_ANISOTROPIC	= 0x55,		//< D3D11_FILTER_ANISOTROPIC
+	enum class gtTextureFilterType : u32 {
+		PPP	= 0,				//< D3D11_FILTER_MIN_MAG_MIP_POINT
+        PPL	= 0x1,				//< D3D11_FILTER_MIN_MAG_POINT_MIP_LINEAR
+        PLP	= 0x4,				//< D3D11_FILTER_MIN_POINT_MAG_LINEAR_MIP_POINT
+        PLL	= 0x5,				//< D3D11_FILTER_MIN_POINT_MAG_MIP_LINEAR
+        LPP	= 0x10,				//< D3D11_FILTER_MIN_LINEAR_MAG_MIP_POINT
+        LPL	= 0x11,				//< D3D11_FILTER_MIN_LINEAR_MAG_POINT_MIP_LINEAR
+        LLP	= 0x14,				//< D3D11_FILTER_MIN_MAG_LINEAR_MIP_POINT
+        LLL	= 0x15,				//< D3D11_FILTER_MIN_MAG_MIP_LINEAR
+        Anisotropic	= 0x55,		//< D3D11_FILTER_ANISOTROPIC
 	};
 
 	class gtTexture : public gtRefObject {
 	public:
 
 		virtual gtTextureType	getType() = 0;
-
-			// \return width
 		virtual u32				getWidth() = 0;
-
-			// \return height
 		virtual u32				getHeight() = 0;
 
 	};

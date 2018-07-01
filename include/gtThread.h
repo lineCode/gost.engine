@@ -5,9 +5,9 @@
 namespace gost{
 
 	enum class gtThreadStatus : u32{
-		not_started,
-		running,
-		terminated
+		Not_started,
+		Running,
+		Terminated
 	};
 
 		//	Thread
@@ -24,7 +24,7 @@ namespace gost{
 	
 			// Constructor
 		gtThread():
-			m_status( gtThreadStatus::not_started ),
+			m_status( gtThreadStatus::Not_started ),
 			m_id( 0u )
 		{};
 
