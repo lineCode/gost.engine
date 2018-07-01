@@ -233,6 +233,7 @@
     <ClCompile Include="..\..\gost\gtGUIStaticTextImpl.cpp" />
     <ClCompile Include="..\..\gost\gtGUISystemImpl.cpp" />
     <ClCompile Include="..\..\gost\gtGUITextFieldImpl.cpp" />
+    <ClCompile Include="..\..\gost\gtInputSystemImpl.cpp" />
     <ClCompile Include="..\..\gost\gtLogImpl.cpp" />
     <ClCompile Include="..\..\gost\gtMainSystemCommon.cpp" />
     <ClCompile Include="..\..\gost\gtMainSystemWin32.cpp" />
@@ -267,6 +268,7 @@
     <ClInclude Include="..\..\gost\gtGUIStaticTextImpl.h" />
     <ClInclude Include="..\..\gost\gtGUISystemImpl.h" />
     <ClInclude Include="..\..\gost\gtGUITextFieldImpl.h" />
+    <ClInclude Include="..\..\gost\gtInputSystemImpl.h" />
     <ClInclude Include="..\..\gost\gtLogImpl.h" />
     <ClInclude Include="..\..\gost\gtMainSystemCommon.h" />
     <ClInclude Include="..\..\gost\gtMainSystemWin32.h" />
@@ -313,6 +315,7 @@
     <ClInclude Include="..\..\include\gtInfo.h" />
     <ClInclude Include="..\..\include\gtInput.h" />
     <ClInclude Include="..\..\include\gtInputController.h" />
+    <ClInclude Include="..\..\include\gtInputSystem.h" />
     <ClInclude Include="..\..\include\gtList.h" />
     <ClInclude Include="..\..\include\gtLog.h" />
     <ClInclude Include="..\..\include\gtMainSystem.h" />

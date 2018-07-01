@@ -2,14 +2,13 @@
 
 #include"common.h"
 
-gtEventSystem::gtEventSystem( gtEventConsumer* uc ) :
+gtEventSystem::gtEventSystem( gtInputSystemImpl * i, gtEventConsumer* uc ) :
 	m_userConsumer( uc ),
 	m_numOfEvents( 0u ),
-	m_currentEvent( 0u )
+	m_currentEvent( 0u ),
+	m_input( i )
 {
 	memset( m_events, 0, EventMax * sizeof( gtEvent ) );
-	memset( m_keysDown, 0, 256u );
-	m_mouseState.byte = 0u;
 }
 
 gtEventSystem::~gtEventSystem(){
@@ -23,10 +22,6 @@ void gtEventSystem::resetEvents(){
 	m_numOfEvents = 0u;
 }
 
-bool gtEventSystem::isKeyDown( gtKey key ){
-	return m_keysDown[ (u32)key ];
-}
-
 void gtEventSystem::getKeyboardAndMouseStates(){
 	u32 cur = m_currentEvent;
 	while( true ){
@@ -34,20 +29,20 @@ void gtEventSystem::getKeyboardAndMouseStates(){
 			break;
 		}
 
-		m_mouseState.bits.b0 = false;
-		m_mouseState.bits.b1 = false;
-		m_mouseState.bits.b2 = false;
-
 		switch( m_events[ cur ].type ){
 			case gtEventType::Keyboard:{
-				m_keysDown[ (u32)m_events[ cur ].keyboardEvent.key ] = m_events[ cur ].keyboardEvent.state.bits.b0;
+				//m_keysDown[ (u32)m_events[ cur ].keyboardEvent.key ] = m_events[ cur ].keyboardEvent.state.bits.b0;
+				m_input->setKeyboardState( &m_events[ cur ].keyboardEvent );
 			}break;
 			case gtEventType::Mouse:{
+				m_input->setMouseState( &m_events[ cur ].mouseEvent );
+				/*
 				m_mouseState.bits.b0 = m_events[ cur ].mouseEvent.state.bits.b0;
 				m_mouseState.bits.b1 = m_events[ cur ].mouseEvent.state.bits.b2;
 				m_mouseState.bits.b2 = m_events[ cur ].mouseEvent.state.bits.b4;
 				m_cursorPosition.x = m_events[ cur ].mouseEvent.x;
 				m_cursorPosition.y = m_events[ cur ].mouseEvent.y;
+				*/
 			}break;
 			case gtEventType::None:
 			case gtEventType::Joystick:
@@ -108,22 +103,6 @@ void gtEventSystem::addEvent( const gtEvent& ev, u8 prior ){
 		m_events[ m_numOfEvents ] = ev;
 		m_numOfEvents++;
 	}
-}
-
-bool gtEventSystem::isLMBDown(){
-	return m_mouseState.bits.b0;
-}
-
-bool gtEventSystem::isRMBDown(){
-	return m_mouseState.bits.b1;
-}
-
-bool gtEventSystem::isMMBDown(){
-	return m_mouseState.bits.b2;
-}
-
-const gtVector2<u16>& gtEventSystem::getCursorPosition(){
-	return m_cursorPosition;
 }
 
 //	=============================================================

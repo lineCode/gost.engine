@@ -14,14 +14,17 @@ namespace gost{
 		gtEvent			m_events[ EventMax ];
 		u32				m_numOfEvents;
 		u32				m_currentEvent;
-
+		/*
 		bool			m_keysDown[ 256u ];
 		gtVector2<u16>	m_cursorPosition;
 		gtByte			m_mouseState;
+		*/
+
+		gtInputSystemImpl * m_input;
 
 	public:
 
-		gtEventSystem( gtEventConsumer* uc = nullptr );
+		gtEventSystem( gtInputSystemImpl * input, gtEventConsumer* uc = nullptr );
 		virtual ~gtEventSystem();
 
 		void				getKeyboardAndMouseStates();
@@ -31,15 +34,15 @@ namespace gost{
 		void				runEventLoop();
 
 		bool				pollEvent( gtEvent& event );
-		bool				isKeyDown( gtKey key );
+	//	bool				isKeyDown( gtKey key );
 		void				resetEvents();
 
 		void				addEvent( const gtEvent&, u8 prior );
 
-		bool				isLMBDown();
-		bool				isRMBDown();
-		bool				isMMBDown();
-		const gtVector2<u16>& getCursorPosition();
+	//	bool				isLMBDown();
+	//	bool				isRMBDown();
+	//	bool				isMMBDown();
+	//	const gtVector2<u16>& getCursorPosition();
 	};
 
 	//	=============================================================

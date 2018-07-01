@@ -11,8 +11,8 @@ namespace gost{
 
 		gtWindowInfo m_params;
 
-		void (*f_onMove)(void);
-		void (*f_onSize)(void);
+		void (*f_onMove)();
+		void (*f_onSize)();
 
 	public:
 		gtWindowCommon();
@@ -21,8 +21,8 @@ namespace gost{
 		const v4i&			getRect();
 		const gtWindowInfo& getWindowInfo();
 
-		void setOnMove( void(*)(void) );
-		void setOnSize( void(*)(void) );
+		void setOnMove( void(*)() );
+		void setOnSize( void(*)() );
 	};
 }
 

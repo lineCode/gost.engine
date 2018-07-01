@@ -104,6 +104,7 @@ bool	gtWindowWin32::init( u32 i ){
 		return false;
 	}
 
+
 	ShowWindow( m_hWnd, SW_SHOWNORMAL  );
 	SetForegroundWindow( m_hWnd );
 	SetFocus( m_hWnd );
@@ -389,11 +390,12 @@ LRESULT CALLBACK gtWindowWin32::WndProc(HWND hWnd, UINT message, WPARAM wParam, 
 			break;
 		}
 
-		RECT rc;
-		GetWindowRect( hWnd, &rc );
-		pD->m_params.m_rect.set( rc.left, rc.top, rc.right, rc.bottom );
 
 		if( pD ){
+			RECT rc;
+			GetWindowRect( hWnd, &rc );
+			pD->m_params.m_rect.set( rc.left, rc.top, rc.right, rc.bottom );
+
 			if( pD->f_onSize ){
 				pD->f_onSize();
 			}

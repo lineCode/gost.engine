@@ -36,6 +36,7 @@ using namespace gost;
 
 #include "gtTimerWin32.h"
 
+#include "gtInputSystemImpl.h"
 #include "gtEventSystem.h"
 
 #include "gtThreadWin32.h"
@@ -45,6 +46,7 @@ using namespace gost;
 
 #include "gtGUIShapeImpl.h"
 #include "gtGUISystemImpl.h"
+
 
 #include "gtMainSystemCommon.h"
 #include "gtMainSystemWin32.h"

@@ -65,6 +65,7 @@ namespace gost{
 		
 		u32							m_systemWindowCount;
 
+		gtPtr<gtInputSystemImpl>	m_inputSystem;
 		gtPtr<gtEventSystem>		m_events;
 		gtPtr<gtPluginSystemImpl>	m_pluginSystem;
 		gtPtr<gtModelSystemImpl>	m_modelSystem;
@@ -104,6 +105,7 @@ namespace gost{
 		gtPtr<gtImage>	loadImage( const gtString& fileName );
 		gtPtr<gtImage>	loadImage( const gtString& fileName, const GT_GUID& pluginGUID );
 		void			addEvent( const gtEvent&, u8 prior = 0u );
+		gtInputSystem*  getInputSystem();
 		gtModelSystem*	getModelSystem();
 		gtPluginSystem*	getPluginSystem();
 		gtSceneSystem*	getSceneSystem( gtDriver * currentRenderDriver );
@@ -117,11 +119,6 @@ namespace gost{
 		void setMatrixProjection( const gtMatrix4& );
 
 		bool pollEvent( gtEvent& event );
-		bool isKeyPressed( gtKey key );
-		bool isLMBDown();
-		bool isRMBDown();
-		bool isMMBDown();
-		const gtVector2<u16>&				getCursorPosition();
 		const gtDeviceCreationParameters&	getDeviceCreationParameters();
 
 		gtPtr<gtXMLDocument>	XMLRead( const gtString& file );
@@ -130,7 +127,6 @@ namespace gost{
 		gtDriver*				getLoadedVideoDriver( u32 id );
 		gtDriver*				getMainVideoDriver();
 		void					setMainVideoDriver( gtDriver* d );
-		gtPtr<gtInputController> createGameContoller( const GT_GUID& plugin );
 		void					setTimer( u32 milliseconds );
 	};
 	

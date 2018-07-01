@@ -3,7 +3,8 @@
 #include "common.h"
 
 gtWindowCommon::gtWindowCommon():
-	f_onMove( nullptr ){
+	f_onMove( nullptr ),
+	f_onSize( nullptr ){
 }
 
 gtWindowCommon::~gtWindowCommon(){

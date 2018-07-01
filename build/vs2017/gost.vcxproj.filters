@@ -144,6 +144,9 @@
     <ClCompile Include="..\..\gost\gtXMLImpl.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\gost\gtInputSystemImpl.cpp">
+      <Filter>Source\Systems</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\gost\gtDriverCommon.h">
@@ -436,6 +439,12 @@
     </ClInclude>
     <ClInclude Include="..\..\include\gtInputController.h">
       <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\gtInputSystem.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\gost\gtInputSystemImpl.h">
+      <Filter>Headers\Systems</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

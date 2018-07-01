@@ -20,7 +20,8 @@ gtMainSystemCommon::gtMainSystemCommon() : m_isRun( true ),
 	s_log = gtPtrNew<gtLogImpl>( new gtLogImpl );
 	s_instance = this;
 
-	m_pluginSystem	= gtPtrNew<gtPluginSystemImpl>( new gtPluginSystemImpl );
+	m_inputSystem = gtPtrNew<gtInputSystemImpl>( new gtInputSystemImpl );
+	m_pluginSystem = gtPtrNew<gtPluginSystemImpl>( new gtPluginSystemImpl );
 	m_modelSystem = gtPtrNew<gtModelSystemImpl>( new gtModelSystemImpl );
 	m_sceneSystem = gtPtrNew<gtSceneSystemImpl>( new gtSceneSystemImpl );
 	m_GUISystem = gtPtrNew<gtGUISystemImpl>( new gtGUISystemImpl );
@@ -46,7 +47,7 @@ void gtMainSystemCommon::initStackTracer(){
 }
 
 void gtMainSystemCommon::initEventSystem(){
-	m_events		= gtPtrNew<gtEventSystem>( new gtEventSystem( m_params.m_consumer ) );
+	m_events		= gtPtrNew<gtEventSystem>( new gtEventSystem( m_inputSystem.data(), m_params.m_consumer ) );
 }
 
 
@@ -137,6 +138,10 @@ void		gtMainSystemCommon::addEvent( const gtEvent& ev, u8 prior ){
 		m_events->addEvent( ev, prior );
 }
 
+gtInputSystem*  gtMainSystemCommon::getInputSystem(){
+	return m_inputSystem.data();
+}
+
 gtModelSystem*	gtMainSystemCommon::getModelSystem(){
 	return m_modelSystem.data();
 }
@@ -187,25 +192,7 @@ bool gtMainSystemCommon::pollEvent( gtEvent& event ){
 	return m_events->pollEvent( event );
 }
 
-bool gtMainSystemCommon::isKeyPressed( gtKey key ){
-	return m_events->isKeyDown( key );
-}
 
-bool gtMainSystemCommon::isLMBDown(){
-	return m_events->isLMBDown();
-}
-
-bool gtMainSystemCommon::isRMBDown(){
-	return m_events->isRMBDown();
-}
-
-bool gtMainSystemCommon::isMMBDown(){
-	return m_events->isMMBDown();
-}
-
-const gtVector2<u16>& gtMainSystemCommon::getCursorPosition(){
-	return m_events->getCursorPosition();
-}
 
 const gtDeviceCreationParameters& gtMainSystemCommon::getDeviceCreationParameters(){
 	return m_params;
@@ -215,39 +202,6 @@ bool gtMainSystemCommon::isRun(){
 	if( !m_isRun ){
 	}
 	return m_isRun;
-}
-
-gtPtr<gtInputController> gtMainSystemCommon::createGameContoller( const GT_GUID& uid ){
-	gtPlugin * plugin = nullptr;
-	gtPluginInput * pluginInput = nullptr;
-	
-	auto * ps = getPluginSystem();
-	plugin = ps->getPlugin( uid );
-
-	if( !plugin ){
-		u32 np = ps->getNumOfPlugins();
-
-		for( u32 i = 0u; i < np; ++i ){
-
-			auto * pl = ps->getPlugin( i );
-
-			if( pl->getInfo().m_info.m_type == gtPluginType::Input ){
-			
-				pluginInput = ps->getAsPluginInput( pl );
-
-				auto ret = pluginInput->loadInputDriver();
-
-				if( ret ){
-
-					return gtPtr<gtInputController>( ret );
-				}
-			}
-		}
-
-		return nullptr;
-	}
-	pluginInput = ps->getAsPluginInput( plugin );
-	return gtPtrNew<gtInputController>( pluginInput->loadInputDriver() );
 }
 
 gtPtr<gtAudioSystem> gtMainSystemCommon::createAudioSystem( const GT_GUID& uid ){

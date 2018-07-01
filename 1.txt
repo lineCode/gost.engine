@@ -2,8 +2,6 @@
 + https://github.com/532235/GoST/issues/47
 
 gtMainSystem содержит подсистемы, и то что в подсистемы не входит. По этому нужно эти вещи распределить в имеющиеся подсистемы, либо создать новые.
-- создать gtInputSystem, в неё сунуть методы типа bool isLMBDown() и т.д.
-- переименовать gtGameController в gtInputController и сунуть в gtInputSystem
 - переименовать gtDriver в gtGraphicsSystem
 - куда-то сунуть методы loadImage(например модели грузятся через gtModelSystem)
 

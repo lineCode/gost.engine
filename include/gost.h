@@ -67,6 +67,7 @@
 #include <gtAudioSystem.h>
 #include <gtInputController.h>
 #include <gtGUISystem.h>
+#include <gtInputSystem.h>
 
 #include <gtMainSystem.h>
 

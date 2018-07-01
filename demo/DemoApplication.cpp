@@ -106,7 +106,7 @@ bool demo::DemoApplication::Init(){
 	initAudio();
 
 	m_sceneSystem	=   m_mainSystem->getSceneSystem( m_driver.data() );
-	m_gamepadSystem	=	m_mainSystem->createGameContoller( GT_UID_INPUT_DINPUT );
+	m_gamepadSystem	=	m_mainSystem->getInputSystem()->createInputContoller( GT_UID_INPUT_DINPUT );
 
 	addDemo( DEMO_COMMON, demo::DemoElement( u"14", u"15" ) );
 	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"22", u"23", true, new DemoExample_Camera( this ) ) );
@@ -152,6 +152,9 @@ bool demo::DemoApplication::initEngine(){
 	m_mainSystem = gost::InitializeGoSTEngine( m_params );
 	if( !m_mainSystem )
 		return false;
+
+	m_input = m_mainSystem->getInputSystem();
+
 	return true;
 }
 
@@ -1512,7 +1515,7 @@ void demo::DemoApplication::runMainMenu(){
 }
 
 void demo::DemoApplication::runDemo(){
-	if( m_mainSystem->isKeyPressed( gtKey::K_F1 ) || inputGamepadSelectHold() ){
+	if( m_input->isKeyDown( gtKey::K_F1 ) || inputGamepadSelectHold() ){
 		m_showDescription = true;
 		pauseBackgroundFadeIn();
 	}else{

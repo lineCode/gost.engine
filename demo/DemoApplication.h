@@ -46,6 +46,7 @@ namespace demo{
 		gtGUISystem*				m_guiSystem;
 		gtPtr<gtDriver>				m_driver;
 		gtPtr<gtInputController>		m_gamepadSystem;
+		gtInputSystem *				m_input;
 		gtInputDevice *				m_gamepad;
 		gtSceneSystem*				m_sceneSystem;
 

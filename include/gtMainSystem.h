@@ -73,16 +73,15 @@ namespace gost{
 		virtual void addEvent( const gtEvent& ev, u8 prior = 0u ) = 0;
 		virtual bool allocateMemory( void** data, u32 size ) = 0;
 		virtual gtPtr<gtAudioSystem>    createAudioSystem( const GT_GUID& uid ) = 0;
-		virtual gtPtr<gtInputController> createGameContoller( const GT_GUID& plugin ) = 0;
 		virtual gtPtr<gtMutex>          createMutex() = 0;
 		virtual gtPtr<gtThread>         createThread() = 0;
 		virtual gtPtr<gtWindow>	        createSystemWindow( gtWindowInfo* wi ) = 0;
 		virtual gtPtr<gtDriver>         createVideoDriver( const gtDriverInfo& di, const GT_GUID& uid ) = 0;
 		virtual void freeMemory( void** data ) = 0;
-		virtual const gtVector2<u16>& getCursorPosition() = 0;
 		virtual const gtDeviceCreationParameters& getDeviceCreationParameters() = 0;
 		virtual gtGUISystem* getGUISystem( gtDriver * currentRenderDriver ) = 0;
 		GT_API static gtMainSystem* getInstance();
+		virtual gtInputSystem*   getInputSystem() = 0;
 		virtual gtDriver*        getLoadedVideoDriver( u32 id ) = 0;
 		virtual u32              getLoadedVideoDriverCount() = 0;
 		virtual gtLog*           getLog() = 0;
@@ -97,10 +96,6 @@ namespace gost{
 		virtual v2i              getScreenSize() = 0;
 		virtual u32              getTime() = 0;
 		virtual gtTimer*         getTimer() = 0;
-		virtual bool isKeyPressed( gtKey key ) = 0;
-		virtual bool isLMBDown() = 0;
-		virtual bool isMMBDown() = 0;
-		virtual bool isRMBDown() = 0;
 		virtual bool isRun() = 0;
 		virtual gtPtr<gtImage> loadImage( const gtString& fileName ) = 0;
 		virtual gtPtr<gtImage> loadImage( const gtString& fileName, const GT_GUID& pluginGUID ) = 0;
