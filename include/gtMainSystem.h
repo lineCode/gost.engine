@@ -73,7 +73,7 @@ namespace gost{
 		virtual void addEvent( const gtEvent& ev, u8 prior = 0u ) = 0;
 		virtual bool allocateMemory( void** data, u32 size ) = 0;
 		virtual gtPtr<gtAudioSystem>    createAudioSystem( const GT_GUID& uid ) = 0;
-		virtual gtPtr<gtGameController> createGameContoller( const GT_GUID& plugin ) = 0;
+		virtual gtPtr<gtInputController> createGameContoller( const GT_GUID& plugin ) = 0;
 		virtual gtPtr<gtMutex>          createMutex() = 0;
 		virtual gtPtr<gtThread>         createThread() = 0;
 		virtual gtPtr<gtWindow>	        createSystemWindow( gtWindowInfo* wi ) = 0;

@@ -217,7 +217,7 @@ bool gtMainSystemCommon::isRun(){
 	return m_isRun;
 }
 
-gtPtr<gtGameController> gtMainSystemCommon::createGameContoller( const GT_GUID& uid ){
+gtPtr<gtInputController> gtMainSystemCommon::createGameContoller( const GT_GUID& uid ){
 	gtPlugin * plugin = nullptr;
 	gtPluginInput * pluginInput = nullptr;
 	
@@ -239,7 +239,7 @@ gtPtr<gtGameController> gtMainSystemCommon::createGameContoller( const GT_GUID& 
 
 				if( ret ){
 
-					return gtPtr<gtGameController>( ret );
+					return gtPtr<gtInputController>( ret );
 				}
 			}
 		}
@@ -247,7 +247,7 @@ gtPtr<gtGameController> gtMainSystemCommon::createGameContoller( const GT_GUID& 
 		return nullptr;
 	}
 	pluginInput = ps->getAsPluginInput( plugin );
-	return gtPtrNew<gtGameController>( pluginInput->loadInputDriver() );
+	return gtPtrNew<gtInputController>( pluginInput->loadInputDriver() );
 }
 
 gtPtr<gtAudioSystem> gtMainSystemCommon::createAudioSystem( const GT_GUID& uid ){

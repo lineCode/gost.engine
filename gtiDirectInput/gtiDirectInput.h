@@ -3,13 +3,13 @@
 
 namespace gost{
 
-	class gtGameControllerImpl;
+	class gtInputControllerImpl;
 	struct DI_ENUM_CONTEXT{
-		gtGameControllerImpl * m_di;
+		gtInputControllerImpl * m_di;
 		LPDIRECTINPUTDEVICE8 gamepad;
 	};
 
-	struct gtGameControllerDeviceImpl : public gtGameControllerDevice{
+	struct gtGameControllerDeviceImpl : public gtInputDevice{
 		gtGameControllerDeviceImpl():
 			m_gamepad( nullptr )
 		{
@@ -83,7 +83,7 @@ namespace gost{
 	};
 
 
-	class gtGameControllerImpl : public gtGameController{
+	class gtInputControllerImpl : public gtInputController{
 
 		gtMainSystem * m_mainSystem;
 
@@ -94,8 +94,8 @@ namespace gost{
 		DI_ENUM_CONTEXT m_context;
 	public:
 
-		gtGameControllerImpl();
-		~gtGameControllerImpl();
+		gtInputControllerImpl();
+		~gtInputControllerImpl();
 	
 
 		bool init();
@@ -105,7 +105,7 @@ namespace gost{
 
 
 		u32 getNumOfActiveDevices();
-		gtGameControllerDevice*	getControllerDevice( u32 id );
+		gtInputDevice*	getInputDevice( u32 id );
 		void update();
 	};
 	

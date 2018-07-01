@@ -407,9 +407,6 @@
     <ClInclude Include="..\..\include\gtPair.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\gtGameController.h">
-      <Filter>include</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\gtGUID.h">
       <Filter>include</Filter>
     </ClInclude>
@@ -435,6 +432,9 @@
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\gtStackTracer.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\gtInputController.h">
       <Filter>include</Filter>
     </ClInclude>
   </ItemGroup>

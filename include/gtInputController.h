@@ -4,7 +4,7 @@
 
 namespace gost{
 
-	enum class gtGameControllerType : u32 {
+	enum class gtInputDeviceType : u32 {
 		Keyboard,
 		Mouse,
 		Gamepad,
@@ -12,8 +12,8 @@ namespace gost{
 		Joystick
 	};
 
-	struct gtGameControllerDevice{
-		gtGameControllerDevice():
+	struct gtInputDevice{
+		gtInputDevice():
 			m_POV1(-1),
 			m_POV2(-1),
 			m_POV3(-1),
@@ -29,7 +29,7 @@ namespace gost{
 			memset(m_buttons,0,256u);
 		}
 
-		virtual ~gtGameControllerDevice(){}
+		virtual ~gtInputDevice(){}
 
 		GT_GUID guid;
 		GT_GUID guidManufacturer;
@@ -51,15 +51,15 @@ namespace gost{
 		virtual u32  id() = 0;
 	};
 
-	class gtGameController : public gtRefObject{
+	class gtInputController : public gtRefObject{
 	protected:
-		gtGameControllerType m_type;
+		gtInputDeviceType m_type;
 	public:
-		virtual ~gtGameController(){}
-		gtGameControllerType getType() const { return m_type; }
+		virtual ~gtInputController(){}
+		gtInputDeviceType getType() const { return m_type; }
 
 		virtual u32 getNumOfActiveDevices() = 0;
-		virtual gtGameControllerDevice*	getControllerDevice( u32 id ) = 0;
+		virtual gtInputDevice*	getInputDevice( u32 id ) = 0;
 		virtual void update() = 0;
 
 	};

@@ -5,7 +5,7 @@
 namespace gost{
 
 	class gtWindow;
-	struct gtGameControllerDevice;
+	struct gtInputDevice;
 
 constexpr u32 GT_EVENT_WINDOW_SIZING   = 1u;
 constexpr u32 GT_EVENT_WINDOW_RESTORE  = 2u;
@@ -46,7 +46,7 @@ constexpr u32 GT_EVENT_MASK_MOUSE_RMB_DBL = 64u;
 	struct gtEventJoystick{
 		u32 joystickID;
 		u32 joystickEventID;
-		gtGameControllerDevice * joystick;
+		gtInputDevice * joystick;
 	};
 
 	struct gtEventWindow{

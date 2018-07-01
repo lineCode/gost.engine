@@ -312,7 +312,7 @@
     <ClInclude Include="..\..\include\gtImage.h" />
     <ClInclude Include="..\..\include\gtInfo.h" />
     <ClInclude Include="..\..\include\gtInput.h" />
-    <ClInclude Include="..\..\include\gtGameController.h" />
+    <ClInclude Include="..\..\include\gtInputController.h" />
     <ClInclude Include="..\..\include\gtList.h" />
     <ClInclude Include="..\..\include\gtLog.h" />
     <ClInclude Include="..\..\include\gtMainSystem.h" />

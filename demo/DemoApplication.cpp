@@ -717,7 +717,7 @@ void demo::DemoApplication::ScanGamepads(){
 	}
 }
 
-void demo::DemoApplication::ActivateGamepad( bool value, gtGameControllerDevice* g ){
+void demo::DemoApplication::ActivateGamepad( bool value, gtInputDevice* g ){
 	if( value ){
 		if( !m_gamepad ){
 			m_gamepad = g;

@@ -20,7 +20,7 @@ namespace gost{
 	using gtGetPluginInfo			= void(GT_CDECL*)		(gtPluginInfo&);		
 	using gtLoadGPUDriver_t			= gtDriver*(GT_CDECL*)	(gtDriverInfo);			
 	using gtLoadAudioDriver_t		= gtAudioSystem*(GT_CDECL*)(void);
-	using gtLoadInputDriver_t		= gtGameController*(GT_CDECL*)(void);
+	using gtLoadInputDriver_t		= gtInputController*(GT_CDECL*)(void);
 	using gtPluginGetExtCount_t		= u32(GT_CDECL*)		();				
 	using gtPluginGetExtension_t	= s8*(GT_CDECL*)		( u32 id );				
 	using gtPluginLoadImage_t		= bool(GT_CDECL*)		(gtImage*,gtString*);	
@@ -126,7 +126,7 @@ namespace gost{
 
 		gtLoadInputDriver_t loadInputDriverProc;
 
-		virtual gtGameController* loadInputDriver();
+		virtual gtInputController* loadInputDriver();
 
 		void load();
 

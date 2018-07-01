@@ -29,7 +29,7 @@ bool gtPluginInput::checkLibraryFunctions(){
 	return true;
 }
 
-gtGameController* gtPluginInput::loadInputDriver(){
+gtInputController* gtPluginInput::loadInputDriver(){
 	if( !m_isLoad ) load();
 
 	if( m_isLoad ){

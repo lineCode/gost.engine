@@ -130,7 +130,7 @@ namespace gost{
 		gtDriver*				getLoadedVideoDriver( u32 id );
 		gtDriver*				getMainVideoDriver();
 		void					setMainVideoDriver( gtDriver* d );
-		gtPtr<gtGameController> createGameContoller( const GT_GUID& plugin );
+		gtPtr<gtInputController> createGameContoller( const GT_GUID& plugin );
 		void					setTimer( u32 milliseconds );
 	};
 	

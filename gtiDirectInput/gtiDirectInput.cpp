@@ -10,9 +10,9 @@ extern "C"{
 		info.m_version = 1;
 		info.m_build = 1;
 	}
-	__declspec(dllexport) gtGameController * gtLoadInputDriver( gtDriverInfo params ){
+	__declspec(dllexport) gtInputController * gtLoadInputDriver( gtDriverInfo params ){
 		gtLogWriter::printInfo( u"Init DirectInput..." );
-		gtPtr<gtGameControllerImpl>	 driver = gtPtrNew<gtGameControllerImpl>(new gtGameControllerImpl());
+		gtPtr<gtInputControllerImpl>	 driver = gtPtrNew<gtInputControllerImpl>(new gtInputControllerImpl());
 		
 		if( driver.data() ){
 			
@@ -52,15 +52,15 @@ namespace gost{
 		return DIENUM_CONTINUE;
 	}
 
-	gtGameControllerImpl::gtGameControllerImpl():
+	gtInputControllerImpl::gtInputControllerImpl():
 		m_mainSystem( gtMainSystem::getInstance() ),
 		m_directInput( nullptr ),
 		m_dll(nullptr)
 	{
-		m_type = gtGameControllerType::Gamepad;
+		m_type = gtInputDeviceType::Gamepad;
 		m_context.m_di = this;
 	}
-	gtGameControllerImpl::~gtGameControllerImpl(){
+	gtInputControllerImpl::~gtInputControllerImpl(){
 
 		auto sz = m_gamepads.size();
 		for( u32 i = 0u; i < sz; ++i ){
@@ -78,11 +78,11 @@ namespace gost{
 			FreeLibrary( m_dll );
 	}
 
-	LPDIRECTINPUT8 gtGameControllerImpl::getDI(){
+	LPDIRECTINPUT8 gtInputControllerImpl::getDI(){
 		return m_directInput;
 	}
 
-	u32 gtGameControllerImpl::getNumOfActiveDevices(){
+	u32 gtInputControllerImpl::getNumOfActiveDevices(){
 		return m_gamepads.size();
 	}
 
@@ -126,7 +126,7 @@ namespace gost{
 		return DIENUM_CONTINUE;
 	}
 
-	void gtGameControllerImpl::addGamepad( const DIDEVICEINSTANCE* pdidInstance, LPDIRECTINPUTDEVICE8 gamepad ){
+	void gtInputControllerImpl::addGamepad( const DIDEVICEINSTANCE* pdidInstance, LPDIRECTINPUTDEVICE8 gamepad ){
 		
 		HRESULT hr;
 
@@ -196,7 +196,7 @@ namespace gost{
 		return;
 	}
 
-	void gtGameControllerImpl::update(){
+	void gtInputControllerImpl::update(){
 		HRESULT hr;
 		if( FAILED( hr = m_directInput->EnumDevices( DI8DEVCLASS_GAMECTRL,
                                          EnumJoysticksCallback,
@@ -204,7 +204,7 @@ namespace gost{
 		}
 	}
 
-	gtGameControllerDevice*	gtGameControllerImpl::getControllerDevice( u32 id ){
+	gtInputDevice*	gtInputControllerImpl::getInputDevice( u32 id ){
 		if( m_gamepads.size() ){
 			if( id < m_gamepads.size() ){
 				return &m_gamepads[ id ];
@@ -214,7 +214,7 @@ namespace gost{
 		return nullptr;
 	}
 
-	bool gtGameControllerImpl::init(){
+	bool gtInputControllerImpl::init(){
 
 		gtString dinput_path = gtFileSystem::getSystemPath();
 		dinput_path += u"dinput8.dll";

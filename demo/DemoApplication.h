@@ -45,8 +45,8 @@ namespace demo{
 
 		gtGUISystem*				m_guiSystem;
 		gtPtr<gtDriver>				m_driver;
-		gtPtr<gtGameController>		m_gamepadSystem;
-		gtGameControllerDevice *	m_gamepad;
+		gtPtr<gtInputController>		m_gamepadSystem;
+		gtInputDevice *				m_gamepad;
 		gtSceneSystem*				m_sceneSystem;
 
 		gtPtr<gtOutputWindow>		m_outputWindow;
@@ -181,7 +181,7 @@ namespace demo{
 
 		void RebuildGUI();
 		void ScanGamepads();
-		void ActivateGamepad( bool, gtGameControllerDevice* d = nullptr );
+		void ActivateGamepad( bool, gtInputDevice* d = nullptr );
 		void UpdateGamepad();
 
 		gtMainSystem	*	GetMainSystem();
