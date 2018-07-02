@@ -201,10 +201,11 @@ extern "C"{
 
 
 			image->dataSize = image->pitch * image->height;
-			if( !gtMainSystem::getInstance()->allocateMemory( (void**)&image->data, image->dataSize ) ){
+			image->data = (u8*)gtMemAllocE(image->dataSize);
+			/*if( !gtMainSystem::getInstance()->allocateMemory( (void**)&image->data, image->dataSize ) ){
 				gtLogWriter::printWarning( u"PNG Plugin: can not allocate memory. [%s]", fileName->data() );
 				return false;
-			}
+			}*/
 
 			//	указатели на строки/линии
 			std::unique_ptr<png_bytep[]> row_pointers( new png_bytep[ image->height ] );

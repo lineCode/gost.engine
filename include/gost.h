@@ -8,8 +8,8 @@
 
 
 //C++
-#include <cstdlib>
-#include <cctype> //isalpha
+//#include <cstdlib>
+//#include <cctype> //isalpha
 #include <cstring>
 #include <fstream>
 #include <sstream>

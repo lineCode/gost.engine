@@ -428,13 +428,16 @@ void	gtDriverD3D11::createStandartTexture(){
 		i->format = gtImageFormat::R8G8B8;
 		i->frames = gtConst1U;
 		i->mipCount = gtConst1U;
-		gtMainSystem::getInstance()->allocateMemory( (void**)&i->data, i->dataSize );
+
+		//gtMainSystem::getInstance()->allocateMemory( (void**)&i->data, i->dataSize );
+		i->data = (u8*)gtMemAlloc(i->dataSize);
 
 		image::fillCheckerBoard( i, false, gtColor(u8(255),48,224), gtColor(u8(0),0,0) );
 
 		m_standartTexture = this->createTexture( i, gtTextureFilterType::PPP );
 
-		gtMainSystem::getInstance()->freeMemory( (void**)&i->data );
+		//gtMainSystem::getInstance()->freeMemory( (void**)&i->data );
+		gtMemFree(i->data);
 
 		delete i;
 	}
@@ -448,13 +451,15 @@ void	gtDriverD3D11::createStandartTexture(){
 		i->format = gtImageFormat::R8G8B8;
 		i->frames = gtConst1U;
 		i->mipCount = gtConst1U;
-		gtMainSystem::getInstance()->allocateMemory( (void**)&i->data, i->dataSize );
+		//gtMainSystem::getInstance()->allocateMemory( (void**)&i->data, i->dataSize );
+		i->data = (u8*)gtMemAlloc(i->dataSize);
 
 		image::fillSolid( i, false, gtColor( 1.f ) );
 
 		m_standartTextureWhiteColor = this->createTexture( i, gtTextureFilterType::PPP );
 
-		gtMainSystem::getInstance()->freeMemory( (void**)&i->data );
+		//gtMainSystem::getInstance()->freeMemory( (void**)&i->data );
+		gtMemFree(i->data);
 
 		delete i;
 	}

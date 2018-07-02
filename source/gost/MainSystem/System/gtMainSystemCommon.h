@@ -63,10 +63,6 @@ namespace gost{
 		gtPtr<gtAudioSystem>		createAudioSystem( const GT_GUID& uid );
 		gtPtr<gtGraphicsSystem>		createGraphicsSystem( /*gtPlugin* videoDriverPlugin,*/ const gtGraphicsSystemInfo&, const GT_GUID& uid );
 
-		bool	allocateMemory( void** data, u32 size );
-		void	freeMemory( void** data );
-
-		
 		gtPtr<gtImage>	loadImage( const gtString& fileName );
 		gtPtr<gtImage>	loadImage( const gtString& fileName, const GT_GUID& pluginGUID );
 		void			addEvent( const gtEvent&, u8 prior = gtConst0U );

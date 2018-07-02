@@ -180,17 +180,19 @@ extern "C"{
 			image->pitch	= image->width * gtConst3U;
 			image->dataSize = image->pitch * image->height;
 
-			if( !gtMainSystem::getInstance()->allocateMemory( (void**)&image->data, image->dataSize ) ){
+			image->data = (u8*)gtMemAllocE(image->dataSize);
+			/*if( !gtMainSystem::getInstance()->allocateMemory( (void**)&image->data, image->dataSize ) ){
 				gtLogWriter::printWarning( u"BMP Plugin: can not allocate memory. [%s]", fileName->data() );
 				return false;
-			}
+			}*/
 
 			file->seek( 54u, gtFileSeekPos::Begin );
 
 			u32 readNum = file->read( image->data, image->dataSize );
 			if( readNum != image->dataSize ){
 				gtLogWriter::printWarning( u"BMP Plugin: can not read file. [%s]", fileName->data() );
-				gtMainSystem::getInstance()->freeMemory( (void**)&image->data );
+				//gtMainSystem::getInstance()->freeMemory( (void**)&image->data );
+				gtMemFree(image->data);
 				return false;
 			}
 			
@@ -214,17 +216,18 @@ extern "C"{
 			}
 
 			image->dataSize = image->pitch * image->height;
-
-			if( !gtMainSystem::getInstance()->allocateMemory( (void**)&image->data, image->dataSize ) ){
+			image->data = (u8*)gtMemAllocE(image->dataSize);
+			/*if( !gtMainSystem::getInstance()->allocateMemory( (void**)&image->data, image->dataSize ) ){
 				gtLogWriter::printWarning( u"BMP Plugin: can not allocate memory. [%s]", fileName->data() );
 				return false;
-			}
+			}*/
 
 			u32 readNum = file->read( image->data, image->dataSize );
 
 			if( readNum != image->dataSize ){
 				gtLogWriter::printWarning( u"BMP Plugin: can not read file. [%s]", fileName->data() );
-				gtMainSystem::getInstance()->freeMemory( (void**)&image->data );
+				//gtMainSystem::getInstance()->freeMemory( (void**)&image->data );
+				gtMemFree(image->data);
 				return false;
 			}
 
@@ -269,16 +272,18 @@ extern "C"{
 
 			image->dataSize = image->pitch * image->height;
 
-			if( !gtMainSystem::getInstance()->allocateMemory( (void**)&image->data, image->dataSize ) ){
+			image->data = (u8*)gtMemAllocE(image->dataSize);
+			/*if( !gtMainSystem::getInstance()->allocateMemory( (void**)&image->data, image->dataSize ) ){
 				gtLogWriter::printWarning( u"BMP Plugin: can not allocate memory. [%s]", fileName->data() );
 				return false;
-			}
+			}*/
 
 			u32 readNum = file->read( image->data, image->dataSize );
 
 			if( readNum != image->dataSize ){
 				gtLogWriter::printWarning( u"BMP Plugin: can not read file. [%s]", fileName->data() );
-				gtMainSystem::getInstance()->freeMemory( (void**)&image->data );
+				//gtMainSystem::getInstance()->freeMemory( (void**)&image->data );
+				gtMemFree(image->data);
 				return false;
 			}
 
@@ -303,10 +308,11 @@ extern "C"{
 			
 			file->seek( header.bfOffBits, gtFileSeekPos::Begin );
 
-			if( !gtMainSystem::getInstance()->allocateMemory( (void**)&image->data, image->dataSize ) ){
+			image->data = (u8*)gtMemAllocE(image->dataSize);
+			/*if( !gtMainSystem::getInstance()->allocateMemory( (void**)&image->data, image->dataSize ) ){
 				gtLogWriter::printWarning( u"BMP Plugin: can not allocate memory. [%s]", fileName->data() );
 				return false;
-			}
+			}*/
 
 			u32 indSize = image->width * image->height;
 			std::unique_ptr<u8[]> inds( new u8[ indSize ] );
@@ -315,7 +321,8 @@ extern "C"{
 				u32 readNum = file->read( inds.get(), indSize );
 				if( readNum != indSize ){
 					gtLogWriter::printWarning( u"BMP Plugin: can not read file. [%s]", fileName->data() );
-					gtMainSystem::getInstance()->freeMemory( (void**)&image->data );
+					//gtMainSystem::getInstance()->freeMemory( (void**)&image->data );
+					gtMemFree(image->data);
 					return false;
 				}
 			}else{
@@ -323,7 +330,8 @@ extern "C"{
 				u32 readNum = file->read( rle.get(), info.bV5SizeImage );
 				if( readNum != info.bV5SizeImage ){
 					gtLogWriter::printWarning( u"BMP Plugin: can not read file. [%s]", fileName->data() );
-					gtMainSystem::getInstance()->freeMemory( (void**)&image->data );
+				//	gtMainSystem::getInstance()->freeMemory( (void**)&image->data );
+					gtMemFree(image->data);
 					return false;
 				}
 
@@ -366,10 +374,12 @@ extern "C"{
 			
 			u32 indSize = image->width * image->height/2;
 
-			if( !gtMainSystem::getInstance()->allocateMemory( (void**)&image->data, image->dataSize ) ){
+			image->data = (u8*)gtMemAllocE(image->dataSize);
+
+			/*if( !gtMainSystem::getInstance()->allocateMemory( (void**)&image->data, image->dataSize ) ){
 				gtLogWriter::printWarning( u"BMP Plugin: can not allocate memory. [%s]", fileName->data() );
 				return false;
-			}
+			}*/
 
 
 			std::unique_ptr<u8[]> inds( new u8[ indSize ] );
@@ -380,7 +390,8 @@ extern "C"{
 				u32 readNum = file->read( inds.get(), indSize );
 				if( readNum != indSize ){
 					gtLogWriter::printWarning( u"BMP Plugin: can not read file. [%s]", fileName->data() );
-					gtMainSystem::getInstance()->freeMemory( (void**)&image->data );
+					//gtMainSystem::getInstance()->freeMemory( (void**)&image->data );
+					gtMemFree(image->data);
 					return false;
 				}
 			}else{
@@ -388,7 +399,8 @@ extern "C"{
 				u32 readNum = file->read( rle.get(), info.bV5SizeImage );
 				if( readNum != info.bV5SizeImage ){
 					gtLogWriter::printWarning( u"BMP Plugin: can not read file. [%s]", fileName->data() );
-					gtMainSystem::getInstance()->freeMemory( (void**)&image->data );
+					//gtMainSystem::getInstance()->freeMemory( (void**)&image->data );
+					gtMemFree(image->data);
 					return false;
 				}
 
@@ -426,18 +438,21 @@ extern "C"{
 			image->pitch = image->width;
 			image->dataSize = info.bV5SizeImage;
 			file->seek( header.bfOffBits, gtFileSeekPos::Begin );
-			if( !gtMainSystem::getInstance()->allocateMemory( (void**)&image->data, image->dataSize ) ){
+			image->data = (u8*)gtMemAllocE(image->dataSize);
+
+			/*if( !gtMainSystem::getInstance()->allocateMemory( (void**)&image->data, image->dataSize ) ){
 				gtLogWriter::printWarning( u"BMP Plugin: can not allocate memory. [%s]", fileName->data() );
 				return false;
-			}
+			}*/
+
 			u32 readNum = file->read( image->data, image->dataSize );
 			if( readNum != image->dataSize ){
 				gtLogWriter::printWarning( u"BMP Plugin: can not read file. [%s]", fileName->data() );
-				gtMainSystem::getInstance()->freeMemory( (void**)&image->data );
+				gtMemFree(image->data);
+				//gtMainSystem::getInstance()->freeMemory( (void**)&image->data );
 				return false;
 			}
 
-			//	фукнция отразить по вертикали не может работать с ONE_BIT по этому конвертация здесь.
 			return true;
 		}else{
 			return false;

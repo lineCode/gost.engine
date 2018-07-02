@@ -109,23 +109,6 @@ void gtMainSystemCommon::setMainVideoDriver( gtGraphicsSystem* d ){
 	m_gs = d;
 }
 
-bool gtMainSystemCommon::allocateMemory( void** data, u32 size ){
-	GT_ASSERT1( !(*data), "Memory block is not free or pointer not set nullptr", "*data==nullptr" );
-	*data = std::malloc( size );
-
-	if( (*data) ){
-		return true;
-	}
-
-	return false;
-}
-
-void gtMainSystemCommon::freeMemory( void** data ){
-	GT_ASSERT1( *data, "Memory block is not allocated or set nullptr", "*data!=nullptr" );
-	std::free( *data );
-	*data = nullptr;
-}
-
 gtPtr<gtImage>	gtMainSystemCommon::loadImage( const gtString& fileName ){
 	return gtPtrNew<gtImage>( this->m_pluginSystem->importImage( fileName ) );
 }

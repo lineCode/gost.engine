@@ -11,6 +11,8 @@ namespace gost{
 
 	public:
 
+		GT_DECLARE_STANDART_ALLOCATOR;
+
 		gtDummyObjectImpl();
 		~gtDummyObjectImpl();
 

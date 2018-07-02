@@ -16,6 +16,7 @@ namespace gost{
 	};
 
 #define gtMemAlloc(size) gtMemorySystem::allocate((size))
+#define gtMemAllocE(size) gtMemorySystem::allocate((size),true)
 #define gtMemFree(ptr) gtMemorySystem::free((ptr));ptr=nullptr
 #define gtMemReAlloc(ptr,size) gtMemorySystem::reallocate((size),(ptr))
 

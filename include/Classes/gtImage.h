@@ -82,7 +82,8 @@ namespace gost{
 			// d-tor
 		virtual ~gtImage(){
 			if( data ){
-				gtMainSystem::getInstance()->freeMemory( (void**)&data );
+				gtMemFree(data);
+				//gtMainSystem::getInstance()->freeMemory( (void**)&data );
 				data = nullptr;
 			}
 		}
@@ -256,7 +257,9 @@ namespace gost{
 
 		void flipVertical(){
 			u8 * line = nullptr;
-			gtMainSystem::getInstance()->allocateMemory( (void**)&line, pitch );
+
+			//gtMainSystem::getInstance()->allocateMemory( (void**)&line, pitch );
+			line = (u8*)gtMemAlloc(pitch);
 
 			u8 * p_Up = &data[ gtConst0U ];
 			u8 * p_Down = &data[ pitch * height - pitch ];
@@ -274,7 +277,8 @@ namespace gost{
 
 			}
 
-			gtMainSystem::getInstance()->freeMemory( (void**)&line );
+			//gtMainSystem::getInstance()->freeMemory( (void**)&line );
+			gtMemFree(line);
 		}
 
 	private:
@@ -400,7 +404,8 @@ namespace gost{
 
 			u32 newSize = dataSize + (dataSize / gtConst3U);
 
-			gtMainSystem::getInstance()->allocateMemory( (void**)&newData, newSize );
+			//gtMainSystem::getInstance()->allocateMemory( (void**)&newData, newSize );
+			newData = (u8*)gtMemAlloc(newSize);
 
 			u32 * data32 = reinterpret_cast<u32*>(newData);
 
@@ -410,18 +415,19 @@ namespace gost{
 			}
 
 			dataSize = newSize;
-			gtMainSystem::getInstance()->freeMemory( (void**)&data );
+//			gtMainSystem::getInstance()->freeMemory( (void**)&data );
+			gtMemFree(data);
 			data = newData;
 			pitch = width * gtConst4U;
 		}
 
 
 		void __A8R8G8B8_to_R8G8B8(){
-			u8 * newData = nullptr;
 
 			u32 newSize = dataSize - (dataSize / gtConst4U);
 
-			gtMainSystem::getInstance()->allocateMemory( (void**)&newData, newSize );
+//			gtMainSystem::getInstance()->allocateMemory( (void**)&newData, newSize );
+			u8 * newData = (u8*)gtMemAlloc(newSize);
 
 			for( u32 i = gtConst0U, count = gtConst0U; i < dataSize; ){
 				newData[ count ] = data[ i+gtConst1U ];
@@ -433,7 +439,8 @@ namespace gost{
 			}
 
 			dataSize = newSize;
-			gtMainSystem::getInstance()->freeMemory( (void**)&data );
+//			gtMainSystem::getInstance()->freeMemory( (void**)&data );
+			gtMemFree(data);
 			data = newData;
 			pitch = width * gtConst3U;
 		}
@@ -468,11 +475,11 @@ namespace gost{
 		}*/
 
 		void __R8G8B8_to_R8G8B8A8(){
-			u8 * newData = nullptr;
 
 			u32 newSize = dataSize + (dataSize / gtConst3U);
 
-			gtMainSystem::getInstance()->allocateMemory( (void**)&newData, newSize );
+//			gtMainSystem::getInstance()->allocateMemory( (void**)&newData, newSize );
+			u8 * newData = (u8*)gtMemAlloc(newSize);
 
 			u32 * data32 = reinterpret_cast<u32*>(newData);
 
@@ -482,17 +489,18 @@ namespace gost{
 			}
 
 			dataSize = newSize;
-			gtMainSystem::getInstance()->freeMemory( (void**)&data );
+//			gtMainSystem::getInstance()->freeMemory( (void**)&data );
+			gtMemFree(data);
 			data = newData;
 			pitch = width * gtConst4U;
 		}
 
 		void __R8G8B8A8_to_R8G8B8(){
-			u8 * newData = nullptr;
 
 			u32 newSize = dataSize - (dataSize / gtConst4U);
 
-			gtMainSystem::getInstance()->allocateMemory( (void**)&newData, newSize );
+//			gtMainSystem::getInstance()->allocateMemory( (void**)&newData, newSize );
+			u8 * newData = (u8*)gtMemAlloc(newSize);
 
 			for( u32 i = gtConst0U, count = gtConst0U; i < dataSize; ){
 				newData[ count ] = data[ i ];
@@ -504,7 +512,8 @@ namespace gost{
 			}
 
 			dataSize = newSize;
-			gtMainSystem::getInstance()->freeMemory( (void**)&data );
+//			gtMainSystem::getInstance()->freeMemory( (void**)&data );
+			gtMemFree(data);
 			data = newData;
 			pitch = width * gtConst3U;
 		}
@@ -537,11 +546,11 @@ namespace gost{
 		}
 
 		void __X4R4G4B4_to_R8G8B8A8(){
-			u8 * newData = nullptr;
 
 			u32 newSize = dataSize * gtConst2U;
 
-			gtMainSystem::getInstance()->allocateMemory( (void**)&newData, newSize );
+//			gtMainSystem::getInstance()->allocateMemory( (void**)&newData, newSize );
+			u8 * newData = (u8*)gtMemAlloc(newSize);
 
 			const u32 redMask = 3840u;
 			const u32 greenMask = 240u;
@@ -566,17 +575,19 @@ namespace gost{
 			}
 
 			dataSize = newSize;
-			gtMainSystem::getInstance()->freeMemory( (void**)&data );
+//			gtMainSystem::getInstance()->freeMemory( (void**)&data );
+			gtMemFree(data);
 			data = newData;
 			pitch = width * gtConst4U;
 		}
 
 		void __X4R4G4B4_to_A8R8G8B8(){
-			u8 * newData = nullptr;
 
 			u32 newSize = dataSize * gtConst2U;
 
-			gtMainSystem::getInstance()->allocateMemory( (void**)&newData, newSize );
+//			gtMainSystem::getInstance()->allocateMemory( (void**)&newData, newSize );
+			u8 * newData = (u8*)gtMemAlloc(newSize);
+			
 
 			const u32 redMask = 3840u;
 			const u32 greenMask = 240u;
@@ -602,19 +613,21 @@ namespace gost{
 			}
 
 			dataSize = newSize;
-			gtMainSystem::getInstance()->freeMemory( (void**)&data );
+			//gtMainSystem::getInstance()->freeMemory( (void**)&data );
+			gtMemFree(data);
 			data = newData;
 			pitch = width * gtConst4U;
 		}
 
 		void __X4R4G4B4_to_R8G8B8(){
-			u8 * newData = nullptr;
 
 			u32 sz = dataSize / gtConst2U;
 
 			u32 newSize = dataSize + sz;
 
-			gtMainSystem::getInstance()->allocateMemory( (void**)&newData, newSize );
+//			gtMainSystem::getInstance()->allocateMemory( (void**)&newData, newSize );
+			u8 * newData = (u8*)gtMemAlloc(newSize);
+			
 
 			const u32 redMask = 3840u;
 			const u32 greenMask = 240u;
@@ -637,17 +650,16 @@ namespace gost{
 			}
 
 			dataSize = newSize;
-			gtMainSystem::getInstance()->freeMemory( (void**)&data );
+//			gtMainSystem::getInstance()->freeMemory( (void**)&data );
+			gtMemFree(data);
 			data = newData;
 			pitch = width * gtConst3U;
 		}
 
 		void __X1R5G5B5_to_R8G8B8A8(){
-			u8 * newData = nullptr;
-
 			u32 newSize = dataSize * gtConst2U;
-
-			gtMainSystem::getInstance()->allocateMemory( (void**)&newData, newSize );
+//			gtMainSystem::getInstance()->allocateMemory( (void**)&newData, newSize );
+			u8 * newData = (u8*)gtMemAlloc(newSize);
 
 			const u32 redMask = 31744u;
 			const u32 greenMask = 992u;
@@ -672,17 +684,16 @@ namespace gost{
 			}
 
 			dataSize = newSize;
-			gtMainSystem::getInstance()->freeMemory( (void**)&data );
+//			gtMainSystem::getInstance()->freeMemory( (void**)&data );
+			gtMemFree(data);
 			data = newData;
 			pitch = width * gtConst4U;
 		}
 
 		void __A1R5G5B5_to_R8G8B8A8(){
-			u8 * newData = nullptr;
-
 			u32 newSize = dataSize * gtConst2U;
-
-			gtMainSystem::getInstance()->allocateMemory( (void**)&newData, newSize );
+//			gtMainSystem::getInstance()->allocateMemory( (void**)&newData, newSize );
+			u8 * newData = (u8*)gtMemAlloc(newSize);
 
 			const u32 alphaMask = 32768u;
 			const u32 redMask = 31744u;
@@ -708,17 +719,16 @@ namespace gost{
 			}
 
 			dataSize = newSize;
-			gtMainSystem::getInstance()->freeMemory( (void**)&data );
+//			gtMainSystem::getInstance()->freeMemory( (void**)&data );
+			gtMemFree(data);
 			data = newData;
 			pitch = width * gtConst4U;
 		}
 
 		void __R5G6B5_to_R8G8B8A8(){
-			u8 * newData = nullptr;
-
 			u32 newSize = dataSize * gtConst2U;
-
-			gtMainSystem::getInstance()->allocateMemory( (void**)&newData, newSize );
+//			gtMainSystem::getInstance()->allocateMemory( (void**)&newData, newSize );
+			u8 * newData = (u8*)gtMemAlloc(newSize);
 
 			const u32 redMask = 63488u;
 			const u32 greenMask = 2016u;
@@ -743,16 +753,16 @@ namespace gost{
 			}
 
 			dataSize = newSize;
-			gtMainSystem::getInstance()->freeMemory( (void**)&data );
+//			gtMainSystem::getInstance()->freeMemory( (void**)&data );
+			gtMemFree(data);
 			data = newData;
 			pitch = width * gtConst4U;
 		}
 
 		void __1_to_R8G8B8A8(){
-
-			u8 * newData = nullptr;
 			u32 newSize = dataSize * gtConst8U * gtConst4U;
-			gtMainSystem::getInstance()->allocateMemory( (void**)&newData, newSize );
+//			gtMainSystem::getInstance()->allocateMemory( (void**)&newData, newSize );
+			u8 * newData = (u8*)gtMemAlloc(newSize);
 
 			u32 * data32 = reinterpret_cast<u32*>(newData);
 
@@ -771,7 +781,8 @@ namespace gost{
 			}
 
 			dataSize = newSize;
-			gtMainSystem::getInstance()->freeMemory( (void**)&data );
+//			gtMainSystem::getInstance()->freeMemory( (void**)&data );
+			gtMemFree(data);
 			data = newData;
 			pitch = width * gtConst4U;
 		}

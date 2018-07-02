@@ -138,8 +138,6 @@ namespace gost{
 		virtual const gtMatrix4&	getWorldMatrix(){ return m_worldMatrix; }
 		virtual void				setAbsoluteWorldMatrix( const gtMatrix4& m ){ m_worldMatrixAbsolute = m; }
 		virtual void				setWorldMatrix( const gtMatrix4& m ){ m_worldMatrix = m; }
-		virtual const gtStringA&	getName(){ return m_name; }
-		virtual void				setName( const gtStringA& n ){ m_name = n; }
 		virtual s32					getID(){ return m_id; }
 		virtual void				setID( s32 i ){ m_id = i; }
 		

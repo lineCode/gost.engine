@@ -8,6 +8,107 @@ namespace gost{
 	//	Some helper functions here
 	namespace util{
 		
+		template<typename char_type>
+		bool isDigit( char_type c ){
+			if( c < 0x7B ){
+				if( c >= (char_type)'0' && c <= (char_type)'9' )
+					return true;
+			}
+			return false;
+		}
+
+		template<typename char_type>
+		bool isAlpha( char_type c ){
+			if( c < 0x7B ){
+				if( c >= (char_type)'a' && c <= (char_type)'z'
+					|| c >= (char_type)'A' && c <= (char_type)'Z' )
+					return true;
+			}else if( c >= 0xC0 && c <= 0x2AF ){
+				return true;
+			}else if( c >= 0x370 && c < 0x374 ){
+				return true;
+			}else if( c >= 0x376 && c < 0x378 ){
+				return true;
+			}else if( c >= 0x376 && c < 0x378 ){
+				return true;
+			}else if( c == 0x37F || c == 0x386 ){
+				return true;
+			}else if( c > 0x387 && c < 0x38B ){
+				return true;
+			}else if( c == 0x38C ){
+				return true;
+			}else if( c > 0x38D && c < 0x3A2 ){
+				return true;
+			}else if( c > 0x3A2 && c < 0x482 ){
+				return true;
+			}else if( c > 0x489 && c < 0x530 ){
+				return true;
+			}else if( c > 0x530 && c < 0x557 ){
+				return true;
+			}else if( c > 0x560 && c < 0x588 ){
+				return true;
+			}else if( c >= 0x5D0 && c < 0x5EB ){
+				return true;
+			}/*
+			 Mey be for isAlphaUnicode( c )
+			 else if( c >= 0x630 && c < 0x64B ){
+				return true;
+			}else if( c > 0x66D && c < 0x6D4 ){
+				return true;
+			}else if( c > 0x6F9 && c < 0x6FD ){
+				return true;
+			}else if( c >= 0x710 && c < 0x730 ){
+				return true;
+			}else if( c > 0x74C && c < 0x7A6 ){
+				return true;
+			}else if( c == 0x7B0 || c == 0x7B1 ){
+				return true;
+			}else if( c > 0x7C9 && c < 0x7EB ){
+				return true;
+			}else if( c > 0x7FF && c < 0x816 ){
+				return true;
+			}else if( c > 0x83F && c < 0x859 ){
+				return true;
+			}else if( c > 0x85F && c < 0x86B ){
+				return true;
+			}else if( c > 0x89F && c < 0x8B5 ){
+				return true;
+			}else if( c > 0x8B5 && c < 0x8BE ){
+				return true;
+			}else if( c > 0x903 && c < 0x93A ){
+				return true;
+			}else if( c > 0x957 && c < 0x962 ){
+				return true;
+			}else if( c > 0x971 && c < 0x980 ){
+				return true;
+			}else if( c > 0x984 && c < 0x98D ){
+				return true;
+			}else if( c > 0x984 && c < 0x98D ){
+				return true;
+			}else if( c == 0x98F || c == 0x990 || c == 0x9B2 || c == 0x9DC || c == 0x9DD ){
+				return true;
+			}else if( c > 0x992 && c < 0x9A9 ){
+				return true;
+			}else if( c > 0x9A9 && c < 0x9B0 ){
+				return true;
+			}else if( c > 0x9B5 && c < 0x9BA ){
+				return true;
+			}else if( c > 0x9DE && c < 0x9E2 ){
+				return true;
+			}else if( c == 0x9F0 || c == 0x9F1 || c == 0xA0F || c == 0xA10 ){
+				return true;
+			}else if( c > 0xA04 && c < 0xA0B ){
+				return true;
+			}else if( c > 0xA13 && c < 0xA29 ){
+				return true;
+			}else if( c > 0xA29 && c < 0xA31 ){
+				return true;
+			}else if( c == 0xA32 || c == 0xA33 || c == 0xA35 || c == 0xA36 || c == 0xA38 || c == 0xA39 ){
+				return true;
+			}*/
+			return false;
+		}
+
 		template<typename Type>
 		void stringGetWords( gtArray<gtString_base<Type>> * out_array,
 			const gtString_base<Type>& string,
@@ -329,21 +430,6 @@ namespace gost{
 			}
 		}
 	
-		GT_FORCE_INLINE bool memoryAllocate_f( void** data, u32 size ){
-			bool ret = gtMainSystem::getInstance()->allocateMemory( data, size );
-			if( !ret ){
-				gtLogWriter::printError( u"Can not allocate memory" );
-			}
-			return ret;
-		}
-
-		GT_FORCE_INLINE void memoryFree_f( void** data ){
-			gtMainSystem::getInstance()->freeMemory( data );
-		}
-
-#define memoryAllocate(ptr,sz) memoryAllocate_f((void**)&ptr,sz)
-#define memoryFree(ptr) memoryFree_f((void**)&ptr)
-
 		template<typename type>
 		type getIntFromString( const gtString& str ){
 			
@@ -370,12 +456,12 @@ namespace gost{
 		}
 
 
-		template<typename CharType>
-		bool isSpace( CharType c ){
-			if( c == (CharType)' ' ) return true;
-			if( c == (CharType)'\r' ) return true;
-			if( c == (CharType)'\n' ) return true;
-			if( c == (CharType)'\t' ) return true;
+		template<typename char_type>
+		bool isSpace( char_type c ){
+			if( c == (char_type)' ' ) return true;
+			if( c == (char_type)'\r' ) return true;
+			if( c == (char_type)'\n' ) return true;
+			if( c == (char_type)'\t' ) return true;
 			return false;
 		}
 

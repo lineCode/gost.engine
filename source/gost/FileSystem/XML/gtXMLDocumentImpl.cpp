@@ -324,8 +324,8 @@ gtXMLNode* gtXMLDocumentImpl::getRootNode(){
 bool gtXMLDocumentImpl::charForName( char16_t *ptr ){
 	char16_t c = *ptr;
 	if( c > 0x80 ) return true;
-	if( std::isalpha( *ptr ) 
-			|| std::isdigit( *ptr )
+	if( util::isAlpha( *ptr ) 
+			|| util::isDigit( *ptr )
 			|| (*ptr == u'_')
 			|| (*ptr == u'.')){
 		return true;
@@ -336,8 +336,8 @@ bool gtXMLDocumentImpl::charForName( char16_t *ptr ){
 bool gtXMLDocumentImpl::charForString( char16_t * ptr ){
 	char16_t c = *ptr;
 	if( c > 0x80 ) return true;
-	if( std::isalpha( *ptr ) 
-			|| std::isdigit( *ptr )
+	if( util::isAlpha( *ptr ) 
+			|| util::isDigit( *ptr )
 			|| (*ptr == u'_')
 			|| (*ptr == u'.')){
 		return true;

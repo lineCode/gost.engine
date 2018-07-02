@@ -53,7 +53,9 @@ gtPtr<gtGUIFont> gtGUISystemImpl::createBuiltInFont(){
 	fontImage->bits = gtConst1U;
 	fontImage->dataSize = 65536;
 		
-	util::memoryAllocate( fontImage->data, fontImage->dataSize );
+//	util::memoryAllocate( fontImage->data, fontImage->dataSize );
+	fontImage->data = (u8*)gtMemAlloc(fontImage->dataSize);
+
 	memcpy( fontImage->data, gtBuiltInFontBytes, fontImage->dataSize);
 
 	fontImage->format = gtImageFormat::One_bit;
