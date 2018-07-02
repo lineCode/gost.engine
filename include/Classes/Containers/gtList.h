@@ -41,7 +41,6 @@ namespace gost{
 		u32 m_size;
 
 	public:
-
 		gtList():
 			m_first( nullptr ),
 			m_last( nullptr ),

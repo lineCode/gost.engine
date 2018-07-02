@@ -175,8 +175,6 @@ namespace demo{
 
 	public:
 
-		GT_DECLARE_STANDART_ALLOCATOR;
-
 
 		DemoApplication();
 		~DemoApplication();

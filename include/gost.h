@@ -12,6 +12,7 @@
 //#include <cctype> //isalpha
 //#include <cstring>
 //#include <fstream>
+#include <new>
 #include <sstream>
 #include <string>
 #include <vector>

@@ -29,13 +29,18 @@ namespace gost{
 
 		void reallocate( u32 new_allocated ){
 
-			char_type * new_data = new char_type[ new_allocated ];
+			//char_type * new_data = new char_type[ new_allocated ];
+			char_type * new_data = (char_type*)gtMemAlloc( new_allocated * sizeof(char_type) );
 
 			if( m_data ){
 				memcpy( new_data, m_data, m_size * sizeof( char_type ) );
-				delete []m_data;
+
+				//delete []m_data;
+				gtMemFree( m_data );
+
 			}else{
-				memset( new_data, 0,  new_allocated * sizeof( char_type ) );
+				//memset( new_data, 0,  new_allocated * sizeof( char_type ) );
+				gtMemSet((char_type)0,new_data,new_allocated);
 			}
 
 			m_data = new_data;
@@ -120,7 +125,8 @@ namespace gost{
 			// Destructor
 		~gtString_base(){
 			if( m_data )
-				delete []m_data;
+				//delete []m_data;
+				gtMemFree( m_data );
 		}
 
 			// Allocate memory for chars

@@ -38,7 +38,6 @@ namespace gost{
 		}
 
 	public:
-
 		gtArray( u32 addSize = gtConst8U ):
 			m_data( nullptr ),
 			m_size( gtConst0U ),

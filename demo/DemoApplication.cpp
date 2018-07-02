@@ -576,18 +576,6 @@ void demo::DemoApplication::pauseBackgroundFadeOut(){
 	}
 }
 
-
-class C{
-public:
-
-	GT_DECLARE_STANDART_ALLOCATOR;
-
-	long long i[10000];
-
-	C(){}
-	C( int I ){}
-};
-
 void demo::DemoApplication::Run(){
 	m_mainSystem->setTimer( 300 );
 

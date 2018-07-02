@@ -12,8 +12,6 @@ namespace gost{
 
 	struct gtSubModel{
 
-		GT_DECLARE_STANDART_ALLOCATOR;
-
 			// c-tor
 		gtSubModel():
 			m_vertices( nullptr ),

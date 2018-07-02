@@ -34,13 +34,6 @@ namespace gost{
 		}
 	}const gtMemSet;
 
-
-#define GT_DECLARE_STANDART_ALLOCATOR void* operator new( u32 size ){ return gtMemorySystem::allocate( size ); } \
-	void* operator new[]( u32 size ){ return gtMemorySystem::allocate( size ); } \
-	void operator delete( void * p ){ gtMemorySystem::free( p ); } \
-	void operator delete[]( void * p ){ gtMemorySystem::free( p ); }
-
-
 }
 
 #endif
