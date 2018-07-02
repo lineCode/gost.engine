@@ -13,12 +13,27 @@ namespace gost{
 		 GT_API static bool free( void * ptr );
 
 		 GT_API static void * reallocate( u32 size, void * ptr, bool exceptions = false, bool zeroMemory = false );
+
+		 /*
+			int arr[ 10 ];
+			int val = 666;
+			set( arr, &val, sizeof( int ), 10 );
+		 */
+		 GT_API static void set( void * data, void * value, u32 stride, u32 size );
 	};
 
 #define gtMemAlloc(size) gtMemorySystem::allocate((size))
 #define gtMemAllocE(size) gtMemorySystem::allocate((size),true)
 #define gtMemFree(ptr) gtMemorySystem::free((ptr));ptr=nullptr
 #define gtMemReAlloc(ptr,size) gtMemorySystem::reallocate((size),(ptr))
+	
+	struct gtMemSet_t{
+		template<typename type>
+		void operator()(type val,void*ptr,u32 size) const {
+			gtMemorySystem::set(ptr,&val,sizeof(type),size);
+		}
+	}const gtMemSet;
+
 
 #define GT_DECLARE_STANDART_ALLOCATOR void* operator new( u32 size ){ return gtMemorySystem::allocate( size ); } \
 	void* operator new[]( u32 size ){ return gtMemorySystem::allocate( size ); } \

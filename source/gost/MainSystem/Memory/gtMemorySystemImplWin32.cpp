@@ -18,6 +18,19 @@ bool gtMemorySystemImplWin32::free( void * ptr ){
 	return HeapFree( GetProcessHeap(), gtConst0U, ptr ) != gtConst0U ? true : false;
 }
 
+void gtMemorySystemImplWin32::set( void * data, void * value, u32 stride, u32 size ){
+
+	u8 * D = reinterpret_cast<u8*>( data );
+	u8 * S = reinterpret_cast<u8*>( value );
+
+	for( u32 i = 0u; i < size; ++i ){
+		for( u32 o = 0u; o < stride; ++o ){
+			D[ o ] = S[ o ];
+		}
+		D += stride;
+	}
+}
+
 /*
 Copyright (c) 2017-2018 532235
 

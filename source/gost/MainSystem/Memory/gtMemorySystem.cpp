@@ -13,6 +13,10 @@ bool gtMemorySystem::free( void * ptr ){
 	return gtSingletone<gtMemorySystemCommon>::s_instance->free( ptr );
 }
 
+void gtMemorySystem::set( void * data, void * value, u32 stride, u32 size ){
+	gtSingletone<gtMemorySystemCommon>::s_instance->set( data, value, stride, size );
+}
+
 /*
 Copyright (c) 2017-2018 532235
 

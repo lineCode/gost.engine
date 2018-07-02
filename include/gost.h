@@ -10,14 +10,14 @@
 //C++
 //#include <cstdlib>
 //#include <cctype> //isalpha
-#include <cstring>
-#include <fstream>
+//#include <cstring>
+//#include <fstream>
 #include <sstream>
 #include <string>
 #include <vector>
 #include <typeinfo>
 #include <cmath>
-#include <memory>
+//#include <memory>
 
 //	GOST
 #include <Common/gtInfo.h>

@@ -12,6 +12,7 @@ namespace gost{
 		virtual void * allocate( u32 size, bool exceptions = false, bool zeroMemory = false ) = 0;
 		virtual bool free( void * ptr ) = 0;
 		virtual void * reallocate( u32 size, void * ptr, bool exceptions = false, bool zeroMemory = false ) = 0;
+		virtual void set( void * data, void * value, u32 stride, u32 size ) = 0;
 	};
 
 	gtMemorySystemCommon* gtSingletone<gtMemorySystemCommon>::s_instance = nullptr;

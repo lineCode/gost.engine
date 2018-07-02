@@ -268,13 +268,15 @@ void gtOutputWindowWin32::save(){
                 psi->Release();
 
 				int len = GetWindowTextLength( m_hWndBuffer );
-				std::wstring wstr;
-				wstr.append( static_cast<u32>(len),gtConst0U);
+				gtStringW wstr;
+				wstr.reserve( len );
 				auto * ptr = &wstr[0];
 				GetWindowText( m_hWndBuffer, ptr, len );
 
-				std::wofstream out(pszName);
-				out.write( wstr.data(), len-1 );
+				gtFile_t f = util::createFileForWriteText( gtString((char16_t*)pszName) );
+				f->write( (char16_t*)wstr.data() );
+				//std::wofstream out(pszName);
+				//out.write( wstr.data(), len-1 );
             }
         }
         pfd->Release();

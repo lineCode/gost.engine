@@ -10,6 +10,7 @@ namespace gost{
 		 void * allocate( u32 size, bool exceptions = false, bool zeroMemory = false );
 		 bool free( void * ptr );
 		 void * reallocate( u32 size, void * ptr, bool exceptions = false, bool zeroMemory = false );
+		 void set( void * data, void * value, u32 stride, u32 size );
 	};
 
 }
