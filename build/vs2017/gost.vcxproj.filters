@@ -187,6 +187,12 @@
     <Filter Include="Source\SceneSystem\System">
       <UniqueIdentifier>{7fb47a14-0f5b-4689-98e4-aa1339e7045d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Headers\MainSystem\Memory">
+      <UniqueIdentifier>{d9ea947a-ae63-4db7-a7a5-52288d1d0760}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\MainSystem\Memory">
+      <UniqueIdentifier>{9bcdc886-5104-414f-888b-e61838948d82}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\gost.h">
@@ -489,6 +495,18 @@
     <ClInclude Include="..\..\source\gost\SceneSystem\System\gtSceneSystemImpl.h">
       <Filter>Headers\SceneSystem\System</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\source\gost\MainSystem\Memory\gtMemorySystemCommon.h">
+      <Filter>Headers\MainSystem\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\gost\MainSystem\Memory\gtMemorySystemImplWin32.h">
+      <Filter>Headers\MainSystem\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Common\gtMemorySystem.h">
+      <Filter>include\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Classes\Common\gtSingleton.h">
+      <Filter>include\Classes\Common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\include\MainSystem\gtStackTracerWin32.inl">
@@ -606,6 +624,12 @@
     </ClCompile>
     <ClCompile Include="..\..\source\gost\SceneSystem\System\gtSceneSystemImpl.cpp">
       <Filter>Source\SceneSystem\System</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\gost\MainSystem\Memory\gtMemorySystemImplWin32.cpp">
+      <Filter>Source\MainSystem\Memory</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\gost\MainSystem\Memory\gtMemorySystem.cpp">
+      <Filter>Source\MainSystem\Memory</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

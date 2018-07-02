@@ -212,14 +212,16 @@ bool demo::DemoApplication::initMainMenu(){
 	gtString logoPath(u"../demo/media/logo.png");
 	gtString gamepadPath(u"../demo/media/gamepad.png");
 
-	if( gtFileSystem::existFile( logoPath ) )
+	if( gtFileSystem::existFile( logoPath ) ){
 		m_backgroundTexture = m_gs->getTexture( logoPath );
-	else
+		m_backgroundTexture->setName( "m_backgroundTexture" );
+	}else
 		gtLogWriter::printWarning( u"Can not load background texture. File %s not exist.", logoPath.data() );
 
-	if( gtFileSystem::existFile( gamepadPath ) )
+	if( gtFileSystem::existFile( gamepadPath ) ){
 		m_gamepadTexture = m_gs->getTexture( gamepadPath );
-	else
+		m_gamepadTexture->setName( "m_gamepadTexture" );
+	}else
 		gtLogWriter::printWarning( u"Can not load gamepad icon texture. File %s not exist.", gamepadPath.data() );
 	
 	m_mainFont	=	m_guiSystem->createBuiltInFont();
@@ -574,6 +576,18 @@ void demo::DemoApplication::pauseBackgroundFadeOut(){
 	}
 }
 
+
+class C{
+public:
+
+	GT_DECLARE_STANDART_ALLOCATOR;
+
+	long long i[10000];
+
+	C(){}
+	C( int I ){}
+};
+
 void demo::DemoApplication::Run(){
 	m_mainSystem->setTimer( 300 );
 
@@ -608,6 +622,7 @@ void demo::DemoApplication::Run(){
 		Render();
 
 		last = now;
+
 	}
 }
 

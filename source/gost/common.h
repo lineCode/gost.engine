@@ -16,6 +16,9 @@ using namespace gost;
 
 
 //	GOST
+#include "MainSystem/Memory/gtMemorySystemCommon.h"
+#include "MainSystem/Memory/gtMemorySystemImplWin32.h"
+
 #include "Image/gtImageImpl.h"
 #include "SceneSystem/Objects/gtCameraImpl.h"
 #include "SceneSystem/Objects/gtStaticObjectImpl.h"

@@ -160,6 +160,9 @@ namespace gost{
 			//texture->addRef();
 			m_textures.push_back(cache<gtPtr<gtTexture>>(texture,path));
 
+			gtString pth = path;
+			texture->setName( gtStringA( pth.to_ansiString() ) );
+
 			return texture.data();
 		}
 

@@ -1,10 +1,14 @@
 #include "creator.h"
 
+
 #if defined( GT_PLATFORM_WIN32 )
 int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR /*lpCmdLine*/, int /*nCmdShow*/ ){
 #endif
 
+	GoSTPreInit();
+
 	demo::DemoApplication	*	app = new demo::DemoApplication;
+	
 	if( !app ){
 #if defined( GT_PLATFORM_WIN32 )
 		MessageBox( 0, L"Can not allocate memory for application", 0, 0 );
@@ -20,11 +24,29 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 		return 2;	
 	}
 
+	char * str = (char*)gtMemAlloc(4);
+
+	str[ 0 ] = 'A';
+	str[ 1 ] = 'B';
+	str[ 2 ] = 'C';
+	str[ 3 ] = 'D';
+
+	str = (char*)gtMemReAlloc(str,8);
+
+	str[ 4 ] = 'E';
+	str[ 5 ] = 'F';
+	str[ 6 ] = 'G';
+	str[ 7 ] = 'H';
+
+	gtMemFree(str);
+
 	app->Run();
 
 //	MessageBox( 0, L"Start", 0, 0 );
 	delete app;
 //	MessageBox( 0, L"End", 0, 0 );
+
+	GoSTClear();
 
 	return 0;
 }

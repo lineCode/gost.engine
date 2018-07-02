@@ -10,6 +10,9 @@ namespace gost{
 	protected:
 		gtPtrNew() : m_pointer( nullptr ) {}
 	public:
+
+		GT_DECLARE_STANDART_ALLOCATOR;
+
 		gtPtrNew( Type* o ) : m_pointer( o ){}
 		Type*	data() const { return m_pointer; }
 	};

@@ -1,18 +1,20 @@
-﻿#pragma once
-#ifndef __GT_BASE_OBJECT_H__
-#define __GT_BASE_OBJECT_H__
+#pragma once
+#ifndef __GT_MEMORY_SYSTEM_COMMON_H__
+#define __GT_MEMORY_SYSTEM_COMMON_H__
+
 
 namespace gost{
 
-	class gtBaseObject{
-	protected:
-		GT_FORCE_INLINE gtBaseObject(){}
+	class gtMemorySystemCommon{
 	public:
+		virtual ~gtMemorySystemCommon(){}
 
-		virtual ~gtBaseObject(){}
-		virtual void first_vtable_function(){}
-	
+		virtual void * allocate( u32 size, bool exceptions = false, bool zeroMemory = false ) = 0;
+		virtual bool free( void * ptr ) = 0;
+		virtual void * reallocate( u32 size, void * ptr, bool exceptions = false, bool zeroMemory = false ) = 0;
 	};
+
+	gtMemorySystemCommon* gtSingletone<gtMemorySystemCommon>::s_instance = nullptr;
 }
 
 #endif

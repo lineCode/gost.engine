@@ -1,18 +1,17 @@
-﻿#pragma once
-#ifndef __GT_BASE_OBJECT_H__
-#define __GT_BASE_OBJECT_H__
+#pragma once
+#ifndef __GT_MEMORY_SYSTEM_IMPL_WIN32_H__
+#define __GT_MEMORY_SYSTEM_IMPL_WIN32_H__
+
 
 namespace gost{
-
-	class gtBaseObject{
-	protected:
-		GT_FORCE_INLINE gtBaseObject(){}
-	public:
-
-		virtual ~gtBaseObject(){}
-		virtual void first_vtable_function(){}
 	
+	class gtMemorySystemImplWin32 : public gtMemorySystemCommon{
+	public:
+		 void * allocate( u32 size, bool exceptions = false, bool zeroMemory = false );
+		 bool free( void * ptr );
+		 void * reallocate( u32 size, void * ptr, bool exceptions = false, bool zeroMemory = false );
 	};
+
 }
 
 #endif

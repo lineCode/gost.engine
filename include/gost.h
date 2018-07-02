@@ -22,6 +22,8 @@
 //	GOST
 #include <Common/gtInfo.h>
 #include <Common/gtTypes.h>
+#include <Classes/Common/gtSingleton.h>
+#include <Common/gtMemorySystem.h>
 #include <Classes/Common/gtGUID.h>
 #include <Classes/Containers/gtPair.h>
 #include <Classes/Common/gtAllocator.h>
@@ -121,9 +123,12 @@
 
 namespace gost {
 
+	extern "C" GT_API void GT_CDECL GoSTPreInit();
+	extern "C" GT_API void GT_CDECL GoSTClear();
 	extern "C" GT_API gtMainSystem* GT_CDECL InitializeGoSTEngine_internal( const gtDeviceCreationParameters& params );
 
 	GT_FORCE_INLINE gtPtr<gtMainSystem> InitializeGoSTEngine( const gtDeviceCreationParameters& params = gtDeviceCreationParameters() ){
+		GoSTPreInit();
 		return gtPtrNew<gtMainSystem>( InitializeGoSTEngine_internal( params ) );
 	}
 

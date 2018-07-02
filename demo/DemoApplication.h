@@ -44,8 +44,8 @@ namespace demo{
 		gtPtr<gtWindow>				m_mainWindow;
 
 		gtGUISystem*				m_guiSystem;
-		gtPtr<gtGraphicsSystem>				m_gs;
-		gtPtr<gtInputController>		m_gamepadSystem;
+		gtPtr<gtGraphicsSystem>		m_gs;
+		gtPtr<gtInputController>	m_gamepadSystem;
 		gtInputSystem *				m_input;
 		gtInputDevice *				m_gamepad;
 		gtSceneSystem*				m_sceneSystem;
@@ -174,6 +174,10 @@ namespace demo{
 		static DemoApplication * s_this;
 
 	public:
+
+		GT_DECLARE_STANDART_ALLOCATOR;
+
+
 		DemoApplication();
 		~DemoApplication();
 

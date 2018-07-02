@@ -7,7 +7,9 @@ namespace gost{
 	class gtRefObject : public gtBaseObject{
 	
 		mutable u32 m_count;
-	
+		
+		gtStringA m_name;
+
 	public:
 
 		gtRefObject() : m_count( 1U ){}
@@ -27,6 +29,14 @@ namespace gost{
 			if( !m_count ){
 				delete this;
 			}
+		}
+
+		void setName( const gtStringA& name ){
+			m_name = name;
+		}
+
+		const gtStringA& getName(){
+			return m_name;
 		}
 	};
 

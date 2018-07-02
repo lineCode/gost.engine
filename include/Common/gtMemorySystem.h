@@ -1,18 +1,30 @@
-﻿#pragma once
-#ifndef __GT_BASE_OBJECT_H__
-#define __GT_BASE_OBJECT_H__
+#pragma once
+#ifndef __GT_MEMORY_SYSTEM_H__
+#define __GT_MEMORY_SYSTEM_H__
+
 
 namespace gost{
-
-	class gtBaseObject{
-	protected:
-		GT_FORCE_INLINE gtBaseObject(){}
-	public:
-
-		virtual ~gtBaseObject(){}
-		virtual void first_vtable_function(){}
 	
+	class gtMemorySystem{
+	public:
+		
+		 GT_API static void * allocate( u32 size, bool exceptions = false, bool zeroMemory = false );
+
+		 GT_API static bool free( void * ptr );
+
+		 GT_API static void * reallocate( u32 size, void * ptr, bool exceptions = false, bool zeroMemory = false );
 	};
+
+#define gtMemAlloc(size) gtMemorySystem::allocate((size))
+#define gtMemFree(ptr) gtMemorySystem::free((ptr));ptr=nullptr
+#define gtMemReAlloc(ptr,size) gtMemorySystem::reallocate((size),(ptr))
+
+#define GT_DECLARE_STANDART_ALLOCATOR void* operator new( u32 size ){ return gtMemorySystem::allocate( size ); } \
+	void* operator new[]( u32 size ){ return gtMemorySystem::allocate( size ); } \
+	void operator delete( void * p ){ gtMemorySystem::free( p ); } \
+	void operator delete[]( void * p ){ gtMemorySystem::free( p ); }
+
+
 }
 
 #endif

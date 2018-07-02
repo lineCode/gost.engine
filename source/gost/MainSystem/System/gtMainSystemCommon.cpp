@@ -4,6 +4,7 @@
 
 gtPtr<gtLogImpl> gtMainSystemCommon::s_log;
 gtFileSystemCommon* gtMainSystemCommon::s_fileSystem;
+//gtMemorySystemCommon* gtMainSystemCommon::s_memorySystem;
 gtMainSystemCommon* gtMainSystemCommon::s_instance;
 gtMainSystemCommon* gtMainSystemCommon::getInstance(){return s_instance;}
 

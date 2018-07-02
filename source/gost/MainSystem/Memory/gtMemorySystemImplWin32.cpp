@@ -1,21 +1,22 @@
-﻿#pragma once
-#ifndef __GT_BASE_OBJECT_H__
-#define __GT_BASE_OBJECT_H__
-
-namespace gost{
-
-	class gtBaseObject{
-	protected:
-		GT_FORCE_INLINE gtBaseObject(){}
-	public:
-
-		virtual ~gtBaseObject(){}
-		virtual void first_vtable_function(){}
+#include "common.h"
 	
-	};
+void * gtMemorySystemImplWin32::allocate( u32 size, bool exceptions, bool zeroMemory ){
+	DWORD flags = gtConst0U;
+	if( exceptions ) flags |= HEAP_GENERATE_EXCEPTIONS;
+	if( zeroMemory ) flags |= HEAP_ZERO_MEMORY;
+	return HeapAlloc( GetProcessHeap(), flags, (SIZE_T)size );
 }
 
-#endif
+void * gtMemorySystemImplWin32::reallocate( u32 size, void * ptr, bool exceptions, bool zeroMemory ){
+	DWORD flags = gtConst0U;
+	if( exceptions ) flags |= HEAP_GENERATE_EXCEPTIONS;
+	if( zeroMemory ) flags |= HEAP_ZERO_MEMORY;
+	return HeapReAlloc( GetProcessHeap(), flags, ptr, (SIZE_T)size );
+}
+
+bool gtMemorySystemImplWin32::free( void * ptr ){
+	return HeapFree( GetProcessHeap(), gtConst0U, ptr ) != gtConst0U ? true : false;
+}
 
 /*
 Copyright (c) 2017-2018 532235

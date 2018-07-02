@@ -10,6 +10,10 @@ namespace gost{
 
 	gtMainSystemWin32::~gtMainSystemWin32(){
 		this->m_isRun = false;
+
+		// ???
+		//delete this->s_fileSystem;
+		//delete this->s_memorySystem;
 	}
 
 	gtOutputWindow* gtMainSystemWin32::getOutputWindow(){
@@ -17,6 +21,10 @@ namespace gost{
 	}
 
 	bool	gtMainSystemWin32::init(){
+		// Почему я выделяю память но не освобождаю?
+		//this->s_memorySystem = new gtMemorySystemImplWin32;
+		
+
         timeBeginPeriod(1);
 
 		getTime();
@@ -37,6 +45,7 @@ namespace gost{
 			this->initStackTracer();
 			this->initEventSystem();
 
+			// Почему я выделяю память но не освобождаю?
 			this->s_fileSystem = new gtFileSystemWin32;
 
 			if( this->s_fileSystem->existFile( u"log.txt" ) )
