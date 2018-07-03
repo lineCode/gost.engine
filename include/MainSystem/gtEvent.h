@@ -4,6 +4,7 @@
 
 namespace gost{
 
+	class gtGUIObject;
 	class gtWindow;
 	struct gtInputDevice;
 
@@ -18,7 +19,6 @@ constexpr u32 GT_EVENT_JOYSTICK_ADD    = gtConst1U;
 constexpr u32 GT_EVENT_JOYSTICK_REMOVE = gtConst2U;
 
 constexpr u32 GT_EVENT_SYSTEM_TIMER    = gtConst1U;
-
 
 constexpr u32 GT_EVENT_MASK_MOUSE_LMB	= gtConst1U;
 constexpr u32 GT_EVENT_MASK_MOUSE_RMB	= gtConst2U;
@@ -37,6 +37,16 @@ constexpr u32 GT_EVENT_MASK_MOUSE_RMB_DBL = gtConst64U;
 		GUI,
 		Window,
 		System
+	};
+
+	enum class gtEventGUIAction{
+		MouseHover
+	};
+
+	struct gtEventGUI{
+		u32 id;
+		gtEventGUIAction action;
+		gtGUIObject* object;
 	};
 
 	struct gtEventSystemEvent{
@@ -125,6 +135,7 @@ constexpr u32 GT_EVENT_MASK_MOUSE_RMB_DBL = gtConst64U;
 		gtEvent(){};
 
 		union{
+			gtEventGUI		GUIEvent;
 			gtEventKeyboard	keyboardEvent;
 			gtEventMouse	mouseEvent;
 			gtEventWindow	windowEvent;

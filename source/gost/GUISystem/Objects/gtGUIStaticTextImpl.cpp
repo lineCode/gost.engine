@@ -280,13 +280,15 @@ void gtGUIStaticTextImpl::updateBackground(){
 		t1 = m_backgroundShape->getTexture();
 	}
 
-	m_backgroundShape = m_gui->createShapeRectangle( 
-		v4i( 
-			m_position.x-10u,
+	m_activeArea = v4i( 
+			m_position.x-gtConst10U,
 			m_position.y - (s32)m_height - gtConst3U,
-			(m_position.x + (s32)m_length)+10u,
+			(m_position.x + (s32)m_length)+gtConst10U,
 			m_position.y + gtConst3U
-		),
+		);
+
+	m_backgroundShape = m_gui->createShapeRectangle( 
+		m_activeArea,
 		gtColor( 0.f, 0.f, 0.f, 1.f ) );
 	m_backgroundShape->setTexture( t1 );
 	m_backgroundShape->setColor( m_bgColor );

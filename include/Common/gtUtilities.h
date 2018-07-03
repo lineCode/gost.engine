@@ -8,6 +8,19 @@ namespace gost{
 	//	Some helper functions here
 	namespace util{
 		
+		GT_FORCE_INLINE bool pointInRect( const gtVector2<u16>& coord, const v4i& rect ){
+			if( coord.x >= rect.x ){
+				if( coord.x <= rect.z ){
+					if( coord.y >= rect.y ){
+						if( coord.y <= rect.w ){
+							return true;
+						}
+					}
+				}
+			}
+			return false;
+		}
+
 		template<typename char_type>
 		bool isDigit( char_type c ){
 			if( c < 0x7B ){

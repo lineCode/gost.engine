@@ -16,6 +16,7 @@ namespace gost{
 	protected:
 		gtGUIObjectType m_type;
 		bool			m_visible;
+		v4i				m_activeArea;
 	public:
 
 		gtGUIObject() : m_visible( true ){}
@@ -38,7 +39,13 @@ namespace gost{
 			m_visible = value;
 		}
 
+		virtual void setActiveArea( const v4i& area ){
+			m_activeArea = area;
+		}
 		
+		virtual const v4i& getActiveArea() const {
+			return m_activeArea;
+		}
 
 	};
 

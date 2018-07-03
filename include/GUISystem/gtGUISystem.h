@@ -8,6 +8,10 @@ namespace gost{
 	class gtGUISystem : public gtRefObject{
 	public:
 
+		virtual void addToUserInput( gtGUIObject *, u32 id ) = 0;
+
+		virtual void clearUserInput() = 0;
+
 			//	If `fromImage == true`, `fontName` must be full xml file in string
 		virtual gtPtr<gtGUIFont> createFont( const gtString& fontName, gtImage * fromImage = nullptr ) = 0;
 		virtual gtPtr<gtGUIFont> createBuiltInFont() = 0;

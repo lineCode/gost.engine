@@ -19,15 +19,17 @@ gtGUITextFieldImpl::~gtGUITextFieldImpl(){
 
 bool gtGUITextFieldImpl::init( const v4i& rect, gtGUIFont* font, bool fh, bool fw ){
 	m_rect   = rect;
-
 	if( m_rect.z < m_rect.x ) m_rect.z = m_rect.x + 50;
 	if( m_rect.w < m_rect.y ) m_rect.w = m_rect.y + 20;
+	
 
 	m_font   = (gtGUIFontImpl*)font;
 	m_fixedH = fh;
 	m_fixedW = fw;
 
 	update();
+
+	m_activeArea = m_rect;
 
 	return true;
 }

@@ -5,13 +5,19 @@
 namespace gost{
 
 	class gtGUISystemImpl : public gtGUISystem{
-		gtGraphicsSystem * m_gs;
+		gtMainSystem *		  m_mainSystem;
+		gtInputSystem *		  m_inputSystem;
+		gtGraphicsSystem *    m_gs;
+		gtArray<gtPair<gtGUIObject*,u32>> m_userInputObjects;
 
+		gtVector2<u16> m_coords;
 	public:
 
 		gtGUISystemImpl();
 		~gtGUISystemImpl();
 		
+		void addToUserInput( gtGUIObject *, u32 id );
+		void clearUserInput();
 
 		gtPtr<gtGUIFont>		createFont( const gtString& fontName, gtImage * fromImage = nullptr );
 		gtPtr<gtGUIFont>		createBuiltInFont();
@@ -23,7 +29,7 @@ namespace gost{
 		void					setCurrentRenderDriver( gtGraphicsSystem * driver );
 		
 		void					init();
-
+		void					updateInput();
 	};
 
 }

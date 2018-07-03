@@ -3,10 +3,52 @@
 #include "GUISystem/BuiltInFont.hpp"
 
 gtGUISystemImpl::gtGUISystemImpl():
-m_gs( nullptr )
-{}
+	m_mainSystem( nullptr ),
+	m_inputSystem( nullptr ),
+	m_gs( nullptr )
+{
+	m_mainSystem = gtMainSystem::getInstance();
+	m_inputSystem = m_mainSystem->getInputSystem();
+}
 
 gtGUISystemImpl::~gtGUISystemImpl(){
+}
+
+void gtGUISystemImpl::addToUserInput( gtGUIObject * o, u32 id ){
+	auto sz = m_userInputObjects.size();
+	for( auto i = 0u; i < sz; ++i ){
+		if(m_userInputObjects[ i ].m_second == id){
+			m_userInputObjects[ i ].m_first = o;
+			return;
+		}
+	}
+
+	m_userInputObjects.push_back( gtPair<gtGUIObject*,u32>(o, id) );
+}
+
+void gtGUISystemImpl::updateInput(){
+	m_coords = m_inputSystem->getCursorPosition();
+	//printf("%i\t\t%i\n",m_coords.x,m_coords.y);
+	auto sz = m_userInputObjects.size();
+	for( auto i = 0u; i < sz; ++i ){
+		auto o = m_userInputObjects[ i ];
+		if( o.m_first->isVisible() ){
+			if( util::pointInRect(m_coords,o.m_first->getActiveArea()) ){
+				gtEvent e;
+				e.type = gtEventType::GUI;
+				e.GUIEvent.id = o.m_second;
+				e.GUIEvent.action = gtEventGUIAction::MouseHover;
+				e.GUIEvent.object = o.m_first;
+
+				m_mainSystem->addEvent( e );
+			}
+		}
+	}
+
+}
+
+void gtGUISystemImpl::clearUserInput(){
+	m_userInputObjects.clear();
 }
 
 void gtGUISystemImpl::init(){

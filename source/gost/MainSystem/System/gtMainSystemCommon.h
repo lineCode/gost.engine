@@ -17,7 +17,8 @@ namespace gost{
 
 	protected:
 
-		void updateTimer();
+		void	updateTimer();
+		void	updateEvents();
 
 		gtPtr<gtOutputWindow>		m_output_window;
 		gtList< gtPtr< gtWindow > > m_windowCache;

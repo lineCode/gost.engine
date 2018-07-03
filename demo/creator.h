@@ -5,6 +5,8 @@
 #include <gost.h>
 using namespace gost;
 
+constexpr u32 DEMO_GUI_ID_WELCOME_TEXT = 1u;
+
 #include "DemoExample.h"
 #include "DemoElement.h"
 

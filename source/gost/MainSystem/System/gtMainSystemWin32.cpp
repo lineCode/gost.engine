@@ -76,21 +76,9 @@ namespace gost{
 
 	bool	gtMainSystemWin32::update(){
 		if( m_isRun ){
-			
 			this->updateWindowEvents();
-
-			this->m_events->getKeyboardAndMouseStates();
-
-			if( this->m_events->getConsumer() ){
-				this->m_events->runEventLoop();
-				this->m_events->resetEvents();
-			}else{
-
-			}
-
-			updateTimer();
+			this->updateEvents();
 		}
-
 
 		return m_isRun;
 	}

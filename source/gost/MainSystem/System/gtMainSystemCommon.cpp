@@ -51,12 +51,21 @@ void gtMainSystemCommon::initEventSystem(){
 	m_events		= gtPtrNew<gtEventSystem>( new gtEventSystem( m_inputSystem.data(), m_params.m_consumer ) );
 }
 
-
-
 gtMainSystem*	gtMainSystem::getInstance(){
 	return gtMainSystemCommon::getInstance();
 }
-			
+
+void	gtMainSystemCommon::updateEvents(){
+	this->m_events->getKeyboardAndMouseStates();
+	m_GUISystem->updateInput();
+	if( this->m_events->getConsumer() ){
+		this->m_events->runEventLoop();
+		this->m_events->resetEvents();
+	}else{
+	}
+	updateTimer();
+}
+
 gtStackTracer*	gtMainSystemCommon::getStackTracer(){
 	return m_stackTracer;
 }

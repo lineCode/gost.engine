@@ -30,6 +30,13 @@ void demo::DemoApplicationEventConsumer::processEvent( const gtEvent& ev ){
 }
 
 void demo::DemoApplicationEventConsumer::processEventGUI( const gtEvent& ev ){
+	switch (ev.GUIEvent.action){
+	case gtEventGUIAction::MouseHover:{
+		if( ev.GUIEvent.id == DEMO_GUI_ID_WELCOME_TEXT ){
+			printf("Welcome text\n" );
+		}
+	}break;
+	}
 }
 
 void demo::DemoApplicationEventConsumer::processEventJoystick( const gtEvent& ev ){
