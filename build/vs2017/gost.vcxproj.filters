@@ -193,6 +193,12 @@
     <Filter Include="Source\MainSystem\Memory">
       <UniqueIdentifier>{9bcdc886-5104-414f-888b-e61838948d82}</UniqueIdentifier>
     </Filter>
+    <Filter Include="include\MemorySystem">
+      <UniqueIdentifier>{4f303f28-625d-40f0-9c69-ccda3a624ece}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\PhysicsSystem">
+      <UniqueIdentifier>{1fe8303e-e031-4d88-96fb-d43e51075cb9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\gost.h">
@@ -501,11 +507,14 @@
     <ClInclude Include="..\..\source\gost\MainSystem\Memory\gtMemorySystemImplWin32.h">
       <Filter>Headers\MainSystem\Memory</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\Common\gtMemorySystem.h">
-      <Filter>include\Common</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\Classes\Common\gtSingleton.h">
       <Filter>include\Classes\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\MemorySystem\gtMemorySystem.h">
+      <Filter>include\MemorySystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\PhysicsSystem\gtPhysicsSystem.h">
+      <Filter>include\PhysicsSystem</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

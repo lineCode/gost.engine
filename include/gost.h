@@ -24,7 +24,7 @@
 #include <Common/gtInfo.h>
 #include <Common/gtTypes.h>
 #include <Classes/Common/gtSingleton.h>
-#include <Common/gtMemorySystem.h>
+#include <MemorySystem/gtMemorySystem.h>
 #include <Classes/Common/gtGUID.h>
 #include <Classes/Containers/gtPair.h>
 #include <Classes/Common/gtAllocator.h>
@@ -63,6 +63,7 @@
 #include <GUISystem/gtGUIObject.h>
 
 
+#include <PhysicsSystem/gtPhysicsSystem.h>
 #include <SceneSystem/gtSceneSystem.h>
 #include <AudioSystem/gtAudioSystem.h>
 #include <InputSystem/gtInputController.h>

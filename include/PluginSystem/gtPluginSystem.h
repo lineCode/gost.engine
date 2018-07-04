@@ -15,17 +15,20 @@ namespace gost{
 	GT_DEFINE_GUID(GT_UID_IMPORT_IMAGE_BMP, 0xcb2c9c1, 0x233a, 0x4570, 0x8d, 0x1e, 0x31, 0xe, 0xb1, 0xa9, 0xf4, 0xf7);
 	GT_DEFINE_GUID(GT_UID_IMPORT_IMAGE_PNG, 0x52b5e4a2, 0xcbda, 0x4492, 0x90, 0xb9, 0x97, 0xaf, 0xeb, 0xec, 0xf4, 0x90);
 	GT_DEFINE_GUID(GT_UID_IMPORT_MODEL_OBJ, 0xddb35bd5, 0x41ca, 0x48d8, 0x9d, 0xf5, 0x5b, 0x67, 0xa3, 0xa5, 0xa1, 0x55);
+	GT_DEFINE_GUID(GT_UID_PHYSICS_BULLET_3_2_87, 0x7cddd6fc, 0x6de0, 0x4024, 0xa1, 0xf5, 0xed, 0xb3, 0x79, 0x87, 0xb8, 0xfc);
 
 
-	using gtGetPluginInfo			= void(GT_CDECL*)		(gtPluginInfo&);		
-	using gtLoadGPUDriver_t			= gtGraphicsSystem*(GT_CDECL*)	(gtGraphicsSystemInfo);			
-	using gtLoadAudioDriver_t		= gtAudioSystem*(GT_CDECL*)(void);
-	using gtLoadInputDriver_t		= gtInputController*(GT_CDECL*)(void);
-	using gtPluginGetExtCount_t		= u32(GT_CDECL*)		();				
-	using gtPluginGetExtension_t	= s8*(GT_CDECL*)		( u32 id );				
-	using gtPluginLoadImage_t		= bool(GT_CDECL*)		(gtImage*,gtString*);	
-	using gtPluginLoadModel_t		= gtModel*(GT_CDECL*)	(gtString*);			
+	using gtGetPluginInfo			= void(GT_CDECL*)		        (gtPluginInfo&);		
+	using gtLoadGPUDriver_t			= gtGraphicsSystem*(GT_CDECL*)	(gtGraphicsSystemInfo);
+	using gtLoadPhysicsPlugin_t		= gtPhysicsSystem*(GT_CDECL*)	(gtGraphicsSystemInfo);
+	using gtLoadAudioDriver_t		= gtAudioSystem*(GT_CDECL*)     ();
+	using gtLoadInputDriver_t		= gtInputController*(GT_CDECL*) ();
+	using gtPluginGetExtCount_t		= u32(GT_CDECL*)				();				
+	using gtPluginGetExtension_t	= s8*(GT_CDECL*)				( u32 id );				
+	using gtPluginLoadImage_t		= bool(GT_CDECL*)				(gtImage*,gtString*);	
+	using gtPluginLoadModel_t		= gtModel*(GT_CDECL*)			(gtString*);			
 	
+	class gtPluginPhysics;
 	class gtPluginRender;
 	class gtPluginImportImage;
 	class gtPluginImportModel;
@@ -35,12 +38,15 @@ namespace gost{
 
 	class gtPluginSystem : public gtRefObject{
 	public:
-
-		virtual u32	getNumOfPlugins() = 0;
-
+		virtual u32	        getNumOfPlugins() = 0;
 		virtual gtPlugin*	getPlugin( const GT_GUID& uid ) = 0;
-
 		virtual gtPlugin*	getPlugin( u32 id ) = 0;
+		
+		gtPluginPhysics * getAsPluginPhysics( gtPlugin * plugin ){
+			if( plugin->getInfo().m_info.m_type == gtPluginType::Physics )
+				return reinterpret_cast<gtPluginPhysics*>(plugin);
+			return nullptr;
+		}
 
 		gtPluginImportImage * getAsPluginImportImage( gtPlugin * plugin ){
 			if( plugin->getInfo().m_info.m_type == gtPluginType::Import_image )
@@ -74,116 +80,72 @@ namespace gost{
 
 	};
 
-	class gtPluginRender : public gtPlugin{
+	#define GT_DEFINE_DEFAULT_PLUGIN_METHODS void load();\
+		void unload();\
+		const gtPluginInfoDL& getInfo();\
+		bool checkLibraryFunctions()
+
+	class gtPluginPhysics : public gtPlugin{
 	public:
-		gtPluginRender( gtPluginInfoDL* info );
+		GT_DEFINE_DEFAULT_PLUGIN_METHODS;
 
-			// d-tor
-		~gtPluginRender();
-
-		gtLoadGPUDriver_t loadDriverProc/*(const gtGraphicsSystemInfo& params)*/;
-
+		gtPluginPhysics( gtPluginInfoDL* info );
+		~gtPluginPhysics();
+		gtLoadGPUDriver_t          loadDriverProc/*(const gtGraphicsSystemInfo& params)*/;
 		virtual gtGraphicsSystem * loadDriver( const gtGraphicsSystemInfo& params );
-
-		void load();
-
-		void unload();
-
-		const gtPluginInfoDL&	getInfo();
-
-		bool checkLibraryFunctions();
 	};
 
-		// audio plugin
+	class gtPluginRender : public gtPlugin{
+	public:
+		GT_DEFINE_DEFAULT_PLUGIN_METHODS;
+
+		gtPluginRender( gtPluginInfoDL* info );
+		~gtPluginRender();
+		gtLoadGPUDriver_t          loadDriverProc/*(const gtGraphicsSystemInfo& params)*/;
+		virtual gtGraphicsSystem * loadDriver( const gtGraphicsSystemInfo& params );
+	};
+
 	class gtPluginAudio : public gtPlugin{
 	public:
-			// c-tor
+		GT_DEFINE_DEFAULT_PLUGIN_METHODS;
+
 		gtPluginAudio( gtPluginInfoDL* info );
-
-			// d-tor
 		~gtPluginAudio();
-
-		gtLoadAudioDriver_t loadAudioDriverProc;
-
+		gtLoadAudioDriver_t    loadAudioDriverProc;
 		virtual gtAudioSystem* loadAudioDriver();
-
-		void load();
-
-		void unload();
-
-		const gtPluginInfoDL&	getInfo();
-
-		bool checkLibraryFunctions();
 	};
 
 	class gtPluginInput : public gtPlugin{
 	public:
-			// c-tor
+		GT_DEFINE_DEFAULT_PLUGIN_METHODS;
+
 		gtPluginInput( gtPluginInfoDL* info );
-
-			// d-tor
 		~gtPluginInput();
-
-		gtLoadInputDriver_t loadInputDriverProc;
-
+		gtLoadInputDriver_t        loadInputDriverProc;
 		virtual gtInputController* loadInputDriver();
-
-		void load();
-
-		void unload();
-
-		const gtPluginInfoDL&	getInfo();
-
-		bool checkLibraryFunctions();
 	};
 
-	class gtPluginImportModel : public gtPlugin{
+	class gtPluginImportModel GT_FINAL : public gtPlugin{
 	public:
+		GT_DEFINE_DEFAULT_PLUGIN_METHODS;
 
-			// c-tor
 		gtPluginImportModel( gtPluginInfoDL* info );
-
-			// d-tor
 		~gtPluginImportModel();
-		
-		gtPluginLoadModel_t f_loadModel;
-
-		void load();
-
-		void unload();
-
-		const gtPluginInfoDL&	getInfo();
-
-		bool checkLibraryFunctions();
-
-		gtArray<gtString> m_extensions;
-
-		virtual gtModel * loadModel( gtString* fileName );
+		gtPluginLoadModel_t   f_loadModel;
+		gtArray<gtString>     m_extensions;
+		virtual gtModel *     loadModel( gtString* fileName );
 	};
 
 
 	class gtPluginImportImage : public gtPlugin{
 	public:
+		GT_DEFINE_DEFAULT_PLUGIN_METHODS;
 
-			// c-tor
 		gtPluginImportImage( gtPluginInfoDL* info );
-
-			// d-tor
 		~gtPluginImportImage();
-
-		gtPluginLoadImage_t f_loadImage/*(gtImage*im,gtString*fileName)*/;
-		
-		void load();
-
-		void unload();
-
-		const gtPluginInfoDL&	getInfo();
-
-		bool checkLibraryFunctions();
-
-		gtArray<gtString> m_extensions;
-
-		virtual void loadImage( gtString* fileName, gtImage** im );
+		gtPluginLoadImage_t   f_loadImage/*(gtImage*im,gtString*fileName)*/;
+		gtArray<gtString>     m_extensions;
+		virtual void          loadImage( gtString* fileName, gtImage** im );
 	};
 }
 

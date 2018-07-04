@@ -255,7 +255,6 @@
     <ClInclude Include="..\..\include\Common\gtTypes.h" />
     <ClInclude Include="..\..\include\Common\gtUtilities.h" />
     <ClInclude Include="..\..\include\Common\iSqrt_table.hpp" />
-    <ClInclude Include="..\..\include\Common\gtMemorySystem.h" />
     <ClInclude Include="..\..\include\FileSystem\gtFileSystem.h" />
     <ClInclude Include="..\..\include\FileSystem\gtXMLDocument.h" />
     <ClInclude Include="..\..\include\gost.h" />
@@ -282,6 +281,8 @@
     <ClInclude Include="..\..\include\MainSystem\gtTimer.h" />
     <ClInclude Include="..\..\include\MainSystem\gtWindow.h" />
     <ClInclude Include="..\..\include\MainSystem\gtWindowInfo.h" />
+    <ClInclude Include="..\..\include\MemorySystem\gtMemorySystem.h" />
+    <ClInclude Include="..\..\include\PhysicsSystem\gtPhysicsSystem.h" />
     <ClInclude Include="..\..\include\PluginSystem\gtPlugin.h" />
     <ClInclude Include="..\..\include\PluginSystem\gtPluginSystem.h" />
     <ClInclude Include="..\..\include\SceneSystem\gtCamera.h" />

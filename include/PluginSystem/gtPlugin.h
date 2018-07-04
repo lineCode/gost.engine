@@ -12,12 +12,11 @@ namespace gost{
 		Audio,
 		Export_image,
 		Export_model,
-		Input
+		Input,
+		Physics
 	};
 
 	struct gtPluginInfo{
-
-			// c-tor
 		gtPluginInfo():
 			m_type( gtPluginType::Unknown ),
 			m_version( gtConst0U ),
@@ -32,24 +31,15 @@ namespace gost{
 		}
 
 		gtPluginType m_type;
-
-		gtString m_name;
-
-		gtString m_author;
-
-		gtString m_url;
-
-		gtString m_email;
-
-		gtString m_company;
-
-		gtString m_description;
-
-		GT_GUID m_GUID;
-
-		u32 m_version;
-
-		u32 m_build;
+		gtString     m_name;
+		gtString     m_author;
+		gtString     m_url;
+		gtString     m_email;
+		gtString     m_company;
+		gtString     m_description;
+		GT_GUID      m_GUID;
+		u32          m_version;
+		u32          m_build;
 
 	};
 
@@ -57,12 +47,7 @@ namespace gost{
 	*/
 	struct gtPluginInfoDL{
 
-			// c-tor
-		gtPluginInfoDL():
-			m_handle( nullptr )
-		{}
-
-			// d-tor
+		gtPluginInfoDL(): m_handle( nullptr ) {}
 		~gtPluginInfoDL(){}
 
 		gtString m_path;
@@ -80,29 +65,19 @@ namespace gost{
 	
 	class gtPlugin : public gtRefObject{
 	protected:
-
 		gtPluginInfoDL	m_info;
-
-		bool m_isLoad;
+		bool            m_isLoad;
 
 	public:
 
-			// c-tor
-		gtPlugin():
-			m_isLoad( false )
-		{}
-
-			// d-tor
-		virtual ~gtPlugin(){	}
+		gtPlugin(): m_isLoad( false ){}
+		virtual ~gtPlugin(){}
 
 		bool isLoad() const { return m_isLoad; }
 
 		virtual void load() = 0;
-
 		virtual void unload() = 0;
-
 		virtual const gtPluginInfoDL&	getInfo() = 0;
-
 		virtual bool checkLibraryFunctions() = 0;
 
 	};

@@ -1185,6 +1185,7 @@ void demo::DemoApplication::inputMainMenu(){
 	}
 
 	if( inputGamepadMainMenuStart() ){
+		ShowMenu();
 		m_isPause = true;
 		updatePauseMainMenu();
 		playAudio(DemoAudioType::Cancel);
