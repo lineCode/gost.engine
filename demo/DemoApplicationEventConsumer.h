@@ -5,16 +5,26 @@
 namespace demo{
 
 	class DemoApplication;
+
 	struct DemoApplicationContext{
 		DemoApplication *	app;
+		s32 * activeDemoTypeSelected;
+		s32 * activeDemoType;
+		s32 * activeDemoSelected;
+		s32 * currentDemoColonIndex;
+		s32 * pauseMainMenuSelectedId;
+		s32   demoArraySize;
+
+		v4i   oldWindowSize;
 	};
 
 	class DemoApplicationEventConsumer : public gtEventConsumer {
-		DemoApplicationContext  m_context;
 		bool	m_keys[ 256u ];
 	public:
 		DemoApplicationEventConsumer( DemoApplicationContext c );
 		~DemoApplicationEventConsumer();
+
+		DemoApplicationContext  m_context;
 
 		void processEvent( const gtEvent& ev );
 

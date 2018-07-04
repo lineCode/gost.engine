@@ -71,6 +71,8 @@ namespace gost{
 	public:
 	
 		virtual void addEvent( const gtEvent& ev, u8 prior = gtConst0U ) = 0;
+		virtual bool checkEventType( const gtEvent& ev ) = 0;
+		virtual bool checkEvent( gtEvent& ev, bool(*compare_function)( gtEvent& current_event, gtEvent& user_event ) ) = 0;
 		virtual gtPtr<gtAudioSystem>    createAudioSystem( const GT_GUID& uid ) = 0;
 		virtual gtPtr<gtMutex>          createMutex() = 0;
 		virtual gtPtr<gtThread>         createThread() = 0;

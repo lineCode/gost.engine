@@ -42,7 +42,15 @@ namespace gost{
 	enum class gtEventGUIAction : u32 {
 		MouseEnter,
 		MouseMove,
-		MouseLeave
+		MouseLeave,
+		MouseLeftButtonDown,
+		MouseLeftButtonUp,
+		MouseLeftButtonDouble,
+		MouseRightButtonDown,
+		MouseRightButtonUp,
+		MouseRightButtonDouble,
+		MouseMiddleButtonDown,
+		MouseMiddleButtonUp
 	};
 
 	struct gtEventGUI{

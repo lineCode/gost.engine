@@ -71,6 +71,10 @@ bool gtEventSystem::pollEvent( gtEvent& event ){
 	return true;
 }
 
+const gtEvent& gtEventSystem::getEvent( u32 id ) const {
+	return m_events[ id ];
+}
+
 void gtEventSystem::runEventLoop(){
 
 	while( true ){

@@ -15,7 +15,7 @@ namespace gost{
 		virtual void*	getHandle() = 0;
 
 		virtual const v4i&		getRect() = 0;
-
+		virtual const v4i&		getClientRect() = 0;
 		virtual const gtWindowInfo& getWindowInfo() = 0;
 		
 		virtual void   setOnMove( void(*)(void) ) = 0;

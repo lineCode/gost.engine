@@ -39,6 +39,7 @@ namespace gost{
 
 		void				addEvent( const gtEvent&, u8 prior );
 
+		const gtEvent&		getEvent( u32 id ) const ;
 	//	bool				isLMBDown();
 	//	bool				isRMBDown();
 	//	bool				isMMBDown();

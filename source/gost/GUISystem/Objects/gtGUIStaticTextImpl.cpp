@@ -107,7 +107,7 @@ void gtGUIStaticTextImpl::setText( const gtString& text ){
 		if( textSize ){
 
 			auto params = m_gs->getParams();
-			auto bbsz = params.m_outWindow->getRect();
+			auto bbsz = params.m_outWindow->getClientRect();
 
 			gtVertexType vt[ 4 ] = {
 				gtVertexType::Position,
@@ -281,10 +281,10 @@ void gtGUIStaticTextImpl::updateBackground(){
 	}
 
 	m_activeArea = v4i( 
-			m_position.x-gtConst10U,
-			m_position.y - (s32)m_height - gtConst3U,
-			(m_position.x + (s32)m_length)+gtConst10U,
-			m_position.y + gtConst3U
+			m_position.x,
+			m_position.y - (s32)m_height,
+			(m_position.x + (s32)m_length),
+			m_position.y
 		);
 
 	m_backgroundShape = m_gui->createShapeRectangle( 

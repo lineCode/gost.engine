@@ -9,8 +9,8 @@ namespace gost{
 	class gtWindowCommon : public gtWindow{
 	protected:
 
-		gtWindowInfo m_params;
-
+		gtWindowInfo	m_params;
+		v4i				m_clientRect;
 		void (*f_onMove)();
 		void (*f_onSize)();
 
@@ -19,6 +19,7 @@ namespace gost{
 		virtual ~gtWindowCommon();
 
 		const v4i&			getRect();
+		const v4i&			getClientRect();
 		const gtWindowInfo& getWindowInfo();
 
 		void setOnMove( void(*)() );

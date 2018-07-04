@@ -38,8 +38,16 @@ m_currentDemoColonIndex( 0 ),
 m_state( DemoState::MainMenu ),
 m_delta( 0.f ){
 
+	memset( m_rightColonEntity, 0, sizeof(gtPtr<gtGUITextField>) * 24u );
+
 	demo::DemoApplicationContext context;
 	context.app = this;
+	context.activeDemoTypeSelected = &m_activeDemoTypeSelected;
+	context.activeDemoType = &m_activeDemoType;
+	context.activeDemoSelected = &m_activeDemoSelected;
+	context.currentDemoColonIndex = &m_currentDemoColonIndex;
+	context.pauseMainMenuSelectedId = &m_pauseMainMenuSelectedId;
+
 	m_eventConsumer = new demo::DemoApplicationEventConsumer( context );
 
 #ifdef GT_PLATFORM_WIN32
@@ -109,6 +117,15 @@ bool demo::DemoApplication::Init(){
 	m_gamepadSystem	=	m_mainSystem->getInputSystem()->createInputContoller( GT_UID_INPUT_DINPUT );
 
 	addDemo( DEMO_COMMON, demo::DemoElement( u"14", u"15" ) );
+	addDemo( DEMO_COMMON, demo::DemoElement( u"3", u"3" ) );
+	addDemo( DEMO_COMMON, demo::DemoElement( u"14", u"15" ) );
+	addDemo( DEMO_COMMON, demo::DemoElement( u"3", u"3" ) );
+	addDemo( DEMO_COMMON, demo::DemoElement( u"14", u"15" ) );
+	addDemo( DEMO_COMMON, demo::DemoElement( u"3", u"3" ) );
+	addDemo( DEMO_COMMON, demo::DemoElement( u"14", u"15" ) );
+	addDemo( DEMO_COMMON, demo::DemoElement( u"3", u"3" ) );
+	addDemo( DEMO_COMMON, demo::DemoElement( u"14", u"15" ) );
+	addDemo( DEMO_COMMON, demo::DemoElement( u"3", u"3" ) );
 	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"22", u"23", true, new DemoExample_Camera( this ) ) );
 	addDemo( DEMO_OTHER, demo::DemoElement( u"20", u"21", true, new DemoExample_GetSupportedImportFormats( this ) ) );
 
@@ -159,10 +176,10 @@ bool demo::DemoApplication::initEngine(){
 }
 
 bool demo::DemoApplication::initWindow(){
-//	m_windowInfo.m_style |= gtWindowInfo::popup;
 	m_windowInfo.m_style |= gtWindowInfo::maximize;
     m_windowInfo.m_style |= gtWindowInfo::resize;
 	m_windowInfo.m_style |= gtWindowInfo::center;
+	//m_windowInfo.m_style = gtWindowInfo::popup;
 	
 	// make ~1600/900 aspect ration
 	v2i screenSize = m_mainSystem->getScreenSize();
@@ -185,6 +202,8 @@ bool demo::DemoApplication::initWindow(){
 
 	m_mainWindow->setOnMove( RedrawWindow );
 	m_mainWindow->setOnSize( RedrawWindow );
+
+	m_eventConsumer->m_context.oldWindowSize = m_windowInfo.m_rect;
 
 	return true;
 }
@@ -238,23 +257,37 @@ bool demo::DemoApplication::initMainMenu(){
 	m_pauseBackgroundShape->setOpacity( 0.f );
 
 	m_pauseTextContinueShape = m_guiSystem->createTextField( v4i(centerx-48,centery-98,centerx+148,0), m_mainFont.data(), false );
-	m_pauseTextContinueShape->setTextColor( gtColorLightGray );
+	if( m_pauseTextContinueShape ){
+		m_pauseTextContinueShape->setTextColor( gtColorLightGray );
+		m_guiSystem->addToUserInput( m_pauseTextContinueShape.data(), DEMO_GUI_ID_PAUSE_CONTINUE );
+	}
 
 	m_pauseTextSettingsShape = m_guiSystem->createTextField( v4i(centerx-48,m_pauseTextContinueShape->getRect().w,centerx+148,0), m_mainFont.data(), false );
+	if( m_pauseTextSettingsShape ){
+		m_guiSystem->addToUserInput( m_pauseTextSettingsShape.data(), DEMO_GUI_ID_PAUSE_SETTINGS );
+	}
+
 	m_pauseTextMainMenuShape = m_guiSystem->createTextField( v4i(centerx-48,m_pauseTextContinueShape->getRect().w,centerx+148,0), m_mainFont.data(), false );
+	if( m_pauseTextMainMenuShape ){
+		m_guiSystem->addToUserInput( m_pauseTextMainMenuShape.data(), DEMO_GUI_ID_PAUSE_MAIN_MENU );
+	}
 	
 	m_pauseTextExitShape = m_guiSystem->createTextField( v4i(centerx-48,m_pauseTextSettingsShape->getRect().w,centerx+148,0), m_mainFont.data(), false );
+	if( m_pauseTextExitShape ){
+		m_guiSystem->addToUserInput( m_pauseTextExitShape.data(), DEMO_GUI_ID_PAUSE_EXIT );
+	}
 
 	m_pauseTextSettingsShape->setBackgroundColor( gtColorLightGray );
 	m_pauseTextSettingsShape->setTextColor( gtColorBlack );
 	m_pauseTextMainMenuShape->setBackgroundColor( gtColorLightGray );
 	m_pauseTextMainMenuShape->setTextColor( gtColorBlack );
-
+	 
 
 	m_pauseTextExitShape->setBackgroundColor( gtColorLightGray );
 	m_pauseTextExitShape->setTextColor( gtColorBlack );
 
 	m_pauseShape = m_guiSystem->createShapeRectangle( v4i(centerx-50,centery-100,centerx+150,m_pauseTextExitShape->getRect().w), gtColorLightGray );
+	//m_pauseShape = m_guiSystem->createShapeRectangle( v4i( 300, 100, 600,300), gtColorLightGray );
 	m_pauseShape->setOpacity( 0.f );
 
 	m_settingsBackgroundShape = m_guiSystem->createShapeRectangle( v4i(centerx-50,centery-100,centerx+350,centery+200), gtColorLightGray );
@@ -281,7 +314,23 @@ bool demo::DemoApplication::initMainMenu(){
 	m_settingsTextSound->setOpacity( 0.f );
 	m_settingsTextSoundUse->setOpacity( 0.f );
 
+	HideMenu();
+
 	return rebuildMainMenu();
+}
+
+void demo::DemoApplication::HideMenu(){
+	if( m_pauseTextContinueShape ){ m_pauseTextContinueShape->setVisible( false ); }
+	if( m_pauseTextSettingsShape ){ m_pauseTextSettingsShape->setVisible( false ); }
+	if( m_pauseTextMainMenuShape ){ m_pauseTextMainMenuShape->setVisible( false ); }
+	if( m_pauseTextExitShape ){ m_pauseTextExitShape->setVisible( false ); }
+}
+
+void demo::DemoApplication::ShowMenu(){
+	if( m_pauseTextContinueShape ){ m_pauseTextContinueShape->setVisible( true ); }
+	if( m_pauseTextSettingsShape ){ m_pauseTextSettingsShape->setVisible( true ); }
+	if( m_pauseTextMainMenuShape ){ m_pauseTextMainMenuShape->setVisible( true ); }
+	if( m_pauseTextExitShape ){ m_pauseTextExitShape->setVisible( true ); }
 }
 
 bool demo::DemoApplication::initStrings(){
@@ -359,6 +408,13 @@ void demo::DemoApplication::RebuildGUI(){
 	}
 }
 
+void demo::DemoApplication::RefreshGUI(){
+	if( m_isPause ){
+		updatePauseMainMenu();
+	}else
+		updateColons();
+}
+
 void demo::DemoApplication::rebuildMainMenuColons(){
 
 	if( !m_welcomeText.data() ) return;
@@ -371,11 +427,19 @@ void demo::DemoApplication::rebuildMainMenuColons(){
 		rc.y = top;
 		rc.z = 200;
 
-		m_leftColonEntity[ i ] = m_guiSystem->createTextField( rc, m_mainFont.data(), false );
-		m_leftColonEntity[ i ]->setText( m_stringArray[ m_languageID ].m_stringArray[ i + gtConst1U ].m_second );
-		m_leftColonEntity[ i ]->getBackgroundShape()->setOpacity( 0.f );
+		if( m_leftColonEntity[ i ] )
+			m_guiSystem->removeFromUserInput( m_leftColonEntity[ i ].data() );
 
-		top = m_leftColonEntity[ i ]->getRect().w-1;
+		m_leftColonEntity[ i ] = m_guiSystem->createTextField( rc, m_mainFont.data(), false );
+
+		if( m_leftColonEntity[ i ] ){
+			m_leftColonEntity[ i ]->setText( m_stringArray[ m_languageID ].m_stringArray[ i + gtConst1U ].m_second );
+			m_leftColonEntity[ i ]->getBackgroundShape()->setOpacity( 0.f );
+
+			top = m_leftColonEntity[ i ]->getRect().w-1;
+
+			m_guiSystem->addToUserInput( m_leftColonEntity[ i ].data(), DEMO_GUI_ID_LEFT_COLON + i );
+		}
 	}
 
 	m_rightColonDefaultRect = v4i( 8, r.w + 48, 202, top + 2 );
@@ -389,8 +453,11 @@ void demo::DemoApplication::rebuildMainMenuColons(){
 	m_rightColonShape->setOpacity( 0.f );
 
 	m_rightColonDefaultText = m_guiSystem->createTextField( m_rightColonDefaultRect, m_mainFont.data(), false );
-	m_rightColonDefaultText->setText( getString( u"16" ) );
+	if( m_rightColonDefaultText ){
+		m_rightColonDefaultText->setText( getString( u"16" ) );
+	}
 	m_rightColonDefaultText->setTextColor( gtColorLightGray );
+	
 
 	top = r.w+50;
 	for( u32 i = gtConst0U; i < 24u; ++i ){
@@ -399,12 +466,20 @@ void demo::DemoApplication::rebuildMainMenuColons(){
 		rc.y = top;
 		rc.z = 500;
 
-		m_rightColonEntity[ i ] = m_guiSystem->createTextField( rc, m_mainFont.data(), false );
-		m_rightColonEntity[ i ]->setText( u" " );
-		m_rightColonEntity[ i ]->getBackgroundShape()->setOpacity( 0.f );
-		m_rightColonEntity[ i ]->setTextColor( gtColorLightGray );
+		if( m_rightColonEntity[ i ] )
+			m_guiSystem->removeFromUserInput( m_rightColonEntity[ i ].data() );
 
-		top = m_rightColonEntity[ i ]->getRect().w-1;
+		m_rightColonEntity[ i ] = m_guiSystem->createTextField( rc, m_mainFont.data(), false );
+
+		if( m_rightColonEntity[ i ] ){
+			m_rightColonEntity[ i ]->setText( u" " );
+			m_rightColonEntity[ i ]->getBackgroundShape()->setOpacity( 0.f );
+			m_rightColonEntity[ i ]->setTextColor( gtColorLightGray );
+
+			top = m_rightColonEntity[ i ]->getRect().w-1;
+
+			m_guiSystem->addToUserInput( m_rightColonEntity[ i ].data(), DEMO_GUI_ID_RIGHT_COLON + i );
+		}
 	}
 
 	r = m_rightColonEntity[ 0 ]->getRect();
@@ -433,7 +508,7 @@ bool demo::DemoApplication::rebuildMainMenu(){
 
 	if( !m_gs ) return true;
 
-	v4i wndrc = m_mainWindow->getRect();
+	v4i wndrc = m_mainWindow->getClientRect();
 
 	f32 wndH = (f32)wndrc.getHeight();
 	f32 wndW = (f32)wndrc.getWidth();
@@ -486,18 +561,19 @@ bool demo::DemoApplication::rebuildMainMenu(){
 		gamepadColor = gtColor( gtColorGreen );
 	
 	m_gamepadiconShape	= m_guiSystem->createShapeRectangle( gprc, gamepadColor );
-	if( !m_gamepadiconShape.data() ){
-		gtLogWriter::printError( u"Can not create gamepad icon shape." );
-		return false;
-	}
-	if( m_gamepadTexture ){
-		m_gamepadiconShape->setTexture( m_gamepadTexture );
-	}else{
-		m_gamepadiconShape->setColor( gtColor( gtColorBlack ) );
+	if( m_gamepadiconShape ){
+		if( m_gamepadTexture ){
+			m_gamepadiconShape->setTexture( m_gamepadTexture );
+		}else{
+			m_gamepadiconShape->setColor( gtColor( gtColorBlack ) );
+		}
+
 	}
 	
-	if( !m_gamepad )
-		m_gamepadiconShape->setOpacity( 0.25f );
+	if( !m_gamepad ){
+		if( m_gamepadiconShape )
+			m_gamepadiconShape->setOpacity( 0.25f );
+	}
 
 	if( m_mainFont.data() ){
 
@@ -513,6 +589,38 @@ bool demo::DemoApplication::rebuildMainMenu(){
 
 		m_guiSystem->addToUserInput( m_welcomeText.data(), DEMO_GUI_ID_WELCOME_TEXT );
 
+	}
+
+	if( m_pauseTextContinueShape ){
+
+		auto new_windowRect = m_gs->getParams().m_outWindow->getClientRect();
+
+		f32 H = (f32)new_windowRect.getHeight() / (f32)m_eventConsumer->m_context.oldWindowSize.getHeight();
+		f32 W = (f32)new_windowRect.getWidth() / (f32)m_eventConsumer->m_context.oldWindowSize.getWidth();
+
+		v4i area = m_pauseTextContinueShape->getActiveArea();
+		area.x *= W;		area.z *= W;		area.y *= H;		area.w *= H;
+		m_pauseTextContinueShape->setActiveArea( area );
+
+		if( m_pauseTextSettingsShape ){
+			area = m_pauseTextSettingsShape->getActiveArea();
+			area.x *= W;		area.z *= W;		area.y *= H;		area.w *= H;
+			m_pauseTextSettingsShape->setActiveArea( area );
+		}
+
+		if( m_pauseTextMainMenuShape ){
+			area = m_pauseTextMainMenuShape->getActiveArea();
+			area.x *= W;		area.z *= W;		area.y *= H;		area.w *= H;
+			m_pauseTextMainMenuShape->setActiveArea( area );
+		}
+
+		if( m_pauseTextExitShape ){
+			area = m_pauseTextExitShape->getActiveArea();
+			area.x *= W;		area.z *= W;		area.y *= H;		area.w *= H;
+			m_pauseTextExitShape->setActiveArea( area );
+		}
+
+		m_eventConsumer->m_context.oldWindowSize = new_windowRect;
 	}
 
 
@@ -736,13 +844,17 @@ void demo::DemoApplication::ActivateGamepad( bool value, gtInputDevice* g ){
 	if( value ){
 		if( !m_gamepad ){
 			m_gamepad = g;
-			m_gamepadiconShape->setColor( gtColorGreen );
-			m_gamepadiconShape->setOpacity( 1.f );
+			if( m_gamepadiconShape ){
+				m_gamepadiconShape->setColor( gtColorGreen );
+				m_gamepadiconShape->setOpacity( 1.f );
+			}
 		}
 	}else{
 		m_gamepad = nullptr;
-		m_gamepadiconShape->setColor( gtColorWhite );
-		m_gamepadiconShape->setOpacity( 0.25f );
+		if( m_gamepadiconShape ){
+			m_gamepadiconShape->setColor( gtColorWhite );
+			m_gamepadiconShape->setOpacity( 0.25f );
+		}
 	}
 }
 
@@ -801,6 +913,9 @@ void demo::DemoApplication::updateColons(){
 				rc.y = top;
 				rc.z = 500;
 
+				if( m_rightColonEntity[ actualIndex ] )
+					m_guiSystem->removeFromUserInput( m_rightColonEntity[ actualIndex ].data() );
+
 				m_rightColonEntity[ actualIndex ] = m_guiSystem->createTextField( rc, m_mainFont.data(), false );
 				m_rightColonEntity[ actualIndex ]->setFont( m_mainFont.data() );
 
@@ -810,6 +925,8 @@ void demo::DemoApplication::updateColons(){
 				m_rightColonEntity[ actualIndex ]->setTextColor( gtColorLightGray );
 
 				top = m_rightColonEntity[ actualIndex ]->getRect().w-1;
+
+				m_guiSystem->addToUserInput( m_rightColonEntity[ actualIndex ].data(), DEMO_GUI_ID_RIGHT_COLON + actualIndex );
 			}
 
 		}else{
@@ -830,10 +947,16 @@ void demo::DemoApplication::updateColons(){
 			rc.y = m_rightColonEntity[ gtConst0U ]->getRect().y;
 			u32 sz = m_demoArrays[ m_activeDemoTypeSelected ].size();
 
-			if( m_activeDemoSelected == sz ){
-				m_activeDemoSelected = 0;
-				m_rightColonFirstID = 0;
-				m_currentDemoColonIndex = 0;
+			m_eventConsumer->m_context.demoArraySize = sz;
+
+			if( m_activeDemoSelected >= (s32)sz ){
+				if( sz > 23u ){
+					m_activeDemoSelected = 0;
+					m_rightColonFirstID = 0;
+					m_currentDemoColonIndex = 0;
+				}{
+					m_activeDemoSelected = m_currentDemoColonIndex = sz - 1u;
+				}
 			}else if( m_activeDemoSelected < 0 ){
 				m_activeDemoSelected = sz - 1;
 			}
@@ -844,7 +967,8 @@ void demo::DemoApplication::updateColons(){
 						m_currentDemoColonIndex = 23;
 						m_rightColonFirstID = m_activeDemoSelected - 23;
 					}else{
-						m_currentDemoColonIndex = 0;
+						//m_currentDemoColonIndex = 0;
+						m_currentDemoColonIndex = sz - 1u;
 					}
 				}else{
 					m_currentDemoColonIndex = 0;
@@ -921,6 +1045,7 @@ void demo::DemoApplication::inputMainMenuPause(){
 			
 			m_isSettings = false;
 		}else{
+			HideMenu();
 			m_isPause = false;
 			xmlSaveSettings();
 			m_pauseMainMenuSelectedId = 0;
@@ -1001,8 +1126,7 @@ void demo::DemoApplication::inputMainMenuPause(){
 	if( m_eventConsumer->keyDown( gtKey::K_ENTER ) || inputGamepadMainMenuEnter() ){
 		playAudio(DemoAudioType::Accept);
 		if( m_pauseMainMenuSelectedId == 0 ){
-			m_isPause = false;
-			xmlSaveSettings();
+			ReturnToMainMenu();
 		}else if( m_pauseMainMenuSelectedId == 1 ){
 			m_settingsBackgroundShape->setOpacity();
 			m_settingsTextLanguage->setOpacity();
@@ -1012,17 +1136,48 @@ void demo::DemoApplication::inputMainMenuPause(){
 			m_isSettings = true;
 
 		}else if( m_pauseMainMenuSelectedId == 2 ){
-			xmlSaveSettings();
-			m_mainSystem->shutdown();
+			TerminateProgram();
 		}
+	}
+}
+
+void demo::DemoApplication::ReturnToMainMenu(){
+	playAudio(DemoAudioType::Accept);
+	switch( m_state ){
+	case demo::DemoState::MainMenu:
+		if( m_isPause ){
+			m_isPause = false;
+			HideMenu();
+			xmlSaveSettings();
+		}
+		break;
+	case demo::DemoState::DemoMenu:
+		break;
+	case demo::DemoState::DemoRun:
+		break;
+	}
+}
+
+void demo::DemoApplication::TerminateProgram(){
+	playAudio(DemoAudioType::Accept);
+	switch( m_state ){
+	case demo::DemoState::MainMenu:
+		xmlSaveSettings();
+		m_mainSystem->shutdown();
+		break;
+	case demo::DemoState::DemoMenu:
+		break;
+	case demo::DemoState::DemoRun:
+		break;
 	}
 }
 
 void demo::DemoApplication::inputMainMenu(){
 	if( m_eventConsumer->keyDown( gtKey::K_ESCAPE ) ){
-		if( !m_activeDemoType )
+		if( !m_activeDemoType ){
 			m_isPause = true;
-		else{
+			ShowMenu();
+		}else{
 			--m_activeDemoType;
 			updateColons();
 		}

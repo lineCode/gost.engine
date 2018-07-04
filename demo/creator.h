@@ -6,6 +6,12 @@
 using namespace gost;
 
 constexpr u32 DEMO_GUI_ID_WELCOME_TEXT = 1u;
+constexpr u32 DEMO_GUI_ID_PAUSE_CONTINUE = 2u;
+constexpr u32 DEMO_GUI_ID_PAUSE_SETTINGS = 3u;
+constexpr u32 DEMO_GUI_ID_PAUSE_EXIT = 4u;
+constexpr u32 DEMO_GUI_ID_PAUSE_MAIN_MENU = 5u;
+constexpr u32 DEMO_GUI_ID_LEFT_COLON = 100u;
+constexpr u32 DEMO_GUI_ID_RIGHT_COLON = 200u;
 
 #include "DemoExample.h"
 #include "DemoElement.h"

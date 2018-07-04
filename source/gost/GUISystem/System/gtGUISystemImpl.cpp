@@ -36,6 +36,17 @@ void gtGUISystemImpl::removeFromUserInput( gtGUIObject * o ){
 	}
 }
 
+bool gtGUISystemImpl_compareEvent_callback_lmbDown( gtEvent& current_event, gtEvent& user_event ){ return current_event.mouseEvent.isLeftButtonDown(); }
+bool gtGUISystemImpl_compareEvent_callback_rmbDown( gtEvent& current_event, gtEvent& user_event ){ return current_event.mouseEvent.isRightButtonDown(); }
+bool gtGUISystemImpl_compareEvent_callback_mmbDown( gtEvent& current_event, gtEvent& user_event ){ return current_event.mouseEvent.isMiddleButtonDown(); }
+bool gtGUISystemImpl_compareEvent_callback_lmbUp( gtEvent& current_event, gtEvent& user_event )  { return current_event.mouseEvent.isLeftButtonUp();   }
+bool gtGUISystemImpl_compareEvent_callback_rmbUp( gtEvent& current_event, gtEvent& user_event )  { return current_event.mouseEvent.isRightButtonUp();   }
+bool gtGUISystemImpl_compareEvent_callback_mmbUp( gtEvent& current_event, gtEvent& user_event )  { return current_event.mouseEvent.isMiddleButtonUp();   }
+bool gtGUISystemImpl_compareEvent_callback_lmbDouble( gtEvent& current_event, gtEvent& user_event ){ return current_event.mouseEvent.isLeftButtonDouble(); }
+bool gtGUISystemImpl_compareEvent_callback_rmbDouble( gtEvent& current_event, gtEvent& user_event ){ return current_event.mouseEvent.isRightButtonDouble(); }
+
+
+
 void gtGUISystemImpl::updateInput(){
 	m_coords = m_inputSystem->getCursorPosition();
 	//printf("%i\t\t%i\n",m_coords.x,m_coords.y);
@@ -54,6 +65,40 @@ void gtGUISystemImpl::updateInput(){
 					e.GUIEvent.object = o.m_first;
 					m_mainSystem->addEvent( e );
 					o.m_first->setMouseEnter();
+				}
+
+				gtEvent findEvent;
+				findEvent.type = gtEventType::Mouse;
+
+				gtEvent em;
+				em.type = gtEventType::GUI;
+				em.GUIEvent.id = o.m_second;
+				em.GUIEvent.object = o.m_first;
+
+				if( m_mainSystem->checkEvent( findEvent, gtGUISystemImpl_compareEvent_callback_lmbDown ) ){
+					em.GUIEvent.action = gtEventGUIAction::MouseLeftButtonDown;
+					m_mainSystem->addEvent( em );
+				}else if( m_mainSystem->checkEvent( findEvent, gtGUISystemImpl_compareEvent_callback_lmbUp ) ){
+					em.GUIEvent.action = gtEventGUIAction::MouseLeftButtonUp;
+					m_mainSystem->addEvent( em );
+				}else if( m_mainSystem->checkEvent( findEvent, gtGUISystemImpl_compareEvent_callback_lmbDouble ) ){
+					em.GUIEvent.action = gtEventGUIAction::MouseLeftButtonDouble;
+					m_mainSystem->addEvent( em );
+				}else if( m_mainSystem->checkEvent( findEvent, gtGUISystemImpl_compareEvent_callback_rmbDown ) ){
+					em.GUIEvent.action = gtEventGUIAction::MouseRightButtonDown;
+					m_mainSystem->addEvent( em );
+				}else if( m_mainSystem->checkEvent( findEvent, gtGUISystemImpl_compareEvent_callback_rmbUp ) ){
+					em.GUIEvent.action = gtEventGUIAction::MouseRightButtonUp;
+					m_mainSystem->addEvent( em );
+				}else if( m_mainSystem->checkEvent( findEvent, gtGUISystemImpl_compareEvent_callback_rmbDouble ) ){
+					em.GUIEvent.action = gtEventGUIAction::MouseRightButtonDouble;
+					m_mainSystem->addEvent( em );
+				}else if( m_mainSystem->checkEvent( findEvent, gtGUISystemImpl_compareEvent_callback_mmbDown ) ){
+					em.GUIEvent.action = gtEventGUIAction::MouseMiddleButtonDown;
+					m_mainSystem->addEvent( em );
+				}else if( m_mainSystem->checkEvent( findEvent, gtGUISystemImpl_compareEvent_callback_mmbUp ) ){
+					em.GUIEvent.action = gtEventGUIAction::MouseMiddleButtonUp;
+					m_mainSystem->addEvent( em );
 				}
 
 				gtEvent e;

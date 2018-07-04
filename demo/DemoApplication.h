@@ -183,6 +183,7 @@ namespace demo{
 		void Run();
 
 		void RebuildGUI();
+		void RefreshGUI();
 		void ScanGamepads();
 		void ActivateGamepad( bool, gtInputDevice* d = nullptr );
 		void UpdateGamepad();
@@ -195,7 +196,8 @@ namespace demo{
 		void ShutdownDefaultScene();
 		
 		void Render();
-		
+		void HideMenu();
+		void ShowMenu();
 		void Pause();
 
 		bool inputGamepadMainMenuUp();
@@ -218,8 +220,11 @@ namespace demo{
 		bool update();
 
 		void StopDemo();
+		void ReturnToMainMenu();
+		void TerminateProgram();
 
 		static DemoApplication*	GetThis();
+
 	};
 
 }

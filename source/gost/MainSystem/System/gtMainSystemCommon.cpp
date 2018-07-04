@@ -131,6 +131,44 @@ void		gtMainSystemCommon::addEvent( const gtEvent& ev, u8 prior ){
 		m_events->addEvent( ev, prior );
 }
 
+bool gtMainSystemCommon::checkEventType( const gtEvent& ev ){
+	u32 cur = 0u;
+	while( true ){
+
+		auto event = m_events->getEvent( cur );
+
+		if( event.type == gtEventType::None )
+			break;
+
+		if( event.type == ev.type ){
+			return true;
+		}
+
+		++cur;
+	}
+	return false;
+}
+
+bool gtMainSystemCommon::checkEvent( gtEvent& ev, bool(*compare_function)( gtEvent& current_event, gtEvent& user_event ) ){
+	u32 cur = 0u;
+	while( true ){
+
+		auto event = m_events->getEvent( cur );
+
+		if( event.type == gtEventType::None )
+			break;
+
+		if( event.type == ev.type ){
+			if( compare_function( event, ev ) ){
+				return true;
+			}
+		}
+
+		++cur;
+	}
+	return false;
+}
+
 gtInputSystem*  gtMainSystemCommon::getInputSystem(){
 	return m_inputSystem.data();
 }

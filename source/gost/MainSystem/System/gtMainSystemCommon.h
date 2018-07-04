@@ -67,6 +67,8 @@ namespace gost{
 		gtPtr<gtImage>	loadImage( const gtString& fileName );
 		gtPtr<gtImage>	loadImage( const gtString& fileName, const GT_GUID& pluginGUID );
 		void			addEvent( const gtEvent&, u8 prior = gtConst0U );
+		bool			checkEventType( const gtEvent& ev );
+		bool			checkEvent( gtEvent& ev, bool(*compare_function)( gtEvent& current_event, gtEvent& user_event ) );
 		gtInputSystem*  getInputSystem();
 		gtModelSystem*	getModelSystem();
 		gtPluginSystem*	getPluginSystem();

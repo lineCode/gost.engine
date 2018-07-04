@@ -45,6 +45,11 @@ gtMaterial* gtGUIShapeImpl::getMaterial(){
 bool gtGUIShapeImpl::initRectangle( const v4i& rect, const gtColor& color ){
 	const u16 u[gtConst6U] = {0U,1U,2U,0U,2U,3U};
 	gtPtr<gtModel> soft = m_modelSystem->createEmpty( gtStrideStandart, &vt[ gtConst0U ] );
+	
+	auto ssz = m_gs->getParams().m_outWindow->getWindowInfo().m_borderSize;
+	auto offset_x = ssz.x + ssz.x;
+	auto offset_y = ssz.y;
+
 
 	if( soft.data() ){
 		auto * sub = soft->addSubModel( gtConst4U, gtConst6U, gtStrideStandart );
@@ -65,7 +70,7 @@ bool gtGUIShapeImpl::initRectangle( const v4i& rect, const gtColor& color ){
 		v4->pos.zero(); 
 
 		auto params = m_gs->getParams();
-		auto bbsz = params.m_outWindow->getRect();
+		auto bbsz = params.m_outWindow->getClientRect();
 
 		f32 px = (2.f/bbsz.getWidth());
 		f32 py = (2.f/bbsz.getHeight());
@@ -73,7 +78,7 @@ bool gtGUIShapeImpl::initRectangle( const v4i& rect, const gtColor& color ){
 		f32 centery = (bbsz.getHeight()*0.5f);
 
 		auto width = rect.z - rect.x;
-		auto height = rect.w - rect.y;
+		auto height = f32(rect.w - rect.y);
 
 		v1->pos.y -= height * py;
 		v1->uv.set( 0.f, 1.f );
@@ -107,6 +112,9 @@ bool gtGUIShapeImpl::initRectangle( const v4i& rect, const gtColor& color ){
 	}else{
 		gtLogWriter::printWarning( u"Can not create static text" );
 	}
+
+	m_activeArea = rect;
+
 	return true;
 }
 

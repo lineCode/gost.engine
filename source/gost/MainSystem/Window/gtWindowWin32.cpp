@@ -396,6 +396,10 @@ LRESULT CALLBACK gtWindowWin32::WndProc(HWND hWnd, UINT message, WPARAM wParam, 
 			GetWindowRect( hWnd, &rc );
 			pD->m_params.m_rect.set( rc.left, rc.top, rc.right, rc.bottom );
 
+			RECT crc;
+			GetClientRect( hWnd, &crc );
+			pD->m_clientRect.set( crc.left, crc.top, crc.right, crc.bottom );
+
 			if( pD->f_onSize ){
 				pD->f_onSize();
 			}
@@ -430,7 +434,6 @@ LRESULT CALLBACK gtWindowWin32::WndProc(HWND hWnd, UINT message, WPARAM wParam, 
 
 		ev.mouseEvent.x = LOWORD(lParam);
 		ev.mouseEvent.y = HIWORD(lParam);
-
 		if( wParam & MK_LBUTTON )		ev.mouseEvent.state.bits.b0 = true;
 		if( wParam & MK_RBUTTON )		ev.mouseEvent.state.bits.b2 = true;
 		if( wParam & MK_MBUTTON )		ev.mouseEvent.state.bits.b4 = true;

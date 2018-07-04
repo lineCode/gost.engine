@@ -177,12 +177,12 @@ void gtGUITextFieldImpl::update(){
 		bgop = m_backgroundShape->getOpacity();
 	}
 
-	auto rc = m_gs->getParams().m_outWindow->getRect();
+	auto rc = m_gs->getParams().m_outWindow->getClientRect();
 	auto wndH = rc.getHeight();
 	auto wndW = rc.getWidth();
 
 	auto params = m_gs->getParams();
-	auto bbsz = params.m_outWindow->getRect();
+	auto bbsz = params.m_outWindow->getClientRect();
 
 	f32 mulx = ((f32)m_gs->getParams().m_backBufferSize.x / (f32)wndW);
 	f32 muly = ((f32)m_gs->getParams().m_backBufferSize.y / (f32)wndH);
@@ -192,15 +192,12 @@ void gtGUITextFieldImpl::update(){
 	m_scissorRect.z = s32((f32)m_rect.z * mulx);
 	m_scissorRect.w = s32((f32)m_rect.w * muly);
 
-	m_activeArea = m_rect;
-
-	auto ssz = m_gs->getParams().m_outWindow->getWindowInfo().m_borderSize;
-	m_activeArea.z -= (ssz.x + ssz.x);
-
 	m_backgroundShape = m_gui->createShapeRectangle( m_rect, gtColor( 0.f, 0.f, 0.f, 1.f ) );
 	m_backgroundShape->setTexture( t1 );
 	m_backgroundShape->setColor( m_bgColor );
 	m_backgroundShape->setOpacity( bgop );
+
+	m_activeArea = m_backgroundShape->getActiveArea();
 }
 
 const v4i&	gtGUITextFieldImpl::getRect(){

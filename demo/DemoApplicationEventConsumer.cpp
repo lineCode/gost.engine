@@ -26,20 +26,49 @@ void demo::DemoApplicationEventConsumer::processEvent( const gtEvent& ev ){
 		case gtEventType::Window:{
 			processEventWindow( ev );
 		}break;
-	}
+	} 
 }
 
 void demo::DemoApplicationEventConsumer::processEventGUI( const gtEvent& ev ){
 	switch (ev.GUIEvent.action){
 	case gtEventGUIAction::MouseMove:{
-		if( ev.GUIEvent.id == DEMO_GUI_ID_WELCOME_TEXT ){
-		}
 	}break;
 	case gtEventGUIAction::MouseEnter:{
 		if( ev.GUIEvent.id == DEMO_GUI_ID_WELCOME_TEXT ){
 			auto text = (gtGUITextField*)ev.GUIEvent.object;
 			if( text ){
 				text->getBackgroundShape()->setOpacity( 1.f );
+				text->getBackgroundShape()->setColor( gtColorRed );
+			}
+		}else if( ev.GUIEvent.id > 99u && ev.GUIEvent.id < 199u ){
+			*m_context.activeDemoTypeSelected = ev.GUIEvent.id - 100u;
+			*m_context.currentDemoColonIndex = *m_context.activeDemoSelected = *m_context.activeDemoType = 0;
+			m_context.app->RefreshGUI();
+
+		}else if( ev.GUIEvent.id > 199u && ev.GUIEvent.id < 299u ){
+			*m_context.activeDemoSelected = ev.GUIEvent.id - 200u;
+			*m_context.currentDemoColonIndex = *m_context.activeDemoSelected;
+			*m_context.activeDemoType = 1;
+			m_context.app->RefreshGUI();
+
+		}else if( ev.GUIEvent.id == DEMO_GUI_ID_PAUSE_CONTINUE ){
+			auto text = (gtGUITextField*)ev.GUIEvent.object;
+			if( text ){
+				*m_context.pauseMainMenuSelectedId = 0;
+				m_context.app->RefreshGUI();
+			}
+
+		}else if( ev.GUIEvent.id == DEMO_GUI_ID_PAUSE_SETTINGS ){
+			auto text = (gtGUITextField*)ev.GUIEvent.object;
+			if( text ){
+				*m_context.pauseMainMenuSelectedId = 1;
+				m_context.app->RefreshGUI();
+			}
+		}else if( ev.GUIEvent.id == DEMO_GUI_ID_PAUSE_EXIT ){
+			auto text = (gtGUITextField*)ev.GUIEvent.object;
+			if( text ){
+				*m_context.pauseMainMenuSelectedId = 2;
+				m_context.app->RefreshGUI();
 			}
 		}
 	}break;
@@ -49,6 +78,26 @@ void demo::DemoApplicationEventConsumer::processEventGUI( const gtEvent& ev ){
 			if( text ){
 				text->getBackgroundShape()->setOpacity( 0.f );
 			}
+		}
+	}break;
+	case gtEventGUIAction::MouseLeftButtonDown:{
+		if( ev.GUIEvent.id == DEMO_GUI_ID_WELCOME_TEXT ){
+			auto text = (gtGUITextField*)ev.GUIEvent.object;
+			if( text ){
+				text->getBackgroundShape()->setColor( gtColorGreen );
+			}
+		}
+	}break;
+	case gtEventGUIAction::MouseLeftButtonUp:{
+		if( ev.GUIEvent.id == DEMO_GUI_ID_WELCOME_TEXT ){
+			auto text = (gtGUITextField*)ev.GUIEvent.object;
+			if( text ){
+				text->getBackgroundShape()->setColor( gtColorRed );
+			}
+		}else if( ev.GUIEvent.id == DEMO_GUI_ID_PAUSE_CONTINUE ){
+			m_context.app->ReturnToMainMenu();
+		}else if( ev.GUIEvent.id == DEMO_GUI_ID_PAUSE_EXIT ){
+			m_context.app->TerminateProgram();
 		}
 	}break;
 	}

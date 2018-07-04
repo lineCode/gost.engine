@@ -15,6 +15,10 @@ const v4i&		gtWindowCommon::getRect(){
 	return m_params.m_rect;
 }
 
+const v4i& gtWindowCommon::getClientRect(){
+	return m_clientRect;
+}
+
 const gtWindowInfo& gtWindowCommon::getWindowInfo(){
 	return m_params;
 }
