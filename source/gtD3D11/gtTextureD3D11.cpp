@@ -28,7 +28,7 @@ gtTextureD3D11::~gtTextureD3D11(){
 	}
 }
 
-bool gtTextureD3D11::init( gtImage* image, gtTextureFilterType filter ){
+bool gtTextureD3D11::init( gtImage* image ){
 
 	if( !image ) return false;
 
@@ -78,7 +78,7 @@ bool gtTextureD3D11::init( gtImage* image, gtTextureFilterType filter ){
 		return false;
 	}
 
-	hr = this->createSamplerState( (D3D11_FILTER)filter, D3D11_TEXTURE_ADDRESS_WRAP, 16u );
+	hr = this->createSamplerState( (D3D11_FILTER)m_gs->getParams().m_textureFilterType, D3D11_TEXTURE_ADDRESS_WRAP, 16u );
 	if( FAILED( hr ) ){
 		gtLogWriter::printWarning( u"Can't create sampler state" );
 		return false;

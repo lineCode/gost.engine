@@ -136,7 +136,7 @@ namespace gost{
 			gtVertexType * vertexType
 			);
 
-		gtPtr<gtTexture>	createTexture( gtImage*, gtTextureFilterType filter );
+		gtPtr<gtTexture>	createTexture( gtImage* );
 		gtPtr<gtRenderModel>	createModel( gtModel* );
 
 

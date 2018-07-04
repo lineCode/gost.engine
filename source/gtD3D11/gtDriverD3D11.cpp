@@ -434,7 +434,7 @@ void	gtDriverD3D11::createStandartTexture(){
 
 		image::fillCheckerBoard( i, false, gtColor(u8(255),48,224), gtColor(u8(0),0,0) );
 
-		m_standartTexture = this->createTexture( i, gtTextureFilterType::PPP );
+		m_standartTexture = this->createTexture( i );
 
 		//gtMainSystem::getInstance()->freeMemory( (void**)&i->data );
 		gtMemFree(i->data);
@@ -456,7 +456,7 @@ void	gtDriverD3D11::createStandartTexture(){
 
 		image::fillSolid( i, false, gtColor( 1.f ) );
 
-		m_standartTextureWhiteColor = this->createTexture( i, gtTextureFilterType::PPP );
+		m_standartTextureWhiteColor = this->createTexture( i );
 
 		//gtMainSystem::getInstance()->freeMemory( (void**)&i->data );
 		gtMemFree(i->data);
@@ -955,13 +955,13 @@ gtShader *	gtDriverD3D11::getShader(
 	return shader.data();
 }
 
-gtPtr<gtTexture>	gtDriverD3D11::createTexture( gtImage* image, gtTextureFilterType filter ){
+gtPtr<gtTexture>	gtDriverD3D11::createTexture( gtImage* image ){
 	GT_ASSERT2( image, "gtImage != nullptr" );
 
 	auto ptr = new gtTextureD3D11( this );
 	gtPtr<gtTexture> texture = gtPtrNew<gtTexture>( ptr );
 
-	if( !ptr->init( image, filter ) ){
+	if( !ptr->init( image ) ){
 		gtLogWriter::printWarning( u"Can not init D3D11 texture" );
 		return nullptr;
 	}

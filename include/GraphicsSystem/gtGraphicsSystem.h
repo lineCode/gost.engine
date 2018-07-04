@@ -13,6 +13,7 @@ namespace gost{
 			m_vSync( false ),
 			m_colorDepth( gtConst32U ),
 			m_adapterID( gtConst0U ),
+			m_textureFilterType( gtTextureFilterType::Anisotropic ),
 			m_outWindow( nullptr )
 		{
 			m_backBufferSize.set( 800, 600 );
@@ -25,6 +26,7 @@ namespace gost{
 			m_vSync( false ),
 			m_colorDepth( gtConst32U ),
 			m_adapterID( gtConst0U ),
+			m_textureFilterType( gtTextureFilterType::Anisotropic ),
 			m_outWindow( wi->m_owner )
 		{
 			m_backBufferSize.set( wi->m_rect.getWidth(), wi->m_rect.getHeight() );
@@ -41,6 +43,8 @@ namespace gost{
 			// only for Direct3D
 		u32		m_adapterID;
 
+		gtTextureFilterType m_textureFilterType;
+
 		gtWindow * m_outWindow;
 	};
 
@@ -52,7 +56,7 @@ namespace gost{
 		virtual void clearTextureCache() = 0;
 
 		virtual gtPtr<gtRenderModel> createModel( gtModel* software_model ) = 0;
-		virtual gtPtr<gtTexture>     createTexture( gtImage* sourceImage, gtTextureFilterType filter = gtTextureFilterType::Anisotropic ) = 0;
+		virtual gtPtr<gtTexture>     createTexture( gtImage* sourceImage ) = 0;
 
 		virtual void draw2DImage( const v4i& rect, const gtMaterial& m ) = 0;
 		virtual void draw2DImage( const v4i& rect, gtTexture* texture ) = 0;
@@ -96,8 +100,7 @@ namespace gost{
 
 		virtual const gtGraphicsSystemInfo&	getParams() = 0;
 
-		virtual gtTexture*		getTexture( const gtString& fileName, gtTextureFilterType filter = gtTextureFilterType::Anisotropic,
-			gtImage** outImage = nullptr ) = 0;
+		virtual gtTexture*		getTexture( const gtString& fileName, gtImage** outImage = nullptr ) = 0;
 		virtual gtRenderModel*	getModel( const gtString& fileName, gtModel** software_model = nullptr ) = 0;
 
 		virtual bool	removeModel( gtRenderModel* model ) = 0;
@@ -105,6 +108,7 @@ namespace gost{
 		virtual void	scissorAdd( const v4i& rect ) = 0;
 		virtual void	scissorClear( bool setOriginal = true ) = 0;
 		virtual void	setDepthState( bool state = true ) = 0;
+		virtual void	setTextureFilterType( gtTextureFilterType ) = 0;
 	};
 
 
@@ -133,7 +137,7 @@ namespace gost{
 		gtArray<cache<gtPtr<gtTexture>>>		m_textures;
 		gtArray<cache<gtPtr<gtRenderModel>>>	m_models;
 
-		gtTexture* get_texture( const gtString& path, gtTextureFilterType filter, gtImage** im ){
+		gtTexture* get_texture( const gtString& path, gtImage** im ){
 			u32 sz = m_textures.size();
 			for( u32 i = gtConst0U; i < sz; ++i ){
 				if( path == m_textures[ i ].m_path )
@@ -146,7 +150,7 @@ namespace gost{
 				return nullptr;
 			}
 
-			auto texture = createTexture( img.data(), filter );
+			auto texture = createTexture( img.data() );
 			if( !texture.data() ){
 				gtLogWriter::printWarning( u"Can not create texture. %s", path.data() );
 				return nullptr;
@@ -253,7 +257,7 @@ namespace gost{
 			return m_currentWindowSize;
 		}
 
-		virtual gtTexture*		getTexture( const gtString& fileName, gtTextureFilterType filter, gtImage** outImage ){
+		virtual gtTexture*		getTexture( const gtString& fileName, gtImage** outImage ){
 			gtString fullPath = fileName;
 			if( !gtFileSystem::existFile( fullPath ) ){
 				fullPath = gtFileSystem::getRealPath( fileName );
@@ -263,7 +267,7 @@ namespace gost{
 					return nullptr;
 				}
 			}
-			return get_texture( fileName, filter, outImage );
+			return get_texture( fileName, outImage );
 		}
 
 		virtual gtRenderModel*		getModel( const gtString& fileName, gtModel** outModel ){
@@ -370,7 +374,9 @@ namespace gost{
 
 		}
 
-
+		virtual void	setTextureFilterType( gtTextureFilterType f ){
+			m_params.m_textureFilterType = f;
+		}
 	};
 
 }

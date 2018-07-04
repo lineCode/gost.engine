@@ -53,7 +53,7 @@ bool gtGUIFontImpl::init( const gtString& font, gtImage * image ){
 		
 
 		if( m_gs ){
-			auto texure = m_gs->createTexture( image, gtTextureFilterType::Anisotropic );
+			auto texure = m_gs->createTexture( image );
 			if( !texure.data() ){
 				gtLogWriter::printWarning( u"Can not texture for font" );
 				return false;
@@ -193,7 +193,7 @@ bool gtGUIFontImpl::initFromFile( const gtString& font ){
 
 				
 
-				auto texure = m_gs->createTexture( image.data(), gtTextureFilterType::Anisotropic );
+				auto texure = m_gs->createTexture( image.data() );
 				if( !texure.data() ){
 					gtLogWriter::printWarning( u"Can not texture for font." );
 					return false;

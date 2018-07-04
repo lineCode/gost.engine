@@ -27,7 +27,7 @@ namespace gost{
 		gtTextureD3D11( gtDriverD3D11* );
 		virtual ~gtTextureD3D11();
 
-		bool init( gtImage* image, gtTextureFilterType filter );
+		bool init( gtImage* image );
 
 		ID3D11ShaderResourceView* const * getResourceView();
 		ID3D11SamplerState*	const * getSamplerState();
