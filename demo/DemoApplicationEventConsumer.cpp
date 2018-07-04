@@ -31,9 +31,24 @@ void demo::DemoApplicationEventConsumer::processEvent( const gtEvent& ev ){
 
 void demo::DemoApplicationEventConsumer::processEventGUI( const gtEvent& ev ){
 	switch (ev.GUIEvent.action){
-	case gtEventGUIAction::MouseHover:{
+	case gtEventGUIAction::MouseMove:{
 		if( ev.GUIEvent.id == DEMO_GUI_ID_WELCOME_TEXT ){
-			printf("Welcome text\n" );
+		}
+	}break;
+	case gtEventGUIAction::MouseEnter:{
+		if( ev.GUIEvent.id == DEMO_GUI_ID_WELCOME_TEXT ){
+			auto text = (gtGUITextField*)ev.GUIEvent.object;
+			if( text ){
+				text->getBackgroundShape()->setOpacity( 1.f );
+			}
+		}
+	}break;
+	case gtEventGUIAction::MouseLeave:{
+		if( ev.GUIEvent.id == DEMO_GUI_ID_WELCOME_TEXT ){
+			auto text = (gtGUITextField*)ev.GUIEvent.object;
+			if( text ){
+				text->getBackgroundShape()->setOpacity( 0.f );
+			}
 		}
 	}break;
 	}

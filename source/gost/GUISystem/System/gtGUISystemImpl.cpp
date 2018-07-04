@@ -26,6 +26,16 @@ void gtGUISystemImpl::addToUserInput( gtGUIObject * o, u32 id ){
 	m_userInputObjects.push_back( gtPair<gtGUIObject*,u32>(o, id) );
 }
 
+void gtGUISystemImpl::removeFromUserInput( gtGUIObject * o ){
+	auto sz = m_userInputObjects.size();
+	for( auto i = 0u; i < sz; ++i ){
+		if( m_userInputObjects[ i ].m_first == o ){
+			m_userInputObjects.erase( i );
+			break;
+		}
+	}
+}
+
 void gtGUISystemImpl::updateInput(){
 	m_coords = m_inputSystem->getCursorPosition();
 	//printf("%i\t\t%i\n",m_coords.x,m_coords.y);
@@ -33,15 +43,38 @@ void gtGUISystemImpl::updateInput(){
 	for( auto i = 0u; i < sz; ++i ){
 		auto o = m_userInputObjects[ i ];
 		if( o.m_first->isVisible() ){
+
 			if( util::pointInRect(m_coords,o.m_first->getActiveArea()) ){
+
+				if( !o.m_first->isMouseEnter() ){
+					gtEvent e;
+					e.type = gtEventType::GUI;
+					e.GUIEvent.id = o.m_second;
+					e.GUIEvent.action = gtEventGUIAction::MouseEnter;
+					e.GUIEvent.object = o.m_first;
+					m_mainSystem->addEvent( e );
+					o.m_first->setMouseEnter();
+				}
+
 				gtEvent e;
 				e.type = gtEventType::GUI;
 				e.GUIEvent.id = o.m_second;
-				e.GUIEvent.action = gtEventGUIAction::MouseHover;
+				e.GUIEvent.action = gtEventGUIAction::MouseMove;
 				e.GUIEvent.object = o.m_first;
 
 				m_mainSystem->addEvent( e );
+			}else{
+				if( o.m_first->isMouseEnter() ){
+					gtEvent e;
+					e.type = gtEventType::GUI;
+					e.GUIEvent.id = o.m_second;
+					e.GUIEvent.action = gtEventGUIAction::MouseLeave;
+					e.GUIEvent.object = o.m_first;
+					m_mainSystem->addEvent( e );
+					o.m_first->setMouseLeave();
+				}
 			}
+
 		}
 	}
 

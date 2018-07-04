@@ -19,6 +19,7 @@ gtGUITextFieldImpl::~gtGUITextFieldImpl(){
 
 bool gtGUITextFieldImpl::init( const v4i& rect, gtGUIFont* font, bool fh, bool fw ){
 	m_rect   = rect;
+
 	if( m_rect.z < m_rect.x ) m_rect.z = m_rect.x + 50;
 	if( m_rect.w < m_rect.y ) m_rect.w = m_rect.y + 20;
 	
@@ -29,7 +30,6 @@ bool gtGUITextFieldImpl::init( const v4i& rect, gtGUIFont* font, bool fh, bool f
 
 	update();
 
-	m_activeArea = m_rect;
 
 	return true;
 }
@@ -187,10 +187,15 @@ void gtGUITextFieldImpl::update(){
 	f32 mulx = ((f32)m_gs->getParams().m_backBufferSize.x / (f32)wndW);
 	f32 muly = ((f32)m_gs->getParams().m_backBufferSize.y / (f32)wndH);
 
-	m_scissorRect.x = s32(m_rect.x * mulx);
-	m_scissorRect.y = s32(m_rect.y * muly);
-	m_scissorRect.z = s32(m_rect.z * mulx);
-	m_scissorRect.w = s32(m_rect.w * muly);
+	m_scissorRect.x = s32((f32)m_rect.x * mulx);
+	m_scissorRect.y = s32((f32)m_rect.y * muly);
+	m_scissorRect.z = s32((f32)m_rect.z * mulx);
+	m_scissorRect.w = s32((f32)m_rect.w * muly);
+
+	m_activeArea = m_rect;
+
+	auto ssz = m_gs->getParams().m_outWindow->getWindowInfo().m_borderSize;
+	m_activeArea.z -= (ssz.x + ssz.x);
 
 	m_backgroundShape = m_gui->createShapeRectangle( m_rect, gtColor( 0.f, 0.f, 0.f, 1.f ) );
 	m_backgroundShape->setTexture( t1 );

@@ -15,11 +15,13 @@ namespace gost{
 	class gtGUIObject : public gtRefObject{
 	protected:
 		gtGUIObjectType m_type;
-		bool			m_visible;
 		v4i				m_activeArea;
+		bool			m_visible;
+		bool			m_mouseEnter;
+		bool			m_mouseLeave;
 	public:
 
-		gtGUIObject() : m_visible( true ){}
+		gtGUIObject() : m_visible( true ),m_mouseEnter( false ),m_mouseLeave( false ){}
 		virtual ~gtGUIObject(){}
 
 		virtual void render() = 0;
@@ -31,21 +33,14 @@ namespace gost{
 			return m_type;
 		}
 
-		virtual bool isVisible() const {
-			return m_visible;
-		}
-
-		virtual void setVisible( bool value ){
-			m_visible = value;
-		}
-
-		virtual void setActiveArea( const v4i& area ){
-			m_activeArea = area;
-		}
-		
-		virtual const v4i& getActiveArea() const {
-			return m_activeArea;
-		}
+		virtual bool isMouseEnter() const             { return m_mouseEnter; }
+		virtual bool isMouseLeave() const             { return m_mouseLeave; }
+		virtual bool isVisible() const                { return m_visible; }
+		virtual void setMouseEnter()                  { m_mouseEnter = true; m_mouseLeave = false; }
+		virtual void setMouseLeave()                  { m_mouseLeave = true; m_mouseEnter = false; }
+		virtual void setVisible( bool value )         { m_visible = value; }
+		virtual void setActiveArea( const v4i& area ) { m_activeArea = area; }
+		virtual const v4i& getActiveArea() const      { return m_activeArea; }
 
 	};
 

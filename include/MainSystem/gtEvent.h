@@ -8,25 +8,25 @@ namespace gost{
 	class gtWindow;
 	struct gtInputDevice;
 
-constexpr u32 GT_EVENT_WINDOW_SIZING   = gtConst1U;
-constexpr u32 GT_EVENT_WINDOW_RESTORE  = gtConst2U;
-constexpr u32 GT_EVENT_WINDOW_MAXIMIZE = gtConst3U;
-constexpr u32 GT_EVENT_WINDOW_MINIMIZE = gtConst4U;
-constexpr u32 GT_EVENT_WINDOW_MOVE     = gtConst5U;
-constexpr u32 GT_EVENT_WINDOW_PAINT    = gtConst6U;
+	constexpr u32 GT_EVENT_WINDOW_SIZING   = gtConst1U;
+	constexpr u32 GT_EVENT_WINDOW_RESTORE  = gtConst2U;
+	constexpr u32 GT_EVENT_WINDOW_MAXIMIZE = gtConst3U;
+	constexpr u32 GT_EVENT_WINDOW_MINIMIZE = gtConst4U;
+	constexpr u32 GT_EVENT_WINDOW_MOVE     = gtConst5U;
+	constexpr u32 GT_EVENT_WINDOW_PAINT    = gtConst6U;
 
-constexpr u32 GT_EVENT_JOYSTICK_ADD    = gtConst1U;
-constexpr u32 GT_EVENT_JOYSTICK_REMOVE = gtConst2U;
+	constexpr u32 GT_EVENT_JOYSTICK_ADD    = gtConst1U;
+	constexpr u32 GT_EVENT_JOYSTICK_REMOVE = gtConst2U;
 
-constexpr u32 GT_EVENT_SYSTEM_TIMER    = gtConst1U;
+	constexpr u32 GT_EVENT_SYSTEM_TIMER    = gtConst1U;
 
-constexpr u32 GT_EVENT_MASK_MOUSE_LMB	= gtConst1U;
-constexpr u32 GT_EVENT_MASK_MOUSE_RMB	= gtConst2U;
-constexpr u32 GT_EVENT_MASK_MOUSE_MMB	= gtConst4U;
-constexpr u32 GT_EVENT_MASK_MOUSE_EXTRA1 = gtConst8U;
-constexpr u32 GT_EVENT_MASK_MOUSE_EXTRA2 = gtConst16U;
-constexpr u32 GT_EVENT_MASK_MOUSE_LMB_DBL = gtConst32U;
-constexpr u32 GT_EVENT_MASK_MOUSE_RMB_DBL = gtConst64U;
+	constexpr u32 GT_EVENT_MASK_MOUSE_LMB	= gtConst1U;
+	constexpr u32 GT_EVENT_MASK_MOUSE_RMB	= gtConst2U;
+	constexpr u32 GT_EVENT_MASK_MOUSE_MMB	= gtConst4U;
+	constexpr u32 GT_EVENT_MASK_MOUSE_EXTRA1 = gtConst8U;
+	constexpr u32 GT_EVENT_MASK_MOUSE_EXTRA2 = gtConst16U;
+	constexpr u32 GT_EVENT_MASK_MOUSE_LMB_DBL = gtConst32U;
+	constexpr u32 GT_EVENT_MASK_MOUSE_RMB_DBL = gtConst64U;
 
 	
 	enum class gtEventType : u32 {
@@ -39,8 +39,10 @@ constexpr u32 GT_EVENT_MASK_MOUSE_RMB_DBL = gtConst64U;
 		System
 	};
 
-	enum class gtEventGUIAction{
-		MouseHover
+	enum class gtEventGUIAction : u32 {
+		MouseEnter,
+		MouseMove,
+		MouseLeave
 	};
 
 	struct gtEventGUI{

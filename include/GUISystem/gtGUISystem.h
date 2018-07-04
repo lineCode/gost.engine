@@ -20,6 +20,8 @@ namespace gost{
 		virtual gtPtr<gtGUITextField> createTextField( const v4i& rect, gtGUIFont* font, bool fixedHeight = true, bool fixedWidth = true ) = 0;
 
 		virtual gtPtr<gtGUIShape>	createShapeRectangle( const v4i& rect, const gtColor& color ) = 0;
+		
+		virtual void removeFromUserInput( gtGUIObject * ) = 0;
 
 		virtual void setCurrentRenderDriver( gtGraphicsSystem * driver ) = 0;
 

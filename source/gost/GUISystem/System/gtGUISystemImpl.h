@@ -26,6 +26,8 @@ namespace gost{
 
 		gtPtr<gtGUIShape>		createShapeRectangle( const v4i& rect, const gtColor& color );
 
+		void					removeFromUserInput( gtGUIObject * );
+
 		void					setCurrentRenderDriver( gtGraphicsSystem * driver );
 		
 		void					init();

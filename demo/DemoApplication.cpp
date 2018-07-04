@@ -159,6 +159,7 @@ bool demo::DemoApplication::initEngine(){
 }
 
 bool demo::DemoApplication::initWindow(){
+//	m_windowInfo.m_style |= gtWindowInfo::popup;
 	m_windowInfo.m_style |= gtWindowInfo::maximize;
     m_windowInfo.m_style |= gtWindowInfo::resize;
 	m_windowInfo.m_style |= gtWindowInfo::center;
@@ -500,10 +501,14 @@ bool demo::DemoApplication::rebuildMainMenu(){
 
 	if( m_mainFont.data() ){
 
+		if( m_welcomeText )
+			m_guiSystem->removeFromUserInput( m_welcomeText.data() );
+
 		m_welcomeText = m_guiSystem->createTextField( v4i( 20, 0, wndrc.getWidth()-20, 0 ), m_mainFont.data(), false );
 		m_welcomeText->setText( getString( u"0" ) );
 		m_welcomeText->setOpacity( 0.9f );
 		m_welcomeText->getBackgroundShape()->setOpacity( 0.f );
+		m_welcomeText->getBackgroundShape()->setColor( gtColorRed );
 		m_welcomeText->setTextColor( gtColorWhite );
 
 		m_guiSystem->addToUserInput( m_welcomeText.data(), DEMO_GUI_ID_WELCOME_TEXT );
