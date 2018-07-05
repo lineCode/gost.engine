@@ -7,6 +7,7 @@ namespace gost{
 	class gtD3D11StandartShaderCallback : public gtShaderCallback{
 
 		gtMainSystem * m_system;
+		gtSceneSystem * m_scene;
 
 	public:
 		gtD3D11StandartShaderCallback();

@@ -45,22 +45,22 @@ void gtLogImpl::print( msgType type, const char16_t* str, ... ){
 }
 
 
-void gtLogImpl::print( msgType /*type*/, const char16_t* /*str*/, void * /*p*/ ){
-/*
+void gtLogImpl::print( msgType type, const char16_t* str, void * p ){
+
 	if( m_msgType >= type ){
 		gtString message;
 		switch( type ){
-		case gost::gtLog::msgType::error:
+		case gost::gtLog::msgType::Error:
 			message.assign(u"Error: ");
 			break;
-		case gost::gtLog::msgType::warning:
+		case gost::gtLog::msgType::Warning:
 			message.assign(u"Warning: ");
 			break;
-		case gost::gtLog::msgType::info:
+		case gost::gtLog::msgType::Info:
 			break;
 		}
 
-		gt_va_list args;// = static_cast<gt_va_list>(p);
+		gt_va_list args = static_cast<gt_va_list>(p);
 		deformat( str, args, message );
 
 		gtFile_t file = util::openFileForWriteText(u"log.txt");
@@ -70,7 +70,7 @@ void gtLogImpl::print( msgType /*type*/, const char16_t* /*str*/, void * /*p*/ )
 		if( m_out )
 			m_out->print( message );
 	}
-*/
+
 }
 
 void gtLogImpl::deformat( const char16_t* fmt,

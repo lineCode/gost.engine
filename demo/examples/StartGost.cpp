@@ -7,10 +7,8 @@ using namespace gost;
 #ifdef UseEventConsumer
 class EventConsumer : public gtEventConsumer{
 public:
-	EventConsumer(){
-	}
-	~EventConsumer( void ){
-	}
+	EventConsumer(){}
+	~EventConsumer( void ){}
 
 	void processEvent( const gtEvent& ev ){
 		switch( ev.type ){
@@ -189,6 +187,8 @@ int main(){
 			driver->endRender();
 		}
 	}
+	
+	GoSTClear();
  
 	return 0;
 }

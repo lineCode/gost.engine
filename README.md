@@ -2,8 +2,6 @@
 2D/3D Game Engine based on plugins for C++11
 
 ![Imgur](https://i.imgur.com/GjvRTaI.jpg)
-![Imgur](https://i.imgur.com/FpNGFP0.jpg)
-![Imgur](https://i.imgur.com/PeOxnAs.jpg)
 
 ## Features
 * D3D11 render plugin

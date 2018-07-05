@@ -1,24 +1,55 @@
 #include "common.h"
 
 gtD3D11StandartShaderCallback::gtD3D11StandartShaderCallback():
-m_system( nullptr ){
+m_system( nullptr ),m_scene( nullptr ){
 	m_system = gtMainSystem::getInstance();
+	m_scene  = m_system->getSceneSystem( nullptr );
 }
 gtD3D11StandartShaderCallback::~gtD3D11StandartShaderCallback(){}
-void gtD3D11StandartShaderCallback::onShader( const gtMaterial& /*m*/, gtShaderProcessing* sp ){
+
+void gtD3D11StandartShaderCallback::onShader( const gtMaterial& material, gtShaderProcessing* sp ){
 	struct cbMatrix_t{
 		gtMatrix4 WVP;
+		gtMatrix4  W;
+		gtMatrix4  WI;
+		gtMatrix4  V;
+		gtMatrix4  P;
 	}cbMatrix;
 
-	gtMatrix4 W = m_system->getMatrixWorld();
-	gtMatrix4 V = m_system->getMatrixView();
-	gtMatrix4 P = m_system->getMatrixProjection();
+	struct cbMaterial_t{
+		gtColor sunAmbient;
+		gtColor sunDiffuse;
+		gtColor sunSpecular;
+		v4f eyePosition;
+		v4f sunPosition;
 
-	cbMatrix.WVP =  P * V * W;
+		f32 shininess;
+		f32 transparency;
+		s32 isLume;
+		s32 reserved;
 
+	}cbMaterial;
+
+	cbMatrix.W = m_system->getMatrixWorld();
+	cbMatrix.V = m_system->getMatrixView();
+	cbMatrix.P = m_system->getMatrixProjection();
+	cbMatrix.WVP =  cbMatrix.P * cbMatrix.V * cbMatrix.W;
 	cbMatrix.WVP.transpose();
+	cbMatrix.WI = cbMatrix.W;
+	cbMatrix.WI.invert();
+	cbMatrix.WI.transpose();
 
-	sp->sendDataVS( &cbMatrix, 0, gtConst0U );
+	cbMaterial.sunAmbient  = material.ambientColor;
+	cbMaterial.sunSpecular = material.specularColor;
+	cbMaterial.sunDiffuse  = material.diffuseColor;
+	cbMaterial.shininess   = material.shininess;
+	cbMaterial.sunPosition = material.sunPosition;
+	cbMaterial.transparency= 0.f;
+	cbMaterial.isLume      = (material.flags&(u32)gtMaterialFlag::UseLight)?1:0;
+	cbMaterial.eyePosition = m_scene->getActiveCamera()->getPositionInSpace();
+
+	sp->sendDataVS( &cbMatrix,   0, gtConst0U );
+	sp->sendDataPS( &cbMaterial, 0, gtConst1U );
 
 	sp->setTexture( "", 0 );
 }

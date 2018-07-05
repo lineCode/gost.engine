@@ -105,9 +105,9 @@ extern "C"{
 		}
 
 
-		gtArray<v3f> position;
-		gtArray<v2f> uv;
-		gtArray<v3f> normal;
+		gtArray<v3f> position; position.setAddMemoryValue( 256u );
+		gtArray<v2f> uv;       uv.setAddMemoryValue( 256u );
+		gtArray<v3f> normal;   normal.setAddMemoryValue( 256u );
 
 		u8 * ptr = data.get();
 		ptr[fileSz] = 0;
@@ -144,18 +144,18 @@ extern "C"{
 		sub->m_stride = gtStrideStandart;
 		
 		/* сюда будут накапливаться вершины */
-		gtArray<vert_t> buf_verts;
-		gtArray<u16> buf_inds;
+		gtArray<vert_t> buf_verts; buf_verts.setAddMemoryValue( 256u );
+		gtArray<u16>    buf_inds;  buf_inds.setAddMemoryValue( 256u );
 		
 		u32 indexOld = 0;	/*если новая группа, новая суб модель, то нужно начинать отсчёт индексов сначала*/
 							/*она учитывает старый индекс, и в новой субмодели просто вычитается */
 
 		
 		/*это всё для того чтобы правильно получить индексы и т.д.*/
-		gtArray<CacheEntry*>	m_VertexCache;
-		gtArray<CacheEntry*>	m_VertexCache_trash;
-		gtArray<VERTEX> m_Vertices;      // Filled and copied to the vertex buffer
-		gtArray<u32>	m_Indices;       // Filled and copied to the index buffer
+		gtArray<CacheEntry*>	m_VertexCache; m_VertexCache.setAddMemoryValue( 256u );
+		gtArray<CacheEntry*>	m_VertexCache_trash; m_VertexCache_trash.setAddMemoryValue( 256u );
+		gtArray<VERTEX> m_Vertices; m_Vertices.setAddMemoryValue( 256u );      // Filled and copied to the vertex buffer
+		gtArray<u32>	m_Indices; m_Indices.setAddMemoryValue( 256u );      // Filled and copied to the index buffer
 		u32 index = gtConst0U;
 
 		bool groupBegin = false;
@@ -397,32 +397,22 @@ extern "C"{
 		return ptr;
 	}
 
-		/*пропуск пробела и т.д.*/
 	u8 * skipSpaces( u8 * ptr ){
-
 		while( *ptr ){
 			if( !isspace(*ptr) ) break;
 			ptr++;
 		}
-
 		return ptr;
 	}
 
 	u8 * readWord( u8 * ptr, gtStringA& str ){
-		
 		ptr = skipSpaces( ptr );
-
 		str.clear();
-
 		while( *ptr ){
 			if( isspace(*ptr) ) break;
-
 			str += (char)*ptr;
-
 			ptr++;
-
 		}
-
 		return ptr;
 	}
 
@@ -446,7 +436,6 @@ extern "C"{
 	}
 
 	u8 * readVec3( u8 * ptr, v3f& vec3 ){
-		
 		ptr = skipSpaces( ptr );
 
 		f32 x, y, z;
@@ -497,7 +486,6 @@ extern "C"{
 				str += (char)*ptr;
 				++ptr;
 			}else break;
-
 		}
 		return ptr;
 	}
@@ -548,9 +536,9 @@ extern "C"{
 
 		s32 p, n, t;
 
-		u32 id1 = gtConst0U; /*проба изменить порядок обхода вершин*/
-		u32 id2 = gtConst2U; /*сделать по часовой стрелке*/
-		u32 id3 = gtConst1U; /*оригинал 0 1 2*/
+		u32 id1 = gtConst0U;
+		u32 id2 = gtConst2U;
+		u32 id3 = gtConst1U;
 
 		p1 = getInt( p1, p );
 		p1 = getInt( p1, t );

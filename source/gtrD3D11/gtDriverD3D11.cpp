@@ -26,128 +26,59 @@ gtDriverD3D11::gtDriverD3D11( /*gtMainSystem* System,*/ gtGraphicsSystemInfo par
 	m_shaderSprite( nullptr ),
 	m_shaderLine( nullptr )
 {
-
-	m_system = gtMainSystem::getInstance();
-
-
-	m_params =  params;
+	m_system   = gtMainSystem::getInstance();
+	m_params   =  params;
+	s_instance = this;
 	
 	if( params.m_outWindow ){
 		m_currentWindowSize.x = params.m_outWindow->getRect().z;
 		m_currentWindowSize.y = params.m_outWindow->getRect().w;
 	}
-
-	s_instance = this;
 }
-
 gtDriverD3D11* gtDriverD3D11::s_instance = nullptr;
 
-gtDriverD3D11*	gtDriverD3D11::getInstance(){
-	return s_instance;
-}
-gtTexture * gtDriverD3D11::getStandartTexture(){
-	return m_standartTexture.data();
-}
-gtTexture * gtDriverD3D11::getStandartTextureWhiteColor(){
-	return m_standartTextureWhiteColor.data();
-}
+
+gtDriverD3D11*	gtDriverD3D11::getInstance(){ return s_instance; }
+gtTexture * gtDriverD3D11::getStandartTexture(){ return m_standartTexture.data(); }
+gtTexture * gtDriverD3D11::getStandartTextureWhiteColor(){ return m_standartTextureWhiteColor.data(); }
 
 gtDriverD3D11::~gtDriverD3D11(){
 
 	clearTextureCache();
 	clearModelCache();
 
-	if( m_standartTextureWhiteColor.data() )
-		m_standartTextureWhiteColor->release();
-
-	if( m_standartTexture.data() )
-		m_standartTexture->release();
-
-	if( m_shaderLine )
-		m_shaderLine->release();
-
-	if( m_shaderSprite )
-		m_shaderSprite->release();
-
-	if( m_shader3DStandart )
-		m_shader3DStandart->release();
-
-	if( m_shaderGUI )
-		m_shaderGUI->release();
-
-	if( m_shader2DStandart )
-		m_shader2DStandart->release();
-
-	if( m_blendStateAlphaDisabled )
-		m_blendStateAlphaDisabled->Release();
-
-	
-	if( m_blendStateAlphaEnabledWithATC )
-		m_blendStateAlphaEnabledWithATC->Release();
-
-	if( m_blendStateAlphaEnabled )
-		m_blendStateAlphaEnabled->Release();
-
-	if( m_RasterizerWireframeNoBackFaceCulling )
-		m_RasterizerWireframeNoBackFaceCulling->Release();
-
-	if( m_RasterizerWireframe )
-		m_RasterizerWireframe->Release();
-
-	if( m_RasterizerSolidNoBackFaceCulling )
-		m_RasterizerSolidNoBackFaceCulling->Release();
-
-	if( m_RasterizerSolid )
-		m_RasterizerSolid->Release();
-
-	if( m_depthStencilView )
-		m_depthStencilView->Release();
-
-	if( m_depthStencilStateDisabled )
-		m_depthStencilStateDisabled->Release();
-
-	if( m_depthStencilStateEnabled )
-		m_depthStencilStateEnabled->Release();
-
-	if( m_depthStencilBuffer )
-		m_depthStencilBuffer->Release();
-
-	if( m_MainTargetView )
-		m_MainTargetView->Release();
-
-	if( m_d3d11DevCon )
-		m_d3d11DevCon->Release();
-
-	if( m_SwapChain )
-		m_SwapChain->Release();
-	
-	if( m_d3d11Device )
-		m_d3d11Device->Release();
-
-	if( m_D3DLibrary )
-		FreeLibrary( m_D3DLibrary );
-	m_D3DLibrary = NULL;
-
+	if( m_standartTextureWhiteColor.data() )     m_standartTextureWhiteColor->release();
+	if( m_standartTexture.data() )               m_standartTexture->release();
+	if( m_shaderLine )                           m_shaderLine->release();
+	if( m_shaderSprite )                         m_shaderSprite->release();
+	if( m_shader3DStandart )                     m_shader3DStandart->release();
+	if( m_shaderGUI )                            m_shaderGUI->release();
+	if( m_shader2DStandart )                     m_shader2DStandart->release();
+	if( m_blendStateAlphaDisabled )              m_blendStateAlphaDisabled->Release();
+	if( m_blendStateAlphaEnabledWithATC )        m_blendStateAlphaEnabledWithATC->Release();
+	if( m_blendStateAlphaEnabled )               m_blendStateAlphaEnabled->Release();
+	if( m_RasterizerWireframeNoBackFaceCulling ) m_RasterizerWireframeNoBackFaceCulling->Release();
+	if( m_RasterizerWireframe )                  m_RasterizerWireframe->Release();
+	if( m_RasterizerSolidNoBackFaceCulling )     m_RasterizerSolidNoBackFaceCulling->Release();
+	if( m_RasterizerSolid )                      m_RasterizerSolid->Release();
+	if( m_depthStencilView )                     m_depthStencilView->Release();
+	if( m_depthStencilStateDisabled )            m_depthStencilStateDisabled->Release();
+	if( m_depthStencilStateEnabled )             m_depthStencilStateEnabled->Release();
+	if( m_depthStencilBuffer )                   m_depthStencilBuffer->Release();
+	if( m_MainTargetView )                       m_MainTargetView->Release();
+	if( m_d3d11DevCon )                          m_d3d11DevCon->Release();
+	if( m_SwapChain )                            m_SwapChain->Release();
+	if( m_d3d11Device )                          m_d3d11Device->Release();
+	if( m_D3DLibrary )                           FreeLibrary( m_D3DLibrary ); m_D3DLibrary = NULL;
 }
 
-HMODULE gtDriverD3D11::getD3DLibraryHandle(){
-	return m_D3DLibrary;
-}
-
-ID3D11Device * gtDriverD3D11::getD3DDevice(){
-	return m_d3d11Device;
-}
+HMODULE gtDriverD3D11::getD3DLibraryHandle(){ return m_D3DLibrary; }
+ID3D11Device * gtDriverD3D11::getD3DDevice(){ return m_d3d11Device; }
+ID3D11DeviceContext * gtDriverD3D11::getD3DDeviceContext(){ return m_d3d11DevCon; }
 
 void	gtDriverD3D11::setDepthState( bool state ){
-	if( state ){
-		m_d3d11DevCon->OMSetDepthStencilState( this->m_depthStencilStateEnabled, 0 );
-	}else{
-		m_d3d11DevCon->OMSetDepthStencilState( this->m_depthStencilStateDisabled, 0 );
-	}
-}
-
-ID3D11DeviceContext * gtDriverD3D11::getD3DDeviceContext(){
-	return m_d3d11DevCon;
+	state ? m_d3d11DevCon->OMSetDepthStencilState( this->m_depthStencilStateEnabled, 0 )
+		  : m_d3d11DevCon->OMSetDepthStencilState( this->m_depthStencilStateDisabled, 0 );
 }
 
 void gtDriverD3D11::setActiveShader( gtShader* shader ){
@@ -711,7 +642,7 @@ void gtDriverD3D11::drawModel( gtRenderModel* model ){
 		//auto * sub = soft->getSubModel( i );
 		
 		gtMaterial * material = rm->getMaterial( i );
-
+		
 		gtShader * shader = material->shader;
 		if( !shader ){
 
@@ -1034,7 +965,8 @@ bool	gtDriverD3D11::createShaders(){
 	m_shaderLine = getShader( m_shaderLineCallback.data(), u"../shaders/line.hlsl", "VSMain",
 		u"../shaders/line.hlsl", "PSMain", shaderModel, vertexType2D );
 
-	if( m_shader3DStandart ) if( !m_shader3DStandart->createShaderObject( 16u * sizeof(f32) ) ) return false;
+	if( m_shader3DStandart ) if( !m_shader3DStandart->createShaderObject( (16u * 5u * sizeof(f32)) + (sizeof(v4f)) ) ) return false;
+	if( m_shader3DStandart ) if( !m_shader3DStandart->createShaderObject( (sizeof(v4f)*5)+sizeof(s32)*4u ) ) return false;
 	if( m_shaderSprite ) if( !m_shaderSprite->createShaderObject( 24u * sizeof(f32) ) ) return false;
 	if( m_shaderLine ) if( !m_shaderLine->createShaderObject( 28u * sizeof(f32) ) ) return false;
 	if( m_shaderGUI ) if( !m_shaderGUI->createShaderObject( gtConst4U * sizeof(f32) + 128u ) ) return false;

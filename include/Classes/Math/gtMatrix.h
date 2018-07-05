@@ -70,25 +70,10 @@ namespace gost{
 
 		}
 
-			// get pointer
-			//	\return pointer
-		f32 *		getPtr(){
-			return reinterpret_cast<f32*>(&m_data);
-		}
-
-			//	get/set row
-			// \param i: component id
-			// \return vector
-		v4f& operator[]( u32 i ){
-			return m_data[ i ];
-		}
-
-			//	get row
-			// \param i: component id
-			// \return vector
-		const v4f& operator[]( u32 i ) const {
-			return m_data[ i ];
-		}
+		f32 * getPtr(){ return reinterpret_cast<f32*>(&m_data); }
+		
+		v4f&       operator[]( u32 i ){ return m_data[ i ]; }
+		const v4f& operator[]( u32 i ) const { return m_data[ i ]; }
 
 			//	add
 			// \param m: other matrix
@@ -215,6 +200,73 @@ namespace gost{
 			this->m_data[ gtConst2U ] = tmp[ gtConst2U ];
 			this->m_data[ gtConst3U ] = tmp[ gtConst3U ];
 		}
+
+		bool invert(){
+			gtMatrix4 r0, r1, r2, r3;
+			f32 a, det, invDet;
+			f32* mat = reinterpret_cast<f32 *>(this);
+
+			det = mat[0*4+0] * mat[1*4+1] - mat[0*4+1] * mat[1*4+0];
+			if ( std::abs( det ) < 1e-14 ) {
+				return false;
+			}
+			v4f dd;
+			
+			invDet = 1.0f / det;
+
+			r0[0][0] =   mat[1*4+1] * invDet;
+			r0[0][1] = - mat[0*4+1] * invDet;
+			r0[1][0] = - mat[1*4+0] * invDet;
+			r0[1][1] =   mat[0*4+0] * invDet;
+			r1[0][0] = r0[0][0] * mat[0*4+2] + r0[0][1] * mat[1*4+2];
+			r1[0][1] = r0[0][0] * mat[0*4+3] + r0[0][1] * mat[1*4+3];
+			r1[1][0] = r0[1][0] * mat[0*4+2] + r0[1][1] * mat[1*4+2];
+			r1[1][1] = r0[1][0] * mat[0*4+3] + r0[1][1] * mat[1*4+3];
+			r2[0][0] = mat[2*4+0] * r1[0][0] + mat[2*4+1] * r1[1][0];
+			r2[0][1] = mat[2*4+0] * r1[0][1] + mat[2*4+1] * r1[1][1];
+			r2[1][0] = mat[3*4+0] * r1[0][0] + mat[3*4+1] * r1[1][0];
+			r2[1][1] = mat[3*4+0] * r1[0][1] + mat[3*4+1] * r1[1][1];
+			r3[0][0] = r2[0][0] - mat[2*4+2];
+			r3[0][1] = r2[0][1] - mat[2*4+3];
+			r3[1][0] = r2[1][0] - mat[3*4+2];
+			r3[1][1] = r2[1][1] - mat[3*4+3];
+		
+			det = r3[0][0] * r3[1][1] - r3[0][1] * r3[1][0];
+			if ( std::abs( det ) < 1e-14 ) {
+				return false;
+			}
+
+			invDet = 1.0f / det;
+
+			a = r3[0][0];
+			r3[0][0] =   r3[1][1] * invDet;
+			r3[0][1] = - r3[0][1] * invDet;
+			r3[1][0] = - r3[1][0] * invDet;
+			r3[1][1] =   a * invDet;
+			r2[0][0] = mat[2*4+0] * r0[0][0] + mat[2*4+1] * r0[1][0];
+			r2[0][1] = mat[2*4+0] * r0[0][1] + mat[2*4+1] * r0[1][1];
+			r2[1][0] = mat[3*4+0] * r0[0][0] + mat[3*4+1] * r0[1][0];
+			r2[1][1] = mat[3*4+0] * r0[0][1] + mat[3*4+1] * r0[1][1];
+			mat[2*4+0] = r3[0][0] * r2[0][0] + r3[0][1] * r2[1][0];
+			mat[2*4+1] = r3[0][0] * r2[0][1] + r3[0][1] * r2[1][1];
+			mat[3*4+0] = r3[1][0] * r2[0][0] + r3[1][1] * r2[1][0];
+			mat[3*4+1] = r3[1][0] * r2[0][1] + r3[1][1] * r2[1][1];
+			mat[0*4+0] = r0[0][0] - r1[0][0] * mat[2*4+0] - r1[0][1] * mat[3*4+0];
+			mat[0*4+1] = r0[0][1] - r1[0][0] * mat[2*4+1] - r1[0][1] * mat[3*4+1];
+			mat[1*4+0] = r0[1][0] - r1[1][0] * mat[2*4+0] - r1[1][1] * mat[3*4+0];
+			mat[1*4+1] = r0[1][1] - r1[1][0] * mat[2*4+1] - r1[1][1] * mat[3*4+1];
+			mat[0*4+2] = r1[0][0] * r3[0][0] + r1[0][1] * r3[1][0];
+			mat[0*4+3] = r1[0][0] * r3[0][1] + r1[0][1] * r3[1][1];
+			mat[1*4+2] = r1[1][0] * r3[0][0] + r1[1][1] * r3[1][0];
+			mat[1*4+3] = r1[1][0] * r3[0][1] + r1[1][1] * r3[1][1];
+			mat[2*4+2] = -r3[0][0];
+			mat[2*4+3] = -r3[0][1];
+			mat[3*4+2] = -r3[1][0];
+			mat[3*4+3] = -r3[1][1];
+
+			return true;
+		}
+
 	};
 
 	namespace math{

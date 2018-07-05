@@ -538,13 +538,29 @@ namespace gost{
 			return false;
 		}
 
-		Type	lengthSqrt(){
-			return ( x * x ) + ( y * y ) + ( z * z ) + ( w * w );
+		Type&       operator[]( u32 i ){
+			switch( i ){
+			case 0u: return x;
+			case 1u: return y;
+			case 2u: return z;
+			case 3u: return w;
+			default:
+				GT_BREAKPOINT(0);
+			}
+		}
+		const Type& operator[]( u32 i ) const { 
+			switch( i ){
+			case 0u: return x;
+			case 1u: return y;
+			case 2u: return z;
+			case 3u: return w;
+			default:
+				GT_BREAKPOINT(0);
+			}
 		}
 
-		Type	length(){
-			return static_cast<Type>( std::sqrt( lengthSqrt() ) );
-		}
+		Type	lengthSqrt() { return ( x * x ) + ( y * y ) + ( z * z ) + ( w * w ); }
+		Type	length()     { return static_cast<Type>( std::sqrt( lengthSqrt() ) ); }
 
 		void	normalize(){
 			f32 sqLen, invLen;
@@ -556,16 +572,10 @@ namespace gost{
 			w *= invLen;
 		}
 
-		Type getWidth(){
-			return z - x;
-		}
-
-		Type	getHeight(){
-			return w - y;
-		}
-
-		Type	distance( const gtVector3< Type >& from ){ return gtVector3< Type >( x - from.x, y - from.y, z - from.z ).length(); }
-		Type	distance( const gtVector4< Type >& from ){ return gtVector4< Type >( x - from.x, y - from.y, z - from.z ).length(); }
+		Type getWidth()  { return z - x; }
+		Type getHeight() { return w - y; }
+		Type distance( const gtVector3< Type >& from ){ return gtVector3< Type >( x - from.x, y - from.y, z - from.z ).length(); }
+		Type distance( const gtVector4< Type >& from ){ return gtVector4< Type >( x - from.x, y - from.y, z - from.z ).length(); }
 
 		gtVector2< Type > getV2(){ return gtVector2< Type >( x, y ); }
 		gtVector3< Type > getV3(){ return gtVector3< Type >( x, y, z ); }

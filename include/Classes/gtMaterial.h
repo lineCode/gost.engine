@@ -19,22 +19,17 @@ namespace gost{
 		Max
 	};
 
+#define BIT(x)0x1<<(x)
+
 	enum class gtMaterialFlag : u32 {
-
-		Wireframe = gtConst1U,
-
-		Backface = gtConst2U,
-
-		Blend = gtConst4U,
-
-		Nocastshadows = gtConst8U,
-
-		Noreceiveshadows = gtConst16U,
-
-		Noselfshadows = gtConst32U,
-
-		Blenddiscard = gtConst64U
-
+		Wireframe        = BIT(0),
+		Backface         = BIT(1),
+		Blend            = BIT(2),
+		Nocastshadows    = BIT(3),
+		Noreceiveshadows = BIT(4),
+		Noselfshadows    = BIT(5),
+		Blenddiscard     = BIT(6),
+		UseLight         = BIT(6)
 	};
 
 	struct gtMaterialTextureLayer{
@@ -47,13 +42,10 @@ namespace gost{
 			texture( nullptr )
 		{}
 
-		gtColor	diffuseColor;
-
+		gtColor	            diffuseColor;
 		gtMaterialBlendOp	blendOperation;
-
-		f32		level;
-
-		gtTexture * texture;
+		f32		            level;
+		gtTexture *         texture;
 	};
 
 		// shader type, if used standart shader
@@ -70,13 +62,17 @@ namespace gost{
 			// c-tor
 		gtMaterial():
 			shader( nullptr ),
+			ambientColor( gtConst0F ),
 			specularColor( gtConst1F ),
+			diffuseColor( gtConst1F ),
+			sunPosition( v4f( 0.2f, 0.8f, 0.5f, 0.f ) ),
 			specularLevel( gtConst1F ),
+			shininess( gtConst1F ),
 			glossiness( gtConst0F ),
 			roughness( gtConst0F ),
 			opacity( gtConst1F ),
 			fresnel( gtConst1F ),
-			flags( gtConst0U ),
+			flags( (u32)gtMaterialFlag::UseLight ),
 			type( gtMaterialType::Standart ),
 			owner( nullptr ),
 			alphaToCoverage( false )
@@ -88,20 +84,19 @@ namespace gost{
 		gtShader * shader;
 
 		gtColor ambientColor;
-
 		gtColor specularColor;
+		gtColor diffuseColor;
+
+		v4f     sunPosition;
 
 		f32		specularLevel;
-
+		f32		shininess;
 		f32		glossiness;
-
 		f32		roughness;
 
 			//	Need MF_BLEND.
 		f32		opacity;
-
 		f32		fresnel; // /freɪˈnɛl/, fray-NEL;
-
 		u32		flags;
 
 		gtMaterialTextureLayer	textureLayer[ gtConst16U ];
