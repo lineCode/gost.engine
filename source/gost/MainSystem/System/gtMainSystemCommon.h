@@ -62,7 +62,8 @@ namespace gost{
 		static gtMainSystemCommon * getInstance();
 		gtStackTracer*				getStackTracer();
 		gtPtr<gtAudioSystem>		createAudioSystem( const GT_GUID& uid );
-		gtPtr<gtGraphicsSystem>		createGraphicsSystem( /*gtPlugin* videoDriverPlugin,*/ const gtGraphicsSystemInfo&, const GT_GUID& uid );
+		gtPtr<gtGraphicsSystem>		createGraphicsSystem( const gtGraphicsSystemInfo&, const GT_GUID& uid );
+		gtPtr<gtPhysicsSystem>      createPhysicsSystem( const gtPhysicsSystemInfo& psi, const GT_GUID& uid );
 
 		gtPtr<gtImage>	loadImage( const gtString& fileName );
 		gtPtr<gtImage>	loadImage( const gtString& fileName, const GT_GUID& pluginGUID );

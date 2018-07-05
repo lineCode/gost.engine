@@ -395,6 +395,14 @@ namespace gost{
 			w( W ){
 		}
 
+		gtVector4( Type X, Type Y, Type Z ):
+			x( X ),
+			y( Y ),
+			z( Z ),
+			w( static_cast< Type >( gtConst0U ) ){
+		}
+
+
 		gtVector4( Type v ):
 			x( v ),
 			y( v ),
@@ -484,6 +492,13 @@ namespace gost{
 			w = W;
 		}
 
+		void	set( Type X, Type Y, Type Z ){
+			x = X;
+			y = Y;
+			z = Z;
+			w = static_cast< Type >( gtConst0U );
+		}
+
 		void	set( Type val ){
 			x = y = z = w = val;
 		}
@@ -527,6 +542,10 @@ namespace gost{
 			return ( x * x ) + ( y * y ) + ( z * z ) + ( w * w );
 		}
 
+		Type	length(){
+			return static_cast<Type>( std::sqrt( lengthSqrt() ) );
+		}
+
 		void	normalize(){
 			f32 sqLen, invLen;
 			sqLen = lengthSqrt();
@@ -544,6 +563,9 @@ namespace gost{
 		Type	getHeight(){
 			return w - y;
 		}
+
+		Type	distance( const gtVector3< Type >& from ){ return gtVector3< Type >( x - from.x, y - from.y, z - from.z ).length(); }
+		Type	distance( const gtVector4< Type >& from ){ return gtVector4< Type >( x - from.x, y - from.y, z - from.z ).length(); }
 
 		gtVector2< Type > getV2(){ return gtVector2< Type >( x, y ); }
 		gtVector3< Type > getV3(){ return gtVector3< Type >( x, y, z ); }
@@ -716,15 +738,8 @@ namespace gost{
 			d( static_cast< Type >( gtConst0U ) ){
 		}
 
-		gtVector8( Type X, Type Y, Type Z, Type W, Type A, Type B, Type C, Type D ){
-			x = X;
-			y = Y;
-			z = Z;
-			w = W;
-			a = A;
-			b = B;
-			c = C;
-			d = D;
+		gtVector8( Type X, Type Y, Type Z, Type W, Type A, Type B, Type C, Type D ):
+			x(X),y(Y),z(Z),w(W),a(A),b(B),c(C),d(D){
 		}
 
 	};
@@ -759,21 +774,19 @@ namespace gost{
 
 	namespace math{
 
-			//	\param s: first vector
-			//	\param a: second vector
-			//	\return cross product
-		GT_FORCE_INLINE v3f cross( const v3f& s, const v3f& a ){
-			v3f r;
+			//	cross product
+		template<typename T1, typename T2>
+		T1 cross( const T1& s, const T2& a ){
+			T1 r;
 			r.x = (s.y * a.z) - (s.z * a.y);
 			r.y = (s.z * a.x) - (s.x * a.z);
 			r.z = (s.x * a.y) - (s.y * a.x);
 			return r;
 		}
 
-			//	\param s: first vector
-			//	\param a: second vector
-			//	\return dot product
-		GT_FORCE_INLINE f32 dot( const v3f& s, const v3f& a ){
+			//	dot product
+		template<typename T1, typename T2>
+		f32 dot( const T1& s, const T2& a ){
 			f32 r;
 			r =  (s.x * a.x);
 			r += (s.y * a.y);
@@ -781,30 +794,9 @@ namespace gost{
 			return r;
 		}
 
-			//	\param s: first vector
-			//	\param a: second vector
-			//	\return dot product
-		GT_FORCE_INLINE f32 dot( const v4f& s, const v3f& a ){
-			f32 r;
-			r =  (s.x * a.x);
-			r += (s.y * a.y);
-			r += (s.z * a.z);
-			return r;
-		}
-
-			//	\param s: first vector
-			//	\param a: second vector
-			//	\return dot product
-		GT_FORCE_INLINE f32 dot( const v4f& s, const v4f& a ){
-			f32 r;
-			r =  (s.x * a.x);
-			r += (s.y * a.y);
-			r += (s.z * a.z);
-			return r;
-		}
-
-		GT_FORCE_INLINE v3f planeDotCoord( const v4f& plane, const v3f& coord ){
-			return v3f( plane.x * coord.x + plane.y * coord.y + plane.z * coord.z + plane.w );
+		template<typename T>
+		T planeDotCoord( const T& coord, const v4f& plane ){
+			return T( plane.x * coord.x + plane.y * coord.y + plane.z * coord.z + plane.w );
 		}
 	}
 

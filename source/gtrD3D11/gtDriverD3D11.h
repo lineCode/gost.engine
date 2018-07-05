@@ -117,7 +117,7 @@ namespace gost{
 		void draw2DImage( const v4i& rect, gtTexture* texture );
 		void draw2DImage( const v4i& rect, const v4i& region, gtTexture* texture );
 		void drawModel( gtRenderModel* );
-		void drawLine( const v3f& start, const v3f& end, const gtColor& color );
+		void drawLine( const v4f& start, const v4f& end, const gtColor& color );
 		
 
 		gtShader *	getShader( 

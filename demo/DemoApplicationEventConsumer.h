@@ -5,6 +5,7 @@
 namespace demo{
 
 	class DemoApplication;
+	enum class DemoState : u32;
 
 	struct DemoApplicationContext{
 		DemoApplication *	app;
@@ -13,8 +14,9 @@ namespace demo{
 		s32 * activeDemoSelected;
 		s32 * currentDemoColonIndex;
 		s32 * pauseMainMenuSelectedId;
+		s16 * demoPauseMenuID;
 		s32   demoArraySize;
-
+		DemoState * demoState;
 		v4i   oldWindowSize;
 	};
 

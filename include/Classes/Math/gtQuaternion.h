@@ -46,22 +46,14 @@ namespace gost{
 		}
 
 			//	create quaternion from Euler angles
-			// \param v: vector with angles
-		gtQuaternion( const v3f& v ){
-			set( v );
-		}
+		gtQuaternion( const v3f& v ){ set( v ); }
+		gtQuaternion( const v4f& v ){ set( v ); }
 
 			//	get quaternion in gtVector4f form
-			//	\return vector
-		v4f	get() const {
-			return v4f( x, y, z, w );
-		}
+		v4f	get() const { return v4f( x, y, z, w ); }
 
 			//	get real part
-			//	\return real part
-		f32	getReal() const {
-			return w;
-		}
+		f32	getReal() const { return w; }
 
 			//	set quaternion with components
 			//	\param i1: imagine1, first component
@@ -76,10 +68,8 @@ namespace gost{
 		}
 
 			//	set quaternion from Euler angles
-			// \param v: vector with angles
-		void set( const v3f& v ){
-			set( v.x, v.y, v.z );
-		}
+		void set( const v3f& v ){ set( v.x, v.y, v.z ); }
+		void set( const v4f& v ){ set( v.x, v.y, v.z ); }
 
 			//	set quaternion from Euler angles
 			// \param Euler_x: x angle

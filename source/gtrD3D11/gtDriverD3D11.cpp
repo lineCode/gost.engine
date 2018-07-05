@@ -768,7 +768,7 @@ void gtDriverD3D11::drawModel( gtRenderModel* model ){
 	}
 }
 
-void gtDriverD3D11::drawLine( const v3f& start, const v3f& end, const gtColor& color ){
+void gtDriverD3D11::drawLine( const v4f& start, const v4f& end, const gtColor& color ){
 	gtShader * shader = m_shaderLine;
 	m_shaderProcessing->setShader( shader );
 	m_shaderProcessing->setMaterial( nullptr );

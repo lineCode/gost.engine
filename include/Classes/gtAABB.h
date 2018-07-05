@@ -9,11 +9,9 @@ namespace gost{
 	public:
 
 		gtAabb(){ }
+		gtAabb( const v4f& min, const v4f& max ):m_min( min ), m_max( max ){ }
 
-		gtAabb( const v3f& min, const v3f& max ):
-			m_min( min ), m_max( max ){ }
-
-		void add( const v3f& point ){
+		void add( const v4f& point ){
 			if( point.x < m_min.x ) m_min.x = point.x;
 			if( point.y < m_min.y ) m_min.y = point.y;
 			if( point.z < m_min.z ) m_min.z = point.z;
@@ -33,24 +31,16 @@ namespace gost{
 			if( box.m_max.z > m_max.z ) m_max.z = box.m_max.z;
 		}
 
-		void center( v3f& v ){
-			v = v3f( m_min + m_max );
+		void center( v4f& v ){
+			v = v4f( m_min + m_max );
 			v *= gtConst05F;
 		}
 
-		void extent( v3f& v ){
-			v = v3f( m_max - m_min );
-		}
+		void extent( v4f& v ) { v = v4f( m_max - m_min ); }
+		bool isEmpty() const  { return (m_min == m_max); }
+		void reset()          { m_min = m_max = v4f(); }
 
-		bool isEmpty() const {
-			return (m_min == m_max);
-		}
-
-		void reset(){
-			m_min = m_max = v3f();
-		}
-
-		v3f m_min, m_max;
+		v4f m_min, m_max;
 	};
 }
 

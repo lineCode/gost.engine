@@ -27,8 +27,8 @@ namespace gost{
 		virtual f32					getNear() = 0;
 		virtual gtObb*				getObb() = 0;
 		virtual const gtMatrix4&	getProjectionMatrix() = 0;
-		virtual const v3f&			getTarget() = 0;
-		virtual const v3f&			getUpVector() = 0;
+		virtual const v4f&			getTarget() = 0;
+		virtual const v4f&			getUpVector() = 0;
 		virtual const gtMatrix4&	getViewMatrix() = 0;
 
 		virtual void				setAspect( f32 aspect ) = 0;
@@ -36,8 +36,8 @@ namespace gost{
 		virtual void				setFar( f32 Far ) = 0;
 		virtual void				setFOV( f32 fov ) = 0;
 		virtual void				setNear( f32 Near ) = 0;
-		virtual void				setTarget( const v3f& target ) = 0;
-		virtual void				setUpVector( const v3f& up ) = 0;
+		virtual void				setTarget( const v4f& target ) = 0;
+		virtual void				setUpVector( const v4f& up ) = 0;
 		virtual void				setViewPort( const v4f& v ) = 0;
 		
 	};

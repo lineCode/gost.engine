@@ -62,7 +62,7 @@ namespace gost{
 		virtual void draw2DImage( const v4i& rect, gtTexture* texture ) = 0;
 		virtual void draw2DImage( const v4i& rect, const v4i& region, const gtMaterial& m ) = 0;
 		virtual void draw2DImage( const v4i& rect, const v4i& region, gtTexture* texture ) = 0;
-		virtual void drawLine( const v3f& start, const v3f& end, const gtColor& color = gtColor( gtColorWhite ) ) = 0;
+		virtual void drawLine( const v4f& start, const v4f& end, const gtColor& color = gtColor( gtColorWhite ) ) = 0;
 		/*
 			//       v6-----------v2
 			//      /|			/ |
@@ -76,11 +76,11 @@ namespace gost{
 			//	/			|/
 			//	v1----------v4
 		*/
-		virtual void drawLineBox( const v3f& v1, const v3f& v2, const v3f& v3, const v3f& v4,
-			const v3f& v5, const v3f& v6, const v3f& v7, const v3f& v8,
-			const v3f& positionOffset = v3f(), const gtColor& color = gtColor( gtColorWhite ) ) = 0;
+		virtual void drawLineBox( const v4f& v1, const v4f& v2, const v4f& v3, const v4f& v4,
+			const v4f& v5, const v4f& v6, const v4f& v7, const v4f& v8,
+			const v4f& positionOffset = v4f(), const gtColor& color = gtColor( gtColorWhite ) ) = 0;
 
-		virtual void drawLineSphere( const v3f& position, f32 radius, u32 smoothLevel = gtConst1U, const gtColor& color1 = gtColor( gtColorWhite ),
+		virtual void drawLineSphere( const v4f& position, f32 radius, u32 smoothLevel = gtConst1U, const gtColor& color1 = gtColor( gtColorWhite ),
 			const gtColor& color2 = gtColor( gtColorWhite ),
 			const gtColor& color3 = gtColor( gtColorWhite )) = 0;
 
@@ -306,9 +306,9 @@ namespace gost{
 			return remove_texture( texture );
 		}
 
-		virtual void drawLineBox( const v3f& v1, const v3f& v2, const v3f& v3, const v3f& v4,
-			const v3f& v5, const v3f& v6, const v3f& v7, const v3f& v8,
-			const v3f& positionOffset, const gtColor& color ){
+		virtual void drawLineBox( const v4f& v1, const v4f& v2, const v4f& v3, const v4f& v4,
+			const v4f& v5, const v4f& v6, const v4f& v7, const v4f& v8,
+			const v4f& positionOffset, const gtColor& color ){
 				drawLine( v1 + positionOffset, v4 + positionOffset, color );
 				drawLine( v5 + positionOffset, v8 + positionOffset, color );
 				drawLine( v1 + positionOffset, v5 + positionOffset, color );
@@ -323,11 +323,11 @@ namespace gost{
 				drawLine( v1 + positionOffset, v3 + positionOffset, color );
 		}
 
-		virtual void drawLineSphere( const v3f& position, f32 radius, u32 smoothLevel, const gtColor& color1, const gtColor& color2, const gtColor& color3 ){
+		virtual void drawLineSphere( const v4f& position, f32 radius, u32 smoothLevel, const gtColor& color1, const gtColor& color2, const gtColor& color3 ){
 
-			gtArray< v3f > points1;
-			gtArray< v3f > points2;
-			gtArray< v3f > points3;
+			gtArray< v4f > points1;
+			gtArray< v4f > points2;
+			gtArray< v4f > points3;
 			f32 x, y;
 
 			u32 q = smoothLevel;
@@ -340,21 +340,21 @@ namespace gost{
 				f32 a = (f32)i * m / gtConst180F * math::PI;
 				x = std::sin( a );
 				y = std::cos( a );
-				points1.push_back( v3f( x * radius, gtConst0F, y * radius ) + position );
+				points1.push_back( v4f( x * radius, gtConst0F, y * radius ) + position );
 			}
 
 			for( u32 i = gtConst0U; i < s; ++i ){
 				f32 a = (f32)i * m / gtConst180F * math::PI;
 				x = std::sin( a );
 				y = std::cos( a );
-				points2.push_back( v3f( x * radius, y * radius, gtConst0F ) + position );
+				points2.push_back( v4f( x * radius, y * radius, gtConst0F ) + position );
 			}
 
 			for( u32 i = gtConst0U; i < s; ++i ){
 				f32 a = (f32)i * m / gtConst180F * math::PI;
 				x = std::sin( a );
 				y = std::cos( a );
-				points3.push_back( v3f( gtConst0F, x * radius, y * radius ) + position );
+				points3.push_back( v4f( gtConst0F, x * radius, y * radius ) + position );
 			}
 
 			u32 sz = points1.size();

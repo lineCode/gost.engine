@@ -7,32 +7,26 @@ namespace gost{
 	class gtGraphicsSystem;
 
 		class gtSprite : public gtGameObject{
+		
+			gtSprite(){};
 
-		gtObjectType m_type;
-		 
-		gtAnimation m_animation;
-		gtArray<v8f> m_frames;	
+			gtMainSystem *       m_system;		
+			gtGraphicsSystem *   m_gs;			
+			gtTexture *          m_texture;	
+			gtPtr<gtRenderModel> m_rModel;
+			u32                  m_width;
+			u32                  m_height;
+			f32                  m_timer;			
+			f32                  m_timerLimit;
+			gtObjectType         m_type;
+			gtArray<v8f>         m_frames;	
+			gtAnimation          m_animation;
+			gtMaterial	         m_material;
+			gtAabb               m_aabb;
+			gtObb                m_obb;
+			bool                 m_firstFrame;				
+			bool                 m_inverseHorizontal;		
 
-		gtMaterial	 m_material;
-		gtTexture *  m_texture;	
-
-		gtPtr<gtRenderModel> m_rModel;
-
-		gtMainSystem * m_system;		
-		gtGraphicsSystem * m_gs;			
-
-		bool m_firstFrame;				
-		bool m_inverseHorizontal;		
-
-		u32 width, height;				
-
-		f32 m_timer;					
-		f32 m_timerLimit;				
-
-		gtAabb m_aabb;
-		gtObb  m_obb;
-
-		gtSprite(){};
 
 	public:
 
@@ -62,45 +56,44 @@ namespace gost{
 			m_aabb = *m_rModel->getAabb();
 			m_obb = *m_rModel->getObb();
 
-			width = gtConst1U, height = gtConst1U;
-			if( m_material.textureLayer[ gtConst0U ].texture ){
-				width = m_material.textureLayer[ gtConst0U ].texture->getWidth();
-				height = m_material.textureLayer[ gtConst0U ].texture->getHeight();
-			}
+			m_width  = gtConst1U;
+			m_height = gtConst1U;
 
-		//	m_quaternion.set(v3f_t(0.f,0.f,-PI/2.f));
-		//	m_quaternion = m_quaternion * gtQuaternion(v3f_t(0.f,0.f,-PI/2.f));
+			if( m_material.textureLayer[ gtConst0U ].texture ){
+				m_width = m_material.textureLayer[ gtConst0U ].texture->getWidth();
+				m_height = m_material.textureLayer[ gtConst0U ].texture->getHeight();
+			}
 
 			m_position.z = -1.f;
 
 			resetAnimation( true );
-
 		}
 
-			// d-tor
-		virtual ~gtSprite(){
-		}
-
-		gtAabb*				getAabb(){
-			return &m_aabb;
-		}
-
-		gtObb*				getObb(){
-			return &m_obb;
-		}
-
-		gtObjectType getType(){
-			return m_type;
-		}
-
-		
-		gtTexture*	getTexture(){
-			return m_material.textureLayer[ gtConst0U ].texture;
-		}
+		virtual        ~gtSprite()                 {}
+		gtAabb*		   getAabb()                   { return &m_aabb; }
+		u32            getCurrentFrame()           { return m_animation.getCurrentFrame(); }
+		const v8f&     getFrame( u32 id )          { return m_frames[ id ]; }
+		u32            getFrameID() const          { return m_animation.getCurrentFrame(); }
+		f32	           getFrameRate() const        { return m_animation.getFrameRate(); }
+		gtMaterial *   getMaterial()               { return &m_material; }
+		gtObb*		   getObb()                    { return &m_obb;  }
+		gtTexture*	   getTexture()                { return m_material.textureLayer[ gtConst0U ].texture;}
+		gtObjectType   getType()                   { return m_type;  }
+		void           inverseHorizontal( bool v ) { m_inverseHorizontal = v; }
+		bool           isInverseHorizontal()       { return m_inverseHorizontal; }
+		bool           isLoop() const              { return m_animation.isLoop(); }
+		bool           isPlay() const              { return m_animation.isPlay(); }
+		void           pauseAnimation()            { m_animation.pause(); }
+		void           playAnimation()             { m_animation.play(); }
+		void           setFrame( u32 frame )       { m_animation.setCurrentFrame( frame );}
+		void           setLoop( bool value = true ){ m_animation.setLoop( value ); }
+		void           setLoopSegment( u32 begin, u32 end ){ m_animation.setLoopSegment( begin, end ); }
+		void           setReverse( bool v )        { m_animation.setReverse( v ); }
+		void           stopAnimation()             { m_animation.stop(); }
 
 		void update(){
 			gtMatrix4 translationMatrix;
-			math::makeTranslationMatrix( translationMatrix, m_position );
+			math::makeTranslationMatrix( m_position, translationMatrix );
 
 			gtMatrix4 rotationMatrix;
 			math::makeRotationMatrix( rotationMatrix, m_orientation );
@@ -127,17 +120,6 @@ namespace gost{
 
 		}
 
-		void inverseHorizontal( bool v ){
-			m_inverseHorizontal = v;
-		}
-
-		void setReverse( bool v ){
-			m_animation.setReverse( v );
-		}
-
-		bool isInverseHorizontal(){
-			return m_inverseHorizontal;
-		}
 
 		void render(){
 			if( m_isVisible ){
@@ -150,8 +132,8 @@ namespace gost{
 
 			v2f lt, rb;
 
-			f32 mulX = gtConst1F / (f32)width;
-			f32 mulY = gtConst1F / (f32)height;
+			f32 mulX = gtConst1F / (f32)m_width;
+			f32 mulY = gtConst1F / (f32)m_height;
 
 			lt.x = rect.x * mulX;
 			lt.y = rect.y * mulY;
@@ -188,49 +170,6 @@ namespace gost{
 				addFrame( rect );
 		}
 
-		u32 getCurrentFrame(){
-			return m_animation.getCurrentFrame();
-		}
-
-		const v8f& getFrame( u32 id ){
-			return m_frames[ id ];
-		}
-
-		bool isLoop() const {
-			return m_animation.isLoop();
-		}
-
-		bool isPlay() const {
-			return m_animation.isPlay();
-		}
-
-		void setLoop( bool value = true ){
-			m_animation.setLoop( value );
-		}
-
-		void setLoopSegment( u32 begin, u32 end ){
-			m_animation.setLoopSegment( begin, end );
-		}
-
-		u32 getFrameID() const {
-			return m_animation.getCurrentFrame();
-		}
-
-		void playAnimation(){
-			m_animation.play();
-		}
-			
-		void pauseAnimation(){
-			m_animation.pause();
-		}
-
-		void stopAnimation(){
-			m_animation.stop();
-		}
-
-		void setFrame( u32 frame ){
-			m_animation.setCurrentFrame( frame );
-		}
 
 		void updateAnimation(){
 			u32 t1 = gtConst0U;
@@ -264,7 +203,7 @@ namespace gost{
 					addFrame( v4u( x1, y1, x2, y2 ) );
 					x1 += size.x;
 					x2 += size.x;
-					if( x2 > width ){
+					if( x2 > m_width ){
 						x1 = gtConst0U;
 						x2 = size.x;
 						y1 += size.y;
@@ -274,9 +213,6 @@ namespace gost{
 			}
 		}
 
-		f32	getFrameRate() const {
-			return m_animation.getFrameRate();
-		}
 
 		void	setFrameRate( f32 rate ){
 			if( rate == gtConst0F )
@@ -285,9 +221,6 @@ namespace gost{
 			m_timerLimit = 1000 / rate;
 		}
 
-		gtMaterial * getMaterial(){
-			return &m_material;
-		}
 	};
 
 }

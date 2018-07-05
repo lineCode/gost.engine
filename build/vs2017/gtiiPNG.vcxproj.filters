@@ -18,10 +18,10 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\source\gtPNG\dllmain.cpp">
+    <ClCompile Include="..\..\source\gtiiPNG\dllmain.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\gtPNG\gtiiPNG.cpp">
+    <ClCompile Include="..\..\source\gtiiPNG\gtiiPNG.cpp">
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\thirdparty\lpng1628\png.c">
@@ -119,12 +119,12 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\source\gtPNG\common.h">
+    <ClInclude Include="..\..\source\gtiiPNG\common.h">
       <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="..\..\source\gtPNG\ReadMe.txt">
+    <Text Include="..\..\source\gtiiPNG\ReadMe.txt">
       <Filter>Resource</Filter>
     </Text>
   </ItemGroup>

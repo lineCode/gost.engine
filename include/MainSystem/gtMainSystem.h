@@ -74,10 +74,11 @@ namespace gost{
 		virtual bool checkEventType( const gtEvent& ev ) = 0;
 		virtual bool checkEvent( gtEvent& ev, bool(*compare_function)( gtEvent& current_event, gtEvent& user_event ) ) = 0;
 		virtual gtPtr<gtAudioSystem>    createAudioSystem( const GT_GUID& uid ) = 0;
+		virtual gtPtr<gtGraphicsSystem> createGraphicsSystem( const gtGraphicsSystemInfo& gsi, const GT_GUID& uid ) = 0;
 		virtual gtPtr<gtMutex>          createMutex() = 0;
-		virtual gtPtr<gtThread>         createThread() = 0;
+		virtual gtPtr<gtPhysicsSystem>  createPhysicsSystem( const gtPhysicsSystemInfo& psi, const GT_GUID& uid ) = 0;
 		virtual gtPtr<gtWindow>	        createSystemWindow( gtWindowInfo* wi ) = 0;
-		virtual gtPtr<gtGraphicsSystem> createGraphicsSystem( const gtGraphicsSystemInfo& di, const GT_GUID& uid ) = 0;
+		virtual gtPtr<gtThread>         createThread() = 0;
 		virtual const gtDeviceCreationParameters& getDeviceCreationParameters() = 0;
 		virtual gtGUISystem* getGUISystem( gtGraphicsSystem * currentRenderDriver ) = 0;
 		GT_API static gtMainSystem* getInstance();

@@ -12,56 +12,56 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\source\gtD3D11\gtDriverD3D11.cpp">
+    <ClCompile Include="..\..\source\gtrD3D11\dllmain.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\gtD3D11\gtRenderModelD3D11.cpp">
+    <ClCompile Include="..\..\source\gtrD3D11\gtDriverD3D11.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\gtD3D11\gtShaderCallbacks.cpp">
+    <ClCompile Include="..\..\source\gtrD3D11\gtrD3D11.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\gtD3D11\gtShaderImpl.cpp">
+    <ClCompile Include="..\..\source\gtrD3D11\gtRenderModelD3D11.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\gtD3D11\gtShaderProcessingD3D11.cpp">
+    <ClCompile Include="..\..\source\gtrD3D11\gtShaderCallbacks.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\gtD3D11\gtTextureD3D11.cpp">
+    <ClCompile Include="..\..\source\gtrD3D11\gtShaderImpl.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\gtD3D11\dllmain.cpp">
+    <ClCompile Include="..\..\source\gtrD3D11\gtShaderProcessingD3D11.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\gtD3D11\gtD3D11.cpp">
+    <ClCompile Include="..\..\source\gtrD3D11\gtTextureD3D11.cpp">
       <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\source\gtD3D11\gtDriverD3D11.h">
+    <ClInclude Include="..\..\source\gtrD3D11\common.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\gtD3D11\gtRenderModelD3D11.h">
+    <ClInclude Include="..\..\source\gtrD3D11\gtDriverD3D11.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\gtD3D11\gtShaderCallbacks.h">
+    <ClInclude Include="..\..\source\gtrD3D11\gtRenderModelD3D11.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\gtD3D11\gtShaderImpl.h">
+    <ClInclude Include="..\..\source\gtrD3D11\gtTextureD3D11.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\gtD3D11\gtShaderProcessingD3D11.h">
+    <ClInclude Include="..\..\source\gtrD3D11\gtShaderCallbacks.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\gtD3D11\gtTextureD3D11.h">
+    <ClInclude Include="..\..\source\gtrD3D11\gtShaderImpl.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\gtD3D11\common.h">
+    <ClInclude Include="..\..\source\gtrD3D11\gtShaderProcessingD3D11.h">
       <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="..\..\source\gtD3D11\ReadMe.txt">
+    <Text Include="..\..\source\gtrD3D11\ReadMe.txt">
       <Filter>Resource</Filter>
     </Text>
   </ItemGroup>

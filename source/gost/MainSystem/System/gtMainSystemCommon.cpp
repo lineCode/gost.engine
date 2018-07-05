@@ -75,32 +75,49 @@ void gtStackTracer::dumpStackTrace(){
 }
 
 gtPtr<gtGraphicsSystem> gtMainSystemCommon::createGraphicsSystem( /*gtPlugin* videoDriverPlugin,*/ const gtGraphicsSystemInfo& params, const GT_GUID& uid ){
-
 	auto plugin = this->getPluginSystem()->getPlugin( uid );
-
 	if( !plugin ){
-		gtLogWriter::printError( u"Can not find video driver in `plugins` folder" );
+		gtLogWriter::printError( u"Can not find renderer plugin in `plugins` folder" );
 		return nullptr;
 	}
 
 	if( plugin->getInfo().m_info.m_type != gtPluginType::Render ){
-		gtLogWriter::printError( u"Can not create video driver" );
+		gtLogWriter::printError( u"Can not create graphics system" );
 		return nullptr;
 	}
 
 	gtGraphicsSystem * d = ((gtPluginRender*)plugin)->loadDriver( params );
-
 	if( d )
 		m_drivers.push_back( d );
 
 	m_gs = d;
-
 	return gtPtrNew<gtGraphicsSystem>(d);
 }
 
-u32 gtMainSystemCommon::getLoadedVideoDriverCount(){
-	return m_drivers.size();
+gtPtr<gtPhysicsSystem> gtMainSystemCommon::createPhysicsSystem( const gtPhysicsSystemInfo& psi, const GT_GUID& uid ){
+	auto plugin = this->getPluginSystem()->getPlugin( uid );
+	if( !plugin ){
+		gtLogWriter::printError( u"Can not find physics plugin in `plugins` folder" );
+		return nullptr;
+	}
+
+	if( plugin->getInfo().m_info.m_type != gtPluginType::Physics ){
+		gtLogWriter::printError( u"Can not create physics system" );
+		return nullptr;
+	}
+
+	/*gtGraphicsSystem * d = ((gtPluginRender*)plugin)->loadDriver( params );
+	if( d )
+		m_drivers.push_back( d );
+
+	m_gs = d;
+	return gtPtrNew<gtGraphicsSystem>(d);*/
+	return nullptr;
 }
+
+gtGraphicsSystem* gtMainSystemCommon::getMainVideoDriver()         { return m_gs; }
+void gtMainSystemCommon::setMainVideoDriver( gtGraphicsSystem* d ) { m_gs = d; }
+u32 gtMainSystemCommon::getLoadedVideoDriverCount()                { return m_drivers.size(); }
 
 gtGraphicsSystem* gtMainSystemCommon::getLoadedVideoDriver( u32 id ){
 	if( m_drivers.size() ){
@@ -110,13 +127,6 @@ gtGraphicsSystem* gtMainSystemCommon::getLoadedVideoDriver( u32 id ){
 	return nullptr;
 }
 
-gtGraphicsSystem* gtMainSystemCommon::getMainVideoDriver(){
-	return m_gs;
-}
-
-void gtMainSystemCommon::setMainVideoDriver( gtGraphicsSystem* d ){
-	m_gs = d;
-}
 
 gtPtr<gtImage>	gtMainSystemCommon::loadImage( const gtString& fileName ){
 	return gtPtrNew<gtImage>( this->m_pluginSystem->importImage( fileName ) );
@@ -145,6 +155,9 @@ bool gtMainSystemCommon::checkEventType( const gtEvent& ev ){
 		}
 
 		++cur;
+
+		if( cur == EventMax)
+			break;
 	}
 	return false;
 }
@@ -165,6 +178,8 @@ bool gtMainSystemCommon::checkEvent( gtEvent& ev, bool(*compare_function)( gtEve
 		}
 
 		++cur;
+		if( cur == EventMax)
+			break;
 	}
 	return false;
 }

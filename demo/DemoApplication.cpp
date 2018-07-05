@@ -47,6 +47,8 @@ m_delta( 0.f ){
 	context.activeDemoSelected = &m_activeDemoSelected;
 	context.currentDemoColonIndex = &m_currentDemoColonIndex;
 	context.pauseMainMenuSelectedId = &m_pauseMainMenuSelectedId;
+	context.demoState = &m_state;
+	context.demoPauseMenuID = &m_demoPauseMenuID;
 
 	m_eventConsumer = new demo::DemoApplicationEventConsumer( context );
 
@@ -410,7 +412,16 @@ void demo::DemoApplication::RebuildGUI(){
 
 void demo::DemoApplication::RefreshGUI(){
 	if( m_isPause ){
-		updatePauseMainMenu();
+		switch( m_state ){
+		case demo::DemoState::MainMenu:
+			updatePauseMainMenu();
+			break;
+		case demo::DemoState::DemoMenu:
+			updateDemoPause();
+			break;
+		case demo::DemoState::DemoRun:
+			break;
+		}
 	}else
 		updateColons();
 }
@@ -1373,17 +1384,25 @@ bool demo::DemoApplication::inputGamepadSelectHold(){
 
 bool demo::DemoApplication::InitDefaultScene(){
 
-	auto m11 = m_sceneSystem->addStaticObject( m_gs->getModel(u"../demo/media/scene/11.obj") );
-	auto f = m_sceneSystem->addStaticObject( m_gs->getModel(u"../demo/media/scene/floor01.obj") );
-	auto p = m_sceneSystem->addStaticObject( m_gs->getModel(u"../demo/media/scene/piedestal.obj") );
-	auto s = m_sceneSystem->addStaticObject( m_gs->getModel(u"../demo/media/scene/stairs.obj") );
-	auto t = m_sceneSystem->addStaticObject( m_gs->getModel(u"../demo/media/scene/tc.obj") );
+	auto m1 = m_sceneSystem->addStaticObject( m_gs->getModel(u"../demo/media/scene/1.obj") );
+	auto m2 = m_sceneSystem->addStaticObject( m_gs->getModel(u"../demo/media/scene/2.obj") );
+	auto m3 = m_sceneSystem->addStaticObject( m_gs->getModel(u"../demo/media/scene/3.obj") );
+	auto m4 = m_sceneSystem->addStaticObject( m_gs->getModel(u"../demo/media/scene/4.obj") );
+	auto m5 = m_sceneSystem->addStaticObject( m_gs->getModel(u"../demo/media/scene/5.obj") );
 
-	m11->getModel()->getMaterial( gtConst0U )->textureLayer[ gtConst0U ].texture = m_gs->getTexture( u"../demo/media/scene/11.png" );
-	f->getModel()->getMaterial( gtConst0U )->textureLayer[ gtConst0U ].texture = m_gs->getTexture( u"../demo/media/scene/floor.png" );
-	p->getModel()->getMaterial( gtConst0U )->textureLayer[ gtConst0U ].texture = m_gs->getTexture( u"../demo/media/scene/pied.png" );
-	s->getModel()->getMaterial( gtConst0U )->textureLayer[ gtConst0U ].texture = m_gs->getTexture( u"../demo/media/scene/stairs.png" );
-	t->getModel()->getMaterial( gtConst0U )->textureLayer[ gtConst0U ].texture = m_gs->getTexture( u"../demo/media/scene/tc.png" );
+	const v3f sc( 0.15f );
+
+	m1->setScale( sc );
+	m2->setScale( sc );
+	m3->setScale( sc );
+	m4->setScale( sc );
+	m5->setScale( sc );
+
+	m1->getModel()->getMaterial( gtConst0U )->textureLayer[ gtConst0U ].texture = m_gs->getTexture( u"../demo/media/scene/1.png" );//load
+	m2->getModel()->getMaterial( gtConst0U )->textureLayer[ gtConst0U ].texture = m_gs->getTexture( u"../demo/media/scene/1.png" );//get 
+	m3->getModel()->getMaterial( gtConst0U )->textureLayer[ gtConst0U ].texture = m_gs->getTexture( u"../demo/media/scene/1.png" );//get 
+	m4->getModel()->getMaterial( gtConst0U )->textureLayer[ gtConst0U ].texture = m_gs->getTexture( u"../demo/media/scene/1.png" );//get 
+	m5->getModel()->getMaterial( gtConst0U )->textureLayer[ gtConst0U ].texture = m_gs->getTexture( u"../demo/media/scene/1.png" );//get 
 
 	m_sceneInitialized = true;
 	return true;
@@ -1628,12 +1647,14 @@ u"<?xml version=\"1.0\"?>\n\
 void demo::DemoApplication::Pause(){
 	m_state = DemoState::DemoMenu;
 	m_isPause = true;
+	ShowMenu();
 	playAudio(DemoAudioType::Accept);
 }
 
 void demo::DemoApplication::StopDemo(){
 	m_state = DemoState::MainMenu;
 	m_isPause = false;
+	HideMenu();
 	m_demoPauseMenuID = 0;
 	updateDemoPause();
 	m_demoArrays[m_activeDemoTypeSelected][m_activeDemoSelected].Shutdown();
@@ -1645,6 +1666,7 @@ void demo::DemoApplication::inputDemoMenuPause(){
 	if( m_eventConsumer->keyDown( gtKey::K_ESCAPE ) || inputGamepadMainMenuStart() || inputGamepadMainMenuEscape() ){
 		playAudio(DemoAudioType::Cancel);
 		m_isPause = false;
+		HideMenu();
 	}
 
 	if( m_eventConsumer->keyDown( gtKey::K_UP ) || inputGamepadMainMenuUp() ){
@@ -1664,6 +1686,7 @@ void demo::DemoApplication::inputDemoMenuPause(){
 
 		if( m_demoPauseMenuID == 0 ){
 			m_isPause = false;
+			HideMenu();
 		}else if( m_demoPauseMenuID == 1 ){
 			StopDemo();
 		}else if( m_demoPauseMenuID == 2 ){

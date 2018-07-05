@@ -23,9 +23,9 @@ namespace gost{
 		gtMatrix4		m_worldMatrix, m_worldMatrixAbsolute;
 		gtMatrix4		m_rotationMatrix;
 
-		v3f				m_position;
-		v3f				m_rotation, m_old_rotation;
-		v3f				m_scale;
+		v4f				m_position;
+		v4f				m_rotation, m_old_rotation;
+		v4f				m_scale;
 		gtQuaternion	m_orientation;
 		bool			m_isVisible;
 		bool			m_isBV;
@@ -55,15 +55,15 @@ namespace gost{
 		virtual gtAabb*				getAabb() = 0;
 		virtual gtObb*				getObb() = 0;
 
-		virtual const v3f&			getPosition(){ return m_position; }
-		virtual v3f					getPositionInSpace(){ return m_worldMatrixAbsolute[ gtConst3U ].getV3(); }
-		virtual void				setPosition( const v3f& p ){ m_position = p; }
+		virtual const v4f&			getPosition(){ return m_position; }
+		virtual v4f					getPositionInSpace(){ return m_worldMatrixAbsolute[ gtConst3U ]; }
+		virtual void				setPosition( const v4f& p ){ m_position = p; }
 
-		virtual void				setRotation( const v3f& rotation ){
+		virtual void				setRotation( const v4f& rotation ){
 			if( m_old_rotation != rotation ){
 				this->m_rotation = rotation; 
 
-				v3f r =  rotation - m_old_rotation;
+				v4f r =  rotation - m_old_rotation;
 
 				gtQuaternion q(r);
 				m_orientation = q * m_orientation;
@@ -75,9 +75,9 @@ namespace gost{
 			}
 		}
 
-		virtual const v3f&			getRotation(){ return m_rotation; }
-		virtual const v3f&			getScale(){ return m_scale; }
-		virtual void				setScale( const v3f& s ){
+		virtual const v4f&			getRotation(){ return m_rotation; }
+		virtual const v4f&			getScale(){ return m_scale; }
+		virtual void				setScale( const v4f& s ){
 			m_scale = s;
 			recalculateBV();
 		}
@@ -98,7 +98,7 @@ namespace gost{
 				gtMatrix4 R, S;
 
 				math::makeRotationMatrix( R, m_orientation );
-				math::makeScaleMatrix( S, m_scale );
+				math::makeScaleMatrix( m_scale, S );
 
 				R = R * S;
 
@@ -127,7 +127,7 @@ namespace gost{
 				obb->m_min = obb->v1;
 				obb->m_max = obb->v2;
 				//obb->calculateBaseInfo();
-				v3f c;
+				v4f c;
 				aabb->center( c );
 				m_sphereRadius = aabb->m_max.distance( c );
 			}

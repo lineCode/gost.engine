@@ -13,12 +13,12 @@ namespace gost{
 
 			// reset
 		void reset(){
-			m_max = v3f();
+			m_max = v4f();
 			m_min = m_center = m_extent = m_max;
 		}
 
 			//	\param point: vertex position for add
-		void add( const v3f& point ){
+		void add( const v4f& point ){
 			if( point.x < m_min.x ) m_min.x = point.x;
 			if( point.y < m_min.y ) m_min.y = point.y;
 			if( point.z < m_min.z ) m_min.z = point.z;
@@ -65,10 +65,10 @@ namespace gost{
 
 		}
 
-		v3f m_min, m_max, m_extent, m_center; //< components
+		v4f m_min, m_max, m_extent, m_center; //< components
 
-		v3f v1, v2, v3, v4, v5, v6, v7, v8;			
-		v3f v1z, v2z, v3z, v4z, v5z, v6z, v7z, v8z; // original position (fixed)
+		v4f v1, v2, v3, v4, v5, v6, v7, v8;			
+		v4f v1z, v2z, v3z, v4z, v5z, v6z, v7z, v8z; // original position (fixed)
 
 	};
 

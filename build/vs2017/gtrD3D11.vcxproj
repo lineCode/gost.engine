@@ -214,26 +214,26 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\source\gtD3D11\dllmain.cpp" />
-    <ClCompile Include="..\..\source\gtD3D11\gtD3D11.cpp" />
-    <ClCompile Include="..\..\source\gtD3D11\gtDriverD3D11.cpp" />
-    <ClCompile Include="..\..\source\gtD3D11\gtRenderModelD3D11.cpp" />
-    <ClCompile Include="..\..\source\gtD3D11\gtShaderCallbacks.cpp" />
-    <ClCompile Include="..\..\source\gtD3D11\gtShaderImpl.cpp" />
-    <ClCompile Include="..\..\source\gtD3D11\gtShaderProcessingD3D11.cpp" />
-    <ClCompile Include="..\..\source\gtD3D11\gtTextureD3D11.cpp" />
+    <ClCompile Include="..\..\source\gtrD3D11\dllmain.cpp" />
+    <ClCompile Include="..\..\source\gtrD3D11\gtrD3D11.cpp" />
+    <ClCompile Include="..\..\source\gtrD3D11\gtDriverD3D11.cpp" />
+    <ClCompile Include="..\..\source\gtrD3D11\gtRenderModelD3D11.cpp" />
+    <ClCompile Include="..\..\source\gtrD3D11\gtShaderCallbacks.cpp" />
+    <ClCompile Include="..\..\source\gtrD3D11\gtShaderImpl.cpp" />
+    <ClCompile Include="..\..\source\gtrD3D11\gtShaderProcessingD3D11.cpp" />
+    <ClCompile Include="..\..\source\gtrD3D11\gtTextureD3D11.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\source\gtD3D11\common.h" />
-    <ClInclude Include="..\..\source\gtD3D11\gtDriverD3D11.h" />
-    <ClInclude Include="..\..\source\gtD3D11\gtRenderModelD3D11.h" />
-    <ClInclude Include="..\..\source\gtD3D11\gtShaderCallbacks.h" />
-    <ClInclude Include="..\..\source\gtD3D11\gtShaderImpl.h" />
-    <ClInclude Include="..\..\source\gtD3D11\gtShaderProcessingD3D11.h" />
-    <ClInclude Include="..\..\source\gtD3D11\gtTextureD3D11.h" />
+    <ClInclude Include="..\..\source\gtrD3D11\common.h" />
+    <ClInclude Include="..\..\source\gtrD3D11\gtDriverD3D11.h" />
+    <ClInclude Include="..\..\source\gtrD3D11\gtRenderModelD3D11.h" />
+    <ClInclude Include="..\..\source\gtrD3D11\gtShaderCallbacks.h" />
+    <ClInclude Include="..\..\source\gtrD3D11\gtShaderImpl.h" />
+    <ClInclude Include="..\..\source\gtrD3D11\gtShaderProcessingD3D11.h" />
+    <ClInclude Include="..\..\source\gtrD3D11\gtTextureD3D11.h" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="..\..\source\gtD3D11\ReadMe.txt" />
+    <Text Include="..\..\source\gtrD3D11\ReadMe.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

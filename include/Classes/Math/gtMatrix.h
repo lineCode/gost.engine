@@ -225,16 +225,16 @@ namespace gost{
 			// \param aspect: aspect ratio
 			// \param Near: near clip plane
 			// \param Far: far clip plane
-		GT_FORCE_INLINE void  makePerspectiveLHMatrix( gtMatrix4& in_out, f32 FOV, f32 aspect,
+		GT_FORCE_INLINE void  makePerspectiveLHMatrix( gtMatrix4& out, f32 FOV, f32 aspect,
 			f32 Near, f32 Far){
 			f32 S	=	std::sin( gtConst05F * FOV );
 			f32 C	=	std::cos( gtConst05F * FOV );
 			f32 H = C / S;
 			f32 W = H / aspect;
-			in_out[ gtConst0U ] = v4f( W, gtConst0F, gtConst0F, gtConst0F );
-			in_out[ gtConst1U ] = v4f( gtConst0F, H, gtConst0F, gtConst0F );
-			in_out[ gtConst2U ] = v4f( gtConst0F, gtConst0F, Far / (Near - Far), gtConst1F );
-			in_out[ gtConst3U ] = v4f( gtConst0F, gtConst0F, -in_out[ gtConst2U ].z * Near, gtConst0F );
+			out[ gtConst0U ] = v4f( W, gtConst0F, gtConst0F, gtConst0F );
+			out[ gtConst1U ] = v4f( gtConst0F, H, gtConst0F, gtConst0F );
+			out[ gtConst2U ] = v4f( gtConst0F, gtConst0F, Far / (Near - Far), gtConst1F );
+			out[ gtConst3U ] = v4f( gtConst0F, gtConst0F, -out[ gtConst2U ].z * Near, gtConst0F );
 		}
 
 			//	create perspective matrix for right hand coordinate system
@@ -243,16 +243,16 @@ namespace gost{
 			// \param aspect: aspect ratio
 			// \param Near: near clip plane
 			// \param Far: far clip plane
-		GT_FORCE_INLINE void  makePerspectiveRHMatrix( gtMatrix4& in_out, f32 FOV, f32 aspect,
+		GT_FORCE_INLINE void  makePerspectiveRHMatrix( gtMatrix4& out, f32 FOV, f32 aspect,
 			f32 Near, f32 Far){
 			f32 S	=	std::sin( gtConst05F * FOV );
 			f32 C	=	std::cos( gtConst05F * FOV );
 			f32 H = C / S;
 			f32 W = H / aspect;
-			in_out[ gtConst0U ] = v4f( W, gtConst0F, gtConst0F, gtConst0F );
-			in_out[ gtConst1U ] = v4f( gtConst0F, H, gtConst0F, gtConst0F );
-			in_out[ gtConst2U ] = v4f( gtConst0F, gtConst0F, Far / (Near - Far), -gtConst1F );
-			in_out[ gtConst3U ] = v4f( gtConst0F, gtConst0F, in_out[ gtConst2U ].z * Near, gtConst0F );
+			out[ gtConst0U ] = v4f( W, gtConst0F, gtConst0F, gtConst0F );
+			out[ gtConst1U ] = v4f( gtConst0F, H, gtConst0F, gtConst0F );
+			out[ gtConst2U ] = v4f( gtConst0F, gtConst0F, Far / (Near - Far), -gtConst1F );
+			out[ gtConst3U ] = v4f( gtConst0F, gtConst0F, out[ gtConst2U ].z * Near, gtConst0F );
 		}
 
 			//	create orthogonal matrix for right hand coordinate system
@@ -261,12 +261,12 @@ namespace gost{
 			// \param height: height of viewport
 			// \param Near: near clip plane
 			// \param Far: far clip plane
-		GT_FORCE_INLINE void  makeOrthoRHMatrix( gtMatrix4& in_out, f32 width, f32 height,
+		GT_FORCE_INLINE void  makeOrthoRHMatrix( gtMatrix4& out, f32 width, f32 height,
 			f32& Near, f32 Far ){
-			in_out[ gtConst0U ] = v4f( gtConst2F / width, gtConst0F, gtConst0F, gtConst0F );
-			in_out[ gtConst1U ] = v4f( gtConst0F, gtConst2F / height, gtConst0F, gtConst0F );
-			in_out[ gtConst2U ] = v4f( gtConst0F, gtConst0F, gtConst1F / (Near - Far), gtConst0F );
-			in_out[ gtConst3U ] = v4f( gtConst0F, gtConst0F, in_out[ gtConst2U ].z * Near, gtConst1F );
+			out[ gtConst0U ] = v4f( gtConst2F / width, gtConst0F, gtConst0F, gtConst0F );
+			out[ gtConst1U ] = v4f( gtConst0F, gtConst2F / height, gtConst0F, gtConst0F );
+			out[ gtConst2U ] = v4f( gtConst0F, gtConst0F, gtConst1F / (Near - Far), gtConst0F );
+			out[ gtConst3U ] = v4f( gtConst0F, gtConst0F, out[ gtConst2U ].z * Near, gtConst1F );
 		}
 		
 			//	create \a look \a at matrix for right hand coordinate system
@@ -274,80 +274,73 @@ namespace gost{
 			// \param eye: camera position
 			// \param center: camera target
 			// \param up: up vector
-		GT_FORCE_INLINE void  makeLookAtRHMatrix( gtMatrix4& in_out, const v3f& eye, const v3f& center, const v3f& up ){
-			v3f f( center - eye );
+		template<typename vector_type>
+		void  makeLookAtRHMatrix( const vector_type& eye, const vector_type& center, const vector_type& up, gtMatrix4& out ){
+			vector_type f( center - eye );
 			f.normalize();
 			
-			v3f s( math::cross( f, up ) );
+			vector_type s( math::cross( f, up ) );
 			s.normalize();
 
-			v3f u( math::cross( s, f ) );
+			vector_type u( math::cross( s, f ) );
 
-			in_out.identity();
+			out.identity();
 
-			in_out[ gtConst0U ].x = s.x;
-			in_out[ gtConst1U ].x = s.y;
-			in_out[ gtConst2U ].x = s.z;
-			in_out[ gtConst0U ].y = u.x;
-			in_out[ gtConst1U ].y = u.y;
-			in_out[ gtConst2U ].y = u.z;
-			in_out[ gtConst0U ].z =-f.x;
-			in_out[ gtConst1U ].z =-f.y;
-			in_out[ gtConst2U ].z =-f.z;
-			in_out[ gtConst3U ].x =-math::dot( s, eye );
-			in_out[ gtConst3U ].y =-math::dot( u, eye );
-			in_out[ gtConst3U ].z = math::dot( f, eye );
+			out[ gtConst0U ].x = s.x;
+			out[ gtConst1U ].x = s.y;
+			out[ gtConst2U ].x = s.z;
+			out[ gtConst0U ].y = u.x;
+			out[ gtConst1U ].y = u.y;
+			out[ gtConst2U ].y = u.z;
+			out[ gtConst0U ].z =-f.x;
+			out[ gtConst1U ].z =-f.y;
+			out[ gtConst2U ].z =-f.z;
+			out[ gtConst3U ].x =-math::dot( s, eye );
+			out[ gtConst3U ].y =-math::dot( u, eye );
+			out[ gtConst3U ].z = math::dot( f, eye );
 		}
 
-			//	create \a look \a at matrix for left hand coordinate system
-			// \param in_out: view matrix
-			// \param eye: camera position
-			// \param center: camera target
-			// \param up: up vector
-		GT_FORCE_INLINE void  makeLookAtLHMatrix( gtMatrix4& in_out, const v3f& eye, const v3f& center,const v3f& up){
-			v3f f( center - eye );
+		template<typename vector_type>
+		void  makeLookAtLHMatrix( const vector_type& eye, const vector_type& center,const vector_type& up, gtMatrix4& out){
+			vector_type f( center - eye );
 			f.normalize();
 			
-			v3f s( math::cross( up, f ) );
+			vector_type s( math::cross( up, f ) );
 			s.normalize();
 
-			v3f u( math::cross( f, s ) );
+			vector_type u( math::cross( f, s ) );
 
-			in_out.identity();
+			out.identity();
 
-			in_out[ gtConst0U ].x = s.x;
-			in_out[ gtConst1U ].x = s.y;
-			in_out[ gtConst2U ].x = s.z;
-			in_out[ gtConst0U ].y = u.x;
-			in_out[ gtConst1U ].y = u.y;
-			in_out[ gtConst2U ].y = u.z;
-			in_out[ gtConst0U ].z = f.x;
-			in_out[ gtConst1U ].z = f.y;
-			in_out[ gtConst2U ].z = f.z;
-			in_out[ gtConst3U ].x =-math::dot( s, eye );
-			in_out[ gtConst3U ].y =-math::dot( u, eye );
-			in_out[ gtConst3U ].z =-math::dot( f, eye );
+			out[ gtConst0U ].x = s.x;
+			out[ gtConst1U ].x = s.y;
+			out[ gtConst2U ].x = s.z;
+			out[ gtConst0U ].y = u.x;
+			out[ gtConst1U ].y = u.y;
+			out[ gtConst2U ].y = u.z;
+			out[ gtConst0U ].z = f.x;
+			out[ gtConst1U ].z = f.y;
+			out[ gtConst2U ].z = f.z;
+			out[ gtConst3U ].x =-math::dot( s, eye );
+			out[ gtConst3U ].y =-math::dot( u, eye );
+			out[ gtConst3U ].z =-math::dot( f, eye );
 		}
 
-			//	create translation matrix
-			// \param in_out: translation matrix
-			// \param position: position
-		GT_FORCE_INLINE void makeTranslationMatrix( gtMatrix4& in_out, const v3f& position ){
-			in_out[ gtConst3U ].x = position.x;
-			in_out[ gtConst3U ].y = position.y;
-			in_out[ gtConst3U ].z = position.z;
+		template<typename vector_type>
+		void makeTranslationMatrix( const vector_type& position, gtMatrix4& out ){
+			out[ gtConst3U ].x = position.x;
+			out[ gtConst3U ].y = position.y;
+			out[ gtConst3U ].z = position.z;
 		}
 
-		GT_FORCE_INLINE void makeScaleMatrix( gtMatrix4& in_out, const v3f& scale ){
-			in_out[ gtConst0U ].x = scale.x;
-			in_out[ gtConst1U ].y = scale.y;
-			in_out[ gtConst2U ].z = scale.z;
+		template<typename vector_type>
+		void makeScaleMatrix( const vector_type& scale, gtMatrix4& out ){
+			out[ gtConst0U ].x = scale.x;
+			out[ gtConst1U ].y = scale.y;
+			out[ gtConst2U ].z = scale.z;
 		}
 
-			//	create rotation matrix
-			// \param in_out: rotation matrix
-			// \param p: orientation
-		GT_FORCE_INLINE void makeRotationMatrix( gtMatrix4& in_out, const gtQuaternion& p ){
+		GT_FORCE_INLINE void makeRotationMatrix( gtMatrix4& out, const gtQuaternion& p ){
 			
 			f32	wx, wy, wz;
 			f32	xx, yy, yz;
@@ -370,26 +363,26 @@ namespace gost{
 			wy = p.w * y2;
 			wz = p.w * z2;
 
-			in_out[ gtConst0U ].x = gtConst1F - ( yy + zz );
-			in_out[ gtConst0U ].y = xy - wz;
-			in_out[ gtConst0U ].z = xz + wy;
+			out[ gtConst0U ].x = gtConst1F - ( yy + zz );
+			out[ gtConst0U ].y = xy - wz;
+			out[ gtConst0U ].z = xz + wy;
 
-			in_out[ gtConst1U ].x = xy + wz;
-			in_out[ gtConst1U ].y = gtConst1F - ( xx + zz );
-			in_out[ gtConst1U ].z = yz - wx;
+			out[ gtConst1U ].x = xy + wz;
+			out[ gtConst1U ].y = gtConst1F - ( xx + zz );
+			out[ gtConst1U ].z = yz - wx;
 
-			in_out[ gtConst2U ].x = xz - wy;
-			in_out[ gtConst2U ].y = yz + wx;
-			in_out[ gtConst2U ].z = gtConst1F - ( xx + yy );
+			out[ gtConst2U ].x = xz - wy;
+			out[ gtConst2U ].y = yz + wx;
+			out[ gtConst2U ].z = gtConst1F - ( xx + yy );
 
-
-			in_out[ gtConst0U ].w	=	in_out[ gtConst1U ].w = in_out[ gtConst2U ].w = in_out[ gtConst3U ].x = in_out[ gtConst3U ].y = in_out[ gtConst3U ].z = gtConst0F;
-			in_out[ gtConst3U ].w  = gtConst1F;
+			out[ gtConst0U ].w	= out[ gtConst1U ].w = out[ gtConst2U ].w = out[ gtConst3U ].x = out[ gtConst3U ].y = out[ gtConst3U ].z = gtConst0F;
+			out[ gtConst3U ].w  = gtConst1F;
 		}
 
 			//Vector-matrix product
-		GT_FORCE_INLINE v3f mul( const v3f& vec, const gtMatrix4& mat ){
-			return v3f(
+		template<typename vector_type>
+		vector_type mul( const vector_type& vec, const gtMatrix4& mat ){
+			return vector_type(
 				mat[ gtConst0U ].x * vec.x + mat[ gtConst1U ].x * vec.y + mat[ gtConst2U ].x * vec.z,
 				mat[ gtConst0U ].y * vec.x + mat[ gtConst1U ].y * vec.y + mat[ gtConst2U ].y * vec.z,
 				mat[ gtConst0U ].z * vec.x + mat[ gtConst1U ].z * vec.y + mat[ gtConst2U ].z * vec.z

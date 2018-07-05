@@ -6,10 +6,10 @@ namespace gost{
 
 	class gtSceneSystemImpl : public gtSceneSystem{
 
-		gtMainSystem *	m_mainSystem;
-		gtGraphicsSystem *		m_gs;
-		gtGameObject *	m_rootNode;
-		gtCamera *		m_activeCamera;
+		gtMainSystem *	   m_mainSystem;
+		gtGraphicsSystem * m_gs;
+		gtGameObject *     m_rootNode;
+		gtCamera *         m_activeCamera;
 
 		void drawObject( gtGameObject * object );
 		void sortTransparent(  gtArray<gtGameObject*>&, gtArray<gtGameObject*>&, gtArray<gtGameObject*>& );
@@ -21,11 +21,11 @@ namespace gost{
 		gtSceneSystemImpl();
 		virtual ~gtSceneSystemImpl();
 
-		gtDummyObject*	addDummyObject( const v3f& position = v3f(), const gtStringA& name = gtStringA(), s32 id = gtConst_1 );
-		gtStaticObject*	addStaticObject( gtRenderModel* model, const v3f& position = v3f(), const gtStringA& name = gtStringA(), s32 id = gtConst_1 );
-		gtCamera*		addCamera( const v3f& position = v3f(), const v3f& target = v3f(), s32 id = gtConst_1, bool setActive = true );
+		gtDummyObject*	addDummyObject( const v4f& position = v4f(), const gtStringA& name = gtStringA(), s32 id = gtConst_1 );
+		gtStaticObject*	addStaticObject( gtRenderModel* model, const v4f& position = v4f(), const gtStringA& name = gtStringA(), s32 id = gtConst_1 );
+		gtCamera*		addCamera( const v4f& position = v4f(), const v4f& target = v4f(), s32 id = gtConst_1, bool setActive = true );
 		gtCamera*		addCamera2D( const v4f& viewport, s32 id = gtConst_1, bool setActive = true );
-		gtSprite*		addSprite( gtTexture * texture, const v2f& size, const v3f& position = v3f( gtConst0F, gtConst0F, 5.f), bool asBillboard = false );
+		gtSprite*		addSprite( gtTexture * texture, const v2f& size, const v4f& position = v4f( gtConst0F, gtConst0F, 5.f, 0.f), bool asBillboard = false );
 
 		gtCamera*		getActiveCamera();
 		void			setActiveCamera( gtCamera* camera );

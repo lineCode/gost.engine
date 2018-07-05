@@ -7,25 +7,22 @@ namespace gost{
 	class gtStaticObjectImpl : public gtStaticObject{
 		
 		gtObjectType	m_type;
-
 		gtRenderModel*	m_model;
 		gtAabb			m_aabb;
 		gtObb			m_obb;
+
 	public:
 
 		gtStaticObjectImpl( gtRenderModel* model );
 		~gtStaticObjectImpl();
 
 
-		//	=================================					gtGameObject
-		gtObjectType		getType();
-		void				update();
-		void				render();
-		
-		gtRenderModel*		getModel();
-
 		gtAabb*				getAabb();
+		gtRenderModel*		getModel();
 		gtObb*				getObb();
+		gtObjectType		getType();
+		void				render();
+		void				update();
 	};
 
 }

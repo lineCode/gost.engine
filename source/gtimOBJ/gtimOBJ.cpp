@@ -229,7 +229,7 @@ extern "C"{
 						vertex.normal	= normal[ iNormal - 1 ];
 					else{
 						auto * pv = &position[ iPosition - 1];
-						vertex.normal = math::cross((pv->y-pv->x),(pv->z-pv->x));
+						vertex.normal = math::cross(v3f(pv->y-pv->x),v3f(pv->z-pv->x));
 					}
 
 					// If a duplicate vertex doesn't exist, add this vertex to the Vertices

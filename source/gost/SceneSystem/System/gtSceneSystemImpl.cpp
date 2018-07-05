@@ -6,12 +6,9 @@ gtSceneSystemImpl::gtSceneSystemImpl():
 	m_rootNode( nullptr ),
 	m_activeCamera( nullptr )
 {
-
 	m_mainSystem = gtMainSystem::getInstance();
-
 	m_rootNode = new gtDummyObjectImpl;
 	m_rootNode->setName("Root object");
-
 }
 
 gtSceneSystemImpl::~gtSceneSystemImpl(){
@@ -41,25 +38,18 @@ void gtSceneSystemImpl::clearScene(){
 	m_activeCamera = nullptr;
 }
 
-void gtSceneSystemImpl::setCurrentRenderDriver( gtGraphicsSystem * driver ){
-	m_gs = driver;
-}
+void gtSceneSystemImpl::setCurrentRenderDriver( gtGraphicsSystem * driver ){ m_gs = driver; }
 
-gtSprite*		gtSceneSystemImpl::addSprite( gtTexture * texture, const v2f& size, const v3f& position, bool /*asBillboard*/ ){
+gtSprite*		gtSceneSystemImpl::addSprite( gtTexture * texture, const v2f& size, const v4f& position, bool /*asBillboard*/ ){
 	gtSprite * sprite = new gtSprite( texture, size, m_gs );
-
 	if( !sprite ) return nullptr;
-
 	sprite->setPosition( position );
-
 	m_rootNode->addChild( sprite );
-
 	sprite->setName("Sprite");
-
 	return sprite;
 }
 
-gtCamera*		gtSceneSystemImpl::addCamera( const v3f& position, const v3f& target, s32 id, bool setActive ){
+gtCamera*		gtSceneSystemImpl::addCamera( const v4f& position, const v4f& target, s32 id, bool setActive ){
 	gtPtr<gtCameraImpl> camera = gtPtrNew<gtCameraImpl>( new gtCameraImpl );
 
 	if( setActive )
@@ -81,12 +71,12 @@ gtCamera*		gtSceneSystemImpl::addCamera( const v3f& position, const v3f& target,
 }
 
 gtCamera*		gtSceneSystemImpl::addCamera2D( const v4f& viewport, s32 id, bool setActive ){
-	gtCamera * camera = addCamera(v3f(),v3f(),id,setActive);
+	gtCamera * camera = addCamera(v4f(),v4f(),id,setActive);
 
 	if( camera ){
 		camera->setCameraType( gtCameraType::Camera_2D );
-		camera->setPosition( v3f( 0.f, 0.f, 0.f ) );
-		camera->setRotation( v3f( 0.f, math::PI, 0.f ) );
+		camera->setPosition( v4f( 0.f ) );
+		camera->setRotation( v4f( 0.f, math::PI, 0.f, 0.f ) );
 		camera->setNear( 0.1f );
 		camera->setFar( 1000.f );
 		camera->setViewPort( viewport );
@@ -97,15 +87,10 @@ gtCamera*		gtSceneSystemImpl::addCamera2D( const v4f& viewport, s32 id, bool set
 	return camera;
 }
 
-gtCamera*		gtSceneSystemImpl::getActiveCamera(){
-	return m_activeCamera;
-}
+gtCamera* gtSceneSystemImpl::getActiveCamera(){ return m_activeCamera; }
+void gtSceneSystemImpl::setActiveCamera( gtCamera* camera ){ m_activeCamera = camera; }
 
-void			gtSceneSystemImpl::setActiveCamera( gtCamera* camera ){
-	m_activeCamera = camera;
-}
-
-gtDummyObject*	gtSceneSystemImpl::addDummyObject( const v3f& position, const gtStringA& name, s32 id ){
+gtDummyObject*	gtSceneSystemImpl::addDummyObject( const v4f& position, const gtStringA& name, s32 id ){
 	gtDummyObjectImpl * node = new gtDummyObjectImpl;
 
 	if( !node ) return nullptr;
@@ -117,11 +102,10 @@ gtDummyObject*	gtSceneSystemImpl::addDummyObject( const v3f& position, const gtS
 	return node;
 }
 
-gtStaticObject*	gtSceneSystemImpl::addStaticObject( gtRenderModel* model, const v3f& position, const gtStringA& name, s32 id ){
+gtStaticObject*	gtSceneSystemImpl::addStaticObject( gtRenderModel* model, const v4f& position, const gtStringA& name, s32 id ){
 	if( !model ) return nullptr;
 
 	gtPtr_t( gtStaticObjectImpl, object, new gtStaticObjectImpl( model ) );
-
 
 	if( !object.data()){
         const char16_t * msg = u"Can not create static object. Name [%s], id[%i]";
@@ -136,21 +120,14 @@ gtStaticObject*	gtSceneSystemImpl::addStaticObject( gtRenderModel* model, const 
 		object->setName( name.data() );
 
 	object->setPosition( position );
-
 	object->setName("Static object");
-
 	m_rootNode->addChild( object.data() );
-
 	object->addRef();
-
 	object->recalculateBV();
-
 	return object.data();
 }
 
-gtGameObject*	gtSceneSystemImpl::getRootObject(){
-	return m_rootNode;
-}
+gtGameObject*	gtSceneSystemImpl::getRootObject(){ return m_rootNode; }
 
 void gtSceneSystemImpl::removeObject( gtGameObject* object ){
 
@@ -168,21 +145,19 @@ void gtSceneSystemImpl::removeObject( gtGameObject* object ){
 		}
 		it = childs->begin();
 	}
-//	gtLogWriter::printInfo(u"Remove object %s", name.to_utf16String().c_str() );
 	if( object ){
 		object->release();
 	}
 }
 
 
-bool aabbInFrustum( gtCameraFrustum * /*frustum*/, gtAabb* aabb, const v3f& position ){
-	v3f _min = aabb->m_min + position;
-	v3f _max = aabb->m_max + position;
-
+bool aabbInFrustum( gtCameraFrustum * /*frustum*/, gtAabb* aabb, const v4f& position ){
+	v4f _min = aabb->m_min + position;
+	v4f _max = aabb->m_max + position;
 	return true;
 }
 
-bool sphereInFrustum( gtCameraFrustum * frustum, f32 radius, const v3f& position ){
+bool sphereInFrustum( gtCameraFrustum * frustum, f32 radius, const v4f& position ){
 	for( u32 i = gtConst0U; i < gtConst6U; ++i ){
 		if( ( frustum->m_planes[ i ].x * position.x + frustum->m_planes[ i ].y * position.y + frustum->m_planes[ i ].z * position.z
 			+ frustum->m_planes[ i ].w ) <= -radius){
@@ -280,7 +255,7 @@ bool gtPairSortPredGreatOrEqual( const gtPair<f32,gtGameObject*>& o1, const gtPa
 }
 
 void gtSceneSystemImpl::sortTransparentDistance( gtArray<gtGameObject*>& in, gtArray<gtGameObject*>& out ){
-	v3f position = m_activeCamera->getPositionInSpace();
+	v4f position = m_activeCamera->getPositionInSpace();
 
 	gtArray<gtPair<f32,gtGameObject*>> groups[ gtConst4U ];
 
@@ -414,14 +389,14 @@ void gtSceneSystemImpl::drawObject( gtGameObject * object ){
 			gtAabb * aabb = object->getAabb();
 			if( aabb ){
 
-				v3f v1 = aabb->m_min;
-				v3f v2 = aabb->m_max;
-				v3f v3 = v3f( v1.x, v1.y, v2.z );
-				v3f v4 = v3f( v2.x, v1.y, v1.z );
-				v3f v5 = v3f( v1.x, v2.y, v1.z );
-				v3f v6 = v3f( v1.x, v2.y, v2.z );
-				v3f v7 = v3f( v2.x, v1.y, v2.z );
-				v3f v8 = v3f( v2.x, v2.y, v1.z );
+				v4f v1 = aabb->m_min;
+				v4f v2 = aabb->m_max;
+				v4f v3 = v4f( v1.x, v1.y, v2.z );
+				v4f v4 = v4f( v2.x, v1.y, v1.z );
+				v4f v5 = v4f( v1.x, v2.y, v1.z );
+				v4f v6 = v4f( v1.x, v2.y, v2.z );
+				v4f v7 = v4f( v2.x, v1.y, v2.z );
+				v4f v8 = v4f( v2.x, v2.y, v1.z );
 
 				m_gs->drawLineBox( v1, v2, v3, v4, v5, v6, v7, v8, pos, green  );
 			}

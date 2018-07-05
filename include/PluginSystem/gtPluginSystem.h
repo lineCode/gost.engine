@@ -125,7 +125,7 @@ namespace gost{
 		virtual gtInputController* loadInputDriver();
 	};
 
-	class gtPluginImportModel GT_FINAL : public gtPlugin{
+	class gtPluginImportModel : public gtPlugin{
 	public:
 		GT_DEFINE_DEFAULT_PLUGIN_METHODS;
 
