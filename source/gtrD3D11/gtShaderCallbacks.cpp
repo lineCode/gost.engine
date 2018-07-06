@@ -71,14 +71,12 @@ gtD3D11GUIShaderCallback::~gtD3D11GUIShaderCallback(){}
 void gtD3D11GUIShaderCallback::onShader( const gtMaterial& m, gtShaderProcessing* sp ){
 	sp->setTexture( "", 0 );
 	struct cbPixel_t{
-		v4f diffuseColor;
-		bool boolean[128u];
+		gtColor diffuseColor;
+		s32 boolean[4u];
 	}cbPixel;
 
-	cbPixel.diffuseColor.x = m.textureLayer[ gtConst0U ].diffuseColor.getRed();
-	cbPixel.diffuseColor.y = m.textureLayer[ gtConst0U ].diffuseColor.getGreen();
-	cbPixel.diffuseColor.z = m.textureLayer[ gtConst0U ].diffuseColor.getBlue();
-	cbPixel.diffuseColor.w = m.transparent;
+	cbPixel.diffuseColor = m.textureLayer[ gtConst0U ].diffuseColor;
+	cbPixel.diffuseColor.setAlpha( m.transparent );
 	cbPixel.boolean[ gtConst0U ]  = (m.flags & (u32)gtMaterialFlag::AlphaDiscard )?1:0;
 
 	sp->sendDataPS( &cbPixel, 0, gtConst0U );

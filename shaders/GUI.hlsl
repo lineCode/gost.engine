@@ -3,7 +3,7 @@ SamplerState tex2D_sampler_1;
 
 cbuffer cbPixel{
 	float4 diffuseColor;
-	bool boolean[128];
+	int boolean[4];
 };
 
 struct VSIn{
@@ -40,11 +40,11 @@ PSOut PSMain(VSOut input)
 	
 	if( boolean[0] ){
 		if( output.color.a < 0.5f ){
-			discard;
+	//		discard;
 		}
-		output.color.a = 1.f - diffuseColor.a;
+		output.color.a = diffuseColor.a;
 	}else{
-		output.color.a *= diffuseColor.a;
+		output.color.a *= 1.f - diffuseColor.a;
 	}
 
 	

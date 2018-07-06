@@ -70,7 +70,10 @@ namespace demo{
 		gtPtr<gtGUIShape>			m_gamepadiconShape;
 		gtPtr<gtGUITextField>		m_welcomeText;
 		gtPtr<gtGUIFont>			m_mainFont;
+		gtPtr<gtGUIFont>			m_infoFont;
 		
+		gtPtr<gtGUITextField>	m_demoText_camera;
+
 		gtPtr<gtGUITextField>	m_leftColonEntity[DEMO_TYPE_NUM];
 		gtPtr<gtGUITextField>	m_rightColonEntity[24u];
 		gtPtr<gtGUIShape>		m_leftColonShape;
@@ -162,6 +165,10 @@ namespace demo{
 		void renderMainMenu();
 		void renderDemoMenu();
 		void renderDemo();
+
+		void showDemoHUD();
+		void hideDemoHUD();
+		void updateHUD();
 
 		f32 timer_input;
 		f32 timer_input_limit_first;

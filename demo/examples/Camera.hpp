@@ -61,7 +61,7 @@ DemoExample_Camera::~DemoExample_Camera(){}
 bool DemoExample_Camera::Init(){
 	m_mainSystem  = gtMainSystem::getInstance();
 	m_input		  = m_mainSystem->getInputSystem();
-	m_gs      = m_mainSystem->getMainVideoDriver();
+	m_gs          = m_mainSystem->getMainVideoDriver();
 	m_sceneSystem = m_mainSystem->getSceneSystem( m_gs );
 
 	if( !m_demoApp->InitDefaultScene() ){
@@ -70,10 +70,18 @@ bool DemoExample_Camera::Init(){
 
 	auto window = m_gs->getParams().m_outWindow;
 	m_camera2D = m_sceneSystem->addCamera2D( v4f( window->getRect() ) );
+	m_camera2D->setName( "2D" );
+	m_camera2D->setPosition( v4f( 0.f, 1.f, -5.f ) );
+	m_camera2D->setFOV( 0.2f );
 
-	m_cameraLookAt = m_sceneSystem->addCamera( v3f( -10.f, 7.f, 10.f ) );
-	m_cameraFPS = m_sceneSystem->addCamera( v3f( -10.f, 7.f, 10.f ) );
+	m_cameraLookAt = m_sceneSystem->addCamera( v3f( 1.47f, 2.66f, 5.75f ) );
+	m_cameraLookAt->setName( "LookAt" );
+
+	m_cameraFPS = m_sceneSystem->addCamera( v3f( 0.08f, 1.76f, 7.16f ) );
+	m_cameraFPS->setName( "FPS" );
+
 	m_cameraFree = m_sceneSystem->addCamera( v3f( -10.f, 7.f, 10.f ) );
+	m_cameraFree->setName( "Free" );
 
 	m_cameraFPS->setCameraType( gtCameraType::FPS );
 	m_cameraFree->setCameraType( gtCameraType::Free );

@@ -36,7 +36,8 @@ m_activeDemoSelected( 0 ),
 m_rightColonFirstID( 0 ),
 m_currentDemoColonIndex( 0 ),
 m_state( DemoState::MainMenu ),
-m_delta( 0.f ){
+m_delta( 0.f )
+{
 
 	memset( m_rightColonEntity, 0, sizeof(gtPtr<gtGUITextField>) * 24u );
 
@@ -230,6 +231,32 @@ bool demo::DemoApplication::initVideoDriver(){
 	return true;
 }
 
+void demo::DemoApplication::showDemoHUD(){
+	m_demoText_camera->setVisible( true );
+}
+
+void demo::DemoApplication::hideDemoHUD(){
+	m_demoText_camera->setVisible( false );
+}
+
+void demo::DemoApplication::updateHUD(){
+
+	gtString str( u"Camera " );
+
+	auto camera = m_sceneSystem->getActiveCamera();
+	auto stra = camera->getName();
+	auto pos = camera->getPosition();
+	str += stra.data();
+	str += u" X: ";
+	str += pos.x;
+	str += u" Y: ";
+	str += pos.y;
+	str += u" Z: ";
+	str += pos.z;
+
+	m_demoText_camera->setText( str );
+}
+
 bool demo::DemoApplication::initMainMenu(){
 	gtString logoPath(u"../demo/media/logo.png");
 	gtString gamepadPath(u"../demo/media/gamepad.png");
@@ -246,14 +273,21 @@ bool demo::DemoApplication::initMainMenu(){
 	}else
 		gtLogWriter::printWarning( u"Can not load gamepad icon texture. File %s not exist.", gamepadPath.data() );
 	
-	//m_mainFont	=	m_guiSystem->createBuiltInFont();
-	m_mainFont	=	m_guiSystem->createFont( u"../demo/media/fonts/Asimov/Asimov.xml" );
+	m_mainFont	=	m_guiSystem->createBuiltInFont();
+	m_infoFont	=	m_guiSystem->createFont( u"../demo/media/fonts/Asimov/Asimov.xml" );
 
 	auto rc = m_mainWindow->getRect();
 	auto w  = rc.getWidth();
 	auto h  = rc.getHeight();
 	auto centerx = w / 2;
 	auto centery = h / 2;
+
+	m_demoText_camera = m_guiSystem->createTextField( v4i( 10, 10, 0, 0 ), m_infoFont.data(), false, false );
+	m_demoText_camera->setTextColor( gtColorWhite );
+	m_demoText_camera->getBackgroundShape()->setTransparent( 1.f );
+
+
+	hideDemoHUD();
 
 	m_pauseBackgroundShape = m_guiSystem->createShapeRectangle( v4i(0,0,w,h), gtColorBlack );
 	m_pauseBackgroundShape->setTransparent( 1.f );
@@ -699,8 +733,9 @@ void demo::DemoApplication::pauseBackgroundFadeIn(){
 		tr += 10.f * m_delta;
 		m_pauseShape->setTransparent( tr );
 	}else{
-		if( m_state == DemoState::DemoMenu )
+		if( m_state == DemoState::DemoMenu ){
 			m_state = DemoState::DemoRun;
+		}
 	}
 }
 
@@ -750,8 +785,7 @@ void demo::DemoApplication::renderMainMenu(){
 
 	m_gs->setDepthState( false );
 
-	if( m_backgroundShape )
-		m_backgroundShape->render();
+	if( m_backgroundShape )	m_backgroundShape->render();
 
 	if( m_gamepadiconShape )
 		m_gamepadiconShape->render();
@@ -830,6 +864,10 @@ void demo::DemoApplication::renderDemo(){
 	m_demoArrays[m_activeDemoTypeSelected][m_activeDemoSelected].Render();
 
 	m_gs->setDepthState( false );
+
+	updateHUD();
+	m_demoText_camera->render();
+
 	if( m_showDescription ){
 		m_pauseBackgroundShape->render();
 		m_description->render();
@@ -1219,9 +1257,10 @@ void demo::DemoApplication::inputMainMenu(){
 			if( m_demoArrays[m_activeDemoTypeSelected].size() ){
 				if( m_demoArrays[m_activeDemoTypeSelected][m_activeDemoSelected].isDemo() ){
 					playAudio(DemoAudioType::Accept);
-					if( m_demoArrays[m_activeDemoTypeSelected][m_activeDemoSelected].Init() )
+					if( m_demoArrays[m_activeDemoTypeSelected][m_activeDemoSelected].Init() ){
 						m_state = DemoState::DemoRun;
-					else{
+						showDemoHUD();
+					}else{
 						gtLogWriter::printWarning( u"%s", getString( u"24" ).data() );
 					}
 				}
@@ -1416,11 +1455,7 @@ bool demo::DemoApplication::InitDefaultScene(){
 void demo::DemoApplication::ShutdownDefaultScene(){
 	if( m_sceneInitialized ){
 		m_gs->clearModelCache();
-		m_gs->removeTexture(m_gs->getTexture( u"../demo/media/scene/11.png" ));
-		m_gs->removeTexture(m_gs->getTexture( u"../demo/media/scene/floor.png" ));
-		m_gs->removeTexture(m_gs->getTexture( u"../demo/media/scene/pied.png" ));
-		m_gs->removeTexture(m_gs->getTexture( u"../demo/media/scene/stairs.png" ));
-		m_gs->removeTexture(m_gs->getTexture( u"../demo/media/scene/tc.png" ));
+		m_gs->removeTexture(m_gs->getTexture( u"../demo/media/scene/1.png" ));
 		m_sceneInitialized = false;
 	}
 }
@@ -1659,6 +1694,7 @@ void demo::DemoApplication::Pause(){
 void demo::DemoApplication::StopDemo(){
 	m_state = DemoState::MainMenu;
 	m_isPause = false;
+	hideDemoHUD();
 	HideMenu();
 	m_demoPauseMenuID = 0;
 	updateDemoPause();
