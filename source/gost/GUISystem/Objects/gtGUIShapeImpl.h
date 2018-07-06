@@ -22,8 +22,8 @@ namespace gost{
 		bool		initRectangle( const v4i& rect, const gtColor& color );
 
 		void		render();
-		void		setOpacity( f32 opacity = gtConst1F );
-		f32			getOpacity();
+		void		setTransparent( f32 transparent = gtConst0F );
+		f32			getTransparent();
 
 		void		setColor( const gtColor& color );
 		void		setTexture( gtTexture* texture );

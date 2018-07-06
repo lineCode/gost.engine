@@ -45,7 +45,7 @@ namespace gost{
 			model->getSubModel( gtConst0U )->m_material.textureLayer[ gtConst0U ].texture = t;
 			model->getSubModel( gtConst0U )->m_material.type = gtMaterialType::Sprite;
 			model->getSubModel( gtConst0U )->m_material.owner = this;
-			model->getSubModel( gtConst0U )->m_material.flags = (u32)gtMaterialFlag::Blend;
+			model->getSubModel( gtConst0U )->m_material.flags = (u32)gtMaterialFlag::AlphaBlend;
 
 			m_material = model->getSubModel( gtConst0U )->m_material;
 

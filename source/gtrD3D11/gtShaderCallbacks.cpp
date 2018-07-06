@@ -24,9 +24,12 @@ void gtD3D11StandartShaderCallback::onShader( const gtMaterial& material, gtShad
 		v4f sunPosition;
 
 		f32 shininess;
-		f32 transparency;
+		f32 transparent;
 		s32 isLume;
-		s32 reserved;
+		s32 isAlphaDiscard;
+
+		s32    isAlphaBlend;
+		s32    reserved[3];
 
 	}cbMaterial;
 
@@ -44,12 +47,12 @@ void gtD3D11StandartShaderCallback::onShader( const gtMaterial& material, gtShad
 	cbMaterial.sunDiffuse  = material.diffuseColor;
 	cbMaterial.shininess   = material.shininess;
 	cbMaterial.sunPosition = material.sunPosition;
-	cbMaterial.sunPosition.normalize();
 
-	cbMaterial.transparency= 0.f;
+	cbMaterial.transparent = material.transparent;
 	cbMaterial.isLume      = (material.flags&(u32)gtMaterialFlag::UseLight)?1:0;
 	cbMaterial.eyePosition = m_scene->getActiveCamera()->getPositionInSpace();
-	auto pos = m_scene->getActiveCamera()->getPosition();
+	cbMaterial.isAlphaDiscard = (material.flags&(u32)gtMaterialFlag::AlphaDiscard)?1:0;
+	cbMaterial.isAlphaBlend   = (material.flags&(u32)gtMaterialFlag::AlphaBlend)?1:0;
 
 	sp->sendDataVS( &cbMatrix,   0, gtConst0U );
 	sp->sendDataPS( &cbMaterial, 0, gtConst1U );
@@ -75,8 +78,8 @@ void gtD3D11GUIShaderCallback::onShader( const gtMaterial& m, gtShaderProcessing
 	cbPixel.diffuseColor.x = m.textureLayer[ gtConst0U ].diffuseColor.getRed();
 	cbPixel.diffuseColor.y = m.textureLayer[ gtConst0U ].diffuseColor.getGreen();
 	cbPixel.diffuseColor.z = m.textureLayer[ gtConst0U ].diffuseColor.getBlue();
-	cbPixel.diffuseColor.w = m.opacity;
-	cbPixel.boolean[ gtConst0U ]  = (m.flags & (u32)gtMaterialFlag::Blenddiscard );
+	cbPixel.diffuseColor.w = m.transparent;
+	cbPixel.boolean[ gtConst0U ]  = (m.flags & (u32)gtMaterialFlag::AlphaDiscard )?1:0;
 
 	sp->sendDataPS( &cbPixel, 0, gtConst0U );
 }

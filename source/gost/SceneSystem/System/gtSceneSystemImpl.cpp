@@ -225,7 +225,7 @@ void gtSceneSystemImpl::sortTransparent(  gtArray<gtGameObject*>& opaque, gtArra
 			bool isTransparent = false;
 
 			for( u32 i2 = gtConst0U; i2 < smc; ++i2 ){
-				if( model->getMaterial( i2 )->flags & (u32)gtMaterialFlag::Blend ){
+				if( model->getMaterial( i2 )->flags & (u32)gtMaterialFlag::AlphaBlend ){
 					transparent.push_back( var );
 					isTransparent = true;
 					break;
@@ -237,7 +237,7 @@ void gtSceneSystemImpl::sortTransparent(  gtArray<gtGameObject*>& opaque, gtArra
 
 		}break;
 		case gtObjectType::Sprite:{
-			if( ((gtSprite*)var)->getMaterial()->flags & (u32)gtMaterialFlag::Blend )
+			if( ((gtSprite*)var)->getMaterial()->flags & (u32)gtMaterialFlag::AlphaBlend )
 				transparent.push_back( var );
 			else
 				opaque.push_back( var );

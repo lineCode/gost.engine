@@ -55,7 +55,7 @@ void gtGUIStaticTextImpl::updateMaterial(){
 	for( u32 i = gtConst0U; i < sz; ++i ){
 		auto * m = m_buffers[ i ]->getMaterial( gtConst0U );
 		m->textureLayer[ gtConst0U ].diffuseColor = m_material.textureLayer[ gtConst0U ].diffuseColor;
-		m->opacity = m_material.opacity;
+		m->transparent = m_material.transparent;
 	}
 }
 
@@ -163,14 +163,14 @@ void gtGUIStaticTextImpl::setText( const gtString& text ){
 							delete sub;
 							sub = mainsub;
 							sub->m_material.type = gtMaterialType::GUI;
-							sub->m_material.flags |= (u32)gtMaterialFlag::Blend;
+							sub->m_material.flags |= (u32)gtMaterialFlag::AlphaBlend;
 							sub->m_material.textureLayer[ gtConst0U ].texture = m_font->getTexture( id );
 							m_bufferInfo.push_back( bufferInfo( id, mainsub ) );
 						}
 
 					}else{
 						sub->m_material.type = gtMaterialType::GUI;
-						sub->m_material.flags |= (u32)gtMaterialFlag::Blend;
+						sub->m_material.flags |= (u32)gtMaterialFlag::AlphaBlend;
 						sub->m_material.textureLayer[ gtConst0U ].texture = m_font->getTexture( id );
 						m_bufferInfo.push_back( bufferInfo( id, mainsub ) );
 					}
@@ -305,14 +305,14 @@ void gtGUIStaticTextImpl::render(){
 	}
 }
 
-void gtGUIStaticTextImpl::setOpacity( f32 opacity ){
-	m_material.opacity = opacity;
+void gtGUIStaticTextImpl::setTransparent( f32 transparent ){
+	m_material.transparent = transparent;
 	updateMaterial();
-	m_backgroundShape->setOpacity( opacity );
+	m_backgroundShape->setTransparent( transparent );
 }
 
-f32  gtGUIStaticTextImpl::getOpacity(){
-	return m_material.opacity;
+f32  gtGUIStaticTextImpl::getTransparent(){
+	return m_material.transparent;
 }
 
 void gtGUIStaticTextImpl::setBackgroundVisible( bool value ){

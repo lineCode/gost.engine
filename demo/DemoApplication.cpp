@@ -246,8 +246,8 @@ bool demo::DemoApplication::initMainMenu(){
 	}else
 		gtLogWriter::printWarning( u"Can not load gamepad icon texture. File %s not exist.", gamepadPath.data() );
 	
-	m_mainFont	=	m_guiSystem->createBuiltInFont();
-	//m_mainFont	=	m_guiSystem->createFont( u"../demo/media/myfont.xml" );
+	//m_mainFont	=	m_guiSystem->createBuiltInFont();
+	m_mainFont	=	m_guiSystem->createFont( u"../demo/media/fonts/Asimov/Asimov.xml" );
 
 	auto rc = m_mainWindow->getRect();
 	auto w  = rc.getWidth();
@@ -256,7 +256,7 @@ bool demo::DemoApplication::initMainMenu(){
 	auto centery = h / 2;
 
 	m_pauseBackgroundShape = m_guiSystem->createShapeRectangle( v4i(0,0,w,h), gtColorBlack );
-	m_pauseBackgroundShape->setOpacity( 0.f );
+	m_pauseBackgroundShape->setTransparent( 1.f );
 
 	m_pauseTextContinueShape = m_guiSystem->createTextField( v4i(centerx-48,centery-98,centerx+148,0), m_mainFont.data(), false );
 	if( m_pauseTextContinueShape ){
@@ -290,10 +290,10 @@ bool demo::DemoApplication::initMainMenu(){
 
 	m_pauseShape = m_guiSystem->createShapeRectangle( v4i(centerx-50,centery-100,centerx+150,m_pauseTextExitShape->getRect().w), gtColorLightGray );
 	//m_pauseShape = m_guiSystem->createShapeRectangle( v4i( 300, 100, 600,300), gtColorLightGray );
-	m_pauseShape->setOpacity( 0.f );
+	m_pauseShape->setTransparent( 1.f );
 
 	m_settingsBackgroundShape = m_guiSystem->createShapeRectangle( v4i(centerx-50,centery-100,centerx+350,centery+200), gtColorLightGray );
-	m_settingsBackgroundShape->setOpacity( 0.f );
+	m_settingsBackgroundShape->setTransparent( 1.f );
 	m_settingsTextLanguage = m_guiSystem->createTextField( v4i(centerx-48,centery-98,centerx+100,0), m_mainFont.data(), false );
 	m_settingsTextLanguage->setBackgroundColor( gtColorBlack );
 	m_settingsTextLanguage->setTextColor( gtColorLightGray );
@@ -311,10 +311,10 @@ bool demo::DemoApplication::initMainMenu(){
 	m_settingsTextSoundUse->setTextColor( gtColorBlack );
 
 	updateSettingsText();
-	m_settingsTextLanguage->setOpacity( 0.f );
-	m_settingsTextLanguageName->setOpacity( 0.f );
-	m_settingsTextSound->setOpacity( 0.f );
-	m_settingsTextSoundUse->setOpacity( 0.f );
+	m_settingsTextLanguage->setTransparent( 1.f );
+	m_settingsTextLanguageName->setTransparent( 1.f );
+	m_settingsTextSound->setTransparent( 1.f );
+	m_settingsTextSoundUse->setTransparent( 1.f );
 
 	HideMenu();
 
@@ -445,7 +445,7 @@ void demo::DemoApplication::rebuildMainMenuColons(){
 
 		if( m_leftColonEntity[ i ] ){
 			m_leftColonEntity[ i ]->setText( m_stringArray[ m_languageID ].m_stringArray[ i + gtConst1U ].m_second );
-			m_leftColonEntity[ i ]->getBackgroundShape()->setOpacity( 0.f );
+			m_leftColonEntity[ i ]->getBackgroundShape()->setTransparent( 1.f );
 
 			top = m_leftColonEntity[ i ]->getRect().w-1;
 
@@ -456,12 +456,12 @@ void demo::DemoApplication::rebuildMainMenuColons(){
 	m_rightColonDefaultRect = v4i( 8, r.w + 48, 202, top + 2 );
 
 	m_leftColonShape = m_guiSystem->createShapeRectangle( m_rightColonDefaultRect, gtColorGrey );
-	m_leftColonShape->setOpacity( 0.f );
+	m_leftColonShape->setTransparent( 1.f );
 
 	m_rightColonDefaultRect.x = 208;
 	m_rightColonDefaultRect.z = 502;
 	m_rightColonShape = m_guiSystem->createShapeRectangle( m_rightColonDefaultRect, gtColorGrey );
-	m_rightColonShape->setOpacity( 0.f );
+	m_rightColonShape->setTransparent( 1.f );
 
 	m_rightColonDefaultText = m_guiSystem->createTextField( m_rightColonDefaultRect, m_mainFont.data(), false );
 	if( m_rightColonDefaultText ){
@@ -484,7 +484,7 @@ void demo::DemoApplication::rebuildMainMenuColons(){
 
 		if( m_rightColonEntity[ i ] ){
 			m_rightColonEntity[ i ]->setText( u" " );
-			m_rightColonEntity[ i ]->getBackgroundShape()->setOpacity( 0.f );
+			m_rightColonEntity[ i ]->getBackgroundShape()->setTransparent( 1.f );
 			m_rightColonEntity[ i ]->setTextColor( gtColorLightGray );
 
 			top = m_rightColonEntity[ i ]->getRect().w-1;
@@ -559,7 +559,7 @@ bool demo::DemoApplication::rebuildMainMenu(){
 	}else{
 		m_backgroundShape->setColor( gtColor( gtColorBlack ) );
 	}
-	m_backgroundShape->setOpacity( 0.8f );
+	m_backgroundShape->setTransparent( 0.2f );
 
 	v4i gprc;
 	gprc.x = wndW - 64;
@@ -583,7 +583,7 @@ bool demo::DemoApplication::rebuildMainMenu(){
 	
 	if( !m_gamepad ){
 		if( m_gamepadiconShape )
-			m_gamepadiconShape->setOpacity( 0.25f );
+			m_gamepadiconShape->setTransparent( 0.75f );
 	}
 
 	if( m_mainFont.data() ){
@@ -593,8 +593,8 @@ bool demo::DemoApplication::rebuildMainMenu(){
 
 		m_welcomeText = m_guiSystem->createTextField( v4i( 20, 0, wndrc.getWidth()-20, 0 ), m_mainFont.data(), false );
 		m_welcomeText->setText( getString( u"0" ) );
-		m_welcomeText->setOpacity( 0.9f );
-		m_welcomeText->getBackgroundShape()->setOpacity( 0.f );
+		m_welcomeText->setTransparent( 0.1f );
+		m_welcomeText->getBackgroundShape()->setTransparent( 1.f );
 		m_welcomeText->getBackgroundShape()->setColor( gtColorRed );
 		m_welcomeText->setTextColor( gtColorWhite );
 
@@ -673,31 +673,31 @@ void demo::DemoApplication::updatePauseMainMenu(){
 
 }
 
-void demo::DemoApplication::pauseBackgroundFadeIn(){
-	auto opBG = m_pauseBackgroundShape->getOpacity();
-	if( opBG < 0.75f ){
-		opBG += 10.f * m_delta;
-		m_pauseBackgroundShape->setOpacity( opBG );
+void demo::DemoApplication::pauseBackgroundFadeOut(){
+	auto trBG = m_pauseBackgroundShape->getTransparent();
+	if( trBG > 0.25f ){
+		trBG -= 10.f * m_delta;
+		m_pauseBackgroundShape->setTransparent( trBG );
 	}
 
-	auto op = m_pauseShape->getOpacity();
-	if( op < 1.f ){
-		op += 10.f * m_delta;
-		m_pauseShape->setOpacity( op );
+	auto tr = m_pauseShape->getTransparent();
+	if( tr > 0.f ){
+		tr -= 10.f * m_delta;
+		m_pauseShape->setTransparent( tr );
 	}
 }
 
-void demo::DemoApplication::pauseBackgroundFadeOut(){
-	auto opBG = m_pauseBackgroundShape->getOpacity();
-	if( opBG > 0.f ){
-		opBG -= 10.f * m_delta;
-		m_pauseBackgroundShape->setOpacity( opBG );
+void demo::DemoApplication::pauseBackgroundFadeIn(){
+	auto trBG = m_pauseBackgroundShape->getTransparent();
+	if( trBG < 1.f ){
+		trBG += 10.f * m_delta;
+		m_pauseBackgroundShape->setTransparent( trBG );
 	}
 
-	auto op = m_pauseShape->getOpacity();
-	if( op > 0.f ){
-		op -= 10.f * m_delta;
-		m_pauseShape->setOpacity( op );
+	auto tr = m_pauseShape->getTransparent();
+	if( tr < 1.f ){
+		tr += 10.f * m_delta;
+		m_pauseShape->setTransparent( tr );
 	}else{
 		if( m_state == DemoState::DemoMenu )
 			m_state = DemoState::DemoRun;
@@ -824,7 +824,7 @@ void demo::DemoApplication::renderDemoMenu(){
 }
 
 void demo::DemoApplication::renderDemo(){
-	m_gs->beginRender( true, gtColorDarkGray );
+	m_gs->beginRender( true, 0xff6BB5FF );
 
 	RenderDefaultScene();
 	m_demoArrays[m_activeDemoTypeSelected][m_activeDemoSelected].Render();
@@ -857,14 +857,14 @@ void demo::DemoApplication::ActivateGamepad( bool value, gtInputDevice* g ){
 			m_gamepad = g;
 			if( m_gamepadiconShape ){
 				m_gamepadiconShape->setColor( gtColorGreen );
-				m_gamepadiconShape->setOpacity( 1.f );
+				m_gamepadiconShape->setTransparent();
 			}
 		}
 	}else{
 		m_gamepad = nullptr;
 		if( m_gamepadiconShape ){
 			m_gamepadiconShape->setColor( gtColorWhite );
-			m_gamepadiconShape->setOpacity( 0.25f );
+			m_gamepadiconShape->setTransparent( 0.75f );
 		}
 	}
 }
@@ -888,27 +888,27 @@ void demo::DemoApplication::updateColons(){
 	if( !m_gs ) return;
 
 	for( u32 i = gtConst0U; i < DEMO_TYPE_NUM; ++i ){
-		m_leftColonEntity[ i ]->getBackgroundShape()->setOpacity( 0.f );
+		m_leftColonEntity[ i ]->getBackgroundShape()->setTransparent( 1.f );
 		m_leftColonEntity[ i ]->setBackgroundColor( gtColorBlack );
 		m_leftColonEntity[ i ]->setTextColor( gtColorLightGray );
 	}
 	for( u32 i = gtConst0U; i < 24u; ++i ){
-		m_rightColonEntity[ i ]->setOpacity( 0.f );
+		m_rightColonEntity[ i ]->setTransparent( 1.f );
 		m_rightColonEntity[ i ]->setBackgroundColor( gtColorBlack );
 		m_rightColonEntity[ i ]->setTextColor( gtColorLightGray );
 	}
 
 	if( !m_activeDemoType ){//left
 
-		m_descriptionBackgroundShape->setOpacity( 0.f );
-		m_rightColonShape->setOpacity( 0.f );
-		m_leftColonShape->setOpacity( 0.15f );
-		m_leftColonEntity[ m_activeDemoTypeSelected ]->getBackgroundShape()->setOpacity( 1.f );
+		m_descriptionBackgroundShape->setTransparent( 1.f );
+		m_rightColonShape->setTransparent( 1.f );
+		m_leftColonShape->setTransparent( 0.85f );
+		m_leftColonEntity[ m_activeDemoTypeSelected ]->getBackgroundShape()->setTransparent( 0.f );
 		m_leftColonEntity[ m_activeDemoTypeSelected ]->setBackgroundColor( gtColorLightGray );
 		m_leftColonEntity[ m_activeDemoTypeSelected ]->setTextColor( gtColorBlack );
 
 		if( m_demoArrays[ m_activeDemoTypeSelected ].size() ){ 
-			m_rightColonDefaultText->setOpacity( 0.f );
+			m_rightColonDefaultText->setTransparent( 1.f );
 
 			v4i r = m_welcomeText->getRect();
 			u32 top = r.w+50;
@@ -932,7 +932,7 @@ void demo::DemoApplication::updateColons(){
 
 				m_rightColonEntity[ actualIndex ]->setText( m_demoArrays[m_activeDemoTypeSelected][m_rightColonFirstID+actualIndex].GetTitle() );
 
-				m_rightColonEntity[ actualIndex ]->getBackgroundShape()->setOpacity( 0.f );
+				m_rightColonEntity[ actualIndex ]->getBackgroundShape()->setTransparent( 1.f );
 				m_rightColonEntity[ actualIndex ]->setTextColor( gtColorLightGray );
 
 				top = m_rightColonEntity[ actualIndex ]->getRect().w-1;
@@ -941,8 +941,8 @@ void demo::DemoApplication::updateColons(){
 			}
 
 		}else{
-			m_rightColonDefaultText->setOpacity( 1.f );
-			m_rightColonDefaultText->getBackgroundShape()->setOpacity( 0.f );
+			m_rightColonDefaultText->setTransparent( 0.f );
+			m_rightColonDefaultText->getBackgroundShape()->setTransparent( 1.f );
 		}
 		
 		m_description = m_guiSystem->createTextField( v4i( 0, 0, 0, 0 ), m_mainFont.data(), false );
@@ -951,7 +951,7 @@ void demo::DemoApplication::updateColons(){
 
 		if( m_demoArrays[ m_activeDemoTypeSelected ].size() ){
 
-			m_descriptionBackgroundShape->setOpacity( 0.85f );
+			m_descriptionBackgroundShape->setTransparent( 0.85f );
 
 			v4i rc;
 			rc.x = m_rightColonEntity[ gtConst0U ]->getRect().x;
@@ -1006,8 +1006,8 @@ void demo::DemoApplication::updateColons(){
 			for( u32 i = gtConst0U; i < sz; ++i ){
 				if( i > 23u ) break;
 
-				m_rightColonEntity[ i ]->setOpacity( 1.f );
-				m_rightColonEntity[ i ]->getBackgroundShape()->setOpacity( 0.f );
+				m_rightColonEntity[ i ]->setTransparent( 0.f );
+				m_rightColonEntity[ i ]->getBackgroundShape()->setTransparent( 1.f );
 				m_rightColonEntity[ i ]->setBackgroundColor( gtColorBlack );
 				m_rightColonEntity[ i ]->setTextColor( gtColorLightGray );
 
@@ -1020,26 +1020,26 @@ void demo::DemoApplication::updateColons(){
 
 			m_rightColonShape = m_guiSystem->createShapeRectangle( rc, gtColorGrey );
 
-			m_rightColonEntity[ m_currentDemoColonIndex ]->getBackgroundShape()->setOpacity( 1.f );
+			m_rightColonEntity[ m_currentDemoColonIndex ]->getBackgroundShape()->setTransparent( 0.f );
 			m_rightColonEntity[ m_currentDemoColonIndex ]->setBackgroundColor( gtColorLightGray );
 			m_rightColonEntity[ m_currentDemoColonIndex ]->setTextColor( gtColorBlack );
 
-			m_rightColonDefaultText->setOpacity( 0.f );
+			m_rightColonDefaultText->setTransparent( 1.f );
 			
 			m_description = m_guiSystem->createTextField( m_descriptionRect, m_mainFont.data(), false );
 
 			m_description->setText( m_demoArrays[m_activeDemoTypeSelected][m_activeDemoSelected].GetDesc() );
 			m_description->setTextColor( gtColorWhite );
-			m_description->getBackgroundShape()->setOpacity( 0.f );
+			m_description->getBackgroundShape()->setTransparent( 1.f );
 		}else{
 			m_rightColonShape = m_guiSystem->createShapeRectangle( m_rightColonDefaultRect, gtColorGrey );
-			m_rightColonDefaultText->setOpacity( 1.f );
-			m_rightColonDefaultText->getBackgroundShape()->setOpacity( 0.f );
+			m_rightColonDefaultText->setTransparent( 0.f );
+			m_rightColonDefaultText->getBackgroundShape()->setTransparent( 1.f );
 			m_description = m_guiSystem->createTextField( v4i( 0, 0, 0, 0 ), m_mainFont.data(), false );
 		}
 
-		m_leftColonShape->setOpacity( 0.f );
-		m_rightColonShape->setOpacity( 0.15f );
+		m_leftColonShape->setTransparent( 1.f );
+		m_rightColonShape->setTransparent( 0.85f );
 
 	}
 }
@@ -1048,11 +1048,11 @@ void demo::DemoApplication::inputMainMenuPause(){
 	if( m_eventConsumer->keyDown( gtKey::K_ESCAPE ) || inputGamepadMainMenuStart() || inputGamepadMainMenuEscape() ){
 		playAudio(DemoAudioType::Cancel);
 		if( m_isSettings ){
-			m_settingsBackgroundShape->setOpacity( 0.f );
-			m_settingsTextLanguage->setOpacity( 0.f );
-			m_settingsTextSound->setOpacity( 0.f );
-			m_settingsTextSoundUse->setOpacity( 0.f );
-			m_settingsTextLanguageName->setOpacity( 0.f );
+			m_settingsBackgroundShape->setTransparent( 1.f );
+			m_settingsTextLanguage->setTransparent( 1.f );
+			m_settingsTextSound->setTransparent( 1.f );
+			m_settingsTextSoundUse->setTransparent( 1.f);
+			m_settingsTextLanguageName->setTransparent( 1.f );
 			
 			m_isSettings = false;
 		}else{
@@ -1139,11 +1139,11 @@ void demo::DemoApplication::inputMainMenuPause(){
 		if( m_pauseMainMenuSelectedId == 0 ){
 			ReturnToMainMenu();
 		}else if( m_pauseMainMenuSelectedId == 1 ){
-			m_settingsBackgroundShape->setOpacity();
-			m_settingsTextLanguage->setOpacity();
-			m_settingsTextSound->setOpacity();
-			m_settingsTextSoundUse->setOpacity();
-			m_settingsTextLanguageName->setOpacity();
+			m_settingsBackgroundShape->setTransparent(  );
+			m_settingsTextLanguage->setTransparent( 0.f );
+			m_settingsTextSound->setTransparent( 0.f );
+			m_settingsTextSoundUse->setTransparent( 0.f );
+			m_settingsTextLanguageName->setTransparent( 0.f );
 			m_isSettings = true;
 
 		}else if( m_pauseMainMenuSelectedId == 2 ){
@@ -1403,6 +1403,11 @@ bool demo::DemoApplication::InitDefaultScene(){
 	m3->getModel()->getMaterial( gtConst0U )->textureLayer[ gtConst0U ].texture = m_gs->getTexture( u"../demo/media/scene/1.png" );//get 
 	m4->getModel()->getMaterial( gtConst0U )->textureLayer[ gtConst0U ].texture = m_gs->getTexture( u"../demo/media/scene/1.png" );//get 
 	m5->getModel()->getMaterial( gtConst0U )->textureLayer[ gtConst0U ].texture = m_gs->getTexture( u"../demo/media/scene/1.png" );//get 
+
+	m1->getModel()->getMaterial( gtConst0U )->flags = (u32)gtMaterialFlag::UseLight;
+	//m1->getModel()->getMaterial( gtConst0U )->flags |= (u32)gtMaterialFlag::AlphaDiscard;
+	m1->getModel()->getMaterial( gtConst0U )->flags |= (u32)gtMaterialFlag::AlphaBlend;
+	m1->getModel()->getMaterial( gtConst0U )->transparent = 1.f;
 
 	m_sceneInitialized = true;
 	return true;
@@ -1697,10 +1702,10 @@ void demo::DemoApplication::inputDemoMenuPause(){
 
 void demo::DemoApplication::runMainMenu(){
 	if( m_isPause ){
-		pauseBackgroundFadeIn();
+		pauseBackgroundFadeOut();
 		inputMainMenuPause();
 	}else{
-		pauseBackgroundFadeOut();
+		pauseBackgroundFadeIn();
 		inputMainMenu();
 	}
 }
@@ -1708,9 +1713,9 @@ void demo::DemoApplication::runMainMenu(){
 void demo::DemoApplication::runDemo(){
 	if( m_input->isKeyDown( gtKey::K_F1 ) || inputGamepadSelectHold() ){
 		m_showDescription = true;
-		pauseBackgroundFadeIn();
-	}else{
 		pauseBackgroundFadeOut();
+	}else{
+		pauseBackgroundFadeIn();
 	}
 
 	m_demoArrays[m_activeDemoTypeSelected][m_activeDemoSelected].Input( m_delta );
@@ -1719,10 +1724,10 @@ void demo::DemoApplication::runDemo(){
 
 void demo::DemoApplication::runDemoMenu(){
 	if( m_isPause ){
-		pauseBackgroundFadeIn();
+		pauseBackgroundFadeOut();
 		inputDemoMenuPause();
 	}else{
-		pauseBackgroundFadeOut();
+		pauseBackgroundFadeIn();
 	}
 }
 

@@ -24,12 +24,12 @@ namespace gost{
 	enum class gtMaterialFlag : u32 {
 		Wireframe        = BIT(0),
 		Backface         = BIT(1),
-		Blend            = BIT(2),
+		AlphaBlend       = BIT(2),
 		Nocastshadows    = BIT(3),
 		Noreceiveshadows = BIT(4),
 		Noselfshadows    = BIT(5),
-		Blenddiscard     = BIT(6),
-		UseLight         = BIT(6)
+		AlphaDiscard     = BIT(6),
+		UseLight         = BIT(7)
 	};
 
 	struct gtMaterialTextureLayer{
@@ -65,12 +65,12 @@ namespace gost{
 			ambientColor( (u32)0xff303030 ),
 			specularColor( gtConst1F ),
 			diffuseColor( gtConst1F ),
-			sunPosition( v4f(0.3f,.6,-.3f,0.f) ),
+			sunPosition( v4f(0.3f,.6f,-.3f,0.f) ),
 			specularLevel( gtConst1F ),
 			shininess( 5.f ),
 			glossiness( gtConst0F ),
 			roughness( gtConst0F ),
-			opacity( gtConst1F ),
+			transparent( gtConst0F ),
 			fresnel( gtConst1F ),
 			flags( (u32)gtMaterialFlag::UseLight ),
 			type( gtMaterialType::Standart ),
@@ -95,7 +95,7 @@ namespace gost{
 		f32		roughness;
 
 			//	Need MF_BLEND.
-		f32		opacity;
+		f32		transparent;
 		f32		fresnel; // /freɪˈnɛl/, fray-NEL;
 		u32		flags;
 

@@ -67,7 +67,7 @@ PSOut PSMain(VSOut input)
 	
     output.color = diffuseColor;
 	
-	if( output.color.a < opacity ) discard;
+	if( output.color.a > opacity ) discard;
 	
     return output;
 }

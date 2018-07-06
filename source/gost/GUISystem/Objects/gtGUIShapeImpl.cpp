@@ -26,12 +26,12 @@ void gtGUIShapeImpl::render(){
 	}
 }
 
-void gtGUIShapeImpl::setOpacity( f32 opacity ){
-	m_material->opacity = opacity;
+void gtGUIShapeImpl::setTransparent( f32 transparent ){
+	m_material->transparent = transparent;
 }
 
-f32  gtGUIShapeImpl::getOpacity(){
-	return m_material->opacity;
+f32  gtGUIShapeImpl::getTransparent(){
+	return m_material->transparent;
 }
 
 void gtGUIShapeImpl::setColor( const gtColor& color ){
@@ -54,7 +54,7 @@ bool gtGUIShapeImpl::initRectangle( const v4i& rect, const gtColor& color ){
 	if( soft.data() ){
 		auto * sub = soft->addSubModel( gtConst4U, gtConst6U, gtStrideStandart );
 		sub->m_material.type = gtMaterialType::GUI;
-		sub->m_material.flags |= (u32)gtMaterialFlag::Blend;
+		sub->m_material.flags |= (u32)gtMaterialFlag::AlphaBlend;
 		sub->m_material.textureLayer[ gtConst0U ].diffuseColor = color;
 		//sub->m_material.textureLayer[ gtConst0U ].texture = m_font->getTexture( id );
 		u8* v = &sub->m_vertices[ gtConst0U ];

@@ -43,8 +43,8 @@ namespace gost{
 		gtGUIShape* getBackgroundShape();
 
 		void		render();
-		void		setOpacity( f32 opacity = gtConst1F );
-		f32			getOpacity();
+		void		setTransparent( f32 transparent = gtConst0F );
+		f32			getTransparent();
 
 		const v4i&	getRect();
 	};

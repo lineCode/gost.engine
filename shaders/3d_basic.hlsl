@@ -17,9 +17,12 @@ cbuffer cbMaterial{
 	float4 sunPosition;
 	
 	float  shininess;
-	float  opacity;
+	float  transparent;
 	int    isLume;
-	int    reserved;
+	int    isAlphaDiscard;
+
+	int    isAlphaBlend;
+	int    reserved[3];
 };
 
 struct VertexInputType{
@@ -70,8 +73,16 @@ float4 PSMain( PixelInputType input ) : SV_TARGET{
 	float spec = pow(max(dot( viewDir, reflectDir), 0.0),shininess);
 	float4 specular = sunSpecular * spec * diffuseColor;
 	
-	float4 color = ambientColor + diffuse + specular;
-	color.a = 1.f;
+	float4 color = saturate(ambientColor + diffuse + specular);
+	
+
+	if( isAlphaDiscard ){
+		if( color.a < transparent )
+			discard;
+	}else if( isAlphaBlend ){
+		color.a = diffuseColor.a;
+	}else
+		color.a = 1.f;
 	
 	return color;
 }

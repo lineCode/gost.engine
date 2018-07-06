@@ -575,11 +575,11 @@ void gtDriverD3D11::_draw2DImage( const v4f& rect, const v8f& region, const gtMa
 	u32 sz = ((gtShaderImpl*)shader)->m_constantBuffers.size();
 
 	struct cbPixel{
-		float opacity;
+		float transparent;
 		float padding[3];
 	}cb_pixel;
 
-	cb_pixel.opacity = 1.f - material.opacity;
+	cb_pixel.transparent = material.transparent;
 
 	void * cbs[2] = 
 	{
@@ -614,7 +614,7 @@ void gtDriverD3D11::_draw2DImage( const v4f& rect, const v8f& region, const gtMa
 	}
 
 
-	if( material.flags & (u32)gtMaterialFlag::Blend )
+	if( material.flags & (u32)gtMaterialFlag::AlphaBlend )
 		enableBlending( true );
 	else
 		enableBlending( false );
@@ -679,7 +679,7 @@ void gtDriverD3D11::drawModel( gtRenderModel* model ){
 		if( shaderD3D11->m_callback )
 			shaderD3D11->m_callback->onShader( *material, m_shaderProcessing.data() );
 
-		if( material->flags & (u32)gtMaterialFlag::Blend )
+		if( material->flags & (u32)gtMaterialFlag::AlphaBlend )
 			enableBlending( true, material->alphaToCoverage );
 		else
 			enableBlending( false );
@@ -966,7 +966,7 @@ bool	gtDriverD3D11::createShaders(){
 		u"../shaders/line.hlsl", "PSMain", shaderModel, vertexType2D );
 
 	if( m_shader3DStandart ) if( !m_shader3DStandart->createShaderObject( (16u * 5u * sizeof(f32))) ) return false;
-	if( m_shader3DStandart ) if( !m_shader3DStandart->createShaderObject( (sizeof(v4f)*5)+sizeof(s32)*4u ) ) return false;
+	if( m_shader3DStandart ) if( !m_shader3DStandart->createShaderObject( (sizeof(v4f)*5)+sizeof(s32)*8u ) ) return false;
 	if( m_shaderSprite ) if( !m_shaderSprite->createShaderObject( 24u * sizeof(f32) ) ) return false;
 	if( m_shaderLine ) if( !m_shaderLine->createShaderObject( 28u * sizeof(f32) ) ) return false;
 	if( m_shaderGUI ) if( !m_shaderGUI->createShaderObject( gtConst4U * sizeof(f32) + 128u ) ) return false;

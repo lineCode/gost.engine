@@ -36,14 +36,14 @@ void gtGUISystemImpl::removeFromUserInput( gtGUIObject * o ){
 	}
 }
 
-bool gtGUISystemImpl_compareEvent_callback_lmbDown( gtEvent& current_event, gtEvent& user_event ){ return current_event.mouseEvent.isLeftButtonDown(); }
-bool gtGUISystemImpl_compareEvent_callback_rmbDown( gtEvent& current_event, gtEvent& user_event ){ return current_event.mouseEvent.isRightButtonDown(); }
-bool gtGUISystemImpl_compareEvent_callback_mmbDown( gtEvent& current_event, gtEvent& user_event ){ return current_event.mouseEvent.isMiddleButtonDown(); }
-bool gtGUISystemImpl_compareEvent_callback_lmbUp( gtEvent& current_event, gtEvent& user_event )  { return current_event.mouseEvent.isLeftButtonUp();   }
-bool gtGUISystemImpl_compareEvent_callback_rmbUp( gtEvent& current_event, gtEvent& user_event )  { return current_event.mouseEvent.isRightButtonUp();   }
-bool gtGUISystemImpl_compareEvent_callback_mmbUp( gtEvent& current_event, gtEvent& user_event )  { return current_event.mouseEvent.isMiddleButtonUp();   }
-bool gtGUISystemImpl_compareEvent_callback_lmbDouble( gtEvent& current_event, gtEvent& user_event ){ return current_event.mouseEvent.isLeftButtonDouble(); }
-bool gtGUISystemImpl_compareEvent_callback_rmbDouble( gtEvent& current_event, gtEvent& user_event ){ return current_event.mouseEvent.isRightButtonDouble(); }
+bool gtGUISystemImpl_compareEvent_callback_lmbDown( gtEvent& current_event, gtEvent& /*user_event*/ ){ return current_event.mouseEvent.isLeftButtonDown(); }
+bool gtGUISystemImpl_compareEvent_callback_rmbDown( gtEvent& current_event, gtEvent& /*user_event*/ ){ return current_event.mouseEvent.isRightButtonDown(); }
+bool gtGUISystemImpl_compareEvent_callback_mmbDown( gtEvent& current_event, gtEvent& /*user_event*/ ){ return current_event.mouseEvent.isMiddleButtonDown(); }
+bool gtGUISystemImpl_compareEvent_callback_lmbUp( gtEvent& current_event, gtEvent& /*user_event*/ )  { return current_event.mouseEvent.isLeftButtonUp();   }
+bool gtGUISystemImpl_compareEvent_callback_rmbUp( gtEvent& current_event, gtEvent& /*user_event*/ )  { return current_event.mouseEvent.isRightButtonUp();   }
+bool gtGUISystemImpl_compareEvent_callback_mmbUp( gtEvent& current_event, gtEvent& /*user_event*/ )  { return current_event.mouseEvent.isMiddleButtonUp();   }
+bool gtGUISystemImpl_compareEvent_callback_lmbDouble( gtEvent& current_event, gtEvent& /*user_event*/ ){ return current_event.mouseEvent.isLeftButtonDouble(); }
+bool gtGUISystemImpl_compareEvent_callback_rmbDouble( gtEvent& current_event, gtEvent& /*user_event*/ ){ return current_event.mouseEvent.isRightButtonDouble(); }
 
 
 

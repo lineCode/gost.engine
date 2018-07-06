@@ -42,7 +42,7 @@ PSOut PSMain(VSOut input)
 		if( output.color.a < 0.5f ){
 			discard;
 		}
-		output.color.a = diffuseColor.a;
+		output.color.a = 1.f - diffuseColor.a;
 	}else{
 		output.color.a *= diffuseColor.a;
 	}

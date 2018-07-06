@@ -18,8 +18,8 @@ gtGUIFontImpl::~gtGUIFontImpl(){
 }
 
 void gtGUIFontImpl::render(){}
-void gtGUIFontImpl::setOpacity( f32 ){}
-f32  gtGUIFontImpl::getOpacity(){return 1.f;}
+void gtGUIFontImpl::setTransparent( f32 ){}
+f32  gtGUIFontImpl::getTransparent(){return 1.f;}
 
 gtVector4<u16>* gtGUIFontImpl::getRect( char16_t c ){
 	if( m_chars[ (u16)c ] )
