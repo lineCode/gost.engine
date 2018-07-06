@@ -434,30 +434,30 @@ LRESULT CALLBACK gtWindowWin32::WndProc(HWND hWnd, UINT message, WPARAM wParam, 
 
 		ev.mouseEvent.x = LOWORD(lParam);
 		ev.mouseEvent.y = HIWORD(lParam);
-		if( wParam & MK_LBUTTON )		ev.mouseEvent.state.bits.b0 = true;
-		if( wParam & MK_RBUTTON )		ev.mouseEvent.state.bits.b2 = true;
-		if( wParam & MK_MBUTTON )		ev.mouseEvent.state.bits.b4 = true;
+		if( wParam & MK_LBUTTON )		ev.mouseEvent.LMB = gtConst_1;
+		if( wParam & MK_RBUTTON )		ev.mouseEvent.RMB = gtConst_1;
+		if( wParam & MK_MBUTTON )		ev.mouseEvent.MMB = gtConst_1;
 		if( wParam & MK_XBUTTON1 ){
-			ev.mouseEvent.state_extra.bits.b0 = true;
+			ev.mouseEvent.X1 = gtConst_1;
 			switch( message ){
-				case WM_XBUTTONUP: ev.mouseEvent.state_extra.bits.b1 = true; break;
-				case WM_XBUTTONDBLCLK: ev.mouseEvent.state_extra.bits.b4 = true; break;
+				case WM_XBUTTONUP: ev.mouseEvent.X1 = gtConst1; break;
+				case WM_XBUTTONDBLCLK: ev.mouseEvent.X1 = -21; break;
 			}
 		}
 		if( wParam & MK_XBUTTON2 ){
-			ev.mouseEvent.state_extra.bits.b2 = true;
+			ev.mouseEvent.X2 = gtConst_1;
 			switch( message ){
-				case WM_XBUTTONUP: ev.mouseEvent.state_extra.bits.b3 = true; break;
-				case WM_XBUTTONDBLCLK: ev.mouseEvent.state_extra.bits.b5 = true; break;
+				case WM_XBUTTONUP: ev.mouseEvent.X2 = gtConst1; break;
+				case WM_XBUTTONDBLCLK: ev.mouseEvent.X2 = -21; break;
 			}
 		}
 
 		switch( message ){
-			case WM_LBUTTONUP:	ev.mouseEvent.state.bits.b1 = true; break;
-			case WM_RBUTTONUP:	ev.mouseEvent.state.bits.b3 = true; break;
-			case WM_MBUTTONUP:	ev.mouseEvent.state.bits.b5 = true; break;
-			case WM_LBUTTONDBLCLK: ev.mouseEvent.state.bits.b6 = true; break;
-			case WM_RBUTTONDBLCLK: ev.mouseEvent.state.bits.b7 = true; break;
+			case WM_LBUTTONUP:	ev.mouseEvent.LMB = gtConst1; break;
+			case WM_RBUTTONUP:	ev.mouseEvent.RMB = gtConst1; break;
+			case WM_MBUTTONUP:	ev.mouseEvent.MMB = gtConst1; break;
+			case WM_LBUTTONDBLCLK: ev.mouseEvent.LMB = -21; break;
+			case WM_RBUTTONDBLCLK: ev.mouseEvent.RMB = -21; break;
 		}
 
 		ev.mouseEvent.wheel = static_cast<u16>( s8( (f32)GET_WHEEL_DELTA_WPARAM(wParam) / (f32)WHEEL_DELTA ) );

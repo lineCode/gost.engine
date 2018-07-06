@@ -1,8 +1,7 @@
 #include "common.h"
 
-gtInputSystemImpl::gtInputSystemImpl(){
+gtInputSystemImpl::gtInputSystemImpl():m_LMB(gtConst0),m_RMB(gtConst0),m_MMB(gtConst0){
 	memset( m_keysDown, 0, 256u );
-	m_mouseState.byte = gtConst0U;
 }
 gtInputSystemImpl::~gtInputSystemImpl(){}
 
@@ -15,21 +14,21 @@ bool gtInputSystemImpl::isKeyDown( gtKey key ){
 }
 
 bool gtInputSystemImpl::isLMBDown(){
-	return m_mouseState.bits.b0;
+	return m_LMB == gtConst_1;
 }
 
 bool gtInputSystemImpl::isRMBDown(){
-	return m_mouseState.bits.b1;
+	return m_RMB == gtConst_1;
 }
 
 bool gtInputSystemImpl::isMMBDown(){
-	return m_mouseState.bits.b2;
+	return m_MMB == gtConst_1;
 }
 
 void gtInputSystemImpl::reset(){
-	m_mouseState.bits.b0 = false;
-	m_mouseState.bits.b1 = false;
-	m_mouseState.bits.b2 = false;
+	m_LMB = gtConst0;
+	m_RMB = gtConst0;
+	m_MMB = gtConst0;
 }
 
 void gtInputSystemImpl::setKeyboardState( gtEventKeyboard * e ){
@@ -37,9 +36,9 @@ void gtInputSystemImpl::setKeyboardState( gtEventKeyboard * e ){
 }
 
 void gtInputSystemImpl::setMouseState( gtEventMouse * e ){
-	m_mouseState.bits.b0 = e->state.bits.b0;
-	m_mouseState.bits.b1 = e->state.bits.b2;
-	m_mouseState.bits.b2 = e->state.bits.b4;
+	m_LMB = e->LMB;
+	m_RMB = e->RMB;
+	m_MMB = e->MMB;
 	m_cursorPosition.x = e->x;
 	m_cursorPosition.y = e->y;
 }

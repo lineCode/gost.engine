@@ -10,6 +10,20 @@ void RedrawWindow(){
 	}
 }
 
+void ResizeWindow(){
+	auto This = demo::DemoApplication::GetThis();
+	if( This ){
+		auto ms = This->GetMainSystem();
+		auto ss = ms->getSceneSystem(nullptr);
+		auto gs = ms->getMainVideoDriver();
+		auto c  = ss->getActiveCamera();
+		auto w  = gs->getParams().m_outWindow;
+		auto r  = w->getClientRect();
+		c->setAspect( (f32)r.getWidth() / (f32)r.getHeight() );
+	}
+	RedrawWindow();
+}
+
 demo::DemoApplication*	demo::DemoApplication::GetThis(){
 	return s_this;
 }
@@ -204,7 +218,7 @@ bool demo::DemoApplication::initWindow(){
 	}
 
 	m_mainWindow->setOnMove( RedrawWindow );
-	m_mainWindow->setOnSize( RedrawWindow );
+	m_mainWindow->setOnSize( ResizeWindow );
 
 	m_eventConsumer->m_context.oldWindowSize = m_windowInfo.m_rect;
 

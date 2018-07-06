@@ -128,6 +128,7 @@ void				gtCameraImpl::render(){
 		gtQuaternion qRoll( v3f( 0.f, 0.f, m_rotation.z ) );
 
 		m_orientation = qYaw * qPitch * qRoll;
+		m_orientation.normalize();
 
 		math::makeRotationMatrix( m_rotationMatrix, m_orientation );
 

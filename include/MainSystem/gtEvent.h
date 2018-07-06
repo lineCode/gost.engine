@@ -78,54 +78,35 @@ namespace gost{
 
 		gtEventMouse();
 
-		gtByte	state; /*
-							b0 - lmb down
-							b1 - lmb up
-							b2 - rmb down
-							b3 - rmb up
-							b4 - mmb down
-							b5 - mmb up
-							b6 - lmb2x
-							b7 - rmb2x
-					   */
-
-		gtByte	state_extra; /*
-							b0 - ex1 down
-							b1 - ex1 up
-							b2 - ex2 down
-							b3 - ex2 up
-							b4 - ex1_2x
-							b5 - ex2_2x
-					   */
+		s32	LMB; // -1, 0, 1, -21 - down, ---, up, double down
+		s32	RMB;
+		s32	MMB;
+		s32 X1;
+		s32 X2;
 
 		u16	x;	//< Cursor position on X
 		u16 y;	//< Cursor position on Y
 
 		u16 wheel;	//< Wheel
 
-		bool	isLeftButtonDown(){	return state.bits.b0;	}
-		bool	isLeftButtonUp()	{	return state.bits.b1;	}
-		bool	isRightButtonDown(){	return state.bits.b2;	}
-		bool	isRightButtonUp()	{	return state.bits.b3;	}
-		bool	isMiddleButtonDown(){	return state.bits.b4;	}
-		bool	isMiddleButtonUp(){	return state.bits.b5;	}
-		bool	isLeftButtonDouble(){	return state.bits.b6;	}
-		bool	isRightButtonDouble(){return state.bits.b7;	}
-
-
-		bool	isExtra1ButtonDown(){	return state_extra.bits.b0;	}
-		bool	isExtra1ButtonUp(){	return state_extra.bits.b1;	}
-		bool	isExtra2ButtonDown(){	return state_extra.bits.b2;	}
-		bool	isExtra2ButtonUp(){	return state_extra.bits.b3;	}
+		bool	isLeftButtonDown()    { return LMB == gtConst_1; }
+		bool	isLeftButtonUp()	  { return LMB == gtConst1;  }
+		bool	isRightButtonDown()   { return RMB == gtConst_1; }
+		bool	isRightButtonUp()	  { return LMB == gtConst1;	 }
+		bool	isMiddleButtonDown()  { return MMB == gtConst_1; }
+		bool	isMiddleButtonUp()    { return LMB == gtConst1;	 }
+		bool	isLeftButtonDouble()  { return LMB == -21;       }
+		bool	isRightButtonDouble() { return RMB == -21;       }
+		bool	isExtra1ButtonDown()  { return X1  == gtConst_1; }
+		bool	isExtra1ButtonUp()    { return X1  == gtConst1;	 }
+		bool	isExtra2ButtonDown()  { return X2  == gtConst_1; }
+		bool	isExtra2ButtonUp()    { return X2  == gtConst1;	 }
 	};
 
 	struct gtEventKeyboard{
-
-		
 		gtKey key = gtKey::K_NONE;
-		
 		char32_t character = U' ';
-
+		
 		gtByte	state;
 
 		bool isPressed( gtKey Key )	{	return ((Key == key) && state.bits.b0);	}

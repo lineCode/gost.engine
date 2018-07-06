@@ -166,14 +166,14 @@ void DemoExample_Camera::Input( f32 d ){
 
 	auto coords = m_input->getCursorPosition();
 	auto new_coords = coords - m_oldCoord;
-
+	auto rot = m_cameraActive->getRotation();
 	if( m_input->isLMBDown() ){
 		if( m_cameraActive == m_cameraFPS ){
 			m_cameraActive->setRotation( m_cameraActive->getRotation() + 
 				v3f(
 					-math::degToRad((f32)new_coords.y)*0.05f,
 					-math::degToRad((f32)new_coords.x)*0.05f,
-					0.f
+					0.000f
 				)
 			);
 		}
@@ -182,7 +182,7 @@ void DemoExample_Camera::Input( f32 d ){
 				v3f(
 					-math::degToRad((f32)new_coords.y)*0.05f,
 					-math::degToRad((f32)new_coords.x)*0.05f,
-					0.f
+					0.000f
 				)
 			);
 		}
