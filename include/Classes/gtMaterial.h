@@ -62,12 +62,12 @@ namespace gost{
 			// c-tor
 		gtMaterial():
 			shader( nullptr ),
-			ambientColor( gtConst0F ),
+			ambientColor( (u32)0xff303030 ),
 			specularColor( gtConst1F ),
 			diffuseColor( gtConst1F ),
-			sunPosition( v4f( 0.2f, 0.8f, 0.5f, 0.f ) ),
+			sunPosition( v4f(0.3f,.6,-.3f,0.f) ),
 			specularLevel( gtConst1F ),
-			shininess( gtConst1F ),
+			shininess( 5.f ),
 			glossiness( gtConst0F ),
 			roughness( gtConst0F ),
 			opacity( gtConst1F ),

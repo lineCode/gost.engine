@@ -26,8 +26,12 @@ void				gtStaticObjectImpl::update(){
 
 	m_worldMatrix = translationMatrix * m_rotationMatrix * scaleMatrix;
 
-	if( m_parent )
+	m_positionInSpace = m_position;
+
+	if( m_parent ){
 		m_worldMatrix = m_parent->getAbsoluteWorldMatrix() * m_worldMatrix;
+		m_positionInSpace += m_parent->getPositionInSpace();
+	}
 
 	m_worldMatrixAbsolute = m_worldMatrix;
 

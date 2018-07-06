@@ -23,7 +23,7 @@ namespace gost{
 		gtMatrix4		m_worldMatrix, m_worldMatrixAbsolute;
 		gtMatrix4		m_rotationMatrix;
 
-		v4f				m_position;
+		v4f				m_position, m_positionInSpace;
 		v4f				m_rotation, m_old_rotation;
 		v4f				m_scale;
 		gtQuaternion	m_orientation;
@@ -56,7 +56,7 @@ namespace gost{
 		virtual gtObb*				getObb() = 0;
 
 		virtual const v4f&			getPosition(){ return m_position; }
-		virtual v4f					getPositionInSpace(){ return m_worldMatrixAbsolute[ gtConst3U ]; }
+		virtual const v4f&			getPositionInSpace(){ return m_positionInSpace; }
 		virtual void				setPosition( const v4f& p ){ m_position = p; }
 
 		virtual void				setRotation( const v4f& rotation ){

@@ -965,7 +965,7 @@ bool	gtDriverD3D11::createShaders(){
 	m_shaderLine = getShader( m_shaderLineCallback.data(), u"../shaders/line.hlsl", "VSMain",
 		u"../shaders/line.hlsl", "PSMain", shaderModel, vertexType2D );
 
-	if( m_shader3DStandart ) if( !m_shader3DStandart->createShaderObject( (16u * 5u * sizeof(f32)) + (sizeof(v4f)) ) ) return false;
+	if( m_shader3DStandart ) if( !m_shader3DStandart->createShaderObject( (16u * 5u * sizeof(f32))) ) return false;
 	if( m_shader3DStandart ) if( !m_shader3DStandart->createShaderObject( (sizeof(v4f)*5)+sizeof(s32)*4u ) ) return false;
 	if( m_shaderSprite ) if( !m_shaderSprite->createShaderObject( 24u * sizeof(f32) ) ) return false;
 	if( m_shaderLine ) if( !m_shaderLine->createShaderObject( 28u * sizeof(f32) ) ) return false;

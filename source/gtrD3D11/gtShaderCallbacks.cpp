@@ -44,9 +44,12 @@ void gtD3D11StandartShaderCallback::onShader( const gtMaterial& material, gtShad
 	cbMaterial.sunDiffuse  = material.diffuseColor;
 	cbMaterial.shininess   = material.shininess;
 	cbMaterial.sunPosition = material.sunPosition;
+	cbMaterial.sunPosition.normalize();
+
 	cbMaterial.transparency= 0.f;
 	cbMaterial.isLume      = (material.flags&(u32)gtMaterialFlag::UseLight)?1:0;
 	cbMaterial.eyePosition = m_scene->getActiveCamera()->getPositionInSpace();
+	auto pos = m_scene->getActiveCamera()->getPosition();
 
 	sp->sendDataVS( &cbMatrix,   0, gtConst0U );
 	sp->sendDataPS( &cbMaterial, 0, gtConst1U );

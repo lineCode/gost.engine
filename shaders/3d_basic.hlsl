@@ -7,7 +7,6 @@ cbuffer cbPerObject{
 	float4x4 WI;
     float4x4 V;
     float4x4 P;
-	float4 	 eye;
 };
 
 cbuffer cbMaterial{
@@ -59,7 +58,7 @@ float4 PSMain( PixelInputType input ) : SV_TARGET{
 	
 	float4 normal = normalize(float4(input.normal,1.0));
 	
-	float4 sunLightDir = normalize( float4(sunPosition.xyz,1.f) );
+	float4 sunLightDir = normalize( float4(sunPosition.xyz,0.f) );
 	float diff = max(dot( normal, sunLightDir ), 0.0f );
 	
 	float4 diffuse = sunDiffuse;

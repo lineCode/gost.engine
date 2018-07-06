@@ -20,9 +20,13 @@ void				gtDummyObjectImpl::update(){
 	scaleMatrix[ gtConst2U ].fill(1.f);
 
 	m_worldMatrix = translationMatrix * rotationMatrix * scaleMatrix;
+	
+	m_positionInSpace = m_position;
 
-	if( m_parent )
+	if( m_parent ){
 		m_worldMatrix = m_parent->getAbsoluteWorldMatrix() * m_worldMatrix;
+		m_positionInSpace += m_parent->getPositionInSpace();
+	}
 
 	m_worldMatrixAbsolute = m_worldMatrix;
 

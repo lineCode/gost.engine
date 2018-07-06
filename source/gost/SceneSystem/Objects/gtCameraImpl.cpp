@@ -34,15 +34,19 @@ void gtCameraImpl::setTarget( const v4f& t )    { m_target = t;              }
 void gtCameraImpl::setViewPort( const v4f& v )  { m_viewPort = v;            }
 void gtCameraImpl::setUpVector( const v4f& v )  { m_up = v;                  }
 
-void				gtCameraImpl::update(){
+void	gtCameraImpl::update(){
 
 	gtMatrix4 translationMatrix;
 	math::makeTranslationMatrix( -m_position, translationMatrix );
 
 	m_worldMatrix = translationMatrix;
 
-	if( m_parent )
+	m_positionInSpace = m_position;
+
+	if( m_parent ){
 		m_worldMatrix = m_parent->getAbsoluteWorldMatrix() * m_worldMatrix;
+		m_positionInSpace += m_parent->getPositionInSpace();
+	}
 
 	m_worldMatrixAbsolute = m_worldMatrix;
 

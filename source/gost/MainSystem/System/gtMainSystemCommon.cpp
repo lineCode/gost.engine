@@ -17,16 +17,13 @@ gtMainSystemCommon::gtMainSystemCommon() : m_isRun( true ),
 	m_time( gtConst0U ),
 	m_tick( gtConst0U )
 {
-
-	s_log = gtPtrNew<gtLogImpl>( new gtLogImpl );
-	s_instance = this;
-
-	m_inputSystem = gtPtrNew<gtInputSystemImpl>( new gtInputSystemImpl );
+	s_instance     = this;
+	s_log          = gtPtrNew<gtLogImpl>         ( new gtLogImpl );
+	m_inputSystem  = gtPtrNew<gtInputSystemImpl> ( new gtInputSystemImpl );
 	m_pluginSystem = gtPtrNew<gtPluginSystemImpl>( new gtPluginSystemImpl );
-	m_modelSystem = gtPtrNew<gtModelSystemImpl>( new gtModelSystemImpl );
-	m_sceneSystem = gtPtrNew<gtSceneSystemImpl>( new gtSceneSystemImpl );
-	m_GUISystem = gtPtrNew<gtGUISystemImpl>( new gtGUISystemImpl );
-
+	m_modelSystem  = gtPtrNew<gtModelSystemImpl> ( new gtModelSystemImpl );
+	m_sceneSystem  = gtPtrNew<gtSceneSystemImpl> ( new gtSceneSystemImpl );
+	m_GUISystem    = gtPtrNew<gtGUISystemImpl>   ( new gtGUISystemImpl );
 }
 
 gtMainSystemCommon::~gtMainSystemCommon(){
@@ -36,10 +33,8 @@ gtMainSystemCommon::~gtMainSystemCommon(){
 	}
 }
 
-gtLog* gtMainSystemCommon::getLog(){
-	return s_log.data();
-}
-
+gtLog* gtMainSystemCommon::getLog()       { return s_log.data(); }
+gtMainSystem* gtMainSystem::getInstance() { return gtMainSystemCommon::getInstance(); }
 
 void gtMainSystemCommon::initStackTracer(){
 	if( !m_stackTracer ){
@@ -51,9 +46,6 @@ void gtMainSystemCommon::initEventSystem(){
 	m_events		= gtPtrNew<gtEventSystem>( new gtEventSystem( m_inputSystem.data(), m_params.m_consumer ) );
 }
 
-gtMainSystem*	gtMainSystem::getInstance(){
-	return gtMainSystemCommon::getInstance();
-}
 
 void	gtMainSystemCommon::updateEvents(){
 	this->m_events->getKeyboardAndMouseStates();
