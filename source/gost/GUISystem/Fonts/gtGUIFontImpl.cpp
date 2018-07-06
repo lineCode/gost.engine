@@ -49,7 +49,10 @@ bool gtGUIFontImpl::init( const gtString& font, gtImage * image ){
 			return false;
 		}
 
-		image->makeAlphaFromBlack();
+		if( image->format == gtImageFormat::R8G8B8 ){
+			image->convert( gtImageFormat::R8G8B8A8 );
+			image->makeAlphaFromBlack();
+		}
 		
 
 		if( m_gs ){
