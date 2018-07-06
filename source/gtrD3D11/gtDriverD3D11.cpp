@@ -947,6 +947,15 @@ bool	gtDriverD3D11::createShaders(){
 		{ gtVertexType::Normal },
 		{ gtVertexType::End }
 	};
+
+	gtVertexType vertexTypeGUI[] = 
+	{
+		{ gtVertexType::Position },
+		{ gtVertexType::UV },
+		{ gtVertexType::Normal },
+		{ gtVertexType::Color },
+		{ gtVertexType::End }
+	};
 	
 	m_shader3DStandartCallback = gtPtrNew<gtD3D11StandartShaderCallback>( new gtD3D11StandartShaderCallback );
 	m_shaderGUICallback = gtPtrNew<gtD3D11GUIShaderCallback>( new gtD3D11GUIShaderCallback );
@@ -957,7 +966,7 @@ bool	gtDriverD3D11::createShaders(){
 		u"../shaders/3d_basic.hlsl", "PSMain", shaderModel, vertexType3D );
 	
 	m_shaderGUI = getShader( m_shaderGUICallback.data(), u"../shaders/GUI.hlsl", "VSMain",
-		u"../shaders/GUI.hlsl", "PSMain", shaderModel, vertexType3D );
+		u"../shaders/GUI.hlsl", "PSMain", shaderModel, vertexTypeGUI );
 
 	m_shaderSprite = getShader( m_shaderSpriteCallback.data(), u"../shaders/sprite.hlsl", "VSMain",
 		u"../shaders/sprite.hlsl", "PSMain", shaderModel, vertexType3D );
@@ -969,7 +978,7 @@ bool	gtDriverD3D11::createShaders(){
 	if( m_shader3DStandart ) if( !m_shader3DStandart->createShaderObject( (sizeof(v4f)*5)+sizeof(s32)*8u ) ) return false;
 	if( m_shaderSprite ) if( !m_shaderSprite->createShaderObject( 24u * sizeof(f32) ) ) return false;
 	if( m_shaderLine ) if( !m_shaderLine->createShaderObject( 28u * sizeof(f32) ) ) return false;
-	if( m_shaderGUI ) if( !m_shaderGUI->createShaderObject( gtConst4U * sizeof(f32) + 128u ) ) return false;
+	if( m_shaderGUI ) if( !m_shaderGUI->createShaderObject( gtConst8U * sizeof(f32) ) ) return false;
 
 	return true;
 }

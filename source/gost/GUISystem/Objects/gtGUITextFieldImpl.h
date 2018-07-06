@@ -13,10 +13,13 @@ namespace gost{
 		gtGUIFontImpl * m_font;
 		bool			m_fixedH, m_fixedW;
 		bool			m_showBackground;
+		bool			m_useGradient, m_useVertGradient;
 		v4i				m_rect;
 		v4i				m_scissorRect;
 		gtColor			m_bgColor;
 		gtColor			m_textColor;
+		gtColor			m_bgGrColor1;
+		gtColor			m_bgGrColor2;
 		gtString		m_text;
 		gtMaterial		m_material;
 
@@ -39,6 +42,7 @@ namespace gost{
 		void		setTextColor( const gtColor& color );
 		void		setBackgroundVisible( bool value );
 		void		setBackgroundColor( const gtColor& color );
+		void        setBackgroundGradient( bool use_gradient, const gtColor& first_color, const gtColor& second_color, bool use_vertical_gradient = false );
 		void		clear();
 		gtGUIShape* getBackgroundShape();
 

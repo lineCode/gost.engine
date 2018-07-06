@@ -8,7 +8,7 @@ namespace gost{
 	//	Some helper functions here
 	namespace util{
 		
-		GT_FORCE_INLINE bool pointInRect( const gtVector2<u16>& coord, const v4i& rect ){
+		GT_FORCE_INLINE bool pointInRect( const gtVector2<s16>& coord, const v4i& rect ){
 			if( coord.x >= rect.x ){
 				if( coord.x <= rect.z ){
 					if( coord.y >= rect.y ){

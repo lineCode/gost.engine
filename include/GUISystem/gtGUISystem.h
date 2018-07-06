@@ -19,7 +19,8 @@ namespace gost{
 		virtual gtPtr<gtGUIStaticText> createStaticText( const gtString& text, s32 positionX, s32 positionY, gtGUIFont* font ) = 0;
 		virtual gtPtr<gtGUITextField> createTextField( const v4i& rect, gtGUIFont* font, bool fixedHeight = true, bool fixedWidth = true ) = 0;
 
-		virtual gtPtr<gtGUIShape>	createShapeRectangle( const v4i& rect, const gtColor& color ) = 0;
+		virtual gtPtr<gtGUIShape>	createShapeRectangle( const v4i& rect, const gtColor& color, bool useGradient = false, 
+			const gtColor& first_color = gtColorBlack, const gtColor& second_color = gtColorBlack, bool useVerticalGradient = false ) = 0;
 		
 		virtual void removeFromUserInput( gtGUIObject * ) = 0;
 

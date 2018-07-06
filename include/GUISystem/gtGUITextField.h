@@ -13,6 +13,7 @@ namespace gost{
 		virtual const gtString& getText() = 0;
 		virtual void setBackgroundVisible( bool value ) = 0;
 		virtual void setBackgroundColor( const gtColor& color ) = 0;
+		virtual void setBackgroundGradient( bool use_gradient, const gtColor& first_color, const gtColor& second_color, bool use_vertical_gradient = false ) = 0;
 		virtual void setFont( gtGUIFont * font ) = 0;
 		virtual void setFont( const gtPtr<gtGUIFont>& font ) = 0;
 		virtual void setText( const gtString& text ) = 0;

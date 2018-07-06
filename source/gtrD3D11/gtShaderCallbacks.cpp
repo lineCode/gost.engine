@@ -72,12 +72,20 @@ void gtD3D11GUIShaderCallback::onShader( const gtMaterial& m, gtShaderProcessing
 	sp->setTexture( "", 0 );
 	struct cbPixel_t{
 		gtColor diffuseColor;
-		s32 boolean[4u];
+		s32 isAlphaDiscard;
+		s32 isGradient;
+		s32 reserved[2];
 	}cbPixel;
 
 	cbPixel.diffuseColor = m.textureLayer[ gtConst0U ].diffuseColor;
 	cbPixel.diffuseColor.setAlpha( m.transparent );
-	cbPixel.boolean[ gtConst0U ]  = (m.flags & (u32)gtMaterialFlag::AlphaDiscard )?1:0;
+	cbPixel.isAlphaDiscard = (m.flags & (u32)gtMaterialFlag::AlphaDiscard )?1:0;
+	
+	
+	gtGUIShape* shape = (gtGUIShape*)m.userData;
+	if( shape )
+		cbPixel.isGradient = shape->isGradient()?1:0;
+	else cbPixel.isGradient = 0;
 
 	sp->sendDataPS( &cbPixel, 0, gtConst0U );
 }
@@ -110,7 +118,7 @@ void gtD3D11SpriteShaderCallback::onShader( const gtMaterial& material, gtShader
 	cbPerObject.WVP =  P * V * W;
 	cbPerObject.WVP.transpose();
 
-	gtSprite * sprite = (gtSprite*)material.owner;
+	gtSprite * sprite = (gtSprite*)material.userData;
 
 	u32 currentFrame = sprite->getCurrentFrame();
 

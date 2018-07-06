@@ -5,7 +5,9 @@ gtGUITextFieldImpl::gtGUITextFieldImpl( gtGraphicsSystem* d ):
 	m_font(nullptr),
 	m_fixedH(false),
 	m_fixedW(false),
-	m_showBackground(true){
+	m_showBackground(true),
+	m_useGradient(false),
+	m_useVertGradient(false){
 	m_type = gtGUIObjectType::TextField;
 	m_mainSystem = gtMainSystem::getInstance();
 	m_gs = m_mainSystem->getMainVideoDriver();
@@ -66,6 +68,14 @@ void gtGUITextFieldImpl::setBackgroundVisible( bool value ){
 void gtGUITextFieldImpl::setBackgroundColor( const gtColor& color ){
 	m_bgColor = color;
 	m_backgroundShape->setColor( color );
+}
+
+void gtGUITextFieldImpl::setBackgroundGradient( bool use_gradient, const gtColor& first_color, const gtColor& second_color, bool use_vertical_gradient ){
+	m_useGradient = use_gradient;
+	m_useVertGradient = use_vertical_gradient;
+	m_bgGrColor1 = first_color;
+	m_bgGrColor2 = second_color;
+	update();
 }
 
 void gtGUITextFieldImpl::clear(){
@@ -190,7 +200,7 @@ void gtGUITextFieldImpl::update(){
 	m_scissorRect.z = s32((f32)m_rect.z * mulx);
 	m_scissorRect.w = s32((f32)m_rect.w * muly);
 
-	m_backgroundShape = m_gui->createShapeRectangle( m_rect, gtColor( 0.f, 0.f, 0.f, 1.f ) );
+	m_backgroundShape = m_gui->createShapeRectangle( m_rect, gtColor( 0.f, 0.f, 0.f, 1.f ), m_useGradient, m_bgGrColor1, m_bgGrColor2, m_useVertGradient );
 	m_backgroundShape->setTexture( t1 );
 	m_backgroundShape->setColor( m_bgColor );
 	m_backgroundShape->setTransparent( bgtr );

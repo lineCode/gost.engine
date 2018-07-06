@@ -96,7 +96,25 @@ void				gtCameraImpl::render(){
 		m_viewMatrix = m_rotationMatrix * m_worldMatrixAbsolute;
 
 	}break;
-	//case gost::gtCameraType::CT_FREE:
+	case gost::gtCameraType::Free:{
+		math::makePerspectiveRHMatrix(
+			m_projectionMatrix,
+			m_fov,
+			m_aspect,
+			m_near,
+			m_far );
+
+		gtQuaternion qPitch( v3f( m_rotation.x, 0.f, 0.f ) );
+		gtQuaternion qYaw  ( v3f( 0.f, m_rotation.y, 0.f ) );
+		gtQuaternion qRoll ( v3f( 0.f, 0.f, m_rotation.z ) );
+		
+		// I forgot how I did before. :(
+		m_orientation = qYaw * qPitch * qRoll; //fps...
+
+		math::makeRotationMatrix( m_rotationMatrix, m_orientation );
+
+		m_viewMatrix = m_rotationMatrix * m_worldMatrixAbsolute;
+	}break;
 	case gost::gtCameraType::FPS:{
 		math::makePerspectiveRHMatrix(
 			m_projectionMatrix,

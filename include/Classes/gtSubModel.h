@@ -10,6 +10,13 @@ namespace gost{
 		v3f nor;
 	};
 
+	struct gtStandartColorVertex{
+		v4f pos;
+		v2f uv; 
+		v3f nor;
+		gtColor col;
+	};
+
 	struct gtSubModel{
 
 			// c-tor

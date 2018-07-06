@@ -6,7 +6,7 @@ namespace gost{
 
 	class gtInputSystemImpl : public gtInputSystem{
 		bool			m_keysDown[ gtConst256U ];
-		gtVector2<u16>	m_cursorPosition;
+		gtVector2<s16>	m_cursorPosition;
 		gtByte			m_mouseState;
 	public:
 		gtInputSystemImpl();
@@ -14,7 +14,7 @@ namespace gost{
 
 		gtPtr<gtInputController> createInputContoller( const GT_GUID& plugin );
 		bool isKeyDown( gtKey key );
-		const gtVector2<u16>& getCursorPosition();
+		const gtVector2<s16>& getCursorPosition();
 		bool isLMBDown();
 		bool isRMBDown();
 		bool isMMBDown();

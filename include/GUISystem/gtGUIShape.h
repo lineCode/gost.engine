@@ -13,8 +13,9 @@ namespace gost{
 	class gtGUIShape : public gtGUIObject{
 	protected:
 		gtGUIShapeType m_shapeType;
+		bool m_isGradient;
 	public:
-
+		gtGUIShape():m_isGradient(false){}
 		virtual ~gtGUIShape(){}
 
 		virtual void setColor( const gtColor& color ) = 0;
@@ -23,9 +24,8 @@ namespace gost{
 		virtual gtTexture* getTexture() = 0;
 		virtual gtMaterial* getMaterial() = 0;
 
-		virtual gtGUIShapeType getShapeType(){
-			return m_shapeType;
-		}
+		virtual gtGUIShapeType getShapeType(){ return m_shapeType; }
+		virtual bool isGradient(){ return m_isGradient; }
 	};
 
 }

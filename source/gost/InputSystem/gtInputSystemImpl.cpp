@@ -6,7 +6,7 @@ gtInputSystemImpl::gtInputSystemImpl(){
 }
 gtInputSystemImpl::~gtInputSystemImpl(){}
 
-const gtVector2<u16>& gtInputSystemImpl::getCursorPosition(){
+const gtVector2<s16>& gtInputSystemImpl::getCursorPosition(){
 	return m_cursorPosition;
 }
 

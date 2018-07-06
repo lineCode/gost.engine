@@ -136,13 +136,15 @@ void gtGUISystemImpl::setCurrentRenderDriver( gtGraphicsSystem * driver ){
 	m_gs = driver;
 }
 
-gtPtr<gtGUIShape> gtGUISystemImpl::createShapeRectangle( const v4i& rect, const gtColor& color ){
+gtPtr<gtGUIShape> gtGUISystemImpl::createShapeRectangle( const v4i& rect, const gtColor& color, bool useGradient, 
+			const gtColor& first_color, const gtColor& second_color, bool useVerticalGradient ){
+
 	gtPtr_t( gtGUIShapeImpl, st, new gtGUIShapeImpl( m_gs ) );
 
 	if( !st.data() )
 		return nullptr;
 
-	if( !st->initRectangle( rect, color ) ){
+	if( !st->initRectangle( rect, color, useGradient, first_color, second_color, useVerticalGradient ) ){
 		gtLogWriter::printWarning( u"Can not create gtGUIShape" );
 		return nullptr;
 	}

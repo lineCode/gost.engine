@@ -74,7 +74,8 @@ namespace gost{
 			fresnel( gtConst1F ),
 			flags( (u32)gtMaterialFlag::UseLight ),
 			type( gtMaterialType::Standart ),
-			owner( nullptr ),
+			userData( nullptr ),
+			userDataSize( 0u ),
 			alphaToCoverage( false )
 		{}
 
@@ -103,7 +104,8 @@ namespace gost{
 
 		gtMaterialType type;
 
-		gtGameObject * owner;
+		void*   userData;
+		u32     userDataSize;
 
 		bool	alphaToCoverage;
 	};

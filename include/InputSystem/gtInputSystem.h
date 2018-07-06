@@ -11,7 +11,7 @@ namespace gost{
 		virtual bool isLMBDown() = 0;
 		virtual bool isRMBDown() = 0;
 		virtual bool isMMBDown() = 0;
-		virtual const gtVector2<u16>& getCursorPosition() = 0;
+		virtual const gtVector2<s16>& getCursorPosition() = 0;
 	};
 
 }

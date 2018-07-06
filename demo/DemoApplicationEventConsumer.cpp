@@ -39,7 +39,7 @@ void demo::DemoApplicationEventConsumer::processEventGUI( const gtEvent& ev ){
 				auto text = (gtGUITextField*)ev.GUIEvent.object;
 				if( text ){
 					text->getBackgroundShape()->setTransparent( 0.f );
-					text->getBackgroundShape()->setColor( gtColorRed );
+					text->getBackgroundShape()->setColor( gtColorBlack );
 				}
 			}else if( ev.GUIEvent.id > 99u && ev.GUIEvent.id < 199u ){
 				*m_context.activeDemoTypeSelected = ev.GUIEvent.id - 100u;
@@ -115,7 +115,7 @@ void demo::DemoApplicationEventConsumer::processEventGUI( const gtEvent& ev ){
 			if( ev.GUIEvent.id == DEMO_GUI_ID_WELCOME_TEXT ){
 				auto text = (gtGUITextField*)ev.GUIEvent.object;
 				if( text ){
-					text->getBackgroundShape()->setColor( gtColorRed );
+					text->getBackgroundShape()->setColor( gtColorBlack );
 				}
 			}else if( ev.GUIEvent.id == DEMO_GUI_ID_PAUSE_CONTINUE ){
 				m_context.app->ReturnToMainMenu();

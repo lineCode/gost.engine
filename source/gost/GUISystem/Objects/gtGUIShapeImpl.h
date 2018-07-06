@@ -12,14 +12,15 @@ namespace gost{
 		gtRenderModel*	m_model;
 		gtMaterial*		m_material;
 
-		gtVertexType	vt[ gtConst4U ];
+		gtVertexType	vt[ gtConst5U ];
 
 	public:
 
 		gtGUIShapeImpl( gtGraphicsSystem * );
 		~gtGUIShapeImpl();
 		
-		bool		initRectangle( const v4i& rect, const gtColor& color );
+		bool		initRectangle( const v4i& rect, const gtColor& color, bool useGradient = false, 
+			const gtColor& first_color = gtColorBlack, const gtColor& second_color = gtColorBlack, bool useVerticalGradient = false );
 
 		void		render();
 		void		setTransparent( f32 transparent = gtConst0F );

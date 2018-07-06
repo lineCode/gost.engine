@@ -629,7 +629,8 @@ bool demo::DemoApplication::rebuildMainMenu(){
 		m_welcomeText->setText( getString( u"0" ) );
 		m_welcomeText->setTransparent( 0.1f );
 		m_welcomeText->getBackgroundShape()->setTransparent( 1.f );
-		m_welcomeText->getBackgroundShape()->setColor( gtColorRed );
+		m_welcomeText->getBackgroundShape()->setColor( gtColorBlack );
+		m_welcomeText->setBackgroundGradient( true, gtColorRed, gtColorDarkRed );
 		m_welcomeText->setTextColor( gtColorWhite );
 
 		m_guiSystem->addToUserInput( m_welcomeText.data(), DEMO_GUI_ID_WELCOME_TEXT );

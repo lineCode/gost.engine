@@ -22,6 +22,7 @@ class DemoExample_Camera : public demo::DemoExample{
 	gtCamera *				m_cameraActive;
 
 	f32 m_delta;
+	gtVector2<s16>			m_oldCoord;
 
 	u8 m_activeCameraType;
 
@@ -80,7 +81,7 @@ bool DemoExample_Camera::Init(){
 	m_cameraFPS = m_sceneSystem->addCamera( v3f( 0.08f, 1.76f, 7.16f ) );
 	m_cameraFPS->setName( "FPS" );
 
-	m_cameraFree = m_sceneSystem->addCamera( v3f( -10.f, 7.f, 10.f ) );
+	m_cameraFree = m_sceneSystem->addCamera( m_cameraFPS->getPosition() );
 	m_cameraFree->setName( "Free" );
 
 	m_cameraFPS->setCameraType( gtCameraType::FPS );
@@ -162,6 +163,53 @@ void DemoExample_Camera::Input( f32 d ){
 
 		m_sceneSystem->setActiveCamera( m_cameraActive );
 	}
+
+	auto coords = m_input->getCursorPosition();
+	auto new_coords = coords - m_oldCoord;
+
+	if( m_input->isLMBDown() ){
+		if( m_cameraActive == m_cameraFPS ){
+			m_cameraActive->setRotation( m_cameraActive->getRotation() + 
+				v3f(
+					-math::degToRad((f32)new_coords.y)*0.05f,
+					-math::degToRad((f32)new_coords.x)*0.05f,
+					0.f
+				)
+			);
+		}
+		if( m_cameraActive == m_cameraFree ){
+			m_cameraActive->setRotation( m_cameraActive->getRotation() + 
+				v3f(
+					-math::degToRad((f32)new_coords.y)*0.05f,
+					-math::degToRad((f32)new_coords.x)*0.05f,
+					0.f
+				)
+			);
+		}
+	}
+
+	if( m_input->isRMBDown() ){
+		if( m_cameraActive == m_cameraFPS ){
+			m_cameraActive->setRotation( m_cameraActive->getRotation() + 
+				v3f(
+					0.f,
+					0.f,
+					math::degToRad((f32)new_coords.x)*0.05f
+				)
+			);
+		}
+		if( m_cameraActive == m_cameraFree ){
+			m_cameraActive->setRotation( m_cameraActive->getRotation() + 
+				v3f(
+					0.f,
+					0.f,
+					math::degToRad((f32)new_coords.x)*0.05f
+				)
+			);
+		}
+	}
+
+	m_oldCoord = coords;
 }
 
 void DemoExample_Camera::Render(){

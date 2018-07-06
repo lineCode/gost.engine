@@ -8,7 +8,8 @@ m_material( nullptr ){
 	vt[ gtConst0U ] = gtVertexType::Position;
 	vt[ gtConst1U ] = gtVertexType::UV;
 	vt[ gtConst2U ] = gtVertexType::Normal;
-	vt[ gtConst3U ] = gtVertexType::End;
+	vt[ gtConst3U ] = gtVertexType::Color;
+	vt[ gtConst4U ] = gtVertexType::End;
 	m_mainSystem = gtMainSystem::getInstance();
 	m_modelSystem = m_mainSystem->getModelSystem();
 	m_type = gtGUIObjectType::Shape;
@@ -42,28 +43,32 @@ gtMaterial* gtGUIShapeImpl::getMaterial(){
 	return m_material;
 }
 
-bool gtGUIShapeImpl::initRectangle( const v4i& rect, const gtColor& color ){
+bool gtGUIShapeImpl::initRectangle( const v4i& rect, const gtColor& color, bool useGradient, 
+			const gtColor& first_color, const gtColor& second_color, bool useVerticalGradient ){
+
+	m_isGradient = useGradient;
+
 	const u16 u[gtConst6U] = {0U,1U,2U,0U,2U,3U};
-	gtPtr<gtModel> soft = m_modelSystem->createEmpty( gtStrideStandart, &vt[ gtConst0U ] );
+	gtPtr<gtModel> soft = m_modelSystem->createEmpty( gtStrideStandartColor, &vt[ gtConst0U ] );
 	
 	auto ssz = m_gs->getParams().m_outWindow->getWindowInfo().m_borderSize;
 	auto offset_x = ssz.x + ssz.x;
 	auto offset_y = ssz.y;
 
-
 	if( soft.data() ){
-		auto * sub = soft->addSubModel( gtConst4U, gtConst6U, gtStrideStandart );
+		auto * sub = soft->addSubModel( gtConst4U, gtConst6U, gtStrideStandartColor );
 		sub->m_material.type = gtMaterialType::GUI;
 		sub->m_material.flags |= (u32)gtMaterialFlag::AlphaBlend;
 		sub->m_material.textureLayer[ gtConst0U ].diffuseColor = color;
+		sub->m_material.userData = this;
 		//sub->m_material.textureLayer[ gtConst0U ].texture = m_font->getTexture( id );
 		u8* v = &sub->m_vertices[ gtConst0U ];
 		sub->fillIndices( u );
 
-		gtStandartVertex * v1 = (gtStandartVertex*)v;
-		gtStandartVertex * v2 = (gtStandartVertex*)&v[sub->m_stride];
-		gtStandartVertex * v3 = (gtStandartVertex*)&v[sub->m_stride*2];
-		gtStandartVertex * v4 = (gtStandartVertex*)&v[sub->m_stride*3];
+		gtStandartColorVertex * v1 = (gtStandartColorVertex*)v;
+		gtStandartColorVertex * v2 = (gtStandartColorVertex*)&v[sub->m_stride];
+		gtStandartColorVertex * v3 = (gtStandartColorVertex*)&v[sub->m_stride*2];
+		gtStandartColorVertex * v4 = (gtStandartColorVertex*)&v[sub->m_stride*3];
 		v1->pos.zero();
 		v2->pos.zero();
 		v3->pos.zero();
@@ -92,6 +97,17 @@ bool gtGUIShapeImpl::initRectangle( const v4i& rect, const gtColor& color ){
 		
 		v2->uv.set( 0.f, 0.f );
 
+		if( useVerticalGradient ){
+			v1->col = first_color;
+			v2->col = first_color;
+			v3->col = second_color;
+			v4->col = second_color;
+		}else{
+			v1->col = second_color;
+			v2->col = first_color;
+			v3->col = first_color;
+			v4->col = second_color;
+		}
 
 
 		f32 mulx = 1.f / centerx;

@@ -10,7 +10,7 @@ namespace gost{
 		gtGraphicsSystem *    m_gs;
 		gtArray<gtPair<gtGUIObject*,u32>> m_userInputObjects;
 
-		gtVector2<u16> m_coords;
+		gtVector2<s16> m_coords;
 	public:
 
 		gtGUISystemImpl();
@@ -24,7 +24,8 @@ namespace gost{
 		gtPtr<gtGUIStaticText>  createStaticText( const gtString& text, s32 positionX, s32 positionY, gtGUIFont* font );
 		gtPtr<gtGUITextField>	createTextField( const v4i& rect, gtGUIFont* font, bool fixedHeight = true, bool fixedWidth = true );
 
-		gtPtr<gtGUIShape>		createShapeRectangle( const v4i& rect, const gtColor& color );
+		gtPtr<gtGUIShape>		createShapeRectangle( const v4i& rect, const gtColor& color, bool useGradient = false, 
+			const gtColor& first_color = gtColorBlack, const gtColor& second_color = gtColorBlack, bool useVerticalGradient = false );
 
 		void					removeFromUserInput( gtGUIObject * );
 
