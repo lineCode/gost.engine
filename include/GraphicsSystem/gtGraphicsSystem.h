@@ -109,7 +109,9 @@ namespace gost{
 		virtual void	scissorAdd( const v4i& rect ) = 0;
 		virtual void	scissorClear( bool setOriginal = true ) = 0;
 		virtual void	setDepthState( bool state = true ) = 0;
+		virtual void	setRenderTarget( gtTexture * rtt, bool clearDepth = true, bool clearTarget = true, const gtColor& clearTargetColor = gtColorBlack ) = 0;
 		virtual void	setTextureFilterType( gtTextureFilterType ) = 0;
+		virtual void    setViewport( const v2f& viewportSize ) = 0;
 	};
 
 

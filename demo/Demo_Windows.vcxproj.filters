@@ -56,5 +56,8 @@
     <ClInclude Include="examples\Camera.hpp">
       <Filter>Исходные файлы\Samples</Filter>
     </ClInclude>
+    <ClInclude Include="examples\RTT.hpp">
+      <Filter>Исходные файлы\Samples</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

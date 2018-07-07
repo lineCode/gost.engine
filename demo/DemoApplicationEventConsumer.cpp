@@ -105,7 +105,6 @@ void demo::DemoApplicationEventConsumer::processEventGUI( const gtEvent& ev ){
 	case gtEventGUIAction::MouseLeftButtonDown:{
 		if( *m_context.demoState == DemoState::MainMenu ){
 			if( ev.GUIEvent.id == DEMO_GUI_ID_WELCOME_TEXT ){
-				printf("down\n");
 				auto text = (gtGUITextField*)ev.GUIEvent.object;
 				if( text ){
 					text->getBackgroundShape()->setColor( gtColorGreen );
@@ -117,7 +116,6 @@ void demo::DemoApplicationEventConsumer::processEventGUI( const gtEvent& ev ){
 		if( *m_context.demoState == DemoState::MainMenu
 			|| *m_context.demoState == DemoState::DemoMenu ){
 			if( ev.GUIEvent.id == DEMO_GUI_ID_WELCOME_TEXT ){
-				printf("up\n");
 				auto text = (gtGUITextField*)ev.GUIEvent.object;
 				if( text ){
 					text->getBackgroundShape()->setColor( gtColorBlack );
@@ -135,7 +133,7 @@ void demo::DemoApplicationEventConsumer::processEventGUI( const gtEvent& ev ){
 void demo::DemoApplicationEventConsumer::processEventJoystick( const gtEvent& ev ){
 	switch( ev.joystickEvent.joystickEventID ){
 	case GT_EVENT_JOYSTICK_ADD:{
-		wprintf( L"Add gamepad: %s %u\n", (wchar_t*)ev.joystickEvent.joystick->name.data(), ev.joystickEvent.joystickID );
+		gtLogWriter::printInfo( u"Add gamepad: %s %u\n", ev.joystickEvent.joystick->name.data(), ev.joystickEvent.joystickID );
 		m_context.app->ActivateGamepad( true, ev.joystickEvent.joystick );
 	}break;
 	case GT_EVENT_JOYSTICK_REMOVE:{

@@ -146,6 +146,8 @@ namespace gost{
 		gtTexture * getStandartTextureWhiteColor();
 
 		void	setDepthState( bool state = true );
+		void	setRenderTarget( gtTexture * rtt, bool clearDepth, bool clear, const gtColor& crearColor );
+		void    setViewport( const v2f& viewportSize );
 	};
 
 }

@@ -13,7 +13,7 @@ cbuffer cbVerts{
 };
 
 cbuffer cbPixel{
-	float opacity;
+	float transparent;
 	float3 padding;
 };
 
@@ -67,7 +67,7 @@ PSOut PSMain(VSOut input)
 	
     output.color = diffuseColor;
 	
-	if( output.color.a > opacity ) discard;
+	if( output.color.a < transparent ) discard;
 	
     return output;
 }

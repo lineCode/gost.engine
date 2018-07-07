@@ -29,8 +29,10 @@ namespace gost{
 			y( static_cast< Type >( gtConst0U ) ){
 		}
 
-		gtVector2( const gtVector2< Type >& v ){
-			*this = v;
+		template<typename other_type>
+		gtVector2( const gtVector2< other_type >& v ){
+			x = static_cast< Type >( v.x );
+			y = static_cast< Type >( v.y );
 		}
 
 		gtVector2( Type X, Type Y ):

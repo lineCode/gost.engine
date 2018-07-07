@@ -330,22 +330,24 @@ bool gtDriverD3D11::initialize(){
 	enableBlending( true );
 	scissorClear( true );
 
-
-	D3D11_VIEWPORT viewport;
-	viewport.Width		=	(f32)m_params.m_backBufferSize.x;
-	viewport.Height		=	(f32)m_params.m_backBufferSize.y;
-	viewport.MinDepth	=	0.0f;
-	viewport.MaxDepth	=	1.0f;
-	viewport.TopLeftX	=	0.0f;
-	viewport.TopLeftY	=	0.0f;
-	m_d3d11DevCon->RSSetViewports( 1, &viewport );
+	setViewport( v2f( m_params.m_backBufferSize ) );
 
 	createStandartTexture();
 
 	m_shaderProcessing = gtPtrNew<gtShaderProcessingD3D11>( new gtShaderProcessingD3D11(m_d3d11DevCon) );
 
-	
 	return createShaders();
+}
+
+void    gtDriverD3D11::setViewport( const v2f& viewportSize ){
+	D3D11_VIEWPORT viewport;
+	viewport.Width		=	viewportSize.x;
+	viewport.Height		=	viewportSize.y;
+	viewport.MinDepth	=	0.0f;
+	viewport.MaxDepth	=	1.0f;
+	viewport.TopLeftX	=	0.0f;
+	viewport.TopLeftY	=	0.0f;
+	m_d3d11DevCon->RSSetViewports( 1, &viewport );
 }
 
 void	gtDriverD3D11::createStandartTexture(){
@@ -884,6 +886,32 @@ gtShader *	gtDriverD3D11::getShader(
 
 	shader->addRef();
 	return shader.data();
+}
+
+void	gtDriverD3D11::setRenderTarget( gtTexture * rtt, bool clearDepth, bool clearTarget, const gtColor& color ){
+
+	v2f viewport;
+	ID3D11RenderTargetView* rtv = nullptr;
+
+	if( rtt ){
+		gtTextureD3D11 * t = (gtTextureD3D11 *)rtt;
+		rtv = *t->getRenderTargetView();
+		viewport = v2f( (f32)rtt->getWidth(), (f32)rtt->getHeight() );
+	}else{
+		rtv = m_MainTargetView;
+		auto rc = m_params.m_outWindow->getClientRect();
+		viewport = v2f( (f32)rc.getWidth(), (f32)rc.getHeight() );
+	}
+	
+	m_d3d11DevCon->OMSetRenderTargets(1, &rtv, m_depthStencilView);
+	
+	if( clearTarget )
+		m_d3d11DevCon->ClearRenderTargetView( rtv,  color.getData() );
+	
+	if( clearDepth )
+		m_d3d11DevCon->ClearDepthStencilView( m_depthStencilView, D3D11_CLEAR_DEPTH, 1.f, 0 );
+	
+	setViewport( viewport );
 }
 
 gtPtr<gtTexture>    gtDriverD3D11::createRenderTargetTexture( const v2u& size, gtImageFormat pixelFormat ){

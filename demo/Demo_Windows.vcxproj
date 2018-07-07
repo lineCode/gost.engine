@@ -27,6 +27,7 @@
     <ClInclude Include="examples\Get_supported_import_formats.hpp">
       <FileType>Document</FileType>
     </ClInclude>
+    <ClInclude Include="examples\RTT.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="creator.h" />

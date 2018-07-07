@@ -213,6 +213,7 @@ void DemoExample_Camera::Input( f32 d ){
 }
 
 void DemoExample_Camera::Render(){
+	m_demoApp->RenderDefaultScene();
 }
 
 void DemoExample_Camera::Render2D(){

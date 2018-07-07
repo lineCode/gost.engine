@@ -37,6 +37,7 @@ namespace demo{
 		Cancel
 	};
 
+
 	class DemoApplication{
 		
 
@@ -111,6 +112,8 @@ namespace demo{
 		s16						m_demoPauseMenuID;
 		void					updateDemoPause();
 
+
+		gtColor m_demoClearColor;
 
 		s32		m_languageID;
 		s32		m_activeDemoType; //left colon
@@ -188,6 +191,7 @@ namespace demo{
 
 		bool Init();
 		void Run();
+		const gtColor& GetDefaultClearColor();
 
 		void RebuildGUI();
 		void RefreshGUI();

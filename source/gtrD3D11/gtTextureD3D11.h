@@ -33,6 +33,7 @@ namespace gost{
 
 		ID3D11ShaderResourceView* const * getResourceView();
 		ID3D11SamplerState*	const * getSamplerState();
+		ID3D11RenderTargetView* const * getRenderTargetView();
 
 		//	===========================================
 		gtTextureType	getType();

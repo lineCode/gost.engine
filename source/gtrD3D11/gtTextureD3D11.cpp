@@ -128,6 +128,10 @@ ID3D11ShaderResourceView * const * gtTextureD3D11::getResourceView(){
 	return &this->m_textureResView;
 }
 
+ID3D11RenderTargetView* const * gtTextureD3D11::getRenderTargetView(){
+	return &this->m_RTV;
+}
+
 ID3D11SamplerState*	const * gtTextureD3D11::getSamplerState(){
 	return &this->m_samplerState;
 }

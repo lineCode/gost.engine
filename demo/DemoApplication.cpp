@@ -2,6 +2,7 @@
 
 #include "examples\Get_supported_import_formats.hpp"
 #include "examples\Camera.hpp"
+#include "examples\RTT.hpp"
 
 void RedrawWindow(){
 	auto This = demo::DemoApplication::GetThis();
@@ -43,6 +44,7 @@ m_showDescription( true ),
 m_sceneInitialized( false ),
 m_settingsTypeID( 0 ),
 m_demoPauseMenuID( 0 ),
+m_demoClearColor( 0xff6BB5FF ),
 m_languageID( gtConst0U ),
 m_activeDemoType( 0 ),
 m_activeDemoTypeSelected( 0 ),
@@ -135,6 +137,7 @@ bool demo::DemoApplication::Init(){
 	m_gamepadSystem	=	m_mainSystem->getInputSystem()->createInputContoller( GT_UID_INPUT_DINPUT );
 
 	addDemo( DEMO_COMMON, demo::DemoElement( u"14", u"15" ) );
+	addDemo( DEMO_COMMON, demo::DemoElement( u"30", u"31", true, new DemoExample_RTT( this ) ) );
 	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"22", u"23", true, new DemoExample_Camera( this ) ) );
 	addDemo( DEMO_OTHER, demo::DemoElement( u"20", u"21", true, new DemoExample_GetSupportedImportFormats( this ) ) );
 
@@ -864,10 +867,13 @@ void demo::DemoApplication::renderDemoMenu(){
 	m_gs->endRender();
 }
 
-void demo::DemoApplication::renderDemo(){
-	m_gs->beginRender( true, 0xff6BB5FF );
+const gtColor& demo::DemoApplication::GetDefaultClearColor(){
+	return m_demoClearColor;
+}
 
-	RenderDefaultScene();
+void demo::DemoApplication::renderDemo(){
+	m_gs->beginRender( true, m_demoClearColor );
+
 	m_demoArrays[m_activeDemoTypeSelected][m_activeDemoSelected].Render();
 
 	m_gs->setDepthState( false );
