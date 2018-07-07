@@ -32,16 +32,8 @@ void demo::DemoApplicationEventConsumer::processEvent( const gtEvent& ev ){
 void demo::DemoApplicationEventConsumer::processEventGUI( const gtEvent& ev ){
 	switch (ev.GUIEvent.action){
 	case gtEventGUIAction::MouseMove:{
-	}break;
-	case gtEventGUIAction::MouseEnter:{
 		if( *m_context.demoState == DemoState::MainMenu ){
-			if( ev.GUIEvent.id == DEMO_GUI_ID_WELCOME_TEXT ){
-				auto text = (gtGUITextField*)ev.GUIEvent.object;
-				if( text ){
-					text->getBackgroundShape()->setTransparent( 0.f );
-					text->getBackgroundShape()->setColor( gtColorBlack );
-				}
-			}else if( ev.GUIEvent.id > 99u && ev.GUIEvent.id < 199u ){
+			if( ev.GUIEvent.id > 99u && ev.GUIEvent.id < 199u ){
 				*m_context.activeDemoTypeSelected = ev.GUIEvent.id - 100u;
 				*m_context.currentDemoColonIndex = *m_context.activeDemoSelected = *m_context.activeDemoType = 0;
 				m_context.app->RefreshGUI();
@@ -70,6 +62,17 @@ void demo::DemoApplicationEventConsumer::processEventGUI( const gtEvent& ev ){
 				if( text ){
 					*m_context.pauseMainMenuSelectedId = 2;
 					m_context.app->RefreshGUI();
+				}
+			}
+		}
+	}break;
+	case gtEventGUIAction::MouseEnter:{
+		if( *m_context.demoState == DemoState::MainMenu ){
+			if( ev.GUIEvent.id == DEMO_GUI_ID_WELCOME_TEXT ){
+				auto text = (gtGUITextField*)ev.GUIEvent.object;
+				if( text ){
+					text->getBackgroundShape()->setTransparent( 0.f );
+					text->getBackgroundShape()->setColor( gtColorBlack );
 				}
 			}
 		}else if( *m_context.demoState == DemoState::DemoMenu ){

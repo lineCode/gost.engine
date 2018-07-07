@@ -57,6 +57,7 @@ namespace gost{
 
 		virtual gtPtr<gtRenderModel> createModel( gtModel* software_model ) = 0;
 		virtual gtPtr<gtTexture>     createTexture( gtImage* sourceImage ) = 0;
+		virtual gtPtr<gtTexture>     createRenderTargetTexture( const v2u& size, gtImageFormat pixelFormat ) = 0;
 
 		virtual void draw2DImage( const v4i& rect, const gtMaterial& m ) = 0;
 		virtual void draw2DImage( const v4i& rect, gtTexture* texture ) = 0;

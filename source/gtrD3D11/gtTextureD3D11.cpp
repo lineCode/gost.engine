@@ -7,32 +7,47 @@ gtTextureD3D11::gtTextureD3D11( gtDriverD3D11* d ):
 	m_texture( nullptr ),
 	m_textureResView( nullptr ),
 	m_samplerState( nullptr ),
+	m_RTV( nullptr ),
 	m_gs( d )
 {}
 
 gtTextureD3D11::~gtTextureD3D11(){
+	if( m_RTV )            m_RTV->Release();
+	if( m_samplerState )   m_samplerState->Release();
+	if( m_textureResView ) m_textureResView->Release();
+	if( m_texture )        m_texture->Release();
+}
 
-	if( m_samplerState ){
-		m_samplerState->Release();
-		m_samplerState = nullptr;
-	}
+bool gtTextureD3D11::initRTT( const v2u& size, gtImageFormat pixelFormat ){
+	D3D11_TEXTURE2D_DESC textureDesc;
+	HRESULT hr;
+	D3D11_RENDER_TARGET_VIEW_DESC renderTargetViewDesc;
+	D3D11_SHADER_RESOURCE_VIEW_DESC shaderResourceViewDesc;
 
-	if( m_textureResView ){
-		m_textureResView->Release();
-		m_textureResView = nullptr;
-	}
+	ZeroMemory(&textureDesc, sizeof(textureDesc));
 
-	if( m_texture ){
-		m_texture->Release();
-		m_texture = nullptr;
-	}
+	textureDesc.Width = size.x;
+	textureDesc.Height = size.y;
+	textureDesc.MipLevels = 1;
+	textureDesc.ArraySize = 1;
+	textureDesc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
+	textureDesc.SampleDesc.Count = 1;
+	textureDesc.Usage = D3D11_USAGE_DEFAULT;
+	textureDesc.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
+	textureDesc.CPUAccessFlags = 0;
+	textureDesc.MiscFlags = 0;
+
+	return true;
 }
 
 bool gtTextureD3D11::init( gtImage* image ){
 
 	if( !image ) return false;
 
-	image->convert( gtImageFormat::R8G8B8A8 );
+	bool is_RTT = (image->frames == -1);
+
+	if( !is_RTT )
+		image->convert( gtImageFormat::R8G8B8A8 );
 
 	D3D11_TEXTURE2D_DESC desc;
 	ZeroMemory( &desc, sizeof( desc ) );
@@ -42,24 +57,41 @@ bool gtTextureD3D11::init( gtImage* image ){
 	desc.SampleDesc.Count	=	1;
 	desc.SampleDesc.Quality	=	0;
 	desc.BindFlags	=	D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_RENDER_TARGET;
-	desc.MiscFlags	=	D3D11_RESOURCE_MISC_GENERATE_MIPS;
+	desc.MiscFlags	=	is_RTT ? 0u : D3D11_RESOURCE_MISC_GENERATE_MIPS;
 	desc.ArraySize	=	1;
 	desc.MipLevels	=	1;
 	desc.Usage	=	D3D11_USAGE_DEFAULT;
 	desc.CPUAccessFlags	=	0;
 
-	D3D11_SUBRESOURCE_DATA initData;
-	ZeroMemory( &initData, sizeof( initData ) );
-	initData.pSysMem	 =	image->data;
-	initData.SysMemPitch =	image->pitch;
-	initData.SysMemSlicePitch = image->dataSize;
-
 	ID3D11Texture2D * texture = nullptr;
+	HRESULT hr = 0;
 
-	HRESULT hr = m_gs->getD3DDevice()->CreateTexture2D( &desc, &initData, &texture );
-	if( FAILED( hr ) ){
-		gtLogWriter::printWarning( u"Can't create 2D texture" );
-		return false;
+	if( is_RTT ){
+		hr = m_gs->getD3DDevice()->CreateTexture2D( &desc, NULL, &texture );
+		if( FAILED( hr ) ){
+			gtLogWriter::printWarning( u"Can't create render target texture" );
+			return false;
+		}
+		D3D11_RENDER_TARGET_VIEW_DESC renderTargetViewDesc;
+		renderTargetViewDesc.Format = desc.Format;
+		renderTargetViewDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
+		renderTargetViewDesc.Texture2D.MipSlice = 0;
+		hr = m_gs->getD3DDevice()->CreateRenderTargetView(texture, &renderTargetViewDesc, &m_RTV);
+		if(FAILED(hr)){
+			gtLogWriter::printWarning( u"Can't create render target view" );
+			return false;
+		}
+	}else{
+		D3D11_SUBRESOURCE_DATA initData;
+		ZeroMemory( &initData, sizeof( initData ) );
+		initData.pSysMem	 =	image->data;
+		initData.SysMemPitch =	image->pitch;
+		initData.SysMemSlicePitch = image->dataSize;
+		hr = m_gs->getD3DDevice()->CreateTexture2D( &desc, &initData, &texture );
+		if( FAILED( hr ) ){
+			gtLogWriter::printWarning( u"Can't create 2D texture" );
+			return false;
+		}
 	}
 
 	m_texture = texture;
@@ -69,7 +101,7 @@ bool gtTextureD3D11::init( gtImage* image ){
 	SRVDesc.Format = desc.Format;
 	SRVDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
 	SRVDesc.Texture2D.MostDetailedMip	=	0;
-	SRVDesc.Texture2D.MipLevels = -1;
+	SRVDesc.Texture2D.MipLevels = is_RTT ? 1 : -1;
 
 	hr = m_gs->getD3DDevice()->CreateShaderResourceView( m_texture,
 			&SRVDesc, &this->m_textureResView );
@@ -78,10 +110,12 @@ bool gtTextureD3D11::init( gtImage* image ){
 		return false;
 	}
 
-	hr = this->createSamplerState( (D3D11_FILTER)m_gs->getParams().m_textureFilterType, D3D11_TEXTURE_ADDRESS_WRAP, 16u );
-	if( FAILED( hr ) ){
-		gtLogWriter::printWarning( u"Can't create sampler state" );
-		return false;
+	if( !is_RTT ){
+		hr = this->createSamplerState( (D3D11_FILTER)m_gs->getParams().m_textureFilterType, D3D11_TEXTURE_ADDRESS_WRAP, 16u );
+		if( FAILED( hr ) ){
+			gtLogWriter::printWarning( u"Can't create sampler state" );
+			return false;
+		}
 	}
 
 	m_size.x = image->width;

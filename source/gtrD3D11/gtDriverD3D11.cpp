@@ -886,6 +886,24 @@ gtShader *	gtDriverD3D11::getShader(
 	return shader.data();
 }
 
+gtPtr<gtTexture>    gtDriverD3D11::createRenderTargetTexture( const v2u& size, gtImageFormat pixelFormat ){
+	auto ptr = new gtTextureD3D11( this );
+	gtPtr<gtTexture> texture = gtPtrNew<gtTexture>( ptr );
+	
+	gtImage image;
+	image.width  = size.x;
+	image.height = size.y;
+	image.format = pixelFormat;
+	image.frames = -1; 
+
+	if( !ptr->init( &image ) ){
+		gtLogWriter::printWarning( u"Can not init D3D11 render target texture" );
+		return nullptr;
+	}
+
+	return texture;
+}
+
 gtPtr<gtTexture>	gtDriverD3D11::createTexture( gtImage* image ){
 	GT_ASSERT2( image, "gtImage != nullptr" );
 

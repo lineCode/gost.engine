@@ -137,6 +137,7 @@ namespace gost{
 			);
 
 		gtPtr<gtTexture>	createTexture( gtImage* );
+		gtPtr<gtTexture>    createRenderTargetTexture( const v2u& size, gtImageFormat pixelFormat );
 		gtPtr<gtRenderModel>	createModel( gtModel* );
 
 

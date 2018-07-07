@@ -320,7 +320,6 @@ static unsigned int LocaleIdToCodepage(unsigned int lcid)
 
 LRESULT CALLBACK gtWindowWin32::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam){
 	gtWindowWin32* pD = nullptr;
-
 	s32 wmId    = LOWORD(wParam);
 //	s32 wmEvent = HIWORD(wParam);
 

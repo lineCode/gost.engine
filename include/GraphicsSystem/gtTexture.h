@@ -6,7 +6,8 @@ namespace gost{
 
 	enum class gtTextureType : u32 {
 		Texture_2D,
-		Cubemap
+		Cubemap,
+		RenderTarget
 	};
 
 	enum class gtTextureFilterType : u32 {

@@ -49,6 +49,8 @@ bool gtGUISystemImpl_compareEvent_callback_rmbDouble( gtEvent& current_event, gt
 
 void gtGUISystemImpl::updateInput(){
 	m_coords = m_inputSystem->getCursorPosition();
+	static auto oldCursorPosition = m_coords;
+
 	//printf("%i\t\t%i\n",m_coords.x,m_coords.y);
 	auto sz = m_userInputObjects.size();
 	for( auto i = 0u; i < sz; ++i ){
@@ -104,7 +106,7 @@ void gtGUISystemImpl::updateInput(){
 				gtEvent e;
 				e.type = gtEventType::GUI;
 				e.GUIEvent.id = o.m_second;
-				e.GUIEvent.action = gtEventGUIAction::MouseMove;
+				e.GUIEvent.action = oldCursorPosition == m_coords ? gtEventGUIAction::MouseHover : gtEventGUIAction::MouseMove;
 				e.GUIEvent.object = o.m_first;
 
 				m_mainSystem->addEvent( e );
@@ -123,6 +125,7 @@ void gtGUISystemImpl::updateInput(){
 		}
 	}
 
+	oldCursorPosition = m_coords;
 }
 
 void gtGUISystemImpl::clearUserInput(){

@@ -135,15 +135,6 @@ bool demo::DemoApplication::Init(){
 	m_gamepadSystem	=	m_mainSystem->getInputSystem()->createInputContoller( GT_UID_INPUT_DINPUT );
 
 	addDemo( DEMO_COMMON, demo::DemoElement( u"14", u"15" ) );
-	addDemo( DEMO_COMMON, demo::DemoElement( u"3", u"3" ) );
-	addDemo( DEMO_COMMON, demo::DemoElement( u"14", u"15" ) );
-	addDemo( DEMO_COMMON, demo::DemoElement( u"3", u"3" ) );
-	addDemo( DEMO_COMMON, demo::DemoElement( u"14", u"15" ) );
-	addDemo( DEMO_COMMON, demo::DemoElement( u"3", u"3" ) );
-	addDemo( DEMO_COMMON, demo::DemoElement( u"14", u"15" ) );
-	addDemo( DEMO_COMMON, demo::DemoElement( u"3", u"3" ) );
-	addDemo( DEMO_COMMON, demo::DemoElement( u"14", u"15" ) );
-	addDemo( DEMO_COMMON, demo::DemoElement( u"3", u"3" ) );
 	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"22", u"23", true, new DemoExample_Camera( this ) ) );
 	addDemo( DEMO_OTHER, demo::DemoElement( u"20", u"21", true, new DemoExample_GetSupportedImportFormats( this ) ) );
 
