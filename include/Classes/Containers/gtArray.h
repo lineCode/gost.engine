@@ -38,6 +38,15 @@ namespace gost{
 		}
 
 	public:
+
+		pointer begin(){
+			return m_data;
+		}
+
+		pointer end(){
+			return (m_data+(m_size));
+		}
+
 		gtArray( u32 addSize = gtConst8U ):
 			m_data( nullptr ),
 			m_size( gtConst0U ),
@@ -107,6 +116,15 @@ namespace gost{
 			//	Remove element
 		void erase( u32 index ){
 			erase( index, index );
+		}
+
+		void erase_first( const_reference ref ){
+			for( u32 i = 0u; i < m_size; ++i ){
+				if( m_data[ i ] == ref ){
+					erase( i );
+					return;
+				}
+			}
 		}
 
 			//	Remove elements

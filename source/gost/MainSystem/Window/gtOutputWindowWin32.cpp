@@ -8,6 +8,13 @@
 #define GT_MENU_ID_OUTPUT_FILE_SAVE 1
 #define GT_MENU_ID_OUTPUT_EDIT_CLEAR 2
 #define GT_MENU_ID_OUTPUT_VIEW_HIDE 3
+#define GT_CONSOLE_COMMAND_LEN 256
+#define GT_CONSOLE_COMMAND_HISTORY 32
+
+static WNDPROC s_CmdWndProcOrigin = 0u;
+static u32 s_CmdLineHistoryMap = 0u;
+static u32 s_CmdLineHistoryPos = 0u;
+static u32 s_CmdLineHistoryInsertPos = 1u;
 
 gtOutputWindowWin32::gtOutputWindowWin32() : m_isInit( false ), m_isShown( true ),
 m_hWnd( nullptr ){
@@ -67,11 +74,11 @@ void	gtOutputWindowWin32::init(){
 	AppendMenu( menuitem, MF_STRING, GT_MENU_ID_OUTPUT_FILE_SAVE, L"&Save" );
 	//AppendMenu( menuitem, MF_STRING, GT_MENU_ID_OUTPUT_FILE_SAVE, L"&Open" );
 
-	AppendMenu( menusubitem, MF_STRING, 1, L"&Open" );
+	/*AppendMenu( menusubitem, MF_STRING, 1, L"&Open" );
 	AppendMenu( menusubitem, MF_SEPARATOR, 0, 0 );
 	AppendMenu( menusubitem, MF_STRING, 2, L"file.txt" );
 	AppendMenu( menusubitem, MF_STRING, 3, L"file2.txt" );
-	AppendMenu( menuitem, MF_POPUP, (UINT_PTR)menusubitem, L"&Open" );
+	AppendMenu( menuitem, MF_POPUP, (UINT_PTR)menusubitem, L"&Open" );*/
 
 	AppendMenu( menu, MF_POPUP, (UINT_PTR)menuitem, L"&File" );
 
@@ -116,6 +123,14 @@ void	gtOutputWindowWin32::init(){
 									m_hWnd, 0, m_wc.hInstance, NULL );
 	SendMessage( m_hWndBuffer, WM_SETFONT, ( WPARAM ) hfBufferFont, 0 );
 	m_hbrEditBackground = CreateSolidBrush(RGB(114,114,114));
+
+	m_hWndCommandLine = CreateWindow( L"edit", NULL, WS_CHILD | WS_VISIBLE | WS_BORDER ,
+									1, m_windowRect.bottom-80, m_windowRect.right-20,
+									m_windowRect.bottom,
+									m_hWnd, (HMENU)1, m_wc.hInstance, this );
+	SendMessage( m_hWndCommandLine, WM_SETFONT, ( WPARAM ) hfBufferFont, 0 );
+	s_CmdWndProcOrigin = (WNDPROC)SetWindowLongPtr( m_hWndCommandLine, GWL_WNDPROC, (LONG_PTR)&this->CmdWndProc );
+	SetWindowLong(m_hWndCommandLine, DWL_MSGRESULT, (LONG)m_hbrEditBackground);
 
 	m_isInit = true;
 }
@@ -178,16 +193,126 @@ bool	gtOutputWindowWin32::isShow(){
 	return m_isShown;
 }
 
+void	gtOutputWindowWin32::clear(){
+	SetWindowText( m_hWndBuffer, L"" );
+}
 
 void	gtOutputWindowWin32::setWindowText( const gtString& text ){
 	if( m_isInit )
 		SetWindowText( m_hWnd, (wchar_t*)text.data() );
 }
 
+LRESULT CALLBACK gtOutputWindowWin32::CmdWndProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam ){
+	static gtString s_CmdLineHistory[ GT_CONSOLE_COMMAND_HISTORY ];
+	
+	switch( uMsg ){
+		case WM_ACTIVATE:
+		case WM_MOUSEMOVE:{
+			SetFocus( hWnd );
+		}break;
+		case WM_KEYDOWN:{
+			if( lParam == 1835009u ){
+				wchar_t buf[GT_CONSOLE_COMMAND_LEN];
+				GetWindowText( hWnd, buf, GT_CONSOLE_COMMAND_LEN );
+
+				if( !s_CmdLineHistoryMap ){
+					s_CmdLineHistoryMap = gtConst1U;
+				}else{
+					s_CmdLineHistoryMap <<= gtConst1U;
+					s_CmdLineHistoryMap |= gtConst1U;
+				}
+
+				u32 index = -1;
+				for( u32 i = gtConst0U, pos = s_CmdLineHistoryInsertPos; i < gtConst32U; ++i ){
+					++index;
+
+					if( pos & gtConst1U ) break;
+
+					pos >>= 1u;
+				}
+				s_CmdLineHistory[ index ] = gtString( (char16_t*)buf );
+
+				s_CmdLineHistoryInsertPos <<= 1u;
+				if( !s_CmdLineHistoryInsertPos ) s_CmdLineHistoryInsertPos = 1u;
+
+				s_CmdLineHistoryPos = s_CmdLineHistoryInsertPos;
+				
+				auto CVS = gtMainSystem::getInstance()->getCVarSystem();
+				CVS->processCommand( gtString((char16_t*)buf) );
+				
+				SetWindowText( hWnd, L"" );
+			}
+			if( lParam == 21495809 ){ //up
+
+				if( !(s_CmdLineHistoryMap & s_CmdLineHistoryPos) ){
+					for( u32 i = gtConst0U; i < gtConst32U; ++i ){
+						s_CmdLineHistoryPos <<= 1u;
+						
+						if( !s_CmdLineHistoryPos )
+							s_CmdLineHistoryPos = 1u;
+
+						if( s_CmdLineHistoryMap & s_CmdLineHistoryPos )
+							break;
+
+					}
+				}
+
+				if( s_CmdLineHistoryMap & s_CmdLineHistoryPos ){
+					u32 index = -1;
+					for( u32 i = gtConst0U, pos = s_CmdLineHistoryPos; i < gtConst32U; ++i ){
+						++index;
+
+						if( pos & gtConst1U ) break;
+
+						pos >>= 1u;
+					}
+
+					SetWindowText( hWnd, (wchar_t*)s_CmdLineHistory[ index ].data() );
+
+					s_CmdLineHistoryPos <<= 1u;
+				}
+			}
+			if( lParam == 22020097 ){ //down
+				s_CmdLineHistoryPos >>= 1u; 
+				if( !s_CmdLineHistoryPos ){ // if 0b00000000000000000000000000000000  1
+					s_CmdLineHistoryPos = 0b10000000000000000000000000000000;
+				}
+
+				if( !(s_CmdLineHistoryMap & s_CmdLineHistoryPos) ){
+					for( u32 i = gtConst0U; i < gtConst32U; ++i ){
+						s_CmdLineHistoryPos >>= 1u;
+						if( s_CmdLineHistoryMap & s_CmdLineHistoryPos )
+							break;
+					}
+				}
+
+				if( s_CmdLineHistoryMap & s_CmdLineHistoryPos ){
+
+					u32 index = -1;
+					for( u32 i = gtConst0U, pos = s_CmdLineHistoryPos; i < gtConst32U; ++i ){
+						++index;
+
+						if( pos & gtConst1U ) break;
+
+						pos >>= 1u;
+					}
+
+					SetWindowText( hWnd, (wchar_t*)s_CmdLineHistory[ index ].data() );
+
+				}
+
+			}
+		}break;
+		case WM_CHAR:{
+		}break;
+		case WM_CREATE:{
+		}break;
+    }
+
+	return CallWindowProc(s_CmdWndProcOrigin, hWnd, uMsg, wParam, lParam);
+}
 
 LRESULT CALLBACK gtOutputWindowWin32::OutWndProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam ){
-
-
 	gtOutputWindowWin32*	output = nullptr;
 	if( !output ){
 		if( uMsg == WM_NCCREATE ){
@@ -213,6 +338,11 @@ LRESULT CALLBACK gtOutputWindowWin32::OutWndProc( HWND hWnd, UINT uMsg, WPARAM w
 		case WM_VSCROLL:{
 				RedrawWindow(output->m_hWndBuffer, NULL, NULL, RDW_ERASE | RDW_INVALIDATE) ;
 		}break;
+		case WM_ACTIVATE:
+			if ( LOWORD( wParam ) != WA_INACTIVE ) {
+				SetFocus( output->m_hWndCommandLine );
+			}
+		break;
 		case WM_COMMAND:{
 			if( wParam == GT_MENU_ID_OUTPUT_EDIT_CLEAR ){
 				output->clear_buffer();
@@ -237,6 +367,7 @@ LRESULT CALLBACK gtOutputWindowWin32::OutWndProc( HWND hWnd, UINT uMsg, WPARAM w
 			RECT rc;
 			GetClientRect( output->m_hWnd, &rc );
 			MoveWindow( output->m_hWndBuffer, 1, 1, rc.right-1,rc.bottom-40,TRUE );
+			MoveWindow( output->m_hWndCommandLine, 1, rc.bottom-20, rc.right-1,rc.bottom-40,TRUE );
 		}break;
 		case WM_CREATE:{
 

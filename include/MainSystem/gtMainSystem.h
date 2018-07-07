@@ -81,6 +81,7 @@ namespace gost{
 		virtual gtPtr<gtThread>         createThread() = 0;
 		virtual const gtDeviceCreationParameters& getDeviceCreationParameters() = 0;
 		virtual gtGUISystem* getGUISystem( gtGraphicsSystem * currentRenderDriver ) = 0;
+		virtual gtCVarSystem*    getCVarSystem() = 0;
 		GT_API static gtMainSystem* getInstance();
 		virtual gtInputSystem*   getInputSystem() = 0;
 		virtual gtGraphicsSystem*getLoadedVideoDriver( u32 id ) = 0;

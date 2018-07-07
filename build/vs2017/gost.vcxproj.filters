@@ -199,6 +199,12 @@
     <Filter Include="include\PhysicsSystem">
       <UniqueIdentifier>{1fe8303e-e031-4d88-96fb-d43e51075cb9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Headers\MainSystem\ConsoleVariable">
+      <UniqueIdentifier>{b09b21d2-7786-43a8-bd67-be30c25128ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\MainSystem\ConsoleVariable">
+      <UniqueIdentifier>{fd24f654-aa79-4f61-9c50-95333359aaed}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\gost.h">
@@ -516,6 +522,15 @@
     <ClInclude Include="..\..\include\PhysicsSystem\gtPhysicsSystem.h">
       <Filter>include\PhysicsSystem</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\MainSystem\gtCVarSystem.h">
+      <Filter>include\MainSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\gost\MainSystem\ConsoleVariable\gtCvarSystemImpl.h">
+      <Filter>Headers\MainSystem\ConsoleVariable</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Classes\Containers\gtIterator.h">
+      <Filter>include\Classes\Containers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\include\MainSystem\gtStackTracerWin32.inl">
@@ -639,6 +654,9 @@
     </ClCompile>
     <ClCompile Include="..\..\source\gost\MainSystem\Memory\gtMemorySystem.cpp">
       <Filter>Source\MainSystem\Memory</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\gost\MainSystem\ConsoleVariable\gtCvarSystemImpl.cpp">
+      <Filter>Source\MainSystem\ConsoleVariable</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

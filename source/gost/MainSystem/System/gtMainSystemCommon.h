@@ -30,6 +30,7 @@ namespace gost{
 		
 		u32							m_systemWindowCount;
 
+		gtPtr<gtCVarSystemImpl>	    m_CVarSystem;
 		gtPtr<gtInputSystemImpl>	m_inputSystem;
 		gtPtr<gtEventSystem>		m_events;
 		gtPtr<gtPluginSystemImpl>	m_pluginSystem;
@@ -58,7 +59,9 @@ namespace gost{
 		gtLog*		getLog();
 		void		initStackTracer();
 		void		initEventSystem();
+		void		initCVarSystem();
 
+		gtCVarSystem*               getCVarSystem();
 		static gtMainSystemCommon * getInstance();
 		gtStackTracer*				getStackTracer();
 		gtPtr<gtAudioSystem>		createAudioSystem( const GT_GUID& uid );

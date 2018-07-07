@@ -7,6 +7,8 @@ namespace gost{
 	
 	//	Some helper functions here
 	namespace util{
+
+		
 		
 		GT_FORCE_INLINE bool pointInRect( const gtVector2<s16>& coord, const v4i& rect ){
 			if( coord.x >= rect.x ){
@@ -283,7 +285,21 @@ namespace gost{
 				str += static_cast<charType>( other[ i ] );
 		}
 
-
+		GT_FORCE_INLINE gtString stringGetFirstWord( const gtString& string, bool with_ = true ){
+			gtString ret;
+			gtString str = string;
+			util::stringTrimSpace(str);
+			for( auto i : str ){
+				if( util::isAlpha( i ) ){
+					ret += i;
+				}else if( with_ && i == u'_' ){
+					ret += i;
+				}else{
+					break;
+				}
+			}
+			return ret;
+		}
 
 		template<typename array = gtArray<gtString>>
 		inline void getSupportedImportImageFormats( array& _array ){

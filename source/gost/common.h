@@ -16,6 +16,8 @@ using namespace gost;
 
 
 //	GOST
+#include "MainSystem/ConsoleVariable/gtCvarSystemImpl.h"
+
 #include "MainSystem/Memory/gtMemorySystemCommon.h"
 #include "MainSystem/Memory/gtMemorySystemImplWin32.h"
 

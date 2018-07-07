@@ -1,50 +1,45 @@
 ﻿#pragma once
-#ifndef __GT_OUTPUT_WINDOW_WIN32_H__
-#define __GT_OUTPUT_WINDOW_WIN32_H__
-
-#if defined(GT_PLATFORM_WIN32)
+#ifndef __GT_CVAR_SYSTEM_H__
+#define __GT_CVAR_SYSTEM_H__
 
 namespace gost{
 
-	class gtOutputWindowWin32 GT_FINAL : public gtOutputWindow {
+	enum class gtCVarType : u32 {
+		Bool    = BIT( 0 ),
+		Integer = BIT( 1 ),
+		Float   = BIT( 2 ),
+		System  = BIT( 3 )
+	};
 
-		bool		m_isInit;
-		bool		m_isShown;
-		HWND		m_hWnd;
-		WNDCLASS	m_wc;
-		RECT		m_windowRect;
-		
-		static LRESULT CALLBACK OutWndProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam );
-		static LRESULT CALLBACK CmdWndProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam );
-		void		clear_buffer();
-		void		save();
+	struct gtCVarSystemNode{
+		gtCVarSystemNode(){}
+		gtCVarSystemNode( gtCVarType type, const gtString& c, const gtString& d, const gtString& params, gtString(*f)(const gtCVarSystemNode&) ):
+			command(c),description(d),type(type), parameters( params ), func( f ){}
+		gtString command;
+		gtString commandLine;
+		gtString description;
+		gtString parameters;
+		gtCVarType type;
+		gtString(*func)(const gtCVarSystemNode&);
+	};
 
+	class gtCVarSystem : public gtRefObject{
 	public:
+	
+		virtual bool     addCommand( gtCVarType type, const gtString& command, const gtString& description, 
+			const gtString& parameters, gtString(*func)(const gtCVarSystemNode&) ) = 0;
+		virtual void	 printDescription( const gtString& command ) = 0;
+		virtual gtString processCommand( const gtString& command ) = 0;
+		virtual bool     removeCommand( const gtString& command ) = 0;
 
-		gtOutputWindowWin32();
-		virtual ~gtOutputWindowWin32();
-
-		void	init() GT_FINAL;
-		void	shutdown() GT_FINAL;
-		bool	isInit() GT_FINAL;
-		void	show() GT_FINAL;
-		void	hide() GT_FINAL;
-		void	print( const gtString& ) GT_FINAL;
-		void	setWindowText( const gtString& ) GT_FINAL;
-		bool	isShow();
-		void	clear();
-
-		HWND	m_hWndBuffer;
-		HWND	m_hWndCommandLine;
-		HBRUSH	m_hbrEditBackground;
 	};
 
 }
-#endif
+
 #endif
 
 /*
-Copyright (c) 2017-2018
+Copyright (c) 2018 532235
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software
 and associated documentation files (the "Software"), to deal in the Software without restriction,

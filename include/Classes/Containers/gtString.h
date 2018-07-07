@@ -12,12 +12,12 @@ namespace gost{
 	template<typename char_type>
 	class gtString_base{
 
-		typedef char_type*			pointer;
-		typedef const char_type*	const_pointer;
-		typedef char_type&			reference;
-		typedef const char_type&	const_reference;
-		typedef gtString_base		this_type;
-		typedef const gtString_base& this_const_reference;
+		using pointer = char_type*;
+		using const_pointer = const char_type*;
+		using reference = char_type&;
+		using const_reference = const char_type&;
+		using this_type = gtString_base;
+		using this_const_reference = const gtString_base&;
 
 			// buffer
 		pointer m_data;
@@ -276,7 +276,13 @@ namespace gost{
 			return r;
 		}
 
+		pointer begin() const {
+			return m_data;
+		}
 
+		pointer end() const {
+			return (m_data+(m_size));
+		}
 
 		const_reference operator[]( u32 i ) const {
 			return m_data[ i ];

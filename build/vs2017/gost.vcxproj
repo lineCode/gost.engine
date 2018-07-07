@@ -228,6 +228,7 @@
     <ClInclude Include="..\..\include\Classes\Common\gtRefObject.h" />
     <ClInclude Include="..\..\include\Classes\Common\gtSingleton.h" />
     <ClInclude Include="..\..\include\Classes\Containers\gtArray.h" />
+    <ClInclude Include="..\..\include\Classes\Containers\gtIterator.h" />
     <ClInclude Include="..\..\include\Classes\Containers\gtList.h" />
     <ClInclude Include="..\..\include\Classes\Containers\gtPair.h" />
     <ClInclude Include="..\..\include\Classes\Containers\gtPriorQueue.h" />
@@ -272,6 +273,7 @@
     <ClInclude Include="..\..\include\InputSystem\gtInput.h" />
     <ClInclude Include="..\..\include\InputSystem\gtInputController.h" />
     <ClInclude Include="..\..\include\InputSystem\gtInputSystem.h" />
+    <ClInclude Include="..\..\include\MainSystem\gtCVarSystem.h" />
     <ClInclude Include="..\..\include\MainSystem\gtEvent.h" />
     <ClInclude Include="..\..\include\MainSystem\gtMainSystem.h" />
     <ClInclude Include="..\..\include\MainSystem\gtMutex.h" />
@@ -305,6 +307,7 @@
     <ClInclude Include="..\..\source\gost\InputSystem\gtInputSystemImpl.h" />
     <ClInclude Include="..\..\source\gost\MainSystem\Async\gtMutexWin32.h" />
     <ClInclude Include="..\..\source\gost\MainSystem\Async\gtThreadWin32.h" />
+    <ClInclude Include="..\..\source\gost\MainSystem\ConsoleVariable\gtCvarSystemImpl.h" />
     <ClInclude Include="..\..\source\gost\MainSystem\Events\gtEventSystem.h" />
     <ClInclude Include="..\..\source\gost\MainSystem\Log\gtLogImpl.h" />
     <ClInclude Include="..\..\source\gost\MainSystem\Memory\gtMemorySystemCommon.h" />
@@ -344,6 +347,7 @@
     <ClCompile Include="..\..\source\gost\InputSystem\gtInputSystemImpl.cpp" />
     <ClCompile Include="..\..\source\gost\MainSystem\Async\gtMutexWin32.cpp" />
     <ClCompile Include="..\..\source\gost\MainSystem\Async\gtThreadWin32.cpp" />
+    <ClCompile Include="..\..\source\gost\MainSystem\ConsoleVariable\gtCvarSystemImpl.cpp" />
     <ClCompile Include="..\..\source\gost\MainSystem\Events\gtEventSystem.cpp" />
     <ClCompile Include="..\..\source\gost\MainSystem\Log\gtLogImpl.cpp" />
     <ClCompile Include="..\..\source\gost\MainSystem\Memory\gtMemorySystem.cpp" />

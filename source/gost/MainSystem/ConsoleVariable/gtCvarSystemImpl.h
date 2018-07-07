@@ -1,21 +1,27 @@
-﻿#pragma once
-#ifndef __GT_OUTPUT_WINDOW_H__
-#define __GT_OUTPUT_WINDOW_H__
+#include "common.h"
+
+#pragma once
+#ifndef __GT_CVAR_SYSTEM_IMPL_H__
+#define __GT_CVAR_SYSTEM_IMPL_H__
 
 namespace gost{
 
-	class gtOutputWindow : public gtRefObject {
+	gtString gtCVarSystem_printDescription( const gtCVarSystemNode& node );
+
+	class gtCVarSystemImpl : public gtCVarSystem{
+		gtArray<gtCVarSystemNode> m_commands;
+
+		bool isHave( const gtString& command );
 	public:
 
-		virtual void	hide() = 0;
-		virtual	void	init() = 0;
-		virtual bool	isInit() = 0;
-		virtual bool	isShow() = 0;
-		virtual void	print( const gtString& text ) = 0;
-		virtual void	setWindowText( const gtString& title ) = 0;
-		virtual void	show() = 0;
-		virtual void	shutdown() = 0;
-		virtual void	clear() = 0;
+		gtCVarSystemImpl();
+		~gtCVarSystemImpl();
+	
+		bool     addCommand( gtCVarType type, const gtString& command, const gtString& description, const gtString& parameters,gtString(*func)(const gtCVarSystemNode&) );
+		void	 printDescription( const gtString& command );
+		gtString processCommand( const gtString& command );
+		bool     removeCommand( const gtString& command );
+
 	};
 
 }
@@ -23,7 +29,7 @@ namespace gost{
 #endif
 
 /*
-Copyright (c) 2017-2018 532235
+Copyright (c) 2018 532235
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
 and associated documentation files (the "Software"), to deal in the Software without restriction, 

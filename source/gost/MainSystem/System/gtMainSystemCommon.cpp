@@ -24,6 +24,8 @@ gtMainSystemCommon::gtMainSystemCommon() : m_isRun( true ),
 	m_modelSystem  = gtPtrNew<gtModelSystemImpl> ( new gtModelSystemImpl );
 	m_sceneSystem  = gtPtrNew<gtSceneSystemImpl> ( new gtSceneSystemImpl );
 	m_GUISystem    = gtPtrNew<gtGUISystemImpl>   ( new gtGUISystemImpl );
+
+	initCVarSystem();
 }
 
 gtMainSystemCommon::~gtMainSystemCommon(){
@@ -44,6 +46,30 @@ void gtMainSystemCommon::initStackTracer(){
 
 void gtMainSystemCommon::initEventSystem(){
 	m_events		= gtPtrNew<gtEventSystem>( new gtEventSystem( m_inputSystem.data(), m_params.m_consumer ) );
+}
+
+gtString gtCVarSystem_sys_quit( const gtCVarSystemNode& node ){
+	gtMainSystem::getInstance()->shutdown();
+	return gtString();
+}
+
+gtString gtCVarSystem_con_clear( const gtCVarSystemNode& node ){gtMainSystem::getInstance()->getOutputWindow()->clear(); return gtString(); }
+gtString gtCVarSystem_con_hide( const gtCVarSystemNode& node ){gtMainSystem::getInstance()->getOutputWindow()->hide(); return gtString(); }
+gtString gtCVarSystem_con_show( const gtCVarSystemNode& node ){gtMainSystem::getInstance()->getOutputWindow()->show(); return gtString(); }
+
+
+void gtMainSystemCommon::initCVarSystem(){
+	m_CVarSystem = gtPtrNew<gtCVarSystemImpl>( new gtCVarSystemImpl );
+	m_CVarSystem->addCommand( gtCVarType::System, u"help", u"Display information about the command. Use `help command`.\r\n\
+help - show this message\r\n\
+sys_quit - Shutdown engine\r\n\
+con_clear - Clear output window\r\n\
+con_hide - Hide output window\r\n\
+con_show - Show output window\r\n", u"", gtCVarSystem_printDescription );
+	m_CVarSystem->addCommand( gtCVarType::System, u"sys_quit", u"Shutdown engine", u"", gtCVarSystem_sys_quit );
+	m_CVarSystem->addCommand( gtCVarType::System, u"con_clear", u"Clear output window", u"", gtCVarSystem_con_clear );
+	m_CVarSystem->addCommand( gtCVarType::System, u"con_hide", u"Hide output window", u"", gtCVarSystem_con_hide );
+	m_CVarSystem->addCommand( gtCVarType::System, u"con_show", u"Show output window", u"", gtCVarSystem_con_show );
 }
 
 
@@ -174,6 +200,10 @@ bool gtMainSystemCommon::checkEvent( gtEvent& ev, bool(*compare_function)( gtEve
 			break;
 	}
 	return false;
+}
+
+gtCVarSystem* gtMainSystemCommon::getCVarSystem(){
+	return m_CVarSystem.data();
 }
 
 gtInputSystem*  gtMainSystemCommon::getInputSystem(){

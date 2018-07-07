@@ -63,6 +63,7 @@
 #include <GUISystem/gtGUIObject.h>
 
 
+#include <MainSystem/gtCVarSystem.h>
 #include <PhysicsSystem/gtPhysicsSystem.h>
 #include <SceneSystem/gtSceneSystem.h>
 #include <AudioSystem/gtAudioSystem.h>

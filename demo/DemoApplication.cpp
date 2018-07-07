@@ -52,7 +52,7 @@ m_currentDemoColonIndex( 0 ),
 m_state( DemoState::MainMenu ),
 m_delta( 0.f )
 {
-
+	
 	memset( m_rightColonEntity, 0, sizeof(gtPtr<gtGUITextField>) * 24u );
 
 	demo::DemoApplicationContext context;
@@ -71,9 +71,9 @@ m_delta( 0.f )
 
 	m_params.m_device_type = gtDeviceType::Windows;
 
-	m_outputWindow = gtPtrNew<gtOutputWindow>( new DemoApplicationOutputWindow );
-	m_params.m_outputWindow = m_outputWindow.data();
-	m_params.m_outputWindow->init();
+//	m_outputWindow = gtPtrNew<gtOutputWindow>( new DemoApplicationOutputWindow );
+//	m_params.m_outputWindow = m_outputWindow.data();
+//	m_params.m_outputWindow->init();
 	 
 #elif GT_PLATFORM_LINUX
 
@@ -90,6 +90,7 @@ m_delta( 0.f )
 	m_xmlPath = u"../demo/media/settings.xml";
 
 	demo::DemoApplication::s_this = this;
+
 }
 
 demo::DemoApplication::~DemoApplication(){

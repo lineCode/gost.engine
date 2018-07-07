@@ -28,10 +28,9 @@ namespace gost{
 	template<typename element>
 	class gtList{
 
-		typedef const element& const_reference;
-
-		typedef gtListNode<element>		node;
-		typedef gtListNode<element>*	node_ptr;
+		using const_reference = const element&;
+		using node            = gtListNode<element>;
+		using node_ptr        = gtListNode<element>*;
 
 		node_ptr m_first;
 		node_ptr m_last;
