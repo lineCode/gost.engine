@@ -431,33 +431,35 @@ LRESULT CALLBACK gtWindowWin32::WndProc(HWND hWnd, UINT message, WPARAM wParam, 
 	case WM_MOUSEMOVE:
 	case WM_MOUSEWHEEL:{
 		ev.type = gtEventType::Mouse;
+		ev.mouseEvent.state = 0u;
 
 		ev.mouseEvent.x = LOWORD(lParam);
 		ev.mouseEvent.y = HIWORD(lParam);
-		if( wParam & MK_LBUTTON )		ev.mouseEvent.LMB = gtConst_1;
-		if( wParam & MK_RBUTTON )		ev.mouseEvent.RMB = gtConst_1;
-		if( wParam & MK_MBUTTON )		ev.mouseEvent.MMB = gtConst_1;
+		if( wParam & MK_LBUTTON )		ev.mouseEvent.state |= gtEventMouse::gtEventMouseState::MS_LMB_DOWN;
+		if( wParam & MK_RBUTTON )		ev.mouseEvent.state |= gtEventMouse::gtEventMouseState::MS_RMB_DOWN;
+		if( wParam & MK_MBUTTON )		ev.mouseEvent.state |= gtEventMouse::gtEventMouseState::MS_MMB_DOWN;
 		if( wParam & MK_XBUTTON1 ){
-			ev.mouseEvent.X1 = gtConst_1;
+			ev.mouseEvent.state |= gtEventMouse::gtEventMouseState::MS_X1MB_DOWN;
 			switch( message ){
-				case WM_XBUTTONUP: ev.mouseEvent.X1 = gtConst1; break;
-				case WM_XBUTTONDBLCLK: ev.mouseEvent.X1 = -21; break;
+				case WM_XBUTTONUP: ev.mouseEvent.state |= gtEventMouse::gtEventMouseState::MS_X1MB_UP; break;
+				case WM_XBUTTONDBLCLK: ev.mouseEvent.state |= gtEventMouse::gtEventMouseState::MS_X1MB_DOUBLE; break;
 			}
 		}
 		if( wParam & MK_XBUTTON2 ){
-			ev.mouseEvent.X2 = gtConst_1;
+			ev.mouseEvent.state |= gtEventMouse::gtEventMouseState::MS_X2MB_DOWN;
 			switch( message ){
-				case WM_XBUTTONUP: ev.mouseEvent.X2 = gtConst1; break;
-				case WM_XBUTTONDBLCLK: ev.mouseEvent.X2 = -21; break;
+				case WM_XBUTTONUP: ev.mouseEvent.state |= gtEventMouse::gtEventMouseState::MS_X2MB_UP; break;
+				case WM_XBUTTONDBLCLK: ev.mouseEvent.state |= gtEventMouse::gtEventMouseState::MS_X2MB_DOUBLE; break;
 			}
 		}
 
 		switch( message ){
-			case WM_LBUTTONUP:	ev.mouseEvent.LMB = gtConst1; break;
-			case WM_RBUTTONUP:	ev.mouseEvent.RMB = gtConst1; break;
-			case WM_MBUTTONUP:	ev.mouseEvent.MMB = gtConst1; break;
-			case WM_LBUTTONDBLCLK: ev.mouseEvent.LMB = -21; break;
-			case WM_RBUTTONDBLCLK: ev.mouseEvent.RMB = -21; break;
+			case WM_LBUTTONUP:	ev.mouseEvent.state    |= gtEventMouse::gtEventMouseState::MS_LMB_UP; break;
+			case WM_RBUTTONUP:	ev.mouseEvent.state    |= gtEventMouse::gtEventMouseState::MS_RMB_UP; break;
+			case WM_MBUTTONUP:	ev.mouseEvent.state    |= gtEventMouse::gtEventMouseState::MS_MMB_UP; break;
+			case WM_LBUTTONDBLCLK: ev.mouseEvent.state |= gtEventMouse::gtEventMouseState::MS_LMB_DOUBLE; break;
+			case WM_RBUTTONDBLCLK: ev.mouseEvent.state |= gtEventMouse::gtEventMouseState::MS_RMB_DOUBLE; break;
+			case WM_MBUTTONDBLCLK: ev.mouseEvent.state |= gtEventMouse::gtEventMouseState::MS_MMB_DOUBLE; break;
 		}
 
 		ev.mouseEvent.wheel = static_cast<u16>( s8( (f32)GET_WHEEL_DELTA_WPARAM(wParam) / (f32)WHEEL_DELTA ) );

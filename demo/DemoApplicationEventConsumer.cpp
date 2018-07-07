@@ -102,6 +102,7 @@ void demo::DemoApplicationEventConsumer::processEventGUI( const gtEvent& ev ){
 	case gtEventGUIAction::MouseLeftButtonDown:{
 		if( *m_context.demoState == DemoState::MainMenu ){
 			if( ev.GUIEvent.id == DEMO_GUI_ID_WELCOME_TEXT ){
+				printf("down\n");
 				auto text = (gtGUITextField*)ev.GUIEvent.object;
 				if( text ){
 					text->getBackgroundShape()->setColor( gtColorGreen );
@@ -113,6 +114,7 @@ void demo::DemoApplicationEventConsumer::processEventGUI( const gtEvent& ev ){
 		if( *m_context.demoState == DemoState::MainMenu
 			|| *m_context.demoState == DemoState::DemoMenu ){
 			if( ev.GUIEvent.id == DEMO_GUI_ID_WELCOME_TEXT ){
+				printf("up\n");
 				auto text = (gtGUITextField*)ev.GUIEvent.object;
 				if( text ){
 					text->getBackgroundShape()->setColor( gtColorBlack );

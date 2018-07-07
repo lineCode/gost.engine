@@ -149,7 +149,8 @@ namespace gost{
 		u8 byte;
 	};
 
-	
+	#define BIT(x)0x1<<(x)
+		
 }
 
 

@@ -1,6 +1,6 @@
 #include "common.h"
 
-gtInputSystemImpl::gtInputSystemImpl():m_LMB(gtConst0),m_RMB(gtConst0),m_MMB(gtConst0){
+gtInputSystemImpl::gtInputSystemImpl(){
 	memset( m_keysDown, 0, 256u );
 }
 gtInputSystemImpl::~gtInputSystemImpl(){}
@@ -14,21 +14,19 @@ bool gtInputSystemImpl::isKeyDown( gtKey key ){
 }
 
 bool gtInputSystemImpl::isLMBDown(){
-	return m_LMB == gtConst_1;
+	return m_mouseState.isLeftButtonDown();
 }
 
 bool gtInputSystemImpl::isRMBDown(){
-	return m_RMB == gtConst_1;
+	return m_mouseState.isRightButtonDown();
 }
 
 bool gtInputSystemImpl::isMMBDown(){
-	return m_MMB == gtConst_1;
+	return m_mouseState.isMiddleButtonDown();
 }
 
 void gtInputSystemImpl::reset(){
-	m_LMB = gtConst0;
-	m_RMB = gtConst0;
-	m_MMB = gtConst0;
+	m_mouseState.state = 0u;
 }
 
 void gtInputSystemImpl::setKeyboardState( gtEventKeyboard * e ){
@@ -36,9 +34,7 @@ void gtInputSystemImpl::setKeyboardState( gtEventKeyboard * e ){
 }
 
 void gtInputSystemImpl::setMouseState( gtEventMouse * e ){
-	m_LMB = e->LMB;
-	m_RMB = e->RMB;
-	m_MMB = e->MMB;
+	m_mouseState = *e;
 	m_cursorPosition.x = e->x;
 	m_cursorPosition.y = e->y;
 }

@@ -7,9 +7,7 @@ namespace gost{
 	class gtInputSystemImpl : public gtInputSystem{
 		bool			m_keysDown[ gtConst256U ];
 		gtVector2<s16>	m_cursorPosition;
-		s32             m_LMB;
-		s32             m_RMB;
-		s32             m_MMB;
+		gtEventMouse    m_mouseState;
 	public:
 		gtInputSystemImpl();
 		virtual ~gtInputSystemImpl();

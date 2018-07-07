@@ -36,13 +36,6 @@ void gtEventSystem::getKeyboardAndMouseStates(){
 			}break;
 			case gtEventType::Mouse:{
 				m_input->setMouseState( &m_events[ cur ].mouseEvent );
-				/*
-				m_mouseState.bits.b0 = m_events[ cur ].mouseEvent.state.bits.b0;
-				m_mouseState.bits.b1 = m_events[ cur ].mouseEvent.state.bits.b2;
-				m_mouseState.bits.b2 = m_events[ cur ].mouseEvent.state.bits.b4;
-				m_cursorPosition.x = m_events[ cur ].mouseEvent.x;
-				m_cursorPosition.y = m_events[ cur ].mouseEvent.y;
-				*/
 			}break;
 			case gtEventType::None:
 			case gtEventType::Joystick:

@@ -19,8 +19,6 @@ namespace gost{
 		Max
 	};
 
-#define BIT(x)0x1<<(x)
-
 	enum class gtMaterialFlag : u32 {
 		Wireframe        = BIT(0),
 		Backface         = BIT(1),
