@@ -371,21 +371,20 @@ LRESULT CALLBACK gtWindowWin32::WndProc(HWND hWnd, UINT message, WPARAM wParam, 
 		break;
 
 	case WM_SIZE:{
+		ev.type   = gtEventType::Window;
+		ev.windowEvent.window  = pD;
+		ev.windowEvent.eventID = GT_EVENT_WINDOW_SIZE;
+		gtMainSystem::getInstance()->addEvent( ev );
+
 		switch( wmId ){
 		case SIZE_MAXIMIZED:
-			ev.type   = gtEventType::Window;
 			ev.windowEvent.eventID = GT_EVENT_WINDOW_MAXIMIZE;
-			ev.windowEvent.window  = pD;
 			break;
 		case SIZE_MINIMIZED:
-			ev.type   = gtEventType::Window;
 			ev.windowEvent.eventID = GT_EVENT_WINDOW_MINIMIZE;
-			ev.windowEvent.window  = pD;
 			break;
 		case SIZE_RESTORED:
-			ev.type   = gtEventType::Window;
 			ev.windowEvent.eventID = GT_EVENT_WINDOW_RESTORE;
-			ev.windowEvent.window  = pD;
 			break;
 		}
 

@@ -899,8 +899,7 @@ void	gtDriverD3D11::setRenderTarget( gtTexture * rtt, bool clearDepth, bool clea
 		viewport = v2f( (f32)rtt->getWidth(), (f32)rtt->getHeight() );
 	}else{
 		rtv = m_MainTargetView;
-		auto rc = m_params.m_outWindow->getClientRect();
-		viewport = v2f( (f32)rc.getWidth(), (f32)rc.getHeight() );
+		viewport = v2f( m_params.m_backBufferSize );
 	}
 	
 	m_d3d11DevCon->OMSetRenderTargets(1, &rtv, m_depthStencilView);

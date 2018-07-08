@@ -845,14 +845,14 @@ void demo::DemoApplication::renderMainMenu(){
 }
 
 void demo::DemoApplication::renderDemoMenu(){
-	m_gs->beginRender( true, gtColorDarkGray );
-
-	RenderDefaultScene();
+	m_gs->beginRender( true, m_demoClearColor );
 
 	m_demoArrays[m_activeDemoTypeSelected][m_activeDemoSelected].Render();
 
 	m_gs->setDepthState( false );
+	updateHUD();
 	m_pauseBackgroundShape->render();
+	
 	if( m_isPause ){
 		m_description->render();
 		m_pauseShape->render();

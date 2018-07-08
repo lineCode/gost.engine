@@ -14,6 +14,7 @@ namespace gost{
 	constexpr u32 GT_EVENT_WINDOW_MINIMIZE = gtConst4U;
 	constexpr u32 GT_EVENT_WINDOW_MOVE     = gtConst5U;
 	constexpr u32 GT_EVENT_WINDOW_PAINT    = gtConst6U;
+	constexpr u32 GT_EVENT_WINDOW_SIZE     = 7u;
 
 	constexpr u32 GT_EVENT_JOYSTICK_ADD    = gtConst1U;
 	constexpr u32 GT_EVENT_JOYSTICK_REMOVE = gtConst2U;
