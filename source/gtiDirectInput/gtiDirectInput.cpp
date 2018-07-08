@@ -1,16 +1,16 @@
 #include "common.h"
 
 extern "C"{
-	__declspec(dllexport) void	GetPluginInfo( gtPluginInfo& info ){
-		info.m_author.assign( u"532235" );
-		info.m_description.assign( u"Plugin for using gamepads." );
-		info.m_GUID = GT_UID_INPUT_DINPUT;
-		info.m_name.assign( u"DirectInput" );
-		info.m_type = gtPluginType::Input;
-		info.m_version = 1;
-		info.m_build = 1;
+	__declspec(dllexport) void	GetPluginInfo( gtPluginInfo* info ){
+		info->m_author.assign( u"532235" );
+		info->m_description.assign( u"Plugin for using gamepads." );
+		info->m_GUID = GT_UID_INPUT_DINPUT;
+		info->m_name.assign( u"DirectInput" );
+		info->m_type = gtPluginType::Input;
+		info->m_version = 1;
+		info->m_build = 1;
 	}
-	__declspec(dllexport) gtInputController * gtLoadInputDriver( gtGraphicsSystemInfo params ){
+	__declspec(dllexport) gtInputController * gtLoadInputDriver(){
 		gtLogWriter::printInfo( u"Init DirectInput..." );
 		gtPtr<gtInputControllerImpl>	 driver = gtPtrNew<gtInputControllerImpl>(new gtInputControllerImpl());
 		

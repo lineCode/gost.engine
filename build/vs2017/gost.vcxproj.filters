@@ -658,5 +658,8 @@
     <ClCompile Include="..\..\source\gost\MainSystem\ConsoleVariable\gtCvarSystemImpl.cpp">
       <Filter>Source\MainSystem\ConsoleVariable</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\source\gost\PluginSystem\Plugins\gtPluginPhysics.cpp">
+      <Filter>Source\PluginSystem\Plugins</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

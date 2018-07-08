@@ -4,17 +4,17 @@
 
 #define DEMO_TYPE_NUM 13u
 
-#define DEMO_COMMON gtConst0U
-#define DEMO_EVENTS gtConst1U
-#define DEMO_AUDIO gtConst2U
-#define DEMO_VIDEO gtConst3U
-#define DEMO_PICTURES gtConst4U
-#define DEMO_MODELS gtConst5U
-#define DEMO_INPUT gtConst6U
-#define DEMO_GUI gtConst7U
-#define DEMO_GAME_OBJECTS gtConst8U
-#define DEMO_FILE_SYSTEM gtConst9U
-#define DEMO_PHYSICS 1gtConst0U
+#define DEMO_COMMON 0u
+#define DEMO_EVENTS 1u
+#define DEMO_AUDIO 2u
+#define DEMO_VIDEO 3u
+#define DEMO_PICTURES 4u
+#define DEMO_MODELS 5u
+#define DEMO_INPUT 6u
+#define DEMO_GUI 7u
+#define DEMO_GAME_OBJECTS 8u
+#define DEMO_FILE_SYSTEM 9u
+#define DEMO_PHYSICS 10u
 #define DEMO_OTHER 11u
 #define DEMO_DEMONSTRATION 12u
 

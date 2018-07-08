@@ -13,14 +13,14 @@ extern "C"{
 
 #define GT_EXT_COUNT gtConst1U
 
-	GT_API void	GetPluginInfo( gtPluginInfo& info ){
-		info.m_author.assign( u"532235" );
-		info.m_description.assign( u"Import .png files" );
-		info.m_GUID=GT_UID_IMPORT_IMAGE_PNG;
-		info.m_name.assign( u"PNG file importer" );
-		info.m_type = gtPluginType::Import_image;
-		info.m_version = 1;
-		info.m_build = 13;
+	GT_API void	GetPluginInfo( gtPluginInfo* info ){
+		info->m_author.assign( u"532235" );
+		info->m_description.assign( u"Import .png files" );
+		info->m_GUID=GT_UID_IMPORT_IMAGE_PNG;
+		info->m_name.assign( u"PNG file importer" );
+		info->m_type = gtPluginType::Import_image;
+		info->m_version = 1;
+		info->m_build = 14;
 	}
 
 	GT_API u32	PluginGetExtCount(){

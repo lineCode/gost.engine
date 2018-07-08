@@ -1,47 +1,16 @@
-//GoST
+#pragma once
 
-#include "common.h"
+#include "gost.h"
+using namespace gost;
 
-#ifdef _DEBUG
-#pragma comment(lib, "gost_d.lib")
-#else 
-#pragma comment(lib, "gost.lib")
-#endif
+#include "btBulletDynamicsCommon.h"
+#include "BulletDynamics/Featherstone/btMultiBodyDynamicsWorld.h"
+#include "BulletDynamics/Featherstone/btMultiBodyConstraintSolver.h"
 
-extern "C"{
-	__declspec(dllexport) void	GetPluginInfo( gtPluginInfo* info ){
-		info->m_author.assign( u"532235" );
-		info->m_description.assign( u"Direct3D 11 renderer" );
-		info->m_GUID=GT_UID_RENDER_D3D11;
-		info->m_name.assign( u"Direct3D 11 renderer" );
-		info->m_type = gtPluginType::Render;
-		info->m_version = 1;
-		info->m_build = 18;
-	}
-
-	__declspec(dllexport) gtGraphicsSystem * gtLoadGPUDriver( gtGraphicsSystemInfo * params ){
-
-		gtLogWriter::printInfo( u"Init D3D11 driver..." );
-
-		gtPtr<gtDriverD3D11>	 driver = gtPtrNew<gtDriverD3D11>(new gtDriverD3D11( *params ));
-		
-		if( driver.data() ){
-			
-			if( driver->initialize()){
-				driver->addRef();
-			}else{
-				gtLogWriter::printError( u"Can not initialize D3D11 driver." );
-				return nullptr;
-			}
-		}
-
-		return driver.data();
-	}
-}
-
+#include "gtPhysicsBullet.h"
 
 /*
-Copyright (c) 2017-2018 532235
+Copyright (c) 2018 532235
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
 and associated documentation files (the "Software"), to deal in the Software without restriction, 

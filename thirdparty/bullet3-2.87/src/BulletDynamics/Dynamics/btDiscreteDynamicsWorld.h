@@ -33,8 +33,8 @@ struct InplaceSolverIslandCallback;
 #include "LinearMath/btThreads.h"
 
 
-///btDiscreteDynamicsWorld provides discrete rigid body simulation
-///those classes replace the obsolete CcdPhysicsEnvironment/CcdPhysicsController
+//btDiscreteDynamicsWorld provides discrete rigid body simulation
+//those classes replace the obsolete CcdPhysicsEnvironment/CcdPhysicsController
 ATTRIBUTE_ALIGNED16(class) btDiscreteDynamicsWorld : public btDynamicsWorld
 {
 protected:

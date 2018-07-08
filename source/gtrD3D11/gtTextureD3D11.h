@@ -29,7 +29,6 @@ namespace gost{
 		virtual ~gtTextureD3D11();
 
 		bool init( gtImage* image );
-		bool initRTT( const v2u& size, gtImageFormat pixelFormat );
 
 		ID3D11ShaderResourceView* const * getResourceView();
 		ID3D11SamplerState*	const * getSamplerState();

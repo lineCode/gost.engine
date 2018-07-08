@@ -124,13 +124,9 @@ gtPtr<gtPhysicsSystem> gtMainSystemCommon::createPhysicsSystem( const gtPhysicsS
 		return nullptr;
 	}
 
-	/*gtGraphicsSystem * d = ((gtPluginRender*)plugin)->loadDriver( params );
-	if( d )
-		m_drivers.push_back( d );
-
-	m_gs = d;
-	return gtPtrNew<gtGraphicsSystem>(d);*/
-	return nullptr;
+	gtPhysicsSystem * d = ((gtPluginPhysics*)plugin)->loadPhysics( psi );
+	
+	return gtPtrNew<gtPhysicsSystem>(d);
 }
 
 gtGraphicsSystem* gtMainSystemCommon::getMainVideoDriver()         { return m_gs; }

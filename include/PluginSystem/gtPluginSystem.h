@@ -18,9 +18,9 @@ namespace gost{
 	GT_DEFINE_GUID(GT_UID_PHYSICS_BULLET_3_2_87, 0x7cddd6fc, 0x6de0, 0x4024, 0xa1, 0xf5, 0xed, 0xb3, 0x79, 0x87, 0xb8, 0xfc);
 
 
-	using gtGetPluginInfo			= void(GT_CDECL*)		        (gtPluginInfo&);		
-	using gtLoadGPUDriver_t			= gtGraphicsSystem*(GT_CDECL*)	(gtGraphicsSystemInfo);
-	using gtLoadPhysicsPlugin_t		= gtPhysicsSystem*(GT_CDECL*)	(gtGraphicsSystemInfo);
+	using gtGetPluginInfo			= void(GT_CDECL*)		        (gtPluginInfo*);
+	using gtLoadGPUDriver_t			= gtGraphicsSystem*(GT_CDECL*)	(gtGraphicsSystemInfo*);
+	using gtLoadPhysicsPlugin_t		= gtPhysicsSystem*(GT_CDECL*)	(gtPhysicsSystemInfo*);
 	using gtLoadAudioDriver_t		= gtAudioSystem*(GT_CDECL*)     ();
 	using gtLoadInputDriver_t		= gtInputController*(GT_CDECL*) ();
 	using gtPluginGetExtCount_t		= u32(GT_CDECL*)				();				
@@ -91,8 +91,8 @@ namespace gost{
 
 		gtPluginPhysics( gtPluginInfoDL* info );
 		~gtPluginPhysics();
-		gtLoadGPUDriver_t          loadDriverProc/*(const gtGraphicsSystemInfo& params)*/;
-		virtual gtGraphicsSystem * loadDriver( const gtGraphicsSystemInfo& params );
+		gtLoadPhysicsPlugin_t      loadPhysicsProc/*(const gtGraphicsSystemInfo& params)*/;
+		virtual gtPhysicsSystem *  loadPhysics( const gtPhysicsSystemInfo& params );
 	};
 
 	class gtPluginRender : public gtPlugin{

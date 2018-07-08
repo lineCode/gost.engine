@@ -364,6 +364,7 @@
     <ClCompile Include="..\..\source\gost\PluginSystem\Plugins\gtPluginImportImage.cpp" />
     <ClCompile Include="..\..\source\gost\PluginSystem\Plugins\gtPluginImportModel.cpp" />
     <ClCompile Include="..\..\source\gost\PluginSystem\Plugins\gtPluginInput.cpp" />
+    <ClCompile Include="..\..\source\gost\PluginSystem\Plugins\gtPluginPhysics.cpp" />
     <ClCompile Include="..\..\source\gost\PluginSystem\Plugins\gtPluginRender.cpp" />
     <ClCompile Include="..\..\source\gost\PluginSystem\System\gtPluginSystemImpl.cpp" />
     <ClCompile Include="..\..\source\gost\SceneSystem\Objects\gtCameraImpl.cpp" />

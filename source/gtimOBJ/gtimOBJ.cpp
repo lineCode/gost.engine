@@ -17,14 +17,14 @@ using namespace gost;
 
 extern "C"{
 	
-	GT_API void	GetPluginInfo( gtPluginInfo& info ){
-		info.m_author.assign( u"532235" );
-		info.m_description.assign( u"Import .obj files" );
-		info.m_GUID=GT_UID_IMPORT_MODEL_OBJ;
-		info.m_name.assign( u"OBJ file importer" );
-		info.m_type = gtPluginType::Import_model;
-		info.m_version = 1;
-		info.m_build = 31;
+	GT_API void	GetPluginInfo( gtPluginInfo* info ){
+		info->m_author.assign( u"532235" );
+		info->m_description.assign( u"Import .obj files" );
+		info->m_GUID=GT_UID_IMPORT_MODEL_OBJ;
+		info->m_name.assign( u"OBJ file importer" );
+		info->m_type = gtPluginType::Import_model;
+		info->m_version = 1;
+		info->m_build = 32;
 	}
 
 	GT_API u32	PluginGetExtCount(){

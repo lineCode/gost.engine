@@ -2,39 +2,39 @@
 
 #include "common.h"
 
-gtPluginRender::gtPluginRender( gtPluginInfoDL* info ){
+gtPluginPhysics::gtPluginPhysics( gtPluginInfoDL* info ){
 	m_info = *info;
 }
 
-gtPluginRender::~gtPluginRender(){
+gtPluginPhysics::~gtPluginPhysics(){
 	if( m_isLoad ) unload();
 }
 
 
-gtGraphicsSystem * gtPluginRender::loadDriver( const gtGraphicsSystemInfo& params ){
+gtPhysicsSystem * gtPluginPhysics::loadPhysics( const gtPhysicsSystemInfo& params ){
 	
 	if( !m_isLoad ) load();
 
 	if( m_isLoad ){
-		gtGraphicsSystemInfo p = params;
-		return loadDriverProc( &p );
+		gtPhysicsSystemInfo p = params;
+		return loadPhysicsProc( &p );
 	}
 
 	return nullptr;
 }
 
-const gtPluginInfoDL&	gtPluginRender::getInfo(){
+const gtPluginInfoDL&	gtPluginPhysics::getInfo(){
 	return m_info;
 }
 
-bool gtPluginRender::checkLibraryFunctions(){
+bool gtPluginPhysics::checkLibraryFunctions(){
 
 	GT_LIBRARY_HANDLE lib = m_info.m_handle;
 
-	gtLoadGPUDriver_t gtLoadGPUDriver = 	GT_LOAD_FUNCTION_SAFE_CAST(gtLoadGPUDriver_t, lib,"gtLoadGPUDriver");
+	gtLoadPhysicsPlugin_t gtLoadPhysicsPlugin  = 	GT_LOAD_FUNCTION_SAFE_CAST(gtLoadPhysicsPlugin_t, lib,"gtLoadPhysicsPlugin");
 
-	if( !gtLoadGPUDriver ){
-		gtLogWriter::printWarning( u"Can not get procedure address [%s] from plugin [%s]", u"gtLoadGPUDriver", m_info.m_path.data() );
+	if( !gtLoadPhysicsPlugin ){
+		gtLogWriter::printWarning( u"Can not get procedure address [%s] from plugin [%s]", u"gtLoadPhysicsPlugin", m_info.m_path.data() );
 		GT_FREE_LIBRARY( lib );
 		return false;
 	}
@@ -42,7 +42,7 @@ bool gtPluginRender::checkLibraryFunctions(){
 	return true;
 }
 
-void gtPluginRender::load(){
+void gtPluginPhysics::load(){
 
 	if( !m_isLoad ){
 	
@@ -53,9 +53,9 @@ void gtPluginRender::load(){
 			return;
 		}
 
-		loadDriverProc = GT_LOAD_FUNCTION_SAFE_CAST(gtLoadGPUDriver_t,m_info.m_handle, "gtLoadGPUDriver" );
-		if( !loadDriverProc ){
-			gtLogWriter::printWarning( u"Can not get procedure address [%s] from plugin [%s]", u"gtLoadGPUDriver", m_info.m_path.data() );
+		loadPhysicsProc = GT_LOAD_FUNCTION_SAFE_CAST(gtLoadPhysicsPlugin_t,m_info.m_handle, "gtLoadPhysicsPlugin" );
+		if( !loadPhysicsProc ){
+			gtLogWriter::printWarning( u"Can not get procedure address [%s] from plugin [%s]", u"gtLoadPhysicsPlugin", m_info.m_path.data() );
 			GT_FREE_LIBRARY( m_info.m_handle );
 			return;
 		}
@@ -66,7 +66,7 @@ void gtPluginRender::load(){
 
 }
 
-void gtPluginRender::unload(){
+void gtPluginPhysics::unload(){
 	if( m_isLoad ){
 		if( m_info.m_handle )
 			GT_FREE_LIBRARY( m_info.m_handle );
@@ -77,7 +77,7 @@ void gtPluginRender::unload(){
 
 
 /*
-Copyright (c) 2017-2018 532235
+Copyright (c) 2018 532235
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
 and associated documentation files (the "Software"), to deal in the Software without restriction, 

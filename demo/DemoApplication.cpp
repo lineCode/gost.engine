@@ -3,6 +3,7 @@
 #include "examples\Get_supported_import_formats.hpp"
 #include "examples\Camera.hpp"
 #include "examples\RTT.hpp"
+#include "examples\phy_init.hpp"
 
 void RedrawWindow(){
 	auto This = demo::DemoApplication::GetThis();
@@ -139,6 +140,7 @@ bool demo::DemoApplication::Init(){
 	addDemo( DEMO_COMMON, demo::DemoElement( u"14", u"15" ) );
 	addDemo( DEMO_COMMON, demo::DemoElement( u"30", u"31", true, new DemoExample_RTT( this ) ) );
 	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"22", u"23", true, new DemoExample_Camera( this ) ) );
+	addDemo( DEMO_PHYSICS, demo::DemoElement( u"32", u"33", true, new DemoExample_phy_init( this ) ) );
 	addDemo( DEMO_OTHER, demo::DemoElement( u"20", u"21", true, new DemoExample_GetSupportedImportFormats( this ) ) );
 
 	updateDemoText();
@@ -439,6 +441,7 @@ const gtString& demo::DemoApplication::getString( const gtString& a ){
 			return m_stringArray[ m_languageID ].m_stringArray[ i ].m_second;
 		}
 	}
+	return a;
 }
 
 void demo::DemoApplication::RebuildGUI(){
@@ -720,27 +723,47 @@ void demo::DemoApplication::updatePauseMainMenu(){
 void demo::DemoApplication::pauseBackgroundFadeOut(){
 	auto trBG = m_pauseBackgroundShape->getTransparent();
 	if( trBG > 0.25f ){
+
 		trBG -= 10.f * m_delta;
+
+		if( trBG < 0.25f )
+			trBG = 0.25f;
+
 		m_pauseBackgroundShape->setTransparent( trBG );
 	}
 
 	auto tr = m_pauseShape->getTransparent();
 	if( tr > 0.f ){
+
 		tr -= 10.f * m_delta;
+
+		if( tr < 0.f )
+			tr = 0.f;
+
 		m_pauseShape->setTransparent( tr );
 	}
+
 }
 
 void demo::DemoApplication::pauseBackgroundFadeIn(){
 	auto trBG = m_pauseBackgroundShape->getTransparent();
 	if( trBG < 1.f ){
 		trBG += 10.f * m_delta;
+
+		if( trBG > 1.f )
+			trBG = 1.f;
+
 		m_pauseBackgroundShape->setTransparent( trBG );
 	}
 
 	auto tr = m_pauseShape->getTransparent();
 	if( tr < 1.f ){
+
 		tr += 10.f * m_delta;
+
+		if( tr > 1.f )
+			tr = 1.f;
+
 		m_pauseShape->setTransparent( tr );
 	}else{
 		if( m_state == DemoState::DemoMenu ){
@@ -780,7 +803,8 @@ void demo::DemoApplication::Run(){
 		}break;
 		}
 
-		Render();
+		if( m_mainSystem->isRun() )
+			Render();
 
 		last = now;
 

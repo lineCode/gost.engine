@@ -57,7 +57,7 @@ void gtPluginSystemImpl::scanFolder( const gtString& dir ){
 				}
 
 				gtPluginInfo pi;
-				f_GetPluginInfo( pi );
+				f_GetPluginInfo( &pi );
 
 				if( pi.m_type == gtPluginType::Unknown ){
 					gtLogWriter::printWarning( u"Unsupported plugin [%s]", o->path );
@@ -112,6 +112,14 @@ void gtPluginSystemImpl::scanFolder( const gtString& dir ){
 					if( !plugin->checkLibraryFunctions() ) continue;
 
 					m_inputPluginCache.push_back( plugin.data() );
+					m_plugins.push_back( plugin.data() );
+
+				}else if( pi.m_type == gtPluginType::Physics ){
+					gtPtr_t(gtPluginPhysics,plugin, new gtPluginPhysics( &pi_dl ) );
+
+					if( !plugin->checkLibraryFunctions() ) continue;
+
+					m_physicsPluginCache.push_back( plugin.data() );
 					m_plugins.push_back( plugin.data() );
 
 				}else{

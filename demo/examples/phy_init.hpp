@@ -1,28 +1,27 @@
-#ifndef DEMO_EXAMPLE_RTT_H__
-#define DEMO_EXAMPLE_RTT_H__
+#ifndef DEMO_EXAMPLE_PHY_INIT_H__
+#define DEMO_EXAMPLE_PHY_INIT_H__
 
 class demo::DemoApplication;
-class DemoExample_RTT : public demo::DemoExample{
+class DemoExample_phy_init : public demo::DemoExample{
 	gtMainSystem *			m_mainSystem;
 	gtInputSystem *			m_input;
-	gtGraphicsSystem *				m_gs;
+	gtGraphicsSystem *		m_gs;
 	gtSceneSystem*			m_sceneSystem;
 	demo::DemoApplicationEventConsumer * m_eventConsumer;
 
 	demo::DemoApplication*	m_demoApp;
-	
 	gtCamera *				m_cameraFPS;
 
-	f32 m_delta;
+	f32                     m_delta;
 	gtVector2<s16>			m_oldCoord;
 
-	gtPtr<gtTexture>		m_RTT;
+	gtPtr<gtPhysicsSystem>  m_ps;
 
 public:
 
-	DemoExample_RTT();
-	DemoExample_RTT( demo::DemoApplication * );
-	~DemoExample_RTT();
+	DemoExample_phy_init();
+	DemoExample_phy_init( demo::DemoApplication * );
+	~DemoExample_phy_init();
 
 	bool Init();
 	void Restart();
@@ -33,13 +32,13 @@ public:
 	void Render2D();
 };
 
-DemoExample_RTT::DemoExample_RTT():
+DemoExample_phy_init::DemoExample_phy_init():
 	m_demoApp( nullptr ),
 	m_gs( nullptr ),
 	m_sceneSystem( nullptr )
 {}
 
-DemoExample_RTT::DemoExample_RTT( demo::DemoApplication * app ):
+DemoExample_phy_init::DemoExample_phy_init( demo::DemoApplication * app ):
 	m_demoApp( app ),
 	m_gs( nullptr ),
 	m_sceneSystem( nullptr )
@@ -47,9 +46,9 @@ DemoExample_RTT::DemoExample_RTT( demo::DemoApplication * app ):
 	m_eventConsumer = m_demoApp->GetEventConsumer();
 }
 
-DemoExample_RTT::~DemoExample_RTT(){}
+DemoExample_phy_init::~DemoExample_phy_init(){}
 
-bool DemoExample_RTT::Init(){
+bool DemoExample_phy_init::Init(){
 	m_mainSystem  = gtMainSystem::getInstance();
 	m_input		  = m_mainSystem->getInputSystem();
 	m_gs          = m_mainSystem->getMainVideoDriver();
@@ -61,24 +60,34 @@ bool DemoExample_RTT::Init(){
 
 	auto window = m_gs->getParams().m_outWindow;
 
+	gtPhysicsSystemInfo psi;
+	m_ps = m_mainSystem->createPhysicsSystem( psi, GT_UID_PHYSICS_BULLET_3_2_87 );
+	if( m_ps ){
+		if( !m_ps->initialize() ){
+			return false;
+		}
+	}
 
-	m_cameraFPS = m_sceneSystem->addCamera( v3f( 0.08f, 1.76f, 7.16f ) );
+	m_cameraFPS = m_sceneSystem->addCamera( v3f( 0.08f, 1.76f, 2.9f ) );
 	m_cameraFPS->setCameraType( gtCameraType::FPS );
 	m_cameraFPS->setName( "FPS" );
-
-	m_RTT = m_gs->createRenderTargetTexture( v2u( 32u ), gtImageFormat::R8G8B8A8 );
-	if( !m_RTT )
-		return false;
+	m_cameraFPS->setRotation( v3f( math::degToRad( -30.f ), 0.f, 0.f ) );
 
 	return true;
 }
 
-void DemoExample_RTT::Restart(){}
-void DemoExample_RTT::Shutdown(){
+void DemoExample_phy_init::Restart(){}
+void DemoExample_phy_init::Shutdown(){
 	m_sceneSystem->clearScene();
+
+	if( m_ps ){
+		m_ps->shutdown();
+		m_ps->release();
+	}
+	m_ps = nullptr;
 }
 
-void DemoExample_RTT::Input( f32 d ){
+void DemoExample_phy_init::Input( f32 d ){
 	m_delta = d;
 	if( m_input->isKeyDown( gtKey::K_W )
 		|| m_input->isKeyDown( gtKey::K_UP )
@@ -127,8 +136,8 @@ void DemoExample_RTT::Input( f32 d ){
 	if( m_input->isLMBDown() ){
 		m_cameraFPS->setRotation( m_cameraFPS->getRotation() + 
 			v3f(
-				-math::degToRad((f32)new_coords.y)*0.05f,
-				-math::degToRad((f32)new_coords.x)*0.05f,
+				math::degToRad((f32)new_coords.y)*0.05f,
+				math::degToRad((f32)new_coords.x)*0.05f,
 				0.000f
 			)
 		);
@@ -147,19 +156,14 @@ void DemoExample_RTT::Input( f32 d ){
 	m_oldCoord = coords;
 }
 
-void DemoExample_RTT::Render(){
-	m_gs->setRenderTarget( m_RTT.data(), true, true, gtColor( 0.f, 0.f, 0.f, 0.f ) );
-	m_demoApp->RenderDefaultScene();      //render to texture
-	m_gs->setRenderTarget( nullptr, true, true, m_demoApp->GetDefaultClearColor() );
-
-	m_demoApp->RenderDefaultScene();  //render to screen
+void DemoExample_phy_init::Render(){
+	m_demoApp->RenderDefaultScene();
 }
 
-void DemoExample_RTT::Render2D(){
-	m_gs->draw2DImage( v4i(0, 0, 450, 450), m_RTT.data() );
+void DemoExample_phy_init::Render2D(){
 }
 
-void DemoExample_RTT::Update(){
+void DemoExample_phy_init::Update(){
 
 }
 

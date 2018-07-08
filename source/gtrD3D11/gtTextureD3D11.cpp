@@ -18,28 +18,6 @@ gtTextureD3D11::~gtTextureD3D11(){
 	if( m_texture )        m_texture->Release();
 }
 
-bool gtTextureD3D11::initRTT( const v2u& size, gtImageFormat pixelFormat ){
-	D3D11_TEXTURE2D_DESC textureDesc;
-	HRESULT hr;
-	D3D11_RENDER_TARGET_VIEW_DESC renderTargetViewDesc;
-	D3D11_SHADER_RESOURCE_VIEW_DESC shaderResourceViewDesc;
-
-	ZeroMemory(&textureDesc, sizeof(textureDesc));
-
-	textureDesc.Width = size.x;
-	textureDesc.Height = size.y;
-	textureDesc.MipLevels = 1;
-	textureDesc.ArraySize = 1;
-	textureDesc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
-	textureDesc.SampleDesc.Count = 1;
-	textureDesc.Usage = D3D11_USAGE_DEFAULT;
-	textureDesc.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
-	textureDesc.CPUAccessFlags = 0;
-	textureDesc.MiscFlags = 0;
-
-	return true;
-}
-
 bool gtTextureD3D11::init( gtImage* image ){
 
 	if( !image ) return false;

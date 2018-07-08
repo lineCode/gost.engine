@@ -13,8 +13,10 @@ namespace gost{
 
 		u32									m_numOfPlugins;
 
+		// Available plugins
 		gtArray<gtPlugin*>					m_plugins;
 		gtArray<gtPtr<gtPluginRender>>		m_renderPluginCache;
+		gtArray<gtPtr<gtPluginPhysics>>		m_physicsPluginCache;
 		gtArray<gtPtr<gtPluginAudio>>		m_audioPluginCache;
 		gtArray<gtPtr<gtPluginInput>>		m_inputPluginCache;
 		gtArray<gtPtr<gtPluginImportImage>> m_importImagePluginCache;
