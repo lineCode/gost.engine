@@ -13,6 +13,7 @@ namespace gost{
 		v4i				m_clientRect;
 		void (*f_onMove)();
 		void (*f_onSize)();
+		bool			m_isFullscreen;
 
 	public:
 		gtWindowCommon();
@@ -24,6 +25,8 @@ namespace gost{
 
 		void setOnMove( void(*)() );
 		void setOnSize( void(*)() );
+
+		bool    isFullscreen();
 	};
 }
 

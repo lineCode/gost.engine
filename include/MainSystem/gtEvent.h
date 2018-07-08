@@ -107,7 +107,7 @@ namespace gost{
 		u16 wheel;	//< Wheel
 
 		bool	isLeftButtonDown()    { return (state&MS_LMB_DOWN);  }
-		bool	isLeftButtonUp()	  { return (state&MS_LMB_UP);    }
+		bool	isLeftButtonUp()	  const { return (state&MS_LMB_UP);    }
 		bool	isRightButtonDown()   { return (state&MS_RMB_DOWN);  }
 		bool	isRightButtonUp()	  { return (state&MS_RMB_UP);	 }
 		bool	isMiddleButtonDown()  { return (state&MS_MMB_DOWN);  }

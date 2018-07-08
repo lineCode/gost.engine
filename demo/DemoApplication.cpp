@@ -14,7 +14,7 @@ void RedrawWindow(){
 
 void ResizeWindow(){
 	auto This = demo::DemoApplication::GetThis();
-	if( This ){
+	if( This ){ 
 		auto ms = This->GetMainSystem();
 		auto ss = ms->getSceneSystem(nullptr);
 		auto gs = ms->getMainVideoDriver();
@@ -1707,6 +1707,7 @@ void demo::DemoApplication::xmlSaveSettings(){
 	}
 
 	gtFileSystem::XMLWrite( m_xmlPath, root );
+
 }
 
 void demo::DemoApplication::xmlCreateDrefaultSettingsFile(){

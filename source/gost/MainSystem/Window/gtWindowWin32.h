@@ -11,7 +11,8 @@ namespace gost{
 		HWND		m_hWnd;
 		gtString	m_className;
 		bool		m_isInit;
-
+		DWORD		m_oldWindowStyle;
+		RECT        m_oldWindowPosition;
 
 	public:
 		gtWindowWin32( gtWindowInfo* );
@@ -20,6 +21,9 @@ namespace gost{
 		bool	init( u32 i );
 		void	setWindowTitle( const gtString& ) GT_FINAL;
 		void*	getHandle() GT_FINAL;
+
+		void    switchToFullscreen();
+		void    switchToWindow();
 
 		static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 	};

@@ -31,7 +31,7 @@ gtDriverD3D11::gtDriverD3D11( /*gtMainSystem* System,*/ gtGraphicsSystemInfo par
 	s_instance = this;
 	
 	if( params.m_outWindow ){
-		m_currentWindowSize.x = params.m_outWindow->getRect().z;
+		m_currentWindowSize.x = params.m_outWindow->getRect().z; // нужно ли? МОжет быть правильнее везде где нужно брать m_outWindow->getClientRect
 		m_currentWindowSize.y = params.m_outWindow->getRect().w;
 	}
 }
@@ -117,7 +117,7 @@ bool gtDriverD3D11::initialize(){
 	swapChainDesc.SampleDesc.Count	=	1;
 	swapChainDesc.SampleDesc.Quality	=	0;
 	swapChainDesc.BufferCount	=	1;
-	swapChainDesc.Windowed	=	m_params.m_fullScreen ? false : true;
+	swapChainDesc.Windowed	=	true/*m_params.m_fullScreen ? false : true*/;
 	swapChainDesc.SwapEffect	=	DXGI_SWAP_EFFECT_DISCARD;
 	swapChainDesc.Flags	=	0;
 
@@ -337,7 +337,14 @@ bool gtDriverD3D11::initialize(){
 
 	m_shaderProcessing = gtPtrNew<gtShaderProcessingD3D11>( new gtShaderProcessingD3D11(m_d3d11DevCon) );
 
-	return createShaders();
+	if( !createShaders() ) return false;
+
+	if( m_params.m_fullScreen ){
+		gtMainSystem::getInstance()->setMainVideoDriver( this );
+		m_params.m_outWindow->switchToFullscreen();
+	}
+
+	return true;
 }
 
 void    gtDriverD3D11::setViewport( const v2f& viewportSize ){

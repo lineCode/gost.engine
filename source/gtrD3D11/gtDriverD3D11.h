@@ -75,6 +75,7 @@ namespace gost{
 
 		bool m_beginRender;
 
+
 		gtShader*			m_shader2DStandart;
 		gtShader*			m_shader3DStandart;
 		gtShader*			m_shaderGUI;
@@ -152,6 +153,8 @@ namespace gost{
 		void	setDepthState( bool state = true );
 		void	setRenderTarget( gtTexture * rtt, bool clearDepth, bool clear, const gtColor& crearColor );
 		void    setViewport( const v2f& viewportSize );
+
+		
 
 		void	renderEffects();
 	};

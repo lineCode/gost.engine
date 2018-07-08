@@ -104,6 +104,7 @@ bool	gtWindowWin32::init( u32 i ){
 		return false;
 	}
 
+	m_oldWindowStyle = style;
 
 	ShowWindow( m_hWnd, SW_SHOWNORMAL  );
 	SetForegroundWindow( m_hWnd );
@@ -533,6 +534,56 @@ LRESULT CALLBACK gtWindowWin32::WndProc(HWND hWnd, UINT message, WPARAM wParam, 
 	return DefWindowProc( hWnd, message, wParam, lParam );
 }
 
+void gtWindowWin32::switchToFullscreen(){
+	if( !m_isFullscreen ){
+
+		/*auto desktop = GetDesktopWindow();
+		RECT drc;
+		GetClientRect( desktop, &drc );*/
+
+		auto gs = gtMainSystem::getInstance()->getMainVideoDriver();
+
+		DEVMODE fullscreenSettings;
+		EnumDisplaySettings( NULL, 0, &fullscreenSettings );
+		fullscreenSettings.dmPelsWidth        = gs->getParams().m_backBufferSize.x;
+		fullscreenSettings.dmPelsHeight       = gs->getParams().m_backBufferSize.y;
+		fullscreenSettings.dmBitsPerPel       = gs->getParams().m_colorDepth;
+		fullscreenSettings.dmDisplayFrequency = GetDeviceCaps( GetDC(m_hWnd), VREFRESH);
+		fullscreenSettings.dmFields           = DM_PELSWIDTH |
+												DM_PELSHEIGHT |
+												DM_BITSPERPEL |
+												DM_DISPLAYFREQUENCY;
+		SetWindowLongPtr( m_hWnd, GWL_EXSTYLE, WS_EX_APPWINDOW | WS_EX_TOPMOST);
+	    SetWindowLongPtr( m_hWnd, GWL_STYLE, WS_POPUP | WS_VISIBLE);
+		SetWindowPos( m_hWnd, HWND_TOPMOST, 0, 0, GetDeviceCaps(GetDC(m_hWnd), HORZRES), GetDeviceCaps(GetDC(m_hWnd), VERTRES), SWP_SHOWWINDOW);
+
+		bool isChangeSuccessful = ChangeDisplaySettings(&fullscreenSettings, CDS_FULLSCREEN) == DISP_CHANGE_SUCCESSFUL;
+
+		if( isChangeSuccessful ){
+			ShowWindow( m_hWnd, SW_MAXIMIZE );
+		}else{
+			gtLogWriter::printWarning( u"Can not switch to fullscreen" );
+			return;
+		}
+
+		GetWindowRect( m_hWnd, &m_oldWindowPosition );
+
+
+		m_isFullscreen = true;
+	}
+}
+
+void gtWindowWin32::switchToWindow(){
+	if( m_isFullscreen ){
+		SetWindowLongPtr( m_hWnd, GWL_EXSTYLE, WS_EX_LEFT);
+		SetWindowLongPtr( m_hWnd, GWL_STYLE, m_oldWindowStyle );
+		ChangeDisplaySettings( NULL, CDS_RESET );
+		SetWindowPos( m_hWnd, HWND_NOTOPMOST, m_oldWindowPosition.left, m_oldWindowPosition.top, m_oldWindowPosition.right, m_oldWindowPosition.bottom, SWP_SHOWWINDOW );
+		ShowWindow( m_hWnd, SW_RESTORE );
+
+		m_isFullscreen = false;
+	}
+}
 #endif
 
 /*
