@@ -482,6 +482,10 @@ namespace gost{
 			return gtVector4( -x, -y, -z, -w );
 		}
 
+		gtVector4< Type > operator*( Type v ) const {
+			return gtVector4( x * v, y * v, z * v, w * v );
+		}
+
 		gtVector4< Type > operator*( const gtVector4< Type >& v ) const {
 			return gtVector4( x * v.x, y * v.y, z * v.z, w * v.w );
 		}
@@ -579,6 +583,14 @@ namespace gost{
 			y *= invLen;
 			z *= invLen;
 			w *= invLen;
+		}
+
+		gtVector4< Type > sin(){
+			return gtVector4< Type >( std::sin(x), std::sin(y), std::sin(z), std::sin(w) );
+		}
+
+		gtVector4< Type > cos(){
+			return gtVector4< Type >( std::cos(x), std::cos(y), std::cos(z), std::cos(w) );
 		}
 
 		Type getWidth()  { return z - x; }

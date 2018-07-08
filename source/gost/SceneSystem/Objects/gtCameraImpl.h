@@ -6,6 +6,8 @@ namespace gost{
 
 	class gtCameraImpl : public gtCamera{
 
+		void(*m_updateCallback)(gtCamera*);
+
 		gtMatrix4		m_viewMatrix;
 		gtMatrix4		m_rotationMatrix;
 		gtMatrix4		m_projectionMatrix;
@@ -47,7 +49,12 @@ namespace gost{
 		void				setNear( f32 );
 		void				setTarget( const v4f& );
 		void				setUpVector( const v4f& );
+		void                setUpdateCallback( void(*callback)(gtCamera*) );
+		void	            setViewMatrix( const gtMatrix4& );
+		void	            setProjectionMatrix( const gtMatrix4& );
 		void				setViewPort( const v4f& v );
+
+
 		void				update();
 	};
 

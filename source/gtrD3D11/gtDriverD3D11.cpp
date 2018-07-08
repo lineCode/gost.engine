@@ -333,6 +333,7 @@ bool gtDriverD3D11::initialize(){
 	setViewport( v2f( m_params.m_backBufferSize ) );
 
 	createStandartTexture();
+	initCSM();
 
 	m_shaderProcessing = gtPtrNew<gtShaderProcessingD3D11>( new gtShaderProcessingD3D11(m_d3d11DevCon) );
 
@@ -1032,6 +1033,35 @@ void	gtDriverD3D11::applyScissor(){
 	m_d3d11DevCon->RSSetScissorRects( m_scissorRects.size(), (D3D11_RECT*)m_scissorRects.data() );
 }
 
+// D3DX_PI / 4, 1.0f, 0.1f , 1000.0f
+void CSMCallback(gtCamera* camera){
+	gtMatrix4 P, V;
+	math::makePerspectiveRHMatrix( P, camera->getFOV(),
+			camera->getAspect(), camera->getNear(), camera->getFar() );
+	math::makeLookAtRHMatrix( camera->getPosition(), camera->getTarget(),
+			camera->getUpVector(), V );
+
+	camera->setViewMatrix( V );
+	camera->setProjectionMatrix( P );
+}
+
+void gtDriverD3D11::initCSM(){
+
+	m_CSMLightCamera = gtMainSystem::getInstance()->getSceneSystem( nullptr )->addCamera();
+	m_CSMLightCamera->addRef(); //возможно нужно сделать это чтобы clearScene не удалил камеру
+	m_CSMLightCamera->setName( "CSMLightCamera" );
+	m_CSMLightCamera->setPosition( v4f( -320.f, 300.f, -220.3f ) );
+	m_CSMLightCamera->setTarget( v4f( 0.f, 0.f, 0.f ) );
+	m_CSMLightCamera->setCameraType( gtCameraType::Custom );
+	m_CSMLightCamera->setUpdateCallback( CSMCallback );
+	m_CSMLightCamera->setFOV( math::PI / 4.f );
+	m_CSMLightCamera->setAspect( 1.0f );
+	m_CSMLightCamera->setNear( 0.1f );
+	m_CSMLightCamera->setFar( 1000.f );
+}
+
+void gtDriverD3D11::renderEffects(){
+}
 
 /*
 Copyright (c) 2017-2018 532235

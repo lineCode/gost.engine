@@ -65,8 +65,8 @@ namespace demo{
 		void						xmlCreateDrefaultSettingsFile();
 		gtString					m_xmlPath;
 
-		gtTexture*					m_backgroundTexture;
-		gtTexture*					m_gamepadTexture;
+		gtPtr<gtTexture>			m_backgroundTexture;
+		gtPtr<gtTexture>			m_gamepadTexture;
 		gtPtr<gtGUIShape>			m_backgroundShape;
 		gtPtr<gtGUIShape>			m_gamepadiconShape;
 		gtPtr<gtGUITextField>		m_welcomeText;

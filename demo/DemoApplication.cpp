@@ -252,9 +252,11 @@ void demo::DemoApplication::hideDemoHUD(){
 
 void demo::DemoApplication::updateHUD(){
 
+	auto camera = m_sceneSystem->getActiveCamera();
+	if( !camera ) return;
+
 	gtString str( u"Camera " );
 
-	auto camera = m_sceneSystem->getActiveCamera();
 	auto stra = camera->getName();
 	auto pos = camera->getPosition();
 	str += stra.data();
@@ -273,13 +275,16 @@ bool demo::DemoApplication::initMainMenu(){
 	gtString gamepadPath(u"../demo/media/gamepad.png");
 
 	if( gtFileSystem::existFile( logoPath ) ){
-		m_backgroundTexture = m_gs->getTexture( logoPath );
+		auto image = m_mainSystem->loadImage( logoPath );
+		m_backgroundTexture = m_gs->createTexture( image.data() );
 		m_backgroundTexture->setName( "m_backgroundTexture" );
 	}else
 		gtLogWriter::printWarning( u"Can not load background texture. File %s not exist.", logoPath.data() );
 
 	if( gtFileSystem::existFile( gamepadPath ) ){
-		m_gamepadTexture = m_gs->getTexture( gamepadPath );
+		auto image = m_mainSystem->loadImage( gamepadPath );
+		m_gamepadTexture = m_gs->createTexture( image.data() );
+		//m_gamepadTexture = m_gs->getTexture( gamepadPath );
 		m_gamepadTexture->setName( "m_gamepadTexture" );
 	}else
 		gtLogWriter::printWarning( u"Can not load gamepad icon texture. File %s not exist.", gamepadPath.data() );
@@ -601,7 +606,7 @@ bool demo::DemoApplication::rebuildMainMenu(){
 	}
 
 	if( m_backgroundTexture ){
-		m_backgroundShape->setTexture( m_backgroundTexture );
+		m_backgroundShape->setTexture( m_backgroundTexture.data() );
 	}else{
 		m_backgroundShape->setColor( gtColor( gtColorBlack ) );
 	}
@@ -620,7 +625,7 @@ bool demo::DemoApplication::rebuildMainMenu(){
 	m_gamepadiconShape	= m_guiSystem->createShapeRectangle( gprc, gamepadColor );
 	if( m_gamepadiconShape ){
 		if( m_gamepadTexture ){
-			m_gamepadiconShape->setTexture( m_gamepadTexture );
+			m_gamepadiconShape->setTexture( m_gamepadTexture.data() );
 		}else{
 			m_gamepadiconShape->setColor( gtColor( gtColorBlack ) );
 		}
@@ -896,6 +901,8 @@ const gtColor& demo::DemoApplication::GetDefaultClearColor(){
 }
 
 void demo::DemoApplication::renderDemo(){
+	if( m_state == DemoState::MainMenu ) return;
+
 	m_gs->beginRender( true, m_demoClearColor );
 
 	m_demoArrays[m_activeDemoTypeSelected][m_activeDemoSelected].Render();
@@ -1492,7 +1499,9 @@ bool demo::DemoApplication::InitDefaultScene(){
 void demo::DemoApplication::ShutdownDefaultScene(){
 	if( m_sceneInitialized ){
 		m_gs->clearModelCache();
-		m_gs->removeTexture(m_gs->getTexture( u"../demo/media/scene/1.png" ));
+		m_gs->clearTextureCache();
+		//m_gs->removeTexture(m_gs->getTexture( u"../demo/media/scene/1.png" ));
+		m_sceneSystem->setActiveCamera( nullptr );
 		m_sceneInitialized = false;
 	}
 }

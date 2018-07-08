@@ -8,7 +8,8 @@ namespace gost{
 		LookAt,
 		Free,
 		FPS,
-		Camera_2D
+		Camera_2D,
+		Custom
 	};
 
 
@@ -37,9 +38,17 @@ namespace gost{
 		virtual void				setFOV( f32 fov ) = 0;
 		virtual void				setNear( f32 Near ) = 0;
 		virtual void				setTarget( const v4f& target ) = 0;
+		virtual void	            setViewMatrix( const gtMatrix4& ) = 0;
+		virtual void	            setProjectionMatrix( const gtMatrix4& ) = 0;
+		
+		// Only for custom camera
+		virtual void                setUpdateCallback( void(*callback)(gtCamera*) ) = 0;
+		
 		virtual void				setUpVector( const v4f& up ) = 0;
 		virtual void				setViewPort( const v4f& v ) = 0;
+
 		
+
 	};
 }
 

@@ -91,6 +91,9 @@ namespace gost{
 
 		gtPtr<gtTexture>	m_standartTexture;
 		gtPtr<gtTexture>	m_standartTextureWhiteColor;
+		
+		gtPtr<gtTexture>	   m_CSMTexture;
+		gtPtr<gtCamera>        m_CSMLightCamera;
 
 		void	setActiveShader( gtShader* );
 		void	_draw2DImage( const v4f& rect, const v8f& region, const gtMaterial& );
@@ -98,6 +101,7 @@ namespace gost{
 		bool	createShaders();
 		void	createStandartTexture();
 		void	applyScissor();
+		void    initCSM();
 	public:
 		gtDriverD3D11( /*gtMainSystem* System, */gtGraphicsSystemInfo params );
 		virtual ~gtDriverD3D11();
@@ -148,6 +152,8 @@ namespace gost{
 		void	setDepthState( bool state = true );
 		void	setRenderTarget( gtTexture * rtt, bool clearDepth, bool clear, const gtColor& crearColor );
 		void    setViewport( const v2f& viewportSize );
+
+		void	renderEffects();
 	};
 
 }

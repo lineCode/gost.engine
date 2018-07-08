@@ -112,6 +112,11 @@ namespace gost{
 		virtual void	setRenderTarget( gtTexture * rtt, bool clearDepth = true, bool clearTarget = true, const gtColor& clearTargetColor = gtColorBlack ) = 0;
 		virtual void	setTextureFilterType( gtTextureFilterType ) = 0;
 		virtual void    setViewport( const v2f& viewportSize ) = 0;
+
+		//автоматически вызывается через sceneSystem
+		//рендерит стандартные эффекты
+		//если сцена рисуется не через sceneSystem, то нужно вызывать этот метод вручную
+		virtual void	renderEffects() = 0;
 	};
 
 

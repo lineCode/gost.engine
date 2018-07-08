@@ -1,6 +1,7 @@
 #include "common.h"
 
 gtCameraImpl::gtCameraImpl():
+	m_updateCallback( nullptr ),
 	m_up( 0.f, 1.f, 0.f ),
 	m_fov( 0.785398185f ),
 	m_near( 1.f ),
@@ -33,8 +34,10 @@ void gtCameraImpl::setNear( f32 v )             { m_near = v;                }
 void gtCameraImpl::setTarget( const v4f& t )    { m_target = t;              }
 void gtCameraImpl::setViewPort( const v4f& v )  { m_viewPort = v;            }
 void gtCameraImpl::setUpVector( const v4f& v )  { m_up = v;                  }
+void gtCameraImpl::setViewMatrix( const gtMatrix4& m ){ m_viewMatrix = m;    }
+void gtCameraImpl::setProjectionMatrix( const gtMatrix4& m ){ m_projectionMatrix = m; }
 
-void	gtCameraImpl::update(){
+void gtCameraImpl::update(){
 
 	gtMatrix4 translationMatrix;
 	math::makeTranslationMatrix( -m_position, translationMatrix );
@@ -59,8 +62,15 @@ void	gtCameraImpl::update(){
 	}
 }
 
-void				gtCameraImpl::render(){
+void gtCameraImpl::render(){
 	switch( m_cameraType ){
+	case gost::gtCameraType::Custom:{
+		if( m_updateCallback ){
+			m_updateCallback( this );
+		}else{
+			gtLogWriter::printWarning( u"Not set callback function for `Custom` camera" );
+		}
+	}break;
 	case gost::gtCameraType::LookAt:{
 		math::makePerspectiveRHMatrix(
 			m_projectionMatrix,
@@ -104,16 +114,46 @@ void				gtCameraImpl::render(){
 			m_near,
 			m_far );
 
+		/* Microsoft XNA Math
+
+		v4f Angles( m_rotation.x, m_rotation.y, m_rotation.z, 0.f );
+		v4f HalfAngles = Angles * 0.5f;
+		v4f SinAngles = HalfAngles.sin();
+		v4f CosAngles = HalfAngles.cos();
+		
+		v4f P0, P1, Y0, Y1, R0, R1;
+
+		P0 = v4f( SinAngles.x, CosAngles.x, CosAngles.x, CosAngles.x );
+		Y0 = v4f( CosAngles.y, SinAngles.y, CosAngles.y, CosAngles.y );
+		R0 = v4f( CosAngles.z, CosAngles.z, SinAngles.z, CosAngles.z );
+
+		P1 = v4f( CosAngles.x, SinAngles.x, SinAngles.x, SinAngles.x );
+		Y1 = v4f( SinAngles.y, CosAngles.y, SinAngles.y, SinAngles.y );
+		R1 = v4f( SinAngles.z, SinAngles.z, CosAngles.z, SinAngles.z );
+
+		v4f Q1, Q0, Q;
+
+		Q1 = P1 * v4f( 1.f, -1.f, -1.f, 1.f );
+		Q0 = P0 * Y0;
+		Q1 = Q1 * Y1;
+		Q0 = Q0 * R0;
+		Q  = (Q1 * R1) + Q0;
+		
+		m_orientation.set( Q.x, Q.y, Q.z, Q.w );
+		*/
+
+
 		gtQuaternion qPitch( v3f( m_rotation.x, 0.f, 0.f ) );
 		gtQuaternion qYaw  ( v3f( 0.f, m_rotation.y, 0.f ) );
 		gtQuaternion qRoll ( v3f( 0.f, 0.f, m_rotation.z ) );
-		
+
 		// I forgot how I did before. :(
 		m_orientation = qYaw * qPitch * qRoll; //fps...
-
 		math::makeRotationMatrix( m_rotationMatrix, m_orientation );
 
+		math::makeRotationMatrix( m_rotationMatrix, m_orientation );
 		m_viewMatrix = m_rotationMatrix * m_worldMatrixAbsolute;
+
 	}break;
 	case gost::gtCameraType::FPS:{
 		math::makePerspectiveRHMatrix(
@@ -206,6 +246,9 @@ void gtCameraImpl::calculateFrustum(){
 
 }
 
+void gtCameraImpl::setUpdateCallback( void(*callback)(gtCamera*) ){
+	m_updateCallback = callback;
+}
 
 /*
 Copyright (c) 2018 532235

@@ -63,7 +63,7 @@ gtCamera*		gtSceneSystemImpl::addCamera( const v4f& position, const v4f& target,
 		camera->setName("Camera");
 		m_rootNode->addChild( camera.data() );
 
-		auto rc = m_gs->getParams().m_outWindow->getRect();
+		auto rc = (m_gs) ? m_gs->getParams().m_outWindow->getRect() : v4i(0,0,800,600);
 		camera->setAspect( (f32)rc.getWidth() / (f32)rc.getHeight() );
 	}
 
@@ -296,6 +296,13 @@ void gtSceneSystemImpl::sortTransparentDistance( gtArray<gtGameObject*>& in, gtA
 }
 
 void gtSceneSystemImpl::renderScene(){
+
+	static bool render_effect = true;
+	if( render_effect ){
+		render_effect = false;
+		m_gs->renderEffects();
+		render_effect = true;
+	}
 
 	auto * childs = &m_rootNode->getChildList();
 	{
