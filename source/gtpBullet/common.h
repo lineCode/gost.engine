@@ -7,6 +7,10 @@ using namespace gost;
 #include "BulletDynamics/Featherstone/btMultiBodyDynamicsWorld.h"
 #include "BulletDynamics/Featherstone/btMultiBodyConstraintSolver.h"
 
+
+#include "gtCollisionShapeImpl.h"
+#include "gtRigidBodyImpl.h"
+
 #include "gtPhysicsBullet.h"
 
 /*

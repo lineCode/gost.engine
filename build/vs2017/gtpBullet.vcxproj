@@ -28,7 +28,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\source\gtpBullet\creator.cpp" />
+    <ClCompile Include="..\..\source\gtpBullet\gtCollisionShapeImpl.cpp" />
     <ClCompile Include="..\..\source\gtpBullet\gtPhysicsBullet.cpp" />
+    <ClCompile Include="..\..\source\gtpBullet\gtRigidBodyImpl.cpp" />
     <ClCompile Include="..\..\thirdparty\bullet3-2.87\src\Bullet3Collision\BroadPhaseCollision\b3DynamicBvh.cpp" />
     <ClCompile Include="..\..\thirdparty\bullet3-2.87\src\Bullet3Collision\BroadPhaseCollision\b3DynamicBvhBroadphase.cpp" />
     <ClCompile Include="..\..\thirdparty\bullet3-2.87\src\Bullet3Collision\BroadPhaseCollision\b3OverlappingPairCache.cpp" />
@@ -163,7 +165,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\source\gtpBullet\common.h" />
+    <ClInclude Include="..\..\source\gtpBullet\gtCollisionShapeImpl.h" />
     <ClInclude Include="..\..\source\gtpBullet\gtPhysicsBullet.h" />
+    <ClInclude Include="..\..\source\gtpBullet\gtRigidBodyImpl.h" />
     <ClInclude Include="..\..\thirdparty\bullet3-2.87\src\Bullet3Collision\BroadPhaseCollision\b3BroadphaseCallback.h" />
     <ClInclude Include="..\..\thirdparty\bullet3-2.87\src\Bullet3Collision\BroadPhaseCollision\b3DynamicBvh.h" />
     <ClInclude Include="..\..\thirdparty\bullet3-2.87\src\Bullet3Collision\BroadPhaseCollision\b3DynamicBvhBroadphase.h" />

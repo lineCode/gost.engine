@@ -284,7 +284,9 @@
     <ClInclude Include="..\..\include\MainSystem\gtWindow.h" />
     <ClInclude Include="..\..\include\MainSystem\gtWindowInfo.h" />
     <ClInclude Include="..\..\include\MemorySystem\gtMemorySystem.h" />
+    <ClInclude Include="..\..\include\PhysicsSystem\gtCollisionShape.h" />
     <ClInclude Include="..\..\include\PhysicsSystem\gtPhysicsSystem.h" />
+    <ClInclude Include="..\..\include\PhysicsSystem\gtRigidBody.h" />
     <ClInclude Include="..\..\include\PluginSystem\gtPlugin.h" />
     <ClInclude Include="..\..\include\PluginSystem\gtPluginSystem.h" />
     <ClInclude Include="..\..\include\SceneSystem\gtCamera.h" />

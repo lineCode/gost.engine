@@ -57,34 +57,40 @@ namespace gost{
 
 	class gtPhysicsBullet : public gtPhysicsSystem{
 
-		btDefaultCollisionConfiguration* m_collisionConfiguration;
-		btOverlapFilterCallback*         m_filterCallback;
-		gtUserOverlapFilterCallback2*    m_userFilterCallback;
-		btCollisionDispatcher*	         m_dispatcher;
-		btOverlappingPairCache*          m_pairCache;
-		btBroadphaseInterface*	         m_broadphase;
+		btDefaultCollisionConfiguration*        m_collisionConfiguration;
+		btOverlapFilterCallback*                m_filterCallback;
+		gtUserOverlapFilterCallback2*           m_userFilterCallback;
+		btCollisionDispatcher*	                m_dispatcher;
+		btOverlappingPairCache*                 m_pairCache;
+		btBroadphaseInterface*	                m_broadphase;
 		
-		class btRigidBody*	             m_pickedBody;
-		class btTypedConstraint*         m_pickedConstraint;
-		s32	                             m_savedState;
+		class btRigidBody*	                    m_pickedBody;
+		class btTypedConstraint*                m_pickedConstraint;
+		s32	                                    m_savedState;
 
-		btSequentialImpulseConstraintSolver*
-			                             m_solver;
+		btSequentialImpulseConstraintSolver*    m_solver;
 
-		btDiscreteDynamicsWorld*        m_dynamicsWorld;
+		btDiscreteDynamicsWorld*                m_dynamicsWorld;
 
 		btAlignedObjectArray<btCollisionShape*>	m_collisionShapes;
-		gtPhysicsSystemInfo m_params;
-		bool m_initialized;
+		gtPhysicsSystemInfo                     m_params;
+		bool                                    m_initialized;
 	public:
 
-		gtPhysicsBullet( gtPhysicsSystemInfo* );
-		~gtPhysicsBullet();
+		                        gtPhysicsBullet( gtPhysicsSystemInfo* );
+		                        ~gtPhysicsBullet();
 
-		bool initialize();
-		void setGravity( const v3f& gravity );
-		void shutdown();
-		void update( f32 delta );
+		gtPtr<gtCollisionShape> createCollisionShapeBox( const v3f& size );
+		gtPtr<gtRigidBody>      createRigidBody( const gtRigidBodyInfo& info );
+		bool                    initialize();
+		void                    setGravity( const v3f& gravity );
+		void                    shutdown();
+		void                    update( f32 delta );
+
+		void                    _addShape( btCollisionShape* );
+		void                    _removeShape( btCollisionShape* );
+		void                    _addRigidBody( btRigidBody* );
+		void                    _removeRigidBody( btRigidBody* );
 
 	};
 

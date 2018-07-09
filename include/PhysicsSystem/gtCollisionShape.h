@@ -1,40 +1,13 @@
 #pragma once
-#ifndef __GT_PHYSICS_SYSTEM_H__
-#define __GT_PHYSICS_SYSTEM_H__
+#ifndef __GT_COLLISION_SHAPE_H__
+#define __GT_COLLISION_SHAPE_H__
 
 
 namespace gost{
 	
-	enum class gtPhysicsConstraintSolverType : u32{
-
-	};
-
-	class gtPhysicsFilterCallback{
-	public:
-		virtual ~gtPhysicsFilterCallback(){}
-
-		virtual bool collision( void * body1, void * body2 ) = 0;
-	};
-
-	struct gtPhysicsSystemInfo{
-		gtPhysicsSystemInfo():
-			filterCallback( nullptr ),
-			gravity(v3f(0.f,-10.f,0.f)){}
-
-		gtPhysicsFilterCallback * filterCallback;
-
-		v3f gravity;
-	};
-
-	class gtPhysicsSystem : public gtRefObject {
+	class gtCollisionShape : public gtRefObject {
 	public:
 		
-		virtual gtPtr<gtCollisionShape> createCollisionShapeBox( const v3f& size ) = 0;
-		virtual gtPtr<gtRigidBody>      createRigidBody( const gtRigidBodyInfo& info ) = 0;
-		virtual bool                    initialize() = 0;
-		virtual void                    setGravity( const v3f& gravity ) = 0;
-		virtual void                    shutdown() = 0;
-		virtual void                    update( f32 delta ) = 0;
 
 	};
 

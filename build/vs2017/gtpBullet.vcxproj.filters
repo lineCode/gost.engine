@@ -471,6 +471,12 @@
     <ClCompile Include="..\..\thirdparty\bullet3-2.87\src\Bullet3Geometry\b3GeometryUtil.cpp">
       <Filter>Bullet\Bullet3Geometry</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\source\gtpBullet\gtCollisionShapeImpl.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\gtpBullet\gtRigidBodyImpl.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\source\gtpBullet\common.h">
@@ -1171,6 +1177,12 @@
     </ClInclude>
     <ClInclude Include="..\..\thirdparty\bullet3-2.87\src\Bullet3Geometry\b3GrahamScan2dConvexHull.h">
       <Filter>Bullet\Bullet3Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\gtpBullet\gtCollisionShapeImpl.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\gtpBullet\gtRigidBodyImpl.h">
+      <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

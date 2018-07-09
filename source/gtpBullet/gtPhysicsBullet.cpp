@@ -135,6 +135,63 @@ void gtPhysicsBullet::update( f32 delta ){
 	}
 }
 
+gtPtr<gtCollisionShape> gtPhysicsBullet::createCollisionShapeBox( const v3f& size ){
+	auto ptr = new gtCollisionShapeImpl( this );
+	gtPtr<gtCollisionShape> shape = gtPtrNew<gtCollisionShape>( ptr );
+
+	if( !ptr->initBox( size ) ){
+		gtLogWriter::printWarning( u"Can not init box collision shape" );
+		return nullptr;
+	}
+
+	return shape;
+}
+
+void gtPhysicsBullet::_addShape( btCollisionShape* s ){
+	m_collisionShapes.push_back( s );
+}
+
+void gtPhysicsBullet::_removeShape( btCollisionShape* s ){
+	u32 sz = m_collisionShapes.size();
+	for( u32 i = 0u; i < sz; ++i ){
+		if( m_collisionShapes[ i ] == s ){
+			m_collisionShapes.remove( s );
+			return;
+		}
+	}
+}
+
+void gtPhysicsBullet::_addRigidBody( btRigidBody* b ){
+	m_dynamicsWorld->addRigidBody( b );
+}
+
+void gtPhysicsBullet::_removeRigidBody( btRigidBody* b ){
+	for( auto i = m_dynamicsWorld->getNumCollisionObjects() - 1; i >= 0; i--){
+		btCollisionObject* obj = m_dynamicsWorld->getCollisionObjectArray()[i];
+		btRigidBody* body = btRigidBody::upcast(obj);
+		if( b == body ){
+			if (body && body->getMotionState())
+			{
+				delete body->getMotionState();
+			}
+			m_dynamicsWorld->removeCollisionObject(obj);
+			delete obj;
+		}
+	}
+}
+
+gtPtr<gtRigidBody> gtPhysicsBullet::createRigidBody( const gtRigidBodyInfo& info ){
+	auto ptr = new gtRigidBodyImpl( info, this );
+	gtPtr<gtRigidBody> body = gtPtrNew<gtRigidBody>( ptr );
+
+	if( !ptr->init() ){
+		gtLogWriter::printWarning( u"Can not init rigid body" );
+		return nullptr;
+	}
+
+	return body;
+}
+
 /*
 Copyright (c) 2018 532235
 

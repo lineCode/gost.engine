@@ -1,46 +1,30 @@
-#pragma once
-#ifndef __GT_PHYSICS_SYSTEM_H__
-#define __GT_PHYSICS_SYSTEM_H__
+#include "common.h"
 
+gtCollisionShapeImpl::gtCollisionShapeImpl(gtPhysicsBullet * ps):
+	m_ps( ps ),
+	m_shape( nullptr )
+{}
 
-namespace gost{
-	
-	enum class gtPhysicsConstraintSolverType : u32{
-
-	};
-
-	class gtPhysicsFilterCallback{
-	public:
-		virtual ~gtPhysicsFilterCallback(){}
-
-		virtual bool collision( void * body1, void * body2 ) = 0;
-	};
-
-	struct gtPhysicsSystemInfo{
-		gtPhysicsSystemInfo():
-			filterCallback( nullptr ),
-			gravity(v3f(0.f,-10.f,0.f)){}
-
-		gtPhysicsFilterCallback * filterCallback;
-
-		v3f gravity;
-	};
-
-	class gtPhysicsSystem : public gtRefObject {
-	public:
-		
-		virtual gtPtr<gtCollisionShape> createCollisionShapeBox( const v3f& size ) = 0;
-		virtual gtPtr<gtRigidBody>      createRigidBody( const gtRigidBodyInfo& info ) = 0;
-		virtual bool                    initialize() = 0;
-		virtual void                    setGravity( const v3f& gravity ) = 0;
-		virtual void                    shutdown() = 0;
-		virtual void                    update( f32 delta ) = 0;
-
-	};
-
+gtCollisionShapeImpl::~gtCollisionShapeImpl(){
+	if( m_shape ){
+		m_ps->_removeShape( m_shape );
+	}
 }
 
-#endif
+bool gtCollisionShapeImpl::initBox( const v3f& size ){
+	m_shape = new btBoxShape(btVector3(size.x*0.5f, size.y*0.5f, size.z*0.5f));
+	if( !m_shape )
+		return false;
+
+	m_ps->_addShape( m_shape );
+
+	return true;
+}
+
+btCollisionShape * gtCollisionShapeImpl::getBulletShape(){
+	return m_shape;
+}
+
 
 /*
 Copyright (c) 2018 532235

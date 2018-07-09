@@ -1,46 +1,26 @@
 #pragma once
-#ifndef __GT_PHYSICS_SYSTEM_H__
-#define __GT_PHYSICS_SYSTEM_H__
-
+#ifndef __GT_COLLISION_SHAPE_IMPL_H__
+#define __GT_COLLISION_SHAPE_IMPL_H__
 
 namespace gost{
-	
-	enum class gtPhysicsConstraintSolverType : u32{
 
-	};
+	class gtPhysicsBullet;
 
-	class gtPhysicsFilterCallback{
+	class gtCollisionShapeImpl : public gtCollisionShape{
+		gtPhysicsBullet *   m_ps;
+		btCollisionShape *  m_shape;
 	public:
-		virtual ~gtPhysicsFilterCallback(){}
+		                   gtCollisionShapeImpl(gtPhysicsBullet *);
+		                   ~gtCollisionShapeImpl();
 
-		virtual bool collision( void * body1, void * body2 ) = 0;
-	};
-
-	struct gtPhysicsSystemInfo{
-		gtPhysicsSystemInfo():
-			filterCallback( nullptr ),
-			gravity(v3f(0.f,-10.f,0.f)){}
-
-		gtPhysicsFilterCallback * filterCallback;
-
-		v3f gravity;
-	};
-
-	class gtPhysicsSystem : public gtRefObject {
-	public:
-		
-		virtual gtPtr<gtCollisionShape> createCollisionShapeBox( const v3f& size ) = 0;
-		virtual gtPtr<gtRigidBody>      createRigidBody( const gtRigidBodyInfo& info ) = 0;
-		virtual bool                    initialize() = 0;
-		virtual void                    setGravity( const v3f& gravity ) = 0;
-		virtual void                    shutdown() = 0;
-		virtual void                    update( f32 delta ) = 0;
-
+		bool               initBox( const v3f& size );
+		btCollisionShape * getBulletShape();
 	};
 
 }
 
 #endif
+
 
 /*
 Copyright (c) 2018 532235

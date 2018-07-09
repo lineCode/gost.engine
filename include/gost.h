@@ -62,6 +62,9 @@
 
 #include <GUISystem/gtGUIObject.h>
 
+#include <PhysicsSystem/gtCollisionShape.h>
+#include <PhysicsSystem/gtRigidBody.h>
+
 
 #include <MainSystem/gtCVarSystem.h>
 #include <PhysicsSystem/gtPhysicsSystem.h>

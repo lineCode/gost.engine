@@ -531,6 +531,12 @@
     <ClInclude Include="..\..\include\Classes\Containers\gtIterator.h">
       <Filter>include\Classes\Containers</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\PhysicsSystem\gtRigidBody.h">
+      <Filter>include\PhysicsSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\PhysicsSystem\gtCollisionShape.h">
+      <Filter>include\PhysicsSystem</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\include\MainSystem\gtStackTracerWin32.inl">
