@@ -132,6 +132,11 @@ void gtPhysicsBullet::setGravity( const v3f& gravity ){
 void gtPhysicsBullet::update( f32 delta ){
 	if( m_initialized ){
 		m_dynamicsWorld->stepSimulation( delta );
+
+		for( auto * i : m_rigidBodyArray ){
+			i->update();
+		}
+
 	}
 }
 
@@ -166,6 +171,13 @@ void gtPhysicsBullet::_addRigidBody( btRigidBody* b ){
 }
 
 void gtPhysicsBullet::_removeRigidBody( btRigidBody* b ){
+	for( auto * i : m_rigidBodyArray ){
+		if( i->getBulletRigidBody() == b ){
+			m_rigidBodyArray.erase_first( i );
+			break;
+		}
+	}
+
 	for( auto i = m_dynamicsWorld->getNumCollisionObjects() - 1; i >= 0; i--){
 		btCollisionObject* obj = m_dynamicsWorld->getCollisionObjectArray()[i];
 		btRigidBody* body = btRigidBody::upcast(obj);
@@ -176,6 +188,7 @@ void gtPhysicsBullet::_removeRigidBody( btRigidBody* b ){
 			}
 			m_dynamicsWorld->removeCollisionObject(obj);
 			delete obj;
+			return;
 		}
 	}
 }
@@ -188,6 +201,8 @@ gtPtr<gtRigidBody> gtPhysicsBullet::createRigidBody( const gtRigidBodyInfo& info
 		gtLogWriter::printWarning( u"Can not init rigid body" );
 		return nullptr;
 	}
+
+	m_rigidBodyArray.push_back( ptr );
 
 	return body;
 }

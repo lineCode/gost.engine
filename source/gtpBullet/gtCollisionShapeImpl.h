@@ -7,11 +7,17 @@ namespace gost{
 	class gtPhysicsBullet;
 
 	class gtCollisionShapeImpl : public gtCollisionShape{
-		gtPhysicsBullet *   m_ps;
-		btCollisionShape *  m_shape;
+		gtPhysicsBullet *        m_ps;
+		btCollisionShape *       m_shape;
+		btPolyhedralConvexShape* m_shapeBase;
 	public:
 		                   gtCollisionShapeImpl(gtPhysicsBullet *);
 		                   ~gtCollisionShapeImpl();
+
+		u32                getNumEdges();
+		void               getEdge( u32 index, v3f& v1, v3f& v2 );
+		u32                getNumVertices();
+		void               getVertex( u32 index, v3f& vertex );
 
 		bool               initBox( const v3f& size );
 		btCollisionShape * getBulletShape();

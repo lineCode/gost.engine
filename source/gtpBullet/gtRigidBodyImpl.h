@@ -8,12 +8,21 @@ namespace gost{
 		gtPhysicsBullet *   m_ps;
 		gtRigidBodyInfo     m_info;
 		btRigidBody*        m_body;
+		v4f                 m_position;
+		gtQuaternion        m_rotation;
+		btTransform         m_transformation;
 	public:
 	                           gtRigidBodyImpl( const gtRigidBodyInfo&, gtPhysicsBullet * );
 	                           ~gtRigidBodyImpl();
+		
+		btRigidBody*           getBulletRigidBody();
 
 		bool                   init();
 		const gtRigidBodyInfo& getInfo();
+		const v4f&             getPosition();
+		const gtQuaternion&    getRotation();
+		void                   update();
+
 	};
 
 }

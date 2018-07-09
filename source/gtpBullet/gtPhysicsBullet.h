@@ -75,6 +75,8 @@ namespace gost{
 		btAlignedObjectArray<btCollisionShape*>	m_collisionShapes;
 		gtPhysicsSystemInfo                     m_params;
 		bool                                    m_initialized;
+
+		gtArray<gtRigidBodyImpl*>			    m_rigidBodyArray;
 	public:
 
 		                        gtPhysicsBullet( gtPhysicsSystemInfo* );

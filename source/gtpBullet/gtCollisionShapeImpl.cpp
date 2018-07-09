@@ -2,7 +2,8 @@
 
 gtCollisionShapeImpl::gtCollisionShapeImpl(gtPhysicsBullet * ps):
 	m_ps( ps ),
-	m_shape( nullptr )
+	m_shape( nullptr ),
+	m_shapeBase( nullptr )
 {}
 
 gtCollisionShapeImpl::~gtCollisionShapeImpl(){
@@ -16,13 +17,35 @@ bool gtCollisionShapeImpl::initBox( const v3f& size ){
 	if( !m_shape )
 		return false;
 
+	m_shapeBase = (btPolyhedralConvexShape*)m_shape;
 	m_ps->_addShape( m_shape );
-
+	
 	return true;
 }
 
 btCollisionShape * gtCollisionShapeImpl::getBulletShape(){
 	return m_shape;
+}
+
+u32 gtCollisionShapeImpl::getNumVertices(){
+	return (u32)m_shapeBase->getNumVertices();
+}
+
+void gtCollisionShapeImpl::getVertex( u32 index, v3f& vertex ){
+	btVector3 v;
+	m_shapeBase->getVertex( (s32)index, v );
+	vertex.set(v[0],v[1],v[2]);
+}
+
+u32 gtCollisionShapeImpl::getNumEdges(){
+	return (u32)m_shapeBase->getNumEdges();
+}
+
+void gtCollisionShapeImpl::getEdge( u32 index, v3f& v1, v3f& v2 ){
+	btVector3 pa, pb;
+	m_shapeBase->getEdge( (s32)index, pa, pb );
+	v1.set(pa[0],pa[1],pa[2]);
+	v2.set(pb[0],pb[1],pb[2]);
 }
 
 

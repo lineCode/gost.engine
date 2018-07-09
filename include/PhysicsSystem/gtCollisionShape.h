@@ -8,6 +8,10 @@ namespace gost{
 	class gtCollisionShape : public gtRefObject {
 	public:
 		
+		virtual u32   getNumEdges() = 0;
+		virtual u32   getNumVertices() = 0;
+		virtual void  getEdge( u32 index, v3f& v1, v3f& v2 ) = 0;
+		virtual void  getVertex( u32 index, v3f& vertex ) = 0;
 
 	};
 

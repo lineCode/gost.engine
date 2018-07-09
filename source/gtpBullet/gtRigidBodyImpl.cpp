@@ -46,6 +46,31 @@ bool gtRigidBodyImpl::init(){
 	return true;
 }
 
+const v4f& gtRigidBodyImpl::getPosition(){
+	return m_position;
+}
+
+const gtQuaternion& gtRigidBodyImpl::getRotation(){
+	return m_rotation;
+}
+
+void gtRigidBodyImpl::update(){
+	if( m_body ){
+		m_body->getMotionState()->getWorldTransform( m_transformation );
+		
+		auto & origin = m_transformation.getOrigin();
+
+		m_position.set( origin.x(), origin.y(), origin.z() );
+		
+		auto rotation = m_transformation.getRotation();
+
+		m_rotation.set( rotation.getX(), rotation.getY(), rotation.getZ(), rotation.getW() );
+	}
+}
+
+btRigidBody* gtRigidBodyImpl::getBulletRigidBody(){
+	return m_body;
+}
 
 /*
 Copyright (c) 2018 532235

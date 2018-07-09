@@ -19,8 +19,10 @@ namespace gost{
 	class gtRigidBody : public gtRefObject {
 	public:
 		
-		virtual const gtRigidBodyInfo& getInfo() = 0;
-
+		virtual const gtRigidBodyInfo& getInfo()     = 0;
+		virtual const v4f&             getPosition() = 0;
+		virtual const gtQuaternion&    getRotation() = 0;
+		virtual void                   update() = 0;
 	};
 
 }

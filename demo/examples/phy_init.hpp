@@ -16,6 +16,8 @@ class DemoExample_phy_init : public demo::DemoExample{
 	gtVector2<s16>			m_oldCoord;
 
 	gtPtr<gtPhysicsSystem>  m_ps;
+	gtPtr<gtCollisionShape> m_boxShape;
+	gtPtr<gtRigidBody>      m_rigidBody;
 
 public:
 
@@ -68,7 +70,25 @@ bool DemoExample_phy_init::Init(){
 		}
 	}
 
+	m_boxShape  = m_ps->createCollisionShapeBox( v3f( 10.f, 1.f, 10.f ) );
+	if( !m_boxShape )
+		return false;
+
+	gtRigidBodyInfo info;
+	info.m_mass     = 0.f;
+	info.m_position = v3f();
+	info.m_shape    = m_boxShape.data();
+
+	m_rigidBody = m_ps->createRigidBody( info );
+
+	if( !m_rigidBody )
+		return false;
+
 	m_cameraFPS = m_sceneSystem->addCamera( v3f( 0.08f, 1.76f, 2.9f ) );
+
+	if( !m_cameraFPS )
+		return false;
+
 	m_cameraFPS->setCameraType( gtCameraType::FPS );
 	m_cameraFPS->setName( "FPS" );
 	m_cameraFPS->setRotation( v3f( math::degToRad( -30.f ), 0.f, 0.f ) );
@@ -77,6 +97,7 @@ bool DemoExample_phy_init::Init(){
 }
 
 void DemoExample_phy_init::Restart(){}
+
 void DemoExample_phy_init::Shutdown(){
 	m_sceneSystem->clearScene();
 
@@ -158,13 +179,29 @@ void DemoExample_phy_init::Input( f32 d ){
 
 void DemoExample_phy_init::Render(){
 	m_demoApp->RenderDefaultScene();
+
+	auto c = m_rigidBody->getPosition();
+
+	auto nv = m_boxShape->getNumEdges();
+	for( auto i = 0u; i < nv; ++i ){
+		
+		v3f v1, v2;
+		
+		m_boxShape->getEdge( i, v1, v2 );
+
+		v1 += c;
+		v2 += c;
+
+		m_gs->drawLine( v1, v2 );
+		
+	}
 }
 
 void DemoExample_phy_init::Render2D(){
 }
 
 void DemoExample_phy_init::Update(){
-
+	m_ps->update( m_delta );
 }
 
 
