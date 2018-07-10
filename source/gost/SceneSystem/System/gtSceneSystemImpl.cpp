@@ -105,7 +105,7 @@ gtDummyObject*	gtSceneSystemImpl::addDummyObject( const v4f& position, const gtS
 gtStaticObject*	gtSceneSystemImpl::addStaticObject( gtRenderModel* model, const v4f& position, const gtStringA& name, s32 id ){
 	if( !model ) return nullptr;
 
-	gtPtr_t( gtStaticObjectImpl, object, new gtStaticObjectImpl( model ) );
+	gtPtr_t( gtStaticObjectImpl, object, new gtStaticObjectImpl( model, m_gs ) );
 
 	if( !object.data()){
         const char16_t * msg = u"Can not create static object. Name [%s], id[%i]";

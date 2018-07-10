@@ -97,7 +97,7 @@ gtMaterial*	gtRenderModelD3D11::getMaterial( u32 id ){
 }
 
 void		gtRenderModelD3D11::render(){
-	this->m_gs->drawModel( this );
+	this->m_gs->drawModel( this, nullptr );
 }
 
 gtAabb* gtRenderModelD3D11::getAabb(){

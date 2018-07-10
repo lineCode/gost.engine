@@ -17,7 +17,11 @@ class DemoExample_phy_init : public demo::DemoExample{
 
 	gtPtr<gtPhysicsSystem>  m_ps;
 	gtPtr<gtCollisionShape> m_boxShape;
-	gtPtr<gtRigidBody>      m_rigidBody;
+	gtPtr<gtRigidBody>      m_boxRigidBody;
+	gtPtr<gtCollisionShape> m_objectShape;
+	gtPtr<gtRigidBody>      m_objectRigidBody;
+	gtStaticObject*         m_gameObject;
+	gtPtr<gtRenderModel>    m_cubeModel;
 
 public:
 
@@ -70,18 +74,28 @@ bool DemoExample_phy_init::Init(){
 		}
 	}
 
-	m_boxShape  = m_ps->createCollisionShapeBox( v3f( 10.f, 1.f, 10.f ) );
+	m_boxShape    = m_ps->createCollisionShapeBox( v3f( 10.f, 1.f, 10.f ) );
 	if( !m_boxShape )
 		return false;
 
+	m_objectShape = m_ps->createCollisionShapeBox( v3f( .25f, .25f, .25f ) );
+	if( !m_objectShape )
+		return false;
+
 	gtRigidBodyInfo info;
-	info.m_mass     = 0.f;
-	info.m_position = v3f();
+	
+	info.m_mass     = 0.f;    //static
+	info.m_position = v3f(0.f,0.f,0.f);
 	info.m_shape    = m_boxShape.data();
+	m_boxRigidBody = m_ps->createRigidBody( info );
+	if( !m_boxRigidBody )
+		return false;
 
-	m_rigidBody = m_ps->createRigidBody( info );
-
-	if( !m_rigidBody )
+	info.m_mass     = 3.f;    //dynamic
+	info.m_position = v3f(0.f, 10.f, 0.f);
+	info.m_shape    = m_objectShape.data();
+	m_objectRigidBody = m_ps->createRigidBody( info );
+	if( !m_objectRigidBody )
 		return false;
 
 	m_cameraFPS = m_sceneSystem->addCamera( v3f( 0.08f, 1.76f, 2.9f ) );
@@ -89,6 +103,13 @@ bool DemoExample_phy_init::Init(){
 	if( !m_cameraFPS )
 		return false;
 
+	m_ps->setGravity( v3f( 0.f, -2.f, 0.f ) );
+
+	auto cube   = m_mainSystem->getModelSystem()->createCube( 0.25f );
+	m_cubeModel = m_gs->createModel( cube.data() );
+	m_gameObject = m_sceneSystem->addStaticObject( m_cubeModel.data(), info.m_position );
+	m_gameObject->getMaterial( 0u ).flags = 0u; //disable 
+	
 	m_cameraFPS->setCameraType( gtCameraType::FPS );
 	m_cameraFPS->setName( "FPS" );
 	m_cameraFPS->setRotation( v3f( math::degToRad( -30.f ), 0.f, 0.f ) );
@@ -177,24 +198,37 @@ void DemoExample_phy_init::Input( f32 d ){
 	m_oldCoord = coords;
 }
 
+	GT_FORCE_INLINE void drawRigidBody( gtRigidBody * rb, gtGraphicsSystem * gs, const gtColor& color = gtColor(1.f) ){
+		auto shape = rb->getInfo().m_shape;
+		auto p     = rb->getPosition();
+		auto ne    = shape->getNumEdges();
+		auto q     = rb->getRotation();
+		gtMatrix4 M;
+
+		math::makeRotationMatrix( M, -q );
+		for( auto i = 0u; i < ne; ++i ){
+		
+			v3f v1, v2;
+		
+			shape->getEdge( i, v1, v2 );
+
+
+			v1 = math::mul( v1, M );
+			v2 = math::mul( v2, M );
+
+			v1 += p;
+			v2 += p;
+
+			gs->drawLine( v1, v2, color );
+		
+		}
+	}
+
 void DemoExample_phy_init::Render(){
 	m_demoApp->RenderDefaultScene();
 
-	auto c = m_rigidBody->getPosition();
-
-	auto nv = m_boxShape->getNumEdges();
-	for( auto i = 0u; i < nv; ++i ){
-		
-		v3f v1, v2;
-		
-		m_boxShape->getEdge( i, v1, v2 );
-
-		v1 += c;
-		v2 += c;
-
-		m_gs->drawLine( v1, v2 );
-		
-	}
+	drawRigidBody( m_boxRigidBody.data(), m_gs );
+	drawRigidBody( m_objectRigidBody.data(), m_gs, gtColorRed );
 }
 
 void DemoExample_phy_init::Render2D(){
@@ -202,6 +236,10 @@ void DemoExample_phy_init::Render2D(){
 
 void DemoExample_phy_init::Update(){
 	m_ps->update( m_delta );
+
+	m_gameObject->setPosition( m_objectRigidBody->getPosition() );
+	auto o = m_objectRigidBody->getRotation();
+	m_gameObject->setOrientation( -o );
 }
 
 

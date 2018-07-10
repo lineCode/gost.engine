@@ -6,18 +6,23 @@ namespace gost{
 
 	class gtStaticObjectImpl : public gtStaticObject{
 		
-		gtObjectType	m_type;
-		gtRenderModel*	m_model;
-		gtAabb			m_aabb;
-		gtObb			m_obb;
+		gtObjectType	    m_type;
+		gtRenderModel*	    m_model;
+		gtGraphicsSystem*   m_gs;
+		gtAabb			    m_aabb;
+		gtObb			    m_obb;
+		gtArray<gtMaterial> m_materials;
+
 
 	public:
 
-		gtStaticObjectImpl( gtRenderModel* model );
+		gtStaticObjectImpl( gtRenderModel* model, gtGraphicsSystem* GS );
 		~gtStaticObjectImpl();
 
 
 		gtAabb*				getAabb();
+		gtMaterial&         getMaterial( u32 i );
+		u32                 getMaterialCount();
 		gtRenderModel*		getModel();
 		gtObb*				getObb();
 		gtObjectType		getType();

@@ -1,11 +1,17 @@
 #include "common.h"
 
-gtStaticObjectImpl::gtStaticObjectImpl( gtRenderModel* model ):
+gtStaticObjectImpl::gtStaticObjectImpl( gtRenderModel* model, gtGraphicsSystem* GS ):
 	m_type( gtObjectType::Static ),
-	m_model( model )
+	m_model( model ),
+	m_gs( GS )
 {
 	m_aabb = *m_model->getAabb();
 	m_obb = *m_model->getObb();
+
+	auto smc = m_model->getSubModelCount();
+	for( auto i = 0; i < smc; ++i ){
+		m_materials.push_back( *(m_model->getMaterial( (u32)i )) );
+	}
 }
 
 gtStaticObjectImpl::~gtStaticObjectImpl()     {}
@@ -14,7 +20,10 @@ gtRenderModel* gtStaticObjectImpl::getModel() { return m_model; }
 gtAabb* gtStaticObjectImpl::getAabb()         { return &m_aabb; }
 gtObb* gtStaticObjectImpl::getObb()           { return &m_obb; }
 
-void				gtStaticObjectImpl::update(){
+gtMaterial& gtStaticObjectImpl::getMaterial( u32 i ){ return m_materials[ i ]; }
+u32 gtStaticObjectImpl::getMaterialCount(){ return m_materials.size(); }
+
+void gtStaticObjectImpl::update(){
 
 	gtMatrix4 translationMatrix;
 	math::makeTranslationMatrix( m_position, translationMatrix );
@@ -46,9 +55,8 @@ void				gtStaticObjectImpl::update(){
 	
 }
 
-void				gtStaticObjectImpl::render(){
-	GT_ASSERT1( m_model, "m_model is not valid", "m_model != nullptr" );
-	m_model->render();
+void gtStaticObjectImpl::render(){
+	m_gs->drawModel( m_model, &m_materials );
 }
 
 /*

@@ -634,16 +634,14 @@ void gtDriverD3D11::_draw2DImage( const v4f& rect, const v8f& region, const gtMa
 }
 
 
-void gtDriverD3D11::drawModel( gtRenderModel* model ){
+void gtDriverD3D11::drawModel( gtRenderModel* model, gtArray<gtMaterial>* materials ){
 	//auto * soft = model->getModel();
 
-	gtRenderModelD3D11 * rm = (gtRenderModelD3D11*)model;
-
-	u32 smc = rm->m_subs.size();
-	
-	u32 stride = rm->m_stride;
-
 	gtRenderModelD3D11* d3dm = (gtRenderModelD3D11*)model;
+
+	u32 smc = d3dm->m_subs.size();
+	u32 stride = d3dm->m_stride;
+
 
 	u32 offset = gtConst0U;
 
@@ -651,7 +649,14 @@ void gtDriverD3D11::drawModel( gtRenderModel* model ){
 
 		//auto * sub = soft->getSubModel( i );
 		
-		gtMaterial * material = rm->getMaterial( i );
+//		gtMaterial * material = d3dm->getMaterial( i );
+		gtMaterial * material = nullptr;
+
+		if( materials ){
+			material = &materials->at( i );
+		}else{
+			material = d3dm->getMaterial( i );
+		}
 		
 		gtShader * shader = material->shader;
 		if( !shader ){
@@ -705,7 +710,7 @@ void gtDriverD3D11::drawModel( gtRenderModel* model ){
 			else
 				m_d3d11DevCon->RSSetState( m_RasterizerSolid );
 		}
-		m_d3d11DevCon->DrawIndexed( rm->m_subs[ i ].iCount, 0, 0 );
+		m_d3d11DevCon->DrawIndexed( d3dm->m_subs[ i ].iCount, 0, 0 );
 	}
 }
 

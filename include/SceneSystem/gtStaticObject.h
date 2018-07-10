@@ -9,8 +9,9 @@ namespace gost{
 		class gtStaticObject : public gtGameObject{
 	public:
 
-		virtual gtRenderModel*	getModel() = 0;
-				
+		virtual gtMaterial&         getMaterial( u32 i ) = 0;
+		virtual u32                 getMaterialCount() = 0;
+		virtual gtRenderModel*	    getModel() = 0;
 
 		virtual gtAabb*				getAabb() = 0;
 		virtual gtObb*				getObb() = 0;

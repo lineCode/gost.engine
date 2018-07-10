@@ -121,7 +121,7 @@ namespace gost{
 		void draw2DImage( const v4i& rect, const v4i& region, const gtMaterial& );
 		void draw2DImage( const v4i& rect, gtTexture* texture );
 		void draw2DImage( const v4i& rect, const v4i& region, gtTexture* texture );
-		void drawModel( gtRenderModel* );
+		void drawModel( gtRenderModel*, gtArray<gtMaterial>* materials );
 		void drawLine( const v4f& start, const v4f& end, const gtColor& color );
 		
 

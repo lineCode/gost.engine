@@ -13,7 +13,7 @@ gtCollisionShapeImpl::~gtCollisionShapeImpl(){
 }
 
 bool gtCollisionShapeImpl::initBox( const v3f& size ){
-	m_shape = new btBoxShape(btVector3(size.x*0.5f, size.y*0.5f, size.z*0.5f));
+	m_shape = new btBoxShape(btVector3(size.x, size.y, size.z));
 	if( !m_shape )
 		return false;
 

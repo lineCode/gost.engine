@@ -13,7 +13,7 @@ namespace gost{
 			// \return material
 		virtual gtMaterial*	getMaterial( u32 id ) = 0;
 
-		virtual void		render() = 0;
+		virtual void render() = 0;
 
 		virtual gtAabb*				getAabb() = 0;
 		virtual gtObb*				getObb() = 0;

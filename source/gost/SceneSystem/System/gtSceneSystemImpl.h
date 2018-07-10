@@ -6,10 +6,10 @@ namespace gost{
 
 	class gtSceneSystemImpl : public gtSceneSystem{
 
-		gtMainSystem *	   m_mainSystem;
-		gtGraphicsSystem * m_gs;
-		gtGameObject *     m_rootNode;
-		gtCamera *         m_activeCamera;
+		gtMainSystem *	    m_mainSystem;
+		gtGraphicsSystem *  m_gs;
+		gtGameObject *      m_rootNode;
+		gtCamera *          m_activeCamera;
 
 		void drawObject( gtGameObject * object );
 		void sortTransparent(  gtArray<gtGameObject*>&, gtArray<gtGameObject*>&, gtArray<gtGameObject*>& );
@@ -18,8 +18,8 @@ namespace gost{
 
 	public:
 
-		gtSceneSystemImpl();
-		virtual ~gtSceneSystemImpl();
+		                gtSceneSystemImpl();
+		virtual         ~gtSceneSystemImpl();
 
 		gtDummyObject*	addDummyObject( const v4f& position = v4f(), const gtStringA& name = gtStringA(), s32 id = gtConst_1 );
 		gtStaticObject*	addStaticObject( gtRenderModel* model, const v4f& position = v4f(), const gtStringA& name = gtStringA(), s32 id = gtConst_1 );

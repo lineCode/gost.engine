@@ -85,7 +85,7 @@ namespace gost{
 			const gtColor& color2 = gtColor( gtColorWhite ),
 			const gtColor& color3 = gtColor( gtColorWhite )) = 0;
 
-		virtual void drawModel( gtRenderModel* model ) = 0;
+		virtual void drawModel( gtRenderModel* model, gtArray<gtMaterial>* materials = nullptr ) = 0;
 		virtual void beginRender( bool clearRenderTarget = true, const gtColor& color = gtColor( gtColorBlack ) ) = 0;
 		virtual void endRender() = 0;
 

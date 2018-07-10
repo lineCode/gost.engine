@@ -1481,16 +1481,16 @@ bool demo::DemoApplication::InitDefaultScene(){
 	m4->setScale( sc );
 	m5->setScale( sc );
 
-	m1->getModel()->getMaterial( gtConst0U )->textureLayer[ gtConst0U ].texture = m_gs->getTexture( u"../demo/media/scene/1.png" );//load
-	m2->getModel()->getMaterial( gtConst0U )->textureLayer[ gtConst0U ].texture = m_gs->getTexture( u"../demo/media/scene/1.png" );//get 
-	m3->getModel()->getMaterial( gtConst0U )->textureLayer[ gtConst0U ].texture = m_gs->getTexture( u"../demo/media/scene/1.png" );//get 
-	m4->getModel()->getMaterial( gtConst0U )->textureLayer[ gtConst0U ].texture = m_gs->getTexture( u"../demo/media/scene/1.png" );//get 
-	m5->getModel()->getMaterial( gtConst0U )->textureLayer[ gtConst0U ].texture = m_gs->getTexture( u"../demo/media/scene/1.png" );//get 
+	m1->getMaterial( gtConst0U ).textureLayer[ gtConst0U ].texture = m_gs->getTexture( u"../demo/media/scene/1.png" );//load
+	m2->getMaterial( gtConst0U ).textureLayer[ gtConst0U ].texture = m_gs->getTexture( u"../demo/media/scene/1.png" );//get 
+	m3->getMaterial( gtConst0U ).textureLayer[ gtConst0U ].texture = m_gs->getTexture( u"../demo/media/scene/1.png" );//get 
+	m4->getMaterial( gtConst0U ).textureLayer[ gtConst0U ].texture = m_gs->getTexture( u"../demo/media/scene/1.png" );//get 
+	m5->getMaterial( gtConst0U ).textureLayer[ gtConst0U ].texture = m_gs->getTexture( u"../demo/media/scene/1.png" );//get 
 
-	m1->getModel()->getMaterial( gtConst0U )->flags = (u32)gtMaterialFlag::UseLight;
-	//m1->getModel()->getMaterial( gtConst0U )->flags |= (u32)gtMaterialFlag::AlphaDiscard;
-	m1->getModel()->getMaterial( gtConst0U )->flags |= (u32)gtMaterialFlag::AlphaBlend;
-	m1->getModel()->getMaterial( gtConst0U )->transparent = 1.f;
+	m1->getMaterial( gtConst0U ).flags = (u32)gtMaterialFlag::UseLight;
+	//m1->getMaterial( gtConst0U ).flags |= (u32)gtMaterialFlag::AlphaDiscard;
+	m1->getMaterial( gtConst0U ).flags |= (u32)gtMaterialFlag::AlphaBlend;
+	m1->getMaterial( gtConst0U ).transparent = 1.f;
 
 	m_sceneInitialized = true;
 	return true;

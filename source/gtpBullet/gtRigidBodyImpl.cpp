@@ -63,7 +63,7 @@ void gtRigidBodyImpl::update(){
 		m_position.set( origin.x(), origin.y(), origin.z() );
 		
 		auto rotation = m_transformation.getRotation();
-
+		
 		m_rotation.set( rotation.getX(), rotation.getY(), rotation.getZ(), rotation.getW() );
 	}
 }
