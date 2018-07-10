@@ -1,7 +1,9 @@
 # GoST
 2D/3D Game Engine based on plugins for C++11
 
-(https://www.youtube.com/watch?v=VYMdwpfL27g)
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=VYMdwpfL27g
+" target="_blank"><img src="http://img.youtube.com/vi/VYMdwpfL27g/0.jpg" 
+alt="gost demo - basic physics" width="240" height="180" border="10" /></a>
 
 ## Features
 * D3D11 render plugin
