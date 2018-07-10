@@ -37,7 +37,7 @@ namespace demo{
 		void processEventSystem( const gtEvent& ev );
 		void processEventWindow( const gtEvent& ev );
 
-		bool keyDown( gtKey key );
+		bool keyDownOnce( gtKey key );
 
 	};
 

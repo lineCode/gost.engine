@@ -1,6 +1,10 @@
 #ifndef DEMO_EXAMPLE_PHY_INIT_H__
 #define DEMO_EXAMPLE_PHY_INIT_H__
 
+static const u32 CUB_NUM_X = 10u;
+static const u32 CUB_NUM_Y = 10u;
+static const u32 CUB_NUM_Z = 10u;
+
 class demo::DemoApplication;
 class DemoExample_phy_init : public demo::DemoExample{
 	gtMainSystem *			m_mainSystem;
@@ -19,10 +23,10 @@ class DemoExample_phy_init : public demo::DemoExample{
 	gtPtr<gtCollisionShape> m_groundShape;
 	gtPtr<gtRigidBody>      m_groundRigidBody;
 	gtPtr<gtCollisionShape> m_boxShape;
-	gtPtr<gtRigidBody>      m_boxRigidBody[5][5][5];
+	gtPtr<gtRigidBody>      m_boxRigidBody[CUB_NUM_X][CUB_NUM_Y][CUB_NUM_Z];
 	gtPtr<gtRenderModel>    m_cubeModel;
 
-	gtStaticObject*         m_cubeObjects[5][5][5];
+	gtStaticObject*         m_cubeObjects[CUB_NUM_X][CUB_NUM_Y][CUB_NUM_Z];
 
 public:
 
@@ -107,9 +111,9 @@ bool DemoExample_phy_init::Init(){
 	info.m_shape    = m_boxShape.data();
 
 
-	for( s32 i = 0; i < 5; ++i ){
-		for( s32 o = 0; o < 5; ++o ){
-			for( s32 k = 0; k < 5; ++k ){
+	for( s32 i = 0; i < CUB_NUM_X; ++i ){
+		for( s32 o = 0; o < CUB_NUM_Y; ++o ){
+			for( s32 k = 0; k < CUB_NUM_Z; ++k ){
 
 				info.m_position.set( 0.2f * o, Y_pos+0.2f*i, 0.2f * k );
 
@@ -129,9 +133,9 @@ bool DemoExample_phy_init::Init(){
 
 	auto defaultTexture = m_gs->getDefaultTexture();
 
-	for( s32 i = 0; i < 5; ++i ){
-		for( s32 o = 0; o < 5; ++o ){
-			for( s32 k = 0; k < 5; ++k ){
+	for( s32 i = 0; i < CUB_NUM_X; ++i ){
+		for( s32 o = 0; o < CUB_NUM_Y; ++o ){
+			for( s32 k = 0; k < CUB_NUM_Z; ++k ){
 				m_cubeObjects[ i ][ o ][ k ] = m_sceneSystem->addStaticObject( m_cubeModel.data(), info.m_position );
 				m_cubeObjects[ i ][ o ][ k ]->getMaterial( 0u ).flags = 0u; //disable shading
 				m_cubeObjects[ i ][ o ][ k ]->getMaterial( 0u ).textureLayer[ 0 ].texture = defaultTexture;
@@ -197,20 +201,24 @@ void DemoExample_phy_init::Input( f32 d ){
 		m_cameraFPS->setPosition( m_cameraFPS->getPosition() - v3f( 0.f, 10.f * m_delta, 0.f ) );
 	}
 
-	if( m_eventConsumer->keyDown( gtKey::K_ESCAPE )
+	if( m_eventConsumer->keyDownOnce( gtKey::K_ESCAPE )
 		|| m_demoApp->inputGamepadMainMenuStart() ){
 		m_demoApp->Pause();
 	}
 
-	if( m_eventConsumer->keyDown( gtKey::K_1 ) ){
-		for( s32 i = 0; i < 5; ++i ){
-			for( s32 o = 0; o < 5; ++o ){
-				for( s32 k = 0; k < 5; ++k ){
+	if( m_eventConsumer->keyDownOnce( gtKey::K_1 ) ){
+		for( s32 i = 0; i < CUB_NUM_X; ++i ){
+			for( s32 o = 0; o < CUB_NUM_Y; ++o ){
+				for( s32 k = 0; k < CUB_NUM_Z; ++k ){
 					m_boxRigidBody[ i ][ o ][ k ]->setPosition(v3f(0.2f * o, 10.f+0.2f*i, 0.2f * k));
 					m_boxRigidBody[ i ][ o ][ k ]->setRotation( gtQuaternion() );
 				}
 			}
 		}
+	}
+
+	if( m_input->isKeyDown( gtKey::K_2 ) ){
+		m_delta *= 0.1f;
 	}
 
 	auto coords = m_input->getCursorPosition();
@@ -278,9 +286,9 @@ void DemoExample_phy_init::Render2D(){
 void DemoExample_phy_init::Update(){
 	m_ps->update( m_delta );
 
-	for( s32 i = 0; i < 5; ++i ){
-		for( s32 o = 0; o < 5; ++o ){
-			for( s32 k = 0; k < 5; ++k ){
+	for( s32 i = 0; i < CUB_NUM_X; ++i ){
+		for( s32 o = 0; o < CUB_NUM_Y; ++o ){
+			for( s32 k = 0; k < CUB_NUM_Z; ++k ){
 				m_cubeObjects[ i ][ o ][ k ]->setPosition( m_boxRigidBody[ i ][ o ][ k ]->getPosition() );
 				auto q = m_boxRigidBody[ i ][ o ][ k ]->getRotation();
 				m_cubeObjects[ i ][ o ][ k ]->setOrientation( -q );

@@ -141,12 +141,12 @@ void DemoExample_Camera::Input( f32 d ){
 		m_cameraActive->setPosition( m_cameraActive->getPosition() - v3f( 0.f, 10.f * m_delta, 0.f ) );
 	}
 
-	if( m_eventConsumer->keyDown( gtKey::K_ESCAPE )
+	if( m_eventConsumer->keyDownOnce( gtKey::K_ESCAPE )
 		|| m_demoApp->inputGamepadMainMenuStart() ){
 		m_demoApp->Pause();
 	}
 
-	if( m_eventConsumer->keyDown( gtKey::K_1 )
+	if( m_eventConsumer->keyDownOnce( gtKey::K_1 )
 		|| m_demoApp->inputGamepadMainMenuEscape() ){
 		if( ++m_activeCameraType > 3 )
 			m_activeCameraType = 0;

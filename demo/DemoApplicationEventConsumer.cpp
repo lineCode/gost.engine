@@ -177,7 +177,7 @@ void demo::DemoApplicationEventConsumer::processEventWindow( const gtEvent& ev )
 	}
 }
 
-bool demo::DemoApplicationEventConsumer::keyDown( gtKey key ){
+bool demo::DemoApplicationEventConsumer::keyDownOnce( gtKey key ){
 	bool v = m_keys[ (u32)key ];
 	m_keys[ (u32)key ] = false;
 	return v;

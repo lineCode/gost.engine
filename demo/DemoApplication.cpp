@@ -1127,7 +1127,7 @@ void demo::DemoApplication::updateColons(){
 }
 
 void demo::DemoApplication::inputMainMenuPause(){
-	if( m_eventConsumer->keyDown( gtKey::K_ESCAPE ) || inputGamepadMainMenuStart() || inputGamepadMainMenuEscape() ){
+	if( m_eventConsumer->keyDownOnce( gtKey::K_ESCAPE ) || inputGamepadMainMenuStart() || inputGamepadMainMenuEscape() ){
 		playAudio(DemoAudioType::Cancel);
 		if( m_isSettings ){
 			m_settingsBackgroundShape->setTransparent( 1.f );
@@ -1146,7 +1146,7 @@ void demo::DemoApplication::inputMainMenuPause(){
 		}
 	}
 
-	if( m_eventConsumer->keyDown( gtKey::K_UP ) || inputGamepadMainMenuUp() ){
+	if( m_eventConsumer->keyDownOnce( gtKey::K_UP ) || inputGamepadMainMenuUp() ){
 		playAudio(DemoAudioType::Select);
 		if( m_isSettings ){
 			--m_settingsTypeID;
@@ -1157,7 +1157,7 @@ void demo::DemoApplication::inputMainMenuPause(){
 		}
 	}
 
-	if( m_eventConsumer->keyDown( gtKey::K_DOWN ) || inputGamepadMainMenuDown() ){
+	if( m_eventConsumer->keyDownOnce( gtKey::K_DOWN ) || inputGamepadMainMenuDown() ){
 		playAudio(DemoAudioType::Select);
 		if( m_isSettings ){
 			++m_settingsTypeID;
@@ -1168,7 +1168,7 @@ void demo::DemoApplication::inputMainMenuPause(){
 		}
 	}
 
-	if( m_eventConsumer->keyDown( gtKey::K_LEFT ) || inputGamepadMainMenuLeft() ){
+	if( m_eventConsumer->keyDownOnce( gtKey::K_LEFT ) || inputGamepadMainMenuLeft() ){
 		playAudio(DemoAudioType::Select);
 		if( m_isSettings ){
 			if( m_settingsTypeID == 0 ){//lang
@@ -1192,7 +1192,7 @@ void demo::DemoApplication::inputMainMenuPause(){
 		}
 	}
 
-	if( m_eventConsumer->keyDown( gtKey::K_RIGHT ) || inputGamepadMainMenuRight() ){
+	if( m_eventConsumer->keyDownOnce( gtKey::K_RIGHT ) || inputGamepadMainMenuRight() ){
 		playAudio(DemoAudioType::Select);
 		if( m_isSettings ){
 			if( m_settingsTypeID == 0 ){//lang
@@ -1216,7 +1216,7 @@ void demo::DemoApplication::inputMainMenuPause(){
 		}
 	}
 
-	if( m_eventConsumer->keyDown( gtKey::K_ENTER ) || inputGamepadMainMenuEnter() ){
+	if( m_eventConsumer->keyDownOnce( gtKey::K_ENTER ) || inputGamepadMainMenuEnter() ){
 		playAudio(DemoAudioType::Accept);
 		if( m_pauseMainMenuSelectedId == 0 ){
 			ReturnToMainMenu();
@@ -1266,7 +1266,7 @@ void demo::DemoApplication::TerminateProgram(){
 }
 
 void demo::DemoApplication::inputMainMenu(){
-	if( m_eventConsumer->keyDown( gtKey::K_ESCAPE ) ){
+	if( m_eventConsumer->keyDownOnce( gtKey::K_ESCAPE ) ){
 		if( !m_activeDemoType ){
 			m_isPause = true;
 			ShowMenu();
@@ -1292,7 +1292,7 @@ void demo::DemoApplication::inputMainMenu(){
 		}
 	}
 
-	if( m_eventConsumer->keyDown( gtKey::K_ENTER ) || inputGamepadMainMenuEnter() ){
+	if( m_eventConsumer->keyDownOnce( gtKey::K_ENTER ) || inputGamepadMainMenuEnter() ){
 		if( !m_activeDemoType ){
 			++m_activeDemoType;
 			updateColons();
@@ -1312,7 +1312,7 @@ void demo::DemoApplication::inputMainMenu(){
 		}
 	}
 
-	if( m_eventConsumer->keyDown( gtKey::K_UP ) || inputGamepadMainMenuUp() ){
+	if( m_eventConsumer->keyDownOnce( gtKey::K_UP ) || inputGamepadMainMenuUp() ){
 		if( !m_activeDemoType ){
 			--m_activeDemoTypeSelected;
 			if( m_activeDemoTypeSelected == -1 )
@@ -1328,7 +1328,7 @@ void demo::DemoApplication::inputMainMenu(){
 		playAudio(DemoAudioType::Select);
 	}
 
-	if( m_eventConsumer->keyDown( gtKey::K_DOWN ) || inputGamepadMainMenuDown() ){
+	if( m_eventConsumer->keyDownOnce( gtKey::K_DOWN ) || inputGamepadMainMenuDown() ){
 		if( !m_activeDemoType ){
 			++m_activeDemoTypeSelected;
 			if( m_activeDemoTypeSelected > 12 )
@@ -1344,14 +1344,14 @@ void demo::DemoApplication::inputMainMenu(){
 		updateColons();
 	}
 
-	if( m_eventConsumer->keyDown( gtKey::K_LEFT ) || inputGamepadMainMenuLeft() ){
+	if( m_eventConsumer->keyDownOnce( gtKey::K_LEFT ) || inputGamepadMainMenuLeft() ){
 		playAudio(DemoAudioType::Select);
 		if( m_activeDemoType ){
 			--m_activeDemoType;
 			updateColons();
 		}
 	}
-	if( m_eventConsumer->keyDown( gtKey::K_RIGHT ) || inputGamepadMainMenuRight() ){
+	if( m_eventConsumer->keyDownOnce( gtKey::K_RIGHT ) || inputGamepadMainMenuRight() ){
 		if( !m_activeDemoType ){
 			++m_activeDemoType;
 			playAudio(DemoAudioType::Select);
@@ -1751,25 +1751,25 @@ void demo::DemoApplication::StopDemo(){
 
 void demo::DemoApplication::inputDemoMenuPause(){
 
-	if( m_eventConsumer->keyDown( gtKey::K_ESCAPE ) || inputGamepadMainMenuStart() || inputGamepadMainMenuEscape() ){
+	if( m_eventConsumer->keyDownOnce( gtKey::K_ESCAPE ) || inputGamepadMainMenuStart() || inputGamepadMainMenuEscape() ){
 		playAudio(DemoAudioType::Cancel);
 		m_isPause = false;
 		HideMenu();
 	}
 
-	if( m_eventConsumer->keyDown( gtKey::K_UP ) || inputGamepadMainMenuUp() ){
+	if( m_eventConsumer->keyDownOnce( gtKey::K_UP ) || inputGamepadMainMenuUp() ){
 		playAudio(DemoAudioType::Select);
 		--m_demoPauseMenuID;
 		updateDemoPause();
 	}
 
-	if( m_eventConsumer->keyDown( gtKey::K_DOWN ) || inputGamepadMainMenuDown() ){
+	if( m_eventConsumer->keyDownOnce( gtKey::K_DOWN ) || inputGamepadMainMenuDown() ){
 		playAudio(DemoAudioType::Select);
 		++m_demoPauseMenuID;
 		updateDemoPause();
 	}
 
-	if( m_eventConsumer->keyDown( gtKey::K_ENTER ) || inputGamepadMainMenuEnter() ){
+	if( m_eventConsumer->keyDownOnce( gtKey::K_ENTER ) || inputGamepadMainMenuEnter() ){
 		playAudio(DemoAudioType::Accept);
 
 		if( m_demoPauseMenuID == 0 ){

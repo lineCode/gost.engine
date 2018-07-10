@@ -22,7 +22,7 @@ namespace gost{
 
 		void reallocate( u32 new_capacity ){
 			new_capacity += m_addMemory;
-			pointer new_data = m_allocator.allocate( new_capacity * sizeof( type ) );
+			pointer new_data = m_allocator.allocate( new_capacity /** sizeof( type )*/ );
 
 			if( m_data ){
 				for( u32 i = gtConst0U; i < m_size; ++i ){
