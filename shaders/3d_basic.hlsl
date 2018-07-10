@@ -15,6 +15,7 @@ cbuffer cbMaterial{
 	float4 sunSpecular;
 	float4 eyePosition;
 	float4 sunPosition;
+	float4 textureDiffuse;
 	
 	float  shininess;
 	float  transparent;
@@ -57,6 +58,8 @@ PixelInputType VSMain( VertexInputType input ){
 
 float4 PSMain( PixelInputType input ) : SV_TARGET{
 	float4 diffuseColor = tex2d_1.Sample(tex2D_sampler_1, input.uv);
+	diffuseColor *= textureDiffuse;
+
 	float4 ambientColor = sunAmbient * diffuseColor;
 	
 	float4 normal = normalize(float4(input.normal,1.0));

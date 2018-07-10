@@ -1035,7 +1035,7 @@ bool	gtDriverD3D11::createShaders(){
 		u"../shaders/line.hlsl", "PSMain", shaderModel, vertexType2D );
 
 	if( m_shader3DStandart ) if( !m_shader3DStandart->createShaderObject( (16u * 5u * sizeof(f32))) ) return false;
-	if( m_shader3DStandart ) if( !m_shader3DStandart->createShaderObject( (sizeof(v4f)*5)+sizeof(s32)*8u ) ) return false;
+	if( m_shader3DStandart ) if( !m_shader3DStandart->createShaderObject( (sizeof(v4f)*6)+sizeof(s32)*8u ) ) return false;
 	if( m_shaderSprite ) if( !m_shaderSprite->createShaderObject( 24u * sizeof(f32) ) ) return false;
 	if( m_shaderLine ) if( !m_shaderLine->createShaderObject( 28u * sizeof(f32) ) ) return false;
 	if( m_shaderGUI ) if( !m_shaderGUI->createShaderObject( gtConst8U * sizeof(f32) ) ) return false;
@@ -1060,7 +1060,6 @@ void CSMCallback(gtCamera* camera){
 }
 
 void gtDriverD3D11::initCSM(){
-
 	m_CSMLightCamera = gtMainSystem::getInstance()->getSceneSystem( nullptr )->addCamera();
 	m_CSMLightCamera->addRef(); //возможно нужно сделать это чтобы clearScene не удалил камеру
 	m_CSMLightCamera->setName( "CSMLightCamera" );
@@ -1075,6 +1074,10 @@ void gtDriverD3D11::initCSM(){
 }
 
 void gtDriverD3D11::renderEffects(){
+}
+
+gtTexture*		gtDriverD3D11::getDefaultTexture(){
+	return m_standartTextureWhiteColor.data();
 }
 
 /*

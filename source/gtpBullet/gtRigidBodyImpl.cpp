@@ -47,24 +47,15 @@ bool gtRigidBodyImpl::init(){
 	return true;
 }
 
-const v4f& gtRigidBodyImpl::getPosition(){
-	return m_position;
-}
-
-const gtQuaternion& gtRigidBodyImpl::getRotation(){
-	return m_rotation;
-}
+const v4f&          gtRigidBodyImpl::getPosition(){ return m_position; }
+const gtQuaternion& gtRigidBodyImpl::getRotation(){ return m_rotation; }
 
 void gtRigidBodyImpl::update(){
 	if( m_body ){
 		m_body->getMotionState()->getWorldTransform( m_transformation );
-		
 		auto & origin = m_transformation.getOrigin();
-
-		m_position.set( origin.x(), origin.y(), origin.z() );
-		
 		auto rotation = m_transformation.getRotation();
-		
+		m_position.set( origin.x(), origin.y(), origin.z() );
 		m_rotation.set( rotation.getX(), rotation.getY(), rotation.getZ(), rotation.getW() );
 	}
 }
@@ -75,27 +66,35 @@ btRigidBody* gtRigidBodyImpl::getBulletRigidBody(){
 
 void gtRigidBodyImpl::setPosition( const v4f& v ){
 	if( m_body ){
+		
+		m_body->activate( true );
+		m_body->clearForces();
+		
 		btTransform t;
 		m_body->getMotionState()->getWorldTransform(t);
 
 		t.setOrigin( btVector3( v.x, v.y, v.z ) );
 
+		m_body->setCenterOfMassTransform( t );
 		m_body->setWorldTransform( t );
 		m_body->getMotionState()->setWorldTransform( t );
-		m_body->activate( true );
+		
 	}
 }
 
 void gtRigidBodyImpl::setRotation( const gtQuaternion& q ){
 	if( m_body ){
+		m_body->activate( true );
+		
 		btTransform t;
 		m_body->getMotionState()->getWorldTransform(t);
 
 		t.setRotation( btQuaternion( q.x, q.y, q.z, q.w ) );
+	
+		m_body->clearForces();
 
 		m_body->setWorldTransform( t );
 		m_body->getMotionState()->setWorldTransform( t );
-		m_body->activate( true );
 	}
 }
 

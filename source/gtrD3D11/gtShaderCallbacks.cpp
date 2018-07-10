@@ -22,6 +22,7 @@ void gtD3D11StandartShaderCallback::onShader( const gtMaterial& material, gtShad
 		gtColor sunSpecular;
 		v4f eyePosition;
 		v4f sunPosition;
+		gtColor textureDiffuse;
 
 		f32 shininess;
 		f32 transparent;
@@ -42,11 +43,12 @@ void gtD3D11StandartShaderCallback::onShader( const gtMaterial& material, gtShad
 	cbMatrix.WI.invert();
 	cbMatrix.WI.transpose();
 
-	cbMaterial.sunAmbient  = material.ambientColor;
-	cbMaterial.sunSpecular = material.specularColor;
-	cbMaterial.sunDiffuse  = material.diffuseColor;
-	cbMaterial.shininess   = material.shininess;
-	cbMaterial.sunPosition = material.sunPosition;
+	cbMaterial.sunAmbient     = material.ambientColor;
+	cbMaterial.sunSpecular    = material.specularColor;
+	cbMaterial.sunDiffuse     = material.diffuseColor;
+	cbMaterial.shininess      = material.shininess;
+	cbMaterial.sunPosition    = material.sunPosition;
+	cbMaterial.textureDiffuse = material.textureLayer[ 0 ].diffuseColor;
 
 	cbMaterial.transparent = material.transparent;
 	cbMaterial.isLume      = (material.flags&(u32)gtMaterialFlag::UseLight)?1:0;

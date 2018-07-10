@@ -2,6 +2,8 @@
 #ifndef __GT_DEMO_CREATOR_H__
 #define __GT_DEMO_CREATOR_H__
 
+#include <random>
+
 #include <gost.h>
 using namespace gost;
 

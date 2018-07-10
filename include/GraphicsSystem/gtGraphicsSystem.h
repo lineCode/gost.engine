@@ -89,6 +89,12 @@ namespace gost{
 		virtual void beginRender( bool clearRenderTarget = true, const gtColor& color = gtColor( gtColorBlack ) ) = 0;
 		virtual void endRender() = 0;
 
+		// Return white texture
+		virtual gtTexture*		getDefaultTexture() = 0; 
+
+		virtual gtRenderModel*	getModel( const gtString& fileName, gtModel** software_model = nullptr ) = 0;
+		virtual const gtGraphicsSystemInfo&	getParams() = 0;
+
 		virtual gtShader *	getShader(
 			gtShaderCallback * callback,
 			const gtString& vertexShader,
@@ -99,10 +105,7 @@ namespace gost{
 			gtVertexType * vertexType
 			) = 0;
 
-		virtual const gtGraphicsSystemInfo&	getParams() = 0;
-
 		virtual gtTexture*		getTexture( const gtString& fileName, gtImage** outImage = nullptr ) = 0;
-		virtual gtRenderModel*	getModel( const gtString& fileName, gtModel** software_model = nullptr ) = 0;
 
 		virtual bool	removeModel( gtRenderModel* model ) = 0;
 		virtual bool	removeTexture( gtTexture* texture ) = 0;

@@ -124,6 +124,7 @@ namespace gost{
 		void drawModel( gtRenderModel*, gtArray<gtMaterial>* materials );
 		void drawLine( const v4f& start, const v4f& end, const gtColor& color );
 		
+		gtTexture*		getDefaultTexture(); 
 
 		gtShader *	getShader( 
 			gtShaderCallback * callback,

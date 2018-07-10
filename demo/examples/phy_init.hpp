@@ -19,9 +19,10 @@ class DemoExample_phy_init : public demo::DemoExample{
 	gtPtr<gtCollisionShape> m_groundShape;
 	gtPtr<gtRigidBody>      m_groundRigidBody;
 	gtPtr<gtCollisionShape> m_boxShape;
-	gtPtr<gtRigidBody>      m_boxRigidBody;
-	gtStaticObject*         m_gameObject;
+	gtPtr<gtRigidBody>      m_boxRigidBody[5][5][5];
 	gtPtr<gtRenderModel>    m_cubeModel;
+
+	gtStaticObject*         m_cubeObjects[5][5][5];
 
 public:
 
@@ -83,7 +84,9 @@ bool DemoExample_phy_init::Init(){
 	if( !m_groundShape )
 		return false;
 
-	m_boxShape = m_ps->createCollisionShapeBox( v3f( .25f, .25f, .25f ) );
+	const f32 cubeSize = 0.1f;
+
+	m_boxShape = m_ps->createCollisionShapeBox( v3f( cubeSize, cubeSize, cubeSize ) );
 	if( !m_boxShape )
 		return false;
 
@@ -96,26 +99,56 @@ bool DemoExample_phy_init::Init(){
 	if( !m_groundRigidBody )
 		return false;
 
-	info.m_mass     = 3.f;    //dynamic
-	info.m_position.set(0.f, 3.f, 1.f);
-	info.m_rotation.set( v3f(math::degToRad( 40.f ), math::degToRad( 35.f ), 0.f) );
-	info.m_shape    = m_boxShape.data();
-	m_boxRigidBody = m_ps->createRigidBody( info );
-	if( !m_boxRigidBody )
-		return false;
+	const f32 Y_pos = 10.f;
 
-	auto cube   = m_mainSystem->getModelSystem()->createCube( 0.25f );
+	info.m_mass     = 3.f;    //dynamic
+	info.m_position.set(0.f, Y_pos, 1.f);
+//	info.m_rotation.set( v3f(math::degToRad( 40.f ), math::degToRad( 35.f ), 0.f) );
+	info.m_shape    = m_boxShape.data();
+
+
+	for( s32 i = 0; i < 5; ++i ){
+		for( s32 o = 0; o < 5; ++o ){
+			for( s32 k = 0; k < 5; ++k ){
+
+				info.m_position.set( 0.2f * o, Y_pos+0.2f*i, 0.2f * k );
+
+				m_boxRigidBody[ i ][ o ][ k ] = m_ps->createRigidBody( info );
+				if( !m_boxRigidBody[ i ][ o ][ k ] )
+					return false;
+			}
+		}
+	}
+
+	auto cube   = m_mainSystem->getModelSystem()->createCube( cubeSize );
 	m_cubeModel = m_gs->createModel( cube.data() );
-	m_gameObject = m_sceneSystem->addStaticObject( m_cubeModel.data(), info.m_position );
-	m_gameObject->getMaterial( 0u ).flags = 0u; //disable shading
+
+	std::random_device rd;
+    std::mt19937 mt(rd());
+    std::uniform_real_distribution<f32> dist(0.f, 1.f);
+
+	auto defaultTexture = m_gs->getDefaultTexture();
+
+	for( s32 i = 0; i < 5; ++i ){
+		for( s32 o = 0; o < 5; ++o ){
+			for( s32 k = 0; k < 5; ++k ){
+				m_cubeObjects[ i ][ o ][ k ] = m_sceneSystem->addStaticObject( m_cubeModel.data(), info.m_position );
+				m_cubeObjects[ i ][ o ][ k ]->getMaterial( 0u ).flags = 0u; //disable shading
+				m_cubeObjects[ i ][ o ][ k ]->getMaterial( 0u ).textureLayer[ 0 ].texture = defaultTexture;
+				m_cubeObjects[ i ][ o ][ k ]->getMaterial( 0u ).textureLayer[ 0 ].diffuseColor.setRed( dist(mt) );
+				m_cubeObjects[ i ][ o ][ k ]->getMaterial( 0u ).textureLayer[ 0 ].diffuseColor.setGreen( dist(mt) );
+				m_cubeObjects[ i ][ o ][ k ]->getMaterial( 0u ).textureLayer[ 0 ].diffuseColor.setBlue( dist(mt) );
+			}
+		}
+	}
 	
-	m_cameraFPS = m_sceneSystem->addCamera( v3f( 0.08f, 1.76f, 2.9f ) );
+	m_cameraFPS = m_sceneSystem->addCamera( v3f( 0.08f, 15.1f, 13.67f ) );
 
 	if( !m_cameraFPS )
 		return false;
 	m_cameraFPS->setCameraType( gtCameraType::FPS );
 	m_cameraFPS->setName( "FPS" );
-	m_cameraFPS->setRotation( v3f( math::degToRad( -25.f ), 0.f, 0.f ) );
+	m_cameraFPS->setRotation( v3f( math::degToRad( -35.f ), 0.f, 0.f ) );
 
 	return true;
 }
@@ -170,8 +203,14 @@ void DemoExample_phy_init::Input( f32 d ){
 	}
 
 	if( m_eventConsumer->keyDown( gtKey::K_1 ) ){
-		gtLogWriter::printInfo( u"UP" );
-		m_boxRigidBody->setPosition( v3f( 0.f, 8.f, 0.f ) );
+		for( s32 i = 0; i < 5; ++i ){
+			for( s32 o = 0; o < 5; ++o ){
+				for( s32 k = 0; k < 5; ++k ){
+					m_boxRigidBody[ i ][ o ][ k ]->setPosition(v3f(0.2f * o, 10.f+0.2f*i, 0.2f * k));
+					m_boxRigidBody[ i ][ o ][ k ]->setRotation( gtQuaternion() );
+				}
+			}
+		}
 	}
 
 	auto coords = m_input->getCursorPosition();
@@ -230,7 +269,7 @@ void DemoExample_phy_init::Render(){
 	m_demoApp->RenderDefaultScene();
 
 	drawRigidBody( m_groundRigidBody.data(), m_gs );
-	drawRigidBody( m_boxRigidBody.data(), m_gs, gtColorRed );
+	//drawRigidBody( m_boxRigidBody[0][0][0].data(), m_gs, gtColorRed );
 }
 
 void DemoExample_phy_init::Render2D(){
@@ -239,9 +278,15 @@ void DemoExample_phy_init::Render2D(){
 void DemoExample_phy_init::Update(){
 	m_ps->update( m_delta );
 
-	m_gameObject->setPosition( m_boxRigidBody->getPosition() );
-	auto o = m_boxRigidBody->getRotation();
-	m_gameObject->setOrientation( -o );
+	for( s32 i = 0; i < 5; ++i ){
+		for( s32 o = 0; o < 5; ++o ){
+			for( s32 k = 0; k < 5; ++k ){
+				m_cubeObjects[ i ][ o ][ k ]->setPosition( m_boxRigidBody[ i ][ o ][ k ]->getPosition() );
+				auto q = m_boxRigidBody[ i ][ o ][ k ]->getRotation();
+				m_cubeObjects[ i ][ o ][ k ]->setOrientation( -q );
+			}
+		}
+	}
 }
 
 
