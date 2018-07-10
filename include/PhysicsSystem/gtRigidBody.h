@@ -14,6 +14,7 @@ namespace gost{
 		gtCollisionShape * m_shape;
 		f32                m_mass;
 		v3f                m_position;
+		gtQuaternion       m_rotation;
 	};
 	
 	class gtRigidBody : public gtRefObject {
@@ -22,6 +23,8 @@ namespace gost{
 		virtual const gtRigidBodyInfo& getInfo()     = 0;
 		virtual const v4f&             getPosition() = 0;
 		virtual const gtQuaternion&    getRotation() = 0;
+		virtual void                   setPosition( const v4f& ) = 0;
+		virtual void                   setRotation( const gtQuaternion& ) = 0;
 		virtual void                   update() = 0;
 	};
 

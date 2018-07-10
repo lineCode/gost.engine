@@ -21,6 +21,8 @@ namespace gost{
 		const gtRigidBodyInfo& getInfo();
 		const v4f&             getPosition();
 		const gtQuaternion&    getRotation();
+		void                   setPosition( const v4f& );
+		void                   setRotation( const gtQuaternion& );
 		void                   update();
 
 	};

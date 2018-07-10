@@ -359,6 +359,7 @@ void    gtDriverD3D11::setViewport( const v2f& viewportSize ){
 }
 
 void	gtDriverD3D11::createStandartTexture(){
+	this->setTextureFilterType( gtTextureFilterType::PPP );
 	{
 		gtImage * i = new gtImage;
 		i->bits = 24u;
@@ -404,6 +405,7 @@ void	gtDriverD3D11::createStandartTexture(){
 
 		delete i;
 	}
+	this->setTextureFilterType( gtTextureFilterType::Anisotropic );
 }
 
 void	gtDriverD3D11::enableBlending( bool b, bool atc ){

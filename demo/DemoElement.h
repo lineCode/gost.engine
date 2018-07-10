@@ -4,36 +4,47 @@
 
 namespace demo{
 
+	class DemoApplication;
 	class DemoElement{
 
-		bool			m_isExample;
-		DemoExample*	m_example;
-		gtString		m_title, m_tid;
-		gtString		m_description, m_did;
+		bool			   m_isExample;
+		DemoExample*       m_example;
+		DemoExampleProxy*  m_exampleProxy;
+		gtString		   m_title, m_tid;
+		gtString		   m_description, m_did;
+
 
 	public:
 
 		DemoElement():
 			m_isExample( false ),
-			m_example( nullptr )
+			m_example( nullptr ),
+			m_exampleProxy( nullptr )
 		{}
 
 		DemoElement( const gtString& title, const gtString& desc, 
-			bool isExample = false, DemoExample * example = nullptr ):
+			bool isExample = false, 
+			DemoExampleProxy * example = nullptr ):
 			m_isExample( isExample ),
-			m_example( example ),
+			m_exampleProxy( example ),
+			m_example( nullptr ),
 			m_tid( title ),
 			m_did( desc )
 		{
 		
 		}
 
-		~DemoElement(){}
+		virtual ~DemoElement(){}
 
-		bool Init(){
-			return m_example->Init();
+		bool Init( DemoApplication * app ){
+			if( m_isExample ){
+				m_example = m_exampleProxy->allocate( app );
+				if( m_example )
+					return m_example->Init();
+			}
+			return false;
 		}
-
+		 
 		void Update(){
 			m_example->Update();
 		}
@@ -48,6 +59,8 @@ namespace demo{
 
 		void Shutdown(){
 			m_example->Shutdown();
+			delete m_example;
+			m_example = nullptr;
 		}
 
 		void Render2D(){
@@ -80,7 +93,7 @@ namespace demo{
 
 
 		bool isDemo() const {
-			return m_example != nullptr;
+			return m_isExample;
 		}
 
 		void clear(){

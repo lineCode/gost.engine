@@ -24,6 +24,11 @@ public:
 	void Render2D();
 };
 
+class DemoExampleProxy_GetSupportedImportFormats : public demo::DemoExampleProxy{
+public:
+	demo::DemoExample * allocate( demo::DemoApplication * app ){ return new DemoExample_GetSupportedImportFormats( app ); }
+};
+
 DemoExample_GetSupportedImportFormats::DemoExample_GetSupportedImportFormats(){}
 DemoExample_GetSupportedImportFormats::DemoExample_GetSupportedImportFormats( demo::DemoApplication * app ):
 	m_demoApp(app)

@@ -16,10 +16,10 @@ class DemoExample_phy_init : public demo::DemoExample{
 	gtVector2<s16>			m_oldCoord;
 
 	gtPtr<gtPhysicsSystem>  m_ps;
+	gtPtr<gtCollisionShape> m_groundShape;
+	gtPtr<gtRigidBody>      m_groundRigidBody;
 	gtPtr<gtCollisionShape> m_boxShape;
 	gtPtr<gtRigidBody>      m_boxRigidBody;
-	gtPtr<gtCollisionShape> m_objectShape;
-	gtPtr<gtRigidBody>      m_objectRigidBody;
 	gtStaticObject*         m_gameObject;
 	gtPtr<gtRenderModel>    m_cubeModel;
 
@@ -36,6 +36,11 @@ public:
 	void Input( f32 delta );
 	void Render();
 	void Render2D();
+};
+
+class DemoExampleProxy_phy_init : public demo::DemoExampleProxy{
+public:
+	demo::DemoExample * allocate( demo::DemoApplication * app ){ return new DemoExample_phy_init( app ); }
 };
 
 DemoExample_phy_init::DemoExample_phy_init():
@@ -74,45 +79,43 @@ bool DemoExample_phy_init::Init(){
 		}
 	}
 
-	m_boxShape    = m_ps->createCollisionShapeBox( v3f( 10.f, 1.f, 10.f ) );
-	if( !m_boxShape )
+	m_groundShape    = m_ps->createCollisionShapeBox( v3f( 10.f, 1.f, 10.f ) );
+	if( !m_groundShape )
 		return false;
 
-	m_objectShape = m_ps->createCollisionShapeBox( v3f( .25f, .25f, .25f ) );
-	if( !m_objectShape )
+	m_boxShape = m_ps->createCollisionShapeBox( v3f( .25f, .25f, .25f ) );
+	if( !m_boxShape )
 		return false;
 
 	gtRigidBodyInfo info;
 	
 	info.m_mass     = 0.f;    //static
 	info.m_position = v3f(0.f,0.f,0.f);
+	info.m_shape    = m_groundShape.data();
+	m_groundRigidBody = m_ps->createRigidBody( info );
+	if( !m_groundRigidBody )
+		return false;
+
+	info.m_mass     = 3.f;    //dynamic
+	info.m_position.set(0.f, 3.f, 1.f);
+	info.m_rotation.set( v3f(math::degToRad( 40.f ), math::degToRad( 35.f ), 0.f) );
 	info.m_shape    = m_boxShape.data();
 	m_boxRigidBody = m_ps->createRigidBody( info );
 	if( !m_boxRigidBody )
 		return false;
 
-	info.m_mass     = 3.f;    //dynamic
-	info.m_position = v3f(0.f, 10.f, 0.f);
-	info.m_shape    = m_objectShape.data();
-	m_objectRigidBody = m_ps->createRigidBody( info );
-	if( !m_objectRigidBody )
-		return false;
-
+	auto cube   = m_mainSystem->getModelSystem()->createCube( 0.25f );
+	m_cubeModel = m_gs->createModel( cube.data() );
+	m_gameObject = m_sceneSystem->addStaticObject( m_cubeModel.data(), info.m_position );
+	m_gameObject->getMaterial( 0u ).flags = 0u; //disable shading
+	
 	m_cameraFPS = m_sceneSystem->addCamera( v3f( 0.08f, 1.76f, 2.9f ) );
 
 	if( !m_cameraFPS )
 		return false;
-
-	m_ps->setGravity( v3f( 0.f, -2.f, 0.f ) );
-
-	auto cube   = m_mainSystem->getModelSystem()->createCube( 0.25f );
-	m_cubeModel = m_gs->createModel( cube.data() );
-	m_gameObject = m_sceneSystem->addStaticObject( m_cubeModel.data(), info.m_position );
-	m_gameObject->getMaterial( 0u ).flags = 0u; //disable 
-	
 	m_cameraFPS->setCameraType( gtCameraType::FPS );
 	m_cameraFPS->setName( "FPS" );
-	m_cameraFPS->setRotation( v3f( math::degToRad( -30.f ), 0.f, 0.f ) );
+	m_cameraFPS->setRotation( v3f( math::degToRad( -25.f ), 0.f, 0.f ) );
 
 	return true;
 }
@@ -121,12 +124,6 @@ void DemoExample_phy_init::Restart(){}
 
 void DemoExample_phy_init::Shutdown(){
 	m_sceneSystem->clearScene();
-
-	if( m_ps ){
-		m_ps->shutdown();
-		m_ps->release();
-	}
-	m_ps = nullptr;
 }
 
 void DemoExample_phy_init::Input( f32 d ){
@@ -170,6 +167,11 @@ void DemoExample_phy_init::Input( f32 d ){
 	if( m_eventConsumer->keyDown( gtKey::K_ESCAPE )
 		|| m_demoApp->inputGamepadMainMenuStart() ){
 		m_demoApp->Pause();
+	}
+
+	if( m_eventConsumer->keyDown( gtKey::K_1 ) ){
+		gtLogWriter::printInfo( u"UP" );
+		m_boxRigidBody->setPosition( v3f( 0.f, 8.f, 0.f ) );
 	}
 
 	auto coords = m_input->getCursorPosition();
@@ -227,8 +229,8 @@ void DemoExample_phy_init::Input( f32 d ){
 void DemoExample_phy_init::Render(){
 	m_demoApp->RenderDefaultScene();
 
-	drawRigidBody( m_boxRigidBody.data(), m_gs );
-	drawRigidBody( m_objectRigidBody.data(), m_gs, gtColorRed );
+	drawRigidBody( m_groundRigidBody.data(), m_gs );
+	drawRigidBody( m_boxRigidBody.data(), m_gs, gtColorRed );
 }
 
 void DemoExample_phy_init::Render2D(){
@@ -237,8 +239,8 @@ void DemoExample_phy_init::Render2D(){
 void DemoExample_phy_init::Update(){
 	m_ps->update( m_delta );
 
-	m_gameObject->setPosition( m_objectRigidBody->getPosition() );
-	auto o = m_objectRigidBody->getRotation();
+	m_gameObject->setPosition( m_boxRigidBody->getPosition() );
+	auto o = m_boxRigidBody->getRotation();
 	m_gameObject->setOrientation( -o );
 }
 

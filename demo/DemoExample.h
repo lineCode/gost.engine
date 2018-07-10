@@ -4,8 +4,19 @@
 
 namespace demo{
 
+	class DemoExample;
+	class DemoApplication;
+	class DemoExampleProxy{
+	public:
+		virtual ~DemoExampleProxy(){}
+
+		virtual DemoExample * allocate( DemoApplication * app ) = 0;
+	};
+
 	class DemoExample{
 	public:
+
+		virtual ~DemoExample(){}
 
 		virtual bool Init() = 0;
 

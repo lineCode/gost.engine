@@ -2,6 +2,8 @@
 #define DEMO_EXAMPLE_RTT_H__
 
 class demo::DemoApplication;
+
+
 class DemoExample_RTT : public demo::DemoExample{
 	gtMainSystem *			m_mainSystem;
 	gtInputSystem *			m_input;
@@ -32,6 +34,12 @@ public:
 	void Render();
 	void Render2D();
 };
+
+class DemoExampleProxy_RTT : public demo::DemoExampleProxy{
+public:
+	demo::DemoExample * allocate( demo::DemoApplication * app ){ return new DemoExample_RTT( app ); }
+};
+
 
 DemoExample_RTT::DemoExample_RTT():
 	m_demoApp( nullptr ),

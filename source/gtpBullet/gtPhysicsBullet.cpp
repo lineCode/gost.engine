@@ -119,6 +119,8 @@ void gtPhysicsBullet::shutdown(){
 		delete m_collisionConfiguration;
 	m_collisionConfiguration = nullptr;
 
+//	m_rigidBodyArray.clear();
+
 	m_initialized = false;
 }
 

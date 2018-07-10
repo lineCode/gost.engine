@@ -20,6 +20,7 @@ bool gtRigidBodyImpl::init(){
 	btTransform transform;
 	transform.setIdentity();
 	transform.setOrigin(btVector3(m_info.m_position.x,m_info.m_position.y,m_info.m_position.z));
+	transform.setRotation( btQuaternion( m_info.m_rotation.x, m_info.m_rotation.y, m_info.m_rotation.z, m_info.m_rotation.w ) );
 
 	btDefaultMotionState* myMotionState = new btDefaultMotionState( transform );
 
@@ -70,6 +71,32 @@ void gtRigidBodyImpl::update(){
 
 btRigidBody* gtRigidBodyImpl::getBulletRigidBody(){
 	return m_body;
+}
+
+void gtRigidBodyImpl::setPosition( const v4f& v ){
+	if( m_body ){
+		btTransform t;
+		m_body->getMotionState()->getWorldTransform(t);
+
+		t.setOrigin( btVector3( v.x, v.y, v.z ) );
+
+		m_body->setWorldTransform( t );
+		m_body->getMotionState()->setWorldTransform( t );
+		m_body->activate( true );
+	}
+}
+
+void gtRigidBodyImpl::setRotation( const gtQuaternion& q ){
+	if( m_body ){
+		btTransform t;
+		m_body->getMotionState()->getWorldTransform(t);
+
+		t.setRotation( btQuaternion( q.x, q.y, q.z, q.w ) );
+
+		m_body->setWorldTransform( t );
+		m_body->getMotionState()->setWorldTransform( t );
+		m_body->activate( true );
+	}
 }
 
 /*

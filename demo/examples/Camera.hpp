@@ -41,6 +41,11 @@ public:
 	void Render2D();
 };
 
+class DemoExampleProxy_Camera : public demo::DemoExampleProxy{
+public:
+	demo::DemoExample * allocate( demo::DemoApplication * app ){ return new DemoExample_Camera( app ); }
+};
+
 DemoExample_Camera::DemoExample_Camera():
 	m_demoApp( nullptr ),
 	m_gs( nullptr ),

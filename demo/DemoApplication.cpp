@@ -138,10 +138,10 @@ bool demo::DemoApplication::Init(){
 	m_gamepadSystem	=	m_mainSystem->getInputSystem()->createInputContoller( GT_UID_INPUT_DINPUT );
 
 	addDemo( DEMO_COMMON, demo::DemoElement( u"14", u"15" ) );
-	addDemo( DEMO_COMMON, demo::DemoElement( u"30", u"31", true, new DemoExample_RTT( this ) ) );
-	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"22", u"23", true, new DemoExample_Camera( this ) ) );
-	addDemo( DEMO_PHYSICS, demo::DemoElement( u"32", u"33", true, new DemoExample_phy_init( this ) ) );
-	addDemo( DEMO_OTHER, demo::DemoElement( u"20", u"21", true, new DemoExample_GetSupportedImportFormats( this ) ) );
+	addDemo( DEMO_COMMON, demo::DemoElement( u"30", u"31", true, new DemoExampleProxy_RTT ) );
+	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"22", u"23", true, new DemoExampleProxy_Camera ) );
+	addDemo( DEMO_PHYSICS, demo::DemoElement( u"32", u"33", true, new DemoExampleProxy_phy_init ) );
+	addDemo( DEMO_OTHER, demo::DemoElement( u"20", u"21", true, new DemoExampleProxy_GetSupportedImportFormats ) );
 
 	updateDemoText();
 
@@ -1301,7 +1301,7 @@ void demo::DemoApplication::inputMainMenu(){
 			if( m_demoArrays[m_activeDemoTypeSelected].size() ){
 				if( m_demoArrays[m_activeDemoTypeSelected][m_activeDemoSelected].isDemo() ){
 					playAudio(DemoAudioType::Accept);
-					if( m_demoArrays[m_activeDemoTypeSelected][m_activeDemoSelected].Init() ){
+					if( m_demoArrays[m_activeDemoTypeSelected][m_activeDemoSelected].Init( this ) ){
 						m_state = DemoState::DemoRun;
 						showDemoHUD();
 					}else{
@@ -1778,7 +1778,8 @@ void demo::DemoApplication::inputDemoMenuPause(){
 		}else if( m_demoPauseMenuID == 1 ){
 			StopDemo();
 		}else if( m_demoPauseMenuID == 2 ){
-			m_mainSystem->shutdown();
+			StopDemo();
+			TerminateProgram();
 		}
 	}
 }
