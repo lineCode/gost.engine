@@ -17,11 +17,16 @@ alt="gost demo - basic physics" width="240" height="180" border="10" /></a>
 
 Wiki for samples https://github.com/532235/GoST/wiki
 
+## Contributing
+
+If you want to help the project, write to the email address below.
+Main conditions:
+- Avoid using standard (std: :) things, try not to use STL, if used, then only in special places and in small quantities (for example, in small plug-ins).
+- use a similar style that is used in the code.
+
 ## Contacts
 
-532235@imsoftworks.info
-
-http://www.imsoftworks.info/contributing.php
+artembasov@outlook.com
 
 https://www.patreon.com/Gostengine
 
