@@ -6,6 +6,7 @@ using namespace gost;
 #include "btBulletDynamicsCommon.h"
 #include "BulletDynamics/Featherstone/btMultiBodyDynamicsWorld.h"
 #include "BulletDynamics/Featherstone/btMultiBodyConstraintSolver.h"
+#include "BulletCollision\NarrowPhaseCollision\btRaycastCallback.h"
 
 
 #include "gtCollisionShapeImpl.h"

@@ -1,9 +1,9 @@
 #ifndef DEMO_EXAMPLE_PHY_INIT_H__
 #define DEMO_EXAMPLE_PHY_INIT_H__
 
-static const u32 CUB_NUM_X = 10u;
-static const u32 CUB_NUM_Y = 10u;
-static const u32 CUB_NUM_Z = 10u;
+static const u32 CUB_NUM_X = 5u;
+static const u32 CUB_NUM_Y = 5u;
+static const u32 CUB_NUM_Z = 5u;
 
 class demo::DemoApplication;
 class DemoExample_phy_init : public demo::DemoExample{

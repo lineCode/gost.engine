@@ -12,12 +12,12 @@ namespace gost{
 		using const_reference = const gtRay<T>&;
 
 		gtRay():m_begin(),m_end(){}
-		gtRay( const gtVector3<T>& begin, const gtVector3<T>& end ):
+		gtRay( const gtVector4<T>& begin, const gtVector4<T>& end ):
 			m_begin( begin ), m_end( end )
 		{}
 
-		gtVector3<T> m_begin;
-		gtVector3<T> m_end;
+		gtVector4<T> m_begin;
+		gtVector4<T> m_end;
 
 		reference operator=( const_reference o ){
 			m_begin = o.m_begin;
@@ -46,6 +46,8 @@ namespace gost{
 		}
 
 	};
+
+	using gtRayf32 = gtRay<f32>;
 
 }
 

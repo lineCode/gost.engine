@@ -5,6 +5,7 @@
 namespace gost{
 
 	class gtRigidBodyImpl : public gtRigidBody{
+		void *              m_userPtr;
 		gtPhysicsBullet *   m_ps;
 		gtRigidBodyInfo     m_info;
 		btRigidBody*        m_body;
@@ -21,8 +22,10 @@ namespace gost{
 		const gtRigidBodyInfo& getInfo();
 		const v4f&             getPosition();
 		const gtQuaternion&    getRotation();
+		void *                 getUserData();
 		void                   setPosition( const v4f& );
 		void                   setRotation( const gtQuaternion& );
+		void                   setUserData( void * );
 		void                   update();
 
 	};

@@ -1,6 +1,7 @@
 #include "common.h"
 
 gtRigidBodyImpl::gtRigidBodyImpl( const gtRigidBodyInfo& i, gtPhysicsBullet * ps ):
+	m_userPtr( nullptr ),
 	m_ps( ps ),
 	m_info( i ),
 	m_body( nullptr )
@@ -41,6 +42,8 @@ bool gtRigidBodyImpl::init(){
 		delete myMotionState;
 		return false;
 	}
+
+	m_body->setUserPointer( this );
 
 	m_ps->_addRigidBody( m_body );
 
@@ -96,6 +99,14 @@ void gtRigidBodyImpl::setRotation( const gtQuaternion& q ){
 		m_body->setWorldTransform( t );
 		m_body->getMotionState()->setWorldTransform( t );
 	}
+}
+
+void * gtRigidBodyImpl::getUserData(){
+	return m_userPtr;
+}
+
+void gtRigidBodyImpl::setUserData( void * ptr ){
+	m_userPtr = ptr;
 }
 
 /*

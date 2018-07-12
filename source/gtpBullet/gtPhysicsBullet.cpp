@@ -3,7 +3,6 @@
 gtPhysicsBullet::gtPhysicsBullet( gtPhysicsSystemInfo* i ):
 	m_collisionConfiguration( nullptr ),
 	m_filterCallback( nullptr ),
-	m_rayTestCallback( nullptr ),
 	m_dispatcher( nullptr ),
 	m_pairCache( nullptr ),
 	m_broadphase( nullptr ),
@@ -25,14 +24,11 @@ bool gtPhysicsBullet::initialize(){
 
 	m_collisionConfiguration = new btDefaultCollisionConfiguration();
 
+	m_dispatcher = new	btCollisionDispatcher( m_collisionConfiguration );
+
 	m_filterCallback = new gtOverlapFilterCallback2();
 	m_filterCallback->m_userCallback = m_params.filterCallback;
 
-	m_rayTestCallback = new gtPhysicsRayResultCallback_bt;
-	m_rayTestCallback->m_userCallback = m_params.rayResultCallback;
-
-	m_dispatcher = new	btCollisionDispatcher( m_collisionConfiguration );
-	
 	m_pairCache  = new btHashedOverlappingPairCache();
 	m_pairCache->setOverlapFilterCallback( m_filterCallback );
 
@@ -102,17 +98,13 @@ void gtPhysicsBullet::shutdown(){
 		delete m_pairCache;
 	m_pairCache = nullptr;
 
-	if( m_dispatcher )
-		delete m_dispatcher;
-	m_dispatcher = nullptr;
-
-	if( m_rayTestCallback )
-		delete m_rayTestCallback;
-	m_rayTestCallback = nullptr;
-
 	if( m_filterCallback )
 		delete m_filterCallback;
 	m_filterCallback = nullptr;
+	
+	if( m_dispatcher )
+		delete m_dispatcher;
+	m_dispatcher = nullptr;
 
 	if( m_collisionConfiguration )
 		delete m_collisionConfiguration;
@@ -206,11 +198,52 @@ gtPtr<gtRigidBody> gtPhysicsBullet::createRigidBody( const gtRigidBodyInfo& info
 	return body;
 }
 
-void gtPhysicsBullet::rayTest( const v3f& ray_start, const v3f& ray_end ){
+gtRigidBody* gtPhysicsBullet::rayTest( const v4f& ray_start, const v4f& ray_end, v4f& hitPoint, v4f& normal ){
 	btVector3 from( ray_start.x, ray_start.y, ray_start.z );
 	btVector3 to( ray_end.x, ray_end.y, ray_end.z );
 
-	m_dynamicsWorld->rayTest( from, to, *m_rayTestCallback );
+	btCollisionWorld::ClosestRayResultCallback	closestResults(from,to);
+	closestResults.m_flags |= btTriangleRaycastCallback::kF_FilterBackfaces;
+	m_dynamicsWorld->rayTest(from,to,closestResults);
+	if( closestResults.hasHit() ){
+		btVector3 p = from.lerp(to,closestResults.m_closestHitFraction);
+		btRigidBody * bd = (btRigidBody *)closestResults.m_collisionObject;
+		hitPoint.set( p.x(), p.y(), p.z(), 0.f );
+		normal.set( closestResults.m_hitNormalWorld.x(), closestResults.m_hitNormalWorld.y(), closestResults.m_hitNormalWorld.z(), 0.f );
+		return (gtRigidBody*)bd->getUserPointer();
+	}
+
+	return nullptr;
+}
+
+gtRigidBody* gtPhysicsBullet::rayTest( const gtRayf32& ray, v4f& hitPoint, v4f& normal ){
+	return rayTest( ray.m_begin, ray.m_end, hitPoint, normal );
+}
+
+gtArray<gtPhysicsRayTestNode> gtPhysicsBullet::rayTestMultiple( const gtRayf32& ray ){
+	btVector3 from( ray.m_begin.x, ray.m_begin.y, ray.m_begin.z );
+	btVector3 to( ray.m_end.x, ray.m_end.y, ray.m_end.z );
+
+	btCollisionWorld::AllHitsRayResultCallback allResults(from,to);
+	allResults.m_flags |= btTriangleRaycastCallback::kF_KeepUnflippedNormal;
+	allResults.m_flags |= btTriangleRaycastCallback::kF_UseSubSimplexConvexCastRaytest;
+			
+	m_dynamicsWorld->rayTest(from,to,allResults);
+
+	gtArray<gtPhysicsRayTestNode> arr;
+
+	for( s32 i = 0; i < allResults.m_hitFractions.size(); ++i ){
+		btVector3 p = from.lerp(to,allResults.m_hitFractions[i]);
+
+		gtPhysicsRayTestNode node;
+		node.m_body = (gtRigidBody*)((btRigidBody*)allResults.m_collisionObjects[ i ])->getUserPointer();
+		node.m_hitPoint.set( p.x(), p.y(), p.z(), 0.f );
+		node.m_normal.set( allResults.m_hitNormalWorld[i].x(), allResults.m_hitNormalWorld[i].y(), allResults.m_hitNormalWorld[i].z(), 0.f );
+
+		arr.push_back( node );
+	}
+
+	return arr;
 }
 
 /*
