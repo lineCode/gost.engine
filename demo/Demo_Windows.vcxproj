@@ -28,6 +28,7 @@
       <FileType>Document</FileType>
     </ClInclude>
     <ClInclude Include="examples\phy_init.hpp" />
+    <ClInclude Include="examples\phy_raytest.hpp" />
     <ClInclude Include="examples\RTT.hpp" />
   </ItemGroup>
   <ItemGroup>

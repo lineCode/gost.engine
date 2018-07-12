@@ -537,6 +537,9 @@
     <ClInclude Include="..\..\include\PhysicsSystem\gtCollisionShape.h">
       <Filter>include\PhysicsSystem</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\Classes\Math\gtRay.h">
+      <Filter>include\Classes\Math</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\include\MainSystem\gtStackTracerWin32.inl">

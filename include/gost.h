@@ -48,6 +48,7 @@
 
 #include <Common/gtMath.h>
 #include <Classes/Math/gtVector.h>
+#include <Classes/Math/gtRay.h>
 #include <Classes/Math/gtQuaternion.h>
 #include <Classes/Math/gtMatrix.h>
 

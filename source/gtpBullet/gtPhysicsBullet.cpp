@@ -3,7 +3,7 @@
 gtPhysicsBullet::gtPhysicsBullet( gtPhysicsSystemInfo* i ):
 	m_collisionConfiguration( nullptr ),
 	m_filterCallback( nullptr ),
-	m_userFilterCallback( nullptr ),
+	m_rayTestCallback( nullptr ),
 	m_dispatcher( nullptr ),
 	m_pairCache( nullptr ),
 	m_broadphase( nullptr ),
@@ -25,17 +25,16 @@ bool gtPhysicsBullet::initialize(){
 
 	m_collisionConfiguration = new btDefaultCollisionConfiguration();
 
-	if( !m_params.filterCallback )
-		m_filterCallback = new gtOverlapFilterCallback2();
-	else{
-		m_userFilterCallback = new gtUserOverlapFilterCallback2();
-		m_userFilterCallback->m_userCallback = m_params.filterCallback;
-	}
+	m_filterCallback = new gtOverlapFilterCallback2();
+	m_filterCallback->m_userCallback = m_params.filterCallback;
+
+	m_rayTestCallback = new gtPhysicsRayResultCallback_bt;
+	m_rayTestCallback->m_userCallback = m_params.rayResultCallback;
 
 	m_dispatcher = new	btCollisionDispatcher( m_collisionConfiguration );
 	
 	m_pairCache  = new btHashedOverlappingPairCache();
-	m_pairCache->setOverlapFilterCallback( (m_params.filterCallback)?m_userFilterCallback:m_filterCallback );
+	m_pairCache->setOverlapFilterCallback( m_filterCallback );
 
 	m_broadphase = new btDbvtBroadphase(m_pairCache);
 
@@ -107,9 +106,9 @@ void gtPhysicsBullet::shutdown(){
 		delete m_dispatcher;
 	m_dispatcher = nullptr;
 
-	if( m_userFilterCallback )
-		delete m_userFilterCallback;
-	m_userFilterCallback = nullptr;
+	if( m_rayTestCallback )
+		delete m_rayTestCallback;
+	m_rayTestCallback = nullptr;
 
 	if( m_filterCallback )
 		delete m_filterCallback;
@@ -118,8 +117,6 @@ void gtPhysicsBullet::shutdown(){
 	if( m_collisionConfiguration )
 		delete m_collisionConfiguration;
 	m_collisionConfiguration = nullptr;
-
-//	m_rigidBodyArray.clear();
 
 	m_initialized = false;
 }
@@ -207,6 +204,13 @@ gtPtr<gtRigidBody> gtPhysicsBullet::createRigidBody( const gtRigidBodyInfo& info
 	m_rigidBodyArray.push_back( ptr );
 
 	return body;
+}
+
+void gtPhysicsBullet::rayTest( const v3f& ray_start, const v3f& ray_end ){
+	btVector3 from( ray_start.x, ray_start.y, ray_start.z );
+	btVector3 to( ray_end.x, ray_end.y, ray_end.z );
+
+	m_dynamicsWorld->rayTest( from, to, *m_rayTestCallback );
 }
 
 /*

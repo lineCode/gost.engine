@@ -4,41 +4,57 @@
 
 namespace gost{
 
+	class gtPhysicsRayResultCallback_bt : public btCollisionWorld::RayResultCallback{
+	public:
+
+		gtPhysicsRayResultCallback_bt():
+			m_userCallback( nullptr )
+		{}
+
+		gtPhysicsRayResultCallback * m_userCallback;
+
+		virtual	btScalar addSingleResult( btCollisionWorld::LocalRayResult& rayResult, bool normalInWorldSpace ){
+			btAssert( rayResult.m_hitFraction <= m_closestHitFraction );
+			
+			btVector3	m_rayFromWorld;
+			btVector3	m_rayToWorld;
+			btVector3	m_hitNormalWorld;
+			btVector3	m_hitPointWorld;
+
+			m_closestHitFraction = rayResult.m_hitFraction;
+			m_collisionObject = rayResult.m_collisionObject;
+			if( normalInWorldSpace ){
+				m_hitNormalWorld = rayResult.m_hitNormalLocal;
+			}else{
+				m_hitNormalWorld = m_collisionObject->getWorldTransform().getBasis()*rayResult.m_hitNormalLocal;
+			}
+			m_hitPointWorld.setInterpolate3( m_rayFromWorld, m_rayToWorld, rayResult.m_hitFraction );
+			return rayResult.m_hitFraction;
+		}
+	};
+
+
 	enum gtFilterModes{
 		FILTER_GROUPAMASKB_AND_GROUPBMASKA2=0,
 		FILTER_GROUPAMASKB_OR_GROUPBMASKA2
 	};
 
-	struct gtUserOverlapFilterCallback2 : public btOverlapFilterCallback{
-		
-		gtPhysicsFilterCallback * m_userCallback;
-
-		s32 m_filterMode;
-		
-		gtUserOverlapFilterCallback2():
-			m_userCallback( nullptr ),
-			m_filterMode(FILTER_GROUPAMASKB_AND_GROUPBMASKA2)
-		{}
-	
-		virtual ~gtUserOverlapFilterCallback2(){}
-
-		virtual bool needBroadphaseCollision(btBroadphaseProxy* proxy0,btBroadphaseProxy* proxy1) const {
-			if( m_userCallback )
-				return m_userCallback->collision( proxy0, proxy1 );
-			return false;
-		}
-	};
-
 	struct gtOverlapFilterCallback2 : public btOverlapFilterCallback{
+		gtPhysicsFilterCallback * m_userCallback;
 		s32 m_filterMode;
 	
 		gtOverlapFilterCallback2():
+			m_userCallback( nullptr ),
 			m_filterMode(FILTER_GROUPAMASKB_AND_GROUPBMASKA2)
 		{}
 	
 		virtual ~gtOverlapFilterCallback2(){}
 
 		virtual bool needBroadphaseCollision(btBroadphaseProxy* proxy0,btBroadphaseProxy* proxy1) const {
+
+			if( m_userCallback )
+				return m_userCallback->collision( proxy0, proxy1 );
+
 			if( m_filterMode == FILTER_GROUPAMASKB_AND_GROUPBMASKA2 ){
 				bool collides = (proxy0->m_collisionFilterGroup & proxy1->m_collisionFilterMask) != 0;
 				collides = collides && (proxy1->m_collisionFilterGroup & proxy0->m_collisionFilterMask);
@@ -58,8 +74,8 @@ namespace gost{
 	class gtPhysicsBullet : public gtPhysicsSystem{
 
 		btDefaultCollisionConfiguration*        m_collisionConfiguration;
-		btOverlapFilterCallback*                m_filterCallback;
-		gtUserOverlapFilterCallback2*           m_userFilterCallback;
+		gtOverlapFilterCallback2*               m_filterCallback;
+		gtPhysicsRayResultCallback_bt*          m_rayTestCallback;
 		btCollisionDispatcher*	                m_dispatcher;
 		btOverlappingPairCache*                 m_pairCache;
 		btBroadphaseInterface*	                m_broadphase;
@@ -85,6 +101,7 @@ namespace gost{
 		gtPtr<gtCollisionShape> createCollisionShapeBox( const v3f& size );
 		gtPtr<gtRigidBody>      createRigidBody( const gtRigidBodyInfo& info );
 		bool                    initialize();
+		void                    rayTest( const v3f& ray_start, const v3f& ray_end );
 		void                    setGravity( const v3f& gravity );
 		void                    shutdown();
 		void                    update( f32 delta );

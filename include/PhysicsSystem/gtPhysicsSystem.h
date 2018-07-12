@@ -5,10 +5,16 @@
 
 namespace gost{
 	
-	enum class gtPhysicsConstraintSolverType : u32{
-
+	class gtPhysicsRayResultCallback{
+	public:
+		virtual      ~gtPhysicsRayResultCallback(){}
+		
+		virtual void hit( gtRigidBody * body ) = 0;
 	};
 
+
+	enum class gtPhysicsConstraintSolverType : u32{
+	};
 	class gtPhysicsFilterCallback{
 	public:
 		virtual ~gtPhysicsFilterCallback(){}
@@ -19,9 +25,11 @@ namespace gost{
 	struct gtPhysicsSystemInfo{
 		gtPhysicsSystemInfo():
 			filterCallback( nullptr ),
+			rayResultCallback( nullptr ),
 			gravity(v3f(0.f,-10.f,0.f)){}
 
-		gtPhysicsFilterCallback * filterCallback;
+		gtPhysicsFilterCallback    * filterCallback;
+		gtPhysicsRayResultCallback * rayResultCallback;
 
 		v3f gravity;
 	};
@@ -32,6 +40,7 @@ namespace gost{
 		virtual gtPtr<gtCollisionShape> createCollisionShapeBox( const v3f& size ) = 0;
 		virtual gtPtr<gtRigidBody>      createRigidBody( const gtRigidBodyInfo& info ) = 0;
 		virtual bool                    initialize() = 0;
+		virtual void                    rayTest( const v3f& ray_start, const v3f& ray_end ) = 0;
 		virtual void                    setGravity( const v3f& gravity ) = 0;
 		virtual void                    shutdown() = 0;
 		virtual void                    update( f32 delta ) = 0;

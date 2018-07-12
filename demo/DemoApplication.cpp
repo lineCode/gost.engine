@@ -4,6 +4,7 @@
 #include "examples\Camera.hpp"
 #include "examples\RTT.hpp"
 #include "examples\phy_init.hpp"
+#include "examples\phy_raytest.hpp"
 
 void RedrawWindow(){
 	auto This = demo::DemoApplication::GetThis();
@@ -141,6 +142,7 @@ bool demo::DemoApplication::Init(){
 	addDemo( DEMO_COMMON, demo::DemoElement( u"30", u"31", true, new DemoExampleProxy_RTT ) );
 	addDemo( DEMO_GAME_OBJECTS, demo::DemoElement( u"22", u"23", true, new DemoExampleProxy_Camera ) );
 	addDemo( DEMO_PHYSICS, demo::DemoElement( u"32", u"33", true, new DemoExampleProxy_phy_init ) );
+	addDemo( DEMO_PHYSICS, demo::DemoElement( u"34", u"35", true, new DemoExampleProxy_phy_raytest ) );
 	addDemo( DEMO_OTHER, demo::DemoElement( u"20", u"21", true, new DemoExampleProxy_GetSupportedImportFormats ) );
 
 	updateDemoText();
