@@ -15,6 +15,7 @@
 #include <windows.h>
 
 #include <memory>
+#define GOST_ENGINE
 
 #include "gost.h"
 

@@ -22,6 +22,7 @@
 
 #include <memory>
 
+#define GOST_ENGINE
 #include "gost.h"
 using namespace gost;
 

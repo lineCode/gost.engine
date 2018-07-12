@@ -24,6 +24,7 @@
 #include <dinputd.h>
 #pragma comment(lib, "dxguid.lib")
 #pragma comment(lib, "dinput8.lib")
+#define GOST_ENGINE
 
 #include "gost.h"
 using namespace gost;

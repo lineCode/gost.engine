@@ -7,8 +7,10 @@ using namespace gost;
 #ifdef UseEventConsumer
 class EventConsumer : public gtEventConsumer{
 public:
-	EventConsumer(){}
-	~EventConsumer( void ){}
+	EventConsumer(){
+	}
+	~EventConsumer( void ){
+	}
 
 	void processEvent( const gtEvent& ev ){
 		switch( ev.type ){
@@ -46,6 +48,9 @@ private:
 public:
 
 	CustomOutput( void ) : m_hWnd( 0 ), m_isInit( false ){
+	#ifdef GT_DEBUG
+			this->setDebugName( u"OutputWindow" );
+	#endif
 			init();
 	}
 
@@ -104,6 +109,7 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 int main(){
 #endif
 
+
 	gtDeviceCreationParameters params;
 
 #ifdef UseCustomOutput
@@ -127,7 +133,7 @@ int main(){
 	gtLogWriter::printInfo(u"Info text %i %u %f %c %s", -123, 0xFFFFFFFF, 0.2412f, u'c', u"String" );
 	gtLogWriter::printWarning(u"Warning text %i %u %f %c %s", -123, 0xFFFFFFFF, 0.2412f, u'c', u"String" );
 	gtLogWriter::printError(u"Error text %i %u %f %c %s", -123, 0xFFFFFFFF, 0.2412f, u'c', u"String" );
-	mainSystem->getLog()->print( gtLog::msgType::info, u"mainSystem->getLog()->print" );
+	mainSystem->getLog()->print( gtLog::msgType::Info, u"mainSystem->getLog()->print" );
  
 
 	gtWindowInfo wi;
@@ -136,11 +142,16 @@ int main(){
     wi.m_style |= gtWindowInfo::resize;
 	auto window = mainSystem->createSystemWindow( &wi );
 
-	gtDriverInfo di;
-	di.m_outWindow = window.data();
+	gtGraphicsSystemInfo gsi;
+	gsi.m_outWindow = window.data();
 
-	auto driver = mainSystem->createVideoDriver( di, GT_UID_RENDER_D3D11 );
+	auto videoDriver = mainSystem->createGraphicsSystem( gsi, GT_UID_RENDER_D3D11 );
 
+	/*
+		auto audioDriver = mainSystem->createAudioSystem( GT_UID_AUDIO_XADUDIO2 );
+		auto sound = audioDriver->createAudioObject( u"sound.ogg" );
+		sound->play();
+	*/
 
 	f32 r = 0.f;
 	f32 g = 0.f;
@@ -165,36 +176,34 @@ int main(){
 		}
 #endif
 
-		if( mainSystem->isKeyPressed( gtKey::K_NUM_ADD ) ){
+		if( mainSystem->getInputSystem()->isKeyDown( gtKey::K_NUM_ADD ) ){
 			r += 0.001f;
 		}
-		if( mainSystem->isKeyPressed( gtKey::K_NUM_SUB ) ){
+		if( mainSystem->getInputSystem()->isKeyDown( gtKey::K_NUM_SUB ) ){
 			r -= 0.001f;
 		}
 
 #ifdef UseEventConsumer
-		auto * curPos = &mainSystem->getCursorPosition();
+		auto * curPos = &mainSystem->getInputSystem()->getCursorPosition();
 		g = curPos->x * 0.001f;
 		b = curPos->y * 0.001f;
 #endif
-		if( mainSystem->isLMBDown() ){/**/}
-		if( mainSystem->isRMBDown() ){/**/}
-		if( mainSystem->isMMBDown() ){/**/}
+		if( mainSystem->getInputSystem()->isLMBDown() ){/**/}
+		if( mainSystem->getInputSystem()->isRMBDown() ){/**/}
+		if( mainSystem->getInputSystem()->isMMBDown() ){/**/}
 		Function(); //LMB
 
 		if( mainSystem->isRun() ){
-			driver->beginRender( true, gtColor(r,g,b,1.f) );
-			driver->endRender();
+			videoDriver->beginRender( true, gtColor(r,g,b,1.f) );
+			videoDriver->endRender();
 		}
 	}
-	
-	GoSTClear();
  
 	return 0;
 }
 
 void Function(){
-	if( gtMainSystem::getInstance()->isLMBDown() ){
+	if( gtMainSystem::getInstance()->getInputSystem()->isLMBDown() ){
 		gtLogWriter::printInfo( u"Hello from %s", gtStringA( GT_FUNCTION ).to_utf16String().data() );
 	}
 }

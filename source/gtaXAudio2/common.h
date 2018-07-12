@@ -23,6 +23,7 @@
 #include <XAudio2.h> // from DXSDK
 #include <XAudio2fx.h> // from DXSDK
 
+#define GOST_ENGINE
 #include <gost.h>
 
 using namespace gost;

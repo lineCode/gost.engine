@@ -3,16 +3,7 @@
 #if defined( GT_PLATFORM_WIN32 )
 int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR /*lpCmdLine*/, int /*nCmdShow*/ ){
 #endif
-
-	GoSTPreInit();
 	
-	int arr[ 10 ];
-	int val = 666;
-	
-	gtMemSet(666,arr,10);
-	//gtMemSet(666,arr,10);
-	//gtMemorySystem::set( arr, &val, sizeof( int ), 10 );
-
 	demo::DemoApplication	*	app = new demo::DemoApplication;
 	
 	if( !app ){
@@ -33,8 +24,6 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 	app->Run();
 
 	delete app;
-
-	GoSTClear();
 
 	return 0;
 }

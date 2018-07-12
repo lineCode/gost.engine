@@ -1,4 +1,5 @@
 #pragma once
+#define GOST_ENGINE
 
 #include <SDKDDKVer.h>
 

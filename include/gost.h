@@ -118,15 +118,8 @@
 #include <Common/gtUtilities.h>
 
 
-#if defined(_MSC_VER)
-#ifndef GOSTDLL
-#ifdef GT_DEBUG
-#pragma comment(lib, "gost_d.lib")
-#else
-#pragma comment(lib, "gost.lib")
-#endif
-#endif
-#endif
+
+
 
 namespace gost {
 
@@ -139,9 +132,39 @@ namespace gost {
 		return gtPtrNew<gtMainSystem>( InitializeGoSTEngine_internal( params ) );
 	}
 
+#if defined(_MSC_VER)
+#ifndef GOSTDLL
+#ifdef GT_DEBUG
+#pragma comment(lib, "gost_d.lib")
+#else
+#pragma comment(lib, "gost.lib")
+#endif
+#endif
+#endif
 
+#ifndef GOST_ENGINE
+	// Do not use
+	struct GoSTInitialization{
+		GoSTInitialization() {
+			if( !m_init )
+				GoSTPreInit(); 
+
+			m_init = true;
+		}
+
+		~GoSTInitialization(){
+			if( m_init )
+				GoSTClear();   
+			m_init = false;
+		}
+
+	private:
+		bool m_init = false;
+	};
+	const GoSTInitialization g_GoST_init;
+#endif
+	
 }
-
 
 #endif
 
