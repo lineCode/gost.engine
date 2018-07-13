@@ -1,5 +1,5 @@
 #include "common.h"
-	
+
 void * gtMemorySystemImplWin32::allocate( u32 size, bool exceptions, bool zeroMemory ){
 	DWORD flags = gtConst0U;
 	if( exceptions ) flags |= HEAP_GENERATE_EXCEPTIONS;
@@ -19,7 +19,6 @@ bool gtMemorySystemImplWin32::free( void * ptr ){
 }
 
 void gtMemorySystemImplWin32::set( void * data, void * value, u32 stride, u32 size ){
-
 	u8 * D = reinterpret_cast<u8*>( data );
 	u8 * S = reinterpret_cast<u8*>( value );
 

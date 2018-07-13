@@ -14,6 +14,11 @@ namespace gost{
 
 	public:
 
+		~gtSingletone(){
+			if( s_instance )
+				delete s_instance;
+		}
+
 		static Type& getInstance(){
 			return *gtSingletone<Type>::s_instance;
 		}

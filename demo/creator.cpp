@@ -4,8 +4,6 @@
 int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR /*lpCmdLine*/, int /*nCmdShow*/ ){
 #endif
 
-	gost_init();
-
 	demo::DemoApplication	*	app = new demo::DemoApplication;
 	
 	if( !app ){
@@ -26,8 +24,6 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 	app->Run();
 
 	delete app;
-
-	gost_clear();
 
 	return 0;
 }

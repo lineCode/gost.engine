@@ -1,19 +1,28 @@
 #include "common.h"
 
+void gtMemorySystem_init(){
+	if( !gtSingletone<gtMemorySystemCommon>::s_instance ){
+		gtSingletone<gtMemorySystemCommon>::s_instance = new gtMemorySystemImplWin32;
+	}
+}
 
 void * gtMemorySystem::allocate( u32 size, bool exceptions, bool zeroMemory ){
+	gtMemorySystem_init();
 	return gtSingletone<gtMemorySystemCommon>::s_instance->allocate( size, exceptions, zeroMemory );
 }
 
 void * gtMemorySystem::reallocate( u32 size, void * ptr, bool exceptions, bool zeroMemory ){
+	gtMemorySystem_init();
 	return gtSingletone<gtMemorySystemCommon>::s_instance->reallocate( size, ptr, exceptions, zeroMemory );
 }
 
 bool gtMemorySystem::free( void * ptr ){
+	gtMemorySystem_init();
 	return gtSingletone<gtMemorySystemCommon>::s_instance->free( ptr );
 }
 
 void gtMemorySystem::set( void * data, void * value, u32 stride, u32 size ){
+	gtMemorySystem_init();
 	gtSingletone<gtMemorySystemCommon>::s_instance->set( data, value, stride, size );
 }
 

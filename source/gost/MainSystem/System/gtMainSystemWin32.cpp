@@ -48,8 +48,8 @@ namespace gost{
 			this->initEventSystem();
 
 
-			if( gtSingletone<gtFileSystemCommon>::s_instance->existFile( u"log.txt" ) )
-				gtSingletone<gtFileSystemCommon>::s_instance->deleteFile( u"log.txt" );
+			if( gtFileSystem::existFile( u"log.txt" ) )
+				gtFileSystem::deleteFile( u"log.txt" );
 			
 			gtMainSystemCommon::s_log->print( gtLog::msgType::Info, u"Starting GoST version %i.%i", 0, 1 );
 

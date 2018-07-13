@@ -123,12 +123,8 @@
 
 namespace gost {
 
-	extern "C" GT_API void GT_CDECL gost_init();
-	extern "C" GT_API void GT_CDECL gost_clear();
 	extern "C" GT_API gtMainSystem* GT_CDECL gost_create_main_system_internal( const gtDeviceCreationParameters& params );
-
 	GT_FORCE_INLINE gtPtr<gtMainSystem> gost_create_main_system( const gtDeviceCreationParameters& params = gtDeviceCreationParameters() ){
-		gost_init();
 		return gtPtrNew<gtMainSystem>( gost_create_main_system_internal( params ) );
 	}
 
