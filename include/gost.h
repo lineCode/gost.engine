@@ -123,13 +123,13 @@
 
 namespace gost {
 
-	extern "C" GT_API void GT_CDECL GoSTPreInit();
-	extern "C" GT_API void GT_CDECL GoSTClear();
-	extern "C" GT_API gtMainSystem* GT_CDECL InitializeGoSTEngine_internal( const gtDeviceCreationParameters& params );
+	extern "C" GT_API void GT_CDECL gost_init();
+	extern "C" GT_API void GT_CDECL gost_clear();
+	extern "C" GT_API gtMainSystem* GT_CDECL gost_create_main_system_internal( const gtDeviceCreationParameters& params );
 
-	GT_FORCE_INLINE gtPtr<gtMainSystem> InitializeGoSTEngine( const gtDeviceCreationParameters& params = gtDeviceCreationParameters() ){
-		GoSTPreInit();
-		return gtPtrNew<gtMainSystem>( InitializeGoSTEngine_internal( params ) );
+	GT_FORCE_INLINE gtPtr<gtMainSystem> gost_create_main_system( const gtDeviceCreationParameters& params = gtDeviceCreationParameters() ){
+		gost_init();
+		return gtPtrNew<gtMainSystem>( gost_create_main_system_internal( params ) );
 	}
 
 #if defined(_MSC_VER)
@@ -142,28 +142,6 @@ namespace gost {
 #endif
 #endif
 
-#ifndef GOST_ENGINE
-	// Do not use
-	struct GoSTInitialization{
-		GoSTInitialization() {
-			if( !m_init )
-				GoSTPreInit(); 
-
-			m_init = true;
-		}
-
-		~GoSTInitialization(){
-			if( m_init )
-				GoSTClear();   
-			m_init = false;
-		}
-
-	private:
-		bool m_init = false;
-	};
-	const GoSTInitialization g_GoST_init;
-#endif
-	
 }
 
 #endif

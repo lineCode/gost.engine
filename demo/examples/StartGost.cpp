@@ -109,6 +109,7 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 int main(){
 #endif
 
+	gost_init();
 
 	gtDeviceCreationParameters params;
 
@@ -122,7 +123,7 @@ int main(){
 	params.m_consumer = &events;
 #endif
 
-	auto mainSystem = InitializeGoSTEngine( params );
+	auto mainSystem = gost_create_main_system( params );
  
 	auto * output = mainSystem->getOutputWindow();
 	output->setWindowText( u"Hello world" );
@@ -198,7 +199,9 @@ int main(){
 			videoDriver->endRender();
 		}
 	}
- 
+	
+ 	gost_clear();
+
 	return 0;
 }
 

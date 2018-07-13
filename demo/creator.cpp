@@ -3,6 +3,8 @@
 #if defined( GT_PLATFORM_WIN32 )
 int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR /*lpCmdLine*/, int /*nCmdShow*/ ){
 #endif
+
+	gost_init();
 	
 	demo::DemoApplication	*	app = new demo::DemoApplication;
 	
@@ -24,6 +26,8 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 	app->Run();
 
 	delete app;
+
+	gost_clear();
 
 	return 0;
 }

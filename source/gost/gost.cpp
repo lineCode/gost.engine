@@ -4,21 +4,21 @@
 
 extern "C"{
 
-	GT_API void GT_CDECL GoSTPreInit(){
+	GT_API void GT_CDECL gost_init(){
 		#if defined( GT_PLATFORM_WIN32 )
 		if( !gtSingletone<gtMemorySystemCommon>::s_instance )
 			gtSingletone<gtMemorySystemCommon>::s_instance = new gtMemorySystemImplWin32;
 		#endif
 	}
 
-	GT_API void GT_CDECL GoSTClear(){
+	GT_API void GT_CDECL gost_clear(){
 		if( gtSingletone<gtMemorySystemCommon>::s_instance ){
 			delete gtSingletone<gtMemorySystemCommon>::s_instance;
 			gtSingletone<gtMemorySystemCommon>::s_instance = nullptr;
 		}
 	}
 
-	GT_API gtMainSystem* InitializeGoSTEngine_internal( const gtDeviceCreationParameters& params ){
+	GT_API gtMainSystem* gost_create_main_system_internal( const gtDeviceCreationParameters& params ){
 		
 		gtMainSystem*	main_system( nullptr );
 

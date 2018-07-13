@@ -182,7 +182,7 @@ void demo::DemoApplication::playAudio( DemoAudioType type ){
 }
 
 bool demo::DemoApplication::initEngine(){
-	m_mainSystem = gost::InitializeGoSTEngine( m_params );
+	m_mainSystem = gost::gost_create_main_system( m_params );
 	if( !m_mainSystem )
 		return false;
 
