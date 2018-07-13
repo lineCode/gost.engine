@@ -34,6 +34,7 @@ namespace gost{
 		virtual gtString	getRealPath( const gtString& in ) = 0;
 	};
 
+	gtFileSystemCommon* gtSingletone<gtFileSystemCommon>::s_instance = nullptr;
 
 }
 

@@ -5,7 +5,7 @@ int WINAPI WinMain( HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR 
 #endif
 
 	gost_init();
-	
+
 	demo::DemoApplication	*	app = new demo::DemoApplication;
 	
 	if( !app ){

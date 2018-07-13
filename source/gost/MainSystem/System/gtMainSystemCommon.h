@@ -47,7 +47,7 @@ namespace gost{
 
 	public:
 
-		static gtFileSystemCommon*	s_fileSystem;
+		//static gtFileSystemCommon*	s_fileSystem;
 		//static gtMemorySystemCommon*s_memorySystem;
 
 		gtMainSystemCommon();

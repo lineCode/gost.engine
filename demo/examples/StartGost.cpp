@@ -111,6 +111,17 @@ int main(){
 
 	gost_init();
 
+	{ // now you can use gtFileSystem::
+		gtFile_t file =  util::createFileForWriteText( u"out_text.txt" );
+		gtTextFileInfo fi;
+		fi.m_endian = gtTextFileEndian::Little;
+		fi.m_format = gtTextFileFormat::UTF_16;
+		fi.m_hasBOM = true;
+		file->setTextFileInfo( fi );
+		file->write( u"Hello world!" );
+		
+	}
+	
 	gtDeviceCreationParameters params;
 
 #ifdef UseCustomOutput

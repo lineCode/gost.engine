@@ -23,6 +23,8 @@ namespace gost{
 	bool	gtMainSystemWin32::init(){
 		// Почему я выделяю память но не освобождаю?
 		//this->s_memorySystem = new gtMemorySystemImplWin32;
+		// Почему я выделяю память но не освобождаю?
+		//this->s_fileSystem = new gtFileSystemWin32;
 		
 
         timeBeginPeriod(1);
@@ -45,11 +47,9 @@ namespace gost{
 			this->initStackTracer();
 			this->initEventSystem();
 
-			// Почему я выделяю память но не освобождаю?
-			this->s_fileSystem = new gtFileSystemWin32;
 
-			if( this->s_fileSystem->existFile( u"log.txt" ) )
-				this->s_fileSystem->deleteFile( u"log.txt" );
+			if( gtSingletone<gtFileSystemCommon>::s_instance->existFile( u"log.txt" ) )
+				gtSingletone<gtFileSystemCommon>::s_instance->deleteFile( u"log.txt" );
 			
 			gtMainSystemCommon::s_log->print( gtLog::msgType::Info, u"Starting GoST version %i.%i", 0, 1 );
 

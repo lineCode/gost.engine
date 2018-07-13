@@ -13,56 +13,56 @@ gtPtrNew<gtFile> gtFileSystem::createFile( const gtString& fileName, gtFileMode 
 			gtFileShareMode EFSM,
 			u32 EFA
 		){
-	return gtPtrNew<gtFile>( gtMainSystemCommon::s_fileSystem->createFile( fileName, mode, access, action, EFSM, EFA ) );;
+	return gtPtrNew<gtFile>( gtSingletone<gtFileSystemCommon>::s_instance->createFile( fileName, mode, access, action, EFSM, EFA ) );;
 }
 
 bool gtFileSystem::deleteFile( const gtString& fileName ){
-	return gtMainSystemCommon::s_fileSystem->deleteFile( fileName );
+	return gtSingletone<gtFileSystemCommon>::s_instance->deleteFile( fileName );
 }
 
 bool gtFileSystem::deleteDir( const gtString& dir ){
-	return gtMainSystemCommon::s_fileSystem->deleteDir( dir );
+	return gtSingletone<gtFileSystemCommon>::s_instance->deleteDir( dir );
 }
 
 bool gtFileSystem::existFile( const gtString& fileName ){
-	return gtMainSystemCommon::s_fileSystem->existFile( fileName );
+	return gtSingletone<gtFileSystemCommon>::s_instance->existFile( fileName );
 }
 
 bool gtFileSystem::existDir( const gtString& dir ){
-	return gtMainSystemCommon::s_fileSystem->existDir( dir );
+	return gtSingletone<gtFileSystemCommon>::s_instance->existDir( dir );
 }
 
 bool gtFileSystem::createDir( const gtString& dir ){
-	return gtMainSystemCommon::s_fileSystem->createDir( dir );
+	return gtSingletone<gtFileSystemCommon>::s_instance->createDir( dir );
 }
 
 void gtFileSystem::scanDirBegin( gtString dir ){
 	gtString dir2 = dir;
-	gtMainSystemCommon::s_fileSystem->scanDirBegin( dir2 );
+	gtSingletone<gtFileSystemCommon>::s_instance->scanDirBegin( dir2 );
 }
 			
 void gtFileSystem::scanDirEnd(){
-	gtMainSystemCommon::s_fileSystem->scanDirEnd();
+	gtSingletone<gtFileSystemCommon>::s_instance->scanDirEnd();
 }
 
 bool gtFileSystem::getDirObject( gtFileSystem::DirObject* o ){
-	return gtMainSystemCommon::s_fileSystem->getDirObject( o );
+	return gtSingletone<gtFileSystemCommon>::s_instance->getDirObject( o );
 }
 
 bool gtFileSystem::copyFile( const gtString& existingFileName, const gtString& newFileName, bool overwrite ){
-	return gtMainSystemCommon::s_fileSystem->copyFile( existingFileName, newFileName, overwrite );
+	return gtSingletone<gtFileSystemCommon>::s_instance->copyFile( existingFileName, newFileName, overwrite );
 }
 
 gtString gtFileSystem::getProgramPath(){
-		return gtMainSystemCommon::s_fileSystem->getProgramPath();
+		return gtSingletone<gtFileSystemCommon>::s_instance->getProgramPath();
 }
 
 gtString gtFileSystem::getSystemPath(){
-	return gtMainSystemCommon::s_fileSystem->getSystemPath();
+	return gtSingletone<gtFileSystemCommon>::s_instance->getSystemPath();
 }
 
 gtString gtFileSystem::getRealPath( const gtString& in ){
-	return gtMainSystemCommon::s_fileSystem->getRealPath( in );
+	return gtSingletone<gtFileSystemCommon>::s_instance->getRealPath( in );
 }
 
 /*
