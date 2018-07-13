@@ -10,6 +10,7 @@ cbuffer cbVerts{
 	float2 t2;
 	float2 t3;
 	float2 t4;
+	float4 color;
 };
 
 cbuffer cbPixel{
@@ -65,7 +66,7 @@ PSOut PSMain(VSOut input)
 	
 	float4 diffuseColor = tex2d_1.Sample(tex2D_sampler_1, input.uv);
 	
-    output.color = diffuseColor;
+    output.color = diffuseColor * color;
 	
 	if( output.color.a < transparent ) discard;
 	

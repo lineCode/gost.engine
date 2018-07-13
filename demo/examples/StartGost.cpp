@@ -109,9 +109,7 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 int main(){
 #endif
 
-	gost_init();
-
-	{ // now you can use gtFileSystem::
+	{ 
 		gtFile_t file =  util::createFileForWriteText( u"out_text.txt" );
 		gtTextFileInfo fi;
 		fi.m_endian = gtTextFileEndian::Little;
@@ -211,7 +209,6 @@ int main(){
 		}
 	}
 	
- 	gost_clear();
 
 	return 0;
 }

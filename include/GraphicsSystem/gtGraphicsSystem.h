@@ -59,6 +59,7 @@ namespace gost{
 		virtual gtPtr<gtTexture>     createTexture( gtImage* sourceImage ) = 0;
 		virtual gtPtr<gtTexture>     createRenderTargetTexture( const v2u& size, gtImageFormat pixelFormat ) = 0;
 
+		virtual void draw2DBox( const v4i& rect, const gtColor& color ) = 0;
 		virtual void draw2DImage( const v4i& rect, const gtMaterial& m ) = 0;
 		virtual void draw2DImage( const v4i& rect, gtTexture* texture ) = 0;
 		virtual void draw2DImage( const v4i& rect, const v4i& region, const gtMaterial& m ) = 0;
@@ -130,7 +131,7 @@ namespace gost{
 		gtGraphicsSystemInfo m_params;
 		gtArray<v4i> m_scissorRects;
 
-		v2i			m_currentWindowSize;
+		//v2i			m_currentWindowSize;
 
 		template<typename type>
 		struct cache{
@@ -262,10 +263,6 @@ namespace gost{
 
 		virtual const gtGraphicsSystemInfo&	getParams(){
 			return m_params;
-		}
-
-		virtual const v2i&	getCurrentWindowSize() const {
-			return m_currentWindowSize;
 		}
 
 		virtual gtTexture*		getTexture( const gtString& fileName, gtImage** outImage ){

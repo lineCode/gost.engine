@@ -116,7 +116,8 @@ namespace gost{
 
 		void beginRender( bool clearRenderTarget = true, const gtColor& color = gtColor(0.f) );
 		void endRender();
-
+		
+		void draw2DBox( const v4i& rect, const gtColor& color );
 		void draw2DImage( const v4i& rect, const gtMaterial& );
 		void draw2DImage( const v4i& rect, const v4i& region, const gtMaterial& );
 		void draw2DImage( const v4i& rect, gtTexture* texture );

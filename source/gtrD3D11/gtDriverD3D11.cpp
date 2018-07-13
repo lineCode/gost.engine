@@ -31,8 +31,8 @@ gtDriverD3D11::gtDriverD3D11( /*gtMainSystem* System,*/ gtGraphicsSystemInfo par
 	s_instance = this;
 	
 	if( params.m_outWindow ){
-		m_currentWindowSize.x = params.m_outWindow->getRect().z; // нужно ли? МОжет быть правильнее везде где нужно брать m_outWindow->getClientRect
-		m_currentWindowSize.y = params.m_outWindow->getRect().w;
+		//m_currentWindowSize.x = params.m_outWindow->getRect().z; // нужно ли? МОжет быть правильнее везде где нужно брать m_outWindow->getClientRect
+		//m_currentWindowSize.y = params.m_outWindow->getRect().w;
 	}
 }
 gtDriverD3D11* gtDriverD3D11::s_instance = nullptr;
@@ -271,7 +271,7 @@ bool gtDriverD3D11::initialize(){
 
 	D3D11_RASTERIZER_DESC	rasterDesc;
 	ZeroMemory( &rasterDesc, sizeof( D3D11_RASTERIZER_DESC ) );
-	rasterDesc.AntialiasedLineEnable = true;
+	rasterDesc.AntialiasedLineEnable = false;
 	rasterDesc.CullMode = D3D11_CULL_BACK;
 	rasterDesc.DepthBias = 0;
 	rasterDesc.DepthBiasClamp = 0.0f;
@@ -451,6 +451,14 @@ void gtDriverD3D11::endRender(){
 	}
 }
 
+void gtDriverD3D11::draw2DBox( const v4i& rect, const gtColor& color ){
+	gtMaterial m;
+	m.textureLayer[0].texture = m_standartTextureWhiteColor.data();
+	m.textureLayer[0].diffuseColor = color;
+
+	draw2DImage(rect, m );
+}
+
 void gtDriverD3D11::draw2DImage( const v4i& rect, gtTexture* texture ){
 	gtMaterial m;
 	m.textureLayer[ gtConst0U ].texture = texture;
@@ -469,7 +477,9 @@ void gtDriverD3D11::draw2DImage( const v4i& rect, const gtMaterial& m ){
 
 void gtDriverD3D11::draw2DImage( const v4i& rect, const v4i& region, const gtMaterial& m ){
 
-	v2i center( m_currentWindowSize.x / 2, m_currentWindowSize.y / 2  );
+	auto crc = m_params.m_outWindow->getClientRect();
+
+	v2i center( crc.z / 2, crc.w / 2  );
 
 	v4f realRect;
 	realRect.x = f32(rect.x - center.x ) / (f32)center.x;
@@ -549,6 +559,7 @@ void gtDriverD3D11::_draw2DImage( const v4f& rect, const v8f& region, const gtMa
 		v2f t2;
 		v2f t3;
 		v2f t4;
+		gtColor color;
 	}cb;
 
 	cb.v1.x = rect.x;	//x		
@@ -579,9 +590,11 @@ void gtDriverD3D11::_draw2DImage( const v4f& rect, const v8f& region, const gtMa
 	cb.t4.x = region.c;	//u
 	cb.t4.y = region.d;	//v
 
-	m_d3d11DevCon->IASetInputLayout( 0 );
-	m_d3d11DevCon->VSSetShader( ((gtShaderImpl*)shader)->m_vShader, 0, 0 );
-	m_d3d11DevCon->PSSetShader( ((gtShaderImpl*)shader)->m_pShader, 0, 0 );
+	cb.color = material.textureLayer[0].diffuseColor;
+
+//	m_d3d11DevCon->IASetInputLayout( 0 );
+//	m_d3d11DevCon->VSSetShader( ((gtShaderImpl*)shader)->m_vShader, 0, 0 );
+//	m_d3d11DevCon->PSSetShader( ((gtShaderImpl*)shader)->m_pShader, 0, 0 );
 	m_d3d11DevCon->IASetPrimitiveTopology( D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
 
 	u32 sz = ((gtShaderImpl*)shader)->m_constantBuffers.size();
@@ -996,7 +1009,7 @@ bool	gtDriverD3D11::createShaders(){
 		vertexType2D
 		);
 	if( m_shader2DStandart ){
-		if( !m_shader2DStandart->createShaderObject( 96u ) ) return false;
+		if( !m_shader2DStandart->createShaderObject( 96u + (sizeof(v4f)) ) ) return false;
 		if( !m_shader2DStandart->createShaderObject( 16u ) ) return false;
 	}
 

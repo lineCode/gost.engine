@@ -148,11 +148,20 @@ void gtCameraImpl::render(){
 		gtQuaternion qRoll ( v3f( 0.f, 0.f, m_rotation.z ) );
 
 		// I forgot how I did before. :(
-		m_orientation = qYaw * qPitch * qRoll; //fps...
-		math::makeRotationMatrix( m_rotationMatrix, m_orientation );
+	//	m_orientation = qYaw * qPitch * qRoll; //fps...
+	//	math::makeRotationMatrix( m_rotationMatrix, m_orientation );
 
-		math::makeRotationMatrix( m_rotationMatrix, m_orientation );
+		gtMatrix4 R;
+		gtMatrix4 P;
+		gtMatrix4 Y;
+		math::makeRotationMatrix( R, qRoll );
+		math::makeRotationMatrix( P, qPitch );
+		math::makeRotationMatrix( Y, qYaw );
+
+		m_rotationMatrix = R * P * Y;
+
 		m_viewMatrix = m_rotationMatrix * m_worldMatrixAbsolute;
+
 
 	}break;
 	case gost::gtCameraType::FPS:{
@@ -208,11 +217,11 @@ void gtCameraImpl::calculateFrustum(){
 	clip[15] = modl[12] * proj[3] + modl[13] * proj[7] + modl[14] * proj[11] + modl[15] * proj[15];
 
 
-	m_frustum.m_planes[ gtConst0U ].x = clip[ gtConst3U ] - clip[ gtConst0U ];
-	m_frustum.m_planes[ gtConst0U ].y = clip[ gtConst7U ] - clip[ gtConst4U ];
-	m_frustum.m_planes[ gtConst0U ].z = clip[ 11u ] - clip[ gtConst8U ];
-	m_frustum.m_planes[ gtConst0U ].w = clip[ 15u ] - clip[ 12u ];
-	m_frustum.m_planes[ gtConst0U ].normalize();
+	m_frustum.m_planes[ 0u ].x = clip[ gtConst3U ] - clip[ gtConst0U ];
+	m_frustum.m_planes[ 0u ].y = clip[ gtConst7U ] - clip[ gtConst4U ];
+	m_frustum.m_planes[ 0u ].z = clip[ 11u ] - clip[ gtConst8U ];
+	m_frustum.m_planes[ 0u ].w = clip[ 15u ] - clip[ 12u ];
+	m_frustum.m_planes[ 0u ].normalize();
 
 	m_frustum.m_planes[ gtConst1U ].x = clip[ gtConst3U ] + clip[ gtConst0U ];
 	m_frustum.m_planes[ gtConst1U ].y = clip[ gtConst7U ] + clip[ gtConst4U ];
