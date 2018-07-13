@@ -294,6 +294,9 @@ void gtGUIStaticTextImpl::updateBackground(){
 	m_backgroundShape->setColor( m_bgColor );
 }
 
+void gtGUIStaticTextImpl::update(){
+}
+
 void gtGUIStaticTextImpl::render(){
 	u32 sz = m_buffers.size();
 	for( u32 i = gtConst0U; i < sz; ++i ){

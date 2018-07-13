@@ -18,6 +18,7 @@ gtGUIFontImpl::~gtGUIFontImpl(){
 }
 
 void gtGUIFontImpl::render(){}
+void gtGUIFontImpl::update(){}
 void gtGUIFontImpl::setTransparent( f32 ){}
 f32  gtGUIFontImpl::getTransparent(){return 1.f;}
 

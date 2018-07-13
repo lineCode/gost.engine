@@ -25,6 +25,7 @@ namespace gost{
 		virtual ~gtGUIObject(){}
 
 		virtual void render() = 0;
+		virtual void update() = 0;
 
 		virtual void setTransparent( f32 transparent = gtConst0F ) = 0;
 		virtual f32  getTransparent() = 0;

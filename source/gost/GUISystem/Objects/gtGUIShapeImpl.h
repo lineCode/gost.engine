@@ -13,6 +13,11 @@ namespace gost{
 		gtMaterial*		m_material;
 
 		gtVertexType	vt[ gtConst5U ];
+		v4i m_rect;
+		gtColor m_difColor;
+		gtColor m_gr1Color;
+		gtColor m_gr2Color;
+		bool m_useVertGradient;
 
 	public:
 
@@ -22,6 +27,7 @@ namespace gost{
 		bool		initRectangle( const v4i& rect, const gtColor& color, bool useGradient = false, 
 			const gtColor& first_color = gtColorBlack, const gtColor& second_color = gtColorBlack, bool useVerticalGradient = false );
 
+		void		update();
 		void		render();
 		void		setTransparent( f32 transparent = gtConst0F );
 		f32			getTransparent();

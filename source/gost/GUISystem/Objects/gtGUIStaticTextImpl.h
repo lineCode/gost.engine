@@ -58,7 +58,7 @@ namespace gost{
 		void		clear();
 		gtGUIShape* getBackgroundShape();
 
-
+		void		update();
 		void		render();
 		void		setTransparent( f32 transparent = gtConst0F );
 		f32			getTransparent();

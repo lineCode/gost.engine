@@ -26,8 +26,6 @@ namespace gost{
 		gtPtr<gtGUIShape>			m_backgroundShape;
 		gtArray<gtGUIStaticText*>	m_textWords;
 
-		void update();
-
 	public:
 
 		gtGUITextFieldImpl( gtGraphicsSystem* d );
@@ -45,7 +43,8 @@ namespace gost{
 		void        setBackgroundGradient( bool use_gradient, const gtColor& first_color, const gtColor& second_color, bool use_vertical_gradient = false );
 		void		clear();
 		gtGUIShape* getBackgroundShape();
-
+		
+		void		update();
 		void		render();
 		void		setTransparent( f32 transparent = gtConst0F );
 		f32			getTransparent();
