@@ -25,12 +25,8 @@ class DemoExample_phy_raytest : public demo::DemoExample{
 	gtStaticObject*         m_cubeObjects[CUB_NUM_X][CUB_NUM_Y][CUB_NUM_Z];
 
 	gtRayf32                m_ray;
-	v4f sc1;
-	v4f sc2;
-	v4f sc3;
-	v4f sc4;
+	gtRayf32                m_rayPick;
 
-	v4f r1, r2, r3;
 
 public:
 
@@ -163,7 +159,7 @@ bool DemoExample_phy_raytest::Init(){
 	m_cameraFPS->setCameraType( gtCameraType::FPS );
 	m_cameraFPS->setName( "FPS" );
 	m_cameraFPS->setRotation( v3f( math::degToRad( -35.f ), 0.f, 0.f ) );
-	m_cameraFPS->setNear( 0.1f );
+	m_cameraFPS->setNear( 1.0f );
 
 	return true;
 }
@@ -238,23 +234,6 @@ void DemoExample_phy_raytest::Input( f32 d ){
 		}
 	}
 
-	if( m_eventConsumer->keyDownOnce( gtKey::K_F1 ) ){
-		sc1 = m_mainSystem->screenToWorld( m_input->getCursorPosition() );
-		r1  = m_cameraFPS->getPosition();
-	}
-
-	if( m_eventConsumer->keyDownOnce( gtKey::K_F2 ) ){
-		sc2 = m_mainSystem->screenToWorld( m_input->getCursorPosition() );
-	}
-
-	if( m_eventConsumer->keyDownOnce( gtKey::K_F3 ) ){
-		sc3 = m_mainSystem->screenToWorld( m_input->getCursorPosition() );
-	}
-
-	if( m_eventConsumer->keyDownOnce( gtKey::K_F4 ) ){
-		sc4 = m_mainSystem->screenToWorld( m_input->getCursorPosition() );
-	}
-
 	auto coords = m_input->getCursorPosition();
 	auto new_coords = coords - m_oldCoord;
 	auto rot = m_cameraFPS->getRotation();
@@ -280,6 +259,8 @@ void DemoExample_phy_raytest::Input( f32 d ){
 
 	m_oldCoord = coords;
 }
+
+
 
 void DemoExample_phy_raytest::Render(){
 	m_demoApp->RenderDefaultScene();
@@ -315,26 +296,17 @@ void DemoExample_phy_raytest::Render(){
 		}
 	}
 
+	m_rayPick = m_mainSystem->getRayFromScreen( m_input->getCursorPosition() );
+
+	body = m_ps->rayTest( m_rayPick, hitPoint, normal );
+	if( m_input->isKeyDown( gtKey::K_SPACE ) ){
+		if( body ){
+			body->setLinearVelocity( -(normal*3.f) );
+		}
+	}
+
+	m_gs->drawLineSphere( hitPoint, 0.05f, 6u, gtColorRed, gtColorRed, gtColorRed );
 	m_gs->drawLine( m_ray.m_begin, m_ray.m_end, gtColorRed );
-
-	
-	m_gs->drawLineSphere( sc1, 0.02f, 10.f, gtColorRed, gtColorGreen, gtColorBlue );
-	m_gs->drawLineSphere( sc2, 0.02f, 10.f, gtColorRed, gtColorGreen, gtColorBlue );
-	m_gs->drawLineSphere( sc3, 0.02f, 10.f, gtColorRed, gtColorGreen, gtColorBlue );
-	m_gs->drawLineSphere( sc4, 0.02f, 10.f, gtColorRed, gtColorGreen, gtColorBlue );
-
-	m_gs->drawLine( sc1, sc2, gtColorRed );
-	m_gs->drawLine( sc3, sc4, gtColorRed );
-	m_gs->drawLine( sc1, sc3, gtColorRed );
-	m_gs->drawLine( sc2, sc4, gtColorRed );
-	
-	m_gs->drawLineSphere( r1, 0.02f, 10.f, gtColorRed, gtColorRed, gtColorRed );
-
-//	r1 = v3f( 0.f, 0.f, 0.f );
-//	r2 = v3f( 1.f, 2.f, 10.f );
-
-//	m_gs->drawLine( r1, r2, gtColorRed );
-//	m_gs->drawLine( r2, r3, gtColorLimeGreen );
 
 }
 

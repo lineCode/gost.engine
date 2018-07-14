@@ -37,7 +37,7 @@ bool gtRigidBodyImpl::init(){
 	btRigidBody::btRigidBodyConstructionInfo rbInfo( m_info.m_mass, myMotionState, ((gtCollisionShapeImpl*)m_info.m_shape)->getBulletShape(), localInertia );
 
 	m_body = new btRigidBody( rbInfo );
-
+	
 	if( !m_body ){
 		delete myMotionState;
 		return false;
@@ -107,6 +107,16 @@ void * gtRigidBodyImpl::getUserData(){
 
 void gtRigidBodyImpl::setUserData( void * ptr ){
 	m_userPtr = ptr;
+}
+
+v4f gtRigidBodyImpl::getLinearVelocity(){
+	auto btvec = m_body->getLinearVelocity();
+	return v4f( btvec.x(), btvec.y(), btvec.z(), 0.f );
+}
+
+void       gtRigidBodyImpl::setLinearVelocity( const v4f& velocity ){
+	btVector3 btvec(velocity.x,velocity.y,velocity.z);
+	m_body->setLinearVelocity(btvec);
 }
 
 /*

@@ -210,6 +210,9 @@ gtRigidBody* gtPhysicsBullet::rayTest( const v4f& ray_start, const v4f& ray_end,
 		btRigidBody * bd = (btRigidBody *)closestResults.m_collisionObject;
 		hitPoint.set( p.x(), p.y(), p.z(), 0.f );
 		normal.set( closestResults.m_hitNormalWorld.x(), closestResults.m_hitNormalWorld.y(), closestResults.m_hitNormalWorld.z(), 0.f );
+
+		bd->activate( true );
+
 		return (gtRigidBody*)bd->getUserPointer();
 	}
 

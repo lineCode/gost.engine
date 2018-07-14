@@ -345,7 +345,7 @@ v4f gtMainSystemCommon::screenToWorld( const gtVector2<s16>& coord ){
 		v4f coords;
 		coords[0] = (2.0f*((float)(coord.x)/(rc.z-0)))-1.0f;
 		coords[1]=1.0f-(2.0f*((float)(coord.y)/(rc.w-0)));
-        coords[2]=2.0* 1.f -1.0;
+        coords[2]=2.0* .0f -1.0;
         coords[3]=1.0;
 
 		v = math::mul4( coords, PV );
@@ -356,6 +356,56 @@ v4f gtMainSystemCommon::screenToWorld( const gtVector2<s16>& coord ){
 		v.z *= v.w;
 	}
 	return v;
+}
+
+gtRayf32 gtMainSystemCommon::getRayFromScreen( const gtVector2<s16>& coord, f32 len ){
+	gtRayf32 ray;
+
+	auto camera = m_sceneSystem->getActiveCamera();
+
+	if( camera ){
+		
+		auto P = camera->getProjectionMatrix();
+
+		auto rc = this->m_gs->getParams().m_outWindow->getClientRect();
+
+		f32 v3dx = ((( 2.0f * coord.x) / rc.getWidth() ) - 1 ) / P[0].x;
+		f32 v3dy = -((( 2.0f * coord.y) / rc.getHeight() ) - 1 ) / P[1].y;
+		f32 v3dz = -1.0f; // f32 v3dz = 1.0f; for LH
+
+		v4f rayPos( v3dx, v3dy, v3dz, 0.f );
+
+		auto V = camera->getViewMatrix();
+		V.invert();
+
+		{
+			v4f result  = V[3];
+			v4f inverse( result.w );
+			inverse.x = 1.f / inverse.x;
+			inverse.y = 1.f / inverse.y;
+			inverse.z = 1.f / inverse.z;
+			inverse.w = 1.f / inverse.w;
+
+			ray.m_begin = result * inverse;
+		}
+		{
+			v4f X,Y,Z,result;
+			Z.set(rayPos.z);
+			Y.set(rayPos.y);
+			X.set(rayPos.x);
+
+			result = Z * V[2];
+			result += Y * V[1];
+			result += X * V[0];
+
+			ray.m_end = result;
+
+			ray.m_end = (ray.m_begin + (ray.m_end*len));
+		}
+
+	}
+
+	return ray;
 }
 
 /*

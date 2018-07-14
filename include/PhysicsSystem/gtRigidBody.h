@@ -21,9 +21,11 @@ namespace gost{
 	public:
 		
 		virtual const gtRigidBodyInfo& getInfo()     = 0;
+		virtual v4f                    getLinearVelocity() = 0;
 		virtual const v4f&             getPosition() = 0;
 		virtual const gtQuaternion&    getRotation() = 0;
 		virtual void *                 getUserData() = 0;
+		virtual void                   setLinearVelocity( const v4f& velocity ) = 0;
 		virtual void                   setPosition( const v4f& ) = 0;
 		virtual void                   setRotation( const gtQuaternion& ) = 0;
 		virtual void                   setUserData( void * ) = 0;

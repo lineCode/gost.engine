@@ -20,9 +20,11 @@ namespace gost{
 
 		bool                   init();
 		const gtRigidBodyInfo& getInfo();
+		v4f                    getLinearVelocity();
 		const v4f&             getPosition();
 		const gtQuaternion&    getRotation();
 		void *                 getUserData();
+		void                   setLinearVelocity( const v4f& velocity );
 		void                   setPosition( const v4f& );
 		void                   setRotation( const gtQuaternion& );
 		void                   setUserData( void * );

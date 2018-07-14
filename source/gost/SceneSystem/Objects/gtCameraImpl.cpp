@@ -217,41 +217,41 @@ void gtCameraImpl::calculateFrustum(){
 	clip[15] = modl[12] * proj[3] + modl[13] * proj[7] + modl[14] * proj[11] + modl[15] * proj[15];
 
 
-	m_frustum.m_planes[ 0u ].x = clip[ gtConst3U ] - clip[ gtConst0U ];
-	m_frustum.m_planes[ 0u ].y = clip[ gtConst7U ] - clip[ gtConst4U ];
-	m_frustum.m_planes[ 0u ].z = clip[ 11u ] - clip[ gtConst8U ];
+	m_frustum.m_planes[ 0u ].x = clip[ 3 ] - clip[ 0 ];
+	m_frustum.m_planes[ 0u ].y = clip[ 7 ] - clip[ 4 ];
+	m_frustum.m_planes[ 0u ].z = clip[ 11u ] - clip[ 8 ];
 	m_frustum.m_planes[ 0u ].w = clip[ 15u ] - clip[ 12u ];
 	m_frustum.m_planes[ 0u ].normalize();
 
-	m_frustum.m_planes[ gtConst1U ].x = clip[ gtConst3U ] + clip[ gtConst0U ];
-	m_frustum.m_planes[ gtConst1U ].y = clip[ gtConst7U ] + clip[ gtConst4U ];
-	m_frustum.m_planes[ gtConst1U ].z = clip[ 11u ] + clip[ gtConst8U ];
-	m_frustum.m_planes[ gtConst1U ].w = clip[ 15u ] + clip[ 12u ];
-	m_frustum.m_planes[ gtConst1U ].normalize();
+	m_frustum.m_planes[ 1 ].x = clip[ 3 ] + clip[ 0 ];
+	m_frustum.m_planes[ 1 ].y = clip[ 7 ] + clip[ 4 ];
+	m_frustum.m_planes[ 1 ].z = clip[ 11u ] + clip[ 8 ];
+	m_frustum.m_planes[ 1 ].w = clip[ 15u ] + clip[ 12u ];
+	m_frustum.m_planes[ 1 ].normalize();
 
-	m_frustum.m_planes[ gtConst2U ].x = clip[ gtConst3U ] + clip[ gtConst1U ];
-	m_frustum.m_planes[ gtConst2U ].y = clip[ gtConst7U ] + clip[ gtConst5U ];
-	m_frustum.m_planes[ gtConst2U ].z = clip[ 11u ] + clip[ gtConst9U ];
-	m_frustum.m_planes[ gtConst2U ].w = clip[ 15u ] + clip[ 13u ];
-	m_frustum.m_planes[ gtConst2U ].normalize();
+	m_frustum.m_planes[ 2 ].x = clip[ 3 ] + clip[ 1 ];
+	m_frustum.m_planes[ 2 ].y = clip[ 7 ] + clip[ 5 ];
+	m_frustum.m_planes[ 2 ].z = clip[ 11u ] + clip[ 9 ];
+	m_frustum.m_planes[ 2 ].w = clip[ 15u ] + clip[ 13u ];
+	m_frustum.m_planes[ 2 ].normalize();
 
-	m_frustum.m_planes[ gtConst3U ].x = clip[ gtConst3U ] - clip[ gtConst1U ];
-	m_frustum.m_planes[ gtConst3U ].y = clip[ gtConst7U ] - clip[ gtConst5U ];
-	m_frustum.m_planes[ gtConst3U ].z = clip[ 11u ] - clip[ gtConst9U ];
-	m_frustum.m_planes[ gtConst3U ].w = clip[ 15u ] - clip[ 13u ];
-	m_frustum.m_planes[ gtConst3U ].normalize();
+	m_frustum.m_planes[ 3 ].x = clip[ 3 ] - clip[ 1 ];
+	m_frustum.m_planes[ 3 ].y = clip[ 7 ] - clip[ 5 ];
+	m_frustum.m_planes[ 3 ].z = clip[ 11u ] - clip[ 9 ];
+	m_frustum.m_planes[ 3 ].w = clip[ 15u ] - clip[ 13u ];
+	m_frustum.m_planes[ 3 ].normalize();
 
-	m_frustum.m_planes[ gtConst4U ].x = clip[ gtConst3U ] - clip[ gtConst2U ];
-	m_frustum.m_planes[ gtConst4U ].y = clip[ gtConst7U ] - clip[ gtConst6U ];
-	m_frustum.m_planes[ gtConst4U ].z = clip[ 11u ] - clip[ 10u ];
-	m_frustum.m_planes[ gtConst4U ].w = clip[ 15u ] - clip[ 14u ];
-	m_frustum.m_planes[ gtConst4U ].normalize();
+	m_frustum.m_planes[ 4 ].x = clip[ 3 ] - clip[ 2 ];
+	m_frustum.m_planes[ 4 ].y = clip[ 7 ] - clip[ 6 ];
+	m_frustum.m_planes[ 4 ].z = clip[ 11u ] - clip[ 10u ];
+	m_frustum.m_planes[ 4 ].w = clip[ 15u ] - clip[ 14u ];
+	m_frustum.m_planes[ 4 ].normalize();
 
-	m_frustum.m_planes[ gtConst5U ].x = clip[ gtConst3U ] + clip[ gtConst2U ];
-	m_frustum.m_planes[ gtConst5U ].y = clip[ gtConst7U ] + clip[ gtConst6U ];
-	m_frustum.m_planes[ gtConst5U ].z = clip[ 11u ] + clip[ 10u ];
-	m_frustum.m_planes[ gtConst5U ].w = clip[ 15u ] + clip[ 14u ];
-	m_frustum.m_planes[ gtConst5U ].normalize();
+	m_frustum.m_planes[ 5 ].x = clip[ 3 ] + clip[ 2 ];
+	m_frustum.m_planes[ 5 ].y = clip[ 7 ] + clip[ 6 ];
+	m_frustum.m_planes[ 5 ].z = clip[ 11u ] + clip[ 10u ];
+	m_frustum.m_planes[ 5 ].w = clip[ 15u ] + clip[ 14u ];
+	m_frustum.m_planes[ 5 ].normalize();
 
 }
 

@@ -96,6 +96,7 @@ namespace gost{
 		void					setTimer( u32 milliseconds );
 
 		v4f                     screenToWorld( const gtVector2<s16>& coord );
+		gtRayf32                getRayFromScreen( const gtVector2<s16>& coord, f32 len );
 	};
 	
 }

@@ -839,6 +839,15 @@ namespace gost{
 		T planeDotCoord( const T& coord, const v4f& plane ){
 			return T( plane.x * coord.x + plane.y * coord.y + plane.z * coord.z + plane.w );
 		}
+
+		template<typename T>
+		T getTriNormal( const T& v1, const T& v2, const T& v3 ){
+			T U, V;
+			U = v2 - v1;
+			V = v3 - v1;
+
+			return T( (U.y * V.z) - (U.z * V.y), (U.z * V.x) - (U.x * V.z), (U.x * V.y) - (U.y * V.x) );
+		}
 	}
 
 	namespace util{

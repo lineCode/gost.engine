@@ -43,29 +43,29 @@ namespace gost{
 
 			// set all components = 0
 		void		zero(){
-			fill( gtConst0F );
+			fill( 0.f );
 		}
 
 		void		identity(){
 			auto * p = this->getPtr();
 			p[ gtConst0U ] = gtConst1F;
-			p[ gtConst1U ] = gtConst0F;
-			p[ gtConst2U ] = gtConst0F;
-			p[ gtConst3U ] = gtConst0F;
+			p[ gtConst1U ] = 0.f;
+			p[ gtConst2U ] = 0.f;
+			p[ gtConst3U ] = 0.f;
 
-			p[ gtConst4U ] = gtConst0F;
+			p[ gtConst4U ] = 0.f;
 			p[ gtConst5U ] = gtConst1F;
-			p[ gtConst6U ] = gtConst0F;
-			p[ gtConst7U ] = gtConst0F;
+			p[ gtConst6U ] = 0.f;
+			p[ gtConst7U ] = 0.f;
 
-			p[ gtConst8U ] = gtConst0F;
-			p[ gtConst9U ] = gtConst0F;
+			p[ gtConst8U ] = 0.f;
+			p[ gtConst9U ] = 0.f;
 			p[ gtConst10U ] = gtConst1F;
-			p[ gtConst11U ] = gtConst0F;
+			p[ gtConst11U ] = 0.f;
 
-			p[ gtConst12U ] = gtConst0F;
-			p[ gtConst13U ] = gtConst0F;
-			p[ gtConst14U ] = gtConst0F;
+			p[ gtConst12U ] = 0.f;
+			p[ gtConst13U ] = 0.f;
+			p[ gtConst14U ] = 0.f;
 			p[ gtConst15U ] = gtConst1F;
 
 		}
@@ -283,10 +283,10 @@ namespace gost{
 			f32 C	=	std::cos( gtConst05F * FOV );
 			f32 H = C / S;
 			f32 W = H / aspect;
-			out[ gtConst0U ] = v4f( W, gtConst0F, gtConst0F, gtConst0F );
-			out[ gtConst1U ] = v4f( gtConst0F, H, gtConst0F, gtConst0F );
-			out[ gtConst2U ] = v4f( gtConst0F, gtConst0F, Far / (Near - Far), gtConst1F );
-			out[ gtConst3U ] = v4f( gtConst0F, gtConst0F, -out[ gtConst2U ].z * Near, gtConst0F );
+			out[ 0 ] = v4f( W, 0.f, 0.f, 0.f );
+			out[ 1 ] = v4f( 0.f, H, 0.f, 0.f );
+			out[ 2 ] = v4f( 0.f, 0.f, Far/(Far-Near), 1.f );
+			out[ 3 ] = v4f( 0.f, 0.f, -out[2].z * Near, 0.f );
 		}
 
 			//	create perspective matrix for right hand coordinate system
@@ -301,10 +301,10 @@ namespace gost{
 			f32 C	=	std::cos( gtConst05F * FOV );
 			f32 H = C / S;
 			f32 W = H / aspect;
-			out[ gtConst0U ] = v4f( W, gtConst0F, gtConst0F, gtConst0F );
-			out[ gtConst1U ] = v4f( gtConst0F, H, gtConst0F, gtConst0F );
-			out[ gtConst2U ] = v4f( gtConst0F, gtConst0F, Far / (Near - Far), -gtConst1F );
-			out[ gtConst3U ] = v4f( gtConst0F, gtConst0F, out[ gtConst2U ].z * Near, gtConst0F );
+			out[ gtConst0U ] = v4f( W, 0.f, 0.f, 0.f );
+			out[ gtConst1U ] = v4f( 0.f, H, 0.f, 0.f );
+			out[ gtConst2U ] = v4f( 0.f, 0.f, Far / (Near - Far), -gtConst1F );
+			out[ gtConst3U ] = v4f( 0.f, 0.f, out[ gtConst2U ].z * Near, 0.f );
 		}
 
 			//	create orthogonal matrix for right hand coordinate system
@@ -315,10 +315,10 @@ namespace gost{
 			// \param Far: far clip plane
 		GT_FORCE_INLINE void  makeOrthoRHMatrix( gtMatrix4& out, f32 width, f32 height,
 			f32& Near, f32 Far ){
-			out[ gtConst0U ] = v4f( gtConst2F / width, gtConst0F, gtConst0F, gtConst0F );
-			out[ gtConst1U ] = v4f( gtConst0F, gtConst2F / height, gtConst0F, gtConst0F );
-			out[ gtConst2U ] = v4f( gtConst0F, gtConst0F, gtConst1F / (Near - Far), gtConst0F );
-			out[ gtConst3U ] = v4f( gtConst0F, gtConst0F, out[ gtConst2U ].z * Near, gtConst1F );
+			out[ gtConst0U ] = v4f( gtConst2F / width, 0.f, 0.f, 0.f );
+			out[ gtConst1U ] = v4f( 0.f, gtConst2F / height, 0.f, 0.f );
+			out[ gtConst2U ] = v4f( 0.f, 0.f, gtConst1F / (Near - Far), 0.f );
+			out[ gtConst3U ] = v4f( 0.f, 0.f, out[ gtConst2U ].z * Near, gtConst1F );
 		}
 		
 			//	create \a look \a at matrix for right hand coordinate system
@@ -427,7 +427,7 @@ namespace gost{
 			out[ gtConst2U ].y = yz + wx;
 			out[ gtConst2U ].z = gtConst1F - ( xx + yy );
 
-			out[ gtConst0U ].w	= out[ gtConst1U ].w = out[ gtConst2U ].w = out[ gtConst3U ].x = out[ gtConst3U ].y = out[ gtConst3U ].z = gtConst0F;
+			out[ gtConst0U ].w	= out[ gtConst1U ].w = out[ gtConst2U ].w = out[ gtConst3U ].x = out[ gtConst3U ].y = out[ gtConst3U ].z = 0.f;
 			out[ gtConst3U ].w  = gtConst1F;
 		}
 
