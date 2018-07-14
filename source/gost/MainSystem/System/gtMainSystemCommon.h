@@ -94,6 +94,8 @@ namespace gost{
 		gtGraphicsSystem*		getMainVideoDriver();
 		void					setMainVideoDriver( gtGraphicsSystem* d );
 		void					setTimer( u32 milliseconds );
+
+		v4f                     screenToWorld( const gtVector2<s16>& coord );
 	};
 	
 }

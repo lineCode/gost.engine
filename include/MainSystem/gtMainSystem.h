@@ -102,6 +102,7 @@ namespace gost{
 		virtual gtPtr<gtImage> loadImage( const gtString& fileName ) = 0;
 		virtual gtPtr<gtImage> loadImage( const gtString& fileName, const GT_GUID& pluginGUID ) = 0;
 		virtual bool pollEvent( gtEvent& event ) = 0;
+		virtual v4f  screenToWorld( const gtVector2<s16>& coord ) = 0;
 		virtual void setMainVideoDriver( gtGraphicsSystem* d ) = 0;
 		virtual void setMatrixProjection( const gtMatrix4& m ) = 0;
 		virtual void setMatrixView( const gtMatrix4& m ) = 0;	

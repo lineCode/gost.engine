@@ -441,6 +441,16 @@ namespace gost{
 			);
 		}
 
+		template<typename vector_type>
+		vector_type mul4( const vector_type& vec, const gtMatrix4& mat ){
+			return vector_type(
+				mat[ gtConst0U ].x * vec.x + mat[ gtConst1U ].x * vec.y + mat[ gtConst2U ].x * vec.z,
+				mat[ gtConst0U ].y * vec.x + mat[ gtConst1U ].y * vec.y + mat[ gtConst2U ].y * vec.z,
+				mat[ gtConst0U ].z * vec.x + mat[ gtConst1U ].z * vec.y + mat[ gtConst2U ].z * vec.z,
+				mat[ gtConst0U ].w * vec.x + mat[ gtConst1U ].w * vec.y + mat[ gtConst2U ].w * vec.z
+			);
+		}
+
 
 	}//end math::
 

@@ -604,6 +604,10 @@ namespace gost{
 		Type distance( const gtVector3< Type >& from ){ return gtVector3< Type >( x - from.x, y - from.y, z - from.z ).length(); }
 		Type distance( const gtVector4< Type >& from ){ return gtVector4< Type >( x - from.x, y - from.y, z - from.z ).length(); }
 
+		gtVector4< Type > lerp( const gtVector4< Type >& v, Type t ){
+			return gtVector4< Type >( x + (v.x - x) * t, y + (v.y - y) * t, z + (v.z - z) * t, w + (v.w - w) * t);
+		}
+
 		gtVector2< Type > getV2(){ return gtVector2< Type >( x, y ); }
 		gtVector3< Type > getV3(){ return gtVector3< Type >( x, y, z ); }
 	};

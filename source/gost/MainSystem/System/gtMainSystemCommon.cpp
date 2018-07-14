@@ -327,6 +327,37 @@ void gtMainSystemCommon::updateTimer(){
 	}
 }
 
+v4f gtMainSystemCommon::screenToWorld( const gtVector2<s16>& coord ){
+	v4f v;
+
+	auto camera = m_sceneSystem->getActiveCamera();
+
+	if( camera ){
+		
+		auto P = camera->getProjectionMatrix();
+		auto V = camera->getViewMatrix();
+
+		auto PV = P * V;
+		PV.invert();
+
+		auto rc = this->m_gs->getParams().m_outWindow->getClientRect();
+
+		v4f coords;
+		coords[0] = (2.0f*((float)(coord.x)/(rc.z-0)))-1.0f;
+		coords[1]=1.0f-(2.0f*((float)(coord.y)/(rc.w-0)));
+        coords[2]=2.0* 1.f -1.0;
+        coords[3]=1.0;
+
+		v = math::mul4( coords, PV );
+
+		v.w = 1.0 / v.w;
+		v.x *= v.w;
+		v.y *= v.w;
+		v.z *= v.w;
+	}
+	return v;
+}
+
 /*
 Copyright (c) 2017-2018 532235
 
