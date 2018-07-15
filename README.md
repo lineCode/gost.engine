@@ -31,11 +31,7 @@ Main conditions:
 
 ## Contacts
 
-artembasov@outlook.com
-
-https://www.patreon.com/Gostengine
-
-[![Support](http://www.imsoftworks.info/gost/support.png)](https://www.paypal.me/supportgost)
+admin@imsoftworks.info
 
 # Microsoft Visual C++ Redistributable for Visual Studio 2017
 x64 https://go.microsoft.com/fwlink/?LinkId=746572
