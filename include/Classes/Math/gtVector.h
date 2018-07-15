@@ -581,7 +581,7 @@ namespace gost{
 		Type	lengthSqrt() { return ( x * x ) + ( y * y ) + ( z * z ) + ( w * w ); }
 		Type	length()     { return static_cast<Type>( std::sqrt( lengthSqrt() ) ); }
 
-		void	normalize(){
+		gtVector4< Type >	normalize(){
 			f32 sqLen, invLen;
 			sqLen = lengthSqrt();
 			invLen = math::invSqrt( sqLen );
@@ -589,6 +589,7 @@ namespace gost{
 			y *= invLen;
 			z *= invLen;
 			w *= invLen;
+			return gtVector4< Type >(x,y,z,w);
 		}
 
 		gtVector4< Type > sin(){

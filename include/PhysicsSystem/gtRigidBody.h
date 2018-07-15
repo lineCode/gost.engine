@@ -20,6 +20,7 @@ namespace gost{
 	class gtRigidBody : public gtRefObject {
 	public:
 		
+		virtual void                   activate( bool ) = 0;
 		virtual const gtRigidBodyInfo& getInfo()     = 0;
 		virtual v4f                    getLinearVelocity() = 0;
 		virtual const v4f&             getPosition() = 0;

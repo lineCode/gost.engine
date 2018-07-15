@@ -70,7 +70,6 @@ btRigidBody* gtRigidBodyImpl::getBulletRigidBody(){
 void gtRigidBodyImpl::setPosition( const v4f& v ){
 	if( m_body ){
 		
-		m_body->activate( true );
 		m_body->clearForces();
 		
 		btTransform t;
@@ -87,8 +86,6 @@ void gtRigidBodyImpl::setPosition( const v4f& v ){
 
 void gtRigidBodyImpl::setRotation( const gtQuaternion& q ){
 	if( m_body ){
-		m_body->activate( true );
-		
 		btTransform t;
 		m_body->getMotionState()->getWorldTransform(t);
 
@@ -117,6 +114,10 @@ v4f gtRigidBodyImpl::getLinearVelocity(){
 void       gtRigidBodyImpl::setLinearVelocity( const v4f& velocity ){
 	btVector3 btvec(velocity.x,velocity.y,velocity.z);
 	m_body->setLinearVelocity(btvec);
+}
+
+void gtRigidBodyImpl::activate( bool v ){
+	m_body->activate( v );
 }
 
 /*

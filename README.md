@@ -5,6 +5,8 @@
 " target="_blank"><img src="http://img.youtube.com/vi/VYMdwpfL27g/0.jpg" 
 alt="gost demo - basic physics" width="240" height="180" border="10" /></a><a href="http://www.youtube.com/watch?feature=player_embedded&v=R-4EsYBYTS0
 " target="_blank"><img src="http://img.youtube.com/vi/R-4EsYBYTS0/0.jpg" 
+alt="gost demo - basic physics" width="240" height="180" border="10" /></a><a href="http://www.youtube.com/watch?feature=player_embedded&v=NULUuxLR1y0
+" target="_blank"><img src="http://img.youtube.com/vi/NULUuxLR1y0/0.jpg" 
 alt="gost demo - basic physics" width="240" height="180" border="10" /></a>
 
 ## Features
@@ -14,6 +16,7 @@ alt="gost demo - basic physics" width="240" height="180" border="10" /></a>
 * 2D sprite with animation
 * audio loading/audio streaming (.wav .ogg)
 * XML read/write
+* Bullet Physics plugin
 
 ## Documentation
 

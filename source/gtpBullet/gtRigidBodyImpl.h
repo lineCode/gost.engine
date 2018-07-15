@@ -19,6 +19,8 @@ namespace gost{
 		btRigidBody*           getBulletRigidBody();
 
 		bool                   init();
+
+		void                   activate( bool );
 		const gtRigidBodyInfo& getInfo();
 		v4f                    getLinearVelocity();
 		const v4f&             getPosition();
