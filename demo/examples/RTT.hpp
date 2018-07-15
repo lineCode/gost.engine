@@ -168,7 +168,6 @@ void DemoExample_RTT::Render2D(){
 }
 
 void DemoExample_RTT::Update(){
-
 }
 
 

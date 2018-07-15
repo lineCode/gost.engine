@@ -129,8 +129,8 @@ void	gtOutputWindowWin32::init(){
 									m_windowRect.bottom,
 									m_hWnd, (HMENU)1, m_wc.hInstance, this );
 	SendMessage( m_hWndCommandLine, WM_SETFONT, ( WPARAM ) hfBufferFont, 0 );
-	s_CmdWndProcOrigin = (WNDPROC)SetWindowLongPtr( m_hWndCommandLine, GWL_WNDPROC, (LONG_PTR)&this->CmdWndProc );
-	SetWindowLong(m_hWndCommandLine, DWL_MSGRESULT, (LONG)m_hbrEditBackground);
+	s_CmdWndProcOrigin = (WNDPROC)SetWindowLongPtr( m_hWndCommandLine, GWLP_WNDPROC, (LONG_PTR)&this->CmdWndProc );
+	SetWindowLong(m_hWndCommandLine, DWLP_MSGRESULT, (LONG)m_hbrEditBackground);
 
 	m_isInit = true;
 }

@@ -56,24 +56,24 @@ namespace gost{
 	};
 
 	struct gtEventGUI{
-		u32 id;
+		u32 id              = 0u;
 		gtEventGUIAction action;
-		gtGUIObject* object;
+		gtGUIObject* object = nullptr;
 	};
 
 	struct gtEventSystemEvent{
-		u32 eventID;
+		u32 eventID = 0u;
 	};
 	
 	struct gtEventJoystick{
-		u32 joystickID;
-		u32 joystickEventID;
-		gtInputDevice * joystick;
+		u32 joystickID           = 0u;
+		u32 joystickEventID      = 0u;
+		gtInputDevice * joystick = nullptr;
 	};
 
 	struct gtEventWindow{
-		gtWindow *  window;
-		u32			eventID;
+		gtWindow *  window  = nullptr;
+		u32			eventID = 0u;
 	};
 
 

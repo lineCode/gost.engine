@@ -6,10 +6,13 @@ cbuffer cbVerts{
 	float4 v2;
 	float4 v3;
 	float4 v4;
+
 	float2 t1;
 	float2 t2;
+
 	float2 t3;
 	float2 t4;
+
 	float4 color;
 };
 
@@ -25,6 +28,7 @@ struct VSIn{
 struct VSOut{
     float4 pos : SV_Position;
 	float2 uv : TEXCOORD0;
+	float4 color : COLOR0;
 };
 
 struct PSOut{
@@ -54,7 +58,9 @@ VSOut VSMain(VSIn input)
 		output.pos = v4;
 		output.uv = t4;
 	}
-	 
+	
+	output.color = color;
+
     return output;
 }
 
@@ -66,7 +72,7 @@ PSOut PSMain(VSOut input)
 	
 	float4 diffuseColor = tex2d_1.Sample(tex2D_sampler_1, input.uv);
 	
-    output.color = diffuseColor * color;
+    output.color = diffuseColor * input.color;
 	
 	if( output.color.a < transparent ) discard;
 	
