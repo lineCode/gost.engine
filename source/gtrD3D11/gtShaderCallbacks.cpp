@@ -123,7 +123,6 @@ void gtD3D11SpriteShaderCallback::onShader( const gtMaterial& material, gtShader
 	gtSprite * sprite = (gtSprite*)material.userData;
 
 	u32 currentFrame = sprite->getCurrentFrame();
-
 	const v8f * coords = &sprite->getFrame( currentFrame );
 	
 	if( sprite->isInverseHorizontal() ){

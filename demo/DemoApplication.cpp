@@ -795,7 +795,6 @@ void demo::DemoApplication::Run(){
 	while( m_mainSystem->update() ){
 
 		now = m_mainSystem->getTime();
-		
 		m_delta = f32(now - last)*0.001f;
 		
 		UpdateGamepad();
