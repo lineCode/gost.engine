@@ -266,7 +266,7 @@ void gtSceneSystemImpl::sortTransparentDistance( gtArray<gtGameObject*>& in, gtA
 		f32 dist = 0.f;
 
 		if( m_activeCamera->getCameraType() == gtCameraType::Camera_2D ){
-			dist = std::abs(in[ i ]->getPositionInSpace().z - position.z);
+			dist = std::abs( in[ i ]->getPositionInSpace().z - position.z);
 		}else{
 			dist = position.distance( in[ i ]->getPositionInSpace() );
 		}
@@ -340,7 +340,11 @@ void gtSceneSystemImpl::renderScene(){
 		for( auto i = gtConst0U; i < sz; ++i ){
 			auto * var = opaqueObjects[ i ];
 			if( var ){
-				drawObject( var );
+				if( var->isVisible() ){
+					drawObject( var );
+			//		gtStringA str = var->getName();
+			//		gtLogWriter::printInfo( u"O draw : %s", str.to_utf16String().data() );
+				}
 			}
 		}
 
@@ -348,7 +352,12 @@ void gtSceneSystemImpl::renderScene(){
 		for( auto i = gtConst0U; i < sz; ++i ){
 			auto * var = transparentObjects[ i ];
 			if( var ){
-				drawObject( var );
+				if( var->isVisible() ){
+					drawObject( var );
+
+			//		gtStringA str = var->getName();
+			//		gtLogWriter::printInfo( u"T draw : %s", str.to_utf16String().data() );
+				}
 			}
 		}
 	}else{
@@ -358,7 +367,7 @@ void gtSceneSystemImpl::renderScene(){
 			drawObject( (*it) );
 		}
 	}
-	//gtLogWriter::printInfo( u"end" );
+//	gtLogWriter::printInfo( u"end\r\n\r\n" );
 }
 
 void gtSceneSystemImpl::drawObject( gtGameObject * object ){

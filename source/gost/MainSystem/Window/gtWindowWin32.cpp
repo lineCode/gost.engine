@@ -354,6 +354,8 @@ LRESULT CALLBACK gtWindowWin32::WndProc(HWND hWnd, UINT message, WPARAM wParam, 
 	//	}
 	//	break;
 
+	case WM_ERASEBKGND: return 1;
+
 	case WM_MOVE:
 		ev.type   = gtEventType::Window;
 		ev.windowEvent.eventID = GT_EVENT_WINDOW_MOVE;

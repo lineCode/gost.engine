@@ -21,7 +21,7 @@ namespace gost{
 			gtObjectType         m_type;
 			gtArray<v8f>         m_frames;	
 			gtAnimation          m_animation;
-			gtMaterial	         m_material;
+			gtMaterial*	         m_material;
 			gtAabb               m_aabb;
 			gtObb                m_obb;
 			bool                 m_firstFrame;				
@@ -47,11 +47,11 @@ namespace gost{
 			model->getSubModel( gtConst0U )->m_material.userData = this;
 			model->getSubModel( gtConst0U )->m_material.flags = (u32)gtMaterialFlag::AlphaBlend;
 
-			m_material = model->getSubModel( gtConst0U )->m_material;
 
 			m_texture = t;
 
 			m_rModel = d->createModel( model.data() ).data();
+			m_material = m_rModel->getMaterial( 0 );
 
 			m_aabb = *m_rModel->getAabb();
 			m_obb = *m_rModel->getObb();
@@ -59,9 +59,9 @@ namespace gost{
 			m_width  = gtConst1U;
 			m_height = gtConst1U;
 
-			if( m_material.textureLayer[ gtConst0U ].texture ){
-				m_width = m_material.textureLayer[ gtConst0U ].texture->getWidth();
-				m_height = m_material.textureLayer[ gtConst0U ].texture->getHeight();
+			if( m_material->textureLayer[ gtConst0U ].texture ){
+				m_width = m_material->textureLayer[ gtConst0U ].texture->getWidth();
+				m_height = m_material->textureLayer[ gtConst0U ].texture->getHeight();
 			}
 
 			m_position.z = -1.f;
@@ -75,9 +75,9 @@ namespace gost{
 		const v8f&     getFrame( u32 id )          { return m_frames[ id ]; }
 		u32            getFrameID() const          { return m_animation.getCurrentFrame(); }
 		f32	           getFrameRate() const        { return m_animation.getFrameRate(); }
-		gtMaterial *   getMaterial()               { return &m_material; }
+		gtMaterial *   getMaterial()               { return m_material; }
 		gtObb*		   getObb()                    { return &m_obb;  }
-		gtTexture*	   getTexture()                { return m_material.textureLayer[ gtConst0U ].texture;}
+		gtTexture*	   getTexture()                { return m_material->textureLayer[ gtConst0U ].texture;}
 		gtObjectType   getType()                   { return m_type;  }
 		void           inverseHorizontal( bool v ) { m_inverseHorizontal = v; }
 		bool           isInverseHorizontal()       { return m_inverseHorizontal; }

@@ -410,10 +410,10 @@ void	gtDriverD3D11::createStandartTexture(){
 
 void	gtDriverD3D11::enableBlending( bool b, bool atc ){
 	float blendFactor[4];
-	blendFactor[0] = 0.0f;
-	blendFactor[1] = 0.0f;
-	blendFactor[2] = 0.0f;
-	blendFactor[3] = 0.0f;
+	blendFactor[0] = 1.0f;
+	blendFactor[1] = 1.0f;
+	blendFactor[2] = 1.0f;
+	blendFactor[3] = 1.0f;
 	if( b ){
 		if( atc )
 			m_d3d11DevCon->OMSetBlendState( m_blendStateAlphaEnabledWithATC, blendFactor, 0xffffffff );
