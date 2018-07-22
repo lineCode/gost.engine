@@ -151,9 +151,9 @@ void gtSceneSystemImpl::removeObject( gtGameObject* object ){
 }
 
 
-bool aabbInFrustum( gtCameraFrustum * /*frustum*/, gtAabb* aabb, const v4f& position ){
-	v4f _min = aabb->m_min + position;
-	v4f _max = aabb->m_max + position;
+bool aabbInFrustum( gtCameraFrustum * /*frustum*/, gtAabb* /*aabb*/, const v4f& /*position*/ ){
+//	v4f _min = aabb->m_min + position;
+//	v4f _max = aabb->m_max + position;
 	return true;
 }
 
@@ -270,7 +270,7 @@ void gtSceneSystemImpl::sortTransparentDistance( gtArray<gtGameObject*>& in, gtA
 		}else{
 			dist = position.distance( in[ i ]->getPositionInSpace() );
 		}
-	
+
 		if( dist < 10.f ){
 			groups[ gtConst0U ].push_back( gtPair<f32,gtGameObject*>(dist,in[ i ],gtPairSortPredGreatOrEqual) );
 		}else if( dist < 100.f ){
@@ -287,7 +287,7 @@ void gtSceneSystemImpl::sortTransparentDistance( gtArray<gtGameObject*>& in, gtA
 		sz = groups[ i ].size();
 
 		util::mergesort( &groups[ i ], util::predicateGreatOrEqual );
-		
+
 		for( u32 o = gtConst0U; o < sz; ++o ){
 			out.push_back( groups[ i ][ o ].m_second );
 		}
@@ -322,7 +322,7 @@ void gtSceneSystemImpl::renderScene(){
 	m_mainSystem->setMatrixView( m_activeCamera->getViewMatrix() );
 
 	bool m_useFrustumCulling = true;
-	
+
 	gtArray<gtGameObject*> opaqueObjects;
 	gtArray<gtGameObject*> transparentUnsortObjects;
 	gtArray<gtGameObject*> transparentObjects;

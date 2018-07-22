@@ -208,7 +208,7 @@ bool gtFileSystemWin32::copyFile( const gtString& existingFileName, const gtStri
 	}
 
 	DWORD flag = COPY_FILE_FAIL_IF_EXISTS;
-	if( overwrite ) flag = NULL;
+	if( overwrite ) flag = 0;
 
 	if( CopyFileEx( (LPWCH)existingFileName.data(),
 					(LPWCH)newFileName.data(),

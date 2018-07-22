@@ -4,8 +4,15 @@
 
 #if defined(GT_PLATFORM_WIN32)
 
+#ifndef _MSC_VER
+#define MK_XBUTTON1         0x0020
+#define MK_XBUTTON2         0x0040
+#define WM_XBUTTONUP        0x020C
+#define WM_XBUTTONDBLCLK    0x020D
+#endif
+
 gtWindowWin32::gtWindowWin32( gtWindowInfo* wi )
-	:	m_hWnd( gtConst0U ), m_isInit( false )
+	:	m_hWnd( nullptr ), m_isInit( false )
 {
 	m_params = *wi;
 

@@ -1,4 +1,4 @@
-﻿//	GOST 
+﻿//	GOST
 
 #include "common.h"
 
@@ -8,14 +8,15 @@ gtPtr<gtLogImpl> gtMainSystemCommon::s_log;
 gtMainSystemCommon* gtMainSystemCommon::s_instance;
 gtMainSystemCommon* gtMainSystemCommon::getInstance(){return s_instance;}
 
-gtMainSystemCommon::gtMainSystemCommon() : m_isRun( true ),
-	m_stackTracer( nullptr ), 
-	m_systemWindowCount( gtConst0U ),
-	m_gs( nullptr ),
+gtMainSystemCommon::gtMainSystemCommon() :
 	m_useTimer( false ),
-	m_timer( gtConst0U ),
-	m_time( gtConst0U ),
-	m_tick( gtConst0U )
+	m_timer( 0u ),
+	m_time( 0u ),
+	m_tick( 0u ),
+    m_isRun( true ),
+	m_stackTracer( nullptr ),
+	m_systemWindowCount( 0u ),
+	m_gs( nullptr )
 {
 	s_instance     = this;
 	s_log          = gtPtrNew<gtLogImpl>         ( new gtLogImpl );
@@ -125,7 +126,7 @@ gtPtr<gtPhysicsSystem> gtMainSystemCommon::createPhysicsSystem( const gtPhysicsS
 	}
 
 	gtPhysicsSystem * d = ((gtPluginPhysics*)plugin)->loadPhysics( psi );
-	
+
 	return gtPtrNew<gtPhysicsSystem>(d);
 }
 
@@ -271,7 +272,7 @@ bool gtMainSystemCommon::isRun(){
 gtPtr<gtAudioSystem> gtMainSystemCommon::createAudioSystem( const GT_GUID& uid ){
 	gtPlugin * plugin = nullptr;
 	gtPluginAudio * pluginAudio = nullptr;
-	
+
 	auto * ps = getPluginSystem();
 	plugin = ps->getPlugin( uid );
 
@@ -283,7 +284,7 @@ gtPtr<gtAudioSystem> gtMainSystemCommon::createAudioSystem( const GT_GUID& uid )
 			auto * pl = ps->getPlugin( i );
 
 			if( pl->getInfo().m_info.m_type == gtPluginType::Audio ){
-			
+
 				pluginAudio = ps->getAsPluginAudio( pl );
 
 				auto ret = pluginAudio->loadAudioDriver();
@@ -333,7 +334,7 @@ v4f gtMainSystemCommon::screenToWorld( const gtVector2<s16>& coord ){
 	auto camera = m_sceneSystem->getActiveCamera();
 
 	if( camera ){
-		
+
 		auto P = camera->getProjectionMatrix();
 		auto V = camera->getViewMatrix();
 
@@ -364,7 +365,7 @@ gtRayf32 gtMainSystemCommon::getRayFromScreen( const gtVector2<s16>& coord, f32 
 	auto camera = m_sceneSystem->getActiveCamera();
 
 	if( camera ){
-		
+
 		auto P = camera->getProjectionMatrix();
 
 		auto rc = this->m_gs->getParams().m_outWindow->getClientRect();
@@ -411,17 +412,17 @@ gtRayf32 gtMainSystemCommon::getRayFromScreen( const gtVector2<s16>& coord, f32 
 /*
 Copyright (c) 2017-2018 532235
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
-and associated documentation files (the "Software"), to deal in the Software without restriction, 
-including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, 
-and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, 
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software
+and associated documentation files (the "Software"), to deal in the Software without restriction,
+including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense,
+and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so,
 subject to the following conditions:
 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT 
-LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
-IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, 
-WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT
+LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */

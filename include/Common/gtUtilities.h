@@ -4,12 +4,12 @@
 
 
 namespace gost{
-	
+
 	//	Some helper functions here
 	namespace util{
 
-		
-		
+
+
 		GT_FORCE_INLINE bool pointInRect( const gtVector2<s16>& coord, const v4i& rect ){
 			if( coord.x >= rect.x ){
 				if( coord.x <= rect.z ){
@@ -35,8 +35,8 @@ namespace gost{
 		template<typename char_type>
 		bool isAlpha( char_type c ){
 			if( c < 0x7B ){
-				if( c >= (char_type)'a' && c <= (char_type)'z'
-					|| c >= (char_type)'A' && c <= (char_type)'Z' )
+				if( (c >= (char_type)'a' && c <= (char_type)'z')
+					|| (c >= (char_type)'A' && c <= (char_type)'Z') )
 					return true;
 			}else if( c >= 0xC0 && c <= 0x2AF ){
 				return true;
@@ -127,8 +127,8 @@ namespace gost{
 		template<typename Type>
 		void stringGetWords( gtArray<gtString_base<Type>> * out_array,
 			const gtString_base<Type>& string,
-			bool add_space = false, 
-			bool add_tab = false, 
+			bool add_space = false,
+			bool add_tab = false,
 			bool add_newLine = false ){
 
 			gtString_base<Type> word;
@@ -173,7 +173,7 @@ namespace gost{
 		inline void stringFlipSlash( Type& str ){
 			u32 sz = str.size();
 			for( u32 i = gtConst0U; i < sz; ++i ){
-				if( str[ i ] == '\\' ) 
+				if( str[ i ] == '\\' )
 					str[ i ] = '/';
 			}
 		}
@@ -203,7 +203,7 @@ namespace gost{
 
 		template<typename Type>
 		inline Type stringGetExtension( const Type& str ){
-			
+
 			Type ret;
 
 			for( u32 i = str.size() - gtConst1U; i >= gtConst0U; --i ){
@@ -222,7 +222,7 @@ namespace gost{
 			//	"AbC" -> "abc"
 		template<typename Type>
 		inline void stringToLower( Type& str ){
-			
+
 			u32 sz = str.size();
 
 			for( u32 i = gtConst0U; i < sz; ++i ){
@@ -236,7 +236,7 @@ namespace gost{
 			//	"AbC" -> "ABC"
 		template<typename Type>
 		inline void stringToUpper( Type& str ){
-			
+
 			u32 sz = str.size();
 
 			for( u32 i = gtConst0U; i < sz; ++i ){
@@ -250,7 +250,7 @@ namespace gost{
 			//	" asd " -> "asd"
 		template<typename Type>
 		inline void stringTrimSpace( Type& str ){
-			
+
 			while( true ){
 				if( str.isSpace( gtConst0U ) )
 					str.pop_front();
@@ -267,7 +267,7 @@ namespace gost{
 
 		template<typename Type>
 		inline void stringTrimFrontSpace( Type& str ){
-			
+
 			while( true ){
 				if( str.isSpace( gtConst0U ) )
 					str.pop_front();
@@ -458,15 +458,15 @@ namespace gost{
 				source.assign( result );
 			}
 		}
-	
+
 		template<typename type>
 		type getIntFromString( const gtString& str ){
-			
+
 			type Integer = gtConst0U;
 
 			gtString s = str;
 			util::stringFlip( s );
-			
+
 			u32 mul = gtConst1U;
 
 			auto * ptr = s.data();
@@ -575,17 +575,17 @@ namespace gost{
 /*
 Copyright (c) 2017-2018 532235
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
-and associated documentation files (the "Software"), to deal in the Software without restriction, 
-including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, 
-and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, 
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software
+and associated documentation files (the "Software"), to deal in the Software without restriction,
+including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense,
+and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so,
 subject to the following conditions:
 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT 
-LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
-IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, 
-WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT
+LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */

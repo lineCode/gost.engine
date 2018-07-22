@@ -3,9 +3,10 @@
 #include "common.h"
 
 
-gtLogImpl::gtLogImpl()
-: m_msgType(msgType::Info),
-m_out( nullptr ){}
+gtLogImpl::gtLogImpl():
+    m_out( nullptr ),
+    m_msgType(msgType::Info)
+{}
 
 gtLogImpl::~gtLogImpl(){
 }
@@ -28,13 +29,13 @@ void gtLogImpl::print( msgType type, const char16_t* str, ... ){
 		case gost::gtLog::msgType::Info:
 			break;
 		}
-		
+
 		gt_va_list args;
 		va_start( args, str );
 //	print( type, str, args );
 		deformat( str, args, message );
 		va_end( args );
-		
+
 		gtFile_t file = util::openFileForWriteText(u"log.txt");
 		file->write( message );
 		file->write( gtString(u"\r\n") );

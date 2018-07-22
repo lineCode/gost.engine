@@ -21,11 +21,6 @@ namespace gost{
 	}
 
 	bool	gtMainSystemWin32::init(){
-		// Почему я выделяю память но не освобождаю?
-		//this->s_memorySystem = new gtMemorySystemImplWin32;
-		// Почему я выделяю память но не освобождаю?
-		//this->s_fileSystem = new gtFileSystemWin32;
-		
 
         timeBeginPeriod(1);
 
@@ -50,7 +45,7 @@ namespace gost{
 
 			if( gtFileSystem::existFile( u"log.txt" ) )
 				gtFileSystem::deleteFile( u"log.txt" );
-			
+
 			gtMainSystemCommon::s_log->print( gtLog::msgType::Info, u"Starting GoST version %i.%i", 0, 1 );
 
 			if( !this->m_pluginSystem->init() ){

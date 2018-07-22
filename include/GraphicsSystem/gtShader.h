@@ -7,6 +7,7 @@ namespace gost{
 		// Shader model
 	struct gtShaderModel{
 
+
 		enum class shaderModel{
 			_1_1,		//<	OpenGL + DirectX
 			_1_2,		//<	OpenGL
@@ -25,6 +26,8 @@ namespace gost{
 			_6_0		//<	DirectX
 		}vertexShaderModel, pixelShaderModel;
 
+		gtShaderModel( shaderModel vsm, shaderModel psm ) : vertexShaderModel(vsm), pixelShaderModel(psm){}
+		gtShaderModel(){}
 	};
 
 	class gtShader : public gtRefObject {

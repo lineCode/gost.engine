@@ -333,6 +333,7 @@
     <None Include="..\..\include\MainSystem\gtStackTracerWin32.inl" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\include\Classes\Common\gtSingleton.cpp" />
     <ClCompile Include="..\..\source\gost\dllmain.cpp" />
     <ClCompile Include="..\..\source\gost\FileSystem\System\gtFileSystemCommon.cpp" />
     <ClCompile Include="..\..\source\gost\FileSystem\System\gtFileSystemImpl.cpp" />

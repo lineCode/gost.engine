@@ -1,30 +1,21 @@
-﻿#pragma once
-#ifndef __GT_SINGLETON_H__
-#define __GT_SINGLETON_H__
+﻿#include "common.h"
 
-namespace gost{
+template<typename Type>
+gtSingletone<Type>::gtSingletone(){}
 
-	template<typename Type>
-	class gtSingletone{
-	protected:
-		 
-		gtSingletone();
-		gtSingletone( const gtSingletone& ) = delete;
-		gtSingletone& operator=( const gtSingletone& ) = delete;
-
-	public:
-
-		~gtSingletone();
-
-		static Type& getInstance();
-	
-		static Type * s_instance;
-
-	};
-
+template<typename Type>
+gtSingletone<Type>::~gtSingletone(){
+	if( s_instance )
+		delete s_instance;
 }
 
-#endif
+template<typename Type>
+Type& gtSingletone<Type>::getInstance(){
+	return *gtSingletone<Type>::s_instance;
+}
+
+template<typename Type>
+Type* gtSingletone<Type>::s_instance = nullptr;
 
 /*
 Copyright (c) 2018 532235
