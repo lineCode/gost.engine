@@ -26,7 +26,7 @@ namespace gost{
 			gtObb                m_obb;
 			bool                 m_firstFrame;
 			bool                 m_inverseHorizontal;
-
+			f32  * m_delta;
 
 	public:
 
@@ -37,7 +37,8 @@ namespace gost{
 			m_timerLimit( gtConst1F ),
 			m_type( gtObjectType::Sprite ),
 			m_firstFrame( true ),
-			m_inverseHorizontal( false )
+			m_inverseHorizontal( false ),
+			m_delta( gtMainSystem::getInstance()->getTimer()->getDelta() )
 		{
 			m_system = gtMainSystem::getInstance();
 			auto model = m_system->getModelSystem()->createPlane( size.y, size.x, gtSide::Front );
@@ -123,7 +124,7 @@ namespace gost{
 
 		void render(){
 			if( m_isVisible ){
-				updateAnimation();
+				updateAnimation( *m_delta );
 				m_gs->drawModel( m_rModel.data() );
 			}
 		}
@@ -171,22 +172,16 @@ namespace gost{
 		}
 
 
-		void updateAnimation(){
-			u32 t1 = gtConst0U;
-			static u32 t2 = gtConst0U;
+		void updateAnimation( f32 delta ){
 			if( m_animation.getFrameCount() > gtConst1U ){
 				if( m_animation.isPlay() ){
-
-					t1 = m_system->getTime();
 
 					if( m_timer > m_timerLimit ){
 						m_animation.stepFrame();
 						m_timer = gtConst0U;
 					}
 
-					m_timer += t1 - t2;
-
-					t2 = t1;
+					m_timer += delta;
 				}
 			}
 		}

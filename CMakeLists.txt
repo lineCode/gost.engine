@@ -1,8 +1,7 @@
 cmake_minimum_required (VERSION 2.6)
 project (gost)
 
-set (GOST_VERSION_MAJOR 0)
-set (GOST_VERSION_MINOR 2)
+set(SOURCE)
 
 configure_file (
   "${PROJECT_SOURCE_DIR}/TutorialConfig.h.in"

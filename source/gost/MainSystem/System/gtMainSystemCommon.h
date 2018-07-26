@@ -43,7 +43,8 @@ namespace gost{
 
 		gtMatrix4					m_WVP[ gtConst3U ];
 
-		gtGraphicsSystem *					m_gs;
+		gtGraphicsSystem *			m_gs;
+		f32                       * m_delta;
 
 	public:
 

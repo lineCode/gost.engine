@@ -71,11 +71,17 @@ namespace gost{
 			if( m_reverse ){
 				if( m_currentFrame == gtConst0U || m_currentFrame == m_loopSegment.x ){
 					m_currentFrame = m_loopSegment.y;
+					
+					if( !m_isLoop )
+						m_isPlay = false;
 				}else --m_currentFrame;
 			}else{
 				++m_currentFrame;
 				if( m_currentFrame > m_loopSegment.y ){
 					m_currentFrame = m_loopSegment.x;
+
+					if( !m_isLoop )
+						m_isPlay = false;
 				}
 			}
 		}

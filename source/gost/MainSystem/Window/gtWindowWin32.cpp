@@ -15,7 +15,6 @@ gtWindowWin32::gtWindowWin32( gtWindowInfo* wi )
 	:	m_hWnd( nullptr ), m_isInit( false )
 {
 	m_params = *wi;
-
 }
 
 gtWindowWin32::~gtWindowWin32(){
@@ -329,7 +328,7 @@ static unsigned int LocaleIdToCodepage(unsigned int lcid)
 LRESULT CALLBACK gtWindowWin32::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam){
 	gtWindowWin32* pD = nullptr;
 	s32 wmId    = LOWORD(wParam);
-//	s32 wmEvent = HIWORD(wParam);
+	s32 wmEvent = HIWORD(wParam);
 
 	static HKL KEYBOARD_INPUT_HKL = 0;
 	static u32 KEYBOARD_INPUT_CODEPAGE = 1252;

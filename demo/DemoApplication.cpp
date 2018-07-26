@@ -55,7 +55,7 @@ m_activeDemoSelected( 0 ),
 m_rightColonFirstID( 0 ),
 m_currentDemoColonIndex( 0 ),
 m_state( DemoState::MainMenu ),
-m_delta( 0.f )
+m_delta( nullptr )
 {
 	
 	memset( m_rightColonEntity, 0, sizeof(gtPtr<gtGUITextField>) * 24u );
@@ -733,7 +733,7 @@ void demo::DemoApplication::pauseBackgroundFadeOut(){
 	auto trBG = m_pauseBackgroundShape->getTransparent();
 	if( trBG > 0.25f ){
 
-		trBG -= 10.f * m_delta;
+		trBG -= 10.f * *m_delta;
 
 		if( trBG < 0.25f )
 			trBG = 0.25f;
@@ -744,7 +744,7 @@ void demo::DemoApplication::pauseBackgroundFadeOut(){
 	auto tr = m_pauseShape->getTransparent();
 	if( tr > 0.f ){
 
-		tr -= 10.f * m_delta;
+		tr -= 10.f * *m_delta;
 
 		if( tr < 0.f )
 			tr = 0.f;
@@ -757,7 +757,7 @@ void demo::DemoApplication::pauseBackgroundFadeOut(){
 void demo::DemoApplication::pauseBackgroundFadeIn(){
 	auto trBG = m_pauseBackgroundShape->getTransparent();
 	if( trBG < 1.f ){
-		trBG += 10.f * m_delta;
+		trBG += 10.f * *m_delta;
 
 		if( trBG > 1.f )
 			trBG = 1.f;
@@ -768,7 +768,7 @@ void demo::DemoApplication::pauseBackgroundFadeIn(){
 	auto tr = m_pauseShape->getTransparent();
 	if( tr < 1.f ){
 
-		tr += 10.f * m_delta;
+		tr += 10.f * *m_delta;
 
 		if( tr > 1.f )
 			tr = 1.f;
@@ -784,8 +784,7 @@ void demo::DemoApplication::pauseBackgroundFadeIn(){
 void demo::DemoApplication::Run(){
 	m_mainSystem->setTimer( 300 );
 
-	u32 last = gtConst0U;
-	u32 now = gtConst0U;
+	m_delta = m_mainSystem->getTimer()->getDelta();
 
 	timer_input = 0.f;
 	timer_input_limit_first = 0.4f;
@@ -794,8 +793,6 @@ void demo::DemoApplication::Run(){
 
 	while( m_mainSystem->update() ){
 
-		now = m_mainSystem->getTime();
-		m_delta = f32(now - last)*0.001f;
 		
 		UpdateGamepad();
 		
@@ -813,8 +810,6 @@ void demo::DemoApplication::Run(){
 
 		if( m_mainSystem->isRun() )
 			Render();
-
-		last = now;
 
 	}
 }
@@ -1564,7 +1559,7 @@ bool demo::DemoApplication::update(){
 
 void demo::DemoApplication::UpdateGamepad(){
 	
-	timer_input += m_delta;
+	timer_input += *m_delta;
 
 	if( m_gamepad ){
 		m_gamepad->poll();
@@ -1805,7 +1800,7 @@ void demo::DemoApplication::runDemo(){
 		pauseBackgroundFadeIn();
 	}
 
-	m_demoArrays[m_activeDemoTypeSelected][m_activeDemoSelected].Input( m_delta );
+	m_demoArrays[m_activeDemoTypeSelected][m_activeDemoSelected].Input( *m_delta );
 	m_demoArrays[m_activeDemoTypeSelected][m_activeDemoSelected].Update();
 }
 

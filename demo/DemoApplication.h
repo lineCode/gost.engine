@@ -135,7 +135,7 @@ namespace demo{
 		bool		m_DPad[ gtConst4U ];
 		bool		m_DPadOnce;
 		bool		m_gamepadButtons[32];
-		f32			m_delta;
+		f32	*		m_delta;
 
 		bool initEngine();
 		bool initWindow();

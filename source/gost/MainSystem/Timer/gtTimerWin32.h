@@ -9,13 +9,19 @@
 namespace gost{
 
 	class gtTimerWin32 GT_FINAL : public gtTimer{
+		gtMainSystem * m_ms;
+		f32 m_delta;
+		u32 m_last;
+		u32 m_now;
 	public:
 
 		gtTimerWin32();
 		virtual ~gtTimerWin32();
 
 		gtRealTime	getRealTime() GT_FINAL;
-		
+		f32*        getDelta()    GT_FINAL;
+
+		void updateDelta();
 	};
 
 }

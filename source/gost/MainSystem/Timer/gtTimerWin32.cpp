@@ -4,11 +4,15 @@
 
 #if defined(GT_PLATFORM_WIN32)
 
-gtTimerWin32::gtTimerWin32(){
+gtTimerWin32::gtTimerWin32():
+	m_delta( 0.f ),
+	m_last( 0u ),
+	m_now( 0u )
+{
+	m_ms = gtMainSystem::getInstance();
 }
 
-gtTimerWin32::~gtTimerWin32(){
-}
+gtTimerWin32::~gtTimerWin32(){}
 
 gtRealTime	gtTimerWin32::getRealTime(){
 	SYSTEMTIME st;
@@ -24,6 +28,22 @@ gtRealTime	gtTimerWin32::getRealTime(){
 	t.m_second	=	st.wSecond;
 
 	return t;
+}
+
+f32* gtTimerWin32::getDelta(){
+	return &m_delta;
+}
+
+void gtTimerWin32::updateDelta(){
+	static bool b = false;
+
+	if( b )
+		m_last = m_now;
+	else b = true;
+
+	m_now = m_ms->getTime();
+	m_delta = f32(m_now - m_last)*0.001f;
+
 }
 
 #endif

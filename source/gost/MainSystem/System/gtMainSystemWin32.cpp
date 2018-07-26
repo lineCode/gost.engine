@@ -26,6 +26,7 @@ namespace gost{
 
 		getTime();
 		m_timer = gtPtrNew<gtTimerWin32>( new gtTimerWin32 );
+		m_delta = m_timer->getDelta();
 
 		{
 			if( !m_params.m_outputWindow ){
@@ -71,6 +72,8 @@ namespace gost{
 
 	bool	gtMainSystemWin32::update(){
 		if( m_isRun ){
+			m_timer->updateDelta();
+
 			this->updateWindowEvents();
 			this->updateEvents();
 		}

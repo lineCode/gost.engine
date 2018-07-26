@@ -18,6 +18,8 @@ namespace gost{
 	public:
 
 		virtual gtRealTime	getRealTime() = 0;
+
+		virtual f32 * getDelta() = 0;
 	};
 
 
