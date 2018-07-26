@@ -37,11 +37,12 @@ namespace gost{
 			m_timerLimit( gtConst1F ),
 			m_type( gtObjectType::Sprite ),
 			m_firstFrame( true ),
-			m_inverseHorizontal( false ),
-			m_delta( gtMainSystem::getInstance()->getTimer()->getDelta() )
+			m_inverseHorizontal( false )
 		{
 			m_system = gtMainSystem::getInstance();
 			auto model = m_system->getModelSystem()->createPlane( size.y, size.x, gtSide::Front );
+			
+			m_delta = m_system->getTimer()->getDelta();
 
 			model->getSubModel( gtConst0U )->m_material.textureLayer[ gtConst0U ].texture = t;
 			model->getSubModel( gtConst0U )->m_material.type = gtMaterialType::Sprite;
@@ -124,7 +125,7 @@ namespace gost{
 
 		void render(){
 			if( m_isVisible ){
-				updateAnimation( *m_delta );
+				updateAnimation();
 				m_gs->drawModel( m_rModel.data() );
 			}
 		}
@@ -172,7 +173,8 @@ namespace gost{
 		}
 
 
-		void updateAnimation( f32 delta ){
+		void updateAnimation(){
+
 			if( m_animation.getFrameCount() > gtConst1U ){
 				if( m_animation.isPlay() ){
 
@@ -181,7 +183,7 @@ namespace gost{
 						m_timer = gtConst0U;
 					}
 
-					m_timer += delta;
+					m_timer += *m_delta;
 				}
 			}
 		}
@@ -213,7 +215,7 @@ namespace gost{
 			if( rate == gtConst0F )
 				rate = gtConst1F;
 			m_animation.setFrameRate( rate );
-			m_timerLimit = 1000 / rate;
+			m_timerLimit = 1.f / rate;
 		}
 
 	};

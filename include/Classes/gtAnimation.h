@@ -24,7 +24,7 @@ namespace gost{
 			m_frames( gtConst0U ),
 			m_currentFrame( gtConst0U ),
 			m_frameRate( gtConst60F ),
-			m_isLoop( false ),
+			m_isLoop( true ),
 			m_isPlay( false ),
 			m_reverse( false )
 		{}
@@ -74,6 +74,7 @@ namespace gost{
 					
 					if( !m_isLoop )
 						m_isPlay = false;
+
 				}else --m_currentFrame;
 			}else{
 				++m_currentFrame;
