@@ -26,6 +26,7 @@ namespace gost{
 
 		virtual void setInfoType( msgType type = msgType::Info ) = 0;
 
+		virtual void useLogFile( bool v = true ) = 0;
 
 	};
 

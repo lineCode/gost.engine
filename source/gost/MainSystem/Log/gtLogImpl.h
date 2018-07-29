@@ -8,6 +8,7 @@ namespace gost{
 
 		gtOutputWindow*	m_out;
 		msgType			m_msgType;
+		bool            m_useLog;
 		void			deformat( const char16_t* fmt, gt_va_list& args, gtString& );
 
 
@@ -19,6 +20,7 @@ namespace gost{
 		void print( msgType, const char16_t* str, void * );
 		void setOutputWindow( gtOutputWindow* ) GT_FINAL;
 		void setInfoType( msgType = msgType::Info ) GT_FINAL;
+		void useLogFile( bool v = true )GT_FINAL;
 	};
 
 }

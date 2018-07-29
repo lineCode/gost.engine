@@ -5,7 +5,8 @@
 
 gtLogImpl::gtLogImpl():
     m_out( nullptr ),
-    m_msgType(msgType::Info)
+    m_msgType(msgType::Info),
+	m_useLog( true )
 {}
 
 gtLogImpl::~gtLogImpl(){
@@ -36,9 +37,11 @@ void gtLogImpl::print( msgType type, const char16_t* str, ... ){
 		deformat( str, args, message );
 		va_end( args );
 
-		gtFile_t file = util::openFileForWriteText(u"log.txt");
-		file->write( message );
-		file->write( gtString(u"\r\n") );
+		if( m_useLog ){
+			gtFile_t file = util::openFileForWriteText(u"log.txt");
+			file->write( message );
+			file->write( gtString(u"\r\n") );
+		}
 
 		if( m_out )
 			m_out->print( message );
@@ -126,6 +129,10 @@ void gtLogImpl::deformat( const char16_t* fmt,
 			message += fmt[ i ];
 	}
 
+}
+
+void gtLogImpl::useLogFile( bool v ){
+	m_useLog = v;
 }
 
 void gtLogImpl::setOutputWindow( gtOutputWindow* out ){
