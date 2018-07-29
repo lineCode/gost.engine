@@ -13,7 +13,8 @@ namespace gost{
 		m_owner(nullptr){
 			m_title.assign( u"GoST window" );
 			m_rect.set( 0, 0, 800, 600 );
-			m_style = gtConst0U;
+			m_style = 0u;
+			m_state = 0u;
 		}
 		
 		gtString	m_title;
@@ -22,22 +23,23 @@ namespace gost{
 		
 		gtWindow*	m_owner;
 		v2i			m_borderSize;
-
+		
 		enum style{
+			style_standart,
+			style_popup    = BIT(1),
+			style_resize   = BIT(2),
+			style_maximize = BIT(3),
+			style_center   = BIT(4)
+		};
 
-			standart,
-
-			popup = gtConst1U,
-
-			resize = gtConst2U,
-
-			maximize = gtConst4U,
-
-			center = gtConst8U
-
+		enum state{
+			state_normal,
+			state_maximized = BIT(1),
+			state_minimized = BIT(2)
 		};
 
 		u32 m_style;
+		u32 m_state;
 
 		bool	operator==( const gtWindowInfo& wi ){
 			if( m_title == wi.m_title )

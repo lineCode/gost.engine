@@ -31,12 +31,12 @@ bool	gtWindowWin32::init( u32 i ){
 
 	DWORD style = WS_BORDER | WS_CAPTION | WS_CLIPCHILDREN | WS_CLIPSIBLINGS | WS_SYSMENU | WS_MINIMIZEBOX; // DWORD - это unsigned long
 
-	if( m_params.m_style & gtWindowInfo::style::popup ){
+	if( m_params.m_style & gtWindowInfo::style::style_popup ){
 		style = WS_POPUP;
 	}else{
-		if( m_params.m_style & gtWindowInfo::style::maximize )
+		if( m_params.m_style & gtWindowInfo::style::style_maximize )
 			style |= WS_MAXIMIZEBOX;
-		if( m_params.m_style & gtWindowInfo::style::resize )
+		if( m_params.m_style & gtWindowInfo::style::style_resize )
 			style |= WS_SIZEBOX;
 	}
 
@@ -45,7 +45,7 @@ bool	gtWindowWin32::init( u32 i ){
 	s32 realWidth = m_params.m_rect.z;
 	s32 realHeight = m_params.m_rect.w;
 
-	if( m_params.m_style & gtWindowInfo::style::center ){
+	if( m_params.m_style & gtWindowInfo::style::style_center ){
 
 		RECT clientSize;
 		clientSize.top = 0;
@@ -66,11 +66,13 @@ bool	gtWindowWin32::init( u32 i ){
 		if ( windowTop < 0 )
 			windowTop = 0;
 
-		if( m_params.m_style & gtWindowInfo::style::popup ){
+		if( m_params.m_style & gtWindowInfo::style::style_popup ){
 			windowLeft = 0;
 			windowTop = 0;
 		}
 	}
+
+	
 
 	m_className = u"GTWINDOW_";
 	m_className += static_cast<char16_t>(i);
@@ -113,6 +115,14 @@ bool	gtWindowWin32::init( u32 i ){
 	m_oldWindowStyle = style;
 
 	ShowWindow( m_hWnd, SW_SHOWNORMAL  );
+
+	if( m_params.m_style & gtWindowInfo::style::style_maximize || m_params.m_style & gtWindowInfo::style::style_resize ){
+		if( m_params.m_state & gtWindowInfo::state_maximized )
+			ShowWindow( m_hWnd, SW_SHOWMAXIMIZED );
+		else if( m_params.m_state & gtWindowInfo::state_minimized )
+			ShowWindow( m_hWnd, SW_SHOWMINIMIZED );
+	}
+
 	SetForegroundWindow( m_hWnd );
 	SetFocus( m_hWnd );
 	UpdateWindow( m_hWnd );

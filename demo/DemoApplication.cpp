@@ -194,9 +194,9 @@ bool demo::DemoApplication::initEngine(){
 }
 
 bool demo::DemoApplication::initWindow(){
-	m_windowInfo.m_style |= gtWindowInfo::maximize;
-    m_windowInfo.m_style |= gtWindowInfo::resize;
-	m_windowInfo.m_style |= gtWindowInfo::center;
+	m_windowInfo.m_style |= gtWindowInfo::style_maximize;
+    m_windowInfo.m_style |= gtWindowInfo::style_resize;
+	m_windowInfo.m_style |= gtWindowInfo::style_center;
 	//m_windowInfo.m_style = gtWindowInfo::popup;
 	
 	// make ~1600/900 aspect ration
