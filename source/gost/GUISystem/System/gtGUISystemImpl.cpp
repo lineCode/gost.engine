@@ -139,6 +139,20 @@ void gtGUISystemImpl::setCurrentRenderDriver( gtGraphicsSystem * driver ){
 	m_gs = driver;
 }
 
+gtPtr<gtGUIMenu> gtGUISystemImpl::createMenu( s32 height ){
+	gtPtr_t( gtGUIMenuImpl, st, new gtGUIMenuImpl( m_gs ) );
+
+	if( !st.data() )
+		return nullptr;
+
+	if( !st->init( height ) ){
+		gtLogWriter::printWarning( u"Can not create gtGUIMenu" );
+		return nullptr;
+	}
+
+	return gtPtr<gtGUIMenu>( st.data() );
+}
+
 gtPtr<gtGUIShape> gtGUISystemImpl::createShapeRectangle( const v4i& rect, const gtColor& color, bool useGradient, 
 			const gtColor& first_color, const gtColor& second_color, bool useVerticalGradient ){
 

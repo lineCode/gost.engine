@@ -426,7 +426,6 @@ void	gtDriverD3D11::enableBlending( bool b, bool atc ){
 
 void gtDriverD3D11::clearRenderTarget( const gtColor& color ){
 	m_d3d11DevCon->ClearRenderTargetView( m_MainTargetView, color.getData() );
-	m_d3d11DevCon->ClearDepthStencilView( m_depthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0 );
 }
 
 void gtDriverD3D11::beginRender( bool _clearRenderTarget, const gtColor& color ){
@@ -436,6 +435,7 @@ void gtDriverD3D11::beginRender( bool _clearRenderTarget, const gtColor& color )
 		if( _clearRenderTarget )
 			clearRenderTarget( color );
 
+		m_d3d11DevCon->ClearDepthStencilView( m_depthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0 );
 	}
 }
 

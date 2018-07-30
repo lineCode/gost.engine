@@ -9,7 +9,8 @@ namespace gost{
 		Text,	
 		Button,	
 		Shape,
-		TextField
+		TextField,
+		Menu
 	};
 
 	class gtGUIObject : public gtRefObject{
@@ -52,6 +53,7 @@ namespace gost{
 #include <GUISystem/gtGUIFont.h>
 #include <GUISystem/gtGUIStaticText.h>
 #include <GUISystem/gtGUITextField.h>
+#include <GUISystem/gtGUIMenu.h>
 
 #endif
 

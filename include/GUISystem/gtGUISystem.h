@@ -22,6 +22,8 @@ namespace gost{
 		virtual gtPtr<gtGUIShape>	createShapeRectangle( const v4i& rect, const gtColor& color, bool useGradient = false, 
 			const gtColor& first_color = gtColorBlack, const gtColor& second_color = gtColorBlack, bool useVerticalGradient = false ) = 0;
 		
+		virtual gtPtr<gtGUIMenu> createMenu( s32 height ) = 0;
+		
 		virtual void removeFromUserInput( gtGUIObject * ) = 0;
 
 		virtual void setCurrentRenderDriver( gtGraphicsSystem * driver ) = 0;

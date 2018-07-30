@@ -540,6 +540,12 @@
     <ClInclude Include="..\..\include\Classes\gtVertex.h">
       <Filter>include\Common</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\GUISystem\gtGUIMenu.h">
+      <Filter>include\GUISystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\gost\GUISystem\Objects\gtGUIMenuImpl.h">
+      <Filter>Headers\GUISystem\Objects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\include\MainSystem\gtStackTracerWin32.inl">
@@ -672,6 +678,9 @@
     </ClCompile>
     <ClCompile Include="..\..\include\Classes\Common\gtSingleton.cpp">
       <Filter>include\Classes\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\gost\GUISystem\Objects\gtGUIMenuImpl.cpp">
+      <Filter>Source\GUISystem\Objects</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

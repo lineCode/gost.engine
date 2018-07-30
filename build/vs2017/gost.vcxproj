@@ -266,6 +266,7 @@
     <ClInclude Include="..\..\include\GraphicsSystem\gtTexture.h" />
     <ClInclude Include="..\..\include\GUISystem\BuiltInFont.hpp" />
     <ClInclude Include="..\..\include\GUISystem\gtGUIFont.h" />
+    <ClInclude Include="..\..\include\GUISystem\gtGUIMenu.h" />
     <ClInclude Include="..\..\include\GUISystem\gtGUIObject.h" />
     <ClInclude Include="..\..\include\GUISystem\gtGUIShape.h" />
     <ClInclude Include="..\..\include\GUISystem\gtGUIStaticText.h" />
@@ -302,6 +303,7 @@
     <ClInclude Include="..\..\source\gost\FileSystem\System\gtFileWin32.h" />
     <ClInclude Include="..\..\source\gost\FileSystem\XML\gtXMLDocumentImpl.h" />
     <ClInclude Include="..\..\source\gost\GUISystem\Fonts\gtGUIFontImpl.h" />
+    <ClInclude Include="..\..\source\gost\GUISystem\Objects\gtGUIMenuImpl.h" />
     <ClInclude Include="..\..\source\gost\GUISystem\Objects\gtGUIShapeImpl.h" />
     <ClInclude Include="..\..\source\gost\GUISystem\Objects\gtGUIStaticTextImpl.h" />
     <ClInclude Include="..\..\source\gost\GUISystem\Objects\gtGUITextFieldImpl.h" />
@@ -343,6 +345,7 @@
     <ClCompile Include="..\..\source\gost\FileSystem\XML\gtXMLImpl.cpp" />
     <ClCompile Include="..\..\source\gost\gost.cpp" />
     <ClCompile Include="..\..\source\gost\GUISystem\Fonts\gtGUIFontImpl.cpp" />
+    <ClCompile Include="..\..\source\gost\GUISystem\Objects\gtGUIMenuImpl.cpp" />
     <ClCompile Include="..\..\source\gost\GUISystem\Objects\gtGUIShapeImpl.cpp" />
     <ClCompile Include="..\..\source\gost\GUISystem\Objects\gtGUIStaticTextImpl.cpp" />
     <ClCompile Include="..\..\source\gost\GUISystem\Objects\gtGUITextFieldImpl.cpp" />
