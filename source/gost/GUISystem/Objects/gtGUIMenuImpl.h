@@ -15,11 +15,12 @@ namespace gost{
 		gtMaterial      m_material;
 
 		gtPtr<gtGUIShape> m_backgroundShape;
-		gtPtr<gtGUIShape> m_backgroundShape2;
+		
 		v4i             m_backgroundRect;
+		gtColor         m_backgroundColor;
 
 
-		s32 m_paramHeight;
+		s32             m_paramHeight;
 
 	public:
 
@@ -37,6 +38,9 @@ namespace gost{
 		void		setTexture( gtTexture* texture );
 		gtTexture*	getTexture();
 		gtMaterial* getMaterial();
+
+
+		void        setBacgroundColor( const gtColor& color );
 	};
 
 }

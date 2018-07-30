@@ -31,6 +31,7 @@ void gtGUIMenuImpl::update(){
 
 //	if( m_backgroundRect != bgrc ){
 		m_backgroundShape = m_gui->createShapeRectangle( bgrc, gtColor( 1.f, 1.f, 1.f, 1.f ), false );
+		m_backgroundShape->setColor( m_backgroundColor );
 
 //	}
 
@@ -73,6 +74,12 @@ gtTexture* gtGUIMenuImpl::getTexture(){
 	return m_material.textureLayer[ gtConst0U ].texture;
 }
 
+void gtGUIMenuImpl::setBacgroundColor( const gtColor& color ){
+	m_backgroundColor = color;
+	if( m_backgroundShape ){
+		m_backgroundShape->setColor( color );
+	}
+}
 
 /*
 Copyright (c) 2018 532235

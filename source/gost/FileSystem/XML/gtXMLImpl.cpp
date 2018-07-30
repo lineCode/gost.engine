@@ -111,7 +111,7 @@ void gtFileSystem::XMLWrite( const gtString& file, gtXMLNode* rootNode, bool utf
 		out->setTextFileInfo( ti );
 		
 		gtStringA mbstr;
-		util::utf16_to_utf8( outText, mbstr );
+		util::stringUTF16_to_UTF8( outText, mbstr );
 
 		out->write( mbstr );
 

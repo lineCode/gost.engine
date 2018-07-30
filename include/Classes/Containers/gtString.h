@@ -413,8 +413,8 @@ namespace gost{
 	GT_TYPE( gtStringA, gtString_base<char>); //< See \ref _GT_TYPE
 
 	namespace util{
-
-		GT_FORCE_INLINE void changeEndian( gtString_base<char16_t>& string ){
+		
+		GT_FORCE_INLINE void stringChangeEndian( gtString_base<char16_t>& string ){
 			u32 sz = string.size();
 			for( u32 i = gtConst0U; i < sz; ++i ){
 				u8* p1 = reinterpret_cast<u8*>( &string.data()[ i ]);
@@ -425,7 +425,7 @@ namespace gost{
 			}
 		}
 
-		GT_FORCE_INLINE void utf16_to_utf8( gtString_base<char16_t>& utf16, gtString_base<char>& utf8 ){
+		GT_FORCE_INLINE void stringUTF16_to_UTF8( gtString_base<char16_t>& utf16, gtString_base<char>& utf8 ){
 			u32 sz = utf16.size();
 			for( u32 i = gtConst0U; i < sz; ++i ){
 				char16_t ch16 = utf16[ i ];
@@ -438,7 +438,7 @@ namespace gost{
 			}
 		}
 
-		GT_FORCE_INLINE void utf8_to_utf16( gtString_base<char16_t>& utf16, gtString_base<char>& utf8 ){
+		GT_FORCE_INLINE void stringUTF8_to_UTF16( gtString_base<char16_t>& utf16, gtString_base<char>& utf8 ){
 			gtArray<u32> unicode;
 			u32 i = gtConst0U;
 			auto sz = utf8.size();

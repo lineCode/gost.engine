@@ -7,6 +7,8 @@ namespace gost{
 	class gtGUIMenu : public gtGUIObject{
 	public:
 
+		virtual void setBacgroundColor( const gtColor& color ) = 0;
+
 	};
 
 }

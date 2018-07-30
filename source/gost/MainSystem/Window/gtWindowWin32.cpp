@@ -44,7 +44,7 @@ bool	gtWindowWin32::init( u32 i ){
 	s32 windowTop = m_params.m_rect.y;
 	s32 realWidth = m_params.m_rect.z;
 	s32 realHeight = m_params.m_rect.w;
-
+	
 	if( m_params.m_style & gtWindowInfo::style::style_center ){
 
 		RECT clientSize;
@@ -380,7 +380,12 @@ LRESULT CALLBACK gtWindowWin32::WndProc(HWND hWnd, UINT message, WPARAM wParam, 
 		ev.type   = gtEventType::Window;
 		ev.windowEvent.eventID = gtEventWindowAction::Move;
 		ev.windowEvent.window  = pD;
+
+		RECT rc;
+		GetWindowRect( hWnd, &rc );
+
 		if( pD ){
+			pD->m_params.m_rect.set( rc.left, rc.top, rc.right, rc.bottom );
 			if( pD->f_onMove ){
 				pD->f_onMove();
 			}
@@ -441,6 +446,7 @@ LRESULT CALLBACK gtWindowWin32::WndProc(HWND hWnd, UINT message, WPARAM wParam, 
 		ev.type   = gtEventType::Window;
 		ev.windowEvent.eventID = gtEventWindowAction::Sizing;
 		ev.windowEvent.window  = pD;
+
 	break;
 
 	case WM_QUIT:

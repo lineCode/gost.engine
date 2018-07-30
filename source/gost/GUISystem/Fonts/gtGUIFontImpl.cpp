@@ -102,7 +102,7 @@ bool gtGUIFontImpl::init( const gtString& font, gtImage * image ){
 
 					a = n->getAttribute( u"i" );
 					if( a ){
-						m_chars[ val ]->texture_id = (s16)util::getIntFromString<s32>( a->value );
+						m_chars[ val ]->texture_id = (s16)util::stringToInt<s32>( a->value );
 					}else{
 						m_chars[ val ]->texture_id = 0;
 					}
@@ -246,7 +246,7 @@ bool gtGUIFontImpl::initFromFile( const gtString& font ){
 
 				a = n->getAttribute( u"i" );
 				if( a ){
-					m_chars[ val ]->texture_id = (s16)util::getIntFromString<s32>( a->value );
+					m_chars[ val ]->texture_id = (s16)util::stringToInt<s32>( a->value );
 				}else{
 					m_chars[ val ]->texture_id = 0;
 				}

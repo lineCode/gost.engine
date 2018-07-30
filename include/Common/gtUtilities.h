@@ -409,7 +409,7 @@ namespace gost{
 				}
 
 			}else{
-				util::utf8_to_utf16( utf16, textBytes );
+				util::stringUTF8_to_UTF16( utf16, textBytes );
 			}
 			return true;
 		}
@@ -459,12 +459,12 @@ namespace gost{
 			}
 		}
 
-		template<typename type>
-		type getIntFromString( const gtString& str ){
+		template<typename type, typename char_type>
+		type stringToInt( const gtString_base<char_type>& str ){
 
 			type Integer = gtConst0U;
 
-			gtString s = str;
+			gtString_base<char_type> s = str;
 			util::stringFlip( s );
 
 			u32 mul = gtConst1U;
@@ -534,16 +534,16 @@ namespace gost{
 				if( word.size() ){
 					switch( i ){
 					case gtConst0U:
-						vec->x = (u16)getIntFromString<u32>( word );
+						vec->x = (u16)stringToInt<u32>( word );
 						break;
 					case gtConst1U:
-						vec->y = (u16)getIntFromString<u32>( word );
+						vec->y = (u16)stringToInt<u32>( word );
 						break;
 					case gtConst2U:
-						vec->z = (u16)getIntFromString<u32>( word );
+						vec->z = (u16)stringToInt<u32>( word );
 						break;
 					case gtConst3U:
-						vec->w = (u16)getIntFromString<u32>( word );
+						vec->w = (u16)stringToInt<u32>( word );
 						break;
 					}
 					++i;
