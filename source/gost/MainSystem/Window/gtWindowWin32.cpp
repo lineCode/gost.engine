@@ -371,10 +371,14 @@ LRESULT CALLBACK gtWindowWin32::WndProc(HWND hWnd, UINT message, WPARAM wParam, 
 	//	break;
 
 	case WM_ERASEBKGND: return 1;
-
+	case WM_SHOWWINDOW:
+		ev.type   = gtEventType::Window;
+		ev.windowEvent.eventID = gtEventWindowAction::Show;
+		ev.windowEvent.window  = pD;
+	break;
 	case WM_MOVE:
 		ev.type   = gtEventType::Window;
-		ev.windowEvent.eventID = GT_EVENT_WINDOW_MOVE;
+		ev.windowEvent.eventID = gtEventWindowAction::Move;
 		ev.windowEvent.window  = pD;
 		if( pD ){
 			if( pD->f_onMove ){
@@ -382,28 +386,37 @@ LRESULT CALLBACK gtWindowWin32::WndProc(HWND hWnd, UINT message, WPARAM wParam, 
 			}
 		}
 	break;
-
+	case WM_ACTIVATEAPP:
+		ev.type   = gtEventType::Window;
+		ev.windowEvent.eventID = gtEventWindowAction::Activate;
+		ev.windowEvent.window  = pD;
+		break;
 	case WM_PAINT:
 		ev.type   = gtEventType::Window;
-		ev.windowEvent.eventID = GT_EVENT_WINDOW_PAINT;
+		ev.windowEvent.eventID = gtEventWindowAction::Paint;
 		ev.windowEvent.window  = pD;
+		if( pD ){
+			if( pD->f_onPaint ){
+				pD->f_onPaint();
+			}
+		}
 		break;
 
 	case WM_SIZE:{
 		ev.type   = gtEventType::Window;
 		ev.windowEvent.window  = pD;
-		ev.windowEvent.eventID = GT_EVENT_WINDOW_SIZE;
+		ev.windowEvent.eventID = gtEventWindowAction::Size;
 		gtMainSystem::getInstance()->addEvent( ev );
 
 		switch( wmId ){
 		case SIZE_MAXIMIZED:
-			ev.windowEvent.eventID = GT_EVENT_WINDOW_MAXIMIZE;
+			ev.windowEvent.eventID = gtEventWindowAction::Maximize;
 			break;
 		case SIZE_MINIMIZED:
-			ev.windowEvent.eventID = GT_EVENT_WINDOW_MINIMIZE;
+			ev.windowEvent.eventID = gtEventWindowAction::Minimize;
 			break;
 		case SIZE_RESTORED:
-			ev.windowEvent.eventID = GT_EVENT_WINDOW_RESTORE;
+			ev.windowEvent.eventID = gtEventWindowAction::Restore;
 			break;
 		}
 
@@ -426,7 +439,7 @@ LRESULT CALLBACK gtWindowWin32::WndProc(HWND hWnd, UINT message, WPARAM wParam, 
 
 	case WM_SIZING:
 		ev.type   = gtEventType::Window;
-		ev.windowEvent.eventID = GT_EVENT_WINDOW_SIZING;
+		ev.windowEvent.eventID = gtEventWindowAction::Sizing;
 		ev.windowEvent.window  = pD;
 	break;
 

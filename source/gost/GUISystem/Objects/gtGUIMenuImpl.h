@@ -15,6 +15,7 @@ namespace gost{
 		gtMaterial      m_material;
 
 		gtPtr<gtGUIShape> m_backgroundShape;
+		gtPtr<gtGUIShape> m_backgroundShape2;
 		v4i             m_backgroundRect;
 
 

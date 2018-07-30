@@ -20,6 +20,7 @@ namespace gost{
 		
 		virtual void   setOnMove( void(*)(void) ) = 0;
 		virtual void   setOnSize( void(*)(void) ) = 0;
+		virtual void   setOnPaint( void(*)() ) = 0;
 
 		virtual void    switchToFullscreen() = 0; // gs_fullscreen 0:1
 		virtual void    switchToWindow() = 0;

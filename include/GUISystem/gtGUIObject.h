@@ -17,12 +17,23 @@ namespace gost{
 	protected:
 		gtGUIObjectType m_type;
 		v4i				m_activeArea;
+
+		// for m_rescale
+		//v4i				m_originalClientRect; //m_originalClientRect = m_wnd->getClientRect(); in constructor or init()
+
 		bool			m_visible;
 		bool			m_mouseEnter;
 		bool			m_mouseLeave;
+		//bool            m_rescale;
 	public:
 
-		gtGUIObject() : m_visible( true ),m_mouseEnter( false ),m_mouseLeave( false ){}
+		gtGUIObject() : 
+			m_visible( true ),
+			m_mouseEnter( false ),
+			m_mouseLeave( false )//, 
+			//m_rescale( false )
+		{}
+
 		virtual ~gtGUIObject(){}
 
 		virtual void render() = 0;
@@ -43,6 +54,7 @@ namespace gost{
 		virtual void setVisible( bool value )         { m_visible = value; }
 		virtual void setActiveArea( const v4i& area ) { m_activeArea = area; }
 		virtual const v4i& getActiveArea() const      { return m_activeArea; }
+		//virtual void useRescale( bool v )             { m_rescale = v; }
 
 	};
 

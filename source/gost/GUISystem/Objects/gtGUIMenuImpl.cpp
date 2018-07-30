@@ -12,6 +12,8 @@ gtGUIMenuImpl::gtGUIMenuImpl( gtGraphicsSystem * d ):
 	m_type = gtGUIObjectType::Menu;
 	m_gui = m_mainSystem->getGUISystem( d );
 	m_wnd = m_gs->getParams().m_outWindow;
+
+//	m_originalClientRect = m_wnd->getClientRect();
 }
 
 gtGUIMenuImpl::~gtGUIMenuImpl(){
@@ -23,14 +25,20 @@ void gtGUIMenuImpl::update(){
 
 	v4i bgrc( 0, 0, wrc.z, m_paramHeight );
 
-	if( m_backgroundRect != bgrc ){
-		m_backgroundShape = m_gui->createShapeRectangle( bgrc, gtColor( 1.f, 1.f, 1.f, 1.f ), false );
-	}
+//	if( m_rescale ){
+		bgrc.w = m_paramHeight;
+//	}
 
-	m_backgroundRect = bgrc;
+//	if( m_backgroundRect != bgrc ){
+		m_backgroundShape = m_gui->createShapeRectangle( bgrc, gtColor( 1.f, 1.f, 1.f, 1.f ), false );
+
+//	}
+
+//	m_backgroundRect = bgrc;
 }
 
 void gtGUIMenuImpl::render(){
+
 	if( m_backgroundShape ){
 		if( m_backgroundShape->isVisible() )
 			m_backgroundShape->render();

@@ -159,19 +159,19 @@ void demo::DemoApplicationEventConsumer::processEventSystem( const gtEvent& ev )
 
 void demo::DemoApplicationEventConsumer::processEventWindow( const gtEvent& ev ){
 	switch( ev.windowEvent.eventID ){
-	case GT_EVENT_WINDOW_MAXIMIZE:{
+	case gtEventWindowAction::Maximize:{
 	}break;
-	case GT_EVENT_WINDOW_MINIMIZE:{
+	case gtEventWindowAction::Minimize:{
 	}break;
-	case GT_EVENT_WINDOW_MOVE:{
+	case gtEventWindowAction::Move:{
 	}break;
-	case GT_EVENT_WINDOW_PAINT:{
+	case gtEventWindowAction::Paint:{
 	}break;
-	case GT_EVENT_WINDOW_RESTORE:{
+	case gtEventWindowAction::Restore:{
 	}break;
-	case GT_EVENT_WINDOW_SIZING:{
+	case gtEventWindowAction::Sizing:{
 	}break;
-	case GT_EVENT_WINDOW_SIZE:{
+	case gtEventWindowAction::Size:{
 		m_context.app->RebuildGUI();
 	}break;
 	}

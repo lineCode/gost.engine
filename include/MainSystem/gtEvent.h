@@ -8,14 +8,6 @@ namespace gost{
 	class gtWindow;
 	struct gtInputDevice;
 
-	constexpr u32 GT_EVENT_WINDOW_SIZING   = gtConst1U;
-	constexpr u32 GT_EVENT_WINDOW_RESTORE  = gtConst2U;
-	constexpr u32 GT_EVENT_WINDOW_MAXIMIZE = gtConst3U;
-	constexpr u32 GT_EVENT_WINDOW_MINIMIZE = gtConst4U;
-	constexpr u32 GT_EVENT_WINDOW_MOVE     = gtConst5U;
-	constexpr u32 GT_EVENT_WINDOW_PAINT    = gtConst6U;
-	constexpr u32 GT_EVENT_WINDOW_SIZE     = 7u;
-
 	constexpr u32 GT_EVENT_JOYSTICK_ADD    = gtConst1U;
 	constexpr u32 GT_EVENT_JOYSTICK_REMOVE = gtConst2U;
 
@@ -29,6 +21,18 @@ namespace gost{
 	constexpr u32 GT_EVENT_MASK_MOUSE_LMB_DBL = gtConst32U;
 	constexpr u32 GT_EVENT_MASK_MOUSE_RMB_DBL = gtConst64U;
 
+	enum class gtEventWindowAction : u32 {
+		None,
+		Sizing,
+		Restore,
+		Maximize,
+		Minimize,
+		Move,
+		Paint,
+		Size,
+		Activate,
+		Show
+	};
 	
 	enum class gtEventType : u32 {
 		None,		
@@ -72,8 +76,8 @@ namespace gost{
 	};
 
 	struct gtEventWindow{
-		gtWindow *  window  = nullptr;
-		u32			eventID = 0u;
+		gtWindow *          window  = nullptr;
+		gtEventWindowAction	eventID = gtEventWindowAction::None;
 	};
 
 

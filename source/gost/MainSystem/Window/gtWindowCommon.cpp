@@ -5,6 +5,7 @@
 gtWindowCommon::gtWindowCommon():
 	f_onMove( nullptr ),
 	f_onSize( nullptr ),
+	f_onPaint( nullptr ),
 	m_isFullscreen( false ){
 }
 
@@ -14,6 +15,7 @@ const v4i&          gtWindowCommon::getClientRect()             { return m_clien
 const gtWindowInfo& gtWindowCommon::getWindowInfo()             { return m_params;        }
 void                gtWindowCommon::setOnMove( void(*f)(void) ) { f_onMove = f;           }
 void                gtWindowCommon::setOnSize( void(*f)(void) ) { f_onSize = f;           }
+void                gtWindowCommon::setOnPaint( void(*f)(void) ) { f_onPaint = f;           }
 bool                gtWindowCommon::isFullscreen()              { return m_isFullscreen;  }
 
 
