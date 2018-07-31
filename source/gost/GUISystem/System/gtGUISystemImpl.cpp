@@ -155,7 +155,6 @@ gtPtr<gtGUIMenu> gtGUISystemImpl::createMenu( s32 height ){
 
 gtPtr<gtGUIShape> gtGUISystemImpl::createShapeRectangle( const v4i& rect, const gtColor& color, bool useGradient, 
 			const gtColor& first_color, const gtColor& second_color, bool useVerticalGradient ){
-
 	gtPtr_t( gtGUIShapeImpl, st, new gtGUIShapeImpl( m_gs ) );
 
 	if( !st.data() )

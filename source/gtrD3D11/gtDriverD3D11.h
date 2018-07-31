@@ -17,6 +17,9 @@ using gtD3D11CreateDevice_t = HRESULT(__stdcall*)(
 	_Out_opt_ D3D_FEATURE_LEVEL* pFeatureLevel,
 	_Out_opt_ ID3D11DeviceContext** ppImmediateContext);
 
+using gtCreateDXGIFactory_t = HRESULT(__stdcall*)(
+	REFIID riid, _COM_Outptr_ void **ppFactory );
+
 using gtD3D11CreateDeviceAndSwapChain_t = HRESULT(__stdcall*)(
 	__in_opt IDXGIAdapter* pAdapter,
 	D3D_DRIVER_TYPE DriverType,
@@ -53,7 +56,9 @@ namespace gost{
 		static gtDriverD3D11* s_instance;
 
 		HMODULE m_D3DLibrary;
+		HMODULE m_DXGILibrary;
 
+		IDXGIFactory1*          m_dxgiFactory;
 		IDXGISwapChain*			m_SwapChain;
 		ID3D11Device*			m_d3d11Device;
 		ID3D11DeviceContext*	m_d3d11DevCon;

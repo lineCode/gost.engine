@@ -19,13 +19,15 @@ namespace gost{
 		virtual ~gtGUIShape(){}
 
 		virtual void setColor( const gtColor& color ) = 0;
-
 		virtual void setTexture( gtTexture* texture ) = 0;
 		virtual gtTexture* getTexture() = 0;
 		virtual gtMaterial* getMaterial() = 0;
 
 		virtual gtGUIShapeType getShapeType(){ return m_shapeType; }
 		virtual bool isGradient(){ return m_isGradient; }
+	
+		virtual void setRect( const v4i& rect ) = 0; //set abstract rect
+		virtual const v4i& getRect() = 0; //get abstract rect
 	};
 
 }

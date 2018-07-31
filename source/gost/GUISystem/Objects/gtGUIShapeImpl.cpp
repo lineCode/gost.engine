@@ -6,6 +6,7 @@ m_model( nullptr ),
 m_mainSystem( nullptr ),
 m_modelSystem( nullptr ),
 m_material( nullptr ),
+m_texture( nullptr ),
 m_useVertGradient( false ){
 	vt[ 0 ] = gtVertexType::Position;
 	vt[ 1 ] = gtVertexType::UV;
@@ -52,12 +53,12 @@ void gtGUIShapeImpl::update(){
 		auto params = m_gs->getParams();
 		auto bbsz = params.m_outWindow->getClientRect();
 
-		f32 px = (2.f/bbsz.getWidth());
-		f32 py = (2.f/bbsz.getHeight());
-		f32 centerx = (bbsz.getWidth()*0.5f);
-		f32 centery = (bbsz.getHeight()*0.5f);
+		f32 px = (2.f/(f32)bbsz.getWidth());
+		f32 py = (2.f/(f32)bbsz.getHeight());
+		f32 centerx = ((f32)bbsz.getWidth()*0.5f);
+		f32 centery = ((f32)bbsz.getHeight()*0.5f);
 
-		auto width = m_rect.z - m_rect.x;
+		auto width = (f32)m_rect.z - (f32)m_rect.x;
 		auto height = f32(m_rect.w - m_rect.y);
 
 		v1->pos.y -= height * py;
@@ -109,6 +110,9 @@ void gtGUIShapeImpl::update(){
 	}
 
 	m_activeArea = m_rect;
+
+	if( m_texture )
+		setTexture( m_texture );
 }
 
 void gtGUIShapeImpl::render(){
@@ -134,6 +138,15 @@ gtMaterial* gtGUIShapeImpl::getMaterial(){
 	return m_material;
 }
 
+void        gtGUIShapeImpl::setRect( const v4i& rect ){
+	m_rect = rect;
+	update();
+}
+
+const v4i&  gtGUIShapeImpl::getRect(){
+	return m_rect;
+}
+
 bool gtGUIShapeImpl::initRectangle( const v4i& rect, const gtColor& color, bool useGradient, 
 			const gtColor& first_color, const gtColor& second_color, bool useVerticalGradient ){
 
@@ -151,10 +164,11 @@ bool gtGUIShapeImpl::initRectangle( const v4i& rect, const gtColor& color, bool 
 
 void gtGUIShapeImpl::setTexture( gtTexture* texture ){
 	m_material->textureLayer[ gtConst0U ].texture = texture;
+	m_texture = texture;
 }
 
 gtTexture* gtGUIShapeImpl::getTexture(){
-	return m_material->textureLayer[ gtConst0U ].texture;
+	return m_texture;
 }
 
 

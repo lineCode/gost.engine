@@ -11,16 +11,18 @@ namespace gost{
 		gtGraphicsSystem*m_gs;
 		gtGUISystem*	m_gui;
 		gtWindow *      m_wnd;
-
+		
 		gtMaterial      m_material;
 
 		gtPtr<gtGUIShape> m_backgroundShape;
 		
 		v4i             m_backgroundRect;
 		gtColor         m_backgroundColor;
-
+		gtColor         m_gradientColor1, m_gradientColor2;
 
 		s32             m_paramHeight;
+
+		gtArray<gtPair<gtGUIObject*,s32>> m_elements;
 
 	public:
 
@@ -35,11 +37,12 @@ namespace gost{
 		f32			getTransparent();
 
 		void		setColor( const gtColor& color );
+		void        setGradientColor( const gtColor& color1, const gtColor& color2 );
 		void		setTexture( gtTexture* texture );
 		gtTexture*	getTexture();
 		gtMaterial* getMaterial();
 
-
+		void        addElement( gtGUIObject* element, s32 id );
 		void        setBacgroundColor( const gtColor& color );
 	};
 

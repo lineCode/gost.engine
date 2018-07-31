@@ -30,8 +30,14 @@ void gtGUIMenuImpl::update(){
 //	}
 
 //	if( m_backgroundRect != bgrc ){
-		m_backgroundShape = m_gui->createShapeRectangle( bgrc, gtColor( 1.f, 1.f, 1.f, 1.f ), false );
+		m_backgroundShape = m_gui->createShapeRectangle( bgrc, m_backgroundColor, true, m_gradientColor1, m_gradientColor2 );
 		m_backgroundShape->setColor( m_backgroundColor );
+
+	for( auto i : m_elements ){
+		if( i.m_first->isVisible() ){
+			i.m_first->update();
+		}
+	}
 
 //	}
 
@@ -44,6 +50,16 @@ void gtGUIMenuImpl::render(){
 		if( m_backgroundShape->isVisible() )
 			m_backgroundShape->render();
 	}
+
+	for( auto i : m_elements ){
+		if( i.m_first->isVisible() )
+			i.m_first->render();
+	}
+}
+
+void gtGUIMenuImpl::setGradientColor( const gtColor& color1, const gtColor& color2 ){
+	m_gradientColor1 = color1;
+	m_gradientColor2 = color2;
 }
 
 void gtGUIMenuImpl::setTransparent( f32 transparent ){
@@ -51,6 +67,7 @@ void gtGUIMenuImpl::setTransparent( f32 transparent ){
 
 bool        gtGUIMenuImpl::init( s32 h ){
 	m_paramHeight = h;
+	
 	update();
 	return true;
 }
@@ -79,6 +96,10 @@ void gtGUIMenuImpl::setBacgroundColor( const gtColor& color ){
 	if( m_backgroundShape ){
 		m_backgroundShape->setColor( color );
 	}
+}
+
+void gtGUIMenuImpl::addElement( gtGUIObject* element, s32 id ){
+	m_elements.push_back( gtPair<gtGUIObject*,s32>( element, id ) );
 }
 
 /*

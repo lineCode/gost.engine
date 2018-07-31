@@ -32,10 +32,14 @@ bool gtTextureD3D11::init( gtImage* image ){
 	desc.Width	=	image->width;
 	desc.Height	=	image->height;
 	desc.Format	=	DXGI_FORMAT_R8G8B8A8_UNORM;
+	
+
 	desc.SampleDesc.Count	=	1;
 	desc.SampleDesc.Quality	=	0;
+
+
 	desc.BindFlags	=	D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_RENDER_TARGET;
-	desc.MiscFlags	=	is_RTT ? 0u : D3D11_RESOURCE_MISC_GENERATE_MIPS;
+	desc.MiscFlags	=	is_RTT ? 0u : 0;
 	desc.ArraySize	=	1;
 	desc.MipLevels	=	1;
 	desc.Usage	=	D3D11_USAGE_DEFAULT;
@@ -79,7 +83,7 @@ bool gtTextureD3D11::init( gtImage* image ){
 	SRVDesc.Format = desc.Format;
 	SRVDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
 	SRVDesc.Texture2D.MostDetailedMip	=	0;
-	SRVDesc.Texture2D.MipLevels = is_RTT ? 1 : -1;
+	SRVDesc.Texture2D.MipLevels = is_RTT ? 1 : 1;
 
 	hr = m_gs->getD3DDevice()->CreateShaderResourceView( m_texture,
 			&SRVDesc, &this->m_textureResView );

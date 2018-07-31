@@ -128,10 +128,10 @@ void gtGUIStaticTextImpl::setText( const gtString& text ){
 				u32 interval = gtConst0U;
 				u32 line_interval = gtConst0U;
 
-				f32 px = (2.f/bbsz.getWidth());
-				f32 py = (2.f/bbsz.getHeight());
-				f32 centerx = (bbsz.getWidth()*0.5f);
-				f32 centery = (bbsz.getHeight()*0.5f);
+				f32 px = (2.f/(f32)bbsz.getWidth());
+				f32 py = (2.f/(f32)bbsz.getHeight());
+				f32 centerx = ((f32)bbsz.getWidth()*0.5f);
+				f32 centery = ((f32)bbsz.getHeight()*0.5f);
 				
 				m_height = 0;
 
@@ -190,18 +190,19 @@ void gtGUIStaticTextImpl::setText( const gtString& text ){
 
 
 					gtVector4<u16> * rect = nullptr;
+					gtVector4<f32> rectf;
 					
 					if( ch != u' ' && ch != u'\t' )
 						rect = m_font->getRect( ch );
 				
-					u16 width = gtConst0U;
-					u16 height = gtConst0U;
+					f32 width = 0.f;
+					f32 height = 0.f;
 
 
 					if( rect ){
 					
-						width = rect->z - rect->x;
-						height = rect->w - rect->y;
+						width = (f32)rect->z - (f32)rect->x;
+						height = (f32)rect->w - (f32)rect->y;
 
 						if( height > m_height ) m_height = height;
 
@@ -212,7 +213,9 @@ void gtGUIStaticTextImpl::setText( const gtString& text ){
 
 						v1->pos.x += v4->pos.x;
 
-						uvRectToUV( *rect, &v3->uv, &v4->uv, &v2->uv, &v1->uv, m_font->getTexture( 0 ) );
+						rectf = *rect;
+
+						uvRectToUV( rectf, &v3->uv, &v4->uv, &v2->uv, &v1->uv, m_font->getTexture( 0 ) );
 					}else{
 						if( ch == u' ' ){
 							width = 4;
@@ -225,7 +228,7 @@ void gtGUIStaticTextImpl::setText( const gtString& text ){
 					if( ch == u'\n' ){
 						width = 0;
 						line_interval += (u32)m_height;
-						interval = gtConst0U;
+						interval = 0u;
 					}
 
 					sub->move( v3f( (f32)interval * px, -((f32)line_interval * py), 0.1f ) );

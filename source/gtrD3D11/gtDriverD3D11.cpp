@@ -5,6 +5,7 @@
 gtDriverD3D11::gtDriverD3D11( /*gtMainSystem* System,*/ gtGraphicsSystemInfo params ):
 	m_beginRender( false ),
 	m_D3DLibrary( nullptr ),
+	m_dxgiFactory( nullptr ),
 	m_SwapChain( nullptr ),
 	m_d3d11Device( nullptr ),
 	m_d3d11DevCon( nullptr ),
@@ -68,8 +69,10 @@ gtDriverD3D11::~gtDriverD3D11(){
 	if( m_MainTargetView )                       m_MainTargetView->Release();
 	if( m_d3d11DevCon )                          m_d3d11DevCon->Release();
 	if( m_SwapChain )                            m_SwapChain->Release();
+	if( m_dxgiFactory )                          m_dxgiFactory->Release();
 	if( m_d3d11Device )                          m_d3d11Device->Release();
 	if( m_D3DLibrary )                           FreeLibrary( m_D3DLibrary ); m_D3DLibrary = NULL;
+	if( m_DXGILibrary )                          FreeLibrary( m_DXGILibrary ); m_DXGILibrary = NULL;
 }
 
 HMODULE gtDriverD3D11::getD3DLibraryHandle(){ return m_D3DLibrary; }
@@ -108,18 +111,6 @@ bool gtDriverD3D11::initialize(){
 	bufferDesc.Format	=	DXGI_FORMAT_R8G8B8A8_UNORM;
 	bufferDesc.ScanlineOrdering	=	DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
 	bufferDesc.Scaling	=	DXGI_MODE_SCALING_UNSPECIFIED;
-	
-	DXGI_SWAP_CHAIN_DESC	swapChainDesc;
-	ZeroMemory( &swapChainDesc, sizeof(swapChainDesc) );
-	swapChainDesc.BufferDesc	=	bufferDesc;
-	swapChainDesc.BufferUsage	=	DXGI_USAGE_RENDER_TARGET_OUTPUT;
-	swapChainDesc.OutputWindow	=	outWindow;
-	swapChainDesc.SampleDesc.Count	=	1;
-	swapChainDesc.SampleDesc.Quality	=	0;
-	swapChainDesc.BufferCount	=	1;
-	swapChainDesc.Windowed	=	true/*m_params.m_fullScreen ? false : true*/;
-	swapChainDesc.SwapEffect	=	DXGI_SWAP_EFFECT_DISCARD;
-	swapChainDesc.Flags	=	0;
 
 	gtString d3dlib_str = gtFileSystem::getSystemPath();
 	d3dlib_str += u"d3d11.dll";
@@ -174,7 +165,75 @@ bool gtDriverD3D11::initialize(){
 		gtLogWriter::printInfo( u"D3D feature level 11.1" );
 	}
 
-	if( FAILED( D3D11CreateDeviceAndSwapChain( 
+	gtString dxgilib_str = gtFileSystem::getSystemPath();
+	dxgilib_str += u"dxgi.dll";
+
+	m_DXGILibrary = LoadLibrary( (wchar_t*)dxgilib_str.data() );
+	if( !m_DXGILibrary ){
+		gtLogWriter::printError( u"Could not load dxgi.dll" );
+		return false;
+	}
+	gtCreateDXGIFactory_t gtCreateDXGIFactory = GT_LOAD_FUNCTION_SAFE_CAST(gtCreateDXGIFactory_t,m_DXGILibrary, "CreateDXGIFactory");
+	if( !D3D11CreateDevice ){
+		gtLogWriter::printError( u"Could not get proc adress of D3D11CreateDevice");
+		return false;
+	}
+	
+	auto hr = gtCreateDXGIFactory( __uuidof(IDXGIFactory), (void**)&m_dxgiFactory );
+	if( FAILED(hr)){
+			gtLogWriter::printError( u"Can't create DXGI Factory : code %u", hr );
+		return false;
+	}
+
+	hr = D3D11CreateDevice(
+		nullptr,
+		D3D_DRIVER_TYPE_HARDWARE,
+		nullptr,
+		0,
+		nullptr,
+		0,
+		D3D11_SDK_VERSION,
+		&m_d3d11Device,
+		&featureLevel,
+		&m_d3d11DevCon );
+
+	if( FAILED(hr)){
+			gtLogWriter::printError( u"Can't create Direct3D 11 Device : code %u", hr );
+		return false;
+	}
+
+	UINT numQualityLevels = 0;
+	hr = getD3DDevice()->CheckMultisampleQualityLevels(
+		DXGI_FORMAT_R8G8B8A8_UNORM,
+		1,
+		&numQualityLevels );
+	if( FAILED(hr)){
+			gtLogWriter::printError( u"Can't Check Multisample Quality Levels : code %u", hr );
+		return false;
+	}
+	//gtLogWriter::printInfo( u"Number of Multisample Quality Levels : %u", numQualityLevels );
+
+	DXGI_SWAP_CHAIN_DESC	swapChainDesc;
+	ZeroMemory( &swapChainDesc, sizeof(swapChainDesc) );
+	swapChainDesc.BufferDesc	=	bufferDesc;
+	swapChainDesc.BufferUsage	=	DXGI_USAGE_RENDER_TARGET_OUTPUT;
+	swapChainDesc.OutputWindow	=	outWindow;
+	swapChainDesc.BufferCount	=	1;
+	swapChainDesc.Windowed	=	true/*m_params.m_fullScreen ? false : true*/;
+	swapChainDesc.SwapEffect	=	DXGI_SWAP_EFFECT_DISCARD;
+	swapChainDesc.Flags	=	0;
+	swapChainDesc.SampleDesc.Count	=	1;
+	swapChainDesc.SampleDesc.Quality	=	0;
+
+
+
+	hr = m_dxgiFactory->CreateSwapChain( m_d3d11Device, &swapChainDesc, &m_SwapChain );
+	if( FAILED(hr)){
+			gtLogWriter::printError( u"Can't create Swap Chain : code %u", hr );
+		return false;
+	}
+	m_dxgiFactory->MakeWindowAssociation( (HWND)m_params.m_outWindow->getHandle(), DXGI_MWA_NO_ALT_ENTER);
+	/*if( FAILED( D3D11CreateDeviceAndSwapChain( 
 		nullptr,
 		D3D_DRIVER_TYPE_HARDWARE, 
 		nullptr,
@@ -189,7 +248,11 @@ bool gtDriverD3D11::initialize(){
 		&m_d3d11DevCon ) ) ){
 			gtLogWriter::printError( u"Can't create Direct3D 11 Device" );
 		return false;
-	}
+	}*/
+
+
+
+	//CreateSwapChain()
 
 	ID3D11Texture2D* BackBuffer;
 	if( FAILED( m_SwapChain->GetBuffer( 
@@ -271,7 +334,7 @@ bool gtDriverD3D11::initialize(){
 
 	D3D11_RASTERIZER_DESC	rasterDesc;
 	ZeroMemory( &rasterDesc, sizeof( D3D11_RASTERIZER_DESC ) );
-	rasterDesc.AntialiasedLineEnable = false;
+	rasterDesc.AntialiasedLineEnable = true;
 	rasterDesc.CullMode = D3D11_CULL_BACK;
 	rasterDesc.DepthBias = 0;
 	rasterDesc.DepthBiasClamp = 0.0f;

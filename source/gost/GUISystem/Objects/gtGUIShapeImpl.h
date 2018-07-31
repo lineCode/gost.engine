@@ -11,6 +11,7 @@ namespace gost{
 		gtGraphicsSystem*m_gs;
 		gtRenderModel*	m_model;
 		gtMaterial*		m_material;
+		gtTexture *     m_texture;
 
 		gtVertexType	vt[ gtConst5U ];
 		v4i m_rect;
@@ -36,6 +37,9 @@ namespace gost{
 		void		setTexture( gtTexture* texture );
 		gtTexture*	getTexture();
 		gtMaterial* getMaterial();
+
+		void        setRect( const v4i& rect );
+		const v4i&  getRect();
 	};
 
 }
