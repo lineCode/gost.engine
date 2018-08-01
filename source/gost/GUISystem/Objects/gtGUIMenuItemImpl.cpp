@@ -1,33 +1,50 @@
 #include "common.h"
 
-gtGUIMenuImpl::gtGUIMenuImpl( gtGraphicsSystem * d, gtGUIFont* font ):
+gtGUIMenuItemImpl::gtGUIMenuItemImpl( gtGraphicsSystem * d, gtGUIFont* font ):
 	m_gs( d ),
 	m_mainSystem( nullptr ),
 	m_modelSystem( nullptr ),
 	m_wnd( nullptr ),
 	m_font( font ),
-	m_paramHeight( 10 ),
-	m_widthLen( 0 )
+	m_userInput_id( -1 )
 {
 	m_mainSystem = gtMainSystem::getInstance();
 	m_modelSystem = m_mainSystem->getModelSystem();
 	m_type = gtGUIObjectType::Menu;
 	m_gui = m_mainSystem->getGUISystem( d );
 	m_wnd = m_gs->getParams().m_outWindow;
+
+//	m_originalClientRect = m_wnd->getClientRect();
 }
 
-gtGUIMenuImpl::~gtGUIMenuImpl(){
+gtGUIMenuItemImpl::~gtGUIMenuItemImpl(){
 }
 
-void gtGUIMenuImpl::update(){
+void gtGUIMenuItemImpl::update(){
 
+	auto wrc = m_wnd->getClientRect();
+	//f32 px = (2.f/(f32)wrc.getWidth());
+	//f32 py = (2.f/(f32)wrc.getHeight());
+	
+	//m_rect.x *= px;
+	//m_rect.z *= px;
+	//m_rect.y *= py;
+	//m_rect.w *= py;
+
+	/*
 	auto wrc = m_wnd->getClientRect();
 
 	v4i bgrc( 0, 0, wrc.z, m_paramHeight );
 	bgrc.w = m_paramHeight;
+	*/
 
-	m_backgroundShape = m_gui->createShapeRectangle( bgrc, m_backgroundColor, true, m_gradientColor1, m_gradientColor2 );
-	m_backgroundShape->setColor( m_backgroundColor );
+	m_textField = m_gui->createTextField( m_rect, m_font, false, false );
+
+	if( m_textField ){
+		m_textField->setText( m_text );
+		m_textField->setBackgroundVisible( false );
+		m_textField->getBackgroundShape()->setColor( m_backgroundColor );
+	}
 
 	for( auto i : m_elements ){
 		if( i.m_first->isVisible() ){
@@ -35,112 +52,73 @@ void gtGUIMenuImpl::update(){
 		}
 	}
 
-	for( auto i : m_items ){
-		if( i->isVisible() )
-			i->update();
-	}
-
 }
 
-void gtGUIMenuImpl::render(){
+void gtGUIMenuItemImpl::render(){
 
-	if( m_backgroundShape ){
-		if( m_backgroundShape->isVisible() )
-			m_backgroundShape->render();
-	}
+	if( m_textField )
+		m_textField->render();
 
 	for( auto i : m_elements ){
 		if( i.m_first->isVisible() )
 			i.m_first->render();
 	}
-
-	for( auto i : m_items ){
-		if( i->isVisible() )
-			i->render();
-	}
 }
 
-void gtGUIMenuImpl::setGradientColor( const gtColor& color1, const gtColor& color2 ){
+void gtGUIMenuItemImpl::setGradientColor( const gtColor& color1, const gtColor& color2 ){
 	m_gradientColor1 = color1;
 	m_gradientColor2 = color2;
 }
 
-void gtGUIMenuImpl::setTransparent( f32 transparent ){
+void gtGUIMenuItemImpl::setTransparent( f32 transparent ){
 }
 
-bool        gtGUIMenuImpl::init( s32 h ){
-	m_paramHeight = h;
-	
+bool gtGUIMenuItemImpl::init(const gtString & text, s32 userInput_id){
+	m_text = text;
+	m_userInput_id = userInput_id;
+
 	update();
+
+	m_rect = m_textField->getRect();
+
 	return true;
 }
 
-f32  gtGUIMenuImpl::getTransparent(){
+f32  gtGUIMenuItemImpl::getTransparent(){
 	return 0.f;
 }
 
-void gtGUIMenuImpl::setColor( const gtColor& color ){
+void gtGUIMenuItemImpl::setColor( const gtColor& color ){
 }
 
-gtMaterial* gtGUIMenuImpl::getMaterial(){
+gtMaterial* gtGUIMenuItemImpl::getMaterial(){
 	return &m_material;
 }
 
-void gtGUIMenuImpl::setTexture( gtTexture* texture ){
+void gtGUIMenuItemImpl::setTexture( gtTexture* texture ){
 	m_material.textureLayer[ gtConst0U ].texture = texture;
 }
 
-gtTexture* gtGUIMenuImpl::getTexture(){
+gtTexture* gtGUIMenuItemImpl::getTexture(){
 	return m_material.textureLayer[ gtConst0U ].texture;
 }
 
-void gtGUIMenuImpl::setBacgroundColor( const gtColor& color ){
+void gtGUIMenuItemImpl::setBacgroundColor( const gtColor& color ){
 	m_backgroundColor = color;
-	if( m_backgroundShape ){
-		m_backgroundShape->setColor( color );
+	if( m_textField ){
+
+		m_textField->getBackgroundShape()->setColor( color );
+
 	}
 }
 
-void gtGUIMenuImpl::addElement( gtGUIObject* element, s32 id ){
+void gtGUIMenuItemImpl::addElement( gtGUIObject* element, s32 id ){
 	m_elements.push_back( gtPair<gtGUIObject*,s32>( element, id ) );
-
-	auto r = element->getRect();
-	auto w = r.getWidth();
-
-
-	r.x += m_widthLen;
-	r.z += m_widthLen;
-
-	m_widthLen += w;
-
-
-	element->setRect( r );
-	element->update();
 }
 
-gtGUIMenuItem* gtGUIMenuImpl::addMenuItem( const gtString& text, s32 userInput_id ){
-
-	gtGUIMenuItemImpl * item = new gtGUIMenuItemImpl( m_gs, m_font );
-	if( item->init( text, userInput_id ) ){
-
-		m_items.push_back( gtPtrNew<gtGUIMenuItem>( item ) );
-
-		auto r = item->getRect();
-		auto w = r.getWidth();
-
-
-		r.x += m_widthLen;
-		r.z += m_widthLen;
-		r.y += 2;
-
-		m_widthLen += w;
-
-		item->setRect( r );
-		item->update();
-
-	}
-
-	return nullptr;
+void gtGUIMenuItemImpl::setRect( const v4i& rect ){
+	m_rect = rect;
+	m_textField->setRect( rect );
 }
 
 /*

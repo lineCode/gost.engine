@@ -139,8 +139,9 @@ void gtGUISystemImpl::setCurrentRenderDriver( gtGraphicsSystem * driver ){
 	m_gs = driver;
 }
 
-gtPtr<gtGUIMenu> gtGUISystemImpl::createMenu( s32 height ){
-	gtPtr_t( gtGUIMenuImpl, st, new gtGUIMenuImpl( m_gs ) );
+
+gtPtr<gtGUIMenu> gtGUISystemImpl::createMenu( s32 height, gtGUIFont* font ){
+	gtPtr_t( gtGUIMenuImpl, st, new gtGUIMenuImpl( m_gs, font ) );
 
 	if( !st.data() )
 		return nullptr;

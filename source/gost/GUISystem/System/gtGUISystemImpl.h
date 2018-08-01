@@ -27,7 +27,7 @@ namespace gost{
 		gtPtr<gtGUIShape>		createShapeRectangle( const v4i& rect, const gtColor& color, bool useGradient = false, 
 			const gtColor& first_color = gtColorBlack, const gtColor& second_color = gtColorBlack, bool useVerticalGradient = false );
 
-		gtPtr<gtGUIMenu>        createMenu( s32 height );
+		gtPtr<gtGUIMenu>        createMenu( s32 height, gtGUIFont* font );
 
 		void					removeFromUserInput( gtGUIObject * );
 

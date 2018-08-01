@@ -14,7 +14,6 @@ namespace gost{
 		gtTexture *     m_texture;
 
 		gtVertexType	vt[ gtConst5U ];
-		v4i m_rect;
 		gtColor m_difColor;
 		gtColor m_gr1Color;
 		gtColor m_gr2Color;

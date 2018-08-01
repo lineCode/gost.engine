@@ -1,31 +1,17 @@
 ﻿#pragma once
-#ifndef __GT_GUI_SHAPE_H__
-#define __GT_GUI_SHAPE_H__
+#ifndef __GT_GUI_MENU_ITEM_H__
+#define __GT_GUI_MENU_ITEM_H__
 
 namespace gost{
 
-	enum class gtGUIShapeType{
-		Rectangle
-	};
-
-	class gtTexture;
-	class gtMaterial;
-	class gtGUIShape : public gtGUIObject{
-	protected:
-		gtGUIShapeType m_shapeType;
-		bool m_isGradient;
+	class gtGUIMenuItem : public gtGUIObject{
 	public:
-		gtGUIShape():m_isGradient(false){}
-		virtual ~gtGUIShape(){}
 
-		virtual void setColor( const gtColor& color ) = 0;
-		virtual void setTexture( gtTexture* texture ) = 0;
-		virtual gtTexture* getTexture() = 0;
-		virtual gtMaterial* getMaterial() = 0;
+		virtual void addElement( gtGUIObject* element, s32 id ) = 0;
 
-		virtual gtGUIShapeType getShapeType(){ return m_shapeType; }
-		virtual bool isGradient(){ return m_isGradient; }
-	
+		virtual void setBacgroundColor( const gtColor& color ) = 0;
+		virtual void setGradientColor( const gtColor& color1, const gtColor& color2 ) = 0;
+
 	};
 
 }

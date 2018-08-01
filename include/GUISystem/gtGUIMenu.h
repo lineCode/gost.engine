@@ -7,7 +7,8 @@ namespace gost{
 	class gtGUIMenu : public gtGUIObject{
 	public:
 
-		virtual void addElement( gtGUIObject* element, s32 id ) = 0;
+		virtual void           addElement( gtGUIObject* element, s32 id ) = 0;
+		virtual gtGUIMenuItem* addMenuItem( const gtString& text, s32 userInput_id ) = 0;
 
 		virtual void setBacgroundColor( const gtColor& color ) = 0;
 		virtual void setGradientColor( const gtColor& color1, const gtColor& color2 ) = 0;

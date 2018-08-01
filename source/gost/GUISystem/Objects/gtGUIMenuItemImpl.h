@@ -1,11 +1,11 @@
 #pragma once
-#ifndef __GT_GUI_MENU_IMPL_H__
-#define __GT_GUI_MENU_IMPL_H__
+#ifndef __GT_GUI_MENU_ITEM_IMPL_H__
+#define __GT_GUI_MENU_ITEM_IMPL_H__
 
 namespace gost{
 
 
-	class gtGUIMenuImpl : public gtGUIMenu{
+	class gtGUIMenuItemImpl : public gtGUIMenuItem{
 		gtMainSystem *	m_mainSystem;
 		gtModelSystem*	m_modelSystem;
 		gtGraphicsSystem*m_gs;
@@ -15,40 +15,40 @@ namespace gost{
 		
 		gtMaterial      m_material;
 
-		gtPtr<gtGUIShape> m_backgroundShape;
-		
+		gtPtr<gtGUITextField> m_textField;
+
+		gtString        m_text;
+		s32             m_userInput_id;
+
 		v4i             m_backgroundRect;
 		gtColor         m_backgroundColor;
 		gtColor         m_gradientColor1, m_gradientColor2;
 
-		s32             m_paramHeight;
-		s32             m_widthLen;
-
 		gtArray<gtPair<gtGUIObject*,s32>> m_elements;
-		gtArray<gtPtr<gtGUIMenuItem>>     m_items;
 
 	public:
 
-		gtGUIMenuImpl( gtGraphicsSystem *, gtGUIFont* font );
-		~gtGUIMenuImpl();
+		gtGUIMenuItemImpl( gtGraphicsSystem *, gtGUIFont* font );
+		~gtGUIMenuItemImpl();
 		
-		bool        init( s32 );
+		bool        init(const gtString & text, s32 userInput_id);
 
 		void		update();
 		void		render();
 		void		setTransparent( f32 transparent = gtConst0F );
 		f32			getTransparent();
 
-		void        setBacgroundColor( const gtColor& color );
 		void		setColor( const gtColor& color );
 		void        setGradientColor( const gtColor& color1, const gtColor& color2 );
 		void		setTexture( gtTexture* texture );
 		gtTexture*	getTexture();
 		gtMaterial* getMaterial();
 
-		void           addElement( gtGUIObject* element, s32 id );
-		gtGUIMenuItem* addMenuItem( const gtString& text, s32 userInput_id );
-		
+		void        addElement( gtGUIObject* element, s32 id );
+		void        setBacgroundColor( const gtColor& color );
+
+		void        setRect( const v4i& rect ) GT_OVERRIDE;
+
 	};
 
 }

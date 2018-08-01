@@ -14,7 +14,6 @@ namespace gost{
 		bool			m_fixedH, m_fixedW;
 		bool			m_showBackground;
 		bool			m_useGradient, m_useVertGradient;
-		v4i				m_rect;
 		v4i				m_scissorRect;
 		gtColor			m_bgColor;
 		gtColor			m_textColor;

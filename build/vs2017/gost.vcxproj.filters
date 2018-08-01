@@ -546,6 +546,12 @@
     <ClInclude Include="..\..\source\gost\GUISystem\Objects\gtGUIMenuImpl.h">
       <Filter>Headers\GUISystem\Objects</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\GUISystem\gtGUIMenuItem.h">
+      <Filter>include\GUISystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\gost\GUISystem\Objects\gtGUIMenuItemImpl.h">
+      <Filter>Headers\GUISystem\Objects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\include\MainSystem\gtStackTracerWin32.inl">
@@ -680,6 +686,9 @@
       <Filter>include\Classes\Common</Filter>
     </ClCompile>
     <ClCompile Include="..\..\source\gost\GUISystem\Objects\gtGUIMenuImpl.cpp">
+      <Filter>Source\GUISystem\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\gost\GUISystem\Objects\gtGUIMenuItemImpl.cpp">
       <Filter>Source\GUISystem\Objects</Filter>
     </ClCompile>
   </ItemGroup>

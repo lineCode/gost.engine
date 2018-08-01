@@ -17,6 +17,7 @@ namespace gost{
 	protected:
 		gtGUIObjectType m_type;
 		v4i				m_activeArea;
+		v4i             m_rect;
 
 		bool			m_visible;
 		bool			m_mouseEnter;
@@ -37,9 +38,6 @@ namespace gost{
 		virtual void setTransparent( f32 transparent = gtConst0F ) = 0;
 		virtual f32  getTransparent() = 0;
 
-		virtual gtGUIObjectType getType(){
-			return m_type;
-		}
 
 		virtual bool isMouseEnter() const             { return m_mouseEnter; }
 		virtual bool isMouseLeave() const             { return m_mouseLeave; }
@@ -50,6 +48,18 @@ namespace gost{
 		virtual void setActiveArea( const v4i& area ) { m_activeArea = area; }
 		virtual const v4i& getActiveArea() const      { return m_activeArea; }
 
+		virtual gtGUIObjectType getType(){
+			return m_type;
+		}
+
+		virtual void setRect( const v4i& rect ){
+			m_rect = rect;
+		}
+
+		virtual const v4i& getRect(){
+			return m_rect;
+		}
+
 	};
 
 }
@@ -59,6 +69,7 @@ namespace gost{
 #include <GUISystem/gtGUIFont.h>
 #include <GUISystem/gtGUIStaticText.h>
 #include <GUISystem/gtGUITextField.h>
+#include <GUISystem/gtGUIMenuItem.h>
 #include <GUISystem/gtGUIMenu.h>
 
 #endif
