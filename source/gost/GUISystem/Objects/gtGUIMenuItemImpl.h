@@ -4,7 +4,7 @@
 
 namespace gost{
 
-
+	class gtGUIMenuImpl;
 	class gtGUIMenuItemImpl : public gtGUIMenuItem{
 		gtMainSystem *	m_mainSystem;
 		gtModelSystem*	m_modelSystem;
@@ -12,9 +12,12 @@ namespace gost{
 		gtGUISystem*	m_gui;
 		gtWindow *      m_wnd;
 		gtGUIFont*      m_font;
+		gtGUIMenuImpl*  m_menu;
 		
 		gtMaterial      m_material;
 
+		gtPtr<gtGUIShape>     m_itemMouseHover;
+		gtPtr<gtGUIShape>     m_background; //window
 		gtPtr<gtGUITextField> m_textField;
 
 		gtString        m_text;
@@ -24,11 +27,12 @@ namespace gost{
 		gtColor         m_backgroundColor;
 		gtColor         m_gradientColor1, m_gradientColor2;
 
-		gtArray<gtPair<gtGUIObject*,s32>> m_elements;
-
+		gtArray<gtPtr<gtGUIMenuItem>>     m_items;
+		s32             m_HeightLen;
+		bool            m_active;
 	public:
 
-		gtGUIMenuItemImpl( gtGraphicsSystem *, gtGUIFont* font );
+		gtGUIMenuItemImpl( gtGraphicsSystem *, gtGUIFont* font, gtGUIMenuImpl* );
 		~gtGUIMenuItemImpl();
 		
 		bool        init(const gtString & text, s32 userInput_id);
@@ -44,11 +48,15 @@ namespace gost{
 		gtTexture*	getTexture();
 		gtMaterial* getMaterial();
 
-		void        addElement( gtGUIObject* element, s32 id );
+		bool        isActive();
+		void        setActivate( bool activate );
+
+		gtGUIMenuItem* addMenuItem( const gtString& text, s32 userInput_id );
 		void        setBacgroundColor( const gtColor& color );
 
 		void        setRect( const v4i& rect ) GT_OVERRIDE;
-
+		
+		gtGUIShape* getMouseHoverShape();
 	};
 
 }

@@ -54,10 +54,22 @@ void gtGUISystemImpl::updateInput(){
 	//printf("%i\t\t%i\n",m_coords.x,m_coords.y);
 	auto sz = m_userInputObjects.size();
 	for( auto i = 0u; i < sz; ++i ){
+
+
 		auto o = m_userInputObjects[ i ];
 		if( o.m_first->isVisible() ){
 
+
 			if( util::pointInRect(m_coords,o.m_first->getActiveArea()) ){
+
+				bool has = false;
+				for( auto k = 0u; k < i; ++k ){
+					if( util::pointInRect(m_coords,m_userInputObjects[ k ].m_first->getActiveArea()) ){
+						has = true;
+						break;
+					}
+				}
+				if( has ) continue;
 
 				if( !o.m_first->isMouseEnter() ){
 					gtEvent e;
@@ -146,7 +158,7 @@ gtPtr<gtGUIMenu> gtGUISystemImpl::createMenu( s32 height, gtGUIFont* font ){
 	if( !st.data() )
 		return nullptr;
 
-	if( !st->init( height ) ){
+	if( !st->_init( height ) ){
 		gtLogWriter::printWarning( u"Can not create gtGUIMenu" );
 		return nullptr;
 	}

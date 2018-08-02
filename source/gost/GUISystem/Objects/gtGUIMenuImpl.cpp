@@ -19,6 +19,14 @@ gtGUIMenuImpl::gtGUIMenuImpl( gtGraphicsSystem * d, gtGUIFont* font ):
 gtGUIMenuImpl::~gtGUIMenuImpl(){
 }
 
+s32 gtGUIMenuImpl::_getLineHeight(){
+	return m_paramHeight;
+}
+
+const gtColor& gtGUIMenuImpl::_getMouseHoverColor(){
+	return m_mouseHoverColor;
+}
+
 void gtGUIMenuImpl::update(){
 
 	auto wrc = m_wnd->getClientRect();
@@ -68,7 +76,7 @@ void gtGUIMenuImpl::setGradientColor( const gtColor& color1, const gtColor& colo
 void gtGUIMenuImpl::setTransparent( f32 transparent ){
 }
 
-bool        gtGUIMenuImpl::init( s32 h ){
+bool gtGUIMenuImpl::_init( s32 h ){
 	m_paramHeight = h;
 	
 	update();
@@ -94,11 +102,19 @@ gtTexture* gtGUIMenuImpl::getTexture(){
 	return m_material.textureLayer[ gtConst0U ].texture;
 }
 
+const gtColor& gtGUIMenuImpl::getBacgroundColor(){
+	return m_backgroundColor;
+}
+
 void gtGUIMenuImpl::setBacgroundColor( const gtColor& color ){
 	m_backgroundColor = color;
 	if( m_backgroundShape ){
 		m_backgroundShape->setColor( color );
 	}
+}
+
+void gtGUIMenuImpl::setMouseHoverColor( const gtColor& color ){
+	m_mouseHoverColor = color;
 }
 
 void gtGUIMenuImpl::addElement( gtGUIObject* element, s32 id ){
@@ -115,12 +131,13 @@ void gtGUIMenuImpl::addElement( gtGUIObject* element, s32 id ){
 
 
 	element->setRect( r );
+	element->setActiveArea( r );
 	element->update();
 }
 
 gtGUIMenuItem* gtGUIMenuImpl::addMenuItem( const gtString& text, s32 userInput_id ){
 
-	gtGUIMenuItemImpl * item = new gtGUIMenuItemImpl( m_gs, m_font );
+	gtGUIMenuItemImpl * item = new gtGUIMenuItemImpl( m_gs, m_font, this );
 	if( item->init( text, userInput_id ) ){
 
 		m_items.push_back( gtPtrNew<gtGUIMenuItem>( item ) );
@@ -132,12 +149,17 @@ gtGUIMenuItem* gtGUIMenuImpl::addMenuItem( const gtString& text, s32 userInput_i
 		r.x += m_widthLen;
 		r.z += m_widthLen;
 		r.y += 2;
+		r.w += 2;
 
 		m_widthLen += w;
 
 		item->setRect( r );
+		item->setActiveArea( r );
 		item->update();
 
+		m_gui->addToUserInput( item, userInput_id );
+
+		return item;
 	}
 
 	return nullptr;

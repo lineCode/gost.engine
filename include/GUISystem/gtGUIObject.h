@@ -10,7 +10,8 @@ namespace gost{
 		Button,	
 		Shape,
 		TextField,
-		Menu
+		Menu,
+		MenuItem
 	};
 
 	class gtGUIObject : public gtRefObject{

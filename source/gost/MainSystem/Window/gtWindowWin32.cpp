@@ -456,6 +456,13 @@ LRESULT CALLBACK gtWindowWin32::WndProc(HWND hWnd, UINT message, WPARAM wParam, 
 		PostQuitMessage( 0 );
 	break;
 
+	case WM_NCMOUSEMOVE:
+		ev.type = gtEventType::Mouse;
+		ev.mouseEvent.state = 0u;
+		ev.mouseEvent.x = -1;
+		ev.mouseEvent.y = -1;
+		gtMainSystem::getInstance()->addEvent( ev );
+		break;
 	case WM_LBUTTONDBLCLK:
 	case WM_RBUTTONDBLCLK:
 	case WM_LBUTTONDOWN:

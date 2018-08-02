@@ -11,7 +11,9 @@ namespace gost{
 		virtual gtGUIMenuItem* addMenuItem( const gtString& text, s32 userInput_id ) = 0;
 
 		virtual void setBacgroundColor( const gtColor& color ) = 0;
+		virtual const gtColor& getBacgroundColor() = 0;
 		virtual void setGradientColor( const gtColor& color1, const gtColor& color2 ) = 0;
+		virtual void setMouseHoverColor( const gtColor& color ) = 0;
 
 	};
 

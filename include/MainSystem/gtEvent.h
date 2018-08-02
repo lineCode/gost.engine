@@ -45,6 +45,7 @@ namespace gost{
 	};
 
 	enum class gtEventGUIAction : u32 {
+		None,
 		MouseEnter,
 		MouseMove,
 		MouseHover,
@@ -60,9 +61,9 @@ namespace gost{
 	};
 
 	struct gtEventGUI{
-		u32 id              = 0u;
-		gtEventGUIAction action;
-		gtGUIObject* object = nullptr;
+		u32              id      = 0u;
+		gtEventGUIAction action  = gtEventGUIAction::None;
+		gtGUIObject*     object  = nullptr;
 	};
 
 	struct gtEventSystemEvent{

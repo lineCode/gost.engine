@@ -1,42 +1,34 @@
 #include "common.h"
 
-gtGUIMenuItemImpl::gtGUIMenuItemImpl( gtGraphicsSystem * d, gtGUIFont* font ):
+gtGUIMenuItemImpl::gtGUIMenuItemImpl( gtGraphicsSystem * d, gtGUIFont* font, gtGUIMenuImpl* menu ):
 	m_gs( d ),
 	m_mainSystem( nullptr ),
 	m_modelSystem( nullptr ),
 	m_wnd( nullptr ),
 	m_font( font ),
-	m_userInput_id( -1 )
+	m_menu( menu ),
+	m_userInput_id( -1 ),
+	m_HeightLen( 0 ),
+	m_active( false )
 {
 	m_mainSystem = gtMainSystem::getInstance();
 	m_modelSystem = m_mainSystem->getModelSystem();
-	m_type = gtGUIObjectType::Menu;
+	m_type = gtGUIObjectType::MenuItem;
 	m_gui = m_mainSystem->getGUISystem( d );
 	m_wnd = m_gs->getParams().m_outWindow;
 
-//	m_originalClientRect = m_wnd->getClientRect();
 }
 
 gtGUIMenuItemImpl::~gtGUIMenuItemImpl(){
 }
 
+gtGUIShape* gtGUIMenuItemImpl::getMouseHoverShape(){
+	return m_itemMouseHover.data();
+}
+
 void gtGUIMenuItemImpl::update(){
 
 	auto wrc = m_wnd->getClientRect();
-	//f32 px = (2.f/(f32)wrc.getWidth());
-	//f32 py = (2.f/(f32)wrc.getHeight());
-	
-	//m_rect.x *= px;
-	//m_rect.z *= px;
-	//m_rect.y *= py;
-	//m_rect.w *= py;
-
-	/*
-	auto wrc = m_wnd->getClientRect();
-
-	v4i bgrc( 0, 0, wrc.z, m_paramHeight );
-	bgrc.w = m_paramHeight;
-	*/
 
 	m_textField = m_gui->createTextField( m_rect, m_font, false, false );
 
@@ -46,22 +38,45 @@ void gtGUIMenuItemImpl::update(){
 		m_textField->getBackgroundShape()->setColor( m_backgroundColor );
 	}
 
-	for( auto i : m_elements ){
-		if( i.m_first->isVisible() ){
-			i.m_first->update();
-		}
+
+	v4i itemMouseHover_rect = m_rect;
+	itemMouseHover_rect.y -= 2;
+	itemMouseHover_rect.w = m_menu->_getLineHeight();
+	
+	f32 oldTr = 1.f;
+	if( m_itemMouseHover )
+		oldTr = m_itemMouseHover->getTransparent();
+
+	m_itemMouseHover = m_gui->createShapeRectangle( itemMouseHover_rect, m_menu->_getMouseHoverColor() );
+	m_itemMouseHover->setTransparent( oldTr );
+
+	for( auto i : m_items ){
+		if( i->isVisible() )
+			i->update();
 	}
 
+	
+
+	m_background = m_gui->createShapeRectangle( m_backgroundRect, m_menu->_getMouseHoverColor());
+	m_background->setTransparent( 0.7f );
 }
 
 void gtGUIMenuItemImpl::render(){
 
+	if( m_itemMouseHover )
+		m_itemMouseHover->render();
+
 	if( m_textField )
 		m_textField->render();
 
-	for( auto i : m_elements ){
-		if( i.m_first->isVisible() )
-			i.m_first->render();
+	if( m_active ){
+		if( m_background )
+			m_background->render();
+
+		for( auto i : m_items ){
+			if( i->isVisible() )
+				i->render();
+		}
 	}
 }
 
@@ -79,6 +94,7 @@ bool gtGUIMenuItemImpl::init(const gtString & text, s32 userInput_id){
 
 	update();
 
+	m_textField->update();
 	m_rect = m_textField->getRect();
 
 	return true;
@@ -112,13 +128,62 @@ void gtGUIMenuItemImpl::setBacgroundColor( const gtColor& color ){
 	}
 }
 
-void gtGUIMenuItemImpl::addElement( gtGUIObject* element, s32 id ){
-	m_elements.push_back( gtPair<gtGUIObject*,s32>( element, id ) );
-}
-
 void gtGUIMenuItemImpl::setRect( const v4i& rect ){
 	m_rect = rect;
 	m_textField->setRect( rect );
+}
+
+bool        gtGUIMenuItemImpl::isActive(){
+	return m_active;
+}
+
+void        gtGUIMenuItemImpl::setActivate( bool activate ){
+	m_active = activate;
+}
+
+
+/*
+	При добавлении нужно:
+	    - создать текстовое поле и добавить в массив.
+		- в соответствии с размером текстового поля построить прямоугольник нового размера.
+*/
+gtGUIMenuItem* gtGUIMenuItemImpl::addMenuItem( const gtString& text, s32 userInput_id ){
+	gtGUIMenuItemImpl * item = new gtGUIMenuItemImpl( m_gs, m_font, m_menu );
+	if( item->init( text, userInput_id ) ){
+
+		m_items.push_back( gtPtrNew<gtGUIMenuItem>( item ) );
+
+		auto r = item->getRect();
+		auto w = r.getHeight();
+
+		r.y = m_menu->_getLineHeight();
+		r.w = r.y + r.y;
+		r.y += m_HeightLen;
+		r.w += m_HeightLen;
+
+		r.x = m_rect.x;
+		
+
+		m_HeightLen += w;
+
+		item->setRect( r );
+		item->setActiveArea( r );
+		item->update();
+
+		m_gui->addToUserInput( item, userInput_id );
+
+		r = item->getRect();
+
+		m_backgroundRect.x = m_rect.x;
+		m_backgroundRect.y = m_menu->_getLineHeight();
+		if( r.x + r.z > m_backgroundRect.z ) m_backgroundRect.z = r.x + r.z;
+		if( r.w > m_backgroundRect.w ) m_backgroundRect.w = r.w;
+
+
+		return item;
+	}
+
+	return nullptr;
 }
 
 /*

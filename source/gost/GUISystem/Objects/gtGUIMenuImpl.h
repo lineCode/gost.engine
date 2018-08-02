@@ -20,6 +20,7 @@ namespace gost{
 		v4i             m_backgroundRect;
 		gtColor         m_backgroundColor;
 		gtColor         m_gradientColor1, m_gradientColor2;
+		gtColor         m_mouseHoverColor;
 
 		s32             m_paramHeight;
 		s32             m_widthLen;
@@ -32,7 +33,9 @@ namespace gost{
 		gtGUIMenuImpl( gtGraphicsSystem *, gtGUIFont* font );
 		~gtGUIMenuImpl();
 		
-		bool        init( s32 );
+		s32         _getLineHeight();
+		const gtColor& _getMouseHoverColor();
+		bool        _init( s32 );
 
 		void		update();
 		void		render();
@@ -40,6 +43,8 @@ namespace gost{
 		f32			getTransparent();
 
 		void        setBacgroundColor( const gtColor& color );
+		const gtColor& getBacgroundColor();
+		void        setMouseHoverColor( const gtColor& color );
 		void		setColor( const gtColor& color );
 		void        setGradientColor( const gtColor& color1, const gtColor& color2 );
 		void		setTexture( gtTexture* texture );
