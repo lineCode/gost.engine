@@ -31,11 +31,13 @@ void gtGUIMenuImpl::update(){
 
 	auto wrc = m_wnd->getClientRect();
 
-	v4i bgrc( 0, 0, wrc.z, m_paramHeight );
-	bgrc.w = m_paramHeight;
+	m_rect = v4i( 0, 0, wrc.z, m_paramHeight );
+	m_rect.w = m_paramHeight;
 
-	m_backgroundShape = m_gui->createShapeRectangle( bgrc, m_backgroundColor, true, m_gradientColor1, m_gradientColor2 );
+	m_backgroundShape = m_gui->createShapeRectangle( m_rect, m_backgroundColor, true, m_gradientColor1, m_gradientColor2 );
 	m_backgroundShape->setColor( m_backgroundColor );
+
+	setActiveArea( m_rect );
 
 	for( auto i : m_elements ){
 		if( i.m_first->isVisible() ){
@@ -47,6 +49,7 @@ void gtGUIMenuImpl::update(){
 		if( i->isVisible() )
 			i->update();
 	}
+
 
 }
 

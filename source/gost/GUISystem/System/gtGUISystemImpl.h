@@ -17,6 +17,7 @@ namespace gost{
 		~gtGUISystemImpl();
 		
 		void addToUserInput( gtGUIObject *, u32 id );
+		void replaceUserInput( gtGUIObject * object_to_replace, gtGUIObject * new_object, u32 id );
 		void clearUserInput();
 
 		gtPtr<gtGUIFont>		createFont( const gtString& fontName, gtImage * fromImage = nullptr );

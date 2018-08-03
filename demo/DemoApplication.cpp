@@ -493,8 +493,11 @@ void demo::DemoApplication::rebuildMainMenuColons(){
 		rc.y = top;
 		rc.z = 200;
 
-		if( m_leftColonEntity[ i ] )
-			m_guiSystem->removeFromUserInput( m_leftColonEntity[ i ].data() );
+		gtGUITextField * old = nullptr;
+
+		if( m_leftColonEntity[ i ] ){
+			old = m_leftColonEntity[ i ].data();
+		}
 
 		m_leftColonEntity[ i ] = m_guiSystem->createTextField( rc, m_mainFont.data(), false );
 
@@ -504,7 +507,10 @@ void demo::DemoApplication::rebuildMainMenuColons(){
 
 			top = m_leftColonEntity[ i ]->getRect().w-1;
 
-			m_guiSystem->addToUserInput( m_leftColonEntity[ i ].data(), DEMO_GUI_ID_LEFT_COLON + i );
+			if( old )
+				m_guiSystem->replaceUserInput( old, m_leftColonEntity[ i ].data(), DEMO_GUI_ID_LEFT_COLON + i );
+			else
+				m_guiSystem->addToUserInput( m_leftColonEntity[ i ].data(), DEMO_GUI_ID_LEFT_COLON + i );
 		}
 	}
 
@@ -532,8 +538,10 @@ void demo::DemoApplication::rebuildMainMenuColons(){
 		rc.y = top;
 		rc.z = 500;
 
-		if( m_rightColonEntity[ i ] )
-			m_guiSystem->removeFromUserInput( m_rightColonEntity[ i ].data() );
+		gtGUITextField * old = nullptr;
+		if( m_rightColonEntity[ i ] ){
+			old = m_rightColonEntity[ i ].data();
+		}
 
 		m_rightColonEntity[ i ] = m_guiSystem->createTextField( rc, m_mainFont.data(), false );
 
@@ -544,7 +552,10 @@ void demo::DemoApplication::rebuildMainMenuColons(){
 
 			top = m_rightColonEntity[ i ]->getRect().w-1;
 
-			m_guiSystem->addToUserInput( m_rightColonEntity[ i ].data(), DEMO_GUI_ID_RIGHT_COLON + i );
+			if( old )
+				m_guiSystem->replaceUserInput( old, m_rightColonEntity[ i ].data(), DEMO_GUI_ID_RIGHT_COLON + i );
+			else
+				m_guiSystem->addToUserInput( m_rightColonEntity[ i ].data(), DEMO_GUI_ID_RIGHT_COLON + i );
 		}
 	}
 
@@ -643,8 +654,10 @@ bool demo::DemoApplication::rebuildMainMenu(){
 
 	if( m_mainFont.data() ){
 
-		if( m_welcomeText )
-			m_guiSystem->removeFromUserInput( m_welcomeText.data() );
+		gtGUITextField * old = nullptr;
+		if( m_welcomeText ){
+			old = m_welcomeText.data();
+		}
 
 		m_welcomeText = m_guiSystem->createTextField( v4i( 20, 0, wndrc.getWidth()-20, 0 ), m_mainFont.data(), false );
 		m_welcomeText->setText( getString( u"0" ) );
@@ -654,7 +667,10 @@ bool demo::DemoApplication::rebuildMainMenu(){
 		m_welcomeText->setBackgroundGradient( true, gtColorRed, gtColorDarkRed );
 		m_welcomeText->setTextColor( gtColorWhite );
 
-		m_guiSystem->addToUserInput( m_welcomeText.data(), DEMO_GUI_ID_WELCOME_TEXT );
+		if( old )
+			m_guiSystem->replaceUserInput( old, m_welcomeText.data(), DEMO_GUI_ID_WELCOME_TEXT );
+		else
+			m_guiSystem->addToUserInput( m_welcomeText.data(), DEMO_GUI_ID_WELCOME_TEXT );
 
 	}
 
@@ -1004,8 +1020,10 @@ void demo::DemoApplication::updateColons(){
 				rc.y = top;
 				rc.z = 500;
 
-				if( m_rightColonEntity[ actualIndex ] )
-					m_guiSystem->removeFromUserInput( m_rightColonEntity[ actualIndex ].data() );
+				gtGUITextField * old = nullptr;
+				if( m_rightColonEntity[ actualIndex ] ){
+					old = m_rightColonEntity[ actualIndex ].data();
+				}
 
 				m_rightColonEntity[ actualIndex ] = m_guiSystem->createTextField( rc, m_mainFont.data(), false );
 				m_rightColonEntity[ actualIndex ]->setFont( m_mainFont.data() );
@@ -1017,7 +1035,10 @@ void demo::DemoApplication::updateColons(){
 
 				top = m_rightColonEntity[ actualIndex ]->getRect().w-1;
 
-				m_guiSystem->addToUserInput( m_rightColonEntity[ actualIndex ].data(), DEMO_GUI_ID_RIGHT_COLON + actualIndex );
+				if( old )
+					m_guiSystem->replaceUserInput( old, m_rightColonEntity[ actualIndex ].data(), DEMO_GUI_ID_RIGHT_COLON + actualIndex );
+				else
+					m_guiSystem->addToUserInput( m_rightColonEntity[ actualIndex ].data(), DEMO_GUI_ID_RIGHT_COLON + actualIndex );
 			}
 
 		}else{

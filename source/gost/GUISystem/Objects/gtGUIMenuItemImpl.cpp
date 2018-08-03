@@ -55,10 +55,20 @@ void gtGUIMenuItemImpl::update(){
 			i->update();
 	}
 
-	
+	bool add = false;
+	gtGUIShape * old = nullptr;
+	if( !m_background ) add = true;
+	else old = m_background.data();
 
 	m_background = m_gui->createShapeRectangle( m_backgroundRect, m_menu->_getMouseHoverColor());
 	m_background->setTransparent( 0.7f );
+
+	m_background->setActiveArea( m_backgroundRect );
+
+	if( add )
+		 m_gui->addToUserInput( m_background.data(), m_userInput_id+1000 );
+	else m_gui->replaceUserInput( old, m_background.data(), m_userInput_id+1000 );
+	
 }
 
 void gtGUIMenuItemImpl::render(){
@@ -170,14 +180,17 @@ gtGUIMenuItem* gtGUIMenuItemImpl::addMenuItem( const gtString& text, s32 userInp
 		item->setActiveArea( r );
 		item->update();
 
-		m_gui->addToUserInput( item, userInput_id );
 
 		r = item->getRect();
+
+
 
 		m_backgroundRect.x = m_rect.x;
 		m_backgroundRect.y = m_menu->_getLineHeight();
 		if( r.x + r.z > m_backgroundRect.z ) m_backgroundRect.z = r.x + r.z;
 		if( r.w > m_backgroundRect.w ) m_backgroundRect.w = r.w;
+
+		m_gui->addToUserInput( item, userInput_id );
 
 
 		return item;

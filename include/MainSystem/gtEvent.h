@@ -111,21 +111,21 @@ namespace gost{
 
 		u16 wheel;	//< Wheel
 
-		bool	isLeftButtonDown()    { return (state&MS_LMB_DOWN);  }
+		bool	isLeftButtonDown()    const { return (state&MS_LMB_DOWN);  }
 		bool	isLeftButtonUp()	  const { return (state&MS_LMB_UP);    }
-		bool	isRightButtonDown()   { return (state&MS_RMB_DOWN);  }
-		bool	isRightButtonUp()	  { return (state&MS_RMB_UP);	 }
-		bool	isMiddleButtonDown()  { return (state&MS_MMB_DOWN);  }
-		bool	isMiddleButtonUp()    { return (state&MS_MMB_UP);	 }
-		bool	isExtra1ButtonDown()  { return (state&MS_X1MB_DOWN); }
-		bool	isExtra1ButtonUp()    { return (state&MS_X1MB_UP);	 }
-		bool	isExtra2ButtonDown()  { return (state&MS_X2MB_DOWN); }
-		bool	isExtra2ButtonUp()    { return (state&MS_X2MB_UP);	 }
-		bool	isLeftButtonDouble()  { return (state&MS_LMB_DOUBLE);}
-		bool	isRightButtonDouble() { return (state&MS_RMB_DOUBLE);}
-		bool	isMiddleButtonDouble(){ return (state&MS_MMB_DOUBLE);}
-		bool	isExtra1ButtonDouble(){ return (state&MS_X1MB_DOUBLE);}
-		bool	isExtra2ButtonDouble(){ return (state&MS_X2MB_DOUBLE);}
+		bool	isRightButtonDown()   const { return (state&MS_RMB_DOWN);  }
+		bool	isRightButtonUp()	  const { return (state&MS_RMB_UP);	 }
+		bool	isMiddleButtonDown()  const { return (state&MS_MMB_DOWN);  }
+		bool	isMiddleButtonUp()    const { return (state&MS_MMB_UP);	 }
+		bool	isExtra1ButtonDown()  const { return (state&MS_X1MB_DOWN); }
+		bool	isExtra1ButtonUp()    const { return (state&MS_X1MB_UP);	 }
+		bool	isExtra2ButtonDown()  const { return (state&MS_X2MB_DOWN); }
+		bool	isExtra2ButtonUp()    const { return (state&MS_X2MB_UP);	 }
+		bool	isLeftButtonDouble()  const { return (state&MS_LMB_DOUBLE);}
+		bool	isRightButtonDouble() const { return (state&MS_RMB_DOUBLE);}
+		bool	isMiddleButtonDouble()const { return (state&MS_MMB_DOUBLE);}
+		bool	isExtra1ButtonDouble()const { return (state&MS_X1MB_DOUBLE);}
+		bool	isExtra2ButtonDouble()const { return (state&MS_X2MB_DOUBLE);}
 	};
 
 	struct gtEventKeyboard{

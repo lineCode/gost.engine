@@ -9,6 +9,7 @@ namespace gost{
 	public:
 
 		virtual void addToUserInput( gtGUIObject *, u32 id ) = 0;
+		virtual void replaceUserInput( gtGUIObject * object_to_replace, gtGUIObject * new_object, u32 id ) = 0;
 
 		virtual void clearUserInput() = 0;
 
