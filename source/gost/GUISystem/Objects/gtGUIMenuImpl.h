@@ -11,18 +11,15 @@ namespace gost{
 		gtGraphicsSystem*m_gs;
 		gtGUISystem*	m_gui;
 		gtWindow *      m_wnd;
-		gtGUIFont*      m_font;
 		
 		gtMaterial      m_material;
 
 		gtPtr<gtGUIShape> m_backgroundShape;
+		gtPtr<gtGUIShape> m_backgroundShapeWithTexture;
 		
-		v4i             m_backgroundRect;
-		gtColor         m_backgroundColor;
-		gtColor         m_gradientColor1, m_gradientColor2;
-		gtColor         m_mouseHoverColor;
+		gtGUIMenuParameters m_params;
 
-		s32             m_paramHeight;
+		v4i             m_backgroundRect;
 		s32             m_widthLen;
 
 		gtArray<gtPair<gtGUIObject*,s32>> m_elements;
@@ -30,12 +27,13 @@ namespace gost{
 
 	public:
 
-		gtGUIMenuImpl( gtGraphicsSystem *, gtGUIFont* font );
+		gtGUIMenuImpl( gtGraphicsSystem *, const gtGUIMenuParameters& params );
 		~gtGUIMenuImpl();
 		
 		s32         _getLineHeight();
 		const gtColor& _getMouseHoverColor();
-		bool        _init( s32 );
+		bool        _init();
+		gtGUIMenuParameters * _getParams();
 
 		void		update();
 		void		render();

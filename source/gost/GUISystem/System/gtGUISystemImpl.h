@@ -11,6 +11,9 @@ namespace gost{
 		gtArray<gtPair<gtGUIObject*,u32>> m_userInputObjects;
 
 		gtVector2<s16> m_coords;
+		
+		// Необходимо понимать, на каком типе элемента была нажата клавиша мыши
+		gtGUIObjectType m_captureState;
 	public:
 
 		gtGUISystemImpl();
@@ -28,7 +31,7 @@ namespace gost{
 		gtPtr<gtGUIShape>		createShapeRectangle( const v4i& rect, const gtColor& color, bool useGradient = false, 
 			const gtColor& first_color = gtColorBlack, const gtColor& second_color = gtColorBlack, bool useVerticalGradient = false );
 
-		gtPtr<gtGUIMenu>        createMenu( s32 height, gtGUIFont* font );
+		gtPtr<gtGUIMenu>        createMenu( const gtGUIMenuParameters& params );
 
 		void					removeFromUserInput( gtGUIObject * );
 

@@ -5,7 +5,8 @@
 gtGUISystemImpl::gtGUISystemImpl():
 	m_mainSystem( nullptr ),
 	m_inputSystem( nullptr ),
-	m_gs( nullptr )
+	m_gs( nullptr ),
+	m_captureState(gtGUIObjectType::None)
 {
 	m_mainSystem = gtMainSystem::getInstance();
 	m_inputSystem = m_mainSystem->getInputSystem();
@@ -54,12 +55,14 @@ bool gtGUISystemImpl_compareEvent_callback_rmbUp( gtEvent& current_event, gtEven
 bool gtGUISystemImpl_compareEvent_callback_mmbUp( gtEvent& current_event, gtEvent& /*user_event*/ )  { return current_event.mouseEvent.isMiddleButtonUp();   }
 bool gtGUISystemImpl_compareEvent_callback_lmbDouble( gtEvent& current_event, gtEvent& /*user_event*/ ){ return current_event.mouseEvent.isLeftButtonDouble(); }
 bool gtGUISystemImpl_compareEvent_callback_rmbDouble( gtEvent& current_event, gtEvent& /*user_event*/ ){ return current_event.mouseEvent.isRightButtonDouble(); }
+bool gtGUISystemImpl_compareEvent_callback_mmbDouble( gtEvent& current_event, gtEvent& /*user_event*/ ){ return current_event.mouseEvent.isMiddleButtonDouble(); }
 
 
 
 void gtGUISystemImpl::updateInput(){
 	m_coords = m_inputSystem->getCursorPosition();
 	static auto oldCursorPosition = m_coords;
+
 
 	//printf("%i\t\t%i\n",m_coords.x,m_coords.y);
 	auto sz = m_userInputObjects.size();
@@ -69,17 +72,39 @@ void gtGUISystemImpl::updateInput(){
 		auto o = m_userInputObjects[ i ];
 		if( o.m_first->isVisible() ){
 
-
 			if( util::pointInRect(m_coords,o.m_first->getActiveArea()) ){
 
 				bool has = false;
 				for( auto k = 0u; k < i; ++k ){
-					if( util::pointInRect(m_coords,m_userInputObjects[ k ].m_first->getActiveArea()) ){
-						has = true;
-						break;
+					if( m_userInputObjects[ k ].m_first->isVisible() ){
+						if( util::pointInRect(m_coords,m_userInputObjects[ k ].m_first->getActiveArea()) ){
+							has = true;
+							break;
+						}
 					}
 				}
+
+				// Сначала проверяется та область которая выше всех.
+				// Если нижний прямоугольник так-же входит в область предыдущего, то пропуск.
 				if( has ) continue;
+
+				gtGUIMenuItemImpl * menuItem = nullptr;
+				switch( o.m_first->getType() ){
+				case gtGUIObjectType::Button:
+					break;
+				case gtGUIObjectType::Menu:
+					break;
+				case gtGUIObjectType::MenuItem:
+					menuItem = (gtGUIMenuItemImpl*)o.m_first;
+					break;
+				case gtGUIObjectType::Shape:
+					break;
+				case gtGUIObjectType::Text:
+					break;
+				case gtGUIObjectType::TextField:
+					break;
+				}
+
 
 				if( !o.m_first->isMouseEnter() ){
 					gtEvent e;
@@ -88,7 +113,15 @@ void gtGUISystemImpl::updateInput(){
 					e.GUIEvent.action = gtEventGUIAction::MouseEnter;
 					e.GUIEvent.object = o.m_first;
 					m_mainSystem->addEvent( e );
-					o.m_first->setMouseEnter();
+					
+					if( menuItem ){
+						if( (m_captureState == gtGUIObjectType::None) || (m_captureState == gtGUIObjectType::Menu)
+							|| (m_captureState == gtGUIObjectType::MenuItem)){
+							o.m_first->setMouseEnter();
+						}
+					}else
+						o.m_first->setMouseEnter();
+					
 				}
 
 				gtEvent findEvent;
@@ -102,36 +135,62 @@ void gtGUISystemImpl::updateInput(){
 				if( m_mainSystem->checkEvent( findEvent, gtGUISystemImpl_compareEvent_callback_lmbDown ) ){
 					em.GUIEvent.action = gtEventGUIAction::MouseLeftButtonDown;
 					m_mainSystem->addEvent( em );
+
+					if( m_captureState == gost::gtGUIObjectType::None )
+						m_captureState = em.GUIEvent.object->getType();
 				}
 				if( m_mainSystem->checkEvent( findEvent, gtGUISystemImpl_compareEvent_callback_lmbUp ) ){
 					em.GUIEvent.action = gtEventGUIAction::MouseLeftButtonUp;
 					m_mainSystem->addEvent( em );
+					m_captureState = gost::gtGUIObjectType::None;
 				}
 				if( m_mainSystem->checkEvent( findEvent, gtGUISystemImpl_compareEvent_callback_lmbDouble ) ){
 					em.GUIEvent.action = gtEventGUIAction::MouseLeftButtonDouble;
 					m_mainSystem->addEvent( em );
+					
+					if( m_captureState == gost::gtGUIObjectType::None )
+						m_captureState = em.GUIEvent.object->getType();
 				}
+
 				if( m_mainSystem->checkEvent( findEvent, gtGUISystemImpl_compareEvent_callback_rmbDown ) ){
 					em.GUIEvent.action = gtEventGUIAction::MouseRightButtonDown;
 					m_mainSystem->addEvent( em );
+					
+					if( m_captureState == gost::gtGUIObjectType::None )
+						m_captureState = em.GUIEvent.object->getType();
 				}
 				if( m_mainSystem->checkEvent( findEvent, gtGUISystemImpl_compareEvent_callback_rmbUp ) ){
 					em.GUIEvent.action = gtEventGUIAction::MouseRightButtonUp;
 					m_mainSystem->addEvent( em );
+					m_captureState = gost::gtGUIObjectType::None;
 				}
 				if( m_mainSystem->checkEvent( findEvent, gtGUISystemImpl_compareEvent_callback_rmbDouble ) ){
 					em.GUIEvent.action = gtEventGUIAction::MouseRightButtonDouble;
 					m_mainSystem->addEvent( em );
+					
+					if( m_captureState == gost::gtGUIObjectType::None )
+						m_captureState = em.GUIEvent.object->getType();
 				}
+
 				if( m_mainSystem->checkEvent( findEvent, gtGUISystemImpl_compareEvent_callback_mmbDown ) ){
 					em.GUIEvent.action = gtEventGUIAction::MouseMiddleButtonDown;
 					m_mainSystem->addEvent( em );
+					
+					if( m_captureState == gost::gtGUIObjectType::None )
+						m_captureState = em.GUIEvent.object->getType();
 				}
 				if( m_mainSystem->checkEvent( findEvent, gtGUISystemImpl_compareEvent_callback_mmbUp ) ){
 					em.GUIEvent.action = gtEventGUIAction::MouseMiddleButtonUp;
 					m_mainSystem->addEvent( em );
+					m_captureState = gost::gtGUIObjectType::None;
 				}
-
+				if( m_mainSystem->checkEvent( findEvent, gtGUISystemImpl_compareEvent_callback_mmbDouble ) ){
+					em.GUIEvent.action = gtEventGUIAction::MouseMiddleButtonDouble;
+					m_mainSystem->addEvent( em );
+					
+					if( m_captureState == gost::gtGUIObjectType::None )
+						m_captureState = em.GUIEvent.object->getType();
+				}
 				gtEvent e;
 				e.type = gtEventType::GUI;
 				e.GUIEvent.id = o.m_second;
@@ -139,6 +198,8 @@ void gtGUISystemImpl::updateInput(){
 				e.GUIEvent.object = o.m_first;
 
 				m_mainSystem->addEvent( e );
+
+
 			}else{
 				if( o.m_first->isMouseEnter() ){
 					gtEvent e;
@@ -169,13 +230,13 @@ void gtGUISystemImpl::setCurrentRenderDriver( gtGraphicsSystem * driver ){
 }
 
 
-gtPtr<gtGUIMenu> gtGUISystemImpl::createMenu( s32 height, gtGUIFont* font ){
-	gtPtr_t( gtGUIMenuImpl, st, new gtGUIMenuImpl( m_gs, font ) );
+gtPtr<gtGUIMenu> gtGUISystemImpl::createMenu( const gtGUIMenuParameters& params ){
+	gtPtr_t( gtGUIMenuImpl, st, new gtGUIMenuImpl( m_gs, params ) );
 
 	if( !st.data() )
 		return nullptr;
 
-	if( !st->_init( height ) ){
+	if( !st->_init() ){
 		gtLogWriter::printWarning( u"Can not create gtGUIMenu" );
 		return nullptr;
 	}

@@ -294,7 +294,12 @@ bool demo::DemoApplication::initMainMenu(){
 		gtLogWriter::printWarning( u"Can not load gamepad icon texture. File %s not exist.", gamepadPath.data() );
 	
 	m_mainFont	=	m_guiSystem->createBuiltInFont();
+	if( !m_mainFont )
+		return false;
+
 	m_infoFont	=	m_guiSystem->createFont( u"../demo/media/fonts/Montserrat/Montserrat.xml" );
+	if( !m_infoFont )
+		return false;
 
 	auto rc = m_mainWindow->getRect();
 	auto w  = rc.getWidth();

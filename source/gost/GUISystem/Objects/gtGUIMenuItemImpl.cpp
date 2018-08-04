@@ -1,22 +1,22 @@
 #include "common.h"
 
-gtGUIMenuItemImpl::gtGUIMenuItemImpl( gtGraphicsSystem * d, gtGUIFont* font, gtGUIMenuImpl* menu ):
+gtGUIMenuItemImpl::gtGUIMenuItemImpl( gtGraphicsSystem * d, gtGUIMenuImpl* menu ):
 	m_gs( d ),
 	m_mainSystem( nullptr ),
 	m_modelSystem( nullptr ),
 	m_wnd( nullptr ),
-	m_font( font ),
 	m_menu( menu ),
 	m_userInput_id( -1 ),
 	m_HeightLen( 0 ),
-	m_active( false )
+	m_active( false ),
+	m_isMenuItem( true )
 {
 	m_mainSystem = gtMainSystem::getInstance();
 	m_modelSystem = m_mainSystem->getModelSystem();
 	m_type = gtGUIObjectType::MenuItem;
 	m_gui = m_mainSystem->getGUISystem( d );
 	m_wnd = m_gs->getParams().m_outWindow;
-
+	m_params = *menu->_getParams();
 }
 
 gtGUIMenuItemImpl::~gtGUIMenuItemImpl(){
@@ -30,54 +30,85 @@ void gtGUIMenuItemImpl::update(){
 
 	auto wrc = m_wnd->getClientRect();
 
-	m_textField = m_gui->createTextField( m_rect, m_font, false, false );
+	m_textField = m_gui->createTextField( m_rect, m_params.m_font, false, false );
 
 	if( m_textField ){
 		m_textField->setText( m_text );
 		m_textField->setBackgroundVisible( false );
-		m_textField->getBackgroundShape()->setColor( m_backgroundColor );
+		m_textField->setTextColor( m_params.m_textColor );
 	}
 
 
 	v4i itemMouseHover_rect = m_rect;
-	itemMouseHover_rect.y -= 2;
+	itemMouseHover_rect.y = 0;
 	itemMouseHover_rect.w = m_menu->_getLineHeight();
 	
-	f32 oldTr = 1.f;
-	if( m_itemMouseHover )
-		oldTr = m_itemMouseHover->getTransparent();
-
 	m_itemMouseHover = m_gui->createShapeRectangle( itemMouseHover_rect, m_menu->_getMouseHoverColor() );
-	m_itemMouseHover->setTransparent( oldTr );
+	m_itemMouseHover->setTransparent( m_params.m_mouseHoverTransparent );
 
-	for( auto i : m_items ){
-		if( i->isVisible() )
-			i->update();
+	if( m_params.m_menuItemHoverTexture ){
+		m_backgroundTexture = m_gui->createShapeRectangle( itemMouseHover_rect, m_menu->_getMouseHoverColor() );
+		m_backgroundTexture->setTexture( m_params.m_menuItemHoverTexture );
+		m_backgroundTexture->setColor( gtColorWhite );
 	}
 
-	bool add = false;
+	for( auto i : m_items ){
+		i->update();
+	}
+
 	gtGUIShape * old = nullptr;
-	if( !m_background ) add = true;
-	else old = m_background.data();
+	bool is_visible = false;
+	if( m_background ){
+		old = m_background.data();
+		is_visible = old->isVisible();
+	}
 
 	m_background = m_gui->createShapeRectangle( m_backgroundRect, m_menu->_getMouseHoverColor());
 	m_background->setTransparent( 0.7f );
 
 	m_background->setActiveArea( m_backgroundRect );
+	m_background->setVisible( is_visible );
 
-	if( add )
-		 m_gui->addToUserInput( m_background.data(), m_userInput_id+1000 );
-	else m_gui->replaceUserInput( old, m_background.data(), m_userInput_id+1000 );
+	if( old )
+		 m_gui->replaceUserInput( old, m_background.data(), m_userInput_id+10000 );
+	else m_gui->addToUserInput( m_background.data(), m_userInput_id+10000 );
 	
+}
+
+void gtGUIMenuItemImpl::setMouseEnter(){
+	m_mouseEnter = true;
+	m_mouseLeave = false;
+
+	if( m_isMenuItem ){
+		m_itemMouseHover->setTransparent( m_params.m_mouseHoverTransparent );
+		m_textField->setTextColor( m_params.m_mouseHoverTextColor );
+	}
+}
+
+void gtGUIMenuItemImpl::setMouseLeave(){
+	m_mouseLeave = true; 
+	m_mouseEnter = false; 
+
+	if( m_isMenuItem ){
+		m_itemMouseHover->setTransparent( 1.f );
+		m_textField->setTextColor( m_params.m_textColor );
+	}
 }
 
 void gtGUIMenuItemImpl::render(){
 
-	if( m_itemMouseHover )
-		m_itemMouseHover->render();
+	if( m_itemMouseHover ){
+		if( m_mouseEnter ){
+			if( m_params.m_menuItemHoverTexture )
+				m_backgroundTexture->render();
+			m_itemMouseHover->render();
+		}
+	}
 
-	if( m_textField )
+
+	if( m_textField ){
 		m_textField->render();
+	}
 
 	if( m_active ){
 		if( m_background )
@@ -91,14 +122,21 @@ void gtGUIMenuItemImpl::render(){
 }
 
 void gtGUIMenuItemImpl::setGradientColor( const gtColor& color1, const gtColor& color2 ){
-	m_gradientColor1 = color1;
-	m_gradientColor2 = color2;
+	m_params.m_gradientColor1 = color1;
+	m_params.m_gradientColor2 = color2;
 }
 
 void gtGUIMenuItemImpl::setTransparent( f32 transparent ){
+	if( m_isMenuItem ){ //если пункт в меню
+		m_params.m_mouseHoverTransparent = transparent;
+		m_itemMouseHover->setTransparent( m_params.m_mouseHoverTransparent );
+	}else{ // если пункт в окошке
+		//циклом пройтись
+	}
 }
 
-bool gtGUIMenuItemImpl::init(const gtString & text, s32 userInput_id){
+bool gtGUIMenuItemImpl::_init(const gtString & text, s32 userInput_id, bool isMenuItem){
+	m_isMenuItem = isMenuItem;
 	m_text = text;
 	m_userInput_id = userInput_id;
 
@@ -117,6 +155,12 @@ f32  gtGUIMenuItemImpl::getTransparent(){
 void gtGUIMenuItemImpl::setColor( const gtColor& color ){
 }
 
+void gtGUIMenuItemImpl::setTextColor( const gtColor& color ){
+	m_textField->setTextColor( color );
+	m_params.m_textColor = color;
+}
+
+
 gtMaterial* gtGUIMenuItemImpl::getMaterial(){
 	return &m_material;
 }
@@ -130,11 +174,9 @@ gtTexture* gtGUIMenuItemImpl::getTexture(){
 }
 
 void gtGUIMenuItemImpl::setBacgroundColor( const gtColor& color ){
-	m_backgroundColor = color;
+	m_params.m_menuItemBackgroundColor = color;
 	if( m_textField ){
-
 		m_textField->getBackgroundShape()->setColor( color );
-
 	}
 }
 
@@ -149,6 +191,12 @@ bool        gtGUIMenuItemImpl::isActive(){
 
 void        gtGUIMenuItemImpl::setActivate( bool activate ){
 	m_active = activate;
+	if( m_background )
+		m_background->setVisible(m_active);
+
+	for( auto i : m_items ){
+		i->setVisible(m_active);
+	}
 }
 
 
@@ -158,8 +206,10 @@ void        gtGUIMenuItemImpl::setActivate( bool activate ){
 		- в соответствии с размером текстового поля построить прямоугольник нового размера.
 */
 gtGUIMenuItem* gtGUIMenuItemImpl::addMenuItem( const gtString& text, s32 userInput_id ){
-	gtGUIMenuItemImpl * item = new gtGUIMenuItemImpl( m_gs, m_font, m_menu );
-	if( item->init( text, userInput_id ) ){
+	gtGUIMenuItemImpl * item = new gtGUIMenuItemImpl( m_gs, m_menu );
+	if( item->_init( text, userInput_id, false ) ){
+
+		item->setVisible( false );
 
 		m_items.push_back( gtPtrNew<gtGUIMenuItem>( item ) );
 

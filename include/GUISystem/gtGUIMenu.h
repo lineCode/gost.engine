@@ -4,14 +4,38 @@
 
 namespace gost{
 
+	struct gtGUIMenuParameters{
+
+		enum{
+			flag_gradient = BIT(0)
+		};
+
+		 s32             m_height  = 20;  //высота полоски меню (толщина)
+		 s32             m_vIndent = 0;
+		 gtGUIFont*      m_font    = nullptr;    //шрифт
+		 u32             m_flags   = 0u; // flag_gradient - использовать градиентную заливку. m_menuColor должен быть gtColorBlack
+
+		 gtColor         m_menuColor; //Цвет полоски
+		 gtColor         m_gradientColor1; //Если градиент включён - цвет полоски вверху
+		 gtColor         m_gradientColor2; //Если градиент включён - цвет полоски внизу
+		 gtColor         m_textColor;
+
+		 gtColor         m_mouseHoverColor; //Цвет пункта на полоске при наведении курсора
+		 gtColor         m_mouseHoverTextColor; //Цвет текста пункта на полоске при наведении курсора
+		 f32             m_mouseHoverTransparent = 0.7f; //Прозрачность пункта на полоске при наведении курсора
+
+		 gtColor         m_menuItemBackgroundColor; //Фон окна
+
+		 gtTexture*      m_backgroundTexture    = nullptr; //Фон полоски. Текстура растягивается.
+		 gtTexture*      m_menuItemHoverTexture = nullptr; //Фон пункта при наведении курсора.
+	};
+
 	class gtGUIMenu : public gtGUIObject{
 	public:
 
 		virtual void           addElement( gtGUIObject* element, s32 id ) = 0;
 		virtual gtGUIMenuItem* addMenuItem( const gtString& text, s32 userInput_id ) = 0;
 
-		virtual void setBacgroundColor( const gtColor& color ) = 0;
-		virtual const gtColor& getBacgroundColor() = 0;
 		virtual void setGradientColor( const gtColor& color1, const gtColor& color2 ) = 0;
 		virtual void setMouseHoverColor( const gtColor& color ) = 0;
 

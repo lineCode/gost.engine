@@ -57,7 +57,8 @@ namespace gost{
 		MouseRightButtonUp,
 		MouseRightButtonDouble,
 		MouseMiddleButtonDown,
-		MouseMiddleButtonUp
+		MouseMiddleButtonUp,
+		MouseMiddleButtonDouble
 	};
 
 	struct gtEventGUI{

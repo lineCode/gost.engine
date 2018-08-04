@@ -1,12 +1,10 @@
 #include "common.h"
 
-gtGUIMenuImpl::gtGUIMenuImpl( gtGraphicsSystem * d, gtGUIFont* font ):
+gtGUIMenuImpl::gtGUIMenuImpl( gtGraphicsSystem * d, const gtGUIMenuParameters& params ):
 	m_gs( d ),
 	m_mainSystem( nullptr ),
 	m_modelSystem( nullptr ),
 	m_wnd( nullptr ),
-	m_font( font ),
-	m_paramHeight( 10 ),
 	m_widthLen( 0 )
 {
 	m_mainSystem = gtMainSystem::getInstance();
@@ -14,28 +12,39 @@ gtGUIMenuImpl::gtGUIMenuImpl( gtGraphicsSystem * d, gtGUIFont* font ):
 	m_type = gtGUIObjectType::Menu;
 	m_gui = m_mainSystem->getGUISystem( d );
 	m_wnd = m_gs->getParams().m_outWindow;
+	m_params = params;
 }
 
 gtGUIMenuImpl::~gtGUIMenuImpl(){
 }
 
 s32 gtGUIMenuImpl::_getLineHeight(){
-	return m_paramHeight;
+	return m_params.m_height;
 }
 
 const gtColor& gtGUIMenuImpl::_getMouseHoverColor(){
-	return m_mouseHoverColor;
+	return m_params.m_mouseHoverColor;
+}
+
+gtGUIMenuParameters * gtGUIMenuImpl::_getParams(){
+	return &m_params;
 }
 
 void gtGUIMenuImpl::update(){
 
 	auto wrc = m_wnd->getClientRect();
 
-	m_rect = v4i( 0, 0, wrc.z, m_paramHeight );
-	m_rect.w = m_paramHeight;
+	m_rect = v4i( 0, 0, wrc.z, m_params.m_height );
+	m_rect.w = m_params.m_height;
 
-	m_backgroundShape = m_gui->createShapeRectangle( m_rect, m_backgroundColor, true, m_gradientColor1, m_gradientColor2 );
-	m_backgroundShape->setColor( m_backgroundColor );
+	m_backgroundShape = m_gui->createShapeRectangle( m_rect, m_params.m_menuColor, true, m_params.m_gradientColor1, m_params.m_gradientColor2 );
+	m_backgroundShape->setColor( m_params.m_menuColor );
+
+	
+	if( m_params.m_backgroundTexture ){
+		m_backgroundShapeWithTexture = m_gui->createShapeRectangle( m_rect, m_params.m_menuColor );
+		m_backgroundShapeWithTexture->setTexture( m_params.m_backgroundTexture );
+	}
 
 	setActiveArea( m_rect );
 
@@ -60,6 +69,12 @@ void gtGUIMenuImpl::render(){
 			m_backgroundShape->render();
 	}
 
+	if( m_params.m_backgroundTexture ){
+		if( m_backgroundShapeWithTexture ){
+			m_backgroundShapeWithTexture->render();
+		}
+	}
+
 	for( auto i : m_elements ){
 		if( i.m_first->isVisible() )
 			i.m_first->render();
@@ -72,16 +87,20 @@ void gtGUIMenuImpl::render(){
 }
 
 void gtGUIMenuImpl::setGradientColor( const gtColor& color1, const gtColor& color2 ){
-	m_gradientColor1 = color1;
-	m_gradientColor2 = color2;
+	m_params.m_gradientColor1 = color1;
+	m_params.m_gradientColor2 = color2;
 }
 
 void gtGUIMenuImpl::setTransparent( f32 transparent ){
 }
 
-bool gtGUIMenuImpl::_init( s32 h ){
-	m_paramHeight = h;
-	
+bool gtGUIMenuImpl::_init(){
+	setBacgroundColor( m_params.m_menuColor );
+
+	if( m_params.m_flags & m_params.flag_gradient ){
+		setGradientColor( m_params.m_gradientColor1, m_params.m_gradientColor2 );
+	}
+
 	update();
 	return true;
 }
@@ -106,18 +125,18 @@ gtTexture* gtGUIMenuImpl::getTexture(){
 }
 
 const gtColor& gtGUIMenuImpl::getBacgroundColor(){
-	return m_backgroundColor;
+	return m_params.m_menuColor;
 }
 
 void gtGUIMenuImpl::setBacgroundColor( const gtColor& color ){
-	m_backgroundColor = color;
+	m_params.m_menuColor = color;
 	if( m_backgroundShape ){
 		m_backgroundShape->setColor( color );
 	}
 }
 
 void gtGUIMenuImpl::setMouseHoverColor( const gtColor& color ){
-	m_mouseHoverColor = color;
+	m_params.m_mouseHoverColor = color;
 }
 
 void gtGUIMenuImpl::addElement( gtGUIObject* element, s32 id ){
@@ -140,8 +159,10 @@ void gtGUIMenuImpl::addElement( gtGUIObject* element, s32 id ){
 
 gtGUIMenuItem* gtGUIMenuImpl::addMenuItem( const gtString& text, s32 userInput_id ){
 
-	gtGUIMenuItemImpl * item = new gtGUIMenuItemImpl( m_gs, m_font, this );
-	if( item->init( text, userInput_id ) ){
+	gtGUIMenuItemImpl * item = new gtGUIMenuItemImpl( m_gs, this );
+	if( item->_init( text, userInput_id, true ) ){
+
+		item->setTextColor( m_params.m_textColor );
 
 		m_items.push_back( gtPtrNew<gtGUIMenuItem>( item ) );
 
@@ -151,12 +172,15 @@ gtGUIMenuItem* gtGUIMenuImpl::addMenuItem( const gtString& text, s32 userInput_i
 
 		r.x += m_widthLen;
 		r.z += m_widthLen;
-		r.y += 2;
-		r.w += 2;
+		r.w = m_rect.w;
 
 		m_widthLen += w;
 
+
+		r.y += m_params.m_vIndent;
 		item->setRect( r );
+
+		r.y -= m_params.m_vIndent;
 		item->setActiveArea( r );
 		item->update();
 

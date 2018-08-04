@@ -369,7 +369,7 @@ bool gtDriverD3D11::initialize(){
 	bd.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
 	bd.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ZERO;
 	bd.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
-	bd.RenderTarget[0].RenderTargetWriteMask = 0x0f;
+	bd.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
 	
 
 	if( FAILED( m_d3d11Device->CreateBlendState( &bd, &m_blendStateAlphaEnabled ) ) ){

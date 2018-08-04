@@ -11,37 +11,42 @@ namespace gost{
 		gtGraphicsSystem*m_gs;
 		gtGUISystem*	m_gui;
 		gtWindow *      m_wnd;
-		gtGUIFont*      m_font;
 		gtGUIMenuImpl*  m_menu;
 		
 		gtMaterial      m_material;
 
 		gtPtr<gtGUIShape>     m_itemMouseHover;
 		gtPtr<gtGUIShape>     m_background; //window
+		gtPtr<gtGUIShape>     m_backgroundTexture; //картинка которая находится за текстом
+
 		gtPtr<gtGUITextField> m_textField;
 
 		gtString        m_text;
 		s32             m_userInput_id;
 
 		v4i             m_backgroundRect;
-		gtColor         m_backgroundColor;
-		gtColor         m_gradientColor1, m_gradientColor2;
+
+		gtGUIMenuParameters m_params;
+
 
 		gtArray<gtPtr<gtGUIMenuItem>>     m_items;
-		s32             m_HeightLen;
+		s32             m_HeightLen; //высота окна, чтобы знать куда вставлять новые элементы
 		bool            m_active;
+
+		bool            m_isMenuItem; //Это пункт на полоске? Если нет то это пункт на окне.
 	public:
 
-		gtGUIMenuItemImpl( gtGraphicsSystem *, gtGUIFont* font, gtGUIMenuImpl* );
+		gtGUIMenuItemImpl( gtGraphicsSystem *, gtGUIMenuImpl* );
 		~gtGUIMenuItemImpl();
 		
-		bool        init(const gtString & text, s32 userInput_id);
+		bool        _init(const gtString & text, s32 userInput_id, bool isMenuItem);
 
 		void		update();
 		void		render();
 		void		setTransparent( f32 transparent = gtConst0F );
 		f32			getTransparent();
 
+		void        setTextColor( const gtColor& color );
 		void		setColor( const gtColor& color );
 		void        setGradientColor( const gtColor& color1, const gtColor& color2 );
 		void		setTexture( gtTexture* texture );
@@ -57,6 +62,9 @@ namespace gost{
 		void        setRect( const v4i& rect ) GT_OVERRIDE;
 		
 		gtGUIShape* getMouseHoverShape();
+
+		void setMouseEnter()GT_OVERRIDE;
+		void setMouseLeave()GT_OVERRIDE;
 	};
 
 }

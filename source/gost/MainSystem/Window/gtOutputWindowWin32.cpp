@@ -206,10 +206,6 @@ LRESULT CALLBACK gtOutputWindowWin32::CmdWndProc( HWND hWnd, UINT uMsg, WPARAM w
 	static gtString s_CmdLineHistory[ GT_CONSOLE_COMMAND_HISTORY ];
 	
 	switch( uMsg ){
-		case WM_ACTIVATE:
-		case WM_MOUSEMOVE:{
-			SetFocus( hWnd );
-		}break;
 		case WM_KEYDOWN:{
 			if( lParam == 1835009u ){
 				wchar_t buf[GT_CONSOLE_COMMAND_LEN];
@@ -342,7 +338,7 @@ LRESULT CALLBACK gtOutputWindowWin32::OutWndProc( HWND hWnd, UINT uMsg, WPARAM w
 			if ( LOWORD( wParam ) != WA_INACTIVE ) {
 				SetFocus( output->m_hWndCommandLine );
 			}
-		break;
+		return 0;
 		case WM_COMMAND:{
 			if( wParam == GT_MENU_ID_OUTPUT_EDIT_CLEAR ){
 				output->clear_buffer();

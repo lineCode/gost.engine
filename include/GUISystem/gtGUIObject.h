@@ -4,7 +4,8 @@
 
 namespace gost{
 
-	enum class gtGUIObjectType{
+	enum class gtGUIObjectType : u32{
+		None,
 		Font,	
 		Text,	
 		Button,	
