@@ -11,23 +11,32 @@ namespace gost{
 		};
 
 		 s32             m_height  = 20;  //высота полоски меню (толщина)
-		 s32             m_vIndent = 0;
+		 s32             m_menuTextIndent = 0;   // Отступ шрифта в полоске
 		 gtGUIFont*      m_font    = nullptr;    //шрифт
 		 u32             m_flags   = 0u; // flag_gradient - использовать градиентную заливку. m_menuColor должен быть gtColorBlack
 
-		 gtColor         m_menuColor; //Цвет полоски
+		 v2i             m_iconSize  = v2i(16,16); // Размер иконок слева  от пункта в окошке. Значение x по сути является отступом.
+		 v2i             m_iconSize2 = v2i(16,16); // Размер иконок справа от пункта в окошке. 
+												   // Используется для стрелки если есть ещё одно подменю, а так же как просто отступ, увеличивая окно.
+
+		 gtColor         m_menuColor = gtColorLightGray; //Цвет полоски
 		 gtColor         m_gradientColor1; //Если градиент включён - цвет полоски вверху
 		 gtColor         m_gradientColor2; //Если градиент включён - цвет полоски внизу
 		 gtColor         m_textColor;
+
+		 gtColor         m_textWindowColor; //Цвет текста в окошке
+		 gtColor         m_textWindowHoverColor; //Цвет текста выделенного пункта в окошке
 
 		 gtColor         m_mouseHoverColor; //Цвет пункта на полоске при наведении курсора
 		 gtColor         m_mouseHoverTextColor; //Цвет текста пункта на полоске при наведении курсора
 		 f32             m_mouseHoverTransparent = 0.7f; //Прозрачность пункта на полоске при наведении курсора
 
-		 gtColor         m_menuItemBackgroundColor; //Фон окна
+		 gtColor         m_menuItemBackgroundColor = gtColorLightGray; //Фон окна
+		 f32             m_menuItemBackgroundTransparent = 0.f; //Прозрачность окна
 
-		 gtTexture*      m_backgroundTexture    = nullptr; //Фон полоски. Текстура растягивается.
-		 gtTexture*      m_menuItemHoverTexture = nullptr; //Фон пункта при наведении курсора.
+		 gtTexture*      m_backgroundTexture     = nullptr; //Фон полоски. Текстура растягивается.
+		 gtTexture*      m_menuItemHoverTexture  = nullptr; //Фон пункта при наведении курсора.
+		 gtTexture*      m_menuItemActiveTexture = nullptr; //Фон пункта когда он активен.
 	};
 
 	class gtGUIMenu : public gtGUIObject{

@@ -13,7 +13,12 @@ namespace gost{
 		gtVector2<s16> m_coords;
 		
 		// Необходимо понимать, на каком типе элемента была нажата клавиша мыши
+		// Когда клавиша отпускается, m_captureState == None
 		gtGUIObjectType m_captureState;
+		gtGUIObjectType m_captureState_old;
+
+		// Тут хранится состояние о том, на что установлен фокус GUI
+		gtGUIObjectType m_focusState;
 	public:
 
 		gtGUISystemImpl();

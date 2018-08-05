@@ -12,12 +12,17 @@ namespace gost{
 		gtGUISystem*	m_gui;
 		gtWindow *      m_wnd;
 		gtGUIMenuImpl*  m_menu;
+
+		gtGUIMenuItemImpl * m_parent;
 		
 		gtMaterial      m_material;
 
-		gtPtr<gtGUIShape>     m_itemMouseHover;
 		gtPtr<gtGUIShape>     m_background; //window
 		gtPtr<gtGUIShape>     m_backgroundTexture; //картинка которая находится за текстом
+		gtPtr<gtGUIShape>     m_itemMouseHover;
+
+		gtTexture *           m_windowItemIcon_texture;
+		gtPtr<gtGUIShape>     m_windowItemIcon;
 
 		gtPtr<gtGUITextField> m_textField;
 
@@ -25,6 +30,7 @@ namespace gost{
 		s32             m_userInput_id;
 
 		v4i             m_backgroundRect;
+		v4i             m_windowItemIconRect;
 
 		gtGUIMenuParameters m_params;
 
@@ -39,7 +45,7 @@ namespace gost{
 		gtGUIMenuItemImpl( gtGraphicsSystem *, gtGUIMenuImpl* );
 		~gtGUIMenuItemImpl();
 		
-		bool        _init(const gtString & text, s32 userInput_id, bool isMenuItem);
+		bool        _init(const gtString & text, s32 userInput_id, bool isMenuItem, gtGUIMenuItemImpl *);
 
 		void		update();
 		void		render();
@@ -52,7 +58,7 @@ namespace gost{
 		void		setTexture( gtTexture* texture );
 		gtTexture*	getTexture();
 		gtMaterial* getMaterial();
-
+		void        setIcon( gtTexture * );
 		bool        isActive();
 		void        setActivate( bool activate );
 
@@ -62,6 +68,7 @@ namespace gost{
 		void        setRect( const v4i& rect ) GT_OVERRIDE;
 		
 		gtGUIShape* getMouseHoverShape();
+		const v4i&  getBackgroundRect();
 
 		void setMouseEnter()GT_OVERRIDE;
 		void setMouseLeave()GT_OVERRIDE;

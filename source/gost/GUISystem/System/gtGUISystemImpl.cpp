@@ -6,7 +6,9 @@ gtGUISystemImpl::gtGUISystemImpl():
 	m_mainSystem( nullptr ),
 	m_inputSystem( nullptr ),
 	m_gs( nullptr ),
-	m_captureState(gtGUIObjectType::None)
+	m_captureState(gtGUIObjectType::None),
+	m_captureState_old(gtGUIObjectType::None),
+	m_focusState(gtGUIObjectType::None)
 {
 	m_mainSystem = gtMainSystem::getInstance();
 	m_inputSystem = m_mainSystem->getInputSystem();
@@ -58,10 +60,15 @@ bool gtGUISystemImpl_compareEvent_callback_rmbDouble( gtEvent& current_event, gt
 bool gtGUISystemImpl_compareEvent_callback_mmbDouble( gtEvent& current_event, gtEvent& /*user_event*/ ){ return current_event.mouseEvent.isMiddleButtonDouble(); }
 
 
-
+/*
+	Нужно сделать так чтобы при клике в NC_область активная менюшка скрывалась
+*/
 void gtGUISystemImpl::updateInput(){
 	m_coords = m_inputSystem->getCursorPosition();
 	static auto oldCursorPosition = m_coords;
+	static gtGUIMenuItemImpl * menuItem = nullptr;
+	static u32                 menuItem_id = 0u;
+	static gtGUIMenuItemImpl * old_menuItem = nullptr;
 
 
 	//printf("%i\t\t%i\n",m_coords.x,m_coords.y);
@@ -88,7 +95,6 @@ void gtGUISystemImpl::updateInput(){
 				// Если нижний прямоугольник так-же входит в область предыдущего, то пропуск.
 				if( has ) continue;
 
-				gtGUIMenuItemImpl * menuItem = nullptr;
 				switch( o.m_first->getType() ){
 				case gtGUIObjectType::Button:
 					break;
@@ -96,6 +102,7 @@ void gtGUISystemImpl::updateInput(){
 					break;
 				case gtGUIObjectType::MenuItem:
 					menuItem = (gtGUIMenuItemImpl*)o.m_first;
+					menuItem_id = o.m_second;
 					break;
 				case gtGUIObjectType::Shape:
 					break;
@@ -136,8 +143,23 @@ void gtGUISystemImpl::updateInput(){
 					em.GUIEvent.action = gtEventGUIAction::MouseLeftButtonDown;
 					m_mainSystem->addEvent( em );
 
-					if( m_captureState == gost::gtGUIObjectType::None )
+					if( m_captureState == gost::gtGUIObjectType::None ){
 						m_captureState = em.GUIEvent.object->getType();
+						m_focusState = em.GUIEvent.object->getType();
+					}
+
+					if( m_focusState != gost::gtGUIObjectType::MenuItem ){
+						if( menuItem ){
+							menuItem->setActivate( false );
+							em.GUIEvent.action = gtEventGUIAction::MenuHide;
+							em.GUIEvent.object = menuItem;
+							em.GUIEvent.id     = menuItem_id;
+							m_mainSystem->addEvent( em );
+
+							old_menuItem = nullptr;
+						}
+					}
+
 				}
 				if( m_mainSystem->checkEvent( findEvent, gtGUISystemImpl_compareEvent_callback_lmbUp ) ){
 					em.GUIEvent.action = gtEventGUIAction::MouseLeftButtonUp;
@@ -148,16 +170,20 @@ void gtGUISystemImpl::updateInput(){
 					em.GUIEvent.action = gtEventGUIAction::MouseLeftButtonDouble;
 					m_mainSystem->addEvent( em );
 					
-					if( m_captureState == gost::gtGUIObjectType::None )
+					if( m_captureState == gost::gtGUIObjectType::None ){
 						m_captureState = em.GUIEvent.object->getType();
+						m_focusState = em.GUIEvent.object->getType();
+					}
 				}
 
 				if( m_mainSystem->checkEvent( findEvent, gtGUISystemImpl_compareEvent_callback_rmbDown ) ){
 					em.GUIEvent.action = gtEventGUIAction::MouseRightButtonDown;
 					m_mainSystem->addEvent( em );
 					
-					if( m_captureState == gost::gtGUIObjectType::None )
+					if( m_captureState == gost::gtGUIObjectType::None ){
 						m_captureState = em.GUIEvent.object->getType();
+						m_focusState = em.GUIEvent.object->getType();
+					}
 				}
 				if( m_mainSystem->checkEvent( findEvent, gtGUISystemImpl_compareEvent_callback_rmbUp ) ){
 					em.GUIEvent.action = gtEventGUIAction::MouseRightButtonUp;
@@ -168,16 +194,20 @@ void gtGUISystemImpl::updateInput(){
 					em.GUIEvent.action = gtEventGUIAction::MouseRightButtonDouble;
 					m_mainSystem->addEvent( em );
 					
-					if( m_captureState == gost::gtGUIObjectType::None )
+					if( m_captureState == gost::gtGUIObjectType::None ){
 						m_captureState = em.GUIEvent.object->getType();
+						m_focusState = em.GUIEvent.object->getType();
+					}
 				}
 
 				if( m_mainSystem->checkEvent( findEvent, gtGUISystemImpl_compareEvent_callback_mmbDown ) ){
 					em.GUIEvent.action = gtEventGUIAction::MouseMiddleButtonDown;
 					m_mainSystem->addEvent( em );
 					
-					if( m_captureState == gost::gtGUIObjectType::None )
+					if( m_captureState == gost::gtGUIObjectType::None ){
 						m_captureState = em.GUIEvent.object->getType();
+						m_focusState = em.GUIEvent.object->getType();
+					}
 				}
 				if( m_mainSystem->checkEvent( findEvent, gtGUISystemImpl_compareEvent_callback_mmbUp ) ){
 					em.GUIEvent.action = gtEventGUIAction::MouseMiddleButtonUp;
@@ -188,34 +218,105 @@ void gtGUISystemImpl::updateInput(){
 					em.GUIEvent.action = gtEventGUIAction::MouseMiddleButtonDouble;
 					m_mainSystem->addEvent( em );
 					
-					if( m_captureState == gost::gtGUIObjectType::None )
+					if( m_captureState == gost::gtGUIObjectType::None ){
 						m_captureState = em.GUIEvent.object->getType();
+						m_focusState = em.GUIEvent.object->getType();
+					}
 				}
 				gtEvent e;
 				e.type = gtEventType::GUI;
 				e.GUIEvent.id = o.m_second;
-				e.GUIEvent.action = oldCursorPosition == m_coords ? gtEventGUIAction::MouseHover : gtEventGUIAction::MouseMove;
 				e.GUIEvent.object = o.m_first;
-
+				e.GUIEvent.action = oldCursorPosition == m_coords ? gtEventGUIAction::MouseHover : gtEventGUIAction::MouseMove;
 				m_mainSystem->addEvent( e );
 
+				if( m_captureState != m_captureState_old ){
+				//	gtLogWriter::printInfo( u"##########################################" );
+					if( m_captureState == gost::gtGUIObjectType::MenuItem ){
+						if( menuItem ){
+							if( menuItem->isActive() ){
+								menuItem->setActivate( false );
+								e.GUIEvent.action = gtEventGUIAction::MenuHide;
+								m_mainSystem->addEvent( e );
+								m_captureState = gost::gtGUIObjectType::None;
+								m_focusState   = gost::gtGUIObjectType::None;
+								menuItem = nullptr;
+								old_menuItem = nullptr;
+								continue;
+							}
+						}
+					}
+				}
 
-			}else{
-				if( o.m_first->isMouseEnter() ){
-					gtEvent e;
+
+				if( m_focusState == gost::gtGUIObjectType::MenuItem ){
+					if( menuItem ){
+						if( !menuItem->isActive() ){
+							menuItem->setActivate( true );
+							e.GUIEvent.action = gtEventGUIAction::MenuShow;
+							m_mainSystem->addEvent( e );
+
+							if( old_menuItem ){
+								old_menuItem->setActivate( false );
+								e.GUIEvent.action = gtEventGUIAction::MenuHide;
+								e.GUIEvent.object = old_menuItem;
+								m_mainSystem->addEvent( e );
+							}
+
+							old_menuItem = menuItem;
+
+						}
+					}
+				}else{
+					/*if( menuItem ){
+						if( menuItem->isActive() ){
+							menuItem->setActivate( false );
+							e.GUIEvent.action = gtEventGUIAction::MenuHide;
+							m_mainSystem->addEvent( e );
+							menuItem = nullptr;
+						}
+					}*/
+				}
+
+			}else{ //если курсор вне поля объекта
+
+				if( o.m_first->isMouseEnter() ){ // Если ранее курсор был в поле то значит
+					gtEvent e;                   // сейчас курсор вышел за пределы
 					e.type = gtEventType::GUI;
 					e.GUIEvent.id = o.m_second;
 					e.GUIEvent.action = gtEventGUIAction::MouseLeave;
 					e.GUIEvent.object = o.m_first;
 					m_mainSystem->addEvent( e );
+
+					/*if( menuItem ){
+						if( menuItem->isActive() ){
+							menuItem->setActivate( false );
+						}
+					}*/
+					
 					o.m_first->setMouseLeave();
+
+				}
+
+			}
+
+			if( menuItem ){
+				if( menuItem->isActive() ){
+					gtEvent e;
+					e.type = gtEventType::GUI;
+					e.GUIEvent.object = menuItem;
+					e.GUIEvent.id     = menuItem_id;
+					e.GUIEvent.action = gtEventGUIAction::MenuActive;
+					m_mainSystem->addEvent( e );
 				}
 			}
 
 		}
+
 	}
 
 	oldCursorPosition = m_coords;
+	m_captureState_old = m_captureState;
 }
 
 void gtGUISystemImpl::clearUserInput(){

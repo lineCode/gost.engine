@@ -160,7 +160,7 @@ void gtGUIMenuImpl::addElement( gtGUIObject* element, s32 id ){
 gtGUIMenuItem* gtGUIMenuImpl::addMenuItem( const gtString& text, s32 userInput_id ){
 
 	gtGUIMenuItemImpl * item = new gtGUIMenuItemImpl( m_gs, this );
-	if( item->_init( text, userInput_id, true ) ){
+	if( item->_init( text, userInput_id, true, nullptr ) ){
 
 		item->setTextColor( m_params.m_textColor );
 
@@ -177,10 +177,10 @@ gtGUIMenuItem* gtGUIMenuImpl::addMenuItem( const gtString& text, s32 userInput_i
 		m_widthLen += w;
 
 
-		r.y += m_params.m_vIndent;
+		r.y += m_params.m_menuTextIndent;
 		item->setRect( r );
 
-		r.y -= m_params.m_vIndent;
+		r.y -= m_params.m_menuTextIndent;
 		item->setActiveArea( r );
 		item->update();
 

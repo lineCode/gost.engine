@@ -6,6 +6,8 @@ gtGUIMenuItemImpl::gtGUIMenuItemImpl( gtGraphicsSystem * d, gtGUIMenuImpl* menu 
 	m_modelSystem( nullptr ),
 	m_wnd( nullptr ),
 	m_menu( menu ),
+	m_parent( nullptr ),
+	m_windowItemIcon_texture( nullptr ),
 	m_userInput_id( -1 ),
 	m_HeightLen( 0 ),
 	m_active( false ),
@@ -22,6 +24,17 @@ gtGUIMenuItemImpl::gtGUIMenuItemImpl( gtGraphicsSystem * d, gtGUIMenuImpl* menu 
 gtGUIMenuItemImpl::~gtGUIMenuItemImpl(){
 }
 
+void gtGUIMenuItemImpl::setIcon( gtTexture * t ){
+	if( m_windowItemIcon ){
+		m_windowItemIcon->setTexture( t );
+	}
+	m_windowItemIcon_texture = t;
+}
+
+const v4i&  gtGUIMenuItemImpl::getBackgroundRect(){
+	return m_backgroundRect;
+}
+
 gtGUIShape* gtGUIMenuItemImpl::getMouseHoverShape(){
 	return m_itemMouseHover.data();
 }
@@ -30,18 +43,45 @@ void gtGUIMenuItemImpl::update(){
 
 	auto wrc = m_wnd->getClientRect();
 
-	m_textField = m_gui->createTextField( m_rect, m_params.m_font, false, false );
+	if( !m_isMenuItem ){
+
+		m_windowItemIconRect.x = m_rect.x;
+		m_windowItemIconRect.y = m_rect.y;
+		m_windowItemIconRect.z = m_rect.x + m_params.m_iconSize.x;
+		m_windowItemIconRect.w = m_rect.y + m_params.m_iconSize.y;
+
+		m_windowItemIcon = m_gui->createShapeRectangle( m_windowItemIconRect, gtColorWhite );
+		m_windowItemIcon->setTexture( m_windowItemIcon_texture );
+	}
+
+	v4i text_rect = m_rect;
+	if( !m_isMenuItem ){
+		text_rect.x += m_params.m_iconSize.x;
+	}
+
+	m_textField = m_gui->createTextField( text_rect, m_params.m_font, false, false );
 
 	if( m_textField ){
 		m_textField->setText( m_text );
 		m_textField->setBackgroundVisible( false );
-		m_textField->setTextColor( m_params.m_textColor );
+
+		if( m_isMenuItem )
+			m_textField->setTextColor( m_params.m_textColor );
+		else
+			m_textField->setTextColor( m_params.m_textWindowColor );
 	}
 
 
 	v4i itemMouseHover_rect = m_rect;
-	itemMouseHover_rect.y = 0;
-	itemMouseHover_rect.w = m_menu->_getLineHeight();
+	
+	if( m_isMenuItem ){
+		itemMouseHover_rect.y = 0;
+		itemMouseHover_rect.w = m_menu->_getLineHeight();
+	}else{
+		if( m_parent ){
+			itemMouseHover_rect.z = m_parent->getBackgroundRect().z;
+		}
+	}
 	
 	m_itemMouseHover = m_gui->createShapeRectangle( itemMouseHover_rect, m_menu->_getMouseHoverColor() );
 	m_itemMouseHover->setTransparent( m_params.m_mouseHoverTransparent );
@@ -64,14 +104,15 @@ void gtGUIMenuItemImpl::update(){
 	}
 
 	m_background = m_gui->createShapeRectangle( m_backgroundRect, m_menu->_getMouseHoverColor());
-	m_background->setTransparent( 0.7f );
-
+	m_background->setTransparent( m_params.m_menuItemBackgroundTransparent );
 	m_background->setActiveArea( m_backgroundRect );
 	m_background->setVisible( is_visible );
+	m_background->setColor( m_params.m_menuItemBackgroundColor );
 
 	if( old )
-		 m_gui->replaceUserInput( old, m_background.data(), m_userInput_id+10000 );
-	else m_gui->addToUserInput( m_background.data(), m_userInput_id+10000 );
+		m_gui->replaceUserInput( old, m_background.data(), m_userInput_id+10000 );
+	else
+		m_gui->addToUserInput( m_background.data(), m_userInput_id+10000 );
 	
 }
 
@@ -81,7 +122,11 @@ void gtGUIMenuItemImpl::setMouseEnter(){
 
 	if( m_isMenuItem ){
 		m_itemMouseHover->setTransparent( m_params.m_mouseHoverTransparent );
-		m_textField->setTextColor( m_params.m_mouseHoverTextColor );
+
+		if( m_isMenuItem )
+			m_textField->setTextColor( m_params.m_mouseHoverTextColor );
+		else
+			m_textField->setTextColor( m_params.m_textWindowHoverColor );
 	}
 }
 
@@ -91,24 +136,51 @@ void gtGUIMenuItemImpl::setMouseLeave(){
 
 	if( m_isMenuItem ){
 		m_itemMouseHover->setTransparent( 1.f );
-		m_textField->setTextColor( m_params.m_textColor );
+
+		if( m_isMenuItem )
+			m_textField->setTextColor( m_params.m_textColor );
+		else
+			m_textField->setTextColor( m_params.m_textWindowColor );
 	}
 }
 
 void gtGUIMenuItemImpl::render(){
 
-	if( m_itemMouseHover ){
-		if( m_mouseEnter ){
-			if( m_params.m_menuItemHoverTexture )
-				m_backgroundTexture->render();
-			m_itemMouseHover->render();
-		}
+	if( ((m_itemMouseHover==true) && (m_mouseEnter==true))
+		|| (m_active==true) ){
+		if( m_params.m_menuItemHoverTexture || m_params.m_menuItemActiveTexture )
+			m_backgroundTexture->render();
+		m_itemMouseHover->render();
 	}
 
+	if( m_windowItemIcon ){
+		if( m_windowItemIcon_texture )
+			m_windowItemIcon->render();
+	}
+
+	if( !m_isMenuItem ){
+	//	m_itemMouseHover->setTransparent( 0.f );
+	//	m_itemMouseHover->render();
+	}
 
 	if( m_textField ){
+
+		if(m_active || m_mouseEnter){
+			if( m_isMenuItem )
+				m_textField->setTextColor( m_params.m_mouseHoverTextColor );
+			else
+				m_textField->setTextColor( m_params.m_textWindowHoverColor );
+		}
+		else{
+			if( m_isMenuItem )
+				m_textField->setTextColor( m_params.m_textColor );
+			else
+				m_textField->setTextColor( m_params.m_textWindowColor );
+		}
 		m_textField->render();
 	}
+
+	
 
 	if( m_active ){
 		if( m_background )
@@ -135,7 +207,8 @@ void gtGUIMenuItemImpl::setTransparent( f32 transparent ){
 	}
 }
 
-bool gtGUIMenuItemImpl::_init(const gtString & text, s32 userInput_id, bool isMenuItem){
+bool gtGUIMenuItemImpl::_init(const gtString & text, s32 userInput_id, bool isMenuItem, gtGUIMenuItemImpl * p ){
+	m_parent = p;
 	m_isMenuItem = isMenuItem;
 	m_text = text;
 	m_userInput_id = userInput_id;
@@ -176,7 +249,7 @@ gtTexture* gtGUIMenuItemImpl::getTexture(){
 void gtGUIMenuItemImpl::setBacgroundColor( const gtColor& color ){
 	m_params.m_menuItemBackgroundColor = color;
 	if( m_textField ){
-		m_textField->getBackgroundShape()->setColor( color );
+	//	m_textField->getBackgroundShape()->setColor( color );
 	}
 }
 
@@ -190,13 +263,25 @@ bool        gtGUIMenuItemImpl::isActive(){
 }
 
 void        gtGUIMenuItemImpl::setActivate( bool activate ){
-	m_active = activate;
+	if( m_active == activate ) return;
+
+	if( m_backgroundTexture ){
+		if( activate ){
+			if( m_params.m_menuItemActiveTexture )
+				m_backgroundTexture->setTexture( m_params.m_menuItemActiveTexture );
+		}else
+			if( m_params.m_menuItemHoverTexture )
+				m_backgroundTexture->setTexture( m_params.m_menuItemHoverTexture );
+	}
+
 	if( m_background )
-		m_background->setVisible(m_active);
+		m_background->setVisible( activate );
 
 	for( auto i : m_items ){
-		i->setVisible(m_active);
+		i->setVisible( activate );
 	}
+
+	m_active = activate;
 }
 
 
@@ -207,7 +292,7 @@ void        gtGUIMenuItemImpl::setActivate( bool activate ){
 */
 gtGUIMenuItem* gtGUIMenuItemImpl::addMenuItem( const gtString& text, s32 userInput_id ){
 	gtGUIMenuItemImpl * item = new gtGUIMenuItemImpl( m_gs, m_menu );
-	if( item->_init( text, userInput_id, false ) ){
+	if( item->_init( text, userInput_id, false, this ) ){
 
 		item->setVisible( false );
 
@@ -224,24 +309,22 @@ gtGUIMenuItem* gtGUIMenuItemImpl::addMenuItem( const gtString& text, s32 userInp
 		r.x = m_rect.x;
 		
 
-		m_HeightLen += w;
+		m_HeightLen += w + m_params.m_menuTextIndent;
 
 		item->setRect( r );
 		item->setActiveArea( r );
 		item->update();
 
-
 		r = item->getRect();
-
-
 
 		m_backgroundRect.x = m_rect.x;
 		m_backgroundRect.y = m_menu->_getLineHeight();
-		if( r.x + r.z > m_backgroundRect.z ) m_backgroundRect.z = r.x + r.z;
+		if( r.x + r.z > m_backgroundRect.z ) m_backgroundRect.z = r.x + r.z + m_params.m_iconSize2.x;
 		if( r.w > m_backgroundRect.w ) m_backgroundRect.w = r.w;
 
-		m_gui->addToUserInput( item, userInput_id );
+		m_backgroundRect.w -= m_params.m_menuTextIndent;
 
+		m_gui->addToUserInput( item, userInput_id );
 
 		return item;
 	}
