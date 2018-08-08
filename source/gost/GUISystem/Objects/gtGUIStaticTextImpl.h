@@ -18,7 +18,7 @@ namespace gost{
 		gtGUIFontImpl * m_font;
 
 		gtPtr<gtGUIShape>		m_backgroundShape;
-		gtArray<gtRenderModel*> m_buffers; //то что идёт на отрисовку. Зависит от используемого символа и количества текстур для gtGUIFont
+		gtRenderModel*     m_textMesh;
 
 		gtMainSystem * m_mainSystem;
 		gtModelSystem* m_modelSystem;

@@ -133,6 +133,10 @@ void	gtOutputWindowWin32::init(){
 	SetWindowLong(m_hWndCommandLine, DWLP_MSGRESULT, (LONG)m_hbrEditBackground);
 
 	m_isInit = true;
+
+	
+
+
 }
 
 

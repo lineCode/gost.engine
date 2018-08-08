@@ -24,6 +24,9 @@ void ResizeWindow(){
 		auto w  = gs->getParams().m_outWindow;
 		auto r  = w->getClientRect();
 		c->setAspect( (f32)r.getWidth() / (f32)r.getHeight() );
+
+		This->updateMenu();
+
 	}
 	RedrawWindow();
 }
@@ -300,6 +303,49 @@ bool demo::DemoApplication::initMainMenu(){
 	m_infoFont	=	m_guiSystem->createFont( u"../demo/media/fonts/Montserrat/Montserrat.xml" );
 	if( !m_infoFont )
 		return false;
+
+/*	m_mparams.m_flags      = gtGUIMenuParameters::flag_gradient;
+	m_mparams.m_font       = m_infoFont.data();
+	m_mparams.m_height     = 20;
+	m_mparams.m_menuColor  = gtColorBlack;
+	m_mparams.m_gradientColor1  = 0xffDDDDDD;
+	m_mparams.m_gradientColor2  = 0xffAFAFAF;
+	m_mparams.m_textColor  = gtColorBlack;
+	m_mparams.m_menuTextIndent    = 0;
+	m_mparams.m_mouseHoverColor    = 0xff617A8E;
+	m_mparams.m_mouseHoverTransparent = 0.f;
+	m_mparams.m_mouseHoverTextColor = gtColorDarkRed;
+	m_mparams.m_menuItemBackgroundTransparent = 0.f;
+	m_mparams.m_textWindowColor      = gtColorDarkBlue;
+	m_mparams.m_textWindowHoverColor = gtColorDarkRed;
+	m_mparams.m_iconSize.set( 14, 0 );
+
+	m_menu = m_guiSystem->createMenu( m_mparams );
+	
+	auto item = m_menu->addMenuItem( u" File ", EGI_MENU_FILE );
+	auto item_new = item->addMenuItem( u"New         Ctrl + N", EGI_MENU_FILE_NEW );
+	auto item_open = item->addMenuItem( u"Open        Ctrl + O", EGI_MENU_FILE_OPEN );
+	item->addMenuItem( u"Close", EGI_MENU_FILE_OPEN );
+	auto item_save = item->addMenuItem( u"Save        Ctrl + S", EGI_MENU_FILE_SAVE );
+	auto item_saveas = item->addMenuItem( u"Save As...", EGI_MENU_FILE_SAVE );
+	auto item_exit = item->addMenuItem( u"Exit", EGI_MENU_FILE_EXIT );
+	
+	item = m_menu->addMenuItem( u" View ", EGI_MENU_VIEW );
+	item->addMenuItem( u"Fullscreen", EGI_MENU_FILE_NEW );
+	
+	item = m_menu->addMenuItem( u" Edit ", EGI_MENU_EDIT );
+	item->addMenuItem( u"Undo", EGI_MENU_FILE_NEW );
+	item->addMenuItem( u"Redo", EGI_MENU_FILE_SAVE );
+	item->addMenuItem( u"Copy", EGI_MENU_FILE_OPEN );
+	item->addMenuItem( u"Cut", EGI_MENU_FILE_EXIT );
+	item->addMenuItem( u"Paste", EGI_MENU_FILE_SAVE );
+	item->addMenuItem( u"Delete", EGI_MENU_FILE_EXIT );
+	item->addMenuItem( u"Select all", EGI_MENU_FILE_OPEN );
+
+	
+	m_guiSystem->addToUserInput( m_menu.data(), EGI_MENU );
+
+	m_menu->update();*/
 
 	auto rc = m_mainWindow->getRect();
 	auto w  = rc.getWidth();
@@ -938,6 +984,10 @@ void demo::DemoApplication::renderDemo(){
 	}else{
 	}
 	m_demoArrays[m_activeDemoTypeSelected][m_activeDemoSelected].Render2D();
+
+	if( m_menu )
+		m_menu->render();
+
 	m_gs->setDepthState();
 
 
@@ -1574,6 +1624,13 @@ bool demo::DemoApplication::inputGamepadRightHold(){
 		return m_gamepad->m_POV1 == 9000 || m_gamepad->m_lX == 1000;
 	}
 	return false;
+}
+
+bool demo::DemoApplication::updateMenu(){
+	if( m_menu )
+		m_menu->update();
+
+	return true;
 }
 
 bool demo::DemoApplication::update(){

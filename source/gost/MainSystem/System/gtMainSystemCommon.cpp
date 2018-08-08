@@ -76,7 +76,7 @@ con_show - Show output window\r\n", u"", gtCVarSystem_printDescription );
 
 void	gtMainSystemCommon::updateEvents(){
 	this->m_events->getKeyboardAndMouseStates();
-	m_GUISystem->updateInput();
+	m_GUISystem->update();
 	if( this->m_events->getConsumer() ){
 		this->m_events->runEventLoop();
 		this->m_events->resetEvents();

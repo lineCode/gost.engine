@@ -19,6 +19,11 @@ namespace gost{
 
 		// Тут хранится состояние о том, на что установлен фокус GUI
 		gtGUIObjectType m_focusState;
+
+		bool m_menu_is_activeItem; // Если активный хотябы 1 пункт
+		void __updateMenuFirst();
+		void __updateMenuSecond();
+
 	public:
 
 		gtGUISystemImpl();
@@ -43,7 +48,7 @@ namespace gost{
 		void					setCurrentRenderDriver( gtGraphicsSystem * driver );
 		
 		void					init();
-		void					updateInput();
+		void					update();
 	};
 
 }

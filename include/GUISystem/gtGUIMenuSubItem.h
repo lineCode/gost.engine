@@ -1,20 +1,19 @@
 ﻿#pragma once
-#ifndef __GT_GUI_MENU_ITEM_H__
-#define __GT_GUI_MENU_ITEM_H__
+#ifndef __GT_GUI_MENU_SUB_ITEM_H__
+#define __GT_GUI_MENU_SUB_ITEM_H__
 
 namespace gost{
 
-	class gtGUIMenuItem : public gtGUIObject{
+	class gtGUIMenuSubItem : public gtGUIObject{
 	public:
 
-		virtual gtGUIMenuSubItem* addMenuSubItem( const gtString& text, s32 userInput_id ) = 0;
-		virtual gtGUIShape*       getMouseHoverShape() = 0;
-		virtual bool              isActive() = 0;
-		virtual void              setActivate( bool activate ) = 0;
-		virtual void              setBacgroundColor( const gtColor& color ) = 0;
-		virtual void              setGradientColor( const gtColor& color1, const gtColor& color2 ) = 0;
-		virtual void              setTextColor( const gtColor& color ) = 0;
-		virtual void              setIcon( gtTexture * ) = 0;
+		virtual gtGUIShape*    getMouseHoverShape() = 0;
+		virtual bool           isActive() = 0;
+		virtual void           setActivate( bool activate ) = 0;
+		virtual void           setBacgroundColor( const gtColor& color ) = 0;
+		virtual void           setGradientColor( const gtColor& color1, const gtColor& color2 ) = 0;
+		virtual void           setTextColor( const gtColor& color ) = 0;
+		virtual void           setIcon( gtTexture * ) = 0;
 	};
 
 }

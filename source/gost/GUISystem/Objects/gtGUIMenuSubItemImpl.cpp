@@ -1,11 +1,12 @@
 #include "common.h"
 
-gtGUIMenuItemImpl::gtGUIMenuItemImpl( gtGraphicsSystem * d, gtGUIMenuImpl* menu ):
+gtGUIMenuSubItemImpl::gtGUIMenuSubItemImpl( gtGraphicsSystem * d, gtGUIMenuImpl* menu ):
 	m_gs( d ),
 	m_mainSystem( nullptr ),
 	m_modelSystem( nullptr ),
 	m_wnd( nullptr ),
 	m_menu( menu ),
+	m_parent( nullptr ),
 	m_windowItemIcon_texture( nullptr ),
 	m_userInput_id( -1 ),
 	m_HeightLen( 0 ),
@@ -13,35 +14,44 @@ gtGUIMenuItemImpl::gtGUIMenuItemImpl( gtGraphicsSystem * d, gtGUIMenuImpl* menu 
 {
 	m_mainSystem = gtMainSystem::getInstance();
 	m_modelSystem = m_mainSystem->getModelSystem();
-	m_type = gtGUIObjectType::MenuItem;
+	m_type = gtGUIObjectType::MenuSubItem;
 	m_gui = m_mainSystem->getGUISystem( d );
 	m_wnd = m_gs->getParams().m_outWindow;
 	m_params = *menu->_getParams();
 }
 
-gtGUIMenuItemImpl::~gtGUIMenuItemImpl(){
+gtGUIMenuSubItemImpl::~gtGUIMenuSubItemImpl(){
 }
 
-void gtGUIMenuItemImpl::setIcon( gtTexture * t ){
+void gtGUIMenuSubItemImpl::setIcon( gtTexture * t ){
 	if( m_windowItemIcon ){
 		m_windowItemIcon->setTexture( t );
 	}
 	m_windowItemIcon_texture = t;
 }
 
-const v4i&  gtGUIMenuItemImpl::getBackgroundRect(){
+const v4i&  gtGUIMenuSubItemImpl::getBackgroundRect(){
 	return m_backgroundRect;
 }
 
-gtGUIShape* gtGUIMenuItemImpl::getMouseHoverShape(){
+gtGUIShape* gtGUIMenuSubItemImpl::getMouseHoverShape(){
 	return m_itemMouseHover.data();
 }
 
-void gtGUIMenuItemImpl::update(){
+void gtGUIMenuSubItemImpl::update(){
 
 	auto wrc = m_wnd->getClientRect();
 
+		m_windowItemIconRect.x = m_rect.x;
+		m_windowItemIconRect.y = m_rect.y;
+		m_windowItemIconRect.z = m_rect.x + m_params.m_iconSize.x;
+		m_windowItemIconRect.w = m_rect.y + m_params.m_iconSize.y;
+
+		m_windowItemIcon = m_gui->createShapeRectangle( m_windowItemIconRect, gtColorWhite );
+		m_windowItemIcon->setTexture( m_windowItemIcon_texture );
+
 	v4i text_rect = m_rect;
+		text_rect.x += m_params.m_iconSize.x;
 
 	m_textField = m_gui->createTextField( text_rect, m_params.m_font, false, false );
 
@@ -49,14 +59,15 @@ void gtGUIMenuItemImpl::update(){
 		m_textField->setText( m_text );
 		m_textField->setBackgroundVisible( false );
 
-			m_textField->setTextColor( m_params.m_itemTextColor );
+		m_textField->setTextColor( m_params.m_subitemTextColor );
 	}
 
 
 	v4i itemMouseHover_rect = m_rect;
 	
-		itemMouseHover_rect.y = 0;
-		itemMouseHover_rect.w = m_menu->_getLineHeight();
+		if( m_parent ){
+			itemMouseHover_rect.z = m_parent->getBackgroundRect().z;
+		}
 	
 	m_itemMouseHover = m_gui->createShapeRectangle( itemMouseHover_rect, m_menu->_getItemHoverColor() );
 	m_itemMouseHover->setTransparent( m_params.m_itemHoverTransparent );
@@ -96,35 +107,20 @@ void gtGUIMenuItemImpl::update(){
 	
 }
 
-void gtGUIMenuItemImpl::setMouseEnter(){
+void gtGUIMenuSubItemImpl::setMouseEnter(){
 	m_mouseEnter = true;
 	m_mouseLeave = false;
 
-	m_itemMouseHover->setTransparent( m_params.m_itemHoverTransparent );
-	m_textField->setTextColor( m_params.m_itemHoverTextColor );
-
-	m_menu->setMouseEnter();
 }
 
-void gtGUIMenuItemImpl::setMouseLeave(){
+void gtGUIMenuSubItemImpl::setMouseLeave(){
 	m_mouseLeave = true; 
 	m_mouseEnter = false; 
 
-	m_itemMouseHover->setTransparent( 1.f );
-	m_textField->setTextColor( m_params.m_itemTextColor );
-	
-	m_menu->setMouseLeave();
 }
 
-void gtGUIMenuItemImpl::render(){
+void gtGUIMenuSubItemImpl::render(){
 
-	if( ((m_itemMouseHover==true) && (m_mouseEnter==true))
-		|| (m_active==true) ){
-		if( m_params.m_itemHoverTexture || m_params.m_itemActiveTexture )
-			m_backgroundTexture->render();
-		m_itemMouseHover->render();
-	}
-	
 	if( m_windowItemIcon ){
 		if( m_windowItemIcon_texture )
 			m_windowItemIcon->render();
@@ -133,10 +129,10 @@ void gtGUIMenuItemImpl::render(){
 	if( m_textField ){
 
 		if(m_active || m_mouseEnter){
-			m_textField->setTextColor( m_params.m_itemHoverTextColor );
+				m_textField->setTextColor( m_params.m_subitemTextColorHover );
 		}
 		else{
-			m_textField->setTextColor( m_params.m_itemTextColor );
+				m_textField->setTextColor( m_params.m_subitemTextColor );
 		}
 		m_textField->render();
 	}
@@ -144,28 +140,26 @@ void gtGUIMenuItemImpl::render(){
 	
 
 	if( m_active ){
-		if( m_background ){
-			m_background->render();
-		}
+		//if( m_background )
+		//	m_background->render();
 
 		for( auto i : m_items ){
-			if( i->isVisible() )
-				i->render();
+		//	if( i->isVisible() )
+		//		i->render();
 		}
 	}
 }
 
-void gtGUIMenuItemImpl::setGradientColor( const gtColor& color1, const gtColor& color2 ){
+void gtGUIMenuSubItemImpl::setGradientColor( const gtColor& color1, const gtColor& color2 ){
 	m_params.m_menuGradientColor1 = color1;
 	m_params.m_menuGradientColor2 = color2;
 }
 
-void gtGUIMenuItemImpl::setTransparent( f32 transparent ){
-		m_params.m_itemHoverTransparent = transparent;
-		m_itemMouseHover->setTransparent( m_params.m_itemHoverTransparent );
+void gtGUIMenuSubItemImpl::setTransparent( f32 transparent ){
 }
 
-bool gtGUIMenuItemImpl::_init(const gtString & text, s32 userInput_id ){
+bool gtGUIMenuSubItemImpl::_init(const gtString & text, s32 userInput_id, gtGUIMenuItemImpl * p ){
+	m_parent = p;
 	m_text = text;
 	m_userInput_id = userInput_id;
 
@@ -177,115 +171,48 @@ bool gtGUIMenuItemImpl::_init(const gtString & text, s32 userInput_id ){
 	return true;
 }
 
-f32  gtGUIMenuItemImpl::getTransparent(){
+f32  gtGUIMenuSubItemImpl::getTransparent(){
 	return 0.f;
 }
 
-void gtGUIMenuItemImpl::setColor( const gtColor& color ){
+void gtGUIMenuSubItemImpl::setColor( const gtColor& color ){
 }
 
-void gtGUIMenuItemImpl::setTextColor( const gtColor& color ){
+void gtGUIMenuSubItemImpl::setTextColor( const gtColor& color ){
 	m_textField->setTextColor( color );
-	m_params.m_itemTextColor = color;
+	m_params.m_subitemTextColor = color;
 }
 
 
-gtMaterial* gtGUIMenuItemImpl::getMaterial(){
+gtMaterial* gtGUIMenuSubItemImpl::getMaterial(){
 	return &m_material;
 }
 
-void gtGUIMenuItemImpl::setTexture( gtTexture* texture ){
+void gtGUIMenuSubItemImpl::setTexture( gtTexture* texture ){
 	m_material.textureLayer[ gtConst0U ].texture = texture;
 }
 
-gtTexture* gtGUIMenuItemImpl::getTexture(){
+gtTexture* gtGUIMenuSubItemImpl::getTexture(){
 	return m_material.textureLayer[ gtConst0U ].texture;
 }
 
-void gtGUIMenuItemImpl::setBacgroundColor( const gtColor& color ){
-	m_params.m_itemBackgroundColor = color;
+void gtGUIMenuSubItemImpl::setBacgroundColor( const gtColor& color ){
+	//m_params.m_menuItemBackgroundColor = color;
 	if( m_textField ){
 	//	m_textField->getBackgroundShape()->setColor( color );
 	}
 }
 
-void gtGUIMenuItemImpl::setRect( const v4i& rect ){
+void gtGUIMenuSubItemImpl::setRect( const v4i& rect ){
 	m_rect = rect;
 	m_textField->setRect( rect );
 }
 
-bool        gtGUIMenuItemImpl::isActive(){
+bool        gtGUIMenuSubItemImpl::isActive(){
 	return m_active;
 }
 
-void        gtGUIMenuItemImpl::setActivate( bool activate ){
-		if( m_active == activate ) return;
-
-		if( m_backgroundTexture ){
-			if( activate ){
-				if( m_params.m_itemActiveTexture )
-					m_backgroundTexture->setTexture( m_params.m_itemActiveTexture );
-			}else
-				if( m_params.m_itemHoverTexture )
-					m_backgroundTexture->setTexture( m_params.m_itemHoverTexture );
-		}
-
-		if( m_background )
-			m_background->setVisible( activate );
-
-		for( auto i : m_items ){
-			i->setVisible( activate );
-		}
-
-		m_active = activate;
-}
-
-
-/*
-	При добавлении нужно:
-	    - создать текстовое поле и добавить в массив.
-		- в соответствии с размером текстового поля построить прямоугольник нового размера.
-*/
-gtGUIMenuSubItem* gtGUIMenuItemImpl::addMenuSubItem( const gtString& text, s32 userInput_id ){
-	gtGUIMenuSubItemImpl * item = new gtGUIMenuSubItemImpl( m_gs, m_menu );
-	if( item->_init( text, userInput_id, this ) ){
-
-		item->setVisible( false );
-
-		m_items.push_back( gtPtrNew<gtGUIMenuSubItem>( item ) );
-
-		auto r = item->getRect();
-		auto w = r.getHeight();
-
-		r.y = m_menu->_getLineHeight();
-		r.w = r.y + r.y;
-		r.y += m_HeightLen;
-		r.w += m_HeightLen;
-
-		r.x = m_rect.x;
-		
-
-		m_HeightLen += w + m_params.m_menuTextIndent;
-
-		item->setRect( r );
-		item->setActiveArea( r );
-		item->update();
-
-		r = item->getRect();
-
-		m_backgroundRect.x = m_rect.x;
-		m_backgroundRect.y = m_menu->_getLineHeight();
-		if( r.x + r.z > m_backgroundRect.z ) m_backgroundRect.z = r.x + r.z + m_params.m_iconSize2.x;
-		if( r.w > m_backgroundRect.w ) m_backgroundRect.w = r.w;
-
-		m_backgroundRect.w -= m_params.m_menuTextIndent;
-
-		m_gui->addToUserInput( item, userInput_id );
-
-		return item;
-	}
-
-	return nullptr;
+void        gtGUIMenuSubItemImpl::setActivate( bool activate ){
 }
 
 /*

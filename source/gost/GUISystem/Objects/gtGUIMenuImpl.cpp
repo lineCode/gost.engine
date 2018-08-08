@@ -19,11 +19,11 @@ gtGUIMenuImpl::~gtGUIMenuImpl(){
 }
 
 s32 gtGUIMenuImpl::_getLineHeight(){
-	return m_params.m_height;
+	return m_params.m_menuHeight;
 }
 
-const gtColor& gtGUIMenuImpl::_getMouseHoverColor(){
-	return m_params.m_mouseHoverColor;
+const gtColor& gtGUIMenuImpl::_getItemHoverColor(){
+	return m_params.m_itemHoverColor;
 }
 
 gtGUIMenuParameters * gtGUIMenuImpl::_getParams(){
@@ -34,16 +34,20 @@ void gtGUIMenuImpl::update(){
 
 	auto wrc = m_wnd->getClientRect();
 
-	m_rect = v4i( 0, 0, wrc.z, m_params.m_height );
-	m_rect.w = m_params.m_height;
+	m_rect = v4i( 0, 0, wrc.z, m_params.m_menuHeight );
+	m_rect.w = m_params.m_menuHeight;
 
-	m_backgroundShape = m_gui->createShapeRectangle( m_rect, m_params.m_menuColor, true, m_params.m_gradientColor1, m_params.m_gradientColor2 );
+	m_backgroundShape = m_gui->createShapeRectangle( m_rect, m_params.m_menuColor, true, m_params.m_menuGradientColor1, m_params.m_menuGradientColor2 );
 	m_backgroundShape->setColor( m_params.m_menuColor );
-
 	
-	if( m_params.m_backgroundTexture ){
+	if( m_params.m_flags & m_params.flag_menuHover ){
+		m_backgroundShapeHover = m_gui->createShapeRectangle( m_rect, m_params.m_menuColorHover, true, m_params.m_menuGradientColor1Hover, m_params.m_menuGradientColor2Hover );
+		m_backgroundShapeHover->setColor( m_params.m_menuColorHover );
+	}
+	
+	if( m_params.m_menuBackgroundTexture ){
 		m_backgroundShapeWithTexture = m_gui->createShapeRectangle( m_rect, m_params.m_menuColor );
-		m_backgroundShapeWithTexture->setTexture( m_params.m_backgroundTexture );
+		m_backgroundShapeWithTexture->setTexture( m_params.m_menuBackgroundTexture );
 	}
 
 	setActiveArea( m_rect );
@@ -63,13 +67,22 @@ void gtGUIMenuImpl::update(){
 }
 
 void gtGUIMenuImpl::render(){
+	
+	bool normalShape = true;
+	if( this->isMouseEnter() ){
+		if( m_params.m_flags & m_params.flag_menuHover ){
+			normalShape = false;
+			if( m_backgroundShapeHover->isVisible() )
+				m_backgroundShapeHover->render();
+		}
+	}
 
-	if( m_backgroundShape ){
+	if( m_backgroundShape && normalShape ){
 		if( m_backgroundShape->isVisible() )
 			m_backgroundShape->render();
 	}
 
-	if( m_params.m_backgroundTexture ){
+	if( m_params.m_menuBackgroundTexture ){
 		if( m_backgroundShapeWithTexture ){
 			m_backgroundShapeWithTexture->render();
 		}
@@ -87,8 +100,8 @@ void gtGUIMenuImpl::render(){
 }
 
 void gtGUIMenuImpl::setGradientColor( const gtColor& color1, const gtColor& color2 ){
-	m_params.m_gradientColor1 = color1;
-	m_params.m_gradientColor2 = color2;
+	m_params.m_menuGradientColor1 = color1;
+	m_params.m_menuGradientColor2 = color2;
 }
 
 void gtGUIMenuImpl::setTransparent( f32 transparent ){
@@ -98,7 +111,7 @@ bool gtGUIMenuImpl::_init(){
 	setBacgroundColor( m_params.m_menuColor );
 
 	if( m_params.m_flags & m_params.flag_gradient ){
-		setGradientColor( m_params.m_gradientColor1, m_params.m_gradientColor2 );
+		setGradientColor( m_params.m_menuGradientColor1, m_params.m_menuGradientColor2 );
 	}
 
 	update();
@@ -136,7 +149,7 @@ void gtGUIMenuImpl::setBacgroundColor( const gtColor& color ){
 }
 
 void gtGUIMenuImpl::setMouseHoverColor( const gtColor& color ){
-	m_params.m_mouseHoverColor = color;
+	m_params.m_itemHoverColor = color;
 }
 
 void gtGUIMenuImpl::addElement( gtGUIObject* element, s32 id ){
@@ -160,9 +173,9 @@ void gtGUIMenuImpl::addElement( gtGUIObject* element, s32 id ){
 gtGUIMenuItem* gtGUIMenuImpl::addMenuItem( const gtString& text, s32 userInput_id ){
 
 	gtGUIMenuItemImpl * item = new gtGUIMenuItemImpl( m_gs, this );
-	if( item->_init( text, userInput_id, true, nullptr ) ){
+	if( item->_init( text, userInput_id ) ){
 
-		item->setTextColor( m_params.m_textColor );
+		item->setTextColor( m_params.m_itemTextColor );
 
 		m_items.push_back( gtPtrNew<gtGUIMenuItem>( item ) );
 

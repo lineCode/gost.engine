@@ -37,10 +37,19 @@ namespace demo{
 		Cancel
 	};
 
-
+enum E_GUI_INPUT{
+	EGI_NONE=1000,
+	EGI_MENU,
+	EGI_MENU_FILE,
+	EGI_MENU_EDIT,
+	EGI_MENU_VIEW,
+	EGI_MENU_FILE_EXIT,
+	EGI_MENU_FILE_NEW,
+	EGI_MENU_FILE_SAVE,
+	EGI_MENU_FILE_OPEN,
+	EGI_MAIN_BACKGROUND
+};
 	class DemoApplication{
-		
-
 		gtPtr<gtMainSystem>			m_mainSystem;
 		gtPtr<gtWindow>				m_mainWindow;
 
@@ -64,6 +73,10 @@ namespace demo{
 		void						xmlSaveSettings();
 		void						xmlCreateDrefaultSettingsFile();
 		gtString					m_xmlPath;
+
+		gtPtr<gtGUIShape>       m_logo;      
+		gtGUIMenuParameters     m_mparams;
+		gtPtr<gtGUIMenu>        m_menu;
 
 		gtPtr<gtTexture>			m_backgroundTexture;
 		gtPtr<gtTexture>			m_gamepadTexture;
@@ -229,6 +242,7 @@ namespace demo{
 		bool inputGamepadR1Hold();
 
 		bool update();
+		bool updateMenu();
 
 		void StopDemo();
 		void ReturnToMainMenu();

@@ -268,6 +268,7 @@
     <ClInclude Include="..\..\include\GUISystem\gtGUIFont.h" />
     <ClInclude Include="..\..\include\GUISystem\gtGUIMenu.h" />
     <ClInclude Include="..\..\include\GUISystem\gtGUIMenuItem.h" />
+    <ClInclude Include="..\..\include\GUISystem\gtGUIMenuSubItem.h" />
     <ClInclude Include="..\..\include\GUISystem\gtGUIObject.h" />
     <ClInclude Include="..\..\include\GUISystem\gtGUIShape.h" />
     <ClInclude Include="..\..\include\GUISystem\gtGUIStaticText.h" />
@@ -306,6 +307,7 @@
     <ClInclude Include="..\..\source\gost\GUISystem\Fonts\gtGUIFontImpl.h" />
     <ClInclude Include="..\..\source\gost\GUISystem\Objects\gtGUIMenuImpl.h" />
     <ClInclude Include="..\..\source\gost\GUISystem\Objects\gtGUIMenuItemImpl.h" />
+    <ClInclude Include="..\..\source\gost\GUISystem\Objects\gtGUIMenuSubItemImpl.h" />
     <ClInclude Include="..\..\source\gost\GUISystem\Objects\gtGUIShapeImpl.h" />
     <ClInclude Include="..\..\source\gost\GUISystem\Objects\gtGUIStaticTextImpl.h" />
     <ClInclude Include="..\..\source\gost\GUISystem\Objects\gtGUITextFieldImpl.h" />
@@ -349,6 +351,7 @@
     <ClCompile Include="..\..\source\gost\GUISystem\Fonts\gtGUIFontImpl.cpp" />
     <ClCompile Include="..\..\source\gost\GUISystem\Objects\gtGUIMenuImpl.cpp" />
     <ClCompile Include="..\..\source\gost\GUISystem\Objects\gtGUIMenuItemImpl.cpp" />
+    <ClCompile Include="..\..\source\gost\GUISystem\Objects\gtGUIMenuSubItemImpl.cpp" />
     <ClCompile Include="..\..\source\gost\GUISystem\Objects\gtGUIShapeImpl.cpp" />
     <ClCompile Include="..\..\source\gost\GUISystem\Objects\gtGUIStaticTextImpl.cpp" />
     <ClCompile Include="..\..\source\gost\GUISystem\Objects\gtGUITextFieldImpl.cpp" />

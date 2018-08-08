@@ -54,6 +54,7 @@ using namespace gost;
 #include "GUISystem/Fonts/gtGUIFontImpl.h"
 #include "GUISystem/Objects/gtGUIStaticTextImpl.h"
 #include "GUISystem/Objects/gtGUITextFieldImpl.h"
+#include "GUISystem/Objects/gtGUIMenuSubItemImpl.h"
 #include "GUISystem/Objects/gtGUIMenuItemImpl.h"
 #include "GUISystem/Objects/gtGUIMenuImpl.h"
 

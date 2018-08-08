@@ -29,6 +29,8 @@ namespace gost{
 
 		virtual void setCurrentRenderDriver( gtGraphicsSystem * driver ) = 0;
 
+		virtual void update() = 0;
+
 		//virtual void renderGUI() = 0;
 	};
 

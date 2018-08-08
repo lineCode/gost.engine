@@ -1,58 +1,76 @@
 #pragma once
-#ifndef __GT_GUI_MENU_IMPL_H__
-#define __GT_GUI_MENU_IMPL_H__
+#ifndef __GT_GUI_MENU_SUB_ITEM_IMPL_H__
+#define __GT_GUI_MENU_SUB_ITEM_IMPL_H__
 
 namespace gost{
 
-
-	class gtGUIMenuImpl : public gtGUIMenu{
+	class gtGUIMenuImpl;
+	class gtGUIMenuItemImpl;
+	class gtGUIMenuSubItemImpl : public gtGUIMenuSubItem{
 		gtMainSystem *	m_mainSystem;
 		gtModelSystem*	m_modelSystem;
 		gtGraphicsSystem*m_gs;
 		gtGUISystem*	m_gui;
 		gtWindow *      m_wnd;
+		gtGUIMenuImpl*  m_menu;
+
+		gtGUIMenuItemImpl * m_parent;
 		
 		gtMaterial      m_material;
 
-		gtPtr<gtGUIShape> m_backgroundShape;
-		gtPtr<gtGUIShape> m_backgroundShapeHover; //если нужно чтобы при намведении курсора полоска реагировала
-		gtPtr<gtGUIShape> m_backgroundShapeWithTexture;
-		
-		gtGUIMenuParameters m_params;
+		gtPtr<gtGUIShape>     m_background; //window
+		gtPtr<gtGUIShape>     m_backgroundTexture; //картинка которая находится за текстом
+		gtPtr<gtGUIShape>     m_itemMouseHover;
+
+		gtTexture *           m_windowItemIcon_texture;
+		gtPtr<gtGUIShape>     m_windowItemIcon;
+
+		gtPtr<gtGUITextField> m_textField;
+
+		gtString        m_text;
+		s32             m_userInput_id;
 
 		v4i             m_backgroundRect;
-		s32             m_widthLen;
+		v4i             m_windowItemIconRect;
 
-		gtArray<gtPair<gtGUIObject*,s32>> m_elements;
+		gtGUIMenuParameters m_params;
+
+
 		gtArray<gtPtr<gtGUIMenuItem>>     m_items;
+		s32             m_HeightLen; //высота окна, чтобы знать куда вставлять новые элементы
+		bool            m_active;
 
 	public:
 
-		gtGUIMenuImpl( gtGraphicsSystem *, const gtGUIMenuParameters& params );
-		~gtGUIMenuImpl();
+		gtGUIMenuSubItemImpl( gtGraphicsSystem *, gtGUIMenuImpl* );
+		~gtGUIMenuSubItemImpl();
 		
-		s32         _getLineHeight();
-		const gtColor& _getItemHoverColor();
-		bool        _init();
-		gtGUIMenuParameters * _getParams();
+		bool        _init(const gtString & text, s32 userInput_id, gtGUIMenuItemImpl *);
 
 		void		update();
 		void		render();
 		void		setTransparent( f32 transparent = gtConst0F );
 		f32			getTransparent();
 
-		void        setBacgroundColor( const gtColor& color );
-		const gtColor& getBacgroundColor();
-		void        setMouseHoverColor( const gtColor& color );
+		void        setTextColor( const gtColor& color );
 		void		setColor( const gtColor& color );
 		void        setGradientColor( const gtColor& color1, const gtColor& color2 );
 		void		setTexture( gtTexture* texture );
 		gtTexture*	getTexture();
 		gtMaterial* getMaterial();
+		void        setIcon( gtTexture * );
+		bool        isActive();
+		void        setActivate( bool activate );
 
-		void           addElement( gtGUIObject* element, s32 id );
-		gtGUIMenuItem* addMenuItem( const gtString& text, s32 userInput_id );
+		void        setBacgroundColor( const gtColor& color );
+
+		void        setRect( const v4i& rect ) GT_OVERRIDE;
 		
+		gtGUIShape* getMouseHoverShape();
+		const v4i&  getBackgroundRect();
+
+		void setMouseEnter()GT_OVERRIDE;
+		void setMouseLeave()GT_OVERRIDE;
 	};
 
 }

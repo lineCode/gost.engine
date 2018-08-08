@@ -13,8 +13,6 @@ namespace gost{
 		gtWindow *      m_wnd;
 		gtGUIMenuImpl*  m_menu;
 
-		gtGUIMenuItemImpl * m_parent;
-		
 		gtMaterial      m_material;
 
 		gtPtr<gtGUIShape>     m_background; //window
@@ -35,17 +33,16 @@ namespace gost{
 		gtGUIMenuParameters m_params;
 
 
-		gtArray<gtPtr<gtGUIMenuItem>>     m_items;
+		gtArray<gtPtr<gtGUIMenuSubItem>>     m_items;
 		s32             m_HeightLen; //высота окна, чтобы знать куда вставл€ть новые элементы
 		bool            m_active;
 
-		bool            m_isMenuItem; //Ёто пункт на полоске? ≈сли нет то это пункт на окне.
 	public:
 
 		gtGUIMenuItemImpl( gtGraphicsSystem *, gtGUIMenuImpl* );
 		~gtGUIMenuItemImpl();
 		
-		bool        _init(const gtString & text, s32 userInput_id, bool isMenuItem, gtGUIMenuItemImpl *);
+		bool        _init(const gtString & text, s32 userInput_id );
 
 		void		update();
 		void		render();
@@ -62,8 +59,8 @@ namespace gost{
 		bool        isActive();
 		void        setActivate( bool activate );
 
-		gtGUIMenuItem* addMenuItem( const gtString& text, s32 userInput_id );
-		void        setBacgroundColor( const gtColor& color );
+		gtGUIMenuSubItem* addMenuSubItem( const gtString& text, s32 userInput_id );
+		void              setBacgroundColor( const gtColor& color );
 
 		void        setRect( const v4i& rect ) GT_OVERRIDE;
 		

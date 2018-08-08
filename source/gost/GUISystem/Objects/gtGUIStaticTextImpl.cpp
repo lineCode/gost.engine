@@ -2,6 +2,7 @@
 
 gtGUIStaticTextImpl::gtGUIStaticTextImpl( gtGraphicsSystem* d ):
 	m_font( nullptr ),
+	m_textMesh( nullptr ),
 	m_mainSystem( nullptr ),
 	m_modelSystem( nullptr ),
 	m_gs( d ),
@@ -42,19 +43,17 @@ bool gtGUIStaticTextImpl::init( const gtString& text, s32 positionX, s32 positio
 void gtGUIStaticTextImpl::clear(){
 	m_length = 0.f;
 	m_text.clear();
-	u32 sz = m_buffers.size();
-	for( u32 i = gtConst0U; i < sz; ++i ){
-		m_buffers[ i ]->release();
-	}
-	m_buffers.clear();
+	if( m_textMesh )
+		m_textMesh->release();
+	m_textMesh = nullptr;
 	m_bufferInfo.clear();
 }
 
 void gtGUIStaticTextImpl::updateMaterial(){
-	u32 sz = m_buffers.size();
-	for( u32 i = gtConst0U; i < sz; ++i ){
-		auto * m = m_buffers[ i ]->getMaterial( gtConst0U );
-		m->textureLayer[ gtConst0U ].diffuseColor = m_material.textureLayer[ gtConst0U ].diffuseColor;
+	u32 sz = m_textMesh->getSubModelCount();
+	for( u32 i = 0; i < sz; ++i ){
+		auto * m = m_textMesh->getMaterial( i );
+		m->textureLayer[ 0 ].diffuseColor = m_material.textureLayer[ 0 ].diffuseColor;
 		m->transparent = m_material.transparent;
 	}
 }
@@ -64,7 +63,7 @@ f32  gtGUIStaticTextImpl::getLength(){
 }
 
 void gtGUIStaticTextImpl::setColor( const gtColor& color ){
-	m_material.textureLayer[ gtConst0U ].diffuseColor = color;
+	m_material.textureLayer[ 0 ].diffuseColor = color;
 	updateMaterial();
 }
 
@@ -116,17 +115,17 @@ void gtGUIStaticTextImpl::setText( const gtString& text ){
 				gtVertexType::End
 			};
 
-			const u16 u[gtConst6U] = {0U,1U,2U,0U,2U,3U};
+			const u16 u[6] = {0U,1U,2U,0U,2U,3U};
 
-			gtPtr<gtModel> soft = m_modelSystem->createEmpty( gtStrideStandart, &vt[ gtConst0U ] );
+			gtPtr<gtModel> soft = m_modelSystem->createEmpty( gtStrideStandart, &vt[ 0 ] );
 
 			if( soft.data() ){
 
-				auto * mainsub = soft->addSubModel( gtConst4U, gtConst6U, gtStrideStandart );
+				auto * mainsub = soft->addSubModel( 4, 6, gtStrideStandart );
 				auto * sub = mainsub;
 
-				u32 interval = gtConst0U;
-				u32 line_interval = gtConst0U;
+				u32 interval = 0;
+				u32 line_interval = 0;
 
 				f32 px = (2.f/(f32)bbsz.getWidth());
 				f32 py = (2.f/(f32)bbsz.getHeight());
@@ -260,7 +259,7 @@ void gtGUIStaticTextImpl::setText( const gtString& text ){
 				auto rm = m_gs->createModel( soft.data() );
 				if( rm.data() ){
 					rm->addRef();
-					m_buffers.push_back( rm.data() );
+					m_textMesh = rm.data();
 					updateBackground();
 					updateMaterial();
 				}else{
@@ -301,13 +300,10 @@ void gtGUIStaticTextImpl::update(){
 }
 
 void gtGUIStaticTextImpl::render(){
-	u32 sz = m_buffers.size();
-	for( u32 i = gtConst0U; i < sz; ++i ){
-		if( m_visible ){
-			if( m_showBackground )
-				m_backgroundShape->render();
-			m_gs->drawModel( m_buffers[ i ] );
-		}
+	if( m_visible ){
+		if( m_showBackground )
+			m_backgroundShape->render();
+		m_gs->drawModel( m_textMesh );
 	}
 }
 

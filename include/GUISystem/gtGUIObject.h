@@ -12,7 +12,8 @@ namespace gost{
 		Shape,
 		TextField,
 		Menu,
-		MenuItem
+		MenuItem,
+		MenuSubItem
 	};
 
 	class gtGUIObject : public gtRefObject{
@@ -71,6 +72,7 @@ namespace gost{
 #include <GUISystem/gtGUIFont.h>
 #include <GUISystem/gtGUIStaticText.h>
 #include <GUISystem/gtGUITextField.h>
+#include <GUISystem/gtGUIMenuSubItem.h>
 #include <GUISystem/gtGUIMenuItem.h>
 #include <GUISystem/gtGUIMenu.h>
 
