@@ -4,7 +4,7 @@ project (gost)
 set(SOURCE)
 
 configure_file (
-  "${PROJECT_SOURCE_DIR}/TutorialConfig.h.in"
+  "${PROJECT_SOURCE_DIR}/TutorialConfig.h.inl"
   "${PROJECT_BINARY_DIR}/TutorialConfig.h"
   )
   
