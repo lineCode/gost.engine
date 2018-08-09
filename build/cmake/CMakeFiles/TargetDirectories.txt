@@ -1,0 +1,3 @@
+/home/admon/git-repos/GoST/build/cmake/CMakeFiles/edit_cache.dir
+/home/admon/git-repos/GoST/build/cmake/CMakeFiles/gost.dir
+/home/admon/git-repos/GoST/build/cmake/CMakeFiles/rebuild_cache.dir
