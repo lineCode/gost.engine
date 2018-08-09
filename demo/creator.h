@@ -7,13 +7,35 @@
 #include <gost.h>
 using namespace gost;
 
-constexpr u32 DEMO_GUI_ID_WELCOME_TEXT = 1u;
-constexpr u32 DEMO_GUI_ID_PAUSE_CONTINUE = 2u;
-constexpr u32 DEMO_GUI_ID_PAUSE_SETTINGS = 3u;
-constexpr u32 DEMO_GUI_ID_PAUSE_EXIT = 4u;
-constexpr u32 DEMO_GUI_ID_PAUSE_MAIN_MENU = 5u;
-constexpr u32 DEMO_GUI_ID_LEFT_COLON = 100u;
-constexpr u32 DEMO_GUI_ID_RIGHT_COLON = 200u;
+enum E_GUI_INPUT{
+	DEMO_GUI_ID_WELCOME_TEXT = 1u,
+	DEMO_GUI_ID_PAUSE_CONTINUE = 2u,
+	DEMO_GUI_ID_PAUSE_SETTINGS = 3u,
+	DEMO_GUI_ID_PAUSE_EXIT = 4u,
+	DEMO_GUI_ID_PAUSE_MAIN_MENU = 5u,
+	DEMO_GUI_ID_LEFT_COLON = 100u,
+	DEMO_GUI_ID_RIGHT_COLON = 200u,
+	//EGI_NONE = 1000,  // для того чтобы корректно работал GUI ввод нужно чтобы каждый элемент имел никальный номер
+	//EGI_MENU,
+	//EGI_MENU_FILE,
+	//EGI_MENU_EDIT,
+	//EGI_MENU_EDIT_DELETE,
+	//EGI_MENU_EDIT_CUT,
+	//EGI_MENU_EDIT_UNDO,
+	//EGI_MENU_EDIT_REDO,
+	//EGI_MENU_EDIT_SELECT_ALL,
+	//EGI_MENU_EDIT_PASTE,
+	//EGI_MENU_EDIT_COPY,
+	//EGI_MENU_VIEW,
+	//EGI_MENU_VIEW_FULLSCREEN,
+	//EGI_MENU_FILE_EXIT,
+	//EGI_MENU_FILE_NEW,
+	//EGI_MENU_FILE_SAVE,
+	//EGI_MENU_FILE_SAVE_AS,
+	//EGI_MENU_FILE_CLOSE,
+	//EGI_MENU_FILE_OPEN,
+	//EGI_MAIN_BACKGROUND
+};
 
 #include "DemoExample.h"
 #include "DemoElement.h"

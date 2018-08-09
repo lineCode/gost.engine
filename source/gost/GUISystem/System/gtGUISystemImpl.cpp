@@ -9,6 +9,8 @@ gtGUISystemImpl::gtGUISystemImpl():
 	m_captureState(gtGUIObjectType::None),
 	m_captureState_old(gtGUIObjectType::None),
 	m_focusState(gtGUIObjectType::None),
+	m_menuItem_active( nullptr ),
+	m_menuSubItem_active( nullptr ),
 	m_menu_is_activeItem( false )
 {
 	m_mainSystem = gtMainSystem::getInstance();
@@ -80,42 +82,181 @@ bool gtGUISystemImpl_compareEvent_callback_mmbDouble( gtEvent& current_event, gt
 
 void gtGUISystemImpl::__updateMenuFirst(){
 	//Сначала нужно пройтись по всем объектам чтобы узнать активно ли меню
-	gtGUIMenuItemImpl * menuItem_active = nullptr;
 	auto sz = m_userInputObjects.size();
+	m_menu_is_activeItem = false;
 	for( auto i = 0u; i < sz; ++i ){
 		auto o = m_userInputObjects[ i ];
 		if( o.m_first->isVisible() ){
-			if( util::pointInRect(m_coords,o.m_first->getActiveArea()) ){
-				if( o.m_first->getType() == gtGUIObjectType::MenuItem ){
-					if( ((gtGUIMenuItemImpl*)o.m_first)->isActive() ){
+			if( o.m_first->getType() == gtGUIObjectType::MenuItem ){
+				if( ((gtGUIMenuItemImpl*)o.m_first)->isActive() ){
+					if( !m_menu_is_activeItem ){
 						m_menu_is_activeItem = true;
-						menuItem_active = (gtGUIMenuItemImpl*)o.m_first;
-						break;
+						m_menuItem_active = (gtGUIMenuItemImpl*)o.m_first;
+					}else{
+						((gtGUIMenuItemImpl*)o.m_first)->setActivate( false );
 					}
 				}
+			}else if( o.m_first->getType() == gtGUIObjectType::MenuSubItem ){
+				m_menuSubItem_active = (gtGUIMenuSubItemImpl*)o.m_first;
 			}
 		}
 	}
 }
 
 void gtGUISystemImpl::__updateMenuSecond(){
-	gtGUIMenuItem * item = nullptr;
+	static u32 active_item_id = 0u;
+	static u32 active_subitem_id = 0u;
+	gtGUIMenuItemImpl * item = nullptr;
 	auto sz = m_userInputObjects.size();
+	
+	static gtEvent findEvent;
+	findEvent.type = gtEventType::Mouse;
+
 	for( auto i = 0u; i < sz; ++i ){
 		auto o = m_userInputObjects[ i ];
 		if( o.m_first->isVisible() ){
 			if( util::pointInRect(m_coords,o.m_first->getActiveArea()) ){
 				if( o.m_first->getType() == gtGUIObjectType::MenuItem ){
-					item = (gtGUIMenuItem *)o.m_first;
+					item = (gtGUIMenuItemImpl*)o.m_first;
+
+					// Если нажали на область не имеющую отношения к меню то
+					// нужно запретить выделение пункта если курсор дойдёт
+					// до его области (например, кликнули по тексту или ешё чемуто,
+					// удерживаем кнопку мыши, тащим курсор на меню, и меню не должно реагировать).
+					// Нужно будет переделать когда появятся другие контролы
 					if( m_captureState != gost::gtGUIObjectType::Menu
 						&& m_captureState != gost::gtGUIObjectType::MenuItem 
-						&& m_captureState != gost::gtGUIObjectType::MenuSubItem ){
+						&& m_captureState != gost::gtGUIObjectType::MenuSubItem
+						&& m_captureState != gost::gtGUIObjectType::None ){
 						/*if(item->isMouseEnter()){
 							item->setMouseLeave();
 						}*/
+					}else{
+
+						// Если нажали на пункт
+						if( m_captureState == gost::gtGUIObjectType::MenuItem ){
+							m_captureState = gost::gtGUIObjectType::Font;
+							if( m_menuItem_active && (m_menuItem_active==item) ){
+								m_menuItem_active->setActivate( false );
+
+								gtEvent e;
+								e.type = gtEventType::GUI;
+								e.GUIEvent.id = o.m_second;
+								e.GUIEvent.action = gtEventGUIAction::MenuHide;
+								e.GUIEvent.object = o.m_first;
+								m_mainSystem->addEvent( e );
+
+								e.GUIEvent.action = gtEventGUIAction::MenuActivate;
+								e.GUIEvent.id = active_subitem_id;
+								m_mainSystem->addEvent( e );
+
+								m_menuItem_active =  nullptr;
+								m_menuSubItem_active = nullptr;
+							
+							}else{
+								if( m_menuItem_active ){
+									m_menuItem_active->setActivate( false );
+								}
+								item->setActivate( true );
+							
+								active_item_id = o.m_second;
+
+								gtEvent e;
+								e.type = gtEventType::GUI;
+								e.GUIEvent.id = o.m_second;
+								e.GUIEvent.action = gtEventGUIAction::MenuShow;
+								e.GUIEvent.object = o.m_first;
+								m_mainSystem->addEvent( e );
+							}
+
+
+						}
 					}
+
+					// Если пункт активен, и если переместили курсор на другой пункт
+					if( m_menuItem_active ){
+						if( m_menuItem_active != item ){
+							if( m_menuItem_active ){
+								m_menuItem_active->setActivate( false );
+							}
+							item->setActivate( true );
+							
+							active_item_id = o.m_second;
+
+							gtEvent e;
+							e.type = gtEventType::GUI;
+							e.GUIEvent.id = o.m_second;
+							e.GUIEvent.action = gtEventGUIAction::MenuShow;
+							e.GUIEvent.object = o.m_first;
+							m_mainSystem->addEvent( e );
+						}
+					}
+
+				}else if( o.m_first->getType() == gtGUIObjectType::MenuSubItem ){
+					active_subitem_id  = o.m_second;
 				}
 			}
+		}
+	}
+	
+
+	if( m_menuItem_active ){
+		if( m_captureState == gost::gtGUIObjectType::MenuSubItem ){
+			if( m_mainSystem->checkEvent( findEvent, gtGUISystemImpl_compareEvent_callback_lmbUp ) ){
+				m_captureState = gost::gtGUIObjectType::None;
+				m_focusState = gost::gtGUIObjectType::None;
+
+				m_menuItem_active->setActivate( false );
+
+				gtEvent e;
+				e.type = gtEventType::GUI;
+				e.GUIEvent.id = active_item_id;
+				e.GUIEvent.action = gtEventGUIAction::MenuHide;
+				e.GUIEvent.object = m_menuItem_active;
+				m_mainSystem->addEvent( e );
+
+				e.GUIEvent.action = gtEventGUIAction::MenuActivate;
+				e.GUIEvent.id = active_subitem_id;
+				m_mainSystem->addEvent( e );
+
+				m_menuItem_active =  nullptr;
+				m_menuSubItem_active = nullptr;
+
+		//		gtLogWriter::printError( u"ACTIVATE %i", active_subitem_id);
+			}
+		}else{
+			if( m_captureState != gost::gtGUIObjectType::MenuSubItem
+				&& m_captureState != gost::gtGUIObjectType::MenuItem
+				&& m_captureState != gost::gtGUIObjectType::Font ){
+				
+				if( m_mainSystem->checkEvent( findEvent, gtGUISystemImpl_compareEvent_callback_lmbDown ) ){
+				//	gtLogWriter::printError( u"DEACTIVATE");
+					m_captureState = gost::gtGUIObjectType::None;
+					m_focusState = gost::gtGUIObjectType::None;
+
+					m_menuItem_active->setActivate( false );
+
+					gtEvent e;
+					e.type = gtEventType::GUI;
+					e.GUIEvent.id = active_item_id;
+					e.GUIEvent.action = gtEventGUIAction::MenuHide;
+					e.GUIEvent.object = m_menuItem_active;
+					m_mainSystem->addEvent( e );
+					m_menuItem_active =  nullptr;
+					m_menuSubItem_active = nullptr;
+				}
+			}
+
+			
+		}
+
+		if( m_menuItem_active ){
+			gtEvent e;
+			e.type = gtEventType::GUI;
+			e.GUIEvent.id = active_item_id;
+			e.GUIEvent.action = gtEventGUIAction::MenuShow;
+			e.GUIEvent.object = m_menuItem_active;
+			m_mainSystem->addEvent( e );
 		}
 	}
 }
@@ -166,7 +307,10 @@ void gtGUISystemImpl::update(){
 				if( m_mainSystem->checkEvent( findEvent, gtGUISystemImpl_compareEvent_callback_lmbUp ) ){
 					em.GUIEvent.action = gtEventGUIAction::MouseLeftButtonUp;
 					m_mainSystem->addEvent( em );
-					m_captureState = gost::gtGUIObjectType::None;
+
+					if( m_captureState != gost::gtGUIObjectType::MenuSubItem ){
+						m_captureState = gost::gtGUIObjectType::None;
+					}
 				}
 				if( m_mainSystem->checkEvent( findEvent, gtGUISystemImpl_compareEvent_callback_lmbDouble ) ){
 					em.GUIEvent.action = gtEventGUIAction::MouseLeftButtonDouble;

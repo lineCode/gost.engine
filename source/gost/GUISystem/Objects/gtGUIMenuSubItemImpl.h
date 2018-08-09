@@ -18,7 +18,6 @@ namespace gost{
 		
 		gtMaterial      m_material;
 
-		gtPtr<gtGUIShape>     m_background; //window
 		gtPtr<gtGUIShape>     m_backgroundTexture; //картинка которая находится за текстом
 		gtPtr<gtGUIShape>     m_itemMouseHover;
 
@@ -30,7 +29,6 @@ namespace gost{
 		gtString        m_text;
 		s32             m_userInput_id;
 
-		v4i             m_backgroundRect;
 		v4i             m_windowItemIconRect;
 
 		gtGUIMenuParameters m_params;
@@ -67,7 +65,6 @@ namespace gost{
 		void        setRect( const v4i& rect ) GT_OVERRIDE;
 		
 		gtGUIShape* getMouseHoverShape();
-		const v4i&  getBackgroundRect();
 
 		void setMouseEnter()GT_OVERRIDE;
 		void setMouseLeave()GT_OVERRIDE;

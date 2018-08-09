@@ -53,6 +53,7 @@ namespace gost{
 		void           addElement( gtGUIObject* element, s32 id );
 		gtGUIMenuItem* addMenuItem( const gtString& text, s32 userInput_id );
 		
+		void  setVisible( bool value )GT_OVERRIDE;
 	};
 
 }

@@ -37,18 +37,6 @@ namespace demo{
 		Cancel
 	};
 
-enum E_GUI_INPUT{
-	EGI_NONE=1000,
-	EGI_MENU,
-	EGI_MENU_FILE,
-	EGI_MENU_EDIT,
-	EGI_MENU_VIEW,
-	EGI_MENU_FILE_EXIT,
-	EGI_MENU_FILE_NEW,
-	EGI_MENU_FILE_SAVE,
-	EGI_MENU_FILE_OPEN,
-	EGI_MAIN_BACKGROUND
-};
 	class DemoApplication{
 		gtPtr<gtMainSystem>			m_mainSystem;
 		gtPtr<gtWindow>				m_mainWindow;

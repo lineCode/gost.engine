@@ -255,33 +255,40 @@ gtGUIMenuSubItem* gtGUIMenuItemImpl::addMenuSubItem( const gtString& text, s32 u
 		m_items.push_back( gtPtrNew<gtGUIMenuSubItem>( item ) );
 
 		auto r = item->getRect();
-		auto w = r.getHeight();
+		auto h = r.getHeight();
+		r.x = m_rect.x;
 
 		r.y = m_menu->_getLineHeight();
-		r.w = r.y + r.y;
-		r.y += m_HeightLen;
-		r.w += m_HeightLen;
-
-		r.x = m_rect.x;
 		
 
-		m_HeightLen += w + m_params.m_menuTextIndent;
+		r.y += m_HeightLen;
+
+		r.w = r.y + h;
+
+
+		m_HeightLen += h + m_params.m_menuTextIndent;
 
 		item->setRect( r );
 		item->setActiveArea( r );
 		item->update();
-
-		r = item->getRect();
-
+		
+		
 		m_backgroundRect.x = m_rect.x;
 		m_backgroundRect.y = m_menu->_getLineHeight();
 		if( r.x + r.z > m_backgroundRect.z ) m_backgroundRect.z = r.x + r.z + m_params.m_iconSize2.x;
 		if( r.w > m_backgroundRect.w ) m_backgroundRect.w = r.w;
-
 		m_backgroundRect.w -= m_params.m_menuTextIndent;
 
-		m_gui->addToUserInput( item, userInput_id );
+		for( auto i : m_items ){
+			v4i rect = i->getRect();
+			rect.z = m_backgroundRect.z;
+			i->setRect( rect );
+			i->setActiveArea( rect );
+		}
+		
 
+		m_gui->addToUserInput( item, userInput_id );
+		
 		return item;
 	}
 

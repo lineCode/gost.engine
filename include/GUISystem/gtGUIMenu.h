@@ -8,7 +8,8 @@ namespace gost{
 
 		enum{
 			flag_gradient  = BIT(0),
-			flag_menuHover = BIT(1)
+			flag_menuHover = BIT(1),
+			flag_subitemGradient = BIT(2)
 		};
 
 		 gtGUIFont*      m_font    = nullptr;    //шрифт
@@ -41,6 +42,12 @@ namespace gost{
 
 		 gtColor         m_subitemTextColor; //Цвет текста в окошке
 		 gtColor         m_subitemTextColorHover; //Цвет текста выделенного пункта в окошке
+		 gtColor         m_subitemBackgroundColorHover = gtColorLightBlue;
+		 f32             m_subitemBackgroundTransparentHover = 0.7f;
+
+		 // flag_subitemGradient
+		 gtColor         m_subitemBackgroundGradientColor1Hover = gtColorLightBlue;
+		 gtColor         m_subitemBackgroundGradientColor2Hover = gtColorLightBlue;
 
 	};
 

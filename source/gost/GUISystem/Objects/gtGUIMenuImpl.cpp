@@ -170,6 +170,16 @@ void gtGUIMenuImpl::addElement( gtGUIObject* element, s32 id ){
 	element->update();
 }
 
+void gtGUIMenuImpl::setVisible( bool value ){ 
+	m_visible = value;
+	for( auto i : m_elements ){
+		i.m_first->setVisible( value );
+	}
+
+	for( auto i : m_items ){
+		i->setVisible( value );
+	}
+}
 gtGUIMenuItem* gtGUIMenuImpl::addMenuItem( const gtString& text, s32 userInput_id ){
 
 	gtGUIMenuItemImpl * item = new gtGUIMenuItemImpl( m_gs, this );

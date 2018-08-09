@@ -30,10 +30,6 @@ void gtGUIMenuSubItemImpl::setIcon( gtTexture * t ){
 	m_windowItemIcon_texture = t;
 }
 
-const v4i&  gtGUIMenuSubItemImpl::getBackgroundRect(){
-	return m_backgroundRect;
-}
-
 gtGUIShape* gtGUIMenuSubItemImpl::getMouseHoverShape(){
 	return m_itemMouseHover.data();
 }
@@ -42,20 +38,21 @@ void gtGUIMenuSubItemImpl::update(){
 
 	auto wrc = m_wnd->getClientRect();
 
-		m_windowItemIconRect.x = m_rect.x;
-		m_windowItemIconRect.y = m_rect.y;
-		m_windowItemIconRect.z = m_rect.x + m_params.m_iconSize.x;
-		m_windowItemIconRect.w = m_rect.y + m_params.m_iconSize.y;
+	m_windowItemIconRect.x = m_rect.x;
+	m_windowItemIconRect.y = m_rect.y;
+	m_windowItemIconRect.z = m_rect.x + m_params.m_iconSize.x;
+	m_windowItemIconRect.w = m_rect.y + m_params.m_iconSize.y;
 
-		m_windowItemIcon = m_gui->createShapeRectangle( m_windowItemIconRect, gtColorWhite );
-		m_windowItemIcon->setTexture( m_windowItemIcon_texture );
+	m_windowItemIcon = m_gui->createShapeRectangle( m_windowItemIconRect, gtColorWhite );
+	m_windowItemIcon->setTexture( m_windowItemIcon_texture );
 
-	v4i text_rect = m_rect;
+	v4i text_rect = m_windowItemIconRect;
 		text_rect.x += m_params.m_iconSize.x;
 
 	m_textField = m_gui->createTextField( text_rect, m_params.m_font, false, false );
 
 	if( m_textField ){
+
 		m_textField->setText( m_text );
 		m_textField->setBackgroundVisible( false );
 
@@ -63,15 +60,20 @@ void gtGUIMenuSubItemImpl::update(){
 	}
 
 
-	v4i itemMouseHover_rect = m_rect;
+	v4i itemMouseHover_rect = text_rect;
+	itemMouseHover_rect.x = m_rect.x;
+
+	if( m_parent ){
+	//	itemMouseHover_rect.z = m_parent->getBackgroundRect().z;
+	}
 	
-		if( m_parent ){
-			itemMouseHover_rect.z = m_parent->getBackgroundRect().z;
-		}
-	
-	m_itemMouseHover = m_gui->createShapeRectangle( itemMouseHover_rect, m_menu->_getItemHoverColor() );
-	m_itemMouseHover->setTransparent( m_params.m_itemHoverTransparent );
-	m_itemMouseHover->setActiveArea( itemMouseHover_rect );
+	m_itemMouseHover = m_gui->createShapeRectangle( m_rect, m_params.m_subitemBackgroundColorHover,
+		(m_params.m_flags&m_params.flag_subitemGradient)?true:false,
+		m_params.m_subitemBackgroundGradientColor1Hover,
+		m_params.m_subitemBackgroundGradientColor2Hover);
+	m_itemMouseHover->setTransparent( m_params.m_subitemBackgroundTransparentHover );
+
+	//m_itemMouseHover->setActiveArea( itemMouseHover_rect );
 
 	if( m_params.m_itemHoverTexture ){
 		m_backgroundTexture = m_gui->createShapeRectangle( itemMouseHover_rect, m_menu->_getItemHoverColor() );
@@ -87,24 +89,11 @@ void gtGUIMenuSubItemImpl::update(){
 		i->update();
 	}
 
-	gtGUIShape * old = nullptr;
-	bool is_visible = false;
-	if( m_background ){
-		old = m_background.data();
-		is_visible = old->isVisible();
-	}
-
-	m_background = m_gui->createShapeRectangle( m_backgroundRect, m_menu->_getItemHoverColor());
-	m_background->setTransparent( m_params.m_itemBackgroundTransparent );
-	m_background->setActiveArea( m_backgroundRect );
-	m_background->setVisible( is_visible );
-	m_background->setColor( m_params.m_itemBackgroundColor );
-
-	if( old )
+	/*if( old )
 		m_gui->replaceUserInput( old, m_background.data(), m_userInput_id );
 	else
 		m_gui->addToUserInput( m_background.data(), m_userInput_id );
-	
+	*/
 }
 
 void gtGUIMenuSubItemImpl::setMouseEnter(){
@@ -120,6 +109,10 @@ void gtGUIMenuSubItemImpl::setMouseLeave(){
 }
 
 void gtGUIMenuSubItemImpl::render(){
+
+	if( m_mouseEnter ){
+		m_itemMouseHover->render();
+	}
 
 	if( m_windowItemIcon ){
 		if( m_windowItemIcon_texture )
@@ -140,8 +133,6 @@ void gtGUIMenuSubItemImpl::render(){
 	
 
 	if( m_active ){
-		//if( m_background )
-		//	m_background->render();
 
 		for( auto i : m_items ){
 		//	if( i->isVisible() )

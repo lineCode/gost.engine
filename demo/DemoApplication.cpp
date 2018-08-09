@@ -304,48 +304,63 @@ bool demo::DemoApplication::initMainMenu(){
 	if( !m_infoFont )
 		return false;
 
-/*	m_mparams.m_flags      = gtGUIMenuParameters::flag_gradient;
-	m_mparams.m_font       = m_infoFont.data();
-	m_mparams.m_height     = 20;
+	m_mparams.m_flags      = gtGUIMenuParameters::flag_menuHover;
+	m_mparams.m_flags      |= gtGUIMenuParameters::flag_subitemGradient;
+
+	m_mparams.m_font       = m_mainFont.data();
+	m_mparams.m_iconSize.set( 14, 14 );
+	
+	m_mparams.m_menuHeight     = 12;
 	m_mparams.m_menuColor  = gtColorBlack;
-	m_mparams.m_gradientColor1  = 0xffDDDDDD;
-	m_mparams.m_gradientColor2  = 0xffAFAFAF;
-	m_mparams.m_textColor  = gtColorBlack;
+	m_mparams.m_menuGradientColor1  = 0xffDDDDDD;
+	m_mparams.m_menuGradientColor2  = 0xffAFAFAF;
+
+	m_mparams.m_menuColorHover  = gtColorBlack;
+	m_mparams.m_menuGradientColor1Hover  = 0xffEEEEEE;
+	m_mparams.m_menuGradientColor2Hover  = 0xffBFBFBF;
+
 	m_mparams.m_menuTextIndent    = 0;
-	m_mparams.m_mouseHoverColor    = 0xff617A8E;
-	m_mparams.m_mouseHoverTransparent = 0.f;
-	m_mparams.m_mouseHoverTextColor = gtColorDarkRed;
-	m_mparams.m_menuItemBackgroundTransparent = 0.f;
-	m_mparams.m_textWindowColor      = gtColorDarkBlue;
-	m_mparams.m_textWindowHoverColor = gtColorDarkRed;
-	m_mparams.m_iconSize.set( 14, 0 );
+	m_mparams.m_menuBackgroundTexture    = m_gs->getTexture( gtFileSystem::getProgramPath() + u"resources/menu_bg.png" );
 
-	m_menu = m_guiSystem->createMenu( m_mparams );
-	
+	m_mparams.m_itemTextColor  = gtColorBlack;
+	m_mparams.m_itemHoverColor    = 0xff617A8E;
+	m_mparams.m_itemHoverTransparent = 1.f;
+	m_mparams.m_itemHoverTextColor = gtColorLightGray;
+	m_mparams.m_itemHoverTexture = m_gs->getTexture( gtFileSystem::getProgramPath() + u"resources/menu_item_hover.png" );
+	m_mparams.m_itemActiveTexture = m_gs->getTexture( gtFileSystem::getProgramPath() + u"resources/menu_item_active.png" );
+	m_mparams.m_itemBackgroundTransparent = 0.6f;
+	m_mparams.m_itemBackgroundColor = gtColorBlack;
+
+	m_mparams.m_subitemTextColor      = gtColorWhite;
+	m_mparams.m_subitemTextColorHover = gtColorBlack;
+
+	m_mparams.m_subitemBackgroundGradientColor1Hover = 0xff7AA3E5;
+	m_mparams.m_subitemBackgroundGradientColor2Hover = 0xff5680C1;
+	m_mparams.m_subitemBackgroundColorHover = gtColorBlack;
+	m_mparams.m_subitemBackgroundTransparentHover = 0.f;
+
+	/*m_menu = m_guiSystem->createMenu( m_mparams );
 	auto item = m_menu->addMenuItem( u" File ", EGI_MENU_FILE );
-	auto item_new = item->addMenuItem( u"New         Ctrl + N", EGI_MENU_FILE_NEW );
-	auto item_open = item->addMenuItem( u"Open        Ctrl + O", EGI_MENU_FILE_OPEN );
-	item->addMenuItem( u"Close", EGI_MENU_FILE_OPEN );
-	auto item_save = item->addMenuItem( u"Save        Ctrl + S", EGI_MENU_FILE_SAVE );
-	auto item_saveas = item->addMenuItem( u"Save As...", EGI_MENU_FILE_SAVE );
-	auto item_exit = item->addMenuItem( u"Exit", EGI_MENU_FILE_EXIT );
-	
-	item = m_menu->addMenuItem( u" View ", EGI_MENU_VIEW );
-	item->addMenuItem( u"Fullscreen", EGI_MENU_FILE_NEW );
-	
+	auto item_new = item->addMenuSubItem( u"New         Ctrl + N", EGI_MENU_FILE_NEW );
+	auto item_open = item->addMenuSubItem( u"Open        Ctrl + O", EGI_MENU_FILE_OPEN );
+	item->addMenuSubItem( u"Close", EGI_MENU_FILE_CLOSE );
+	auto item_save = item->addMenuSubItem( u"Save        Ctrl + S", EGI_MENU_FILE_SAVE );
+	auto item_saveas = item->addMenuSubItem( u"Save As...", EGI_MENU_FILE_SAVE_AS );
+	auto item_exit = item->addMenuSubItem( u"Exit", EGI_MENU_FILE_EXIT );
 	item = m_menu->addMenuItem( u" Edit ", EGI_MENU_EDIT );
-	item->addMenuItem( u"Undo", EGI_MENU_FILE_NEW );
-	item->addMenuItem( u"Redo", EGI_MENU_FILE_SAVE );
-	item->addMenuItem( u"Copy", EGI_MENU_FILE_OPEN );
-	item->addMenuItem( u"Cut", EGI_MENU_FILE_EXIT );
-	item->addMenuItem( u"Paste", EGI_MENU_FILE_SAVE );
-	item->addMenuItem( u"Delete", EGI_MENU_FILE_EXIT );
-	item->addMenuItem( u"Select all", EGI_MENU_FILE_OPEN );
-
-	
+	item->addMenuSubItem( u"Redo", EGI_MENU_EDIT_REDO );
+	item->addMenuSubItem( u"Undo", EGI_MENU_EDIT_UNDO );
+	item->addMenuSubItem( u"Copy", EGI_MENU_EDIT_COPY );
+	item->addMenuSubItem( u"Cut", EGI_MENU_EDIT_CUT );
+	item->addMenuSubItem( u"Paste", EGI_MENU_EDIT_PASTE );
+	item->addMenuSubItem( u"Delete", EGI_MENU_EDIT_DELETE );
+	item->addMenuSubItem( u"Select all", EGI_MENU_EDIT_SELECT_ALL );
+	item = m_menu->addMenuItem( u" View ", EGI_MENU_VIEW );
+	item->addMenuSubItem( u"Fullscreen", EGI_MENU_VIEW_FULLSCREEN );
 	m_guiSystem->addToUserInput( m_menu.data(), EGI_MENU );
-
-	m_menu->update();*/
+	m_menu->update();
+	m_menu->setVisible( false );
+	*/
 
 	auto rc = m_mainWindow->getRect();
 	auto w  = rc.getWidth();
@@ -393,8 +408,9 @@ bool demo::DemoApplication::initMainMenu(){
 	m_pauseTextExitShape->setBackgroundColor( gtColorLightGray );
 	m_pauseTextExitShape->setTextColor( gtColorBlack );
 
+	// вот это надо переделать
 	m_pauseShape = m_guiSystem->createShapeRectangle( v4i(centerx-50,centery-100,centerx+150,m_pauseTextExitShape->getRect().w), gtColorLightGray );
-	//m_pauseShape = m_guiSystem->createShapeRectangle( v4i( 300, 100, 600,300), gtColorLightGray );
+	m_pauseShape = m_guiSystem->createShapeRectangle( v4i( 300, 100, 600,300), gtColorLightGray );
 	m_pauseShape->setTransparent( 1.f );
 
 	m_settingsBackgroundShape = m_guiSystem->createShapeRectangle( v4i(centerx-50,centery-100,centerx+350,centery+200), gtColorLightGray );
@@ -932,7 +948,7 @@ void demo::DemoApplication::renderMainMenu(){
 		m_settingsTextLanguageName->render();
 		m_settingsTextSoundUse->render();
 	}
-
+	
 	m_gs->setDepthState();
 
 	m_gs->endRender();
@@ -949,11 +965,10 @@ void demo::DemoApplication::renderDemoMenu(){
 	
 	if( m_isPause ){
 		m_description->render();
-		m_pauseShape->render();
+	//	m_pauseShape->render();
 		m_pauseTextContinueShape->render();
 		m_pauseTextExitShape->render();
 		m_pauseTextMainMenuShape->render();
-
 	}
 
 	m_gs->setDepthState();
@@ -985,8 +1000,10 @@ void demo::DemoApplication::renderDemo(){
 	}
 	m_demoArrays[m_activeDemoTypeSelected][m_activeDemoSelected].Render2D();
 
-	if( m_menu )
-		m_menu->render();
+	if( m_menu ){
+		if( m_menu->isVisible() )
+			m_menu->render();
+	}
 
 	m_gs->setDepthState();
 
@@ -1293,6 +1310,7 @@ void demo::DemoApplication::inputMainMenuPause(){
 	if( m_eventConsumer->keyDownOnce( gtKey::K_ENTER ) || inputGamepadMainMenuEnter() ){
 		playAudio(DemoAudioType::Accept);
 		if( m_pauseMainMenuSelectedId == 0 ){
+			if( m_menu )m_menu->setVisible(false);
 			ReturnToMainMenu();
 		}else if( m_pauseMainMenuSelectedId == 1 ){
 			m_settingsBackgroundShape->setTransparent(  );
@@ -1378,6 +1396,7 @@ void demo::DemoApplication::inputMainMenu(){
 					if( m_demoArrays[m_activeDemoTypeSelected][m_activeDemoSelected].Init( this ) ){
 						m_state = DemoState::DemoRun;
 						showDemoHUD();
+						if( m_menu )m_menu->setVisible(true);
 					}else{
 						gtLogWriter::printWarning( u"%s", getString( u"24" ).data() );
 					}

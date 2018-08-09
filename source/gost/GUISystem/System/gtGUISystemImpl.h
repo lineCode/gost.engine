@@ -4,6 +4,8 @@
 
 namespace gost{
 
+	class gtGUIMenuItemImpl;
+	class gtGUIMenuSubItemImpl;
 	class gtGUISystemImpl : public gtGUISystem{
 		gtMainSystem *		  m_mainSystem;
 		gtInputSystem *		  m_inputSystem;
@@ -19,6 +21,9 @@ namespace gost{
 
 		// Тут хранится состояние о том, на что установлен фокус GUI
 		gtGUIObjectType m_focusState;
+	
+		gtGUIMenuItemImpl * m_menuItem_active;
+		gtGUIMenuSubItemImpl * m_menuSubItem_active; //возможно надо удалить. в данный момент это лишнее
 
 		bool m_menu_is_activeItem; // Если активный хотябы 1 пункт
 		void __updateMenuFirst();

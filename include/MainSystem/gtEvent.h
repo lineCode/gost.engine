@@ -61,7 +61,8 @@ namespace gost{
 		MouseMiddleButtonDouble,
 		MenuShow,
 		MenuHide,
-		MenuActive
+		MenuActive,
+		MenuActivate //on click
 	};
 
 	struct gtEventGUI{
