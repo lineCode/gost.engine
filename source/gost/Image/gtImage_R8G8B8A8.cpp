@@ -8,7 +8,7 @@ void gtImage_convert_r8g8b8a8_to( gtImageFormat newFormat, gtImage * image, u8 *
 			
 			u8 byte = 0u;
 			
-			u32 byte_count = 0u;
+			u32 bit_count = 0u;
 			u32 count = 0u;
 			
 			for( u32 i = 0u; i < image->dataSize; ){
@@ -20,15 +20,15 @@ void gtImage_convert_r8g8b8a8_to( gtImageFormat newFormat, gtImage * image, u8 *
 					color += data[ i + 2u ] / 2;
 				}
 				
-				if( color > 127 ){
+				if( color > 230 || data[ i + 3u ] < 170 ){
 					byte |= 1u;
 				}
 				
-				++byte_count;
+				++bit_count;
 				
-				if( byte_count == 8u ){
+				if( bit_count == 8u ){
 					newData[ count ] = byte;
-					byte = byte_count = 0u;
+					byte = bit_count = 0u;
 					++count;
 				}
 				
@@ -37,7 +37,7 @@ void gtImage_convert_r8g8b8a8_to( gtImageFormat newFormat, gtImage * image, u8 *
 				i += 4u;
 			}
 			
-			if( byte_count ){
+			if( bit_count ){
 				newData[ count ] = byte;
 			}
 			

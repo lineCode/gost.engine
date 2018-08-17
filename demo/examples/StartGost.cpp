@@ -170,7 +170,7 @@ int main(){
 	image_converted	= image_original.data();
 	
 	gtImage::_convert( gtImageFormat::One_bit, &image_converted );
-	
+//	image_converted.convert(gtImageFormat::R8G8B8A8);
 	gtImage::_convert( gtImageFormat::R8G8B8A8, &image_converted );
 	
 	auto texture = graphicsSystem->createTexture( &image_converted );

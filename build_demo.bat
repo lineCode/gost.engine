@@ -17,7 +17,7 @@ rmdir /s /q ..\build\objects\Demo\release\
 mkdir ..\build\objects\Demo\debug\
 mkdir ..\build\objects\Demo\release\
 
-gost.build.exe ../demo/examples/gost.build.txt
-gost.build.exe ../demo/gost.build.txt
+gost.build.exe ../demo/examples/gost.build.txt -o
+gost.build.exe ../demo/gost.build.txt -o
 
 pause

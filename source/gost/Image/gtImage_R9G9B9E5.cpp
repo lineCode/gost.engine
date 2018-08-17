@@ -1,6 +1,6 @@
 #include "common.h"
 
-void gtImage_convert_a8r8g8b8_to( gtImageFormat newFormat, gtImage * image, u8 * newData, u32 newSize ){
+void gtImage_convert_r9g9b9e5_to( gtImageFormat newFormat, gtImage * image, u8 * newData, u32 newSize ){
 	switch( newFormat ){
 		case gtImageFormat::One_bit:
 		break;

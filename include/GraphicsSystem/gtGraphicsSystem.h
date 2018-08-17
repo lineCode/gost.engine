@@ -108,9 +108,15 @@ namespace gost{
 
 		virtual gtTexture*		getTexture( const gtString& fileName, gtImage** outImage = nullptr ) = 0;
 
+		// remove frome cache
 		virtual bool	removeModel( gtRenderModel* model ) = 0;
+		
+		// remove frome cache
 		virtual bool	removeTexture( gtTexture* texture ) = 0;
+		
+		// Только 1 прямоугольник поддерживается
 		virtual void	scissorAdd( const v4i& rect ) = 0;
+		
 		virtual void	scissorClear( bool setOriginal = true ) = 0;
 		virtual void	setDepthState( bool state = true ) = 0;
 		virtual void	setRenderTarget( gtTexture * rtt, bool clearDepth = true, bool clearTarget = true, const gtColor& clearTargetColor = gtColorBlack ) = 0;
