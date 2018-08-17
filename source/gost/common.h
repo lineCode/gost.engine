@@ -14,6 +14,9 @@
 
 using namespace gost;
 
+#define GOST_MAJOR_VERSION 0
+#define GOST_MINOR_VERSION 2
+
 
 //	GOST
 #include "MainSystem/ConsoleVariable/gtCvarSystemImpl.h"
@@ -21,7 +24,6 @@ using namespace gost;
 #include "MainSystem/Memory/gtMemorySystemCommon.h"
 #include "MainSystem/Memory/gtMemorySystemImplWin32.h"
 
-#include "Image/gtImageImpl.h"
 #include "SceneSystem/Objects/gtCameraImpl.h"
 #include "SceneSystem/Objects/gtStaticObjectImpl.h"
 #include "SceneSystem/Objects/gtDummyObjectImpl.h"

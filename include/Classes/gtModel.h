@@ -3,11 +3,15 @@
 #define __GT_MODEL_H__
 
 namespace gost{
-	
+
+		// Обычная модель, без hardware буферов
 	class gtModel : public gtRefObject{
 	public:
 
+			// Добавить суб модель, и получить указатель для её редактирования
 		virtual gtSubModel*		addSubModel( u32 v_count, u32 i_count, u32 stride ) = 0;
+		
+			// Добавить суб модель не зная количество вершин индексов и т.д. 
 		virtual gtSubModel*		addSubModel( gtSubModel* subModel ) = 0;
 		virtual const gtAabb&	getAabb() = 0;
 		virtual const gtObb&	getObb() = 0;

@@ -7,6 +7,7 @@ namespace gost{
 
 	class gtMainSystem;
 
+		// в данный момент не все форматы реализованы
 	enum class gtImageFormat{
 		One_bit,		// white or black
 			
@@ -57,35 +58,41 @@ namespace gost{
 		R32G32B32A32,	
 
 		//	OpenGL
-		COMPRESSED_RGBA_S3TC_DXT1 = 0x83F1, // dds dxt1
-		COMPRESSED_RGBA_S3TC_DXT3 = 0x83F2, // dds dxt3
-		COMPRESSED_RGBA_S3TC_DXT5 = 0x83F3	// dds dxt5
+		DXT1 = 0x83F1, // dds dxt1
+		DXT3 = 0x83F2, // dds dxt3
+		DXT5 = 0x83F3,	// dds dxt5
+		DXT2,
+		DXT4
 
 	};
 		// software image
 	class gtImage : public gtRefObject{
+		
+		void _clear(){
+			if( data ){
+				gtMemFree(data);
+				data = nullptr;
+			}
+		}
+		
 	public:
 
 			// c-tor
 		gtImage():
 			format( gtImageFormat::R8G8B8A8 ),
-			width( gtConst0U ),
-			height( gtConst0U ),
-			bits( gtConst32U ),
-			mipCount( gtConst1U ),
+			width( 0u ),
+			height( 0u ),
+			bits( 32u ),
+			mipCount( 1u ),
 			data( nullptr ),
-			dataSize( gtConst0U ),
-			pitch( gtConst0U ),
-			frames( gtConst1U )
+			dataSize( 0u ),
+			pitch( 0u ),
+			frames( 1u )
 		{}
 
 			// d-tor
 		virtual ~gtImage(){
-			if( data ){
-				gtMemFree(data);
-				//gtMainSystem::getInstance()->freeMemory( (void**)&data );
-				data = nullptr;
-			}
+			_clear();
 		}
 
 
@@ -106,7 +113,27 @@ namespace gost{
 		u32		pitch;
 
 		u32		frames;
+		
+		gtImage& operator=( gtImage * i ){
+			_clear();
+			
+			format   = i->format;
+			width    = i->width;
+			height   = i->height;
+			bits     = i->bits;
+			mipCount = i->mipCount;
+			dataSize = i->dataSize;
+			pitch    = i->pitch;
+			frames   = i->frames;
+			
+			data = (u8*)gtMemAlloc(dataSize);
+			memcpy( data, i->data, dataSize );
+			
+			return *this;
+		}
 
+		GT_API static void _convert( gtImageFormat newFormat, gtImage * image );
+		
 		void	convert( gtImageFormat newFormat ){
 			if( newFormat == format ) return;
 
@@ -200,11 +227,11 @@ namespace gost{
 
 		void	makeAlphaFromBlack(){
 			if( format == gtImageFormat::R8G8B8A8){
-				for( u32 i = gtConst0U; i < dataSize; ){
+				for( u32 i = 0u; i < dataSize; ){
 					u8 r = data[ i ];
-					u8 g = data[ i+gtConst1U ];
-					u8 b = data[ i+gtConst2U ];
-					data[ i+gtConst3U ] = (u8)std::ceil((f32)(r+g+b)*0.33333f);
+					u8 g = data[ i+1u ];
+					u8 b = data[ i+2u ];
+					data[ i+3u ] = (u8)std::ceil((f32)(r+g+b)*0.33333f);
 					i += gtConst4U;
 				}
 			}
@@ -244,11 +271,11 @@ namespace gost{
 			case gtImageFormat::R8G8B8:
 				__flip_pixel_R8G8B8();
 				break;
-			case gtImageFormat::COMPRESSED_RGBA_S3TC_DXT1:
+			case gtImageFormat::DXT1:
 				break;
-			case gtImageFormat::COMPRESSED_RGBA_S3TC_DXT3:
+			case gtImageFormat::DXT3:
 				break;
-			case gtImageFormat::COMPRESSED_RGBA_S3TC_DXT5:
+			case gtImageFormat::DXT5:
 				break;
 			default:
 				break;
@@ -261,10 +288,10 @@ namespace gost{
 			//gtMainSystem::getInstance()->allocateMemory( (void**)&line, pitch );
 			line = (u8*)gtMemAlloc(pitch);
 
-			u8 * p_Up = &data[ gtConst0U ];
+			u8 * p_Up = &data[ 0u ];
 			u8 * p_Down = &data[ pitch * height - pitch ];
 
-			for( u32 i = gtConst0U; i < height / gtConst2U; ++i ){
+			for( u32 i = 0u; i < height / 2u; ++i ){
 
 				memcpy( line, p_Up, pitch );
 
@@ -285,27 +312,27 @@ namespace gost{
 
 		//	=================	FLIP	PIXEL ============
 		void __flip_pixel_A8R8G8B8(){
-			for( u32 i = gtConst0U; i < dataSize; ){
+			for( u32 i = 0u; i < dataSize; ){
 				u8 a = data[ i ];
-				u8 r = data[ i+gtConst1U ];
-				u8 g = data[ i+gtConst2U ];
-				u8 b = data[ i+gtConst3U ];
+				u8 r = data[ i+1u ];
+				u8 g = data[ i+2u ];
+				u8 b = data[ i+3u ];
 				data[ i ] = b;
-				data[ i+gtConst1U ] = g;
-				data[ i+gtConst2U ] = r;
-				data[ i+gtConst3U ] = a;
+				data[ i+1u ] = g;
+				data[ i+2u ] = r;
+				data[ i+3u ] = a;
 				i += gtConst4U;
 			}
 		}
 
 		void __flip_pixel_X8R8G8B8(){
-			for( u32 i = gtConst0U; i < dataSize; ){
-				u8 r = data[ i+gtConst1U ];
-				u8 g = data[ i+gtConst2U ];
-				u8 b = data[ i+gtConst3U ];
-				data[ i+gtConst1U ] = b;
-				data[ i+gtConst2U ] = g;
-				data[ i+gtConst3U ] = r;
+			for( u32 i = 0u; i < dataSize; ){
+				u8 r = data[ i+1u ];
+				u8 g = data[ i+2u ];
+				u8 b = data[ i+3u ];
+				data[ i+1u ] = b;
+				data[ i+2u ] = g;
+				data[ i+3u ] = r;
 				i += gtConst4U;
 			}
 		}
@@ -316,16 +343,16 @@ namespace gost{
 			const u32 blueMask = 15u;
 
 			u16 * p = reinterpret_cast<u16*>(data);
-			u32 sz = dataSize / gtConst2U;
-			for( u32 i = gtConst0U; i < sz; ++i ){
+			u32 sz = dataSize / 2u;
+			for( u32 i = 0u; i < sz; ++i ){
 				u16 pixel	= p[ i ];
-				u16 red		= (pixel & redMask)>>gtConst8U;
+				u16 red		= (pixel & redMask)>>8u;
 				u16 green	= (pixel & greenMask)>>gtConst4U;
 				u16 blue	= (pixel & blueMask);
 
 				p[ i ] = red;
 				p[ i ] |= green<<gtConst4U;
-				p[ i ] |= blue<<gtConst8U;
+				p[ i ] |= blue<<8u;
 			}
 		}
 
@@ -335,16 +362,16 @@ namespace gost{
 			const u32 blueMask = 31u;
 
 			u16 * p = reinterpret_cast<u16*>(data);
-			u32 sz = dataSize / gtConst2U;
-			for( u32 i = gtConst0U; i < sz; ++i ){
+			u32 sz = dataSize / 2u;
+			for( u32 i = 0u; i < sz; ++i ){
 				u16 pixel	= p[ i ];
 				u16 red		= (pixel & redMask)>>11;
-				u16 green	= (pixel & greenMask)>>gtConst6U;
+				u16 green	= (pixel & greenMask)>>6u;
 				u16 blue	= (pixel & blueMask);
 
 				p[ i ] = red;
-				p[ i ] |= green<<gtConst6U;
-				p[ i ] |= blue<<gtConst11U;
+				p[ i ] |= green<<6u;
+				p[ i ] |= blue<<11u;
 			}
 		}
 
@@ -354,8 +381,8 @@ namespace gost{
 			const u32 blueMask = 31u;
 
 			u16 * p = reinterpret_cast<u16*>(data);
-			u32 sz = dataSize / gtConst2U;
-			for( u32 i = gtConst0U; i < sz; ++i ){
+			u32 sz = dataSize / 2u;
+			for( u32 i = 0u; i < sz; ++i ){
 				u16 pixel	= p[ i ];
 				u16 red		= (pixel & redMask)>>gtConst10U;
 				u16 green	= (pixel & greenMask)>>gtConst5U;
@@ -374,8 +401,8 @@ namespace gost{
 			const u32 blueMask = 31u;
 
 			u16 * p = reinterpret_cast<u16*>(data);
-			u32 sz = dataSize / gtConst2U;
-			for( u32 i = gtConst0U; i < sz; ++i ){
+			u32 sz = dataSize / 2u;
+			for( u32 i = 0u; i < sz; ++i ){
 				u16 pixel	= p[ i ];
 				u16 alpha	= (pixel & alphaMask)>>gtConst15U;
 				u16 red		= (pixel & redMask)>>gtConst10U;
@@ -390,11 +417,11 @@ namespace gost{
 		}
 
 		void __flip_pixel_R8G8B8(){
-			for( u32 i = gtConst0U; i < dataSize; ){
+			for( u32 i = 0u; i < dataSize; ){
 				u8 red = data[ i ];
-				data[ i ] = data[ i+gtConst2U ];
-				data[ i+gtConst2U ] = red;
-				i += gtConst3U;
+				data[ i ] = data[ i+2u ];
+				data[ i+2u ] = red;
+				i += 3u;
 			}
 		}
 
@@ -402,16 +429,16 @@ namespace gost{
 		void __R8G8B8_to_A8R8G8B8(){
 			u8 * newData = nullptr;
 
-			u32 newSize = dataSize + (dataSize / gtConst3U);
+			u32 newSize = dataSize + (dataSize / 3u);
 
 			//gtMainSystem::getInstance()->allocateMemory( (void**)&newData, newSize );
 			newData = (u8*)gtMemAlloc(newSize);
 
 			u32 * data32 = reinterpret_cast<u32*>(newData);
 
-			for( u32 i = gtConst0U; i < dataSize; ++data32 ){
-				*data32 = GT_MAKEFOURCC( gtConst255, data[ i ], data[ i+gtConst1U ], data[ i+gtConst2U ] );
-				i += gtConst3U;
+			for( u32 i = 0u; i < dataSize; ++data32 ){
+				*data32 = GT_MAKEFOURCC( gtConst255, data[ i ], data[ i+1u ], data[ i+2u ] );
+				i += 3u;
 			}
 
 			dataSize = newSize;
@@ -429,46 +456,46 @@ namespace gost{
 //			gtMainSystem::getInstance()->allocateMemory( (void**)&newData, newSize );
 			u8 * newData = (u8*)gtMemAlloc(newSize);
 
-			for( u32 i = gtConst0U, count = gtConst0U; i < dataSize; ){
-				newData[ count ] = data[ i+gtConst1U ];
-				newData[ count+1 ] = data[ i+gtConst2U ];
-				newData[ count+2 ] = data[ i+gtConst3U ];
+			for( u32 i = 0u, count = 0u; i < dataSize; ){
+				newData[ count ] = data[ i+1u ];
+				newData[ count+1 ] = data[ i+2u ];
+				newData[ count+2 ] = data[ i+3u ];
 
 				i += gtConst4U;
-				count += gtConst3U;
+				count += 3u;
 			}
 
 			dataSize = newSize;
 //			gtMainSystem::getInstance()->freeMemory( (void**)&data );
 			gtMemFree(data);
 			data = newData;
-			pitch = width * gtConst3U;
+			pitch = width * 3u;
 		}
 
 
 		void __A8R8G8B8_to_R8G8B8A8(){
-			for( u32 i = gtConst0U; i < dataSize; ){
+			for( u32 i = 0u; i < dataSize; ){
 				u8 a = data[ i ];
-				u8 r = data[ i+gtConst1U ];
-				u8 g = data[ i+gtConst2U ];
-				u8 b = data[ i+gtConst3U ];
+				u8 r = data[ i+1u ];
+				u8 g = data[ i+2u ];
+				u8 b = data[ i+3u ];
 				data[ i ] = r;
-				data[ i+gtConst1U ] = g;
-				data[ i+gtConst2U ] = b;
-				data[ i+gtConst3U ] = a;
+				data[ i+1u ] = g;
+				data[ i+2u ] = b;
+				data[ i+3u ] = a;
 				i += gtConst4U;
 			}
 		}
 
 		void __A8R8G8B8_to_X8R8G8B8(){
-			for( u32 i = gtConst0U; i < dataSize; ){
+			for( u32 i = 0u; i < dataSize; ){
 				data[ i ] = gtConst255;
 				i += gtConst4U;
 			}
 		}
 
 		/*void __X8R8G8B8_to_A8R8G8B8(){
-			for( u32 i = gtConst0U; i < dataSize; ){
+			for( u32 i = 0u; i < dataSize; ){
 				data[ i ] = 255;
 				i += gtConst4U;
 			}
@@ -476,16 +503,16 @@ namespace gost{
 
 		void __R8G8B8_to_R8G8B8A8(){
 
-			u32 newSize = dataSize + (dataSize / gtConst3U);
+			u32 newSize = dataSize + (dataSize / 3u);
 
 //			gtMainSystem::getInstance()->allocateMemory( (void**)&newData, newSize );
 			u8 * newData = (u8*)gtMemAlloc(newSize);
 
 			u32 * data32 = reinterpret_cast<u32*>(newData);
 
-			for( u32 i = gtConst0U; i < dataSize; ++data32 ){
-				*data32 = GT_MAKEFOURCC( data[ i ], data[ i+gtConst1U ], data[ i+gtConst2U ], gtConst255 );
-				i += gtConst3U;
+			for( u32 i = 0u; i < dataSize; ++data32 ){
+				*data32 = GT_MAKEFOURCC( data[ i ], data[ i+1u ], data[ i+2u ], gtConst255 );
+				i += 3u;
 			}
 
 			dataSize = newSize;
@@ -502,52 +529,51 @@ namespace gost{
 //			gtMainSystem::getInstance()->allocateMemory( (void**)&newData, newSize );
 			u8 * newData = (u8*)gtMemAlloc(newSize);
 
-			for( u32 i = gtConst0U, count = gtConst0U; i < dataSize; ){
+			for( u32 i = 0u, count = 0u; i < dataSize; ){
 				newData[ count ] = data[ i ];
-				newData[ count+gtConst1U ] = data[ i+gtConst1U ];
-				newData[ count+gtConst2U ] = data[ i+gtConst2U ];
+				newData[ count+1u ] = data[ i+1u ];
+				newData[ count+2u ] = data[ i+2u ];
 
 				i += gtConst4U;
-				count += gtConst3U;
+				count += 3u;
 			}
 
 			dataSize = newSize;
-//			gtMainSystem::getInstance()->freeMemory( (void**)&data );
 			gtMemFree(data);
 			data = newData;
-			pitch = width * gtConst3U;
+			pitch = width * 3u;
 		}
 
 		void __R8G8B8A8_to_X8R8G8B8(){
-			for( u32 i = gtConst0U; i < dataSize; ){
+			for( u32 i = 0u; i < dataSize; ){
 				u8 r = data[ i ];
-				u8 g = data[ i+gtConst1U ];
-				u8 b = data[ i+gtConst2U ];
+				u8 g = data[ i+1u ];
+				u8 b = data[ i+2u ];
 				data[ i ] = gtConst255;
-				data[ i+gtConst1U ] = r;
-				data[ i+gtConst2U ] = g;
-				data[ i+gtConst3U ] = b;
+				data[ i+1u ] = r;
+				data[ i+2u ] = g;
+				data[ i+3u ] = b;
 				i += gtConst4U;
 			}
 		}
 
 		void __R8G8B8A8_to_A8R8G8B8(){
-			for( u32 i = gtConst0U; i < dataSize; ){
+			for( u32 i = 0u; i < dataSize; ){
 				u8 r = data[ i ];
-				u8 g = data[ i+gtConst1U ];
-				u8 b = data[ i+gtConst2U ];
-				u8 a = data[ i+gtConst3U ];
+				u8 g = data[ i+1u ];
+				u8 b = data[ i+2u ];
+				u8 a = data[ i+3u ];
 				data[ i ] = a;
-				data[ i+gtConst1U ] = r;
-				data[ i+gtConst2U ] = g;
-				data[ i+gtConst3U ] = b;
+				data[ i+1u ] = r;
+				data[ i+2u ] = g;
+				data[ i+3u ] = b;
 				i += gtConst4U;
 			}
 		}
 
 		void __X4R4G4B4_to_R8G8B8A8(){
 
-			u32 newSize = dataSize * gtConst2U;
+			u32 newSize = dataSize * 2u;
 
 //			gtMainSystem::getInstance()->allocateMemory( (void**)&newData, newSize );
 			u8 * newData = (u8*)gtMemAlloc(newSize);
@@ -557,20 +583,20 @@ namespace gost{
 			const u32 blueMask = gtConst15U;
 
 			u16 * p = reinterpret_cast<u16*>(data);
-			u32 sz = dataSize / gtConst2U;
+			u32 sz = dataSize / 2u;
 
-			for( u32 i = gtConst0U, count = gtConst0U; i < sz; ++i ){
+			for( u32 i = 0u, count = 0u; i < sz; ++i ){
 
-				newData[ count ] = (p[ i ]&redMask)>>gtConst8U;
+				newData[ count ] = (p[ i ]&redMask)>>8u;
 				newData[ count ] *= gtConst17U;
 
-				newData[ count+gtConst1U ] = (p[ i ]&greenMask)>>gtConst4U;
-				newData[ count+gtConst1U ] *= gtConst17U;
+				newData[ count+1u ] = (p[ i ]&greenMask)>>gtConst4U;
+				newData[ count+1u ] *= gtConst17U;
 
-				newData[ count+gtConst2U ] = (p[ i ]&blueMask);
-				newData[ count+gtConst2U ] *= gtConst17U;
+				newData[ count+2u ] = (p[ i ]&blueMask);
+				newData[ count+2u ] *= gtConst17U;
 
-				newData[ count+gtConst3U ] = gtConst255;
+				newData[ count+3u ] = gtConst255;
 				count += gtConst4U;
 			}
 
@@ -583,7 +609,7 @@ namespace gost{
 
 		void __X4R4G4B4_to_A8R8G8B8(){
 
-			u32 newSize = dataSize * gtConst2U;
+			u32 newSize = dataSize * 2u;
 
 //			gtMainSystem::getInstance()->allocateMemory( (void**)&newData, newSize );
 			u8 * newData = (u8*)gtMemAlloc(newSize);
@@ -594,20 +620,20 @@ namespace gost{
 			const u32 blueMask = gtConst15U;
 
 			u16 * p = reinterpret_cast<u16*>(data);
-			u32 sz = dataSize / gtConst2U;
+			u32 sz = dataSize / 2u;
 
-			for( u32 i = gtConst0U, count = gtConst0U; i < sz; ++i ){
+			for( u32 i = 0u, count = 0u; i < sz; ++i ){
 
 				newData[ count ] = gtConst255;
 
-				newData[ count+gtConst1U ] = (p[ i ]&redMask)>>gtConst8U;
-				newData[ count+gtConst1U ] *= gtConst17U;
+				newData[ count+1u ] = (p[ i ]&redMask)>>8u;
+				newData[ count+1u ] *= gtConst17U;
 
-				newData[ count+gtConst2U ] = (p[ i ]&greenMask)>>gtConst4U;
-				newData[ count+gtConst2U ] *= gtConst17U;
+				newData[ count+2u ] = (p[ i ]&greenMask)>>gtConst4U;
+				newData[ count+2u ] *= gtConst17U;
 
-				newData[ count+gtConst3U ] = (p[ i ]&blueMask);
-				newData[ count+gtConst3U ] *= gtConst17U;
+				newData[ count+3u ] = (p[ i ]&blueMask);
+				newData[ count+3u ] *= gtConst17U;
 
 				count += gtConst4U;
 			}
@@ -621,7 +647,7 @@ namespace gost{
 
 		void __X4R4G4B4_to_R8G8B8(){
 
-			u32 sz = dataSize / gtConst2U;
+			u32 sz = dataSize / 2u;
 
 			u32 newSize = dataSize + sz;
 
@@ -635,29 +661,29 @@ namespace gost{
 
 			u16 * p = reinterpret_cast<u16*>(data);
 
-			for( u32 i = gtConst0U, count = gtConst0U; i < sz; ++i ){
+			for( u32 i = 0u, count = 0u; i < sz; ++i ){
 
-				newData[ count ] = (p[ i ]&redMask)>>gtConst8U;
+				newData[ count ] = (p[ i ]&redMask)>>8u;
 				newData[ count ] *= gtConst17U;
 
-				newData[ count+gtConst1U ] = (p[ i ]&greenMask)>>gtConst4U;
-				newData[ count+gtConst1U ] *= gtConst17U;
+				newData[ count+1u ] = (p[ i ]&greenMask)>>gtConst4U;
+				newData[ count+1u ] *= gtConst17U;
 
-				newData[ count+gtConst2U ] = (p[ i ]&blueMask);
-				newData[ count+gtConst2U ] *= gtConst17U;
+				newData[ count+2u ] = (p[ i ]&blueMask);
+				newData[ count+2u ] *= gtConst17U;
 
-				count += gtConst3U;
+				count += 3u;
 			}
 
 			dataSize = newSize;
 //			gtMainSystem::getInstance()->freeMemory( (void**)&data );
 			gtMemFree(data);
 			data = newData;
-			pitch = width * gtConst3U;
+			pitch = width * 3u;
 		}
 
 		void __X1R5G5B5_to_R8G8B8A8(){
-			u32 newSize = dataSize * gtConst2U;
+			u32 newSize = dataSize * 2u;
 //			gtMainSystem::getInstance()->allocateMemory( (void**)&newData, newSize );
 			u8 * newData = (u8*)gtMemAlloc(newSize);
 
@@ -666,20 +692,20 @@ namespace gost{
 			const u32 blueMask = 31u;
 
 			u16 * p = reinterpret_cast<u16*>(data);
-			u32 sz = dataSize / gtConst2U;
+			u32 sz = dataSize / 2u;
 
-			for( u32 i = gtConst0U, count = gtConst0U; i < sz; ++i ){
+			for( u32 i = 0u, count = 0u; i < sz; ++i ){
 
 				newData[ count ] = (p[ i ]&redMask)>>gtConst10U;
-				newData[ count ] *= gtConst8U;
+				newData[ count ] *= 8u;
 
-				newData[ count+gtConst1U ] = static_cast<u8>((p[ i ]&greenMask)>>gtConst5U);
-				newData[ count+gtConst1U ] *= gtConst8U;
+				newData[ count+1u ] = static_cast<u8>((p[ i ]&greenMask)>>gtConst5U);
+				newData[ count+1u ] *= 8u;
 
-				newData[ count+gtConst2U ] = (p[ i ]&blueMask);
-				newData[ count+gtConst2U ] *= gtConst8U;
+				newData[ count+2u ] = (p[ i ]&blueMask);
+				newData[ count+2u ] *= 8u;
 
-				newData[ count+gtConst3U ] = gtConst255;
+				newData[ count+3u ] = gtConst255;
 				count += gtConst4U;
 			}
 
@@ -691,7 +717,7 @@ namespace gost{
 		}
 
 		void __A1R5G5B5_to_R8G8B8A8(){
-			u32 newSize = dataSize * gtConst2U;
+			u32 newSize = dataSize * 2u;
 //			gtMainSystem::getInstance()->allocateMemory( (void**)&newData, newSize );
 			u8 * newData = (u8*)gtMemAlloc(newSize);
 
@@ -701,20 +727,20 @@ namespace gost{
 			const u32 blueMask = 31u;
 
 			u16 * p = reinterpret_cast<u16*>(data);
-			u32 sz = dataSize / gtConst2U;
+			u32 sz = dataSize / 2u;
 
-			for( u32 i = gtConst0U, count = gtConst0U; i < sz; ++i ){
+			for( u32 i = 0u, count = 0u; i < sz; ++i ){
 
 				newData[ count ] = (p[ i ]&redMask)>>gtConst10U;
-				newData[ count ] *= gtConst8U;
+				newData[ count ] *= 8u;
 
-				newData[ count+gtConst1U ] = static_cast<u8>((p[ i ]&greenMask)>>gtConst5U);
-				newData[ count+gtConst1U ] *= gtConst8U;
+				newData[ count+1u ] = static_cast<u8>((p[ i ]&greenMask)>>gtConst5U);
+				newData[ count+1u ] *= 8u;
 
-				newData[ count+gtConst2U ] = (p[ i ]&blueMask);
-				newData[ count+gtConst2U ] *= gtConst8U;
+				newData[ count+2u ] = (p[ i ]&blueMask);
+				newData[ count+2u ] *= 8u;
 
-				newData[ count+gtConst3U ] = ((p[ i ]&alphaMask)>>gtConst15U) ? gtConst255 : gtConst0U;
+				newData[ count+3u ] = ((p[ i ]&alphaMask)>>gtConst15U) ? gtConst255 : 0u;
 				count += gtConst4U;
 			}
 
@@ -726,7 +752,7 @@ namespace gost{
 		}
 
 		void __R5G6B5_to_R8G8B8A8(){
-			u32 newSize = dataSize * gtConst2U;
+			u32 newSize = dataSize * 2u;
 //			gtMainSystem::getInstance()->allocateMemory( (void**)&newData, newSize );
 			u8 * newData = (u8*)gtMemAlloc(newSize);
 
@@ -735,20 +761,20 @@ namespace gost{
 			const u32 blueMask = 31u;
 
 			u16 * p = reinterpret_cast<u16*>(data);
-			u32 sz = dataSize / gtConst2U;
+			u32 sz = dataSize / 2u;
 
-			for( u32 i = gtConst0U, count = gtConst0U; i < sz; ++i ){
+			for( u32 i = 0u, count = 0u; i < sz; ++i ){
 
-				newData[ count ] = (p[ i ]&redMask)>>gtConst11U;
-				newData[ count ] *= gtConst8U;
+				newData[ count ] = (p[ i ]&redMask)>>11u;
+				newData[ count ] *= 8u;
 
-				newData[ count+gtConst1U ] = static_cast<u8>((p[ i ]&greenMask)>>gtConst6U);
-				newData[ count+gtConst1U ] *= gtConst8U;
+				newData[ count+1u ] = static_cast<u8>((p[ i ]&greenMask)>>6u);
+				newData[ count+1u ] *= 8u;
 
-				newData[ count+gtConst2U ] = (p[ i ]&blueMask);
-				newData[ count+gtConst2U ] *= gtConst8U;
+				newData[ count+2u ] = (p[ i ]&blueMask);
+				newData[ count+2u ] *= 8u;
 
-				newData[ count+gtConst3U ] = gtConst255;
+				newData[ count+3u ] = gtConst255;
 				count += gtConst4U;
 			}
 
@@ -760,24 +786,24 @@ namespace gost{
 		}
 
 		void __1_to_R8G8B8A8(){
-			u32 newSize = dataSize * gtConst8U * gtConst4U;
+			u32 newSize = dataSize * 8u * gtConst4U;
 //			gtMainSystem::getInstance()->allocateMemory( (void**)&newData, newSize );
 			u8 * newData = (u8*)gtMemAlloc(newSize);
 
 			u32 * data32 = reinterpret_cast<u32*>(newData);
 
 			u32 sz = newSize / gtConst4U;
-			for( u32 i = gtConst0U, count = gtConst0U; i < sz; ){
-				data32[ i+gtConst7U ] = ((data[ count ] & gtConst1U))?gtConst0xFFFFFFFF:gtConst0U;
-				data32[ i+gtConst6U ] = ((data[ count ] & gtConst2U)>>gtConst1U)?gtConst0xFFFFFFFF:gtConst0U;
-				data32[ i+gtConst5U ] = ((data[ count ] & gtConst4U)>>gtConst2U)?gtConst0xFFFFFFFF:gtConst0U;
-				data32[ i+gtConst4U ] = ((data[ count ] & gtConst8U)>>gtConst3U)?gtConst0xFFFFFFFF:gtConst0U;
-				data32[ i+gtConst3U ] = ((data[ count ] & gtConst16U)>>gtConst4U)?gtConst0xFFFFFFFF:gtConst0U;
-				data32[ i+gtConst2U ] = ((data[ count ] & gtConst32U)>>gtConst5U)?gtConst0xFFFFFFFF:gtConst0U;
-				data32[ i+gtConst1U ] = ((data[ count ] & gtConst64U)>>gtConst6U)?gtConst0xFFFFFFFF:gtConst0U;
-				data32[ i+gtConst0U ] = ((data[ count ] & gtConst128U)>>gtConst7U)?gtConst0xFFFFFFFF:gtConst0U;
+			for( u32 i = 0u, count = 0u; i < sz; ){
+				data32[ i+gtConst7U ] = ((data[ count ] & 1u))?gtConst0xFFFFFFFF:0u;
+				data32[ i+6u ] = ((data[ count ] & 2u)>>1u)?gtConst0xFFFFFFFF:0u;
+				data32[ i+gtConst5U ] = ((data[ count ] & gtConst4U)>>2u)?gtConst0xFFFFFFFF:0u;
+				data32[ i+gtConst4U ] = ((data[ count ] & 8u)>>3u)?gtConst0xFFFFFFFF:0u;
+				data32[ i+3u ] = ((data[ count ] & gtConst16U)>>gtConst4U)?gtConst0xFFFFFFFF:0u;
+				data32[ i+2u ] = ((data[ count ] & 32u)>>gtConst5U)?gtConst0xFFFFFFFF:0u;
+				data32[ i+1u ] = ((data[ count ] & gtConst64U)>>6u)?gtConst0xFFFFFFFF:0u;
+				data32[ i+0u ] = ((data[ count ] & gtConst128U)>>gtConst7U)?gtConst0xFFFFFFFF:0u;
 				count++;
-				i += gtConst8U;
+				i += 8u;
 			}
 
 			dataSize = newSize;
@@ -805,7 +831,7 @@ namespace gost{
 			bool rgba = false;
 			if( i->format == gtImageFormat::R8G8B8A8 ) rgba = true;
 
-			for( u32 ind = gtConst0U; ind < i->dataSize; ind += 3 ){
+			for( u32 ind = 0u; ind < i->dataSize; ind += 3 ){
 				*ptr = color.getAsByteRed();
 				ptr++;
 				*ptr = color.getAsByteGreen();
@@ -841,18 +867,18 @@ namespace gost{
 
 			const gtColor * col;
 
-			bool even = i->width % gtConst2U ? false : true;
+			bool even = i->width % 2u ? false : true;
 
-			u32 pitchCounter = gtConst0U;
+			u32 pitchCounter = 0u;
 
-			for( u32 ind = gtConst0U; ind < i->dataSize; ind += gtConst3U ){
+			for( u32 ind = 0u; ind < i->dataSize; ind += 3u ){
 
 				white ? white = false : white = true;
 				white ? col = &firstColor : col = &secondColor;
 
 				if( even ){
 					if( pitchCounter >= i->pitch ){
-						pitchCounter = gtConst0U;
+						pitchCounter = 0u;
 						white ? white = false : white = true;
 						white ? col = &firstColor : col = &secondColor;
 					}
@@ -873,7 +899,7 @@ namespace gost{
 					++ind;
 					++pitchCounter;
 				}
-				pitchCounter += gtConst3U;
+				pitchCounter += 3u;
 			}
 		}
 

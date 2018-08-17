@@ -21,21 +21,22 @@ namespace gost{
 
 		v4i			m_rect;
 		
-		gtWindow*	m_owner;
-		v2i			m_borderSize;
+		gtWindow*	m_owner;      // указывается автоматически, при создании окна
+		v2i			m_borderSize; 
 		
 		enum style{
-			style_standart,
-			style_popup    = BIT(1),
-			style_resize   = BIT(2),
-			style_maximize = BIT(3),
-			style_center   = BIT(4)
+			style_standart, 
+			style_popup    = BIT(1), //без границ
+			style_resize   = BIT(2), //можно растягивать
+			style_maximize = BIT(3), //есть кнопка развернуть
+			style_center   = BIT(4)  //поместить окно по центру экрана
 		};
 
+		 // Как отобразить окно
 		enum state{
-			state_normal,
-			state_maximized = BIT(1),
-			state_minimized = BIT(2)
+			state_normal, // нормально
+			state_maximized = BIT(1), //развернуть
+			state_minimized = BIT(2)  //свернуть
 		};
 
 		u32 m_style;

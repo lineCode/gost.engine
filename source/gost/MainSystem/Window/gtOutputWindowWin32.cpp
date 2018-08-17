@@ -52,13 +52,17 @@ void	gtOutputWindowWin32::init(){
 	m_windowRect.right = 800;
 	m_windowRect.bottom = 600;
 
-	m_hWnd = CreateWindowEx( NULL, m_wc.lpszClassName,
+	m_hWnd = CreateWindowEx( 
+		0, 
+		m_wc.lpszClassName,
 		L"Output", style,
 		m_windowRect.left,
 		m_windowRect.top,
 		m_windowRect.right,
 		m_windowRect.bottom,
-		NULL, NULL, m_wc.hInstance,
+		NULL,
+		NULL, 
+		m_wc.hInstance,
 		this );
 
 	if( !m_hWnd ){
@@ -68,7 +72,7 @@ void	gtOutputWindowWin32::init(){
 
 	HMENU menu = CreateMenu();
 	HMENU menuitem = CreateMenu();
-	HMENU menusubitem = CreateMenu();
+	//HMENU menusubitem = CreateMenu();
 
 
 	AppendMenu( menuitem, MF_STRING, GT_MENU_ID_OUTPUT_FILE_SAVE, L"&Save" );

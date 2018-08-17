@@ -7,36 +7,29 @@ namespace gost{
 	class gtGUIMenuImpl;
 	class gtGUIMenuItemImpl;
 	class gtGUIMenuSubItemImpl : public gtGUIMenuSubItem{
-		gtMainSystem *	m_mainSystem;
-		gtModelSystem*	m_modelSystem;
-		gtGraphicsSystem*m_gs;
-		gtGUISystem*	m_gui;
-		gtWindow *      m_wnd;
-		gtGUIMenuImpl*  m_menu;
-
-		gtGUIMenuItemImpl * m_parent;
+		gtMainSystem *	   m_mainSystem;
+		gtModelSystem*	   m_modelSystem;
+		gtGraphicsSystem*  m_gs;
+		gtGUISystem*	   m_gui;
+		gtWindow *         m_wnd;
+		gtGUIMenuImpl*     m_menu;
+		gtGUIMenuItemImpl* m_parent;
+		gtTexture *        m_windowItemIcon_texture;
+		s32                m_userInput_id;
+		s32                m_HeightLen; //высота окна, чтобы знать куда вставлять новые элементы
+		bool               m_active;
 		
-		gtMaterial      m_material;
-
+		gtMaterial            m_material;
 		gtPtr<gtGUIShape>     m_backgroundTexture; //картинка которая находится за текстом
 		gtPtr<gtGUIShape>     m_itemMouseHover;
-
-		gtTexture *           m_windowItemIcon_texture;
 		gtPtr<gtGUIShape>     m_windowItemIcon;
-
 		gtPtr<gtGUITextField> m_textField;
-
-		gtString        m_text;
-		s32             m_userInput_id;
-
-		v4i             m_windowItemIconRect;
-
-		gtGUIMenuParameters m_params;
-
+		gtString              m_text;
+		v4i                   m_windowItemIconRect;
+		gtGUIMenuParameters   m_params;
 
 		gtArray<gtPtr<gtGUIMenuItem>>     m_items;
-		s32             m_HeightLen; //высота окна, чтобы знать куда вставлять новые элементы
-		bool            m_active;
+		
 
 	public:
 

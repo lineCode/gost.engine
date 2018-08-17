@@ -3,7 +3,7 @@
 #include "common.h"
 
 gtDriverD3D11::gtDriverD3D11( /*gtMainSystem* System,*/ gtGraphicsSystemInfo params ):
-	m_beginRender( false ),
+	m_system( nullptr ),
 	m_D3DLibrary( nullptr ),
 	m_dxgiFactory( nullptr ),
 	m_SwapChain( nullptr ),
@@ -25,7 +25,8 @@ gtDriverD3D11::gtDriverD3D11( /*gtMainSystem* System,*/ gtGraphicsSystemInfo par
 	m_shader3DStandart( nullptr ),
 	m_shaderGUI( nullptr ),
 	m_shaderSprite( nullptr ),
-	m_shaderLine( nullptr )
+	m_shaderLine( nullptr ),
+	m_beginRender( false )
 {
 	m_system   = gtMainSystem::getInstance();
 	m_params   =  params;
@@ -48,13 +49,15 @@ gtDriverD3D11::~gtDriverD3D11(){
 	clearTextureCache();
 	clearModelCache();
 
-	if( m_standartTextureWhiteColor.data() )     m_standartTextureWhiteColor->release();
-	if( m_standartTexture.data() )               m_standartTexture->release();
 	if( m_shaderLine )                           m_shaderLine->release();
 	if( m_shaderSprite )                         m_shaderSprite->release();
 	if( m_shader3DStandart )                     m_shader3DStandart->release();
 	if( m_shaderGUI )                            m_shaderGUI->release();
 	if( m_shader2DStandart )                     m_shader2DStandart->release();
+	
+	if( m_standartTextureWhiteColor.data() )     m_standartTextureWhiteColor->release();
+	if( m_standartTexture.data() )               m_standartTexture->release();
+	
 	if( m_blendStateAlphaDisabled )              m_blendStateAlphaDisabled->Release();
 	if( m_blendStateAlphaEnabledWithATC )        m_blendStateAlphaEnabledWithATC->Release();
 	if( m_blendStateAlphaEnabled )               m_blendStateAlphaEnabled->Release();
@@ -72,7 +75,7 @@ gtDriverD3D11::~gtDriverD3D11(){
 	if( m_dxgiFactory )                          m_dxgiFactory->Release();
 	if( m_d3d11Device )                          m_d3d11Device->Release();
 	if( m_D3DLibrary )                           FreeLibrary( m_D3DLibrary ); m_D3DLibrary = NULL;
-	if( m_DXGILibrary )                          FreeLibrary( m_DXGILibrary ); m_DXGILibrary = NULL;
+	//if( m_DXGILibrary )                          FreeLibrary( m_DXGILibrary ); m_DXGILibrary = NULL;
 }
 
 HMODULE gtDriverD3D11::getD3DLibraryHandle(){ return m_D3DLibrary; }
@@ -122,6 +125,7 @@ bool gtDriverD3D11::initialize(){
 	}
 
 	gtD3D11CreateDevice_t D3D11CreateDevice = GT_LOAD_FUNCTION_SAFE_CAST(gtD3D11CreateDevice_t,m_D3DLibrary, "D3D11CreateDevice");
+	//gtD3D11CreateDevice_t D3D11CreateDevice = (gtD3D11CreateDevice_t)GetProcAddress( m_D3DLibrary, "D3D11CreateDevice");
 	if( !D3D11CreateDevice ){
 		gtLogWriter::printError( u"Could not get proc adress of D3D11CreateDevice");
 		return false;
@@ -129,11 +133,13 @@ bool gtDriverD3D11::initialize(){
 
 	gtD3D11CreateDeviceAndSwapChain_t D3D11CreateDeviceAndSwapChain =
 		GT_LOAD_FUNCTION_SAFE_CAST(gtD3D11CreateDeviceAndSwapChain_t,m_D3DLibrary, "D3D11CreateDeviceAndSwapChain");
+		//(gtD3D11CreateDeviceAndSwapChain_t)GetProcAddress(m_D3DLibrary, "D3D11CreateDeviceAndSwapChain");
 	if( !D3D11CreateDeviceAndSwapChain ){
 		gtLogWriter::printError( u"Could not get proc adress of D3D11CreateDeviceAndSwapChain");
 		return false;
 	}
 
+	/*
 	D3D_FEATURE_LEVEL FeatureLevels[] = {
     D3D_FEATURE_LEVEL_11_1,
     D3D_FEATURE_LEVEL_11_0,
@@ -143,28 +149,33 @@ bool gtDriverD3D11::initialize(){
     D3D_FEATURE_LEVEL_9_2,
     D3D_FEATURE_LEVEL_9_1
     };
-	D3D_FEATURE_LEVEL featureLevel = D3D_FEATURE_LEVEL_11_1;
-	if( FAILED(D3D11CreateDevice(
+	*/
+	
+	D3D_FEATURE_LEVEL featureLevel = D3D_FEATURE_LEVEL_11_0;
+	
+	/*if( FAILED(D3D11CreateDevice(
 		nullptr,
 		D3D_DRIVER_TYPE_HARDWARE,
 		nullptr,
 		0,
 		&FeatureLevels[0],
-		ARRAYSIZE( FeatureLevels ),
+		sizeof(FeatureLevels)/sizeof(FeatureLevels[0]),
 		D3D11_SDK_VERSION,
 		nullptr,
 		&featureLevel,
 		nullptr ))){
 			gtLogWriter::printError( u"Can not get D3D Feature Level");
 		return false;
-	}
+	}*/
 
+	/*
 	if( featureLevel == D3D_FEATURE_LEVEL_11_0 ){
 		gtLogWriter::printInfo( u"D3D feature level 11.0" );
 	}else if( featureLevel == D3D_FEATURE_LEVEL_11_1 ){
 		gtLogWriter::printInfo( u"D3D feature level 11.1" );
 	}
-
+	*/
+/*
 	gtString dxgilib_str = gtFileSystem::getSystemPath();
 	dxgilib_str += u"dxgi.dll";
 
@@ -174,17 +185,21 @@ bool gtDriverD3D11::initialize(){
 		return false;
 	}
 	gtCreateDXGIFactory_t gtCreateDXGIFactory = GT_LOAD_FUNCTION_SAFE_CAST(gtCreateDXGIFactory_t,m_DXGILibrary, "CreateDXGIFactory");
-	if( !D3D11CreateDevice ){
-		gtLogWriter::printError( u"Could not get proc adress of D3D11CreateDevice");
+	if( !gtCreateDXGIFactory ){
+		gtLogWriter::printError( u"Could not get proc adress of CreateDXGIFactory");
 		return false;
 	}
+	*/
 	
-	auto hr = gtCreateDXGIFactory( __uuidof(IDXGIFactory), (void**)&m_dxgiFactory );
+	/*
+	auto hr = gtCreateDXGIFactory( IID_IDXGIFactory, (void**)&m_dxgiFactory );
 	if( FAILED(hr)){
 			gtLogWriter::printError( u"Can't create DXGI Factory : code %u", hr );
 		return false;
 	}
 
+	gtLogWriter::printInfo( u"1" );
+	
 	hr = D3D11CreateDevice(
 		nullptr,
 		D3D_DRIVER_TYPE_HARDWARE,
@@ -197,6 +212,8 @@ bool gtDriverD3D11::initialize(){
 		&featureLevel,
 		&m_d3d11DevCon );
 
+	gtLogWriter::printInfo( u"2" );
+	
 	if( FAILED(hr)){
 			gtLogWriter::printError( u"Can't create Direct3D 11 Device : code %u", hr );
 		return false;
@@ -212,9 +229,9 @@ bool gtDriverD3D11::initialize(){
 		return false;
 	}
 	//gtLogWriter::printInfo( u"Number of Multisample Quality Levels : %u", numQualityLevels );
-
+*/
 	DXGI_SWAP_CHAIN_DESC	swapChainDesc;
-	ZeroMemory( &swapChainDesc, sizeof(swapChainDesc) );
+	memset( &swapChainDesc, 0, sizeof(swapChainDesc) );
 	swapChainDesc.BufferDesc	=	bufferDesc;
 	swapChainDesc.BufferUsage	=	DXGI_USAGE_RENDER_TARGET_OUTPUT;
 	swapChainDesc.OutputWindow	=	outWindow;
@@ -226,14 +243,16 @@ bool gtDriverD3D11::initialize(){
 	swapChainDesc.SampleDesc.Quality	=	0;
 
 
-
+/*
 	hr = m_dxgiFactory->CreateSwapChain( m_d3d11Device, &swapChainDesc, &m_SwapChain );
 	if( FAILED(hr)){
 			gtLogWriter::printError( u"Can't create Swap Chain : code %u", hr );
 		return false;
 	}
 	m_dxgiFactory->MakeWindowAssociation( (HWND)m_params.m_outWindow->getHandle(), DXGI_MWA_NO_ALT_ENTER);
-	/*if( FAILED( D3D11CreateDeviceAndSwapChain( 
+	*/
+	
+	HRESULT hr = D3D11CreateDeviceAndSwapChain( 
 		nullptr,
 		D3D_DRIVER_TYPE_HARDWARE, 
 		nullptr,
@@ -245,11 +264,14 @@ bool gtDriverD3D11::initialize(){
 		&m_SwapChain,
 		&m_d3d11Device, 
 		nullptr, 
-		&m_d3d11DevCon ) ) ){
-			gtLogWriter::printError( u"Can't create Direct3D 11 Device" );
+		&m_d3d11DevCon );
+	if( FAILED( hr ) ){
+		
+		//0x887A0004
+		
+			gtLogWriter::printError( u"Can't create Direct3D 11 Device, code : %u", hr );
 		return false;
-	}*/
-
+	}
 
 
 	//CreateSwapChain()
@@ -257,7 +279,7 @@ bool gtDriverD3D11::initialize(){
 	ID3D11Texture2D* BackBuffer;
 	if( FAILED( m_SwapChain->GetBuffer( 
 		0,
-		__uuidof( ID3D11Texture2D ), 
+		IID_ID3D11Texture2D, 
 		(void**)&BackBuffer ) ) ){
 		gtLogWriter::printError( u"Can't create Direct3D 11 back buffer" );
 		return false;
@@ -1053,10 +1075,9 @@ bool	gtDriverD3D11::createShaders(){
 	shaderModel.pixelShaderModel = gtShaderModel::shaderModel::_5_0;
 	shaderModel.vertexShaderModel = gtShaderModel::shaderModel::_5_0;
 
-	gtVertexType vertexType2D[] = 
-	{
-		{ gtVertexType::Position },
-		{ gtVertexType::End }
+	gtVertexType vertexType2D[] = {
+		gtVertexType::Position,
+		gtVertexType::End
 	};
 
 	m_shader2DStandart = getShader(
@@ -1075,20 +1096,21 @@ bool	gtDriverD3D11::createShaders(){
 
 	gtVertexType vertexType3D[] = 
 	{
-		{ gtVertexType::Position },
-		{ gtVertexType::UV },
-		{ gtVertexType::Normal },
-		{ gtVertexType::End }
+		gtVertexType::Position,
+		gtVertexType::UV,
+		gtVertexType::Normal,
+		gtVertexType::End
 	};
 
 	gtVertexType vertexTypeGUI[] = 
 	{
-		{ gtVertexType::Position },
-		{ gtVertexType::UV },
-		{ gtVertexType::Normal },
-		{ gtVertexType::Color },
-		{ gtVertexType::End }
+		gtVertexType::Position,
+		gtVertexType::UV,
+		gtVertexType::Normal,
+		gtVertexType::Color,
+		gtVertexType::End
 	};
+	
 	
 	m_shader3DStandartCallback = gtPtrNew<gtD3D11StandartShaderCallback>( new gtD3D11StandartShaderCallback );
 	m_shaderGUICallback = gtPtrNew<gtD3D11GUIShaderCallback>( new gtD3D11GUIShaderCallback );

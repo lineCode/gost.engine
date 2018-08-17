@@ -24,7 +24,7 @@ namespace gost{
 	using gtLoadAudioDriver_t		= gtAudioSystem*(GT_CDECL*)     ();
 	using gtLoadInputDriver_t		= gtInputController*(GT_CDECL*) ();
 	using gtPluginGetExtCount_t		= u32(GT_CDECL*)				();				
-	using gtPluginGetExtension_t	= s8*(GT_CDECL*)				( u32 id );				
+	using gtPluginGetExtension_t	= const s8*(GT_CDECL*)		    ( u32 id );				
 	using gtPluginLoadImage_t		= bool(GT_CDECL*)				(gtImage*,gtString*);	
 	using gtPluginLoadModel_t		= gtModel*(GT_CDECL*)			(gtString*);			
 	

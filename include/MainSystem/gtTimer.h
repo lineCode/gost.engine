@@ -19,6 +19,8 @@ namespace gost{
 
 		virtual gtRealTime	getRealTime() = 0;
 
+			// получить delta time
+			// delta time вычисляется автоматически когда вызывается метод gtMainSystem::update(). 
 		virtual f32 * getDelta() = 0;
 	};
 

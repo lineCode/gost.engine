@@ -12,13 +12,17 @@ namespace gost{
 	};
 
 	struct gtCVarSystemNode{
-		gtCVarSystemNode(){}
+		gtCVarSystemNode()
+		{}
+		
 		gtCVarSystemNode( gtCVarType type, const gtString& c, const gtString& d, const gtString& params, gtString(*f)(const gtCVarSystemNode&) ):
 			command(c),
 			description(d),
 			parameters( params ),
 			type(type),
-			func( f ){}
+			func( f )
+		{}
+		
 		gtString command;
 		gtString commandLine;
 		gtString description;
@@ -27,6 +31,7 @@ namespace gost{
 		gtString(*func)(const gtCVarSystemNode&);
 	};
 
+	// Система комманд
 	class gtCVarSystem : public gtRefObject{
 	public:
 

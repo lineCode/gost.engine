@@ -6,6 +6,7 @@ gtShaderImpl::gtShaderImpl( gtDriverD3D11 * driver ):
 	m_vShader( nullptr ),
 	m_pShader( nullptr ),
 	m_vLayout( nullptr ),
+	m_callback( nullptr ),
 	m_gs( driver )
 {}
 

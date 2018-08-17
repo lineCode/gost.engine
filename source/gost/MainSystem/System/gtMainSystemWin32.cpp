@@ -47,7 +47,7 @@ namespace gost{
 			if( gtFileSystem::existFile( u"log.txt" ) )
 				gtFileSystem::deleteFile( u"log.txt" );
 
-			gtMainSystemCommon::s_log->print( gtLog::msgType::Info, u"Starting GoST version %i.%i", 0, 1 );
+			gtMainSystemCommon::s_log->print( gtLog::msgType::Info, u"Starting GoST version %i.%i", GOST_MAJOR_VERSION, GOST_MINOR_VERSION );
 
 			if( !this->m_pluginSystem->init() ){
 				return false;

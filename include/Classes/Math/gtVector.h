@@ -26,8 +26,8 @@ namespace gost{
 
 		gtVector2():
 			x( static_cast< Type >( gtConst0U ) ),
-			y( static_cast< Type >( gtConst0U ) ){
-		}
+			y( static_cast< Type >( gtConst0U ) )
+		{}
 
 		template<typename other_type>
 		gtVector2( const gtVector2< other_type >& v ){
@@ -37,13 +37,13 @@ namespace gost{
 
 		gtVector2( Type X, Type Y ):
 			x( static_cast< Type >( X ) ),
-			y( static_cast< Type >( Y ) ){
-		}
+			y( static_cast< Type >( Y ) )
+		{}
 
 		gtVector2( Type v ):
 			x( static_cast< Type >( v ) ),
-			y( static_cast< Type >( v ) ){
-		}
+			y( static_cast< Type >( v ) )
+		{}
 
 		void zero(){
 			x = y = static_cast< Type >( gtConst0U );
@@ -181,8 +181,8 @@ namespace gost{
 		gtVector3():
 			x( static_cast< Type >( gtConst0U ) ),
 			y( static_cast< Type >( gtConst0U ) ),
-			z( static_cast< Type >( gtConst0U ) ){
-		}
+			z( static_cast< Type >( gtConst0U ) )
+		{}
 
 		gtVector3( const gtVector3< Type >& v ){
 			*this = v;
@@ -191,20 +191,20 @@ namespace gost{
 		gtVector3( const gtVector2< Type >& v ):
 			x( v.x ),
 			y( v.y ),
-			z( static_cast< Type >( gtConst0U ) ){
-		}
+			z( static_cast< Type >( gtConst0U ) )
+		{}
 
 		gtVector3( Type X, Type Y, Type Z ):
 			x( X ),
 			y( Y ),
-			z( Z ){
-		}
+			z( Z )
+		{}
 
 		gtVector3( Type v ):
 			x( v ),
 			y( v ),
-			z( v ){
-		}
+			z( v )
+		{}
 
 		void zero(){
 			x = y = z = static_cast< Type >( gtConst0U );
@@ -565,8 +565,11 @@ namespace gost{
 			case 3u: return w;
 			default:
 				GT_BREAKPOINT(0);
+				break;
 			}
+			return x;
 		}
+		
 		const Type& operator[]( u32 i ) const { 
 			switch( i ){
 			case 0u: return x;
@@ -575,7 +578,9 @@ namespace gost{
 			case 3u: return w;
 			default:
 				GT_BREAKPOINT(0);
+				break;
 			}
+			return x;
 		}
 
 		Type	lengthSqrt() { return ( x * x ) + ( y * y ) + ( z * z ) + ( w * w ); }

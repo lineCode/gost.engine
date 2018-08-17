@@ -1,5 +1,5 @@
 ﻿#include "common.h"
-
+/*
 template<typename Type>
 gtSingletone<Type>::gtSingletone(){}
 
@@ -16,7 +16,7 @@ Type& gtSingletone<Type>::getInstance(){
 
 template<typename Type>
 Type* gtSingletone<Type>::s_instance = nullptr;
-
+*/
 /*
 Copyright (c) 2018 532235
 

@@ -5,6 +5,7 @@
 namespace gost{
 
 		//	Information about audio
+		// Информация об источнике аудио
 	struct gtAudioSourceInfo{
 		gtAudioSourceInfo():
 			m_formatType( gtConst0U ),
@@ -29,8 +30,8 @@ namespace gost{
 		gtAudioSourceInfo m_info;
 
 			//	Raw data
-		u8	*	m_data;
-		u32		m_dataSize;
+		u8	*	m_data;     //Звук
+		u32		m_dataSize; //Размер в байтах
 
 	public:
 

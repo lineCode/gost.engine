@@ -1,13 +1,14 @@
 #include "common.h"
 
 gtGUIShapeImpl::gtGUIShapeImpl( gtGraphicsSystem * d ):
-m_gs( d ),
-m_model( nullptr ),
-m_mainSystem( nullptr ),
-m_modelSystem( nullptr ),
-m_material( nullptr ),
-m_texture( nullptr ),
-m_useVertGradient( false ){
+	m_mainSystem( nullptr ),
+	m_modelSystem( nullptr ),
+	m_gs( d ),
+	m_model( nullptr ),
+	m_material( nullptr ),
+	m_texture( nullptr ),
+	m_useVertGradient( false )
+{
 	vt[ 0 ] = gtVertexType::Position;
 	vt[ 1 ] = gtVertexType::UV;
 	vt[ 2 ] = gtVertexType::Normal;
@@ -27,9 +28,9 @@ void gtGUIShapeImpl::update(){
 	const u16 u[gtConst6U] = {0U,1U,2U,0U,2U,3U};
 	gtPtr<gtModel> soft = m_modelSystem->createEmpty( gtStrideStandartColor, &vt[ gtConst0U ] );
 	
-	auto ssz = m_gs->getParams().m_outWindow->getWindowInfo().m_borderSize;
-	auto offset_x = ssz.x + ssz.x;
-	auto offset_y = ssz.y;
+	//auto ssz = m_gs->getParams().m_outWindow->getWindowInfo().m_borderSize;
+	//auto offset_x = ssz.x + ssz.x;
+	//auto offset_y = ssz.y;
 
 	if( soft.data() ){
 		auto * sub = soft->addSubModel( gtConst4U, gtConst6U, gtStrideStandartColor );

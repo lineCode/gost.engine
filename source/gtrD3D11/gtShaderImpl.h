@@ -10,11 +10,6 @@ namespace gost{
 
 	class gtDriverD3D11;
 	class gtShaderImpl GT_FINAL: public gtShader{
-
-		gtShaderModel m_shaderModel;
-
-		gtDriverD3D11 * m_gs;
-
 	public:
 		gtShaderImpl( gtDriverD3D11* );
 		virtual ~gtShaderImpl();
@@ -36,8 +31,13 @@ namespace gost{
 		ID3D11VertexShader*	m_vShader;
 		ID3D11PixelShader*	m_pShader;
 		ID3D11InputLayout*	m_vLayout;
-		gtShaderCallback * m_callback;
+		gtShaderCallback *  m_callback;
 
+	private:
+		gtDriverD3D11 * m_gs;
+		gtShaderModel   m_shaderModel;
+	
+	public:	
 		gtArray<ID3D11Buffer*> m_constantBuffers;
 	};
 

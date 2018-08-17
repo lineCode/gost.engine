@@ -4,17 +4,20 @@
 
 namespace gost{
 
+		// Класс для воспроизведения потокового аудио
 	class gtAudioStream : public gtAudioObjectCommon{
 	public:
 
 			//	Close stream
 		virtual bool	close() = 0;
 
+			// Получить текущую позицию воспроизведения
 		virtual f32		getPlaybackPosition() = 0;
 
 			// Open file for streaming
 		virtual bool	open( const gtString& fileName ) = 0;
 
+			// Установить позицию воспроизведения
 		virtual void	setPlaybackPosition( f32 position ) = 0;
 
 	};

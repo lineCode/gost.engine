@@ -17,7 +17,7 @@ namespace gost{
 		pointer m_data;
 		u32     m_size;
 		u32     m_allocated;
-		u32     m_addMemory;
+		u32     m_addMemory;   // При достижении максимума в отведённой памяти, объект выделит дополнительную память размером новый_размер_массива + m_addMemory
 		gtAllocator<type> m_allocator;
 
 		void reallocate( u32 new_capacity ){
@@ -70,7 +70,13 @@ namespace gost{
 		void    setSize( u32 s ) { m_size = s; }
 		u32     size() const     { return m_size; }
 		u32     capacity() const { return m_allocated; }
+		
+		
+			// Если добавление в массив происходит часто, и операция увеличения размера занимает много времени
+			// можно увеличить значение m_addMemory, и объект будет выделять больше дополнительной памяти
 		void    setAddMemoryValue( u32 v ){ m_addMemory = v; }
+		
+		
 		bool    empty() const    { return m_size == gtConst0U; }
 
 		const_reference at( u32 id ) const { return m_data[id]; }
@@ -182,6 +188,8 @@ namespace gost{
 	};
 
 	namespace util{
+		
+		// Сортировка слиянием
 		template<typename Type> bool predicateGreatOrEqual( const Type& o1, const Type& o2 ){ return o1 >= o2; }
 		template<typename Type> bool predicateLessOrEqual( const Type& o1, const Type& o2 ){ return o1 <= o2; }
 		template<typename Type> bool predicateGreat( const Type& o1, const Type& o2 ){ return o1 > o2; }

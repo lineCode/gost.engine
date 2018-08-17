@@ -3,7 +3,8 @@
 #define __GT_MATERIAL_H__ 
 
 namespace gost{
-
+	
+		// не реализовано
 	enum class gtMaterialBlendOp : u32 {
 			//	Result = Source + Destination
 		Add,
@@ -12,15 +13,16 @@ namespace gost{
 		Sub,
 
 			//	Result = Destination - Source
-		Seb_reverse,
+		Sub_reverse,
 
 		Min,
 
 		Max
 	};
 
+	
 	enum class gtMaterialFlag : u32 {
-		Wireframe        = BIT(0),
+		Wireframe        = BIT(0),    
 		Backface         = BIT(1),
 		AlphaBlend       = BIT(2),
 		Nocastshadows    = BIT(3),
@@ -34,9 +36,9 @@ namespace gost{
 
 			// c-tor
 		gtMaterialTextureLayer():
-			diffuseColor( gtConst1F ),
+			diffuseColor( 1.f ),
 			blendOperation( gtMaterialBlendOp::Sub ),
-			level( gtConst1F ),
+			level( 1.f ),
 			texture( nullptr )
 		{}
 
@@ -61,15 +63,15 @@ namespace gost{
 		gtMaterial():
 			shader( nullptr ),
 			ambientColor( (u32)0xff303030 ),
-			specularColor( gtConst1F ),
-			diffuseColor( gtConst1F ),
+			specularColor( 1.f ),
+			diffuseColor( 1.f ),
 			sunPosition( v4f(0.3f,.6f,-.3f,0.f) ),
-			specularLevel( gtConst1F ),
+			specularLevel( 1.f ),
 			shininess( 5.f ),
-			glossiness( gtConst0F ),
-			roughness( gtConst0F ),
-			transparent( gtConst0F ),
-			fresnel( gtConst1F ),
+			glossiness( 0.f ),
+			roughness( 0.f ),
+			transparent( 0.f ),
+			fresnel( 1.f ),
 			flags( (u32)gtMaterialFlag::UseLight ),
 			type( gtMaterialType::Standart ),
 			userData( nullptr ),

@@ -3,18 +3,20 @@
 #define __GT_REF_OBJECT_H__
 
 namespace gost{
-	 
-	class gtRefObject : public gtBaseObject{
-	
-		mutable u32 m_count;
-		
-		gtStringA m_name;
 
+		// Подсчитывает ссылки для объектов
+	class gtRefObject : public gtBaseObject{
+		mutable u32 m_count;
+		gtStringA   m_name;
+		
 	public:
 
-		gtRefObject() : m_count( 1U ){}
+		gtRefObject():
+			m_count( 1U )
+		{}
 
-		virtual ~gtRefObject(){}
+		virtual ~gtRefObject()
+		{}
 
 		u32 getReferenceCount() const {
 			return m_count;
@@ -26,9 +28,8 @@ namespace gost{
 
 		void release() const {
 			--m_count;
-			if( !m_count ){
+			if( !m_count )
 				delete this;
-			}
 		}
 
 		void setName( const gtStringA& name ){

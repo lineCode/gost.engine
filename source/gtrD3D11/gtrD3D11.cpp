@@ -2,10 +2,12 @@
 
 #include "common.h"
 
+#ifdef _MSC_VER
 #ifdef _DEBUG
 #pragma comment(lib, "gost_d.lib")
 #else 
 #pragma comment(lib, "gost.lib")
+#endif
 #endif
 
 extern "C"{

@@ -43,7 +43,7 @@ namespace gost{
 		void calculateBaseInfo(){
 			m_extent = m_max - m_min;
 			m_center = m_min + m_max;       //       v6-----------v2
-			m_center *= gtConst05F;				//      /|			/ |
+			m_center *= 0.5f;				//      /|			/ |
 											//	   / |         /  |
 			v1 = m_min;						//	  /  |        /   |
 			v2 = m_max;						//	 /   v3______/____v7

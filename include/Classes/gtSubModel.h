@@ -3,13 +3,15 @@
 #define __GT_MESH_BUFFER_H__
 
 namespace gost{
-	
+
+		// Структура описывает стандартную вершину
 	struct gtStandartVertex{
 		v4f pos;
 		v2f uv; 
 		v3f nor;
 	};
 
+		// Тут уже с цветом
 	struct gtStandartColorVertex{
 		v4f pos;
 		v2f uv; 
@@ -17,15 +19,16 @@ namespace gost{
 		gtColor col;
 	};
 
+		// Мешбуфер. gtModel может хранить множество мешбуферов.
 	struct gtSubModel{
 
 			// c-tor
 		gtSubModel():
 			m_vertices( nullptr ),
 			m_indices( nullptr ),
-			m_vCount( gtConst0U ),
-			m_iCount( gtConst0U ),
-			m_stride( gtConst0U ),
+			m_vCount( 0u ),
+			m_iCount( 0u ),
+			m_stride( 0u ),
 			m_vertexPosition( 0 ),
 			m_uvPosition( 4 ),
 			m_normalPosition( 6 ) // pos[0,1,2,3] uv[4,5] normal[6,7,8]
@@ -66,7 +69,7 @@ namespace gost{
 
 			// \param array: index array
 		void fillIndices( const u16* array ){
-			for(u32 i = gtConst0U; i < m_iCount; ++i){
+			for(u32 i = 0u; i < m_iCount; ++i){
 				m_indices[ i ] = array[ i ];
 			}
 		}
@@ -82,8 +85,8 @@ namespace gost{
 		void	buildObb(){
 			m_obb.reset();
 
-			u8 * p8 = &m_vertices[gtConst0U];
-			for(u32 i = gtConst0U; i < m_vCount; ++i){
+			u8 * p8 = &m_vertices[0u];
+			for(u32 i = 0u; i < m_vCount; ++i){
 				f32 * p32 = reinterpret_cast<f32*>(p8);
 
 				m_obb.add( v3f( p32[ m_vertexPosition ], p32[ m_vertexPosition + 1 ], p32[ m_vertexPosition + 2 ] ) );
@@ -109,7 +112,7 @@ namespace gost{
 			GT_ASSERT3(model);
 			if( model ){
 
-				u16 maxIndex = gtConst0U;
+				u16 maxIndex = 0u;
 				for( u32 i = 0; i < m_iCount; ++i ){
 					if( m_indices[ i ] > maxIndex ) maxIndex = m_indices[ i ];
 				}
@@ -121,7 +124,7 @@ namespace gost{
 
 				memcpy( newInds, m_indices, m_iCount * sizeof( u16 ) );
 				for( u32 i = 0; i < model->m_iCount; ++i ){
-					newInds[ m_iCount + i ] = model->m_indices[ i ] + maxIndex + gtConst1U;
+					newInds[ m_iCount + i ] = model->m_indices[ i ] + maxIndex + 1u;
 				}
 
 				delete []m_indices;
@@ -135,7 +138,7 @@ namespace gost{
 				
 				u8 * p8 = &newVerts[m_vCount*m_stride];
 
-				u8 * otherp8 = &model->m_vertices[gtConst0U];
+				u8 * otherp8 = &model->m_vertices[0u];
 				for( u32 i = 0; i < model->m_vCount; ++i ){
 					f32 * p32 = reinterpret_cast<f32*>(p8);
 					f32 * otherp32 = reinterpret_cast<f32*>(otherp8);
@@ -168,11 +171,11 @@ namespace gost{
 			math::makeRotationMatrix( m, new_orientation );
 
 			u32 i1 = m_vertexPosition;
-			u32 i2 = m_vertexPosition + gtConst1U;
-			u32 i3 = m_vertexPosition + gtConst2U;
+			u32 i2 = m_vertexPosition + 1u;
+			u32 i3 = m_vertexPosition + 2u;
 
-			u8 * p8 = &m_vertices[gtConst0U];
-			for(u32 i = gtConst0U; i < m_vCount; ++i){
+			u8 * p8 = &m_vertices[0u];
+			for(u32 i = 0u; i < m_vCount; ++i){
 				f32 * p32 = reinterpret_cast<f32*>(p8);
 
 				v3f vector( p32[ i1 ], p32[ i2 ], p32[ i3 ] );
@@ -191,11 +194,11 @@ namespace gost{
 
 		void	move( const v3f& newPos ){
 			u32 i1 = m_vertexPosition;
-			u32 i2 = m_vertexPosition + gtConst1U;
-			u32 i3 = m_vertexPosition + gtConst2U;
+			u32 i2 = m_vertexPosition + 1u;
+			u32 i3 = m_vertexPosition + 2u;
 
-			u8 * p8 = &m_vertices[gtConst0U];
-			for(u32 i = gtConst0U; i < m_vCount; ++i){
+			u8 * p8 = &m_vertices[0u];
+			for(u32 i = 0u; i < m_vCount; ++i){
 				f32 * p32 = reinterpret_cast<f32*>(p8);
 
 				p32[ i1 ] += newPos.x;
@@ -208,23 +211,23 @@ namespace gost{
 
 			//TEST
 		void	calculate_normals(){
-			u8 * p8 = &m_vertices[gtConst0U];
+			u8 * p8 = &m_vertices[0u];
 
 			u32 i1 = m_vertexPosition;
-			u32 i2 = m_vertexPosition + gtConst1U;
-			u32 i3 = m_vertexPosition + gtConst2U;
-			u32 i4 = m_vertexPosition + gtConst3U;
-			u32 i5 = m_vertexPosition + gtConst4U;
-			u32 i6 = m_vertexPosition + gtConst5U;
-			u32 i7 = m_vertexPosition + gtConst6U;
-			u32 i8 = m_vertexPosition + gtConst7U;
-			u32 i9 = m_vertexPosition + gtConst8U;
+			u32 i2 = m_vertexPosition + 1u;
+			u32 i3 = m_vertexPosition + 2u;
+			u32 i4 = m_vertexPosition + 3u;
+			u32 i5 = m_vertexPosition + 4u;
+			u32 i6 = m_vertexPosition + 5u;
+			u32 i7 = m_vertexPosition + 6u;
+			u32 i8 = m_vertexPosition + 7u;
+			u32 i9 = m_vertexPosition + 8u;
 
 			u32 in1 = m_normalPosition;
-			u32 in2 = m_normalPosition + gtConst1U;
-			u32 in3 = m_normalPosition + gtConst2U;
+			u32 in2 = m_normalPosition + 1u;
+			u32 in3 = m_normalPosition + 2u;
 
-			for(u32 i = gtConst0U; i < m_vCount; ++i){
+			for(u32 i = 0u; i < m_vCount; ++i){
 				f32 * p32 = reinterpret_cast<f32*>(p8);
 
 				v3f vector_p1( p32[ i1 ], p32[ i2 ], p32[ i3 ] );

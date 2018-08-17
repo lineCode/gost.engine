@@ -80,6 +80,9 @@ namespace gost{
 		gtSceneSystem*	getSceneSystem( gtGraphicsSystem * currentRenderDriver );
 		gtGUISystem*	getGUISystem( gtGraphicsSystem * currentRenderDriver );
 
+		u32              getMajorVersion();
+		u32              getMinorVersion();
+		
 		const gtMatrix4& getMatrixWorld();
 		const gtMatrix4& getMatrixView();
 		const gtMatrix4& getMatrixProjection();

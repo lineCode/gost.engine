@@ -6,7 +6,8 @@ namespace gost{
 
 	class gtRenderModel;
 
-		class gtStaticObject : public gtGameObject{
+	// Объект с неанимированной моделью
+	class gtStaticObject : public gtGameObject{
 	public:
 
 		virtual gtMaterial&         getMaterial( u32 i ) = 0;

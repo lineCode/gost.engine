@@ -4,13 +4,19 @@
 
 namespace gost{
 
+		// Базовый объект для всех gtRefOject
 	class gtBaseObject{
 	protected:
-		GT_FORCE_INLINE gtBaseObject(){}
+		GT_FORCE_INLINE gtBaseObject()
+		{}
+		
 	public:
-
-		virtual ~gtBaseObject(){}
-		virtual void first_vtable_function(){}
+		virtual ~gtBaseObject()
+		{}
+		
+		// для PlayStation
+		virtual void ______________unnamed()
+		{}
 	
 	};
 }

@@ -12,17 +12,20 @@ namespace gost{
 
 		virtual void	setWindowTitle( const gtString& title ) = 0;
 
+			// HWND
 		virtual void*	getHandle() = 0;
 
+		
 		virtual const v4i&		getRect() = 0;
 		virtual const v4i&		getClientRect() = 0;
 		virtual const gtWindowInfo& getWindowInfo() = 0;
 		
-		virtual void   setOnMove( void(*)(void) ) = 0;
-		virtual void   setOnSize( void(*)(void) ) = 0;
-		virtual void   setOnPaint( void(*)() ) = 0;
+		//Коллбэк функции
+		virtual void   setOnMove( void(*)(void) ) = 0;  // вызывается при перемещении окна
+		virtual void   setOnSize( void(*)(void) ) = 0;  // вызывается при изменении размера
+		virtual void   setOnPaint( void(*)() ) = 0;     // вызывается при перерисовке
 
-		virtual void    switchToFullscreen() = 0; // gs_fullscreen 0:1
+		virtual void    switchToFullscreen() = 0;
 		virtual void    switchToWindow() = 0;
 		virtual bool    isFullscreen() = 0;
 	};

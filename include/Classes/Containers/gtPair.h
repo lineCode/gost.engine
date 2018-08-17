@@ -11,7 +11,8 @@ namespace gost{
 		typedef gtPair<Type1,Type2>& reference;
 		typedef const gtPair<Type1,Type2>& const_reference;
 
-		gtPair():m_first(),m_second(),compareFunc(nullptr){}
+		gtPair():m_first(),m_second(),compareFunc(nullptr)
+		{}
 		gtPair( Type1 first, Type2 second ):
 			m_first( first ), m_second( second ),compareFunc(nullptr)
 		{}

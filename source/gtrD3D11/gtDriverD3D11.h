@@ -5,7 +5,9 @@
 #ifndef __GT_DRIVER_D3D11_H__
 #define __GT_DRIVER_D3D11_H__
 
-using gtD3D11CreateDevice_t = HRESULT(__stdcall*)(
+#define GT_D3D11_CALL
+
+using gtD3D11CreateDevice_t = HRESULT(GT_D3D11_CALL*)(
 	_In_opt_ IDXGIAdapter* pAdapter,
 	D3D_DRIVER_TYPE DriverType,
 	HMODULE Software,
@@ -17,10 +19,10 @@ using gtD3D11CreateDevice_t = HRESULT(__stdcall*)(
 	_Out_opt_ D3D_FEATURE_LEVEL* pFeatureLevel,
 	_Out_opt_ ID3D11DeviceContext** ppImmediateContext);
 
-using gtCreateDXGIFactory_t = HRESULT(__stdcall*)(
+using gtCreateDXGIFactory_t = HRESULT(GT_D3D11_CALL*)(
 	REFIID riid, _COM_Outptr_ void **ppFactory );
 
-using gtD3D11CreateDeviceAndSwapChain_t = HRESULT(__stdcall*)(
+using gtD3D11CreateDeviceAndSwapChain_t = HRESULT(GT_D3D11_CALL*)(
 	__in_opt IDXGIAdapter* pAdapter,
 	D3D_DRIVER_TYPE DriverType,
 	HMODULE Software,
@@ -36,27 +38,27 @@ using gtD3D11CreateDeviceAndSwapChain_t = HRESULT(__stdcall*)(
 
 //	D3dcompiler_47.dll
 using gtD3DCompile_t = HRESULT (__stdcall*)(
-	__in_bcount(SrcDataSize) LPCVOID pSrcData,
-	__in SIZE_T SrcDataSize,
-    __in_opt LPCSTR pSourceName,
-    __in_xcount_opt(pDefines->Name != NULL) CONST D3D_SHADER_MACRO* pDefines,
-    __in_opt ID3DInclude* pInclude,
-    __in LPCSTR pEntrypoint,
-    __in LPCSTR pTarget,
-    __in UINT Flags1,
-    __in UINT Flags2,
-    __out ID3DBlob** ppCode,
-    __out_opt ID3DBlob** ppErrorMsgs);
+	LPCVOID pSrcData,
+	SIZE_T SrcDataSize,
+    LPCSTR pSourceName,
+    CONST D3D_SHADER_MACRO* pDefines,
+    ID3DInclude* pInclude,
+    LPCSTR pEntrypoint,
+    LPCSTR pTarget,
+    UINT Flags1,
+    UINT Flags2,
+    ID3DBlob** ppCode,
+    ID3DBlob** ppErrorMsgs);
 
 namespace gost{
 
 	class gtDriverD3D11 GT_FINAL : public gtGraphicsSystemCommon{
 
-		gtMainSystem* m_system;
 		static gtDriverD3D11* s_instance;
-
+	
+		gtMainSystem* m_system;
 		HMODULE m_D3DLibrary;
-		HMODULE m_DXGILibrary;
+		//HMODULE m_DXGILibrary;
 
 		IDXGIFactory1*          m_dxgiFactory;
 		IDXGISwapChain*			m_SwapChain;
@@ -66,7 +68,6 @@ namespace gost{
 		ID3D11Texture2D*		m_depthStencilBuffer;
 		ID3D11DepthStencilState*m_depthStencilStateEnabled;
 		ID3D11DepthStencilState*m_depthStencilStateDisabled;
-		D3D11_DEPTH_STENCIL_VIEW_DESC	m_depthStencilViewDesc;
 		ID3D11DepthStencilView* m_depthStencilView;
 		ID3D11RasterizerState*	m_RasterizerSolid;
 		ID3D11RasterizerState*	m_RasterizerSolidNoBackFaceCulling;
@@ -75,23 +76,19 @@ namespace gost{
 		ID3D11BlendState*		m_blendStateAlphaEnabled;
 		ID3D11BlendState*		m_blendStateAlphaEnabledWithATC;
 		ID3D11BlendState*		m_blendStateAlphaDisabled;
-
-		void clearRenderTarget( const gtColor& );
-
-		bool m_beginRender;
-
-
+		
 		gtShader*			m_shader2DStandart;
 		gtShader*			m_shader3DStandart;
 		gtShader*			m_shaderGUI;
-		gtShader*			m_shaderLine;
 		gtShader*			m_shaderSprite;
+		gtShader*			m_shaderLine;
+		
 
+		bool m_beginRender;
+		
+		D3D11_DEPTH_STENCIL_VIEW_DESC	m_depthStencilViewDesc;
 
-		gtPtr<gtD3D11StandartShaderCallback> m_shader3DStandartCallback;
-		gtPtr<gtD3D11GUIShaderCallback>		 m_shaderGUICallback;
-		gtPtr<gtD3D11SpriteShaderCallback>	 m_shaderSpriteCallback;
-		gtPtr<gtD3D11LineShaderCallback>	 m_shaderLineCallback;
+		
 
 		gtPtr<gtShaderProcessingD3D11> m_shaderProcessing;
 
@@ -100,7 +97,14 @@ namespace gost{
 		
 		gtPtr<gtTexture>	   m_CSMTexture;
 		gtPtr<gtCamera>        m_CSMLightCamera;
-
+		
+		gtPtr<gtD3D11StandartShaderCallback> m_shader3DStandartCallback;
+		gtPtr<gtD3D11GUIShaderCallback>		 m_shaderGUICallback;
+		gtPtr<gtD3D11SpriteShaderCallback>	 m_shaderSpriteCallback;
+		gtPtr<gtD3D11LineShaderCallback>	 m_shaderLineCallback;
+		
+		void    clearRenderTarget( const gtColor& );
+		
 		void	setActiveShader( gtShader* );
 		void	_draw2DImage( const v4f& rect, const v8f& region, const gtMaterial& );
 		void	enableBlending( bool, bool atc = false );

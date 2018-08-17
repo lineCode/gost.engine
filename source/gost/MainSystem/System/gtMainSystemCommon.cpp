@@ -409,6 +409,14 @@ gtRayf32 gtMainSystemCommon::getRayFromScreen( const gtVector2<s16>& coord, f32 
 	return ray;
 }
 
+u32              gtMainSystemCommon::getMajorVersion(){
+	return GOST_MAJOR_VERSION;
+}
+
+u32              gtMainSystemCommon::getMinorVersion(){
+	return GOST_MINOR_VERSION;
+}
+
 /*
 Copyright (c) 2017-2018 532235
 

@@ -67,12 +67,19 @@ namespace gost{
 
 	};
 
+		// Этот класс управляет всей системой
 	class gtMainSystem : public gtRefObject{
 	public:
 	
+			// Добавить событие в очередь. prior - не используется
 		virtual void addEvent( const gtEvent& ev, u8 prior = gtConst0U ) = 0;
+		
+			// Проверить нахождение события в очереди.
 		virtual bool checkEventType( const gtEvent& ev ) = 0;
+		
+			// Проверить нахождение события в очереди. Можно указать функцию сравнения.
 		virtual bool checkEvent( gtEvent& ev, bool(*compare_function)( gtEvent& current_event, gtEvent& user_event ) ) = 0;
+		
 		virtual gtPtr<gtAudioSystem>    createAudioSystem( const GT_GUID& uid ) = 0;
 		virtual gtPtr<gtGraphicsSystem> createGraphicsSystem( const gtGraphicsSystemInfo& gsi, const GT_GUID& uid ) = 0;
 		virtual gtPtr<gtMutex>          createMutex() = 0;
@@ -80,14 +87,27 @@ namespace gost{
 		virtual gtPtr<gtWindow>	        createSystemWindow( gtWindowInfo* wi ) = 0;
 		virtual gtPtr<gtThread>         createThread() = 0;
 		virtual const gtDeviceCreationParameters& getDeviceCreationParameters() = 0;
-		virtual gtGUISystem* getGUISystem( gtGraphicsSystem * currentRenderDriver ) = 0;
+		
+			// При первом вызове нужно указать currentRenderDriver. Для последующих вызовов можно передавать nullptr
+		virtual gtGUISystem*     getGUISystem( gtGraphicsSystem * currentRenderDriver ) = 0;
 		virtual gtCVarSystem*    getCVarSystem() = 0;
 		GT_API static gtMainSystem* getInstance();
 		virtual gtInputSystem*   getInputSystem() = 0;
+		
+			// Тестовая штука. Думаю не нужна. Если убрать, то не нужно указывать currentRenderDriver в getGUISystem и других.
+			// Но из за архитектуры движка следует что VideoDriver-ов может быть множество, по этому можно указывать основной драйвер и т.д.
+			// Если использовать 2 окна вывода с разными gtGraphicsSystem то рисовать всё придётся вручную, без использования gtSceneSystem
 		virtual gtGraphicsSystem*getLoadedVideoDriver( u32 id ) = 0;
 		virtual u32              getLoadedVideoDriverCount() = 0;
+		
 		virtual gtLog*           getLog() = 0;
+		
+			//	Используется для быстрого доступа к gtGraphicsSystem 
 		virtual gtGraphicsSystem*getMainVideoDriver() = 0;
+		
+		virtual u32              getMajorVersion() = 0;
+		virtual u32              getMinorVersion() = 0;
+		
 		virtual const gtMatrix4& getMatrixProjection() = 0;
 		virtual const gtMatrix4& getMatrixView() = 0;
 		virtual const gtMatrix4& getMatrixWorld() = 0;
@@ -95,23 +115,44 @@ namespace gost{
 		virtual gtOutputWindow*  getOutputWindow() = 0;
 		virtual gtPluginSystem*	 getPluginSystem() = 0;
 		virtual gtSceneSystem*   getSceneSystem( gtGraphicsSystem * currentRenderDriver ) = 0;
+		
+		//????
 		virtual v2i              getScreenSize() = 0;
+		
+		
 		virtual u32              getTime() = 0;
 		virtual gtTimer*         getTimer() = 0;
 		virtual bool isRun() = 0;
+		
+		// Загрузит картинку, используя первый попавшийся плагин который поддерживает расширение указанного файла
 		virtual gtPtr<gtImage> loadImage( const gtString& fileName ) = 0;
+		
+		// Загрузит картинку используя указанный плагин
 		virtual gtPtr<gtImage> loadImage( const gtString& fileName, const GT_GUID& pluginGUID ) = 0;
+		
 		virtual bool pollEvent( gtEvent& event ) = 0;
+		
+		// Конвертирует координаты курсора в 3D координату в пространстве
 		virtual v4f  screenToWorld( const gtVector2<s16>& coord ) = 0;
+		
+		// Вернёт луч, отрезок от screenToWorld(координаты курсора) в сторону camera->getFar() на расстоянии len
 		virtual gtRayf32 getRayFromScreen( const gtVector2<s16>& coord, f32 len = 100.f ) = 0;
+		
+		
 		virtual void setMainVideoDriver( gtGraphicsSystem* d ) = 0;
 		virtual void setMatrixProjection( const gtMatrix4& m ) = 0;
 		virtual void setMatrixView( const gtMatrix4& m ) = 0;	
 		virtual void setMatrixWorld( const gtMatrix4& m ) = 0;
-		virtual void setTimer( u32 milliseconds ) = 0;
-		virtual void shutdown() = 0;
-		virtual	bool update() = 0;
 		
+		// Установит таймер, и при достижении нуля поступит событие о конце отсчёта
+		// ev.systemEvent.eventID == GT_EVENT_SYSTEM_TIMER
+		virtual void setTimer( u32 milliseconds ) = 0;
+		
+		// Завершит работу движка
+		virtual void shutdown() = 0;
+		
+		// Обновит состояние движка, получит все системные сообщения, отправит события и т.д.
+		virtual	bool update() = 0;
 
 	};
 

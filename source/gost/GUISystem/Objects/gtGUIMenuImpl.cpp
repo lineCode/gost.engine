@@ -1,9 +1,10 @@
 #include "common.h"
 
 gtGUIMenuImpl::gtGUIMenuImpl( gtGraphicsSystem * d, const gtGUIMenuParameters& params ):
-	m_gs( d ),
 	m_mainSystem( nullptr ),
 	m_modelSystem( nullptr ),
+	m_gs( d ),
+	m_gui( nullptr ),
 	m_wnd( nullptr ),
 	m_widthLen( 0 )
 {

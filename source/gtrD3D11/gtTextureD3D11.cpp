@@ -22,7 +22,7 @@ bool gtTextureD3D11::init( gtImage* image ){
 
 	if( !image ) return false;
 
-	bool is_RTT = (image->frames == -1);
+	bool is_RTT = (image->frames == (u32)-1);
 
 	if( !is_RTT )
 		image->convert( gtImageFormat::R8G8B8A8 );

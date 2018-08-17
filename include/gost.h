@@ -8,11 +8,7 @@
 
 
 //C++
-//#include <cstdlib>
-//#include <cctype> //isalpha
-//#include <cstring>
-//#include <fstream>
-#include <new>
+#include <new>    //нужно потихоньку избавиться от C++ вещей
 #include <sstream>
 #include <string>
 #include <vector>
@@ -123,7 +119,13 @@
 
 namespace gost {
 
+	// Эта функция импортируется из gost.dll Возвращается голый указатель, и, если система создана вызовом этой функции
+	// нужно вручную вызвать release() при завершении работы
 	extern "C" GT_API gtMainSystem* GT_CDECL gost_create_main_system_internal( const gtDeviceCreationParameters& params );
+	
+	// Эта функция возвращает gtPtrNew<gtMainSystem>, который записывается в gtPtr<gtMainSystem>. С помощью gtPtr, объекты сами вызывают 
+	// метод release() (когда gtPtr уничтожается).
+	// gtPtr<gtMainSystem> ms = gost_create_main_system(); //всё. release() вызывать не нужно
 	GT_FORCE_INLINE gtPtr<gtMainSystem> gost_create_main_system( const gtDeviceCreationParameters& params = gtDeviceCreationParameters() ){
 		return gtPtrNew<gtMainSystem>( gost_create_main_system_internal( params ) );
 	}

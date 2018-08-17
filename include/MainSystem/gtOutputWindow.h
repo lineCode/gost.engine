@@ -4,6 +4,7 @@
 
 namespace gost{
 
+		// Можно создать своё окно вывода. По умолчанию, окно вывода имеет форму консоли, с возможностью ввода команд.
 	class gtOutputWindow : public gtRefObject {
 	public:
 

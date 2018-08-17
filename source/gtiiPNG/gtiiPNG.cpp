@@ -4,8 +4,6 @@
 
 #include <memory>
 
-#pragma warning(disable : 4820)
-
 #include <png.h>
 #include <zlib.h>
 
@@ -27,10 +25,10 @@ extern "C"{
 		return GT_EXT_COUNT;
 	}
 
-	GT_API s8*	PluginGetExtension( u32 id ){
+	GT_API const s8*	PluginGetExtension( u32 id ){
 		GT_ASSERT1( id < GT_EXT_COUNT, "Bad argument", "id < gtConst1U" );
 
-		s8 * exts[ GT_EXT_COUNT ] = {
+		const s8 * exts[ GT_EXT_COUNT ] = {
 			"png"
 		};
 

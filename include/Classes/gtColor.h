@@ -15,28 +15,28 @@ namespace math{
 
 	class gtColor{
 
-		f32	m_data[ gtConst4U ];
+		f32	m_data[ 4u ];
 
 
 	public:
 		gtColor(){
-			m_data[ gtConst0U ] = m_data[ gtConst1U ] = m_data[ gtConst2U ] = gtConst0F;
-			m_data[ gtConst3U ] = gtConst1F;
+			m_data[ 0u ] = m_data[ 1u ] = m_data[ 2u ] = 0.f;
+			m_data[ 3u ] = 1.f;
 		}
 
 		gtColor( f32 v ){
-			m_data[ gtConst0U ] = m_data[ gtConst1U ] = m_data[ gtConst2U ] = v;
-			m_data[ gtConst3U ] = gtConst1F;
+			m_data[ 0u ] = m_data[ 1u ] = m_data[ 2u ] = v;
+			m_data[ 3u ] = 1.f;
 		}
 
-		gtColor( f32 r, f32 g, f32 b, f32 a = gtConst1F ){
-			m_data[ gtConst0U ] = r;
-			m_data[ gtConst1U ] = g;
-			m_data[ gtConst2U ] = b;
-			m_data[ gtConst3U ] = a;
+		gtColor( f32 r, f32 g, f32 b, f32 a = 1.f ){
+			m_data[ 0u ] = r;
+			m_data[ 1u ] = g;
+			m_data[ 2u ] = b;
+			m_data[ 3u ] = a;
 		}
 
-		gtColor( s32 r, s32 g, s32 b, s32 a = gtConst255 ){
+		gtColor( s32 r, s32 g, s32 b, s32 a = 255 ){
 			this->setAsByteAlpha( a );
 			this->setAsByteRed( r );
 			this->setAsByteGreen( g );
@@ -47,17 +47,17 @@ namespace math{
 			setAsInteger( uint_data );
 		}
 
-		const f32 * getData() const { return &m_data[ gtConst0U ]; }
+		const f32 * getData() const { return &m_data[ 0u ]; }
 
-		const f32 getRed() const   { return m_data[ gtConst0U ]; }
-		const f32 getGreen() const { return m_data[ gtConst1U ]; }
-		const f32 getBlue() const  { return m_data[ gtConst2U ]; }
-		const f32 getAlpha() const { return m_data[ gtConst3U ]; }
+		const f32 getRed() const   { return m_data[ 0u ]; }
+		const f32 getGreen() const { return m_data[ 1u ]; }
+		const f32 getBlue() const  { return m_data[ 2u ]; }
+		const f32 getAlpha() const { return m_data[ 3u ]; }
 
-		const u8 getAsByteRed() const   { return static_cast<u8>( m_data[ gtConst0U ] * gtConst255F ); }
-		const u8 getAsByteGreen() const { return static_cast<u8>( m_data[ gtConst1U ] * gtConst255F ); }
-		const u8 getAsByteBlue() const  { return static_cast<u8>( m_data[ gtConst2U ] * gtConst255F ); }
-		const u8 getAsByteAlpha() const { return static_cast<u8>( m_data[ gtConst3U ] * gtConst255F ); }
+		const u8 getAsByteRed() const   { return static_cast<u8>( m_data[ 0u ] * 255.f ); }
+		const u8 getAsByteGreen() const { return static_cast<u8>( m_data[ 1u ] * 255.f ); }
+		const u8 getAsByteBlue() const  { return static_cast<u8>( m_data[ 2u ] * 255.f ); }
+		const u8 getAsByteAlpha() const { return static_cast<u8>( m_data[ 3u ] * 255.f ); }
 
 		u32 getAsInteger(){
 			return GT_MAKEFOURCC(
@@ -68,30 +68,30 @@ namespace math{
 			);
 		}
 
-		void setAlpha( f32 v ){ m_data[ gtConst3U ] = v;	}
-		void setRed( f32 v )  { m_data[ gtConst0U ] = v;	}
-		void setGreen( f32 v ){ m_data[ gtConst1U ] = v;	}
-		void setBlue( f32 v ) { m_data[ gtConst2U ] = v;	}
+		void setAlpha( f32 v ){ m_data[ 3u ] = v;	}
+		void setRed( f32 v )  { m_data[ 0u ] = v;	}
+		void setGreen( f32 v ){ m_data[ 1u ] = v;	}
+		void setBlue( f32 v ) { m_data[ 2u ] = v;	}
 
-		void setAsByteAlpha( s32 v ){ m_data[ gtConst3U ] = static_cast<f32>(v) * math::gtColorDivider; }
-		void setAsByteRed( s32 v )  { m_data[ gtConst0U ] = static_cast<f32>(v) * math::gtColorDivider; }
-		void setAsByteGreen( s32 v ){ m_data[ gtConst1U ] = static_cast<f32>(v) * math::gtColorDivider; }
-		void setAsByteBlue( s32 v ) { m_data[ gtConst2U ] = static_cast<f32>(v) * math::gtColorDivider; }
+		void setAsByteAlpha( s32 v ){ m_data[ 3u ] = static_cast<f32>(v) * math::gtColorDivider; }
+		void setAsByteRed( s32 v )  { m_data[ 0u ] = static_cast<f32>(v) * math::gtColorDivider; }
+		void setAsByteGreen( s32 v ){ m_data[ 1u ] = static_cast<f32>(v) * math::gtColorDivider; }
+		void setAsByteBlue( s32 v ) { m_data[ 2u ] = static_cast<f32>(v) * math::gtColorDivider; }
 
 			//	argb
 			//	\param v: u32 color
 		void setAsInteger( u32 v ){
-			this->setAsByteRed( static_cast<u8>( v >> gtConst16U ) );
-			this->setAsByteGreen( static_cast<u8>( v >> gtConst8U ) );
+			this->setAsByteRed( static_cast<u8>( v >> 16u ) );
+			this->setAsByteGreen( static_cast<u8>( v >> 8u ) );
 			this->setAsByteBlue( static_cast<u8>( v ) );
-			this->setAsByteAlpha( static_cast<u8>( v >> gtConst24U ) );
+			this->setAsByteAlpha( static_cast<u8>( v >> 24u ) );
 		}
 
 			// \param r: red component
 			// \param g: green component
 			// \param b: blue component
 			// \param z: alpha component
-		void set( f32 r, f32 g, f32 b, f32 a = gtConst1F ){
+		void set( f32 r, f32 g, f32 b, f32 a = 1.f ){
 			setAlpha( a );
 			setRed( r );
 			setGreen( g );
@@ -100,7 +100,7 @@ namespace math{
 
 			// \param v: rgb components
 			// \param a: alpha component
-		void set( f32 v, f32 a = gtConst1F ){
+		void set( f32 v, f32 a = 1.f ){
 			setAlpha( a );
 			setRed( v );
 			setGreen( v );
@@ -264,7 +264,7 @@ namespace math{
 		GT_FORCE_INLINE void printColor( const gtColor& c ){
 			gtLogWriter::printInfo( u"Color:" );
 			const f32 * data = c.getData();
-			for( u32 i{ gtConst0U }; i < gtConst4U; ++i )
+			for( u32 i{ 0u }; i < 4u; ++i )
 				gtLogWriter::printInfo( u"\t\t%f", data[ i ] );
 		}
 

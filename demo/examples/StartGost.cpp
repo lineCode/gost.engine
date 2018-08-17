@@ -48,10 +48,7 @@ private:
 public:
 
 	CustomOutput( void ) : m_hWnd( 0 ), m_isInit( false ){
-	#ifdef GT_DEBUG
-			this->setDebugName( u"OutputWindow" );
-	#endif
-			init();
+		init();
 	}
 
 	// Call this method before using the output window
@@ -61,36 +58,38 @@ public:
 		if( !AllocConsole() ){
 			return;
 		}
-
+		
 		freopen("CONOUT$", "w", stdout);
 		m_hWnd = GetConsoleWindow();
 		m_isInit = true;
 	}
 
 	// Call when output window is no longer needed
-	void	shutdown( void ){
+	void	shutdown(){
 		if( m_isInit )
 			if( FreeConsole() )
 				m_isInit = false;
 	}
 
 	// Returns true if window has been initiliazed correctly
-	bool	isInit( void ){
+	bool	isInit(){
 		return m_isInit;
 	}
 
-	bool	isShow( void ){
+	bool	isShow(){
 		return true;
 	}
 
   //Theese methods show/hide output window. Because we are using console, they are empty.
-	void	show( void ){}
-	void	hide( void ){}
-
+	void	show(){}
+	void	hide(){}
+	void    clear(){}
 
 	void	print( const gtString& s ){
-		if( m_isInit )
-			wprintf( L"%s\n", (wchar_t*)s.data() );
+		gtString stru = s;
+		gtStringA stra;
+		util::stringUTF16_to_UTF8(stru,stra);
+		printf( "%s\n", stra.c_str() );
 	}
 
 	void	setWindowText( const gtString& s ){
@@ -147,21 +146,39 @@ int main(){
  
 
 	gtWindowInfo wi;
-    wi.m_style = gtWindowInfo::standart;
-    wi.m_style |= gtWindowInfo::maximize;
-    wi.m_style |= gtWindowInfo::resize;
+    wi.m_style = gtWindowInfo::style_standart;
+    wi.m_style |= gtWindowInfo::style_maximize;
+    wi.m_style |= gtWindowInfo::style_resize;
 	auto window = mainSystem->createSystemWindow( &wi );
 
 	gtGraphicsSystemInfo gsi;
 	gsi.m_outWindow = window.data();
-
-	auto videoDriver = mainSystem->createGraphicsSystem( gsi, GT_UID_RENDER_D3D11 );
 
 	/*
 		auto audioDriver = mainSystem->createAudioSystem( GT_UID_AUDIO_XADUDIO2 );
 		auto sound = audioDriver->createAudioObject( u"sound.ogg" );
 		sound->play();
 	*/
+	
+#define ___ASD
+#ifdef ___ASD	
+	auto graphicsSystem = mainSystem->createGraphicsSystem( gsi, GT_UID_RENDER_D3D11 );
+
+	gtPtr<gtImage> image_original = mainSystem->loadImage( u"D:/1.png" );
+	
+	gtImage image_converted;
+	image_converted	= image_original.data();
+	
+	gtImage::_convert( gtImageFormat::One_bit, &image_converted );
+	
+	gtImage::_convert( gtImageFormat::R8G8B8A8, &image_converted );
+	
+	auto texture = graphicsSystem->createTexture( &image_converted );
+	
+	gtMaterial mat;
+	mat.textureLayer[ 0 ].texture = texture.data();
+	mat.flags = (u32)gtMaterialFlag::AlphaBlend;
+#endif	
 
 	f32 r = 0.f;
 	f32 g = 0.f;
@@ -204,8 +221,13 @@ int main(){
 		Function(); //LMB
 
 		if( mainSystem->isRun() ){
-			videoDriver->beginRender( true, gtColor(r,g,b,1.f) );
-			videoDriver->endRender();
+#ifdef ___ASD	
+			if( graphicsSystem ){
+				graphicsSystem->beginRender( true, gtColor(r,g,b,1.f) );
+				graphicsSystem->draw2DImage( v4i(0, 0, 512, 512), mat );
+				graphicsSystem->endRender();
+			}
+#endif
 		}
 	}
 	

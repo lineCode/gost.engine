@@ -8,15 +8,21 @@ namespace gost{
 	class gtSingletone{
 	protected:
 		 
-		gtSingletone();
+		gtSingletone()
+		{}
 		gtSingletone( const gtSingletone& ) = delete;
 		gtSingletone& operator=( const gtSingletone& ) = delete;
 
 	public:
 
-		~gtSingletone();
+		~gtSingletone(){
+			if( s_instance )
+				delete s_instance;
+		}
 
-		static Type& getInstance();
+		static Type& getInstance(){
+			return *gtSingletone<Type>::s_instance;
+		}
 	
 		static Type * s_instance;
 

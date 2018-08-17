@@ -124,6 +124,7 @@
 	#	endif
 	#elif defined(_WIN32)
 	#include <windows.h>
+	#include <wincon.h>
     #include <mmsystem.h>
 	#		define	GT_PLATFORM_WIN32
 	#		if	defined(_WIN64)

@@ -7,13 +7,16 @@
 
 namespace gost{
 
+		// Можно проверить поддерживает ли плагин нужные функции
 	enum class gtAudioPluginFeatures : u32{
-		Streaming_audio,
-		Reverberation,
-		Pitch,
-		Audio_3D
+		
+		Streaming_audio,   // Поддержка потокового аудио
+		Reverberation,     // Эффект реверберации
+		Pitch,             // Эффект изменения высоты звучания
+		Audio_3D           // Поддержка 3D
 	};
 
+		// Управляет всеми аудио функциями
 	class gtAudioSystem : public gtRefObject{
 	public:
 
@@ -29,7 +32,11 @@ namespace gost{
 			//	Open audio file to play streaming audio.
 		virtual gtAudioStream*	createStream( const gtString& fileName ) = 0;
 
+			// Получить строку в котором написано расширение файла который доступен для чтения аудио движком
+			// Прежде чем использовать нужно узнать количество поддерживаемых расширений вызвав getSupportedExtensionCount()
 		virtual const s8*		getSupportedExtension( u32 id ) = 0;
+		
+			// Получить количество поддерживаемых расширений
 		virtual u32				getSupportedExtensionCount() = 0;
 
 			//	Load audio file

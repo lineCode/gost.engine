@@ -189,8 +189,8 @@ void gtGUITextFieldImpl::update(){
 	auto wndH = rc.getHeight();
 	auto wndW = rc.getWidth();
 
-	auto params = m_gs->getParams();
-	auto bbsz = params.m_outWindow->getClientRect();
+	//auto params = m_gs->getParams();
+	//auto bbsz = params.m_outWindow->getClientRect();
 
 	f32 mulx = ((f32)m_gs->getParams().m_backBufferSize.x / (f32)wndW);
 	f32 muly = ((f32)m_gs->getParams().m_backBufferSize.y / (f32)wndH);

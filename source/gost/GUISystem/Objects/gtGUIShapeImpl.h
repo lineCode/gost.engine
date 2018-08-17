@@ -6,18 +6,19 @@ namespace gost{
 
 
 	class gtGUIShapeImpl : public gtGUIShape{
-		gtMainSystem *	m_mainSystem;
-		gtModelSystem*	m_modelSystem;
-		gtGraphicsSystem*m_gs;
-		gtRenderModel*	m_model;
-		gtMaterial*		m_material;
-		gtTexture *     m_texture;
-
+		gtMainSystem *	   m_mainSystem;
+		gtModelSystem*	   m_modelSystem;
+		gtGraphicsSystem*  m_gs;
+		gtRenderModel*	   m_model;
+		gtMaterial*		   m_material;
+		gtTexture *        m_texture;
+		bool               m_useVertGradient;
+		
 		gtVertexType	vt[ gtConst5U ];
-		gtColor m_difColor;
-		gtColor m_gr1Color;
-		gtColor m_gr2Color;
-		bool m_useVertGradient;
+		gtColor         m_difColor;
+		gtColor         m_gr1Color;
+		gtColor         m_gr2Color;
+		
 
 	public:
 

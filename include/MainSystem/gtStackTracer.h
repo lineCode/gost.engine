@@ -18,6 +18,8 @@ namespace gost{
 	
 	constexpr u32 gtMaxStackFrames = 1024u;
 
+	// Почему-то перестал работать
+	
 	class gtStackTracer{
 		
 		gtPtr<gtLog> m_log;

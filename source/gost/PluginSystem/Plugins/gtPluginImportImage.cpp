@@ -78,7 +78,7 @@ bool gtPluginImportImage::checkLibraryFunctions(){
 	u32 sz = gtPluginGetExtCount();
 	if( sz ){
 		for( u32 i = gtConst0U; i < sz; ++i ){
-			s8 * str = gtPluginGetExtension( i );
+			const s8 * str = gtPluginGetExtension( i );
 			gtString ext;
 			util::stringAppend( ext, str, u'a' );
 			util::stringToLower( ext );

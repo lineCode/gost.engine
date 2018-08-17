@@ -4,6 +4,7 @@
 
 namespace gost{
 		
+		// Класс описывающий общую информацию и действия для анимации
 	class gtAnimation{
 
 		v2u m_loopSegment;

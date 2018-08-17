@@ -2,6 +2,8 @@
 #ifndef __GT_CONSTANTS_H__
 #define __GT_CONSTANTS_H__ //< include guard
 
+
+
 	constexpr f32 gtConst0F = 0.f;
 	constexpr f32 gtConst05F = 0.5f;
 	constexpr f32 gtConst1F = 1.f;
@@ -42,6 +44,9 @@
 	constexpr u32 gtConst128U = 128u;
 	constexpr u32 gtConst256U = 256u;
 	constexpr u32 gtConst512U = 512u;
+	
+	//всё что выше надо удалить
+	
 	constexpr u32 gtConst0xFFFFFFFF = 0xFFFFFFFF;
 
 

@@ -2,10 +2,12 @@
 
 #include "common.h"
 
+#ifdef _MSC_VER
 #ifdef _DEBUG
 #pragma comment(lib, "gost_d.lib")
 #else 
 #pragma comment(lib, "gost.lib")
+#endif
 #endif
 
 extern "C"{
@@ -24,10 +26,10 @@ extern "C"{
 		return gtConst3U;
 	}
 
-	GT_API s8*	__cdecl PluginGetExtension( u32 id ){
+	GT_API const s8*	__cdecl PluginGetExtension( u32 id ){
 		GT_ASSERT1( id < gtConst3U, "Bad argument", "id < gtConst3U" );
 
-		s8 * exts[ gtConst3U ] = {
+		const s8 * exts[ gtConst3U ] = {
 			"bmp",
 			"dib",
 			"rle"
@@ -315,7 +317,9 @@ extern "C"{
 			}*/
 
 			u32 indSize = image->width * image->height;
-			std::unique_ptr<u8[]> inds( new u8[ indSize ] );
+			
+			u8 * _data = new u8[ indSize ];
+			std::unique_ptr<u8[]> inds( _data );
 
 			if( !info.bV5Compression ){
 				u32 readNum = file->read( inds.get(), indSize );
@@ -326,7 +330,9 @@ extern "C"{
 					return false;
 				}
 			}else{
-				std::unique_ptr<u8[]> rle( new u8[ info.bV5SizeImage ] );
+				
+				u8 * _data2 = new u8[ info.bV5SizeImage ];
+				std::unique_ptr<u8[]> rle( _data2 );
 				u32 readNum = file->read( rle.get(), info.bV5SizeImage );
 				if( readNum != info.bV5SizeImage ){
 					gtLogWriter::printWarning( u"BMP Plugin: can not read file. [%s]", fileName->data() );
@@ -335,7 +341,7 @@ extern "C"{
 					return false;
 				}
 
-				decompress8BitRLE( rle._Myptr(), inds._Myptr(), info.bV5SizeImage, image->width, image->height );
+				decompress8BitRLE( _data2, _data, info.bV5SizeImage, image->width, image->height );
 			}
 
 			u8 * u8_ptr = inds.get();
@@ -474,7 +480,7 @@ void decompress4BitRLE( u8*& rleData, u8*& inds, u32 size, u32 width, u32 height
 		s32 line = 0;
 		s32 shift = 4;
 
-		while( rleData - p < size && d < destEnd){
+		while( rleData - p < (s32)size && d < destEnd){
 			if( *p == 0 ){
 				++p;
 
@@ -562,7 +568,7 @@ void decompress4BitRLE( u8*& rleData, u8*& inds, u32 size, u32 width, u32 height
 		u8* destEnd = newBmp + (width*height);
 		s32 line = 0;
 
-		while( rleData - p < size && d < destEnd)
+		while( rleData - p < (s32)size && d < destEnd)
 		{
 			if (*p == 0)
 			{

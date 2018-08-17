@@ -772,6 +772,60 @@ gtArray<gtXMLNode*> gtXMLDocumentImpl::selectNodes( const gtString& XPath_expres
 
 			case gtXPathTokenType::Double_slash:
 			break;
+			case gtXPathTokenType::Name:
+			break;
+			case gtXPathTokenType::Equal:
+			break;
+			case gtXPathTokenType::Not_equal:
+			break;
+			case gtXPathTokenType::More:
+			break;
+			case gtXPathTokenType::Less:
+			break;
+			case gtXPathTokenType::More_eq:
+			break;
+			case gtXPathTokenType::Less_eq:
+			break;
+			case gtXPathTokenType::Apos:
+			break;
+			case gtXPathTokenType::Number:
+			break;
+			case gtXPathTokenType::Comma:
+			break;
+			case gtXPathTokenType::Function:
+			break;
+			case gtXPathTokenType::Function_open:
+			break;
+			case gtXPathTokenType::Function_close:
+			break;
+			case gtXPathTokenType::Attribute:
+			break;
+			case gtXPathTokenType::Bit_or:
+			break;
+			case gtXPathTokenType::Sq_open:
+			break;
+			case gtXPathTokenType::Sq_close:
+			break;
+			case gtXPathTokenType::Div:
+			break;
+			case gtXPathTokenType::Mod:
+			break;
+			case gtXPathTokenType::Add:
+			break;
+			case gtXPathTokenType::Sub:
+			break;
+			case gtXPathTokenType::Mul:
+			break;
+			case gtXPathTokenType::And:
+			break;
+			case gtXPathTokenType::Or:
+			break;
+			case gtXPathTokenType::Axis_namespace:
+			break;
+			case gtXPathTokenType::Axis:
+			break;
+			case gtXPathTokenType::NONE:
+			break;
 		}
 
 	}

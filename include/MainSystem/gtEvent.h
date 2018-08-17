@@ -8,18 +8,16 @@ namespace gost{
 	class gtWindow;
 	struct gtInputDevice;
 
-	constexpr u32 GT_EVENT_JOYSTICK_ADD    = gtConst1U;
-	constexpr u32 GT_EVENT_JOYSTICK_REMOVE = gtConst2U;
-
-	constexpr u32 GT_EVENT_SYSTEM_TIMER    = gtConst1U;
-
-	constexpr u32 GT_EVENT_MASK_MOUSE_LMB	= gtConst1U;
-	constexpr u32 GT_EVENT_MASK_MOUSE_RMB	= gtConst2U;
-	constexpr u32 GT_EVENT_MASK_MOUSE_MMB	= gtConst4U;
-	constexpr u32 GT_EVENT_MASK_MOUSE_EXTRA1 = gtConst8U;
-	constexpr u32 GT_EVENT_MASK_MOUSE_EXTRA2 = gtConst16U;
-	constexpr u32 GT_EVENT_MASK_MOUSE_LMB_DBL = gtConst32U;
-	constexpr u32 GT_EVENT_MASK_MOUSE_RMB_DBL = gtConst64U;
+	constexpr u32 GT_EVENT_JOYSTICK_ADD    = 1u;
+	constexpr u32 GT_EVENT_JOYSTICK_REMOVE = 2u;
+	constexpr u32 GT_EVENT_SYSTEM_TIMER    = 1u;
+	constexpr u32 GT_EVENT_MASK_MOUSE_LMB	= 1u;
+	constexpr u32 GT_EVENT_MASK_MOUSE_RMB	= 2u;
+	constexpr u32 GT_EVENT_MASK_MOUSE_MMB	= 4u;
+	constexpr u32 GT_EVENT_MASK_MOUSE_EXTRA1 = 8u;
+	constexpr u32 GT_EVENT_MASK_MOUSE_EXTRA2 = 16u;
+	constexpr u32 GT_EVENT_MASK_MOUSE_LMB_DBL = 32u;
+	constexpr u32 GT_EVENT_MASK_MOUSE_RMB_DBL = 64u;
 
 	enum class gtEventWindowAction : u32 {
 		None,
@@ -166,7 +164,7 @@ namespace gost{
 
 		gtEventType type = gtEventType::None;
 		
-		u32 dataSize	= gtConst0U;		
+		u32 dataSize	= 0u;		
 		void* data		= nullptr;
 
 	};

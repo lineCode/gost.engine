@@ -1,9 +1,10 @@
 #include "common.h"
 
 gtGUIMenuItemImpl::gtGUIMenuItemImpl( gtGraphicsSystem * d, gtGUIMenuImpl* menu ):
-	m_gs( d ),
 	m_mainSystem( nullptr ),
 	m_modelSystem( nullptr ),
+	m_gs( d ),
+	m_gui( nullptr ),
 	m_wnd( nullptr ),
 	m_menu( menu ),
 	m_windowItemIcon_texture( nullptr ),
@@ -39,7 +40,7 @@ gtGUIShape* gtGUIMenuItemImpl::getMouseHoverShape(){
 
 void gtGUIMenuItemImpl::update(){
 
-	auto wrc = m_wnd->getClientRect();
+//	auto wrc = m_wnd->getClientRect();
 
 	v4i text_rect = m_rect;
 

@@ -7,10 +7,12 @@
 #include "gost.h"
 using namespace gost;
 
+#ifdef _MSC_VER
 #ifdef _DEBUG
 #pragma comment(lib, "gost_d.lib")
 #else 
 #pragma comment(lib, "gost.lib")
+#endif
 #endif
 
 #define GT_EXT_COUNT gtConst1U
@@ -32,10 +34,10 @@ extern "C"{
 	}
 
 
-	GT_API s8*	PluginGetExtension( u32 id ){
+	GT_API const s8*	PluginGetExtension( u32 id ){
 		GT_ASSERT1( id < GT_EXT_COUNT, "Bad argument", "id < 1"  );
 
-		s8 * exts[ GT_EXT_COUNT ] = {
+		const s8 * exts[ GT_EXT_COUNT ] = {
 			"obj"
 		};
 

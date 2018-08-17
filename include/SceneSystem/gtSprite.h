@@ -6,7 +6,7 @@ namespace gost{
 
 	class gtGraphicsSystem;
 
-		class gtSprite : public gtGameObject{
+	class gtSprite : public gtGameObject{
 
 			gtSprite(){};
 

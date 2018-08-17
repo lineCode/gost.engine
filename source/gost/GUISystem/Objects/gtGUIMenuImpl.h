@@ -6,11 +6,12 @@ namespace gost{
 
 
 	class gtGUIMenuImpl : public gtGUIMenu{
-		gtMainSystem *	m_mainSystem;
-		gtModelSystem*	m_modelSystem;
-		gtGraphicsSystem*m_gs;
-		gtGUISystem*	m_gui;
-		gtWindow *      m_wnd;
+		gtMainSystem *	  m_mainSystem;
+		gtModelSystem*	  m_modelSystem;
+		gtGraphicsSystem* m_gs;
+		gtGUISystem*	  m_gui;
+		gtWindow *        m_wnd;
+		s32               m_widthLen;
 		
 		gtMaterial      m_material;
 
@@ -21,7 +22,7 @@ namespace gost{
 		gtGUIMenuParameters m_params;
 
 		v4i             m_backgroundRect;
-		s32             m_widthLen;
+		
 
 		gtArray<gtPair<gtGUIObject*,s32>> m_elements;
 		gtArray<gtPtr<gtGUIMenuItem>>     m_items;
