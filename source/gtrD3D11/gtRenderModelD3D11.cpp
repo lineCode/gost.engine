@@ -120,7 +120,7 @@ gtObb* gtRenderModelD3D11::getObb(){
 	return &m_obb;
 }
 
-bool gtRenderModelD3D11::lock( u32 id, void * ptr, lock_type type ){
+bool gtRenderModelD3D11::lock( u32 id, void ** ptr, lock_type type ){
 	if( m_lockedResource ){
 		gtLogWriter::printWarning( u"Can not lock D3D11 render model buffer. Model is locked." );
 		return false;
@@ -143,7 +143,7 @@ bool gtRenderModelD3D11::lock( u32 id, void * ptr, lock_type type ){
 	else
 		d3dbuffer = m_iBuffers[ id ];
 	
-	D3D11_MAPPED_SUBRESOURCE mapData;
+	static D3D11_MAPPED_SUBRESOURCE mapData;
 	auto hr = m_gs->getD3DDeviceContext()->Map(
 		d3dbuffer,
 		0,
@@ -152,6 +152,12 @@ bool gtRenderModelD3D11::lock( u32 id, void * ptr, lock_type type ){
 		&mapData
 	);
 	
+	if( FAILED( hr ) ){
+		gtLogWriter::printWarning( u"Can not lock D3D11 render model buffer. Code : %u", hr );
+		return false;
+	}
+	
+	*ptr = mapData.pData;
 	m_lockedResource = d3dbuffer;
 	
 	return true;

@@ -45,7 +45,7 @@ namespace gost{
 		gtAabb*				getAabb();
 		gtObb*				getObb();
 		
-		bool lock( u32 id, void * ptr, lock_type type );
+		bool lock( u32 id, void ** ptr, lock_type type );
 		void unlock();
 	};
 

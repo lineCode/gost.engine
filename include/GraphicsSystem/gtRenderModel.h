@@ -29,7 +29,7 @@ namespace gost{
 		
 			// Вернёт hardware буфер для редактирования если gtRenderModel создан как dynamic (см. gtRenderModelInfo)
 			// id - номер мешбуфера (получить количество getSubModelCount())
-		virtual bool lock( u32 id, void * ptr, lock_type type ) = 0;
+		virtual bool lock( u32 id, void ** ptr, lock_type type ) = 0;
 		virtual void unlock() = 0;
 		
 	};
