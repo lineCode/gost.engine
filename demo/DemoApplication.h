@@ -184,6 +184,8 @@ namespace demo{
 
 		static DemoApplication * s_this;
 
+		gtRenderModel * m_plane;
+		
 	public:
 
 

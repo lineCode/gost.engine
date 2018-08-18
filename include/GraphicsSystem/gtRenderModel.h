@@ -4,6 +4,10 @@
 
 namespace gost{
 	
+	struct gtRenderModelInfo{
+		bool m_dynamic = false;
+	};
+	
 	class gtRenderModel : public gtRefObject{
 	public:
 
@@ -17,6 +21,17 @@ namespace gost{
 
 		virtual gtAabb*				getAabb() = 0;
 		virtual gtObb*				getObb() = 0;
+		
+		enum class lock_type{
+			index,
+			vertex
+		};
+		
+			// Вернёт hardware буфер для редактирования если gtRenderModel создан как dynamic (см. gtRenderModelInfo)
+			// id - номер мешбуфера (получить количество getSubModelCount())
+		virtual bool lock( u32 id, void * ptr, lock_type type ) = 0;
+		virtual void unlock() = 0;
+		
 	};
 
 }

@@ -2,10 +2,9 @@
 
 #include "common.h"
 
-gtDriverD3D11::gtDriverD3D11( /*gtMainSystem* System,*/ gtGraphicsSystemInfo params ):
+gtDriverD3D11::gtDriverD3D11( gtGraphicsSystemInfo params ):
 	m_system( nullptr ),
 	m_D3DLibrary( nullptr ),
-	m_dxgiFactory( nullptr ),
 	m_SwapChain( nullptr ),
 	m_d3d11Device( nullptr ),
 	m_d3d11DevCon( nullptr ),
@@ -72,10 +71,8 @@ gtDriverD3D11::~gtDriverD3D11(){
 	if( m_MainTargetView )                       m_MainTargetView->Release();
 	if( m_d3d11DevCon )                          m_d3d11DevCon->Release();
 	if( m_SwapChain )                            m_SwapChain->Release();
-	if( m_dxgiFactory )                          m_dxgiFactory->Release();
 	if( m_d3d11Device )                          m_d3d11Device->Release();
 	if( m_D3DLibrary )                           FreeLibrary( m_D3DLibrary ); m_D3DLibrary = NULL;
-	//if( m_DXGILibrary )                          FreeLibrary( m_DXGILibrary ); m_DXGILibrary = NULL;
 }
 
 HMODULE gtDriverD3D11::getD3DLibraryHandle(){ return m_D3DLibrary; }
@@ -95,6 +92,7 @@ void gtDriverD3D11::setActiveShader( gtShader* shader ){
 
 bool gtDriverD3D11::initialize(){
 
+	HRESULT	hr;
 	if( !m_params.m_outWindow ){
 		gtLogWriter::printError( u"No render out window." );
 		return false;
@@ -152,8 +150,8 @@ bool gtDriverD3D11::initialize(){
 	*/
 	
 	D3D_FEATURE_LEVEL featureLevel = D3D_FEATURE_LEVEL_11_0;
-	
-	/*if( FAILED(D3D11CreateDevice(
+	/*
+	if( FAILED(D3D11CreateDevice(
 		nullptr,
 		D3D_DRIVER_TYPE_HARDWARE,
 		nullptr,
@@ -166,8 +164,8 @@ bool gtDriverD3D11::initialize(){
 		nullptr ))){
 			gtLogWriter::printError( u"Can not get D3D Feature Level");
 		return false;
-	}*/
-
+	}
+*/
 	/*
 	if( featureLevel == D3D_FEATURE_LEVEL_11_0 ){
 		gtLogWriter::printInfo( u"D3D feature level 11.0" );
@@ -175,36 +173,13 @@ bool gtDriverD3D11::initialize(){
 		gtLogWriter::printInfo( u"D3D feature level 11.1" );
 	}
 	*/
-/*
-	gtString dxgilib_str = gtFileSystem::getSystemPath();
-	dxgilib_str += u"dxgi.dll";
 
-	m_DXGILibrary = LoadLibrary( (wchar_t*)dxgilib_str.data() );
-	if( !m_DXGILibrary ){
-		gtLogWriter::printError( u"Could not load dxgi.dll" );
-		return false;
-	}
-	gtCreateDXGIFactory_t gtCreateDXGIFactory = GT_LOAD_FUNCTION_SAFE_CAST(gtCreateDXGIFactory_t,m_DXGILibrary, "CreateDXGIFactory");
-	if( !gtCreateDXGIFactory ){
-		gtLogWriter::printError( u"Could not get proc adress of CreateDXGIFactory");
-		return false;
-	}
-	*/
-	
-	/*
-	auto hr = gtCreateDXGIFactory( IID_IDXGIFactory, (void**)&m_dxgiFactory );
-	if( FAILED(hr)){
-			gtLogWriter::printError( u"Can't create DXGI Factory : code %u", hr );
-		return false;
-	}
-
-	gtLogWriter::printInfo( u"1" );
 	
 	hr = D3D11CreateDevice(
 		nullptr,
 		D3D_DRIVER_TYPE_HARDWARE,
 		nullptr,
-		0,
+		D3D11_CREATE_DEVICE_SINGLETHREADED,
 		nullptr,
 		0,
 		D3D11_SDK_VERSION,
@@ -212,7 +187,7 @@ bool gtDriverD3D11::initialize(){
 		&featureLevel,
 		&m_d3d11DevCon );
 
-	gtLogWriter::printInfo( u"2" );
+	gtLogWriter::printInfo( u"featureLevel : %u", featureLevel );
 	
 	if( FAILED(hr)){
 			gtLogWriter::printError( u"Can't create Direct3D 11 Device : code %u", hr );
@@ -222,14 +197,37 @@ bool gtDriverD3D11::initialize(){
 	UINT numQualityLevels = 0;
 	hr = getD3DDevice()->CheckMultisampleQualityLevels(
 		DXGI_FORMAT_R8G8B8A8_UNORM,
-		1,
+		4,
 		&numQualityLevels );
 	if( FAILED(hr)){
-			gtLogWriter::printError( u"Can't Check Multisample Quality Levels : code %u", hr );
+		gtLogWriter::printError( u"Can't Check Multisample Quality Levels : code %u", hr );
 		return false;
 	}
-	//gtLogWriter::printInfo( u"Number of Multisample Quality Levels : %u", numQualityLevels );
-*/
+	
+	gtLogWriter::printInfo( u"Hardware MSAA Quality levels : %u", numQualityLevels );
+	
+	IDXGIDevice *  dxgiDevice  = nullptr;
+	IDXGIAdapter * dxgiAdapter = nullptr;
+	IDXGIFactory1* dxgiFactory = nullptr;
+	hr = m_d3d11Device->QueryInterface( IID_IDXGIDevice,(void**)&dxgiDevice );
+	if( FAILED(hr) ){
+		gtLogWriter::printError( u"Can't QueryInterface : IID_IDXGIDevice, code %u", hr );
+		return false;
+	}
+	
+	hr = dxgiDevice->GetParent( IID_IDXGIAdapter, (void**)&dxgiAdapter );
+	if( FAILED(hr) ){
+		gtLogWriter::printError( u"Can't get DXGI adapter, code %u", hr );
+		return false;
+	}
+	
+	hr = dxgiAdapter->GetParent( IID_IDXGIFactory, (void**)&dxgiFactory );
+	if( FAILED(hr) ){
+		gtLogWriter::printError( u"Can't get DXGI factory, code %u", hr );
+		return false;
+	}
+	
+	
 	DXGI_SWAP_CHAIN_DESC	swapChainDesc;
 	memset( &swapChainDesc, 0, sizeof(swapChainDesc) );
 	swapChainDesc.BufferDesc	=	bufferDesc;
@@ -243,16 +241,25 @@ bool gtDriverD3D11::initialize(){
 	swapChainDesc.SampleDesc.Quality	=	0;
 
 
-/*
-	hr = m_dxgiFactory->CreateSwapChain( m_d3d11Device, &swapChainDesc, &m_SwapChain );
+
+	hr = dxgiFactory->CreateSwapChain( 
+		m_d3d11Device, 
+		&swapChainDesc, 
+		&m_SwapChain );
+		
 	if( FAILED(hr)){
 			gtLogWriter::printError( u"Can't create Swap Chain : code %u", hr );
 		return false;
 	}
-	m_dxgiFactory->MakeWindowAssociation( (HWND)m_params.m_outWindow->getHandle(), DXGI_MWA_NO_ALT_ENTER);
-	*/
 	
-	HRESULT hr = D3D11CreateDeviceAndSwapChain( 
+	dxgiFactory->MakeWindowAssociation( (HWND)m_params.m_outWindow->getHandle(), DXGI_MWA_NO_ALT_ENTER);
+	
+	dxgiDevice->Release();
+	dxgiAdapter->Release();
+	dxgiFactory->Release();
+	
+	
+	/*HRESULT hr = D3D11CreateDeviceAndSwapChain( 
 		nullptr,
 		D3D_DRIVER_TYPE_HARDWARE, 
 		nullptr,
@@ -271,10 +278,8 @@ bool gtDriverD3D11::initialize(){
 		
 			gtLogWriter::printError( u"Can't create Direct3D 11 Device, code : %u", hr );
 		return false;
-	}
+	}*/
 
-
-	//CreateSwapChain()
 
 	ID3D11Texture2D* BackBuffer;
 	if( FAILED( m_SwapChain->GetBuffer( 
@@ -1055,13 +1060,13 @@ gtPtr<gtTexture>	gtDriverD3D11::createTexture( gtImage* image ){
 	return texture;
 }
 
-gtPtr<gtRenderModel>	gtDriverD3D11::createModel( gtModel* m ){
+gtPtr<gtRenderModel>	gtDriverD3D11::createModel( gtModel* m, gtRenderModelInfo * info ){
 	GT_ASSERT2( m, "gtModel != nullptr" );
 
 	auto ptr = new gtRenderModelD3D11( this );
 	gtPtr<gtRenderModel> model = gtPtrNew<gtRenderModel>( ptr );
 
-	if( !ptr->init( m ) ){
+	if( !ptr->init( m, info ) ){
 		gtLogWriter::printWarning( u"Can not init D3D11 model" );
 		return nullptr;
 	}

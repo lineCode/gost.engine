@@ -55,7 +55,8 @@ namespace gost{
 		virtual void clearModelCache() = 0;
 		virtual void clearTextureCache() = 0;
 
-		virtual gtPtr<gtRenderModel> createModel( gtModel* software_model ) = 0;
+			// Создаёт hardware модель. Внутри info можно указать необходимые возможности для буфера.
+		virtual gtPtr<gtRenderModel> createModel( gtModel* software_model, gtRenderModelInfo * info = nullptr ) = 0;
 		virtual gtPtr<gtTexture>     createTexture( gtImage* sourceImage ) = 0;
 		virtual gtPtr<gtTexture>     createRenderTargetTexture( const v2u& size, gtImageFormat pixelFormat ) = 0;
 

@@ -75,6 +75,10 @@
 #define _Outptr_
 #endif
 
+#ifndef _Out_writes_
+#define _Out_writes_(x)
+#endif
+
 #ifndef _Out_writes_opt_
 #define _Out_writes_opt_(x)
 #endif
@@ -112,6 +116,7 @@
 #endif
 
 typedef interface IDXGIObject IDXGIObject;
+typedef interface IDXGIDevice IDXGIDevice;
 typedef interface IDXGIAdapter IDXGIAdapter;
 typedef interface IDXGIAdapter1 IDXGIAdapter1;
 typedef interface IDXGIOutput IDXGIOutput;
@@ -194,6 +199,17 @@ struct DXGI_ADAPTER_DESC1{
     LUID AdapterLuid;
     UINT Flags;
 };
+
+struct DXGI_SHARED_RESOURCE{
+    HANDLE Handle;
+};
+
+enum DXGI_RESIDENCY{
+    DXGI_RESIDENCY_FULLY_RESIDENT	= 1,
+    DXGI_RESIDENCY_RESIDENT_IN_SHARED_MEMORY	= 2,
+    DXGI_RESIDENCY_EVICTED_TO_DISK	= 3
+};
+	
 	
 enum DXGI_SWAP_EFFECT{
 	DXGI_SWAP_EFFECT_DISCARD	= 0,
@@ -274,6 +290,32 @@ public:
 	virtual HRESULT STDMETHODCALLTYPE GetParent( 
 		_In_  REFIID riid,
 		_COM_Outptr_  void **ppParent) = 0;
+};
+
+EXTERN_C const IID IID_IDXGIDevice;
+MIDL_INTERFACE("54ec77fa-1377-44e6-8c32-88fd5f44c84c")
+IDXGIDevice : public IDXGIObject{
+public:
+	virtual HRESULT STDMETHODCALLTYPE GetAdapter( 
+		_COM_Outptr_  IDXGIAdapter **pAdapter) = 0;
+	
+	virtual HRESULT STDMETHODCALLTYPE CreateSurface( 
+		_In_  const DXGI_SURFACE_DESC *pDesc,
+		/* [in] */ UINT NumSurfaces,
+		/* [in] */ DXGI_USAGE Usage,
+		_In_opt_  const DXGI_SHARED_RESOURCE *pSharedResource,
+		_COM_Outptr_  IDXGISurface **ppSurface) = 0;
+	
+	virtual HRESULT STDMETHODCALLTYPE QueryResourceResidency( 
+		_In_reads_(NumResources)  IUnknown *const *ppResources,
+		_Out_writes_(NumResources)  DXGI_RESIDENCY *pResidencyStatus,
+		/* [in] */ UINT NumResources) = 0;
+	
+	virtual HRESULT STDMETHODCALLTYPE SetGPUThreadPriority( 
+		/* [in] */ INT Priority) = 0;
+	
+	virtual HRESULT STDMETHODCALLTYPE GetGPUThreadPriority( 
+		_Out_  INT *pPriority) = 0;
 };
 
 EXTERN_C const IID IID_IDXGIFactory;    

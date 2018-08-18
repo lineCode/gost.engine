@@ -10,18 +10,21 @@ namespace gost{
 	class gtRenderModelD3D11 : public gtRenderModel{
 
 
-		gtDriverD3D11* m_gs;
+		gtDriverD3D11*  m_gs;
+		ID3D11Buffer*   m_lockedResource;
 
 		gtAabb m_aabb;
 		gtObb  m_obb;
 
+		gtRenderModelInfo m_info;
+		
 	public:
 
 		gtRenderModelD3D11( gtDriverD3D11* );
 		~gtRenderModelD3D11();
 		
 
-		bool	init( gtModel* );
+		bool	init( gtModel*, gtRenderModelInfo * );
 		u32		getSubModelCount();
 
 		gtMaterial*	getMaterial( u32 id );
@@ -41,6 +44,9 @@ namespace gost{
 
 		gtAabb*				getAabb();
 		gtObb*				getObb();
+		
+		bool lock( u32 id, void * ptr, lock_type type );
+		void unlock();
 	};
 
 }

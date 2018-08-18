@@ -6,9 +6,12 @@ void gtImage_convert_1bit_to( gtImageFormat newFormat, gtImage * image,
 	u8 * data = image->data;
 	switch( newFormat ){
 		case gtImageFormat::One_bit:
-		break;
-		case gtImageFormat::R1:
-		break;
+		case gtImageFormat::R1:{
+			auto sz = (image->width*image->height) / 8;
+			if( (image->width*image->height) % 8 )
+				++sz;
+			memcpy(newData,data,sz);
+		}break;
 		case gtImageFormat::A1R5G5B5:
 		break;
 		case gtImageFormat::X1R5G5B5:
@@ -31,24 +34,44 @@ void gtImage_convert_1bit_to( gtImageFormat newFormat, gtImage * image,
 		break;
 		case gtImageFormat::R8G8:
 		break;
-		case gtImageFormat::R8G8B8:
-		break;
+		case gtImageFormat::R8G8B8:{
+			for( u32 i = 0u, count = 0u; i < newSize; ){
+			}
+		}break;
 		case gtImageFormat::R8G8B8A8:{
-			//u8 bit_count = 0u;
-			//u8 byte = 0u;
 			u32 * data32 = reinterpret_cast<u32*>(newData);
 			u32 sz = newSize / 4u;
-			for( u32 i = 0u, count = 0u; i < sz; ){
-				data32[ i+7u ] = ((data[ count ] & 1u))?gtConst0xFFFFFFFF:0u;
-				data32[ i+6u ] = ((data[ count ] & 2u)>>1u)?gtConst0xFFFFFFFF:0u;
-				data32[ i+5u ] = ((data[ count ] & 4u)>>2u)?gtConst0xFFFFFFFF:0u;
-				data32[ i+4u ] = ((data[ count ] & 8u)>>3u)?gtConst0xFFFFFFFF:0u;
-				data32[ i+3u ] = ((data[ count ] & 16u)>>4u)?gtConst0xFFFFFFFF:0u;
-				data32[ i+2u ] = ((data[ count ] & 32u)>>5u)?gtConst0xFFFFFFFF:0u;
-				data32[ i+1u ] = ((data[ count ] & 64u)>>6u)?gtConst0xFFFFFFFF:0u;
-				data32[ i+0u ] = ((data[ count ] & 128u)>>7u)?gtConst0xFFFFFFFF:0u;
-				count++;
-				i += 8u;
+			u32 shift = 0u;
+			u32 mask = 1u;
+			u8 curpixel = 0u;
+			for( u32 i = 0u, count = 0u; i < sz; ++i ){
+				
+				/*
+					0010 1001 -> 1001 0100
+				*/
+				if( !shift ){
+					u8 tmp = data[ count ];
+					curpixel = (tmp&1u)<<7u;
+					curpixel |= (tmp&2u)<<5u;
+					curpixel |= (tmp&4u)<<3u;
+					curpixel |= (tmp&8u)<<1u;
+					curpixel |= (tmp&16u)>>1u;
+					curpixel |= (tmp&32u)>>3u;
+					curpixel |= (tmp&64u)>>5u;
+					curpixel |= (tmp&128u)>>7u;
+				}
+				
+				data32[ i ] = ((curpixel & mask)>>shift)?0xffffffff:0u;
+				
+				mask <<= 1u;
+				++shift;
+				
+				if( shift == 8u ){
+					shift = 0u;
+					mask = 1u;
+					++count;
+				}
+				
 			}
 		}break;
 		case gtImageFormat::R8G8B8G8:

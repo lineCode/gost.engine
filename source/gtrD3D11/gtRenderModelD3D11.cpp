@@ -4,39 +4,51 @@
 gtRenderModelD3D11::gtRenderModelD3D11( gtDriverD3D11* d ):
 	//m_sModel( nullptr ),
 	m_gs( d ),
+	m_lockedResource( nullptr ),
 	m_stride( gtConst0U )
 {}
 
 gtRenderModelD3D11::~gtRenderModelD3D11(){
+	unlock();
+	
 	auto sz = m_vBuffers.size();
 	for( auto i = gtConst0U; i < sz; ++i )
 		m_vBuffers[ i ]->Release();
 
 	sz = m_iBuffers.size();
-	for( auto i = gtConst0U; i < sz; ++i )
+	for( auto i = 0u; i < sz; ++i )
 		m_iBuffers[ i ]->Release();
 }
 
-bool	gtRenderModelD3D11::init( gtModel* m ){
+bool	gtRenderModelD3D11::init( gtModel* m, gtRenderModelInfo * info ){
 
+	if( info )
+		m_info = *info;
+	
 	//m_sModel = m;
 
 	D3D11_BUFFER_DESC	vbd, ibd;
 	ZeroMemory( &vbd, sizeof( D3D11_BUFFER_DESC ) );
 	ZeroMemory( &ibd, sizeof( D3D11_BUFFER_DESC ) );
 
-	vbd.Usage		=	D3D11_USAGE_DYNAMIC;
+	vbd.Usage		=	D3D11_USAGE_DEFAULT;
 	vbd.BindFlags	=	D3D11_BIND_VERTEX_BUFFER;
-	vbd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-
-
-	D3D11_SUBRESOURCE_DATA	vData, iData;
-	ZeroMemory( &vData, sizeof( D3D11_SUBRESOURCE_DATA ) );
-	ZeroMemory( &iData, sizeof( D3D11_SUBRESOURCE_DATA ) );
-
+	
 	ibd.Usage		=	D3D11_USAGE_DEFAULT;
 	ibd.BindFlags	=	D3D11_BIND_INDEX_BUFFER;
 
+	if( info ){
+		if( m_info.m_dynamic ){
+			vbd.Usage		=	D3D11_USAGE_DYNAMIC;
+			vbd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+			ibd.Usage		=	D3D11_USAGE_DYNAMIC;
+			ibd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+		}
+	}
+	
+	D3D11_SUBRESOURCE_DATA	vData, iData;
+	ZeroMemory( &vData, sizeof( D3D11_SUBRESOURCE_DATA ) );
+	ZeroMemory( &iData, sizeof( D3D11_SUBRESOURCE_DATA ) );
 
 	HRESULT	hr;
 
@@ -44,7 +56,7 @@ bool	gtRenderModelD3D11::init( gtModel* m ){
 
 	m_stride = m->getStride();
 
-	for( u32 i( gtConst0U ); i < smc; ++i ){
+	for( u32 i( 0u ); i < smc; ++i ){
 
 		auto * sub = m->getSubModel( i );
 		
@@ -106,6 +118,50 @@ gtAabb* gtRenderModelD3D11::getAabb(){
 
 gtObb* gtRenderModelD3D11::getObb(){
 	return &m_obb;
+}
+
+bool gtRenderModelD3D11::lock( u32 id, void * ptr, lock_type type ){
+	if( m_lockedResource ){
+		gtLogWriter::printWarning( u"Can not lock D3D11 render model buffer. Model is locked." );
+		return false;
+	}
+	
+	if( !m_info.m_dynamic ){
+		gtLogWriter::printWarning( u"Can not lock D3D11 render model buffer. Model is not dynamic." );
+		return false;
+	}
+
+	if( id >= m_subs.size() ){
+		gtLogWriter::printWarning( u"Can not lock D3D11 render model buffer. Bad index (id >= m_subs.size())." );
+		return false;
+	}
+	
+	ID3D11Buffer* d3dbuffer = nullptr;
+	
+	if( type == gtRenderModel::lock_type::vertex )
+		d3dbuffer = m_vBuffers[ id ];
+	else
+		d3dbuffer = m_iBuffers[ id ];
+	
+	D3D11_MAPPED_SUBRESOURCE mapData;
+	auto hr = m_gs->getD3DDeviceContext()->Map(
+		d3dbuffer,
+		0,
+		D3D11_MAP_WRITE_DISCARD,
+		0,
+		&mapData
+	);
+	
+	m_lockedResource = d3dbuffer;
+	
+	return true;
+}
+
+void gtRenderModelD3D11::unlock(){
+	if( m_lockedResource ){
+		m_gs->getD3DDeviceContext()->Unmap( m_lockedResource, 0 );
+		m_lockedResource = nullptr;
+	}
 }
 
 /*

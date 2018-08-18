@@ -58,9 +58,7 @@ namespace gost{
 	
 		gtMainSystem* m_system;
 		HMODULE m_D3DLibrary;
-		//HMODULE m_DXGILibrary;
 
-		IDXGIFactory1*          m_dxgiFactory;
 		IDXGISwapChain*			m_SwapChain;
 		ID3D11Device*			m_d3d11Device;
 		ID3D11DeviceContext*	m_d3d11DevCon;
@@ -154,7 +152,7 @@ namespace gost{
 
 		gtPtr<gtTexture>	createTexture( gtImage* );
 		gtPtr<gtTexture>    createRenderTargetTexture( const v2u& size, gtImageFormat pixelFormat );
-		gtPtr<gtRenderModel>	createModel( gtModel* );
+		gtPtr<gtRenderModel>	createModel( gtModel*, gtRenderModelInfo * info = nullptr );
 
 
 		static gtDriverD3D11*	getInstance();
