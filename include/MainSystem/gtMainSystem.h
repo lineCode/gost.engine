@@ -10,6 +10,7 @@ namespace gost{
 	struct gtWindowInfo;
 	class gtGraphicsSystem;
 	struct gtGraphicsSystemInfo;
+	class gtDebugRenderer;
 	class gtTimer;
 
 	class gtModel;
@@ -104,6 +105,9 @@ namespace gost{
 		
 			//	Используется для быстрого доступа к gtGraphicsSystem 
 		virtual gtGraphicsSystem*getMainVideoDriver() = 0;
+		
+			//  *должен быть создать хоть 1 gtGraphicsSystem
+		virtual gtDebugRenderer* getDebugRenderer() = 0;
 		
 		virtual u32              getMajorVersion() = 0;
 		virtual u32              getMinorVersion() = 0;

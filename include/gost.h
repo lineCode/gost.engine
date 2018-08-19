@@ -102,6 +102,7 @@
 #include <MainSystem/gtWindowInfo.h>
 
 #include <GraphicsSystem/gtGraphicsSystem.h>
+#include <GraphicsSystem/gtDebugRenderer.h>
 
 #include <SceneSystem/gtGameObject.h>
 

@@ -29,6 +29,7 @@ namespace gost{
 			m_vCount( 0u ),
 			m_iCount( 0u ),
 			m_stride( 0u ),
+			
 			m_vertexPosition( 0 ),
 			m_uvPosition( 4 ),
 			m_normalPosition( 6 ) // pos[0,1,2,3] uv[4,5] normal[6,7,8]
@@ -60,10 +61,9 @@ namespace gost{
 		u32 m_stride;
 
 			//	Index of the first position coordinate in the vertex.
+			// формат вершины заранее неизвестен
 		s32 m_vertexPosition;
-
 		s32 m_uvPosition;
-
 		s32 m_normalPosition;
 
 
@@ -189,7 +189,6 @@ namespace gost{
 				p8 += m_stride;
 			}
 
-			calculate_normals();
 		}
 
 		void	move( const v3f& newPos ){
@@ -209,50 +208,83 @@ namespace gost{
 			}
 		}
 
-			//TEST
 		void	calculate_normals(){
-			u8 * p8 = &m_vertices[0u];
-
-			u32 i1 = m_vertexPosition;
-			u32 i2 = m_vertexPosition + 1u;
-			u32 i3 = m_vertexPosition + 2u;
-			u32 i4 = m_vertexPosition + 3u;
-			u32 i5 = m_vertexPosition + 4u;
-			u32 i6 = m_vertexPosition + 5u;
-			u32 i7 = m_vertexPosition + 6u;
-			u32 i8 = m_vertexPosition + 7u;
-			u32 i9 = m_vertexPosition + 8u;
-
-			u32 in1 = m_normalPosition;
-			u32 in2 = m_normalPosition + 1u;
-			u32 in3 = m_normalPosition + 2u;
-
-			for(u32 i = 0u; i < m_vCount; ++i){
-				f32 * p32 = reinterpret_cast<f32*>(p8);
-
-				v3f vector_p1( p32[ i1 ], p32[ i2 ], p32[ i3 ] );
-				v3f vector_p2( p32[ i4 ], p32[ i5 ], p32[ i6 ] );
-				v3f vector_p3( p32[ i7 ], p32[ i8 ], p32[ i9 ] );
-
-				v3f vector_U( vector_p2 - vector_p1 );
-				v3f vector_V( vector_p3 - vector_p1 );
-
-
-				v3f normal;
-
-				normal.x = (vector_U.y * vector_V.z) - (vector_U.z * vector_V.y);
-				normal.y = (vector_U.z * vector_V.x) - (vector_U.x * vector_V.z);
-				normal.z = (vector_U.x * vector_V.y) - (vector_U.y * vector_V.x);
+			
+			for(u32 i = 0u; i < m_iCount; ){
 				
-				normal.normalize();
-
-				p32[ in1 ] = normal.x;
-				p32[ in2 ] = normal.y;
-				p32[ in3 ] = normal.z;
-
-				p8 += m_stride;
+				u16 i0 = m_indices[  i  ];
+				u16 i1 = m_indices[ i+1 ];
+				u16 i2 = m_indices[ i+2 ];
+				
+				gtLogWriter::printInfo( u"%u %u %u", i0, i1, i2 );
+				
+				v3f v1, v2, v3;
+				
+				u8 * p8 = &m_vertices[0u];
+				
+				f32 * p32_v1 = reinterpret_cast<f32*>(p8 + (i0*m_stride));
+				f32 * p32_v2 = reinterpret_cast<f32*>(p8 + (i1*m_stride));
+				f32 * p32_v3 = reinterpret_cast<f32*>(p8 + (i2*m_stride));
+				
+				f32 * p32_n1 = p32_v1;
+				f32 * p32_n2 = p32_v2;
+				f32 * p32_n3 = p32_v3;
+				
+				p32_v1 += m_vertexPosition;
+				p32_v2 += m_vertexPosition;
+				p32_v3 += m_vertexPosition;
+				
+				p32_n1 += m_normalPosition;
+				p32_n2 += m_normalPosition;
+				p32_n3 += m_normalPosition;
+				
+				v1.x = *p32_v1; ++p32_v1;
+				v1.y = *p32_v1; ++p32_v1;
+				v1.z = *p32_v1;
+								
+				v2.x = *p32_v2; ++p32_v2;
+				v2.y = *p32_v2; ++p32_v2;
+				v2.z = *p32_v2;
+								
+				v3.x = *p32_v3; ++p32_v3;
+				v3.y = *p32_v3; ++p32_v3;
+				v3.z = *p32_v3;
+				
+				v3f e0 = v2 - v1;
+				v3f e1 = v3 - v1;
+				v3f fn = math::cross(e0,e1);
+				
+				*p32_n1 += fn.x; ++p32_n1;
+				*p32_n1 += fn.y; ++p32_n1;
+				*p32_n1 += fn.z;
+				
+				*p32_n2 += fn.x; ++p32_n2;
+				*p32_n2 += fn.y; ++p32_n2;
+				*p32_n2 += fn.z;
+				
+				*p32_n3 += fn.x; ++p32_n3;
+				*p32_n3 += fn.y; ++p32_n3;
+				*p32_n3 += fn.z;
+				
+				i += 3u;
+			}
+			
+			for(u32 i = 0u, i2 = 0u; i < m_vCount; ){
+				u8 * p8 = &m_vertices[i2];
+				f32 * p32 = reinterpret_cast<f32*>(p8);
+				
+				p32 += m_normalPosition;
+				
+				v3f * v = reinterpret_cast<v3f*>(p32);
+				
+				v->normalize();
+				
+				i2 += m_stride;
+				++i;
 			}
 		}
+		
+		
 	};
 
 }

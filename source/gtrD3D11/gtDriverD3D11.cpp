@@ -786,13 +786,13 @@ void gtDriverD3D11::drawModel( gtRenderModel* model, gtArray<gtMaterial>* materi
 		gtShaderImpl * shaderD3D11 = ((gtShaderImpl*)shader);
 
 		m_d3d11DevCon->IASetInputLayout( ((gtShaderImpl*)shader)->m_vLayout );
-		m_d3d11DevCon->VSSetShader( ((gtShaderImpl*)shader)->m_vShader, 0, 0 );
-		m_d3d11DevCon->PSSetShader( ((gtShaderImpl*)shader)->m_pShader, 0, 0 );
 		m_d3d11DevCon->IASetPrimitiveTopology( D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
-
 		m_d3d11DevCon->IASetVertexBuffers( 0, 1, &d3dm->m_vBuffers[ i ], &stride, &offset );
 		m_d3d11DevCon->IASetIndexBuffer( d3dm->m_iBuffers[ i ], DXGI_FORMAT_R16_UINT, 0);
 
+		m_d3d11DevCon->VSSetShader( ((gtShaderImpl*)shader)->m_vShader, 0, 0 );
+		m_d3d11DevCon->PSSetShader( ((gtShaderImpl*)shader)->m_pShader, 0, 0 );
+		
 		if( shaderD3D11->m_callback )
 			shaderD3D11->m_callback->onShader( *material, m_shaderProcessing.data() );
 

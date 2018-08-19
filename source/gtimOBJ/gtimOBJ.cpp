@@ -195,6 +195,7 @@ extern "C"{
 				
 				case 'n':
 					ptr = readVec3( ++ptr, norm );
+					
 					normal.push_back( norm );
 					break;
 				

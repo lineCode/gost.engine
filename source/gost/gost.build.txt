@@ -146,4 +146,5 @@ source/gost/SceneSystem/Objects/gtCameraImpl.cpp
 source/gost/SceneSystem/Objects/gtDummyObjectImpl.cpp
 source/gost/SceneSystem/Objects/gtStaticObjectImpl.cpp
 source/gost/SceneSystem/System/gtSceneSystemImpl.cpp
+source/gost/GraphicsSystem/gtDebugRendererImpl.cpp
 ADD_SOURCE_END

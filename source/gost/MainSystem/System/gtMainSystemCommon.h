@@ -37,6 +37,7 @@ namespace gost{
 		gtPtr<gtModelSystemImpl>	m_modelSystem;
 		gtPtr<gtSceneSystemImpl>	m_sceneSystem;
 		gtPtr<gtGUISystemImpl>		m_GUISystem;
+		gtPtr<gtDebugRendererImpl>	m_DebugRenderer;
 
 
 		static gtMainSystemCommon*	s_instance;
@@ -71,7 +72,7 @@ namespace gost{
 
 		gtPtr<gtImage>	loadImage( const gtString& fileName );
 		gtPtr<gtImage>	loadImage( const gtString& fileName, const GT_GUID& pluginGUID );
-		void			addEvent( const gtEvent&, u8 prior = gtConst0U );
+		void			addEvent( const gtEvent&, u8 prior = 0u );
 		bool			checkEventType( const gtEvent& ev );
 		bool			checkEvent( gtEvent& ev, bool(*compare_function)( gtEvent& current_event, gtEvent& user_event ) );
 		gtInputSystem*  getInputSystem();
@@ -79,7 +80,8 @@ namespace gost{
 		gtPluginSystem*	getPluginSystem();
 		gtSceneSystem*	getSceneSystem( gtGraphicsSystem * currentRenderDriver );
 		gtGUISystem*	getGUISystem( gtGraphicsSystem * currentRenderDriver );
-
+		gtDebugRenderer* getDebugRenderer();
+		
 		u32              getMajorVersion();
 		u32              getMinorVersion();
 		

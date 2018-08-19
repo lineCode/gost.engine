@@ -25,6 +25,7 @@ gtMainSystemCommon::gtMainSystemCommon() :
 	m_modelSystem  = gtPtrNew<gtModelSystemImpl> ( new gtModelSystemImpl );
 	m_sceneSystem  = gtPtrNew<gtSceneSystemImpl> ( new gtSceneSystemImpl );
 	m_GUISystem    = gtPtrNew<gtGUISystemImpl>   ( new gtGUISystemImpl );
+	m_DebugRenderer= gtPtrNew<gtDebugRendererImpl>   ( new gtDebugRendererImpl );
 
 	initCVarSystem();
 }
@@ -110,6 +111,9 @@ gtPtr<gtGraphicsSystem> gtMainSystemCommon::createGraphicsSystem( /*gtPlugin* vi
 		m_drivers.push_back( d );
 
 	m_gs = d;
+	
+	m_DebugRenderer->setGS( d );
+	
 	return gtPtrNew<gtGraphicsSystem>(d);
 }
 
@@ -415,6 +419,10 @@ u32              gtMainSystemCommon::getMajorVersion(){
 
 u32              gtMainSystemCommon::getMinorVersion(){
 	return GOST_MINOR_VERSION;
+}
+
+gtDebugRenderer* gtMainSystemCommon::getDebugRenderer(){
+	return m_DebugRenderer.data();
 }
 
 /*

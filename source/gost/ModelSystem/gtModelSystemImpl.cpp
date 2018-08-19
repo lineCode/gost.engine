@@ -19,7 +19,7 @@ gtPtr<gtModel>	gtModelSystemImpl::createPlane( f32 x, f32 y, gtSide side ){
 		gtVertexType::End
 	};
 
-	gtPtr<gtModel> model = createEmpty( gtStrideStandart, &vt[ gtConst0U ] );
+	gtPtr<gtModel> model = createEmpty( gtStrideStandart, &vt[ 0u ] );
 	if( !model.data() ){
         const char16_t* msg = u"Can not allocate memory for gtModel";
 		gtLogWriter::printWarning( msg );
@@ -82,7 +82,7 @@ gtPtr<gtModel>	gtModelSystemImpl::createPlane( f32 x, f32 y, gtSide side ){
 
 
 
-	u8 * v = &subModel->m_vertices[ gtConst0U ];
+	u8 * v = &subModel->m_vertices[ 0u ];
 
 	struct vert_t{
 		v4f pos;
@@ -92,29 +92,31 @@ gtPtr<gtModel>	gtModelSystemImpl::createPlane( f32 x, f32 y, gtSide side ){
 
 	vert_t vert[ gtConst4U ];
 
-	vert[ gtConst0U ].pos.set( x1, y1, z1, 1.f );
+	vert[ 0u ].pos.set( x1, y1, z1, 1.f );
 	vert[ gtConst1U ].pos.set( x2, y2, z2, 1.f );
 	vert[ gtConst2U ].pos.set( x3, y3, z3, 1.f );
 	vert[ gtConst3U ].pos.set( x4, y4, z4, 1.f );
 
-	vert[ gtConst0U ].nor.set( 0.f, 1.f, 0.f );
+	vert[ 0u ].nor.set( 0.f, 1.f, 0.f );
 	vert[ gtConst1U ].nor.set( 0.f, 1.f, 0.f );
 	vert[ gtConst2U ].nor.set( 0.f, 1.f, 0.f );
 	vert[ gtConst3U ].nor.set( 0.f, 1.f, 0.f );
 
-	vert[ gtConst0U ].uv.set( 0.f, 1.f );
+	vert[ 0u ].uv.set( 0.f, 1.f );
 	vert[ gtConst1U ].uv.set( 0.f, 0.f );
 	vert[ gtConst2U ].uv.set( 1.f, 0.f );
 	vert[ gtConst3U ].uv.set( 1.f, 1.f );
 
-	memcpy( v, &vert[gtConst0U], gtStrideStandart * gtConst4U );
+	memcpy( v, &vert[0u], gtStrideStandart * gtConst4U );
 
 	subModel->rotate( q );
 
 	const u16 u[i_count] = {0U,1U,2U,0U,2U,3U};
 
 	subModel->fillIndices( u );
-
+	
+	
+	subModel->calculate_normals();
 	model->updateBoundingVolume();
 
 	return model;
@@ -128,12 +130,12 @@ gtPtr<gtModel>	gtModelSystemImpl::createCube( f32 sz ){
 	auto front = createPlane( sz, sz, gtSide::Back );
 	auto back = createPlane( sz, sz, gtSide::Front );
 
-	up->getSubModel( gtConst0U )->move(   v3f( 0.f, sz, 0.f ) );
-	down->getSubModel( gtConst0U )->move( v3f( 0.f, -sz, 0.f ) );
-	left->getSubModel( gtConst0U )->move( v3f( sz, 0.f, 0.f ) );
-	right->getSubModel( gtConst0U )->move( v3f( -sz, 0.f, 0.f ) );
-	front->getSubModel( gtConst0U )->move( v3f( 0.f, 0.f, sz ) );
-	back->getSubModel( gtConst0U )->move( v3f( 0.f, 0.f, -sz ) );
+	up->getSubModel( 0u )->move(   v3f( 0.f, sz, 0.f ) );
+	down->getSubModel( 0u )->move( v3f( 0.f, -sz, 0.f ) );
+	left->getSubModel( 0u )->move( v3f( sz, 0.f, 0.f ) );
+	right->getSubModel( 0u )->move( v3f( -sz, 0.f, 0.f ) );
+	front->getSubModel( 0u )->move( v3f( 0.f, 0.f, sz ) );
+	back->getSubModel( 0u )->move( v3f( 0.f, 0.f, -sz ) );
 
 	gtVertexType vt[ 4 ] = {
 		gtVertexType::Position,
@@ -144,15 +146,18 @@ gtPtr<gtModel>	gtModelSystemImpl::createCube( f32 sz ){
 
 	auto cube = createEmpty( gtStrideStandart, vt );
 
-	auto * sub = up->getSubModel(gtConst0U);
-	sub->append(down->getSubModel(gtConst0U));
-	sub->append(right->getSubModel(gtConst0U));
-	sub->append(left->getSubModel(gtConst0U));
-	sub->append(front->getSubModel(gtConst0U));
-	sub->append(back->getSubModel(gtConst0U));
+	auto * sub = up->getSubModel(0u);
+	sub->append(down->getSubModel(0u));
+	sub->append(right->getSubModel(0u));
+	sub->append(left->getSubModel(0u));
+	sub->append(front->getSubModel(0u));
+	sub->append(back->getSubModel(0u));
 
 	cube->addSubModel( sub );
 
+	
+	sub->calculate_normals();
+	
 	cube->updateBoundingVolume();
 
 	return cube;

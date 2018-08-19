@@ -60,6 +60,8 @@ using namespace gost;
 #include "GUISystem/Objects/gtGUIMenuItemImpl.h"
 #include "GUISystem/Objects/gtGUIMenuImpl.h"
 
+#include "GraphicsSystem/gtDebugRendererImpl.h"
+
 
 #include "MainSystem/System/gtMainSystemCommon.h"
 #include "MainSystem/System/gtMainSystemWin32.h"

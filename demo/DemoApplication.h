@@ -28,7 +28,7 @@ namespace demo{
 
 	struct DemoLang{
 		gtString m_langName;
-		gtArray<gtPair<gtString,gtString>/*gtString*/> m_stringArray;
+		gtArray<gtPair<gtString,gtString>> m_stringArray;
 	};
 
 	enum class DemoAudioType {
@@ -40,16 +40,15 @@ namespace demo{
 	class DemoApplication{
 		gtPtr<gtMainSystem>			m_mainSystem;
 		gtPtr<gtWindow>				m_mainWindow;
-
-		gtGUISystem*				m_guiSystem;
 		gtPtr<gtGraphicsSystem>		m_gs;
 		gtPtr<gtInputController>	m_gamepadSystem;
+		
+		gtGUISystem*				m_guiSystem;
 		gtInputSystem *				m_input;
 		gtInputDevice *				m_gamepad;
 		gtSceneSystem*				m_sceneSystem;
-
+		
 		gtPtr<gtOutputWindow>		m_outputWindow;
-
 		gtPtr<gtAudioSystem>		m_audioSystem;
 		gtPtr<gtAudioObject>		m_audioSelect;
 		gtPtr<gtAudioObject>		m_audioAccept;
@@ -65,7 +64,6 @@ namespace demo{
 		gtPtr<gtGUIShape>       m_logo;      
 		gtGUIMenuParameters     m_mparams;
 		gtPtr<gtGUIMenu>        m_menu;
-
 		gtPtr<gtTexture>			m_backgroundTexture;
 		gtPtr<gtTexture>			m_gamepadTexture;
 		gtPtr<gtGUIShape>			m_backgroundShape;
@@ -93,6 +91,7 @@ namespace demo{
 		gtPtr<gtGUITextField>	m_pauseTextSettingsShape;
 		gtPtr<gtGUITextField>	m_pauseTextMainMenuShape;
 		gtPtr<gtGUITextField>	m_pauseTextExitShape;
+		
 		s32						m_pauseMainMenuSelectedId;
 		void					updatePauseMainMenu();
 
@@ -133,10 +132,10 @@ namespace demo{
 		gtArray<DemoLang>			m_stringArray;
 		gtArray<DemoElement>		m_demoArrays[ DEMO_TYPE_NUM ];
 
-		bool		m_DPad[ gtConst4U ];
-		bool		m_DPadOnce;
-		bool		m_gamepadButtons[32];
 		f32	*		m_delta;
+		
+		
+		
 
 		bool initEngine();
 		bool initWindow();
@@ -174,6 +173,10 @@ namespace demo{
 		void hideDemoHUD();
 		void updateHUD();
 
+		bool		m_DPad[ gtConst4U ];
+		bool		m_DPadOnce;
+		bool		m_gamepadButtons[32];
+		
 		f32 timer_input;
 		f32 timer_input_limit_first;
 		f32 timer_input_limit_second;
@@ -184,8 +187,6 @@ namespace demo{
 
 		static DemoApplication * s_this;
 
-		gtRenderModel * m_plane;
-		gtPtr<gtModel>  m_planeSoft;
 		
 	public:
 

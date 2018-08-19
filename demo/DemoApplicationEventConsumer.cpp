@@ -8,6 +8,8 @@ demo::DemoApplicationEventConsumer::~DemoApplicationEventConsumer(){
 
 void demo::DemoApplicationEventConsumer::processEvent( const gtEvent& ev ){
 	switch( ev.type ){
+		default:
+		break;
 		case gtEventType::GUI:{
 			processEventGUI( ev );
 		}break;
@@ -31,6 +33,8 @@ void demo::DemoApplicationEventConsumer::processEvent( const gtEvent& ev ){
 
 void demo::DemoApplicationEventConsumer::processEventGUI( const gtEvent& ev ){
 	switch (ev.GUIEvent.action){
+	default:
+	break;
 	case gtEventGUIAction::MouseMove:{
 		if( *m_context.demoState == DemoState::MainMenu ){
 			if( ev.GUIEvent.id > 99u && ev.GUIEvent.id < 199u ){
@@ -132,6 +136,8 @@ void demo::DemoApplicationEventConsumer::processEventGUI( const gtEvent& ev ){
 
 void demo::DemoApplicationEventConsumer::processEventJoystick( const gtEvent& ev ){
 	switch( ev.joystickEvent.joystickEventID ){
+	default:
+	break;
 	case GT_EVENT_JOYSTICK_ADD:{
 		gtLogWriter::printInfo( u"Add gamepad: %s %u\n", ev.joystickEvent.joystick->name.data(), ev.joystickEvent.joystickID );
 		m_context.app->ActivateGamepad( true, ev.joystickEvent.joystick );
@@ -151,6 +157,8 @@ void demo::DemoApplicationEventConsumer::processEventMouse( const gtEvent& ev ){
 
 void demo::DemoApplicationEventConsumer::processEventSystem( const gtEvent& ev ){
 	switch( ev.systemEvent.eventID ){
+	default:
+	break;
 	case GT_EVENT_SYSTEM_TIMER:{
 		m_context.app->ScanGamepads();
 	}break;
@@ -159,6 +167,8 @@ void demo::DemoApplicationEventConsumer::processEventSystem( const gtEvent& ev )
 
 void demo::DemoApplicationEventConsumer::processEventWindow( const gtEvent& ev ){
 	switch( ev.windowEvent.eventID ){
+	default:
+	break;
 	case gtEventWindowAction::Maximize:{
 	}break;
 	case gtEventWindowAction::Minimize:{

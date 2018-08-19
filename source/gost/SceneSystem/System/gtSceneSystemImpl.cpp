@@ -158,7 +158,7 @@ bool aabbInFrustum( gtCameraFrustum * /*frustum*/, gtAabb* /*aabb*/, const v4f& 
 }
 
 bool sphereInFrustum( gtCameraFrustum * frustum, f32 radius, const v4f& position ){
-	for( u32 i = gtConst0U; i < gtConst6U; ++i ){
+	for( u32 i = 0u; i < 6u; ++i ){
 		if( ( frustum->m_planes[ i ].x * position.x + frustum->m_planes[ i ].y * position.y + frustum->m_planes[ i ].z * position.z
 			+ frustum->m_planes[ i ].w ) <= -radius){
 			return false;
@@ -211,7 +211,7 @@ void gtSceneSystemImpl::frustumCull( gtGameObject* root, gtArray<gtGameObject*>&
 
 void gtSceneSystemImpl::sortTransparent(  gtArray<gtGameObject*>& opaque, gtArray<gtGameObject*>& transparent, gtArray<gtGameObject*>& objects ){
 	auto sz = objects.size();
-	for( u32 i = gtConst0U; i < sz; ++i ){
+	for( u32 i = 0u; i < sz; ++i ){
 
 		auto var = objects[ i ];
 
@@ -224,7 +224,7 @@ void gtSceneSystemImpl::sortTransparent(  gtArray<gtGameObject*>& opaque, gtArra
 
 			bool isTransparent = false;
 
-			for( u32 i2 = gtConst0U; i2 < smc; ++i2 ){
+			for( u32 i2 = 0u; i2 < smc; ++i2 ){
 				if( model->getMaterial( i2 )->flags & (u32)gtMaterialFlag::AlphaBlend ){
 					transparent.push_back( var );
 					isTransparent = true;
@@ -261,7 +261,7 @@ void gtSceneSystemImpl::sortTransparentDistance( gtArray<gtGameObject*>& in, gtA
 
 
 	auto sz = in.size();
-	for( u32 i = gtConst0U; i < sz; ++i ){
+	for( u32 i = 0u; i < sz; ++i ){
 
 		f32 dist = 0.f;
 
@@ -272,13 +272,13 @@ void gtSceneSystemImpl::sortTransparentDistance( gtArray<gtGameObject*>& in, gtA
 		}
 
 		if( dist < 10.f ){
-			groups[ gtConst0U ].push_back( gtPair<f32,gtGameObject*>(dist,in[ i ],gtPairSortPredGreatOrEqual) );
+			groups[ 0u ].push_back( gtPair<f32,gtGameObject*>(dist,in[ i ],gtPairSortPredGreatOrEqual) );
 		}else if( dist < 100.f ){
-			groups[ gtConst1U ].push_back( gtPair<f32,gtGameObject*>(dist,in[ i ],gtPairSortPredGreatOrEqual) );
+			groups[ 1u ].push_back( gtPair<f32,gtGameObject*>(dist,in[ i ],gtPairSortPredGreatOrEqual) );
 		}else if( dist < 1000.f ){
-			groups[ gtConst2U ].push_back( gtPair<f32,gtGameObject*>(dist,in[ i ],gtPairSortPredGreatOrEqual) );
+			groups[ 2u ].push_back( gtPair<f32,gtGameObject*>(dist,in[ i ],gtPairSortPredGreatOrEqual) );
 		}else{
-			groups[ gtConst3U ].push_back( gtPair<f32,gtGameObject*>(dist,in[ i ],gtPairSortPredGreatOrEqual) );
+			groups[ 3u ].push_back( gtPair<f32,gtGameObject*>(dist,in[ i ],gtPairSortPredGreatOrEqual) );
 		}
 	}
 
@@ -288,7 +288,7 @@ void gtSceneSystemImpl::sortTransparentDistance( gtArray<gtGameObject*>& in, gtA
 
 		util::mergesort( &groups[ i ], util::predicateGreatOrEqual );
 
-		for( u32 o = gtConst0U; o < sz; ++o ){
+		for( u32 o = 0u; o < sz; ++o ){
 			out.push_back( groups[ i ][ o ].m_second );
 		}
 	}
@@ -337,7 +337,7 @@ void gtSceneSystemImpl::renderScene(){
 		sortTransparentDistance( transparentUnsortObjects, transparentObjects );
 
 		auto sz = opaqueObjects.size();
-		for( auto i = gtConst0U; i < sz; ++i ){
+		for( auto i = 0u; i < sz; ++i ){
 			auto * var = opaqueObjects[ i ];
 			if( var ){
 				if( var->isVisible() ){
@@ -349,7 +349,7 @@ void gtSceneSystemImpl::renderScene(){
 		}
 
 		sz = transparentObjects.size();
-		for( auto i = gtConst0U; i < sz; ++i ){
+		for( auto i = 0u; i < sz; ++i ){
 			auto * var = transparentObjects[ i ];
 			if( var ){
 				if( var->isVisible() ){
@@ -377,49 +377,7 @@ void gtSceneSystemImpl::drawObject( gtGameObject * object ){
 	m_mainSystem->setMatrixWorld( object->getAbsoluteWorldMatrix() );
 	object->render();
 
-	if( object->isShowBV() ){
-
-		gtObb * obb = object->getObb();
-
-		const auto& pos = object->getPositionInSpace();
-
-		if( obb ){
-
-			gtColor red( 1.f, 0.f, 0.f );
-			gtColor green( 0.f, 1.f, 0.f );
-			gtColor blue( 0.f, 0.f, 1.f );
-
-			m_gs->drawLineBox(
-				obb->v1,
-				obb->v2,
-				obb->v3,
-				obb->v4,
-				obb->v5,
-				obb->v6,
-				obb->v7,
-				obb->v8,
-				pos,
-				red
-			);
-
-			gtAabb * aabb = object->getAabb();
-			if( aabb ){
-
-				v4f v1 = aabb->m_min;
-				v4f v2 = aabb->m_max;
-				v4f v3 = v4f( v1.x, v1.y, v2.z );
-				v4f v4 = v4f( v2.x, v1.y, v1.z );
-				v4f v5 = v4f( v1.x, v2.y, v1.z );
-				v4f v6 = v4f( v1.x, v2.y, v2.z );
-				v4f v7 = v4f( v2.x, v1.y, v2.z );
-				v4f v8 = v4f( v2.x, v2.y, v1.z );
-
-				m_gs->drawLineBox( v1, v2, v3, v4, v5, v6, v7, v8, pos, green  );
-			}
-			m_gs->drawLineSphere( pos, object->getBVSphereRadius(), gtConst1U, red, green, blue );
-		}
-
-	}
+	
 }
 
 

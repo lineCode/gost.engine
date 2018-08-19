@@ -30,6 +30,9 @@ class DemoExample_phy_picking : public demo::DemoExample{
 	v4f                     m_hitNormal;
 	gtRigidBody         *   m_pickedBody;
 	f32                     m_distance;
+	
+	gtDebugRenderer   *     m_dbg;
+	
 public:
 
 	DemoExample_phy_picking();
@@ -54,14 +57,16 @@ DemoExample_phy_picking::DemoExample_phy_picking():
 	m_demoApp( nullptr ),
 	m_gs( nullptr ),
 	m_sceneSystem( nullptr ),
-	m_pickedBody( nullptr )
+	m_pickedBody( nullptr ),
+	m_dbg( nullptr )
 {}
 
 DemoExample_phy_picking::DemoExample_phy_picking( demo::DemoApplication * app ):
 	m_demoApp( app ),
 	m_gs( nullptr ),
 	m_sceneSystem( nullptr ),
-	m_pickedBody( nullptr )
+	m_pickedBody( nullptr ),
+	m_dbg( nullptr )
 {
 	m_eventConsumer = m_demoApp->GetEventConsumer();
 }
@@ -73,7 +78,8 @@ bool DemoExample_phy_picking::Init(){
 	m_input		  = m_mainSystem->getInputSystem();
 	m_gs          = m_mainSystem->getMainVideoDriver();
 	m_sceneSystem = m_mainSystem->getSceneSystem( m_gs );
-
+	m_dbg         = m_mainSystem->getDebugRenderer();
+	
 	if( !m_demoApp->InitDefaultScene() ){
 		return false;
 	}
@@ -108,6 +114,8 @@ bool DemoExample_phy_picking::Init(){
 		return false;
 
 	auto cube   = m_mainSystem->getModelSystem()->createCube( cubeSize );
+	cube->addRef();
+	
 	m_cubeModel = m_gs->createModel( cube.data() );
 
 	std::random_device rd;
@@ -125,6 +133,7 @@ bool DemoExample_phy_picking::Init(){
 				m_cubeObjects[ i ][ o ][ k ]->getMaterial( 0u ).textureLayer[ 0 ].diffuseColor.setRed( dist(mt) );
 				m_cubeObjects[ i ][ o ][ k ]->getMaterial( 0u ).textureLayer[ 0 ].diffuseColor.setGreen( dist(mt) );
 				m_cubeObjects[ i ][ o ][ k ]->getMaterial( 0u ).textureLayer[ 0 ].diffuseColor.setBlue( dist(mt) );
+				m_cubeObjects[ i ][ o ][ k ]->setSoftwareModel( cube.data() );
 			}
 		}
 	}
@@ -277,6 +286,12 @@ void DemoExample_phy_picking::Render(){
 
 			m_hitPointSave = m_pickedBody->getPosition();
 
+			auto object = (gtStaticObject*)m_pickedBody->getUserData();
+			if( object ){
+				m_dbg->draw( object, u32( debug::BV_AABB ) );
+				m_dbg->draw( object, u32( debug::normal ) );
+			}
+			
 			v4f newPoint = m_cameraFPS->getPosition() + ( m_rayPick.m_end - m_cameraFPS->getPosition() ).normalize() * m_distance;
 			if( newPoint != m_hitPointSave ){
 				v4f vectorNormal = newPoint - m_hitPointSave;
@@ -290,7 +305,9 @@ void DemoExample_phy_picking::Render(){
 
 		}
 
-	}else m_pickedBody = nullptr;
+	}else{
+		m_pickedBody = nullptr;
+	} 
 
 
 	m_gs->drawLineSphere( m_hitPoint, 0.05f, 6u, gtColorRed, gtColorRed, gtColorRed );

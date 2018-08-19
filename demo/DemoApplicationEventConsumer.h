@@ -24,7 +24,7 @@ namespace demo{
 		bool	m_keys[ 256u ];
 	public:
 		DemoApplicationEventConsumer( DemoApplicationContext c );
-		~DemoApplicationEventConsumer();
+		virtual ~DemoApplicationEventConsumer();
 
 		DemoApplicationContext  m_context;
 

@@ -17,6 +17,7 @@ namespace gost{
 		s32				m_id;
 		gtGameObject*	m_parent;
 		gtSceneSystem*	m_scene;
+		gtModel *       m_model;
 
 		gtList<gtGameObject*> m_childs;
 
@@ -29,19 +30,20 @@ namespace gost{
 		gtQuaternion	m_orientation;
 		bool			m_isVisible;
 		bool			m_isBV;
+		bool            m_isFNormal;
 		f32				m_sphereRadius;
 
 		gtBoundingVolumeType m_BVType;
 	public:
 
 		gtGameObject():
-			m_id( gtConst_1 ),
+			m_id( -1 ),
 			m_parent( nullptr ),
 			m_scene( nullptr ),
-			m_scale( gtConst1F ),
+			m_model( nullptr ),
+			m_scale( 1.f ),
 			m_isVisible( true ),
-			m_isBV( false ),
-			m_sphereRadius( gtConst1F ),
+			m_sphereRadius( 1.f ),
 			m_BVType( gtBoundingVolumeType::Sphere )
 		{
 			m_scene = gtMainSystem::getInstance()->getSceneSystem( nullptr );
@@ -59,6 +61,16 @@ namespace gost{
 		virtual const v4f&			getPositionInSpace(){ return m_positionInSpace; }
 		virtual void				setPosition( const v4f& p ){ m_position = p; }
 
+			// Если объекту нужен доступ к вершинам модели (например для динамичного изменения или рисования debug информации)
+			// иначе нет необходимости в данном методе
+		virtual void				setSoftwareModel( gtModel * m ){
+			m_model = m;
+		}
+		
+		virtual gtModel *           getSoftwareModel(){
+			return m_model;
+		}
+		
 		virtual void				setRotation( const v4f& rotation ){
 			if( m_old_rotation != rotation ){
 				this->m_rotation = rotation; 
@@ -173,7 +185,6 @@ namespace gost{
 			for(; it != it_end; ++it ){
 				if( (*it) == child ){
 					(*it)->m_parent = nullptr;
-				//	(*it)->addRef();
 					m_childs.erase( it );
 					return;
 				}
@@ -183,8 +194,7 @@ namespace gost{
 		virtual bool isVisible(){ return m_isVisible; }
 		virtual void setVisible( bool v ){ m_isVisible = v; }
 
-		virtual void showBV( bool v ){ m_isBV = v; }
-		virtual bool isShowBV(){ return m_isBV; }
+		
 		virtual void setBVType( gtBoundingVolumeType type ){ m_BVType = type; }
 
 		virtual const f32&				getBVSphereRadius() const { return m_sphereRadius; }

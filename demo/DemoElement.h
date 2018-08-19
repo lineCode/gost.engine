@@ -24,10 +24,11 @@ namespace demo{
 
 		DemoElement( const gtString& title, const gtString& desc, 
 			bool isExample = false, 
-			DemoExampleProxy * example = nullptr ):
+			DemoExampleProxy * example = nullptr )
+			:
 			m_isExample( isExample ),
-			m_exampleProxy( example ),
 			m_example( nullptr ),
+			m_exampleProxy( example ),
 			m_tid( title ),
 			m_did( desc )
 		{
