@@ -58,7 +58,11 @@ clear.bat - удалит объектные файлы
 
 ## Documentation
 
+https://gost.neocities.org/gost/index.html
+
 Wiki for samples https://github.com/532235/GoST/wiki
+
+
 
 ## Contributing
 
