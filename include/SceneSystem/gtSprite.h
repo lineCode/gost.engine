@@ -6,7 +6,7 @@ namespace gost{
 
 	class gtGraphicsSystem;
 
-	class gtSprite : public gtGameObject{
+	class gtSprite : public gtGameObjectCommon{
 
 			gtSprite(){};
 
@@ -18,12 +18,9 @@ namespace gost{
 			u32                  m_height;
 			f32                  m_timer;
 			f32                  m_timerLimit;
-			gtObjectType         m_type;
 			gtArray<v8f>         m_frames;
 			gtAnimation          m_animation;
 			gtMaterial*	         m_material;
-			gtAabb               m_aabb;
-			gtObb                m_obb;
 			bool                 m_firstFrame;
 			bool                 m_inverseHorizontal;
 			f32  * m_delta;
@@ -33,21 +30,22 @@ namespace gost{
 			gtSprite( gtTexture * t, const v2f& size, gtGraphicsSystem * d ):
 			m_gs( d ),
 			m_rModel( nullptr ),
-			m_timer( gtConst0F ),
-			m_timerLimit( gtConst1F ),
-			m_type( gtObjectType::Sprite ),
+			m_timer( 0.f ),
+			m_timerLimit( 1.f ),
 			m_firstFrame( true ),
 			m_inverseHorizontal( false )
 		{
+			m_objectType = gtGameObjectType::Sprite;
+			
 			m_system = gtMainSystem::getInstance();
 			auto model = m_system->getModelSystem()->createPlane( size.y, size.x, gtSide::Front );
 			
 			m_delta = m_system->getTimer()->getDelta();
 
-			model->getSubModel( gtConst0U )->m_material.textureLayer[ gtConst0U ].texture = t;
-			model->getSubModel( gtConst0U )->m_material.type = gtMaterialType::Sprite;
-			model->getSubModel( gtConst0U )->m_material.userData = this;
-			model->getSubModel( gtConst0U )->m_material.flags = (u32)gtMaterialFlag::AlphaBlend;
+			model->getSubModel( 0u )->m_material.textureLayer[ 0u ].texture = t;
+			model->getSubModel( 0u )->m_material.type = gtMaterialType::Sprite;
+			model->getSubModel( 0u )->m_material.userData = this;
+			model->getSubModel( 0u )->m_material.flags = (u32)gtMaterialFlag::AlphaBlend;
 
 
 			m_texture = t;
@@ -58,12 +56,12 @@ namespace gost{
 			m_aabb = *m_rModel->getAabb();
 			m_obb = *m_rModel->getObb();
 
-			m_width  = gtConst1U;
-			m_height = gtConst1U;
+			m_width  = 1u;
+			m_height = 1u;
 
-			if( m_material->textureLayer[ gtConst0U ].texture ){
-				m_width = m_material->textureLayer[ gtConst0U ].texture->getWidth();
-				m_height = m_material->textureLayer[ gtConst0U ].texture->getHeight();
+			if( m_material->textureLayer[ 0u ].texture ){
+				m_width = m_material->textureLayer[ 0u ].texture->getWidth();
+				m_height = m_material->textureLayer[ 0u ].texture->getHeight();
 			}
 
 			m_position.z = -1.f;
@@ -72,15 +70,12 @@ namespace gost{
 		}
 
 		virtual        ~gtSprite()                 {}
-		gtAabb*		   getAabb()                   { return &m_aabb; }
 		u32            getCurrentFrame()           { return m_animation.getCurrentFrame(); }
 		const v8f&     getFrame( u32 id )          { return m_frames[ id ]; }
 		u32            getFrameID() const          { return m_animation.getCurrentFrame(); }
 		f32	           getFrameRate() const        { return m_animation.getFrameRate(); }
 		gtMaterial *   getMaterial()               { return m_material; }
-		gtObb*		   getObb()                    { return &m_obb;  }
-		gtTexture*	   getTexture()                { return m_material->textureLayer[ gtConst0U ].texture;}
-		gtObjectType   getType()                   { return m_type;  }
+		gtTexture*	   getTexture()                { return m_material->textureLayer[ 0u ].texture;}
 		void           inverseHorizontal( bool v ) { m_inverseHorizontal = v; }
 		bool           isInverseHorizontal()       { return m_inverseHorizontal; }
 		bool           isLoop() const              { return m_animation.isLoop(); }
@@ -101,9 +96,9 @@ namespace gost{
 			math::makeRotationMatrix( rotationMatrix, m_orientation );
 
 			gtMatrix4	scaleMatrix;
-			scaleMatrix[ gtConst0U ] *= m_scale.x;
-			scaleMatrix[ gtConst1U ] *= m_scale.y;
-			scaleMatrix[ gtConst2U ] *= m_scale.z;
+			scaleMatrix[ 0u ] *= m_scale.x;
+			scaleMatrix[ 1u ] *= m_scale.y;
+			scaleMatrix[ 2u ] *= m_scale.z;
 
 			m_worldMatrix = translationMatrix * rotationMatrix * scaleMatrix;
 
@@ -157,7 +152,7 @@ namespace gost{
 
 			m_animation.addFrame();
 			auto * ls = &m_animation.getLoopSegment();
-			m_animation.setLoopSegment( ls->x, m_frames.size() - gtConst1U );
+			m_animation.setLoopSegment( ls->x, m_frames.size() - 1u );
 		}
 
 		void resetAnimation( bool full = true, const v4u& rect = v4u() ){
@@ -165,7 +160,7 @@ namespace gost{
 			m_frames.clear();
 
 			if( full ){
-				v4u rect2( gtConst0U, gtConst0U, m_texture->getWidth(), m_texture->getHeight() );
+				v4u rect2( 0u, 0u, m_texture->getWidth(), m_texture->getHeight() );
 				addFrame( rect2 );
 			}
 			else
@@ -175,12 +170,12 @@ namespace gost{
 
 		void updateAnimation(){
 
-			if( m_animation.getFrameCount() > gtConst1U ){
+			if( m_animation.getFrameCount() > 1u ){
 				if( m_animation.isPlay() ){
 
 					if( m_timer > m_timerLimit ){
 						m_animation.stepFrame();
-						m_timer = gtConst0U;
+						m_timer = 0u;
 					}
 
 					m_timer += *m_delta;
@@ -193,15 +188,15 @@ namespace gost{
 			m_animation.clear();
 			m_frames.clear();
 
-			u32 x1 = gtConst0U, y1 = gtConst0U;
+			u32 x1 = 0u, y1 = 0u;
 			u32 x2 = size.x, y2 = size.y;
 			if( directionIsHorizontal ){
-				for( u32 i = gtConst0U; i < numOfFrames; ++i ){
+				for( u32 i = 0u; i < numOfFrames; ++i ){
 					addFrame( v4u( x1, y1, x2, y2 ) );
 					x1 += size.x;
 					x2 += size.x;
 					if( x2 > m_width ){
-						x1 = gtConst0U;
+						x1 = 0u;
 						x2 = size.x;
 						y1 += size.y;
 						y2 += size.y;

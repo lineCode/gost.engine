@@ -27,6 +27,7 @@ namespace gost{
 		
 		virtual void removeFromUserInput( gtGUIObject * ) = 0;
 
+		///?????
 		virtual void setCurrentRenderDriver( gtGraphicsSystem * driver ) = 0;
 
 		virtual void update() = 0;

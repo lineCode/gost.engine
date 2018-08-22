@@ -172,7 +172,7 @@ namespace gost{
 		template<typename Type>
 		inline void stringFlipSlash( Type& str ){
 			u32 sz = str.size();
-			for( u32 i = gtConst0U; i < sz; ++i ){
+			for( u32 i = 0u; i < sz; ++i ){
 				if( str[ i ] == '\\' )
 					str[ i ] = '/';
 			}
@@ -462,7 +462,7 @@ namespace gost{
 		template<typename type, typename char_type>
 		type stringToInt( const gtString_base<char_type>& str ){
 
-			type Integer = gtConst0U;
+			type Integer = 0u;
 
 			gtString_base<char_type> s = str;
 			util::stringFlip( s );

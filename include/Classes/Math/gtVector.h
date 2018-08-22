@@ -856,25 +856,6 @@ namespace gost{
 		}
 	}
 
-	namespace util{
-
-			//	print vector in output window
-		GT_FORCE_INLINE void printVector( const v2f& v ){
-			gtLogWriter::printInfo( u"Vector:" );
-			gtLogWriter::printInfo( u"\t\t%f %f", v.x, v.y );
-		}
-
-			//	print vector in output window
-		GT_FORCE_INLINE void printVector( const v3f& v ){
-			gtLogWriter::printInfo( u"Vector:" );
-			gtLogWriter::printInfo( u"\t\t%f %f %f", v.x, v.y, v.z );
-		}
-
-	}
-
-
-
-
 }
 
 #endif

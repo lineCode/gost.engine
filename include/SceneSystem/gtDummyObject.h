@@ -5,11 +5,9 @@
 namespace gost{
 
 		// object with transformation matrices
-	class gtDummyObject : public gtGameObject{
+	class gtDummyObject : public gtGameObjectCommon{
 	public:
 
-		virtual gtAabb*				getAabb() = 0;
-		virtual gtObb*				getObb() = 0;
 	};
 
 }

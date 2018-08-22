@@ -109,7 +109,6 @@ namespace math{
 	};
 
 		//	HTML colors
-	const gtColor gtColorWhite                = 0xffffffff;
 	const gtColor gtColorAliceBlue            = 0xffF0F8FF;
 	const gtColor gtColorAntiqueWhite         = 0xffFAEBD7;
 	const gtColor gtColorAqua                 = 0xff00FFFF;
@@ -254,6 +253,7 @@ namespace math{
 	const gtColor gtColorTurquoise            = 0xff40E0D0;
 	const gtColor gtColorViolet               = 0xffEE82EE;
 	const gtColor gtColorWheat                = 0xffF5DEB3;
+	const gtColor gtColorWhite                = 0xffffffff;
 	const gtColor gtColorWhiteSmoke           = 0xffF5F5F5;
 	const gtColor gtColorYellow               = 0xffFFFF00;
 	const gtColor gtColorYellowGreen          = 0xff9ACD32;

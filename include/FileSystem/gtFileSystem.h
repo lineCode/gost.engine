@@ -4,7 +4,7 @@
 
 namespace gost{
 
-	constexpr u32 GT_MAX_PATH = 256u;
+	constexpr u32 GT_MAX_PATH = 0xffff;
 
 	enum class gtTextFileFormat : u32{
 		UTF_8,
@@ -86,7 +86,7 @@ namespace gost{
 			gtFileAccessMode access,
 			gtFileAction action,
 			gtFileShareMode shareMode = gtFileShareMode::None,
-			u32 attributeFlags = gtConst0U
+			u32 attributeFlags = 0u
 		);
 
 		GT_API static bool copyFile( const gtString& existingFileName, const gtString& newFileName, bool overwrite );
@@ -99,14 +99,14 @@ namespace gost{
 		GT_API static gtString getRealPath( const gtString& in );
 		GT_API static gtString getSystemPath();
 
-		enum class DirObjectType{
+		enum class DirObjectType : u32{
 			info,
 			folder, 
 			file 
 		};
 
 		struct DirObject{
-			DirObject(){ memset( path, gtConst0U, GT_MAX_PATH * sizeof(wchar_t) ); }
+			DirObject(){ memset( path, 0u, GT_MAX_PATH * sizeof(wchar_t) ); }
 			wchar_t path[GT_MAX_PATH];
 			DirObjectType type;
 			u32 size;

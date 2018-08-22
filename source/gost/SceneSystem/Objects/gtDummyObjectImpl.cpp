@@ -1,10 +1,8 @@
 #include "common.h"
 
-gtDummyObjectImpl::gtDummyObjectImpl(): m_type( gtObjectType::Dummy ) {}
+gtDummyObjectImpl::gtDummyObjectImpl(): m_type( gtGameObjectType::Dummy ) {}
 gtDummyObjectImpl::~gtDummyObjectImpl()   {}
-gtObjectType gtDummyObjectImpl::getType() { return m_type; }
-gtAabb* gtDummyObjectImpl::getAabb()      { return nullptr; }
-gtObb* gtDummyObjectImpl::getObb()        { return nullptr; }
+gtGameObjectType gtDummyObjectImpl::getType() { return m_type; }
 void gtDummyObjectImpl::render()          {}
 
 void				gtDummyObjectImpl::update(){

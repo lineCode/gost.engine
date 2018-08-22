@@ -1,8 +1,9 @@
 #include "common.h"
 
 gtStaticObjectImpl::gtStaticObjectImpl( gtRenderModel* model, gtGraphicsSystem* GS ):
-	m_type( gtObjectType::Static ),
+	m_type( gtGameObjectType::Static ),
 	m_model( model ),
+	m_softModel( nullptr ),
 	m_gs( GS )
 {
 	m_aabb = *m_model->getAabb();
@@ -15,13 +16,18 @@ gtStaticObjectImpl::gtStaticObjectImpl( gtRenderModel* model, gtGraphicsSystem* 
 }
 
 gtStaticObjectImpl::~gtStaticObjectImpl()     {}
-gtObjectType gtStaticObjectImpl::getType()    { return m_type; }
+gtGameObjectType gtStaticObjectImpl::getType()    { return m_type; }
 gtRenderModel* gtStaticObjectImpl::getModel() { return m_model; }
-gtAabb* gtStaticObjectImpl::getAabb()         { return &m_aabb; }
-gtObb* gtStaticObjectImpl::getObb()           { return &m_obb; }
 
 gtMaterial& gtStaticObjectImpl::getMaterial( u32 i ){ return m_materials[ i ]; }
 u32 gtStaticObjectImpl::getMaterialCount(){ return m_materials.size(); }
+
+gtModel *           gtStaticObjectImpl::getSoftwareModel(){
+	return m_softModel;
+}
+void				gtStaticObjectImpl::setSoftwareModel( gtModel * m ){
+	m_softModel = m;
+}
 
 void gtStaticObjectImpl::update(){
 

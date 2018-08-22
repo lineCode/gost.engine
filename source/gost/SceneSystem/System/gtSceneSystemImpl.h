@@ -8,7 +8,7 @@ namespace gost{
 
 		gtMainSystem *	    m_mainSystem;
 		gtGraphicsSystem *  m_gs;
-		gtGameObject *      m_rootNode;
+		gtGameObjectCommon* m_rootNode;
 		gtCamera *          m_activeCamera;
 
 		void drawObject( gtGameObject * object );
@@ -30,7 +30,7 @@ namespace gost{
 		gtCamera*		getActiveCamera();
 		void			setActiveCamera( gtCamera* camera );
 
-		gtGameObject*	getRootObject();
+		gtGameObjectCommon*	getRootObject();
 		void			removeObject( gtGameObject* object );
 		void			renderScene();
 		void			clearScene();

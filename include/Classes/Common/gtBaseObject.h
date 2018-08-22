@@ -4,7 +4,7 @@
 
 namespace gost{
 
-		// Базовый объект для всех gtRefOject
+		// Базовый класс для всех gtRefOject
 	class gtBaseObject{
 	protected:
 		GT_FORCE_INLINE gtBaseObject()

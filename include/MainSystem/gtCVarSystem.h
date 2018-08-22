@@ -24,7 +24,7 @@ namespace gost{
 		{}
 		
 		gtString command;
-		gtString commandLine;
+		gtString commandLine; /// ????????????
 		gtString description;
 		gtString parameters;
 		gtCVarType type;

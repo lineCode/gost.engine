@@ -14,7 +14,9 @@ namespace gost{
 
 
 	struct gtCameraFrustum{
-		v4f m_planes[ gtConst6U ];
+		v4f m_planes[ 6u ];
+		
+		//удалить????
 		v4f m_farLeftTop;
 		v4f m_farLeftBottom;
 		v4f m_farRightTop;
@@ -25,17 +27,15 @@ namespace gost{
 		v4f m_nearRightBottom;
 	};
 
-	class gtCamera : public gtGameObject{
+	class gtCamera : public gtGameObjectCommon{
 	public:
 
-		virtual gtAabb*				getAabb() = 0;
 		virtual f32					getAspect() = 0;
 		virtual gtCameraType		getCameraType() = 0;
 		virtual f32					getFar() = 0;
 		virtual f32					getFOV() = 0;
 		virtual gtCameraFrustum*    getFrustum() = 0;
 		virtual f32					getNear() = 0;
-		virtual gtObb*				getObb() = 0;
 		virtual const gtMatrix4&	getProjectionMatrix() = 0;
 		virtual const v4f&			getTarget() = 0;
 		virtual const v4f&			getUpVector() = 0;

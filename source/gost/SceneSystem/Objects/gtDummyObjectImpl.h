@@ -7,18 +7,16 @@ namespace gost{
 		// object with transformation matrices
 	class gtDummyObjectImpl : public gtDummyObject{
 		
-		gtObjectType m_type;
+		gtGameObjectType m_type;
 
 	public:
 
 		gtDummyObjectImpl();
 		~gtDummyObjectImpl();
 
-		gtObjectType		getType();
+		gtGameObjectType		getType();
 		void				update();
 		void				render();
-		gtAabb*				getAabb();
-		gtObb*				getObb();
 	};
 
 }

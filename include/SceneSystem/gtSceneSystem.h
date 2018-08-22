@@ -5,6 +5,7 @@
 namespace gost{
 
 	class gtGameObject;
+	class gtGameObjectCommon;
 	class gtStaticObject;
 	class gtCamera;
 	class gtDummyObject;
@@ -23,7 +24,7 @@ namespace gost{
 		virtual gtStaticObject*	addStaticObject( gtRenderModel* model, const v4f& position = v4f(), const gtStringA& name = gtStringA(), s32 id = -gtConst_1 ) = 0;
 		virtual void			clearScene() = 0;
 		virtual gtCamera*		getActiveCamera() = 0;
-		virtual gtGameObject*	getRootObject() = 0;
+		virtual gtGameObjectCommon*	getRootObject() = 0;
 		virtual void			removeObject( gtGameObject* object ) = 0;
 		virtual void			renderScene() = 0;
 		virtual void			setActiveCamera( gtCamera* camera ) = 0;

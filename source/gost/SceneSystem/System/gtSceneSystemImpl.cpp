@@ -127,12 +127,12 @@ gtStaticObject*	gtSceneSystemImpl::addStaticObject( gtRenderModel* model, const 
 	return object.data();
 }
 
-gtGameObject*	gtSceneSystemImpl::getRootObject(){ return m_rootNode; }
+gtGameObjectCommon*	gtSceneSystemImpl::getRootObject(){ return m_rootNode; }
 
 void gtSceneSystemImpl::removeObject( gtGameObject* object ){
 
 	if( object->getParent() )
-		object->getParent()->removeChild( object );
+		object->getParent()->removeChild( (gtGameObjectCommon*)object );
 
 	auto name = object->getName();
 	auto * childs = &object->getChildList();
@@ -216,7 +216,7 @@ void gtSceneSystemImpl::sortTransparent(  gtArray<gtGameObject*>& opaque, gtArra
 		auto var = objects[ i ];
 
 		switch( var->getType() ){
-		case gtObjectType::Static:{
+		case gtGameObjectType::Static:{
 
 			auto * model = ((gtStaticObject*)var)->getModel();
 
@@ -236,14 +236,14 @@ void gtSceneSystemImpl::sortTransparent(  gtArray<gtGameObject*>& opaque, gtArra
 				opaque.push_back( var );
 
 		}break;
-		case gtObjectType::Sprite:{
+		case gtGameObjectType::Sprite:{
 			if( ((gtSprite*)var)->getMaterial()->flags & (u32)gtMaterialFlag::AlphaBlend )
 				transparent.push_back( var );
 			else
 				opaque.push_back( var );
 		}break;
-		case gtObjectType::Camera:
-		case gtObjectType::Dummy:
+		case gtGameObjectType::Camera:
+		case gtGameObjectType::Dummy:
 		default:
 			break;
 		}

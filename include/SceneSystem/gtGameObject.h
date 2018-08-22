@@ -4,22 +4,61 @@
 
 namespace gost{
 
-	enum class gtObjectType{
+	enum class gtGameObjectType : u32{
 		Camera,
 		Static,
 		Sprite,
 		Dummy
 	};
 
-	class gtGameObject : public gtRefObject{
-	protected:
-		gtStringA		m_name;
-		s32				m_id;
-		gtGameObject*	m_parent;
-		gtSceneSystem*	m_scene;
-		gtModel *       m_model;
+	class gtGameObjectCommon;
+	class gtGameObject : public gtRefObject{	
+	public:
+	
+		virtual gtGameObjectType	getType() = 0;
+		virtual const v4f&			getPosition() = 0;
+		virtual const v4f&			getPositionInSpace() = 0;
+		virtual void				setPosition( const v4f& p ) = 0;
+		virtual void				setRotation( const v4f& rotation ) = 0;
+		virtual const v4f&			getRotation() = 0;
+		virtual const v4f&			getScale() = 0;
+		virtual void				setScale( const v4f& s ) = 0;
+		virtual void				setOrientation( const gtQuaternion& q ) = 0;
+		virtual const gtQuaternion& getOrientation() = 0;
+		virtual void                recalculateBV() = 0;
+		virtual const gtMatrix4&	getAbsoluteWorldMatrix() = 0;
+		virtual const gtMatrix4&	getWorldMatrix() = 0;
+		virtual void				setAbsoluteWorldMatrix( const gtMatrix4& m ) = 0; /// зачем это?
+		virtual void				setWorldMatrix( const gtMatrix4& m ) = 0;
+		virtual s32					getID() = 0;
+		virtual void				setID( s32 i ) = 0;
+		virtual void	            setParent( gtGameObjectCommon * parent = nullptr ) = 0;
+		virtual gtGameObjectCommon *      getParent() const  = 0;
+		virtual gtList<gtGameObjectCommon*>&	getChildList() = 0;
+		virtual void	           addChild( gtGameObjectCommon * child ) = 0;
+		virtual void	           removeChild( gtGameObjectCommon * child ) = 0;
+		virtual bool               isVisible() = 0;
+		virtual void               setVisible( bool v ) = 0;
+		virtual void               setBVType( gtBoundingVolumeType type ) = 0;
+		virtual const f32&	       getBVSphereRadius() const  = 0;
+		virtual gtBoundingVolumeType	getBVType() const  = 0;
+		virtual gtAabb*				getAabb() = 0;
+		virtual gtObb*				getObb() = 0;
+		
+		virtual void				update() = 0;
+		virtual void				render() = 0;
+		
+	};
 
-		gtList<gtGameObject*> m_childs;
+	class gtGameObjectCommon : public gtGameObject{
+	protected:
+		gtStringA		    m_name;
+		s32				    m_id;
+		gtGameObjectCommon*	m_parent;
+		gtSceneSystem*	    m_scene;
+		
+
+		gtList<gtGameObjectCommon*> m_childs;
 
 		gtMatrix4		m_worldMatrix, m_worldMatrixAbsolute;
 		gtMatrix4		m_rotationMatrix;
@@ -34,43 +73,35 @@ namespace gost{
 		f32				m_sphereRadius;
 
 		gtBoundingVolumeType m_BVType;
+		gtGameObjectType m_objectType;
+		
+		gtAabb			m_aabb;
+		gtObb			m_obb;
+		
 	public:
-
-		gtGameObject():
+		gtGameObjectCommon():
 			m_id( -1 ),
 			m_parent( nullptr ),
 			m_scene( nullptr ),
-			m_model( nullptr ),
 			m_scale( 1.f ),
 			m_isVisible( true ),
 			m_sphereRadius( 1.f ),
-			m_BVType( gtBoundingVolumeType::Sphere )
+			m_BVType( gtBoundingVolumeType::Sphere ),
+			m_objectType( gtGameObjectType::Dummy )
 		{
 			m_scene = gtMainSystem::getInstance()->getSceneSystem( nullptr );
 		}
-
-		virtual ~gtGameObject(){}
-
-		virtual gtObjectType		getType() = 0;
-		virtual void				update() = 0;
-		virtual void				render() = 0;
-		virtual gtAabb*				getAabb() = 0;
-		virtual gtObb*				getObb() = 0;
-
+		
+		virtual ~gtGameObjectCommon(){}
+		
+		virtual gtGameObjectType		getType(){
+			return m_objectType;
+		}
+		
 		virtual const v4f&			getPosition(){ return m_position; }
 		virtual const v4f&			getPositionInSpace(){ return m_positionInSpace; }
 		virtual void				setPosition( const v4f& p ){ m_position = p; }
 
-			// Если объекту нужен доступ к вершинам модели (например для динамичного изменения или рисования debug информации)
-			// иначе нет необходимости в данном методе
-		virtual void				setSoftwareModel( gtModel * m ){
-			m_model = m;
-		}
-		
-		virtual gtModel *           getSoftwareModel(){
-			return m_model;
-		}
-		
 		virtual void				setRotation( const v4f& rotation ){
 			if( m_old_rotation != rotation ){
 				this->m_rotation = rotation; 
@@ -153,7 +184,7 @@ namespace gost{
 		virtual s32					getID(){ return m_id; }
 		virtual void				setID( s32 i ){ m_id = i; }
 		
-		virtual void	setParent( gtGameObject * parent = nullptr ){
+		virtual void	setParent( gtGameObjectCommon * parent = nullptr ){
 			if( m_parent )
 				m_parent->removeChild( this );
 
@@ -162,16 +193,17 @@ namespace gost{
 				m_parent = parent;
 			}
 			else{
-				m_scene->getRootObject()->addChild( this );
+				auto r = m_scene->getRootObject();
+				r->addChild( this );
 				m_parent = m_scene->getRootObject();
 			}
 		}
 
-		virtual gtGameObject * getParent() const { return m_parent; }
-		virtual gtList<gtGameObject*>&	getChildList(){ return m_childs; }
+		virtual gtGameObjectCommon * getParent() const { return m_parent; }
+		virtual gtList<gtGameObjectCommon*>&	getChildList(){ return m_childs; }
 
-		virtual void	addChild( gtGameObject * child ){
-			if( child && (child->m_parent != this) ){
+		virtual void	addChild( gtGameObjectCommon * child ){
+			if( child && (child->getParent() != this) ){
 
 				m_childs.push_back( child );
 
@@ -179,7 +211,7 @@ namespace gost{
 			}
 		}
 
-		virtual void	removeChild( gtGameObject * child ){
+		virtual void	removeChild( gtGameObjectCommon * child ){
 			auto it = m_childs.begin();
 			auto it_end = m_childs.end();
 			for(; it != it_end; ++it ){
@@ -199,8 +231,10 @@ namespace gost{
 
 		virtual const f32&				getBVSphereRadius() const { return m_sphereRadius; }
 		virtual gtBoundingVolumeType	getBVType() const { return m_BVType; }
+		
+		virtual gtAabb*				getAabb(){ return &m_aabb; }
+		virtual gtObb*				getObb(){ return &m_obb; }
 	};
-
 }
 
 #endif

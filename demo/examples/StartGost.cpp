@@ -153,7 +153,7 @@ int main(){
 
 	gtGraphicsSystemInfo gsi;
 	gsi.m_outWindow = window.data();
-
+	
 	/*
 		auto audioDriver = mainSystem->createAudioSystem( GT_UID_AUDIO_XADUDIO2 );
 		auto sound = audioDriver->createAudioObject( u"sound.ogg" );
@@ -164,6 +164,7 @@ int main(){
 #ifdef ___ASD	
 	auto graphicsSystem = mainSystem->createGraphicsSystem( gsi, GT_UID_RENDER_D3D11 );
 
+	
 	gtPtr<gtImage> image_original = mainSystem->loadImage( u"D:/1.png" );
 	
 	gtImage image_converted;

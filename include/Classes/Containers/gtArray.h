@@ -25,7 +25,7 @@ namespace gost{
 			pointer new_data = m_allocator.allocate( new_capacity /** sizeof( type )*/ );
 
 			if( m_data ){
-				for( u32 i = gtConst0U; i < m_size; ++i ){
+				for( u32 i = 0u; i < m_size; ++i ){
 					m_allocator.construct( &new_data[i], m_data[i] );
 					m_allocator.destruct( &m_data[i] );
 				}
@@ -47,18 +47,21 @@ namespace gost{
 			return (m_data+(m_size));
 		}
 
-		gtArray( u32 addSize = gtConst8U ):
+		gtArray( u32 addSize = 8u )
+		:
 			m_data( nullptr ),
-			m_size( gtConst0U ),
-			m_allocated( gtConst0U ),
+			m_size( 0u ),
+			m_allocated( 0u ),
 			m_addMemory( addSize )
 		{}
 
-		gtArray( const gtArray& other ):
+		gtArray( const gtArray& other )
+		:
 			m_data( nullptr ),
-			m_size( gtConst0U ),
-			m_allocated( gtConst0U ),
-			m_addMemory( gtConst8U ){
+			m_size( 0u ),
+			m_allocated( 0u ),
+			m_addMemory( 8u )
+		{
 			m_size = other.size();
 			m_allocated = other.capacity();
 			reallocate( m_allocated );
@@ -66,6 +69,7 @@ namespace gost{
 		}
 
 		~gtArray(){ clear(); }
+		
 		pointer data() const     { return m_data; }
 		void    setSize( u32 s ) { m_size = s; }
 		u32     size() const     { return m_size; }
@@ -77,15 +81,15 @@ namespace gost{
 		void    setAddMemoryValue( u32 v ){ m_addMemory = v; }
 		
 		
-		bool    empty() const    { return m_size == gtConst0U; }
+		bool    empty() const    { return m_size == 0u; }
 
 		const_reference at( u32 id ) const { return m_data[id]; }
 		reference       at( u32 id ){ return m_data[id]; }
 		const_reference operator[]( u32 id ) const { return m_data[id]; }
 		reference       operator[]( u32 id ){ return m_data[id]; }
-		reference       back(){ return m_data[ m_size - gtConst1U ]; }
-		const_reference back() const { return m_data[ m_size - gtConst1U ]; }
-		const_reference front() const { return m_data[ gtConst0U ]; }
+		reference       back(){ return m_data[ m_size - 1u ]; }
+		const_reference back() const { return m_data[ m_size - 1u ]; }
+		const_reference front() const { return m_data[ 0u ]; }
 
 			//	Allocate memory
 		void reserve( u32 new_capacity ){
@@ -95,7 +99,7 @@ namespace gost{
 
 			//	Insert element
 		void push_back( type object ){
-			u32 new_size = m_size + gtConst1U;
+			u32 new_size = m_size + 1u;
 			if( new_size > m_allocated )
 				reallocate( new_size );
 			m_allocator.construct( &m_data[m_size], object );
@@ -105,11 +109,11 @@ namespace gost{
 			//	Remove all elements
 		void clear(){
 			if( m_data ){
-				for( u32 i = gtConst0U; i < m_size; ++i )
+				for( u32 i = 0u; i < m_size; ++i )
 					m_allocator.destruct( &m_data[i] );
 				m_allocator.deallocate( m_data );
 
-				m_allocated = m_size = gtConst0U;
+				m_allocated = m_size = 0u;
 				m_data = nullptr;
 			}
 		}
@@ -137,7 +141,7 @@ namespace gost{
 		void erase( u32 begin, u32 end ){
 			if( m_size ){
 
-				u32 last = m_size - gtConst1U;
+				u32 last = m_size - 1u;
 				u32 len = end - begin;
 
 
@@ -147,7 +151,7 @@ namespace gost{
 
 					if( i < last ){
 
-						u32 next = i + gtConst1U + len;
+						u32 next = i + 1u + len;
 
 						if( next < m_size ){
 
@@ -158,12 +162,12 @@ namespace gost{
 
 				}
 
-				m_size = m_size - gtConst1U - len;
+				m_size = m_size - 1u - len;
 			}
 		}
 
 	//	void sort(){
-	//		for( u32 i = gtConst0U; i < m_size; ++i ){
+	//		for( u32 i = 0u; i < m_size; ++i ){
 	//		}
 	//	}
 
@@ -172,7 +176,7 @@ namespace gost{
 			m_size = other.size();
 			m_allocated = other.capacity();
 			reallocate( m_allocated );
-			for( u32 i = gtConst0U; i < m_size; ++i ){
+			for( u32 i = 0u; i < m_size; ++i ){
 				m_allocator.construct( &m_data[ i ], other.m_data[ i ] );
 			}
 			return *this;
@@ -180,7 +184,7 @@ namespace gost{
 
 		/*void pop_back(){
 			if( m_size ){
-				m_allocator.destruct( &m_data[ m_size - gtConst1U ] );
+				m_allocator.destruct( &m_data[ m_size - 1u ] );
 				--m_size;
 			}
 		}*/
@@ -237,7 +241,7 @@ namespace gost{
 
 		template<typename array_type>
 		void mergesort( gtArray<array_type> * array, bool(*pred)(const array_type& o1, const array_type& o2 ) ){
-			__sort( gtConst0U, (s32)array->size() - gtConst1, array, pred );
+			__sort( 0u, (s32)array->size() - gtConst1, array, pred );
 		}
 	}
 }

@@ -23,7 +23,7 @@ namespace gost{
 	class gtCamera;
 	class gtPlugin;
 
-	enum class gtDeviceType{
+	enum class gtDeviceType : u32{
 		Android,	//< not implemented
 		iOS,		//< not implemented
         Linux,		//< not implemented
@@ -35,7 +35,6 @@ namespace gost{
 	};
 
 	struct gtDeviceCreationParameters{
-
 		gtDeviceCreationParameters():
 			m_outputWindow( nullptr ),
 			m_consumer( nullptr )
@@ -73,7 +72,7 @@ namespace gost{
 	public:
 	
 			// Добавить событие в очередь. prior - не используется
-		virtual void addEvent( const gtEvent& ev, u8 prior = gtConst0U ) = 0;
+		virtual void addEvent( const gtEvent& ev, u8 prior = 0u ) = 0;
 		
 			// Проверить нахождение события в очереди.
 		virtual bool checkEventType( const gtEvent& ev ) = 0;
@@ -115,6 +114,7 @@ namespace gost{
 		virtual const gtMatrix4& getMatrixProjection() = 0;
 		virtual const gtMatrix4& getMatrixView() = 0;
 		virtual const gtMatrix4& getMatrixWorld() = 0;
+		
 		virtual gtModelSystem*   getModelSystem() = 0;
 		virtual gtOutputWindow*  getOutputWindow() = 0;
 		virtual gtPluginSystem*	 getPluginSystem() = 0;
@@ -126,6 +126,7 @@ namespace gost{
 		
 		virtual u32              getTime() = 0;
 		virtual gtTimer*         getTimer() = 0;
+		
 		virtual bool isRun() = 0;
 		
 		// Загрузит картинку, используя первый попавшийся плагин который поддерживает расширение указанного файла

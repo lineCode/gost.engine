@@ -24,10 +24,10 @@ namespace gost{
 		virtual bool	checkFeature( gtAudioPluginFeatures feature ) = 0;
 
 			//	Load audio file and create audio object.
-		virtual gtAudioObject*	createAudioObject( const gtString& fileName, u32 sp = gtConst1U ) = 0;
+		virtual gtAudioObject*	createAudioObject( const gtString& fileName, u32 sp = 1u ) = 0;
 
 			//	Create audio object from memmory
-		virtual gtAudioObject*	createAudioObject( gtAudioSource* source, u32 sp = gtConst1U ) = 0;
+		virtual gtAudioObject*	createAudioObject( gtAudioSource* source, u32 sp = 1u ) = 0;
 
 			//	Open audio file to play streaming audio.
 		virtual gtAudioStream*	createStream( const gtString& fileName ) = 0;

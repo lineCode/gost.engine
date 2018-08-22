@@ -61,39 +61,41 @@ void gtDebugRendererImpl::draw( gtGameObject* object, u32 flags ){
 	}
 	
 	if( flags & debug::normal ){
-		auto m = object->getSoftwareModel();
-		if( m ){
-			auto smc = m->getSubmodelsCount();
-			for( u32 i = 0u; i < smc; ++i ){
-				auto   sm = m->getSubModel( i );
-				
-				auto * vs = sm->m_vertices;
-				
-				
-				for( u32 i2 = 0u; i2 < sm->m_vCount; ){
+		if( object->getType() == gtGameObjectType::Static ){
+			auto m = ((gtStaticObject*)object)->getSoftwareModel();
+			if( m ){
+				auto smc = m->getSubmodelsCount();
+				for( u32 i = 0u; i < smc; ++i ){
+					auto   sm = m->getSubModel( i );
 					
-					f32  * data32 = reinterpret_cast<f32*>( vs );
+					auto * vs = sm->m_vertices;
 					
-					v4f p;
-					p.x  = data32[sm->m_vertexPosition];
-					p.y  = data32[sm->m_vertexPosition+1];
-					p.z  = data32[sm->m_vertexPosition+2];
-					p.w  = data32[sm->m_vertexPosition+3];
 					
-					v3f n;
-					n.x  = data32[sm->m_normalPosition];
-					n.y  = data32[sm->m_normalPosition+1];
-					n.z  = data32[sm->m_normalPosition+2];
+					for( u32 i2 = 0u; i2 < sm->m_vCount; ){
+						
+						f32  * data32 = reinterpret_cast<f32*>( vs );
+						
+						v4f p;
+						p.x  = data32[sm->m_vertexPosition];
+						p.y  = data32[sm->m_vertexPosition+1];
+						p.z  = data32[sm->m_vertexPosition+2];
+						p.w  = data32[sm->m_vertexPosition+3];
+						
+						v3f n;
+						n.x  = data32[sm->m_normalPosition];
+						n.y  = data32[sm->m_normalPosition+1];
+						n.z  = data32[sm->m_normalPosition+2];
+						
+						p *= object->getScale();
+						
+						m_gs->drawLine( p + pos, p + pos + n, green  );
+						
+						vs += sm->m_stride;
+						
+						++i2;
+					}
 					
-					p *= object->getScale();
-					
-					m_gs->drawLine( p + pos, p + pos + n, green  );
-					
-					vs += sm->m_stride;
-					
-					++i2;
 				}
-				
 			}
 		}
 	}

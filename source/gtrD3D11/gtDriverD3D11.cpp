@@ -417,16 +417,25 @@ bool gtDriverD3D11::initialize(){
 		return false;
 	}
 
+	
+	
 	enableBlending( true );
 	scissorClear( true );
 
 	setViewport( v2f( m_params.m_backBufferSize ) );
 
+	
+	
 	createStandartTexture();
+	
 	initCSM();
 
+	
+	
 	m_shaderProcessing = gtPtrNew<gtShaderProcessingD3D11>( new gtShaderProcessingD3D11(m_d3d11DevCon) );
 
+	
+	
 	if( !createShaders() ) return false;
 
 	if( m_params.m_fullScreen ){

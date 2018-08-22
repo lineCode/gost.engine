@@ -17,7 +17,6 @@ namespace gost{
 		f32				m_fov;
 		f32				m_near, m_far;
 		f32				m_aspect;
-		gtObjectType	m_type;
 		gtCameraType	m_cameraType;
 		gtCameraFrustum m_frustum;
 
@@ -28,17 +27,14 @@ namespace gost{
 		gtCameraImpl();
 		~gtCameraImpl();
 
-		gtAabb*				getAabb();
 		f32					getAspect();
 		gtCameraType		getCameraType();
 		f32					getFar();
 		f32					getFOV();
 		gtCameraFrustum*    getFrustum();
 		f32					getNear();
-		gtObb*				getObb();
 		const gtMatrix4&	getProjectionMatrix();
 		const v4f&			getTarget();
-		gtObjectType		getType();
 		const v4f&			getUpVector();
 		const gtMatrix4&	getViewMatrix();
 		void				render();

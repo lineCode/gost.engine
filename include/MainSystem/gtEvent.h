@@ -8,6 +8,7 @@ namespace gost{
 	class gtWindow;
 	struct gtInputDevice;
 
+	// наверное эти константы нужно сунуть в свои enum class, Как это сделано с gtEventWindowAction
 	constexpr u32 GT_EVENT_JOYSTICK_ADD    = 1u;
 	constexpr u32 GT_EVENT_JOYSTICK_REMOVE = 2u;
 	constexpr u32 GT_EVENT_SYSTEM_TIMER    = 1u;
@@ -115,26 +116,32 @@ namespace gost{
 		u16 wheel;	//< Wheel
 
 		bool	isLeftButtonDown()    const { return (state&MS_LMB_DOWN);  }
-		bool	isLeftButtonUp()	  const { return (state&MS_LMB_UP);    }
-		bool	isRightButtonDown()   const { return (state&MS_RMB_DOWN);  }
-		bool	isRightButtonUp()	  const { return (state&MS_RMB_UP);	 }
-		bool	isMiddleButtonDown()  const { return (state&MS_MMB_DOWN);  }
-		bool	isMiddleButtonUp()    const { return (state&MS_MMB_UP);	 }
-		bool	isExtra1ButtonDown()  const { return (state&MS_X1MB_DOWN); }
-		bool	isExtra1ButtonUp()    const { return (state&MS_X1MB_UP);	 }
-		bool	isExtra2ButtonDown()  const { return (state&MS_X2MB_DOWN); }
-		bool	isExtra2ButtonUp()    const { return (state&MS_X2MB_UP);	 }
 		bool	isLeftButtonDouble()  const { return (state&MS_LMB_DOUBLE);}
+		bool	isLeftButtonUp()	  const { return (state&MS_LMB_UP);    }
+		
+		bool	isRightButtonDown()   const { return (state&MS_RMB_DOWN);  }
 		bool	isRightButtonDouble() const { return (state&MS_RMB_DOUBLE);}
+		bool	isRightButtonUp()	  const { return (state&MS_RMB_UP);	 }
+		
+		bool	isMiddleButtonDown()  const { return (state&MS_MMB_DOWN);  }
 		bool	isMiddleButtonDouble()const { return (state&MS_MMB_DOUBLE);}
+		bool	isMiddleButtonUp()    const { return (state&MS_MMB_UP);	 }
+		
+		bool	isExtra1ButtonDown()  const { return (state&MS_X1MB_DOWN); }
 		bool	isExtra1ButtonDouble()const { return (state&MS_X1MB_DOUBLE);}
+		bool	isExtra1ButtonUp()    const { return (state&MS_X1MB_UP);	 }
+		
+		bool	isExtra2ButtonDown()  const { return (state&MS_X2MB_DOWN); }
 		bool	isExtra2ButtonDouble()const { return (state&MS_X2MB_DOUBLE);}
+		bool	isExtra2ButtonUp()    const { return (state&MS_X2MB_UP);	 }
+		
 	};
 
 	struct gtEventKeyboard{
 		gtKey key = gtKey::K_NONE;
 		char32_t character = U' ';
 		
+		// надо убрать. заменить
 		gtByte	state;
 
 		bool isPressed( gtKey Key )	{	return ((Key == key) && state.bits.b0);	}
@@ -164,7 +171,7 @@ namespace gost{
 
 		gtEventType type = gtEventType::None;
 		
-		u32 dataSize	= 0u;		
+		u32 dataSize	= 0u;
 		void* data		= nullptr;
 
 	};

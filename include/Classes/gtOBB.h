@@ -5,7 +5,7 @@
 namespace gost{
 
 		// Oriented Bounding Box
-		class gtObb{
+	class gtObb{
 	public:
 
 			//	default constructor

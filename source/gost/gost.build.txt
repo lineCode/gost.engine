@@ -62,6 +62,11 @@ ADD_MACRO
 UNICODE
 
 ADD_SOURCE_BEGIN
+source/gost/GraphicsSystem/gtDebugRendererImpl.cpp
+source/gost/SceneSystem/Objects/gtCameraImpl.cpp
+source/gost/SceneSystem/Objects/gtDummyObjectImpl.cpp
+source/gost/SceneSystem/Objects/gtStaticObjectImpl.cpp
+source/gost/SceneSystem/System/gtSceneSystemImpl.cpp
 source/gost/gost.cpp
 source/gost/dllmain.cpp
 source/gost/FileSystem/System/gtFileSystemCommon.cpp
@@ -142,9 +147,4 @@ source/gost/PluginSystem/Plugins/gtPluginInput.cpp
 source/gost/PluginSystem/Plugins/gtPluginPhysics.cpp
 source/gost/PluginSystem/Plugins/gtPluginRender.cpp
 source/gost/PluginSystem/System/gtPluginSystemImpl.cpp
-source/gost/SceneSystem/Objects/gtCameraImpl.cpp
-source/gost/SceneSystem/Objects/gtDummyObjectImpl.cpp
-source/gost/SceneSystem/Objects/gtStaticObjectImpl.cpp
-source/gost/SceneSystem/System/gtSceneSystemImpl.cpp
-source/gost/GraphicsSystem/gtDebugRendererImpl.cpp
 ADD_SOURCE_END

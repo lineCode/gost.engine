@@ -7,23 +7,21 @@ gtCameraImpl::gtCameraImpl():
 	m_near( 1.f ),
 	m_far( 100.f ),
 	m_aspect( 1.333333333f ),
-	m_type( gtObjectType::Camera ),
 	m_cameraType( gtCameraType::LookAt )
-{}
+{
+	m_objectType = gtGameObjectType::Camera;
+}
 
 gtCameraImpl::~gtCameraImpl()                   {}
-gtAabb*	gtCameraImpl::getAabb()                 { return nullptr;            }
 f32	gtCameraImpl::getAspect()                   { return m_aspect;           }
 gtCameraType gtCameraImpl::getCameraType()      { return m_cameraType;       }
 f32	gtCameraImpl::getFar()                      { return m_far;              }
 f32	gtCameraImpl::getFOV()                      { return m_fov;              }
 gtCameraFrustum* gtCameraImpl::getFrustum()     { return &m_frustum;         }
 f32	gtCameraImpl::getNear()                     { return m_near;             }
-gtObb*	gtCameraImpl::getObb()                  { return nullptr;            }
 const gtMatrix4& 
              gtCameraImpl::getProjectionMatrix(){ return m_projectionMatrix; }
 const v4f& gtCameraImpl::getTarget()            { return m_target;           }
-gtObjectType gtCameraImpl::getType()            { return m_type;             }
 const v4f& gtCameraImpl::getUpVector()          { return m_up;               }
 const gtMatrix4& gtCameraImpl::getViewMatrix()  { return m_viewMatrix;       }
 void gtCameraImpl::setAspect( f32 v )           { m_aspect = v;              }
