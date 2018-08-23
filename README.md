@@ -1,5 +1,6 @@
-<img src="https://i.imgur.com/mgMCaS3.jpg" alt="gost.engine"  />
-<hr>
+<img align="right" src="https://i.imgur.com/mgMCaS3.jpg" alt="gost.engine"  />
+
+# gost.engine
 
 2D/3D Game Engine based on plugins for C++11
 
