@@ -1,14 +1,29 @@
 #include "common.h"
 
-gtAudioSystemXAudio2_7* gtAudioSystemXAudio2_7::s_instance = nullptr;
+
+const GUID IID_IXAudio2 = {0x8bcf1f58,0x9fe7,0x4583,0x8a,0xc6,0xe2,0xad,0xc4,0x65,0xc8,0xbb};
+const GUID CLSID_XAudio2 = {0x5a508685,0xa254,0x4fba,0x9b,0x82,0x9a,0x24,0xb0,0x03,0x06,0xaf};
+const GUID CLSID_XAudio2_Debug = {0x8bcf1f58,0x9fe7,0x4583,0x8a,0xc6,0xe2,0xad,0xc4,0x65,0xc8,0xbb};
+const GUID CLSID_AudioVolumeMeter = { 0xcac1105f, 0x619b, 0x4d04, 0x83, 0x1a, 0x44, 0xe1, 0xcb, 0xf1, 0x2d, 0x57};
+const GUID CLSID_AudioVolumeMeter_Debug = { 0x2d9a0f9c, 0xe67b, 0x4b24, 0xab, 0x44, 0x92, 0xb3, 0xe7, 0x70, 0xc0, 0x20};
+const GUID CLSID_AudioReverb = { 0x6a93130e, 0x1d53, 0x41d1, 0xa9, 0xcf, 0xe7, 0x58, 0x80, 0x0b, 0xb1, 0x79};
+const GUID CLSID_AudioReverb_Debug = { 0xc4f82dd4, 0xcb4e, 0x4ce1, 0x8b, 0xdb, 0xee, 0x32, 0xd4, 0x19, 0x82, 0x69};
+
+#define NUM_OF_SUPPORTED_EXTENSIONS 2u
+
+const s8* Extensions[ NUM_OF_SUPPORTED_EXTENSIONS ] = {
+	"wav",
+	"ogg"
+};
 
 gtAudioSystemXAudio2_7::gtAudioSystemXAudio2_7():
+	m_version( XAudioVersion::XAudio_2_7 ),
+	m_libXAudio( nullptr ),
 	m_XAudio2( nullptr ),
 	m_MasteringVoice( nullptr ),
 	m_ReverbEffect( nullptr ),
 	m_SubmixVoice( nullptr )
 {
-	s_instance = this;
 	CoInitializeEx( NULL, COINIT_MULTITHREADED );
 }
 
@@ -21,11 +36,14 @@ gtAudioSystemXAudio2_7::~gtAudioSystemXAudio2_7(){
 	m_MasteringVoice->DestroyVoice();
 
 	SAFE_RELEASE( m_XAudio2 );
+	
+	
+	if( m_libXAudio ){
+		FreeLibrary( m_libXAudio );
+		m_libXAudio = nullptr;
+	}
+	
 	CoUninitialize();
-}
-
-gtAudioSystemXAudio2_7*	gtAudioSystemXAudio2_7::getInstance(){
-	return s_instance;
 }
 
 bool	gtAudioSystemXAudio2_7::checkFeature( gtAudioPluginFeatures feature ){
@@ -75,7 +93,7 @@ bool gtAudioSystemXAudio2_7::initialize( XAudioVersion version ){
 		return false;
 	}
 
-	u32 flags = gtConst0U;
+	u32 flags = 0u;
 	HRESULT hr = 0;
 
 	if( FAILED( hr = XAudio2Create( &m_XAudio2, flags, XAUDIO2_DEFAULT_PROCESSOR ) ) ){
@@ -84,6 +102,37 @@ bool gtAudioSystemXAudio2_7::initialize( XAudioVersion version ){
         return false;
     }
 
+	m_PRESET_PARAMS[ 0 ] = XAUDIO2FX_REVERB_I3DL2_PARAMETERS( XAUDIO2FX_I3DL2_PRESET_FOREST );
+	m_PRESET_PARAMS[ 1 ] = XAUDIO2FX_REVERB_I3DL2_PARAMETERS( XAUDIO2FX_I3DL2_PRESET_DEFAULT );
+	m_PRESET_PARAMS[ 2 ] = XAUDIO2FX_REVERB_I3DL2_PARAMETERS( XAUDIO2FX_I3DL2_PRESET_GENERIC );
+	m_PRESET_PARAMS[ 3 ] = XAUDIO2FX_REVERB_I3DL2_PARAMETERS( XAUDIO2FX_I3DL2_PRESET_PADDEDCELL );
+	m_PRESET_PARAMS[ 4 ] = XAUDIO2FX_REVERB_I3DL2_PARAMETERS( XAUDIO2FX_I3DL2_PRESET_ROOM );
+	m_PRESET_PARAMS[ 5 ] = XAUDIO2FX_REVERB_I3DL2_PARAMETERS( XAUDIO2FX_I3DL2_PRESET_BATHROOM );
+	m_PRESET_PARAMS[ 6 ] = XAUDIO2FX_REVERB_I3DL2_PARAMETERS( XAUDIO2FX_I3DL2_PRESET_LIVINGROOM );
+	m_PRESET_PARAMS[ 7 ] = XAUDIO2FX_REVERB_I3DL2_PARAMETERS( XAUDIO2FX_I3DL2_PRESET_STONEROOM );
+	m_PRESET_PARAMS[ 8 ] = XAUDIO2FX_REVERB_I3DL2_PARAMETERS( XAUDIO2FX_I3DL2_PRESET_AUDITORIUM );
+	m_PRESET_PARAMS[ 9 ] = XAUDIO2FX_REVERB_I3DL2_PARAMETERS( XAUDIO2FX_I3DL2_PRESET_CONCERTHALL );
+	m_PRESET_PARAMS[ 10 ] = XAUDIO2FX_REVERB_I3DL2_PARAMETERS( XAUDIO2FX_I3DL2_PRESET_CAVE );
+	m_PRESET_PARAMS[ 11 ] = XAUDIO2FX_REVERB_I3DL2_PARAMETERS( XAUDIO2FX_I3DL2_PRESET_ARENA );
+	m_PRESET_PARAMS[ 12 ] = XAUDIO2FX_REVERB_I3DL2_PARAMETERS( XAUDIO2FX_I3DL2_PRESET_HANGAR );
+	m_PRESET_PARAMS[ 13 ] = XAUDIO2FX_REVERB_I3DL2_PARAMETERS( XAUDIO2FX_I3DL2_PRESET_CARPETEDHALLWAY );
+	m_PRESET_PARAMS[ 14 ] = XAUDIO2FX_REVERB_I3DL2_PARAMETERS( XAUDIO2FX_I3DL2_PRESET_HALLWAY );
+	m_PRESET_PARAMS[ 15 ] = XAUDIO2FX_REVERB_I3DL2_PARAMETERS( XAUDIO2FX_I3DL2_PRESET_STONECORRIDOR );
+	m_PRESET_PARAMS[ 16 ] = XAUDIO2FX_REVERB_I3DL2_PARAMETERS( XAUDIO2FX_I3DL2_PRESET_ALLEY );
+	m_PRESET_PARAMS[ 17 ] = XAUDIO2FX_REVERB_I3DL2_PARAMETERS( XAUDIO2FX_I3DL2_PRESET_CITY );
+	m_PRESET_PARAMS[ 18 ] = XAUDIO2FX_REVERB_I3DL2_PARAMETERS( XAUDIO2FX_I3DL2_PRESET_MOUNTAINS );
+	m_PRESET_PARAMS[ 19 ] = XAUDIO2FX_REVERB_I3DL2_PARAMETERS( XAUDIO2FX_I3DL2_PRESET_QUARRY );
+	m_PRESET_PARAMS[ 20 ] = XAUDIO2FX_REVERB_I3DL2_PARAMETERS( XAUDIO2FX_I3DL2_PRESET_PLAIN );
+	m_PRESET_PARAMS[ 21 ] = XAUDIO2FX_REVERB_I3DL2_PARAMETERS( XAUDIO2FX_I3DL2_PRESET_PARKINGLOT );
+	m_PRESET_PARAMS[ 22 ] = XAUDIO2FX_REVERB_I3DL2_PARAMETERS( XAUDIO2FX_I3DL2_PRESET_SEWERPIPE );
+	m_PRESET_PARAMS[ 23 ] = XAUDIO2FX_REVERB_I3DL2_PARAMETERS( XAUDIO2FX_I3DL2_PRESET_UNDERWATER );
+	m_PRESET_PARAMS[ 24 ] = XAUDIO2FX_REVERB_I3DL2_PARAMETERS( XAUDIO2FX_I3DL2_PRESET_SMALLROOM );
+	m_PRESET_PARAMS[ 25 ] = XAUDIO2FX_REVERB_I3DL2_PARAMETERS( XAUDIO2FX_I3DL2_PRESET_MEDIUMROOM );
+	m_PRESET_PARAMS[ 26 ] = XAUDIO2FX_REVERB_I3DL2_PARAMETERS( XAUDIO2FX_I3DL2_PRESET_LARGEROOM );
+	m_PRESET_PARAMS[ 27 ] = XAUDIO2FX_REVERB_I3DL2_PARAMETERS( XAUDIO2FX_I3DL2_PRESET_MEDIUMHALL );
+	m_PRESET_PARAMS[ 28 ] = XAUDIO2FX_REVERB_I3DL2_PARAMETERS( XAUDIO2FX_I3DL2_PRESET_LARGEHALL );
+	m_PRESET_PARAMS[ 29 ] = XAUDIO2FX_REVERB_I3DL2_PARAMETERS( XAUDIO2FX_I3DL2_PRESET_PLATE );
+	
 	if( FAILED( hr = m_XAudio2->CreateMasteringVoice( 
 		&m_MasteringVoice,
 		XAUDIO2_DEFAULT_CHANNELS) ) ){
@@ -178,7 +227,7 @@ gtAudioObject*	gtAudioSystemXAudio2_7::createAudioObject( gtAudioSource* source,
 	GT_ASSERT1( source, "Audio source not initialized", "source != nullptr" );
 	if( !source ) return nullptr;
 
-	gtAudioObjectImpl * audioObject = new gtAudioObjectImpl( source );
+	gtAudioObjectImpl * audioObject = new gtAudioObjectImpl( source, this );
 
 	if( !audioObject ){
 		gtLogWriter::printWarning( u"Can not allocate memory for audio object" );
@@ -257,18 +306,20 @@ gtAudioSource*	gtAudioSystemXAudio2_7::loadAudioSource( const gtString& fileName
 //	=========================================================
 //	=========================================================
 
-gtAudioSystemXAudio2_7::gtAudioObjectImpl::gtAudioObjectImpl( gtAudioSource * src ):
+gtAudioSystemXAudio2_7::gtAudioObjectImpl::gtAudioObjectImpl( gtAudioSource * src, gtAudioSystemXAudio2_7 * as ):
 	m_source( src ),
-	m_volume( 1.f ),
 	m_sourceImpl( (gtAudioSourceImpl*)src ),
-	m_currentSourceVoice( gtConst0U ),
-	m_numOfPlayedSounds( gtConst0U )
+	m_volume( 1.f ),
+	m_sourceMax( 0u ),
+	m_currentSourceVoice( 0u ),
+	m_numOfPlayedSounds( 0u ),
+	m_AS( as )
 {
 	m_callback.p_num_of_played_sounds = &m_numOfPlayedSounds;
 }
 
 gtAudioSystemXAudio2_7::gtAudioObjectImpl::~gtAudioObjectImpl(){
-	for( u32 i = gtConst0U; i < m_sourceVoice.size(); ++i ){
+	for( u32 i = 0u; i < m_sourceVoice.size(); ++i ){
 		m_sourceVoice[ i ]->Stop();
 		m_sourceVoice[ i ]->FlushSourceBuffers();
 		m_sourceVoice[ i ]->DestroyVoice();
@@ -281,13 +332,11 @@ gtAudioSystemXAudio2_7::gtAudioObjectImpl::~gtAudioObjectImpl(){
 bool gtAudioSystemXAudio2_7::gtAudioObjectImpl::init( u32 sp ){
 //	HRESULT hr;
 
-	auto * asys = gtAudioSystemXAudio2_7::getInstance();
-
 	XAUDIO2_SEND_DESCRIPTOR sendDescriptors[2];
 	sendDescriptors[0].Flags = XAUDIO2_SEND_USEFILTER; // LPF direct-path
 	sendDescriptors[1].Flags = XAUDIO2_SEND_USEFILTER; // LPF reverb-path -- omit for better performance at the cost of less realistic occlusion
-	sendDescriptors[0].pOutputVoice = asys->m_MasteringVoice;
-	sendDescriptors[1].pOutputVoice = asys->m_SubmixVoice;
+	sendDescriptors[0].pOutputVoice = m_AS->m_MasteringVoice;
+	sendDescriptors[1].pOutputVoice = m_AS->m_SubmixVoice;
 	const XAUDIO2_VOICE_SENDS sendList = { 2, sendDescriptors };
 
 	gtAudioSourceImpl* source = (gtAudioSourceImpl*)m_source;
@@ -299,7 +348,7 @@ bool gtAudioSystemXAudio2_7::gtAudioObjectImpl::init( u32 sp ){
 	ZeroMemory( &wfex, sizeof( wfex ) );
 
 	const gtAudioSourceInfo& info = source->getInfo();
-	wfex.cbSize				= gtConst0U;//source->getDataSize();
+	wfex.cbSize				= 0u;//source->getDataSize();
 	wfex.nAvgBytesPerSec	= info.m_bytesPerSec;
 	wfex.nBlockAlign		= (WORD)info.m_blockAlign;
 	wfex.nChannels			= (WORD)info.m_channels;
@@ -311,8 +360,8 @@ bool gtAudioSystemXAudio2_7::gtAudioObjectImpl::init( u32 sp ){
 
 	IXAudio2SourceVoice* sv = nullptr;
 
-	for( u32 i = gtConst0U; i < m_sourceMax; ++i ){
-		if( FAILED( asys->m_XAudio2->CreateSourceVoice( &sv, &wfex, 0,
+	for( u32 i = 0u; i < m_sourceMax; ++i ){
+		if( FAILED( m_AS->m_XAudio2->CreateSourceVoice( &sv, &wfex, 0,
 			XAUDIO2_DEFAULT_FREQ_RATIO, &m_callback, &sendList ) ) ){
 			gtLogWriter::printWarning( u"Can not create source voice" );
 			return false;
@@ -334,14 +383,14 @@ void gtAudioSystemXAudio2_7::gtAudioObjectImpl::play(){
 		
 		updateBuffer();
 
-		if( FAILED( m_sourceVoice[ m_currentSourceVoice ]->Start( gtConst0U, XAUDIO2_COMMIT_ALL ) ) ){
+		if( FAILED( m_sourceVoice[ m_currentSourceVoice ]->Start( 0u, XAUDIO2_COMMIT_ALL ) ) ){
 			gtLogWriter::printWarning( u"m_sourceVoice->Start failed" );
 		}
 
 		++m_currentSourceVoice;
 
 		if( m_currentSourceVoice == this->m_sourceMax )
-			m_currentSourceVoice = gtConst0U;
+			m_currentSourceVoice = 0u;
 
 		++m_numOfPlayedSounds;
 	}
@@ -360,9 +409,9 @@ void gtAudioSystemXAudio2_7::gtAudioObjectImpl::pause(){
 
 	u32 sz = m_sourceVoice.size();
 
-	m_numOfPlayedSounds = gtConst0U;
+	m_numOfPlayedSounds = 0u;
 
-	for( u32 i = gtConst0U; i < sz; ++i )
+	for( u32 i = 0u; i < sz; ++i )
 		m_sourceVoice[ i ]->Stop();
 }
 
@@ -379,11 +428,11 @@ void gtAudioSystemXAudio2_7::gtAudioObjectImpl::stop(){
 	
 	u32 sz = this->m_sourceVoice.size();
 
-	m_currentSourceVoice = gtConst0U;
+	m_currentSourceVoice = 0u;
 
-	m_numOfPlayedSounds = gtConst0U;
+	m_numOfPlayedSounds = 0u;
 
-	for( u32 i = gtConst0U; i < sz; ++i ){
+	for( u32 i = 0u; i < sz; ++i ){
 		m_sourceVoice[ i ]->Stop();
 		m_sourceVoice[ i ]->FlushSourceBuffers();
 	}
@@ -393,7 +442,7 @@ void gtAudioSystemXAudio2_7::gtAudioObjectImpl::setVolume( f32 volume ){
 	m_volume = volume;
 
 	u32 sz = m_sourceVoice.size();
-	for( u32 i = gtConst0U; i < sz; ++i )
+	for( u32 i = 0u; i < sz; ++i )
 		m_sourceVoice[ i ]->SetVolume( volume );
 }
 
@@ -582,8 +631,8 @@ f32				gtAudioSystemXAudio2_7::gtAudioStreamImpl::getVolume(){
 
 void			gtAudioSystemXAudio2_7::gtAudioStreamImpl::setLoop( bool loop ){
 	m_isLoop = loop;
-	m_wave.m_isLoop = loop ? gtConst1U : gtConst0U;
-	m_ogg.m_isLoop = loop ? gtConst1U : gtConst0U;
+	m_wave.m_isLoop = loop ? 1u : 0u;
+	m_ogg.m_isLoop = loop ? 1u : 0u;
 }
 
 void	gtAudioSystemXAudio2_7::gtAudioStreamImpl::setPlaybackPosition( f32 position ){

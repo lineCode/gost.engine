@@ -21,12 +21,6 @@ void gtDebugRendererImpl::draw( gtGameObject* object, u32 flags ){
 			m_gs->drawLineBox(
 				obb->v1,
 				obb->v2,
-				obb->v3,
-				obb->v4,
-				obb->v5,
-				obb->v6,
-				obb->v7,
-				obb->v8,
 				pos,
 				red
 			);
@@ -36,17 +30,7 @@ void gtDebugRendererImpl::draw( gtGameObject* object, u32 flags ){
 	if( flags & debug::BV_AABB ){
 		auto aabb = object->getAabb();
 		if( aabb ){
-
-			v4f v1 = aabb->m_min;
-			v4f v2 = aabb->m_max;
-			v4f v3 = v4f( v1.x, v1.y, v2.z );
-			v4f v4 = v4f( v2.x, v1.y, v1.z );
-			v4f v5 = v4f( v1.x, v2.y, v1.z );
-			v4f v6 = v4f( v1.x, v2.y, v2.z );
-			v4f v7 = v4f( v2.x, v1.y, v2.z );
-			v4f v8 = v4f( v2.x, v2.y, v1.z );
-
-			m_gs->drawLineBox( v1, v2, v3, v4, v5, v6, v7, v8, pos, green  );
+			m_gs->drawLineBox( aabb->m_min, aabb->m_max, pos, green  );
 		}
 	}
 	

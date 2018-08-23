@@ -2,16 +2,15 @@
 
 #include "common.h"
 
-
+#ifdef _MSC_VER
 #ifdef _DEBUG
 #pragma comment(lib, "gost_d.lib")
 #else 
 #pragma comment(lib, "gost.lib")
 #endif
+#endif
 
-extern "C"{
-
-	XAudioVersion getXAudioVersion(){
+XAudioVersion getXAudioVersion(){
 		
 		gtString systemPath = gtFileSystem::getSystemPath();
 		
@@ -36,12 +35,15 @@ extern "C"{
 					return XAudioVersion::none;
 				}
 
-				version = (XAudioVersion)((u32)version + gtConst1U);
+				version = (XAudioVersion)((u32)version + 1u);
 			}
 
 		}
 
 	}
+	
+extern "C"{
+
 
 	__declspec(dllexport) void	GetPluginInfo( gtPluginInfo* info ){
 		info->m_author.assign( u"532235" );
@@ -50,11 +52,10 @@ extern "C"{
 		info->m_name.assign( u"XAduio2" );
 		info->m_type = gtPluginType::Audio;
 		info->m_version = 1;
-		info->m_build = 2;
+		info->m_build = 3;
 	}
 
 	__declspec(dllexport) gtAudioSystem * gtLoadAudioPlugin(){
-
 		XAudioVersion version = getXAudioVersion();
 
 		if( version > XAudioVersion::XAudio_2_7 )

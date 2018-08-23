@@ -1,5 +1,7 @@
 #include "common.h"
 
+
+
 extern "C"{
 	__declspec(dllexport) void	GetPluginInfo( gtPluginInfo* info ){
 		info->m_author.assign( u"532235" );

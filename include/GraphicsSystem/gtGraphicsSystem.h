@@ -70,7 +70,7 @@ namespace gost{
 		virtual void draw2DImage( const v4i& rect, const v4i& region, gtTexture* texture ) = 0;
 		virtual void drawLine( const v4f& start, const v4f& end, const gtColor& color = gtColor( gtColorWhite ) ) = 0;
 		/*
-			//       v6-----------v2
+			//       v6-----------p2
 			//      /|			/ |
 			//	   / |         /  |
 			//	  /  |        /   |
@@ -80,10 +80,12 @@ namespace gost{
 			//	| /			|  /
 			//	|/			| /
 			//	/			|/
-			//	v1----------v4
+			//	p1----------v4
 		*/
-		virtual void drawLineBox( const v4f& v1, const v4f& v2, const v4f& v3, const v4f& v4,
-			const v4f& v5, const v4f& v6, const v4f& v7, const v4f& v8,
+		virtual void drawLineBox( 
+			const v4f& p1, const v4f& p2,
+			//const v4f& v1, const v4f& v2, const v4f& v3, const v4f& v4,
+			//const v4f& v5, const v4f& v6, const v4f& v7, const v4f& v8,
 			const v4f& positionOffset = v4f(), const gtColor& color = gtColor( gtColorWhite ) ) = 0;
 
 		virtual void drawLineSphere( const v4f& position, f32 radius, u32 smoothLevel = 1u, const gtColor& color1 = gtColor( gtColorWhite ),
@@ -329,9 +331,34 @@ namespace gost{
 			return remove_texture( texture );
 		}
 
-		virtual void drawLineBox( const v4f& v1, const v4f& v2, const v4f& v3, const v4f& v4,
-			const v4f& v5, const v4f& v6, const v4f& v7, const v4f& v8,
+		/*
+			//       v6-----------p2
+			//      /|			/ |
+			//	   / |         /  |
+			//	  /  |        /   |
+			//	 /   v3______/____v7
+			//	v5--/-------v8   /
+			//	|  /		|   /
+			//	| /			|  /
+			//	|/			| /
+			//	/			|/
+			//	p1----------v4
+		*/
+		virtual void drawLineBox( 
+			//const v4f& v1, const v4f& v2, const v4f& v3, const v4f& v4,
+			//const v4f& v5, const v4f& v6, const v4f& v7, const v4f& v8,
+			const v4f& p1, const v4f& p2,
 			const v4f& positionOffset, const gtColor& color ){
+				v4f v1 = p1;
+				v4f v2 = p2;
+				
+				v4f v3( p1.x, p1.y, p2.z );
+				v4f v4( p2.x, p1.y, p1.z );
+				v4f v5( p1.x, p2.y, p1.z );
+				v4f v6( p1.x, p2.y, p2.z );
+				v4f v7( p2.x, p1.y, p2.z );
+				v4f v8( p2.x, p2.y, p1.z );
+				
 				drawLine( v1 + positionOffset, v4 + positionOffset, color );
 				drawLine( v5 + positionOffset, v8 + positionOffset, color );
 				drawLine( v1 + positionOffset, v5 + positionOffset, color );

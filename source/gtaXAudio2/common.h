@@ -1,30 +1,12 @@
-// stdafx.h : include file for standard system include files,
-// or project specific include files that are used frequently, but
-// are changed infrequently
-//
-
-#pragma once
-
-#pragma warning(disable : 4668, 4820)
-
-
-#include <SDKDDKVer.h>
-
-#include <windows.h> 
-#include <mmeapi.h> 
-
-//#pragma comment( lib, "xaudio2.lib" )
-//#pragma comment( lib, "winmm.lib" )
-//#pragma comment( lib, "dsound.lib" )
-//#pragma comment( lib, "X3DAudio.lib" )
-//#pragma comment( lib, "dxerr.lib" )
-//#pragma comment( lib, "xapobase.lib" )
-
-#include <XAudio2.h> // from DXSDK
-#include <XAudio2fx.h> // from DXSDK
-
 #define GOST_ENGINE
 #include <gost.h>
+
+#include <ole2.h>
+
+#include <XAudio2.h>
+#include <XAudio2fx.h>
+
+
 
 using namespace gost;
 
@@ -54,12 +36,6 @@ enum class XAudioVersion : u32{
 	none
 };
 
-#define NUM_OF_SUPPORTED_EXTENSIONS gtConst2U
-
-constexpr s8* Extensions[ NUM_OF_SUPPORTED_EXTENSIONS ] = {
-	"wav",
-	"ogg"
-};
 
 #define _USE_MATH_DEFINES
 #undef _MATH_DEFINES_DEFINED
@@ -137,15 +113,15 @@ struct WaveStream{
 	DWORD		currentDiskReadBuffer = 0;
 	DWORD*		currentPosition;
 	DWORD		waveLength;
-	gtAudioState	*state;
+	gtAudioState*state;
 	gtString	filePath;
-	IXAudio2SourceVoice*	sourceVoice;
-	PlayBackCommand* command;
+	IXAudio2SourceVoice*sourceVoice;
+	PlayBackCommand*command;
 };
 
 #include "wave.h"
 #include "Ogg.h"
-#include "Mp3.h"
+//#include "Mp3.h"
 
 #include "gtAudioSystemXAudio2.h"
 

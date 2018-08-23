@@ -560,13 +560,13 @@ void gtDriverD3D11::draw2DBox( const v4i& rect, const gtColor& color ){
 
 void gtDriverD3D11::draw2DImage( const v4i& rect, gtTexture* texture ){
 	gtMaterial m;
-	m.textureLayer[ gtConst0U ].texture = texture;
+	m.textureLayer[ 0u ].texture = texture;
 	draw2DImage( rect, v4i(), m );
 }
 
 void gtDriverD3D11::draw2DImage( const v4i& rect, const v4i& region, gtTexture* texture ){
 	gtMaterial m;
-	m.textureLayer[ gtConst0U ].texture = texture;
+	m.textureLayer[ 0u ].texture = texture;
 	draw2DImage( rect, region, m );
 }
 
@@ -604,12 +604,12 @@ void gtDriverD3D11::draw2DImage( const v4i& rect, const v4i& region, const gtMat
 		rb.y = 1.f;
 
 	}else{
-		GT_ASSERT2( m.textureLayer[ gtConst0U ].texture, "texture != nullptr" );
+		GT_ASSERT2( m.textureLayer[ 0u ].texture, "texture != nullptr" );
 
 		u32 width = gtConst1U, height = gtConst1U;
-		if( m.textureLayer[ gtConst0U ].texture ){
-			width = m.textureLayer[ gtConst0U ].texture->getWidth();
-			height = m.textureLayer[ gtConst0U ].texture->getHeight();
+		if( m.textureLayer[ 0u ].texture ){
+			width = m.textureLayer[ 0u ].texture->getWidth();
+			height = m.textureLayer[ 0u ].texture->getHeight();
 		}
 
 		f32 mulX = 1.f / (f32)width;
@@ -708,7 +708,7 @@ void gtDriverD3D11::_draw2DImage( const v4f& rect, const v8f& region, const gtMa
 		&cb_pixel
 	};
 
-	for( u32 i = gtConst0U; i < sz; ++i ){
+	for( u32 i = 0u; i < sz; ++i ){
 		D3D11_MAPPED_SUBRESOURCE mappedResource;
 		
 		m_d3d11DevCon->Map(
@@ -722,10 +722,10 @@ void gtDriverD3D11::_draw2DImage( const v4f& rect, const v8f& region, const gtMa
 		m_d3d11DevCon->Unmap( ((gtShaderImpl*)shader)->m_constantBuffers[ i ], 0 );
 
 	}
-	m_d3d11DevCon->VSSetConstantBuffers( 0, 1, &((gtShaderImpl*)shader)->m_constantBuffers[ gtConst0U ] );
+	m_d3d11DevCon->VSSetConstantBuffers( 0, 1, &((gtShaderImpl*)shader)->m_constantBuffers[ 0u ] );
 	m_d3d11DevCon->PSSetConstantBuffers( 0, 1, &((gtShaderImpl*)shader)->m_constantBuffers[ gtConst1U ] );
 
-	for( u32 i = gtConst0U; i < 16u; ++i ){
+	for( u32 i = 0u; i < 16u; ++i ){
 		if( !material.textureLayer[ i ].texture ) break;
 
 		gtTextureD3D11* texture = (gtTextureD3D11*)material.textureLayer[ i ].texture;
@@ -754,9 +754,9 @@ void gtDriverD3D11::drawModel( gtRenderModel* model, gtArray<gtMaterial>* materi
 	u32 stride = d3dm->m_stride;
 
 
-	u32 offset = gtConst0U;
+	u32 offset = 0u;
 
-	for( u32 i( gtConst0U ); i < smc; ++i ){
+	for( u32 i( 0u ); i < smc; ++i ){
 
 		//auto * sub = soft->getSubModel( i );
 		
@@ -894,7 +894,7 @@ gtShader *	gtDriverD3D11::getShader(
 		vertexBuffer.get()[sz] = 0;
 		auto * data = vertexShader.data();
 
-		for( u32 i = gtConst0U; i < sz; ++i ){
+		for( u32 i = 0u; i < sz; ++i ){
 			auto * b = vertexBuffer.get();
 			b[ i ] = (s8)data[ i ];
 		}
@@ -920,7 +920,7 @@ gtShader *	gtDriverD3D11::getShader(
 		pixelBuffer.reset( new s8[ sz+1 ] );
 		pixelBuffer.get()[sz] = 0;
 		auto * data = pixelShader.data();
-		for( u32 i = gtConst0U; i < sz; ++i ){
+		for( u32 i = 0u; i < sz; ++i ){
 			auto * b = pixelBuffer.get();
 			b[ i ] = (s8)data[ i ];
 		}

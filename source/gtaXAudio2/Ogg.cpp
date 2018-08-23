@@ -13,7 +13,7 @@ size_t	readOgg( void *ptr, size_t size, size_t nmemb, void *datasource ){
 int seekOgg( void *datasource, ogg_int64_t offset, int whence ){
 	gtFile * file = (gtFile*)datasource;
 
-	gtFileSeekPos pos;
+	gtFileSeekPos pos = gtFileSeekPos::Begin;
 	switch( whence ){
 		case SEEK_CUR:
 		pos = gtFileSeekPos::Current;
@@ -30,7 +30,7 @@ int seekOgg( void *datasource, ogg_int64_t offset, int whence ){
 	DWORD newpos = (DWORD)file->tell();
 
 	if( newpos == INVALID_SET_FILE_POINTER ){
-		DWORD error = GetLastError();
+		//DWORD error = GetLastError();
 		return -1;
 	}
 
@@ -42,7 +42,7 @@ long tellOgg( void *datasource ){
 	DWORD newpos = (DWORD)file->tell();
 
 	if( newpos == INVALID_SET_FILE_POINTER ){
-		DWORD error = GetLastError();
+		//DWORD error = GetLastError();
 		return -1;
 	}
 	return newpos;
@@ -98,10 +98,10 @@ gtAudioSourceImpl* Ogg::read( gtAudioSourceInfo info ){
 	gtFile_t file = util::openFileForReadBinShared( m_fileName );
 	if( ov_open_callbacks( file.data(), &oggFile, NULL, 0, callbacks ) < 0){
 		gtLogWriter::printWarning( u"Can not open file for stream." );
-		return false;
+		return nullptr;
 	}
 	
-	auto total = ov_raw_total( &oggFile, -1 );
+//	auto total = ov_raw_total( &oggFile, -1 );
 
 	std::vector<u8> buffer;
 	do{

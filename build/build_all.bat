@@ -15,6 +15,8 @@ gost.build.exe ../demo/examples/gost.build.txt -o
 gost.build.exe ../demo/gost.build.txt -o -r
 gost.build.exe ../demo/gost.build.txt -o
 
+gost.build.exe ../source/gtaXAudio2/gost.build.txt -o -r
+gost.build.exe ../source/gtaXAudio2/gost.build.txt -o
 
 gost.build.exe ../source/gtiiBMP/gost.build.txt -o -r
 gost.build.exe ../source/gtiiBMP/gost.build.txt -o

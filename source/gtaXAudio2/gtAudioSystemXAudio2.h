@@ -16,39 +16,7 @@ namespace gost{
 		IUnknown*				m_ReverbEffect;
 		IXAudio2SubmixVoice*	m_SubmixVoice;
 
-		XAUDIO2FX_REVERB_I3DL2_PARAMETERS m_PRESET_PARAMS[ 30 ] ={
-			XAUDIO2FX_I3DL2_PRESET_FOREST,
-			XAUDIO2FX_I3DL2_PRESET_DEFAULT,
-			XAUDIO2FX_I3DL2_PRESET_GENERIC,
-			XAUDIO2FX_I3DL2_PRESET_PADDEDCELL,
-			XAUDIO2FX_I3DL2_PRESET_ROOM,
-			XAUDIO2FX_I3DL2_PRESET_BATHROOM,
-			XAUDIO2FX_I3DL2_PRESET_LIVINGROOM,
-			XAUDIO2FX_I3DL2_PRESET_STONEROOM,
-			XAUDIO2FX_I3DL2_PRESET_AUDITORIUM,
-			XAUDIO2FX_I3DL2_PRESET_CONCERTHALL,
-			XAUDIO2FX_I3DL2_PRESET_CAVE,
-			XAUDIO2FX_I3DL2_PRESET_ARENA,
-			XAUDIO2FX_I3DL2_PRESET_HANGAR,
-			XAUDIO2FX_I3DL2_PRESET_CARPETEDHALLWAY,
-			XAUDIO2FX_I3DL2_PRESET_HALLWAY,
-			XAUDIO2FX_I3DL2_PRESET_STONECORRIDOR,
-			XAUDIO2FX_I3DL2_PRESET_ALLEY,
-			XAUDIO2FX_I3DL2_PRESET_CITY,
-			XAUDIO2FX_I3DL2_PRESET_MOUNTAINS,
-			XAUDIO2FX_I3DL2_PRESET_QUARRY,
-			XAUDIO2FX_I3DL2_PRESET_PLAIN,
-			XAUDIO2FX_I3DL2_PRESET_PARKINGLOT,
-			XAUDIO2FX_I3DL2_PRESET_SEWERPIPE,
-			XAUDIO2FX_I3DL2_PRESET_UNDERWATER,
-			XAUDIO2FX_I3DL2_PRESET_SMALLROOM,
-			XAUDIO2FX_I3DL2_PRESET_MEDIUMROOM,
-			XAUDIO2FX_I3DL2_PRESET_LARGEROOM,
-			XAUDIO2FX_I3DL2_PRESET_MEDIUMHALL,
-			XAUDIO2FX_I3DL2_PRESET_LARGEHALL,
-			XAUDIO2FX_I3DL2_PRESET_PLATE,
-		};
-
+		XAUDIO2FX_REVERB_I3DL2_PARAMETERS m_PRESET_PARAMS[ 30 ];
 	public:
 
 		gtAudioSystemXAudio2_7();
@@ -62,17 +30,19 @@ namespace gost{
 		class gtAudioObjectImpl : public gtAudioObjectCommon{
 			gtAudioSource*					m_source;
 			gtAudioSourceImpl*				m_sourceImpl;
-			gtArray<IXAudio2SourceVoice*>	m_sourceVoice;
-
 			f32								m_volume;
-
 			u32								m_sourceMax;
 			u32								m_currentSourceVoice;
 			u32								m_numOfPlayedSounds;
+			gtAudioSystemXAudio2_7 *        m_AS;
+			
 			VoiceCallback					m_callback;
+			
+			gtArray<IXAudio2SourceVoice*>	m_sourceVoice;
+			
 		public:
 
-			gtAudioObjectImpl( gtAudioSource * );
+			gtAudioObjectImpl( gtAudioSource *, gtAudioSystemXAudio2_7 * as );
 			~gtAudioObjectImpl();
 
 			void			play();
@@ -131,8 +101,8 @@ namespace gost{
 			bool isOgg(){ return m_format == AudioFileFormat::ogg; }
 		};
 
-		gtAudioObject*	createAudioObject( const gtString& fileName, u32 sp = gtConst1U );
-		gtAudioObject*	createAudioObject( gtAudioSource* source, u32 sp = gtConst1U );
+		gtAudioObject*	createAudioObject( const gtString& fileName, u32 sp = 1u );
+		gtAudioObject*	createAudioObject( gtAudioSource* source, u32 sp = 1u );
 
 		gtAudioSource*	loadAudioSource( const gtString& fileName );
 
@@ -142,8 +112,6 @@ namespace gost{
 
 		gtAudioStream*	createStream( const gtString& fileName );
 
-		static gtAudioSystemXAudio2_7* s_instance;
-		static gtAudioSystemXAudio2_7*	getInstance();
 	};
 
 }
