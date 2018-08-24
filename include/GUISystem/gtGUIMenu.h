@@ -51,7 +51,7 @@ namespace gost{
 
 	};
 
-	class gtGUIMenu : public gtGUIObject{
+	class gtGUIMenu : public gtGUIObjectCommon{
 	public:
 
 		virtual void           addElement( gtGUIObject* element, s32 id ) = 0;

@@ -5,7 +5,7 @@
 namespace gost{
 
 
-	class gtGUIShapeImpl : public gtGUIShape{
+	class gtGUIShapeImpl : public gtGUIShape, public gtGUIShapeCommon{
 		gtMainSystem *	   m_mainSystem;
 		gtModelSystem*	   m_modelSystem;
 		gtGraphicsSystem*  m_gs;
@@ -14,7 +14,7 @@ namespace gost{
 		gtTexture *        m_texture;
 		bool               m_useVertGradient;
 		
-		gtVertexType	vt[ gtConst5U ];
+		gtVertexType	vt[ 5u ];
 		gtColor         m_difColor;
 		gtColor         m_gr1Color;
 		gtColor         m_gr2Color;
@@ -40,6 +40,9 @@ namespace gost{
 
 		void        setRect( const v4i& rect );
 		const v4i&  getRect();
+		
+		gtGUIShapeType getShapeType();
+		bool           isGradient();
 	};
 
 }

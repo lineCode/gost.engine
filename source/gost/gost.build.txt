@@ -62,6 +62,14 @@ ADD_MACRO
 UNICODE
 
 ADD_SOURCE_BEGIN
+source/gost/GUISystem/Fonts/gtGUIFontImpl.cpp
+source/gost/GUISystem/Objects/gtGUIMenuImpl.cpp
+source/gost/GUISystem/Objects/gtGUIMenuItemImpl.cpp
+source/gost/GUISystem/Objects/gtGUIMenuSubItemImpl.cpp
+source/gost/GUISystem/Objects/gtGUIShapeImpl.cpp
+source/gost/GUISystem/Objects/gtGUIStaticTextImpl.cpp
+source/gost/GUISystem/Objects/gtGUITextFieldImpl.cpp
+source/gost/GUISystem/System/gtGUISystemImpl.cpp
 source/gost/GraphicsSystem/gtDebugRendererImpl.cpp
 source/gost/SceneSystem/Objects/gtCameraImpl.cpp
 source/gost/SceneSystem/Objects/gtDummyObjectImpl.cpp
@@ -75,14 +83,6 @@ source/gost/FileSystem/System/gtFileSystemWin32.cpp
 source/gost/FileSystem/System/gtFileWin32.cpp
 source/gost/FileSystem/XML/gtXMLDocumentImpl.cpp
 source/gost/FileSystem/XML/gtXMLImpl.cpp
-source/gost/GUISystem/Fonts/gtGUIFontImpl.cpp
-source/gost/GUISystem/Objects/gtGUIMenuImpl.cpp
-source/gost/GUISystem/Objects/gtGUIMenuItemImpl.cpp
-source/gost/GUISystem/Objects/gtGUIMenuSubItemImpl.cpp
-source/gost/GUISystem/Objects/gtGUIShapeImpl.cpp
-source/gost/GUISystem/Objects/gtGUIStaticTextImpl.cpp
-source/gost/GUISystem/Objects/gtGUITextFieldImpl.cpp
-source/gost/GUISystem/System/gtGUISystemImpl.cpp
 source/gost/Image/gtImage.cpp
 source/gost/Image/gtImage_X24G8.cpp
 source/gost/Image/gtImage_X8R8G8B8.cpp

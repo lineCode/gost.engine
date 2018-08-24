@@ -83,9 +83,7 @@ namespace gost{
 			//	p1----------v4
 		*/
 		virtual void drawLineBox( 
-			const v4f& p1, const v4f& p2,
-			//const v4f& v1, const v4f& v2, const v4f& v3, const v4f& v4,
-			//const v4f& v5, const v4f& v6, const v4f& v7, const v4f& v8,
+			const v4f& minimum, const v4f& maximum,
 			const v4f& positionOffset = v4f(), const gtColor& color = gtColor( gtColorWhite ) ) = 0;
 
 		virtual void drawLineSphere( const v4f& position, f32 radius, u32 smoothLevel = 1u, const gtColor& color1 = gtColor( gtColorWhite ),
@@ -101,9 +99,7 @@ namespace gost{
 		// Return white texture
 		virtual gtTexture*		getDefaultTexture() = 0; 
 
-			// Метод загрузит модель, создасть hardware модель, вернёт его. Если модель была загружена ранее,
-			// то вернётся указатель на hardware модель. gtModel удаляется, если software_model равен nullptr.
-			// Если получили gtModel, то нужно его удалить самому вызвав release().
+			
 		virtual gtRenderModel*	getModel( const gtString& fileName, gtModel** software_model = nullptr ) = 0;
 		virtual const gtGraphicsSystemInfo&	getParams() = 0;
 

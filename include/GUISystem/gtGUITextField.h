@@ -4,12 +4,11 @@
 
 namespace gost{
 
-	class gtGUITextField : public gtGUIObject{
+	class gtGUITextField : public gtGUIObjectCommon{
 	public:
 
 		virtual void clear() = 0;
 		virtual gtGUIShape* getBackgroundShape() = 0;
-		virtual const v4i&	getRect() = 0;
 		virtual const gtString& getText() = 0;
 		virtual void setBackgroundVisible( bool value ) = 0;
 		virtual void setBackgroundColor( const gtColor& color ) = 0;

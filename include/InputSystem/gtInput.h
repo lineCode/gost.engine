@@ -7,17 +7,17 @@ namespace gost{
 	
 
 	enum class gtKey : u32 {
-		K_NONE			=	gtConst0U,
-		K_BACKSPACE		=	gtConst8U,
-		K_TAB			=	gtConst9U,
+		K_NONE			=	0,
+		K_BACKSPACE		=	8,
+		K_TAB			=	9,
 		K_ENTER			=	13,
-		K_SHIFT			=	gtConst16U,
-		K_CTRL			=	gtConst17U,
+		K_SHIFT			=	16,
+		K_CTRL			=	17,
 		K_ALT			=	18,
 		K_PAUSE			=	19,
 		K_CAPS_LOCK		=	20,
 		K_ESCAPE		=	27,
-		K_SPACE			=	gtConst32U,
+		K_SPACE			=	32,
 		K_PGUP			=	33,
 		K_PGDOWN		=	34,
 		K_END			=	35,

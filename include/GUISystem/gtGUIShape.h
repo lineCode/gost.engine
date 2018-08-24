@@ -4,27 +4,28 @@
 
 namespace gost{
 
-	enum class gtGUIShapeType{
+	enum class gtGUIShapeType : u32{
 		Rectangle
 	};
 
 	class gtTexture;
 	class gtMaterial;
-	class gtGUIShape : public gtGUIObject{
-	protected:
+	
+	class gtGUIShapeCommon{
+	public:
 		gtGUIShapeType m_shapeType;
 		bool m_isGradient;
+	};
+	
+	class gtGUIShape : public gtGUIObjectCommon{
 	public:
-		gtGUIShape():m_isGradient(false){}
-		virtual ~gtGUIShape(){}
-
 		virtual void setColor( const gtColor& color ) = 0;
 		virtual void setTexture( gtTexture* texture ) = 0;
 		virtual gtTexture* getTexture() = 0;
 		virtual gtMaterial* getMaterial() = 0;
 
-		virtual gtGUIShapeType getShapeType(){ return m_shapeType; }
-		virtual bool isGradient(){ return m_isGradient; }
+		virtual gtGUIShapeType getShapeType() = 0;
+		virtual bool isGradient() = 0;
 	
 	};
 

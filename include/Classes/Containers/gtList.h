@@ -43,7 +43,7 @@ namespace gost{
 		gtList():
 			m_first( nullptr ),
 			m_last( nullptr ),
-			m_size( gtConst0U ){}
+			m_size( 0u ){}
 		~gtList(){ clear();}
 
 		class const_iterator;
@@ -136,7 +136,7 @@ namespace gost{
 				m_allocator.deallocate( m_first );
 				m_first = next;
 			}
-			m_size = gtConst0U;
+			m_size = 0u;
 			m_last = nullptr;
 		}
 

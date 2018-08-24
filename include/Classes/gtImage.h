@@ -8,7 +8,7 @@ namespace gost{
 	class gtMainSystem;
 
 		// в данный момент не все форматы реализованы
-	enum class gtImageFormat{
+	enum class gtImageFormat : u32{
 		One_bit,		// white or black
 			
 		R1,

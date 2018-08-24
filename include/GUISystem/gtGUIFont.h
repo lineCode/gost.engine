@@ -5,7 +5,7 @@
 namespace gost{
 
 	class gtTexture;
-	class gtGUIFont : public gtGUIObject{
+	class gtGUIFont : public gtGUIObjectCommon{
 	public:
 
 			// Maximum char width

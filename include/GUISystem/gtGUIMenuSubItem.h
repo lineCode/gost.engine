@@ -4,7 +4,7 @@
 
 namespace gost{
 
-	class gtGUIMenuSubItem : public gtGUIObject{
+	class gtGUIMenuSubItem : public gtGUIObjectCommon{
 	public:
 
 		virtual gtGUIShape*    getMouseHoverShape() = 0;

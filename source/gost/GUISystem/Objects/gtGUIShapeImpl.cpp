@@ -18,14 +18,23 @@ gtGUIShapeImpl::gtGUIShapeImpl( gtGraphicsSystem * d ):
 	m_modelSystem = m_mainSystem->getModelSystem();
 	m_type = gtGUIObjectType::Shape;
 	m_shapeType = gtGUIShapeType::Rectangle;
+	m_isGradient = false;
 }
 
 gtGUIShapeImpl::~gtGUIShapeImpl(){
 	if( m_model ) m_model->release();
 }
 
+gtGUIShapeType gtGUIShapeImpl::getShapeType(){
+	return m_shapeType;
+}
+
+bool           gtGUIShapeImpl::isGradient(){
+	return m_isGradient;
+}
+		
 void gtGUIShapeImpl::update(){
-	const u16 u[gtConst6U] = {0U,1U,2U,0U,2U,3U};
+	const u16 u[6u] = {0U,1U,2U,0U,2U,3U};
 	gtPtr<gtModel> soft = m_modelSystem->createEmpty( gtStrideStandartColor, &vt[ gtConst0U ] );
 	
 	//auto ssz = m_gs->getParams().m_outWindow->getWindowInfo().m_borderSize;
@@ -33,7 +42,7 @@ void gtGUIShapeImpl::update(){
 	//auto offset_y = ssz.y;
 
 	if( soft.data() ){
-		auto * sub = soft->addSubModel( gtConst4U, gtConst6U, gtStrideStandartColor );
+		auto * sub = soft->addSubModel( 4u, 6u, gtStrideStandartColor );
 		sub->m_material.type = gtMaterialType::GUI;
 		sub->m_material.flags |= (u32)gtMaterialFlag::AlphaBlend;
 		sub->m_material.textureLayer[ gtConst0U ].diffuseColor = m_difColor;

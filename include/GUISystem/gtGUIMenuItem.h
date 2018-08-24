@@ -4,7 +4,7 @@
 
 namespace gost{
 
-	class gtGUIMenuItem : public gtGUIObject{
+	class gtGUIMenuItem : public gtGUIObjectCommon{
 	public:
 
 		virtual gtGUIMenuSubItem* addMenuSubItem( const gtString& text, s32 userInput_id ) = 0;

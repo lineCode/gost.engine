@@ -1,50 +1,54 @@
 ﻿#pragma once
-#ifndef __GT_GUI_OBJECT_H__
-#define __GT_GUI_OBJECT_H__
+#ifndef __GT_GUI_OBJECT_COMMON_H__
+#define __GT_GUI_OBJECT_COMMON_H__
 
 namespace gost{
 
-	enum class gtGUIObjectType : u32{
-		None,
-		Font,	
-		Text,	
-		Button,	
-		Shape,
-		TextField,
-		Menu,
-		MenuItem,
-		MenuSubItem
-	};
-
-	class gtGUIObject : public gtRefObject{
+	class gtGUIObjectCommon : public gtGUIObject{
+	protected:
+		bool			m_visible;
+		bool			m_mouseEnter;
+		bool			m_mouseLeave;
+		
+		gtGUIObjectType m_type;
+		v4i				m_activeArea;
+		v4i             m_rect;
 	public:
 
-		virtual void render() = 0;
-		virtual void update() = 0;
+		gtGUIObjectCommon() : 
+			m_visible( true ),
+			m_mouseEnter( false ),
+			m_mouseLeave( false )
+		{}
 
-		virtual void setTransparent( f32 transparent = 0.f ) = 0;
-		virtual f32  getTransparent() = 0;
+		virtual ~gtGUIObjectCommon(){}
 
-		virtual bool isMouseEnter() const = 0;
-		virtual bool isMouseLeave() const = 0;
-		virtual bool isVisible() const = 0;
-		virtual void setMouseEnter() = 0;
-		virtual void setMouseLeave() = 0;
-		virtual void setVisible( bool value ) = 0;
-		virtual void setActiveArea( const v4i& area ) = 0;
-		virtual const v4i& getActiveArea() const = 0;
+		virtual bool isMouseEnter() const             { return m_mouseEnter; }
+		virtual bool isMouseLeave() const             { return m_mouseLeave; }
+		virtual bool isVisible() const                { return m_visible; }
+		virtual void setMouseEnter()                  { m_mouseEnter = true; m_mouseLeave = false; }
+		virtual void setMouseLeave()                  { m_mouseLeave = true; m_mouseEnter = false; }
+		virtual void setVisible( bool value )         { m_visible = value; }
+		virtual void setActiveArea( const v4i& area ) { m_activeArea = area; }
+		virtual const v4i& getActiveArea() const      { return m_activeArea; }
 
-		virtual gtGUIObjectType getType() = 0;
+		virtual gtGUIObjectType getType(){
+			return m_type;
+		}
 
-		virtual void setRect( const v4i& rect ) = 0;
+		virtual void setRect( const v4i& rect ){
+			m_rect = rect;
+		}
 
-		virtual const v4i& getRect() = 0;
+		virtual const v4i& getRect(){
+			return m_rect;
+		}
 
 	};
 
 }
 
-#include <GUISystem/gtGUIObjectCommon.h>
+#include <GUISystem/gtGUIShape.h>
 
 #include <GUISystem/gtGUIFont.h>
 #include <GUISystem/gtGUIStaticText.h>
