@@ -91,11 +91,11 @@ gtStackTracer*	gtMainSystemCommon::getStackTracer(){
 }
 
 void gtStackTracer::dumpStackTrace(){
-	gtMainSystemCommon::getInstance()->getStackTracer()->printStackTrace(gtConst2U,gtConst3U);
+	gtMainSystemCommon::getInstance()->getStackTracer()->printStackTrace(2u,gtConst3U);
 }
 
 gtPtr<gtGraphicsSystem> gtMainSystemCommon::createGraphicsSystem( /*gtPlugin* videoDriverPlugin,*/ const gtGraphicsSystemInfo& params, const GT_GUID& uid ){
-	auto plugin = this->getPluginSystem()->getPlugin( uid );
+	auto plugin = (gtPluginCommon*)this->getPluginSystem()->getPlugin( uid );
 	if( !plugin ){
 		gtLogWriter::printError( u"Can not find renderer plugin in `plugins` folder" );
 		return nullptr;
@@ -106,7 +106,9 @@ gtPtr<gtGraphicsSystem> gtMainSystemCommon::createGraphicsSystem( /*gtPlugin* vi
 		return nullptr;
 	}
 
-	gtGraphicsSystem * d = ((gtPluginRender*)plugin)->loadDriver( params );
+	gtGraphicsSystemInfo p = params;
+	plugin->load();
+	gtGraphicsSystem * d = ((gtPluginRender*)plugin->getImplementation())->loadDriver( &p );
 	if( d )
 		m_drivers.push_back( d );
 
@@ -118,7 +120,7 @@ gtPtr<gtGraphicsSystem> gtMainSystemCommon::createGraphicsSystem( /*gtPlugin* vi
 }
 
 gtPtr<gtPhysicsSystem> gtMainSystemCommon::createPhysicsSystem( const gtPhysicsSystemInfo& psi, const GT_GUID& uid ){
-	auto plugin = this->getPluginSystem()->getPlugin( uid );
+	auto plugin = (gtPluginCommon*)this->getPluginSystem()->getPlugin( uid );
 	if( !plugin ){
 		gtLogWriter::printError( u"Can not find physics plugin in `plugins` folder" );
 		return nullptr;
@@ -129,7 +131,9 @@ gtPtr<gtPhysicsSystem> gtMainSystemCommon::createPhysicsSystem( const gtPhysicsS
 		return nullptr;
 	}
 
-	gtPhysicsSystem * d = ((gtPluginPhysics*)plugin)->loadPhysics( psi );
+	gtPhysicsSystemInfo p = psi;
+	plugin->load();
+	gtPhysicsSystem * d = ((gtPluginPhysics*)plugin->getImplementation())->loadPhysics( &p );
 
 	return gtPtrNew<gtPhysicsSystem>(d);
 }
@@ -233,27 +237,27 @@ gtGUISystem*	gtMainSystemCommon::getGUISystem( gtGraphicsSystem * currentRenderD
 }
 
 const gtMatrix4& gtMainSystemCommon::getMatrixWorld(){
-	return m_WVP[ gtConst0U ];
+	return m_WVP[ 0u ];
 }
 
 const gtMatrix4& gtMainSystemCommon::getMatrixView(){
-	return m_WVP[ gtConst1U ];
+	return m_WVP[ 1u ];
 }
 
 const gtMatrix4& gtMainSystemCommon::getMatrixProjection(){
-	return m_WVP[ gtConst2U ];
+	return m_WVP[ 2u ];
 }
 
 void gtMainSystemCommon::setMatrixWorld( const gtMatrix4& m ){
-	m_WVP[ gtConst0U ] = m;
+	m_WVP[ 0u ] = m;
 }
 
 void gtMainSystemCommon::setMatrixView( const gtMatrix4& m ){
-	m_WVP[ gtConst1U ] = m;
+	m_WVP[ 1u ] = m;
 }
 
 void gtMainSystemCommon::setMatrixProjection( const gtMatrix4& m ){
-	m_WVP[ gtConst2U ] = m;
+	m_WVP[ 2u ] = m;
 }
 
 bool gtMainSystemCommon::pollEvent( gtEvent& event ){
@@ -274,23 +278,20 @@ bool gtMainSystemCommon::isRun(){
 }
 
 gtPtr<gtAudioSystem> gtMainSystemCommon::createAudioSystem( const GT_GUID& uid ){
-	gtPlugin * plugin = nullptr;
+	gtPluginCommon * plugin = nullptr;
 	gtPluginAudio * pluginAudio = nullptr;
-
 	auto * ps = getPluginSystem();
-	plugin = ps->getPlugin( uid );
-
+	plugin = (gtPluginCommon*)ps->getPlugin( uid );
 	if( !plugin ){
 		u32 np = ps->getNumOfPlugins();
 
-		for( u32 i = gtConst0U; i < np; ++i ){
+		for( u32 i = 0u; i < np; ++i ){
 
-			auto * pl = ps->getPlugin( i );
+			auto * pl = (gtPluginCommon*)ps->getPlugin( i );
 
 			if( pl->getInfo().m_info.m_type == gtPluginType::Audio ){
-
-				pluginAudio = ps->getAsPluginAudio( pl );
-
+				pl->load();
+				pluginAudio = (gtPluginAudio *)pl->getImplementation();
 				auto ret = pluginAudio->loadAudioDriver();
 
 				if( ret ){
@@ -302,7 +303,8 @@ gtPtr<gtAudioSystem> gtMainSystemCommon::createAudioSystem( const GT_GUID& uid )
 
 		return nullptr;
 	}
-	pluginAudio = ps->getAsPluginAudio( plugin );
+	plugin->load();
+	pluginAudio = (gtPluginAudio *)plugin->getImplementation();
 	return gtPtrNew<gtAudioSystem>( pluginAudio->loadAudioDriver() );
 }
 
@@ -312,7 +314,7 @@ void gtMainSystemCommon::setTimer( u32 milliseconds ){
 }
 
 void gtMainSystemCommon::updateTimer(){
-	static u32 t1 = gtConst0U;
+	static u32 t1 = 0u;
 	u32 t2 = getTime();
 	m_tick = t2 - t1;
 	t1 = t2;
@@ -327,7 +329,7 @@ void gtMainSystemCommon::updateTimer(){
 			e.systemEvent.eventID = GT_EVENT_SYSTEM_TIMER;
 			addEvent( e, 1 );
 
-			m_time = gtConst0U;
+			m_time = 0u;
 		}
 	}
 }

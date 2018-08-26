@@ -1,20 +1,10 @@
 #include "common.h"
-
-gtPluginInput::gtPluginInput( gtPluginInfoDL* info ){
-	m_info = *info;
-}
-
-gtPluginInput::~gtPluginInput(){
-	if( m_isLoad ) unload();
-}
-
-const gtPluginInfoDL&	gtPluginInput::getInfo(){
+/*
+const gtPluginInfoDL&	gtPluginImpl<gtPluginInput_t>::getInfo(){
 	return m_info;
 }
 
-
-
-bool gtPluginInput::checkLibraryFunctions(){
+bool gtPluginImpl<gtPluginInput_t>::checkLibraryFunctions(){
 
 	GT_LIBRARY_HANDLE lib = m_info.m_handle;
 
@@ -29,17 +19,7 @@ bool gtPluginInput::checkLibraryFunctions(){
 	return true;
 }
 
-gtInputController* gtPluginInput::loadInputDriver(){
-	if( !m_isLoad ) load();
-
-	if( m_isLoad ){
-		return loadInputDriverProc();
-	}
-
-	return nullptr;
-}
-
-void gtPluginInput::load(){
+void gtPluginImpl<gtPluginInput_t>::load(){
 
 	if( !m_isLoad ){
 
@@ -50,8 +30,8 @@ void gtPluginInput::load(){
 			return;
 		}
 
-		loadInputDriverProc = GT_LOAD_FUNCTION_SAFE_CAST(gtLoadInputDriver_t,m_info.m_handle, "gtLoadInputDriver" );
-		if( !loadInputDriverProc ){
+		m_pl.loadInputDriverProc = GT_LOAD_FUNCTION_SAFE_CAST(gtLoadInputDriver_t,m_info.m_handle, "gtLoadInputDriver" );
+		if( !m_pl.loadInputDriverProc ){
 			gtLogWriter::printWarning( u"Can not get procedure address [%s] from plugin [%s]", u"gtLoadInputDriver", m_info.m_path.data() );
 			GT_FREE_LIBRARY( m_info.m_handle );
 			return;
@@ -60,7 +40,7 @@ void gtPluginInput::load(){
 	}
 }
 
-void gtPluginInput::unload(){
+void gtPluginImpl<gtPluginInput_t>::unload(){
 	if( m_isLoad ){
 		if( m_info.m_handle )
 			GT_FREE_LIBRARY( m_info.m_handle );
@@ -68,7 +48,7 @@ void gtPluginInput::unload(){
 		m_isLoad = false;
 	}
 }
-
+*/
 
 /*
 Copyright (c) 2018 532235

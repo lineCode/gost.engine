@@ -47,7 +47,7 @@ namespace gost{
 		~gtList(){ clear();}
 
 		class const_iterator;
-		class iterator{
+		class iterator{//irrlicht
 		public:
 			node_ptr curr;
 			iterator():curr( nullptr ){}
@@ -58,10 +58,10 @@ namespace gost{
 			iterator	operator++( s32 ){ iterator tmp = *this; curr = curr->m_next; return tmp; }
 			iterator	operator--( s32 ){ iterator tmp = *this; curr = curr->m_prev; return tmp; }
 			iterator&	operator+=( s32 num ){
-				if( num > gtConst0 ){
-					while( num-- && this->curr != gtConst0 ) ++(*this);
+				if( num > 0 ){
+					while( num-- && this->curr != 0 ) ++(*this);
 				}else{
-					while( num++ && this->curr != gtConst0 ) --(*this);
+					while( num++ && this->curr != 0 ) --(*this);
 				}
 				return *this;
 			}
@@ -79,7 +79,7 @@ namespace gost{
 
 		};
 
-		class const_iterator{
+		class const_iterator{//irrlicht
 		public:
 
 			node_ptr curr;
@@ -92,10 +92,10 @@ namespace gost{
 			const_iterator	operator++( s32 ){ const_iterator tmp = *this; curr = curr->m_next; return tmp; }
 			const_iterator	operator--( s32 ){ const_iterator tmp = *this; curr = curr->m_prev; return tmp; }
 			const_iterator&	operator+=( s32 num ){
-				if( num > gtConst0 ){
-					while( num-- && this->curr != gtConst0 ) ++(*this);
+				if( num > 0 ){
+					while( num-- && this->curr != 0 ) ++(*this);
 				}else{
-					while( num++ && this->curr != gtConst0 ) --(*this);
+					while( num++ && this->curr != 0 ) --(*this);
 				}
 				return *this;
 			}
@@ -142,7 +142,7 @@ namespace gost{
 
 		void	push_back( const_reference object ){
 
-			node_ptr new_node = m_allocator.allocate( gtConst1U );
+			node_ptr new_node = m_allocator.allocate( 1u );
 			m_allocator.construct( new_node, object );
 
 			
@@ -169,7 +169,7 @@ namespace gost{
 				\endcode
 			*/
 		void insert( const iterator& it, const_reference object ){
-			node_ptr new_node = m_allocator.allocate( gtConst1U );
+			node_ptr new_node = m_allocator.allocate( 1u );
 			m_allocator.construct( new_node, object );
 
 			new_node->m_prev = it.curr->m_prev;
@@ -237,7 +237,7 @@ namespace gost{
 		void pop_back(){
 			GT_ASSERT2(m_first,"m_first == nullptr");
 			if( m_first )
-				erase(iterator(m_first)+(m_size-gtConst1U));
+				erase(iterator(m_first)+(m_size-1u));
 		}
 
 	};

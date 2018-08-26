@@ -1,33 +1,14 @@
 //	GOST
 
 #include "common.h"
-
-gtPluginPhysics::gtPluginPhysics( gtPluginInfoDL* info ){
-	m_info = *info;
-}
-
-gtPluginPhysics::~gtPluginPhysics(){
-	if( m_isLoad ) unload();
-}
-
-
-gtPhysicsSystem * gtPluginPhysics::loadPhysics( const gtPhysicsSystemInfo& params ){
-	
-	if( !m_isLoad ) load();
-
-	if( m_isLoad ){
-		gtPhysicsSystemInfo p = params;
-		return loadPhysicsProc( &p );
-	}
-
-	return nullptr;
-}
-
-const gtPluginInfoDL&	gtPluginPhysics::getInfo(){
+/*
+template<class gtPluginPhysics_t>
+const gtPluginInfoDL&	gtPluginImpl<gtPluginPhysics_t>::getInfo(){
 	return m_info;
 }
 
-bool gtPluginPhysics::checkLibraryFunctions(){
+template<class gtPluginPhysics_t>
+bool gtPluginImpl<gtPluginPhysics_t>::checkLibraryFunctions(){
 
 	GT_LIBRARY_HANDLE lib = m_info.m_handle;
 
@@ -42,7 +23,8 @@ bool gtPluginPhysics::checkLibraryFunctions(){
 	return true;
 }
 
-void gtPluginPhysics::load(){
+template<class gtPluginPhysics_t>
+void gtPluginImpl<gtPluginPhysics_t>::load(){
 
 	if( !m_isLoad ){
 	
@@ -53,8 +35,8 @@ void gtPluginPhysics::load(){
 			return;
 		}
 
-		loadPhysicsProc = GT_LOAD_FUNCTION_SAFE_CAST(gtLoadPhysicsPlugin_t,m_info.m_handle, "gtLoadPhysicsPlugin" );
-		if( !loadPhysicsProc ){
+		m_pl.loadPhysicsProc = GT_LOAD_FUNCTION_SAFE_CAST(gtLoadPhysicsPlugin_t,m_info.m_handle, "gtLoadPhysicsPlugin" );
+		if( !m_pl.loadPhysicsProc ){
 			gtLogWriter::printWarning( u"Can not get procedure address [%s] from plugin [%s]", u"gtLoadPhysicsPlugin", m_info.m_path.data() );
 			GT_FREE_LIBRARY( m_info.m_handle );
 			return;
@@ -66,7 +48,8 @@ void gtPluginPhysics::load(){
 
 }
 
-void gtPluginPhysics::unload(){
+template<class gtPluginPhysics_t>
+void gtPluginImpl<gtPluginPhysics_t>::unload(){
 	if( m_isLoad ){
 		if( m_info.m_handle )
 			GT_FREE_LIBRARY( m_info.m_handle );
@@ -75,7 +58,7 @@ void gtPluginPhysics::unload(){
 	}
 }
 
-
+*/
 /*
 Copyright (c) 2018 532235
 

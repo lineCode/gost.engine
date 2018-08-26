@@ -40,22 +40,22 @@ void gtInputSystemImpl::setMouseState( gtEventMouse * e ){
 }
 
 gtPtr<gtInputController> gtInputSystemImpl::createInputContoller( const GT_GUID& uid ){
-	gtPlugin * plugin = nullptr;
+	gtPluginCommon * plugin = nullptr;
 	gtPluginInput * pluginInput = nullptr;
 	
 	auto * ps = gtMainSystem::getInstance()->getPluginSystem();
-	plugin = ps->getPlugin( uid );
+	plugin = (gtPluginCommon*)ps->getPlugin( uid );
 
 	if( !plugin ){
 		u32 np = ps->getNumOfPlugins();
 
-		for( u32 i = gtConst0U; i < np; ++i ){
+		for( u32 i = 0u; i < np; ++i ){
 
-			auto * pl = ps->getPlugin( i );
+			auto * pl = (gtPluginCommon*)ps->getPlugin( i );
 
 			if( pl->getInfo().m_info.m_type == gtPluginType::Input ){
 			
-				pluginInput = ps->getAsPluginInput( pl );
+				pluginInput = (gtPluginInput *)pl->getImplementation();
 
 				auto ret = pluginInput->loadInputDriver();
 
@@ -68,6 +68,6 @@ gtPtr<gtInputController> gtInputSystemImpl::createInputContoller( const GT_GUID&
 
 		return nullptr;
 	}
-	pluginInput = ps->getAsPluginInput( plugin );
+	pluginInput = (gtPluginInput *)plugin;
 	return gtPtrNew<gtInputController>( pluginInput->loadInputDriver() );
 }

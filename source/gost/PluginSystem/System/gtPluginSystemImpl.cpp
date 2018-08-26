@@ -2,11 +2,64 @@
 
 #include "common.h"
 
-gtPluginSystemImpl::gtPluginSystemImpl():
-	m_numOfPlugins( gtConst0U )
-{
+gtPluginCommon::gtPluginCommon():
+m_pl( nullptr )
+{}
+
+gtPluginCommon::~gtPluginCommon(){
+	if( m_pl )
+		delete m_pl;
 }
 
+// Загрузить и получить все нужные адреса
+void gtPluginCommon::load(){
+	if( !m_isLoad ){
+		m_info.m_handle	=	GT_LOAD_LIBRARY( (wchar_t*)m_info.m_path.data() );
+		if( !m_info.m_handle ){
+			gtLogWriter::printWarning( u"Can not load plugin [%s]", m_info.m_path.data() );
+			return;
+		}
+		
+		auto sz = m_pl->getFunctionsCount();
+		for( u32 i = 0u; i < sz; ++i ){
+			void * ptr = (void*)GT_LOAD_FUNCTION( m_info.m_handle, m_pl->getFunctionName( i ).data() );
+			if( !ptr ){
+				gtLogWriter::printWarning( u"Can not get procedure address [%s] from plugin [%s]", m_pl->getFunctionName( i ).data(), m_info.m_path.data() );
+				GT_FREE_LIBRARY( m_info.m_handle );
+				return;
+			}
+			m_pl->setFunctionPtr( i, ptr );
+		}
+		m_isLoad = true;
+	}
+}
+
+void gtPluginCommon::unload(){
+	if( m_isLoad ){
+		if( m_info.m_handle )
+			GT_FREE_LIBRARY( m_info.m_handle );
+		m_isLoad = false;
+	}
+}
+
+bool gtPluginCommon::checkLibraryFunctions(){
+	auto sz = m_pl->getFunctionsCount();
+	for( u32 i = 0u; i < sz; ++i ){
+		void * ptr = (void*)GT_LOAD_FUNCTION( m_info.m_handle, m_pl->getFunctionName( i ).data() );
+		if( !ptr ){
+			gtLogWriter::printWarning( u"Can not get procedure address [%s] from plugin [%s]", m_pl->getFunctionName( i ).data(), m_info.m_path.data() );
+			GT_FREE_LIBRARY( m_info.m_handle );
+			return false;
+		}
+	}
+	return true;
+}
+
+//__________________________________________
+
+gtPluginSystemImpl::gtPluginSystemImpl():
+	m_numOfPlugins( 0u )
+{}
 
 gtPluginSystemImpl::~gtPluginSystemImpl(){}
 
@@ -23,7 +76,7 @@ void gtPluginSystemImpl::scanFolder( const gtString& dir ){
 
 	u32 sz = objs.size();
 
-	for( u32 i = gtConst0U; i < sz; ++i ){
+	for( u32 i = 0u; i < sz; ++i ){
 		auto * o = &objs[ i ];
 		if( o->type == gtFileSystem::DirObjectType::file ){
 			gtString extension = util::stringGetExtension( gtString((char16_t*)o->path) );
@@ -44,11 +97,6 @@ void gtPluginSystemImpl::scanFolder( const gtString& dir ){
 					continue;
 				}
 				gtGetPluginInfo f_GetPluginInfo = GT_LOAD_FUNCTION_SAFE_CAST(gtGetPluginInfo,lib,"GetPluginInfo");
-					/*reinterpret_cast<gtGetPluginInfo>(
-						reinterpret_cast<void*>(
-							GT_LOAD_FUNCTION( lib, "GetPluginInfo" )
-						)
-					);*/
 
 				if( !f_GetPluginInfo ){
 					gtLogWriter::printWarning( u"Can not get procedure address [%s] from plugin [%s]", u"GetPluginInfo", o->path );
@@ -69,9 +117,12 @@ void gtPluginSystemImpl::scanFolder( const gtString& dir ){
 				pi_dl.m_info = pi;
 				pi_dl.m_handle = lib;
 				
+				gtPtr_t( gtPluginCommon, plugin, new gtPluginCommon );
+				
+				plugin->setInfo( pi_dl );
 				
 				if( pi.m_type == gtPluginType::Render ){
-					gtPtr_t(gtPluginRender,plugin, new gtPluginRender( &pi_dl ) );
+					plugin->setImplementation( new gtPluginRender );
 
 					if( !plugin->checkLibraryFunctions() ) continue;
 
@@ -79,26 +130,47 @@ void gtPluginSystemImpl::scanFolder( const gtString& dir ){
 					m_plugins.push_back( plugin.data() );
 
 				}else if( pi.m_type == gtPluginType::Import_image ){
-
-					gtPtr_t(gtPluginImportImage,plugin,new gtPluginImportImage( &pi_dl ) );
+					plugin->setImplementation( new gtPluginImportImage );
 
 					if( !plugin->checkLibraryFunctions())	continue;
 
+					gtPluginImportImage * impl = (gtPluginImportImage *)plugin->getImplementation();
+					
+					gtPluginGetExtCount_t f_PluginGetExtCount = GT_LOAD_FUNCTION_SAFE_CAST(gtPluginGetExtCount_t,lib,"PluginGetExtCount");
+					gtPluginGetExtension_t f_gtPluginGetExtension = GT_LOAD_FUNCTION_SAFE_CAST(gtPluginGetExtension_t,lib,"PluginGetExtension");
+					
+					u32 ecnt = f_PluginGetExtCount();
+					for( u32 j = 0u; j < ecnt; ++j ){
+						gtString str;
+						str.assign( f_gtPluginGetExtension( j ) );
+						impl->m_extensions.push_back( str );
+					}
+					
 					m_importImagePluginCache.push_back( plugin.data() );
 					m_plugins.push_back( plugin.data() );
 
 				}else if( pi.m_type == gtPluginType::Import_model ){
-
-					gtPtr_t(gtPluginImportModel,plugin,new gtPluginImportModel( &pi_dl ) );
+					plugin->setImplementation( new gtPluginImportModel );
 
 					if( !plugin->checkLibraryFunctions())	continue;
 
+					gtPluginImportModel * impl = (gtPluginImportModel *)plugin->getImplementation();
+					
+					gtPluginGetExtCount_t f_PluginGetExtCount = GT_LOAD_FUNCTION_SAFE_CAST(gtPluginGetExtCount_t,lib,"PluginGetExtCount");
+					gtPluginGetExtension_t f_gtPluginGetExtension = GT_LOAD_FUNCTION_SAFE_CAST(gtPluginGetExtension_t,lib,"PluginGetExtension");
+					
+					u32 ecnt = f_PluginGetExtCount();
+					for( u32 j = 0u; j < ecnt; ++j ){
+						gtString str;
+						str.assign( f_gtPluginGetExtension( j ) );
+						impl->m_extensions.push_back( str );
+					}
+					
 					this->m_importModelPluginCache.push_back( plugin.data() );
 					m_plugins.push_back( plugin.data() );
 
 				}else if( pi.m_type == gtPluginType::Audio ){
-					
-					gtPtr_t(gtPluginAudio,plugin,new gtPluginAudio( &pi_dl ) );
+					plugin->setImplementation( new gtPluginAudio );
 
 					if( !plugin->checkLibraryFunctions() ) continue;
 
@@ -106,8 +178,7 @@ void gtPluginSystemImpl::scanFolder( const gtString& dir ){
 					m_plugins.push_back( plugin.data() );
 
 				}else if( pi.m_type == gtPluginType::Input ){
-					
-					gtPtr_t(gtPluginInput,plugin,new gtPluginInput( &pi_dl ) );
+					plugin->setImplementation( new gtPluginInput );
 
 					if( !plugin->checkLibraryFunctions() ) continue;
 
@@ -115,7 +186,7 @@ void gtPluginSystemImpl::scanFolder( const gtString& dir ){
 					m_plugins.push_back( plugin.data() );
 
 				}else if( pi.m_type == gtPluginType::Physics ){
-					gtPtr_t(gtPluginPhysics,plugin, new gtPluginPhysics( &pi_dl ) );
+					plugin->setImplementation( new gtPluginPhysics );
 
 					if( !plugin->checkLibraryFunctions() ) continue;
 
@@ -136,7 +207,7 @@ void gtPluginSystemImpl::scanFolder( const gtString& dir ){
 		}
 	}
 
-	for( u32 i = gtConst0U; i < sz; ++i ){
+	for( u32 i = 0u; i < sz; ++i ){
 		auto * o = &objs[ i ];
 
 		if( o->type == gtFileSystem::DirObjectType::folder ){
@@ -169,7 +240,7 @@ gtPlugin*	gtPluginSystemImpl::getPlugin( const GT_GUID& uid ){
 
 	if( !sz ) return nullptr;
 
-	for( u32 i = gtConst0U; i < sz; ++i ){
+	for( u32 i = 0u; i < sz; ++i ){
 		auto * o = m_plugins[ i ];
 		if( o->getInfo().m_info.m_GUID == uid ){
 			return o;
@@ -211,23 +282,23 @@ gtImage * gtPluginSystemImpl::importImage( const gtString& fileName, const GT_GU
 	util::stringToLower( ext );
 	
 	gtImage * image = new gtImage;
-
 	u32 sz = this->m_importImagePluginCache.size();
-	for( u32 i = gtConst0U; i < sz; ++i ){
+	for( u32 i = 0u; i < sz; ++i ){
 		auto * o = &this->m_importImagePluginCache[ i ];
-
+		gtPluginImportImage * iip = (gtPluginImportImage *)o->data()->getImplementation();
 		if( useguid ){
 			if( o->data()->getInfo().m_info.m_GUID == guid ){
 				o->data()->load();
-				o->data()->loadImage( &file, &image );
+				iip->loadImage( &file, &image );
 				break;
 			}
 		}else{
-			u32 esz = o->data()->m_extensions.size();
-			for( u32 j = gtConst0U; j < esz; ++j ){
-				if( o->data()->m_extensions[ j ] == ext ){
+			u32 esz = iip->m_extensions.size();
+			
+			for( u32 j = 0u; j < esz; ++j ){
+				if( iip->m_extensions[ j ] == ext ){
 					o->data()->load();
-					o->data()->loadImage( &file, &image );
+					iip->loadImage( &file, &image );
 					if( image->data ) break;
 				}
 			}
@@ -262,20 +333,22 @@ gtModel * gtPluginSystemImpl::importModel( const gtString& fileName, const GT_GU
 	gtModel * model = nullptr;//= gtMainSystem::getInstance()->getModelSystem()->createEmpty(;
 
 	u32 sz = this->m_importModelPluginCache.size();
-	for( u32 i = gtConst0U; i < sz; ++i ){
+	for( u32 i = 0u; i < sz; ++i ){
 		auto * o = &this->m_importModelPluginCache[ i ];
+		gtPluginImportModel * iim = (gtPluginImportModel *)o->data()->getImplementation();
 
 		if( useguid ){
 			if( o->data()->getInfo().m_info.m_GUID == guid ){
 				o->data()->load();
-				return o->data()->loadModel( &file );
+				return iim->loadModel( &file );
 			}
 		}else{
-			u32 esz = o->data()->m_extensions.size();
-			for( u32 j = gtConst0U; j < esz; ++j ){
-				if( o->data()->m_extensions[ j ] == ext ){
+			u32 esz = iim->m_extensions.size();
+			gtLogWriter::printWarning( u"iim->m_extensions.size() %u", esz );
+			for( u32 j = 0u; j < esz; ++j ){
+				if( iim->m_extensions[ j ] == ext ){
 					o->data()->load();
-					return o->data()->loadModel( &file );
+					return iim->loadModel( &file );
 				}
 			}
 		}

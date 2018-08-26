@@ -95,12 +95,11 @@ namespace gost{
 		f32		glossiness;
 		f32		roughness;
 
-			//	Need MF_BLEND.
 		f32		transparent;
-		f32		fresnel; // /freɪˈnɛl/, fray-NEL;
+		f32		fresnel;
 		u32		flags;
 
-		gtMaterialTextureLayer	textureLayer[ gtConst16U ];
+		gtMaterialTextureLayer	textureLayer[ 16u ];
 
 		gtMaterialType type;
 

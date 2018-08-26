@@ -138,9 +138,12 @@ bool demo::DemoApplication::Init(){
 
 	if( !initMainMenu() )
 		return false;
+	
 
 
 	initAudio();
+	
+	
 
 	m_sceneSystem	=   m_mainSystem->getSceneSystem( m_gs.data() );
 	m_gamepadSystem	=	m_mainSystem->getInputSystem()->createInputContoller( GT_UID_INPUT_DINPUT );

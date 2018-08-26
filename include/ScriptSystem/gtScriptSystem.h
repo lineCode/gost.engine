@@ -1,38 +1,13 @@
-//	GOST
-
-#pragma once
-#ifndef __GT_PLUGIN_SYSTEM_IMPL_H__
-#define __GT_PLUGIN_SYSTEM_IMPL_H__
+﻿#pragma once
+#ifndef __GT_SCRIPT_SYSTEM_H__
+#define __GT_SCRIPT_SYSTEM_H__
 
 namespace gost{
 
-	class gtPluginSystemImpl GT_FINAL : public gtPluginSystem{
-
-		u32									m_numOfPlugins;
-
-		// Available plugins
-		gtArray<gtPlugin*>					m_plugins;
-		gtArray<gtPtr<gtPluginCommon>>		m_renderPluginCache;
-		gtArray<gtPtr<gtPluginCommon>>		m_physicsPluginCache;
-		gtArray<gtPtr<gtPluginCommon>>		m_audioPluginCache;
-		gtArray<gtPtr<gtPluginCommon>>		m_inputPluginCache;
-		gtArray<gtPtr<gtPluginCommon>>      m_importImagePluginCache;
-		gtArray<gtPtr<gtPluginCommon>>      m_importModelPluginCache;
-		
+	class gtScriptSystem : public gtRefObject{
 	public:
-		gtPluginSystemImpl();
-		virtual ~gtPluginSystemImpl();
-
-		bool		init();
-		void		scanFolder( const gtString& );
-		u32			getNumOfPlugins();
-		gtPlugin*	getPlugin( const GT_GUID& uid );
-		gtPlugin*	getPlugin( u32 id );
-		gtImage *	importImage( const gtString& fileName, const GT_GUID& guid = GT_GUID(), bool useguid = false );
-		gtModel *	importModel( const gtString& fileName, const GT_GUID& guid = GT_GUID(), bool useguid = false );
 
 	};
-
 }
 
 #endif

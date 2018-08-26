@@ -2,21 +2,24 @@
 
 #include "common.h"
 
-gtPluginAudio::gtPluginAudio( gtPluginInfoDL* info ){
-	m_info = *info;
-}
+/*gtAudioSystem* gtPluginAudio_t::loadAudioDriver(){
+	if( !m_isLoad ) load();
 
-gtPluginAudio::~gtPluginAudio(){
-	if( m_isLoad ) unload();
-}
+	if( m_isLoad ){
+		return loadAudioDriverProc();
+	}
 
-const gtPluginInfoDL&	gtPluginAudio::getInfo(){
+	return nullptr;
+}*/
+/*
+template<class gtPluginAudio_t>
+const gtPluginInfoDL&	gtPluginImpl<gtPluginAudio_t>::getInfo(){
 	return m_info;
 }
 
 
-
-bool gtPluginAudio::checkLibraryFunctions(){
+template<class gtPluginAudio_t>
+bool gtPluginImpl<gtPluginAudio_t>::checkLibraryFunctions(){
 
 	GT_LIBRARY_HANDLE lib = m_info.m_handle;
 
@@ -31,17 +34,8 @@ bool gtPluginAudio::checkLibraryFunctions(){
 	return true;
 }
 
-gtAudioSystem* gtPluginAudio::loadAudioDriver(){
-	if( !m_isLoad ) load();
-
-	if( m_isLoad ){
-		return loadAudioDriverProc();
-	}
-
-	return nullptr;
-}
-
-void gtPluginAudio::load(){
+template<class gtPluginAudio_t>
+void gtPluginImpl<gtPluginAudio_t>::load(){
 
 	if( !m_isLoad ){
 
@@ -52,8 +46,8 @@ void gtPluginAudio::load(){
 			return;
 		}
 
-		loadAudioDriverProc = GT_LOAD_FUNCTION_SAFE_CAST(gtLoadAudioDriver_t,m_info.m_handle, "gtLoadAudioPlugin" );
-		if( !loadAudioDriverProc ){
+		m_pl.loadAudioDriverProc = GT_LOAD_FUNCTION_SAFE_CAST(gtLoadAudioDriver_t,m_info.m_handle, "gtLoadAudioPlugin" );
+		if( !m_pl.loadAudioDriverProc ){
 			gtLogWriter::printWarning( u"Can not get procedure address [%s] from plugin [%s]", u"gtLoadAudioPlugin", m_info.m_path.data() );
 			GT_FREE_LIBRARY( m_info.m_handle );
 			return;
@@ -65,7 +59,8 @@ void gtPluginAudio::load(){
 
 }
 
-void gtPluginAudio::unload(){
+template<class gtPluginAudio_t>
+void gtPluginImpl<gtPluginAudio_t>::unload(){
 	if( m_isLoad ){
 		if( m_info.m_handle )
 			GT_FREE_LIBRARY( m_info.m_handle );
@@ -73,7 +68,7 @@ void gtPluginAudio::unload(){
 		m_isLoad = false;
 	}
 }
-
+*/
 
 /*
 Copyright (c) 2018 532235

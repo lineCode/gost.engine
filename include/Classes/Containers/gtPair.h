@@ -13,9 +13,11 @@ namespace gost{
 
 		gtPair():m_first(),m_second(),compareFunc(nullptr)
 		{}
+		
 		gtPair( Type1 first, Type2 second ):
 			m_first( first ), m_second( second ),compareFunc(nullptr)
 		{}
+		
 		gtPair( Type1 first, Type2 second, bool(*pred)(const_reference This, const_reference Other) ):
 			m_first( first ), m_second( second ),compareFunc(pred)
 		{}

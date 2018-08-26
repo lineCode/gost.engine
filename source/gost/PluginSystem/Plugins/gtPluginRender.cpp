@@ -2,32 +2,14 @@
 
 #include "common.h"
 
-gtPluginRender::gtPluginRender( gtPluginInfoDL* info ){
-	m_info = *info;
-}
-
-gtPluginRender::~gtPluginRender(){
-	if( m_isLoad ) unload();
-}
-
-
-gtGraphicsSystem * gtPluginRender::loadDriver( const gtGraphicsSystemInfo& params ){
-	
-	if( !m_isLoad ) load();
-
-	if( m_isLoad ){
-		gtGraphicsSystemInfo p = params;
-		return loadDriverProc( &p );
-	}
-
-	return nullptr;
-}
-
-const gtPluginInfoDL&	gtPluginRender::getInfo(){
+/*
+template<class gtPluginRender_t>
+const gtPluginInfoDL&	gtPluginImpl<gtPluginRender_t>::getInfo(){
 	return m_info;
 }
 
-bool gtPluginRender::checkLibraryFunctions(){
+template<class gtPluginRender_t>
+bool gtPluginImpl<gtPluginRender_t>::checkLibraryFunctions(){
 
 	GT_LIBRARY_HANDLE lib = m_info.m_handle;
 
@@ -42,7 +24,8 @@ bool gtPluginRender::checkLibraryFunctions(){
 	return true;
 }
 
-void gtPluginRender::load(){
+template<class gtPluginRender_t>
+void gtPluginImpl<gtPluginRender_t>::load(){
 
 	if( !m_isLoad ){
 	
@@ -53,8 +36,8 @@ void gtPluginRender::load(){
 			return;
 		}
 
-		loadDriverProc = GT_LOAD_FUNCTION_SAFE_CAST(gtLoadGPUDriver_t,m_info.m_handle, "gtLoadGPUDriver" );
-		if( !loadDriverProc ){
+		m_pl.loadDriverProc = GT_LOAD_FUNCTION_SAFE_CAST(gtLoadGPUDriver_t,m_info.m_handle, "gtLoadGPUDriver" );
+		if( !m_pl.loadDriverProc ){
 			gtLogWriter::printWarning( u"Can not get procedure address [%s] from plugin [%s]", u"gtLoadGPUDriver", m_info.m_path.data() );
 			GT_FREE_LIBRARY( m_info.m_handle );
 			return;
@@ -66,7 +49,8 @@ void gtPluginRender::load(){
 
 }
 
-void gtPluginRender::unload(){
+template<class gtPluginRender_t>
+void gtPluginImpl<gtPluginRender_t>::unload(){
 	if( m_isLoad ){
 		if( m_info.m_handle )
 			GT_FREE_LIBRARY( m_info.m_handle );
@@ -74,7 +58,7 @@ void gtPluginRender::unload(){
 		m_isLoad = false;
 	}
 }
-
+*/
 
 /*
 Copyright (c) 2017-2018 532235

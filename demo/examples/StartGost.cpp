@@ -162,20 +162,22 @@ int main(){
 	
 #define ___ASD
 #ifdef ___ASD	
+
+
 	auto graphicsSystem = mainSystem->createGraphicsSystem( gsi, GT_UID_RENDER_D3D11 );
 
-	
 	gtPtr<gtImage> image_original = mainSystem->loadImage( u"D:/1.png" );
-	
+	if( !image_original ){
+		output->print( u"image_original == nulptr" );	
+		//return -1;
+	}
 	gtImage image_converted;
 	image_converted	= image_original.data();
-	
 	gtImage::_convert( gtImageFormat::One_bit, &image_converted );
 //	image_converted.convert(gtImageFormat::R8G8B8A8);
 	gtImage::_convert( gtImageFormat::R8G8B8A8, &image_converted );
 	
 	auto texture = graphicsSystem->createTexture( &image_converted );
-	
 	gtMaterial mat;
 	mat.textureLayer[ 0 ].texture = texture.data();
 	mat.flags = (u32)gtMaterialFlag::AlphaBlend;
@@ -186,7 +188,7 @@ int main(){
 	f32 b = 0.f;
 
 	gtEvent event;
-
+output->print( u"Message 3" );
 	while( mainSystem->update() ){
 #ifndef UseEventConsumer
 		//Like in SFML

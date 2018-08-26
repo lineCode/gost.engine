@@ -2,15 +2,8 @@
 
 #include "common.h"
 
-gtPluginImportImage::gtPluginImportImage( gtPluginInfoDL* info ){
-	m_info = *info; 
-}
-
-gtPluginImportImage::~gtPluginImportImage(){
-	unload();
-}
-		
-void gtPluginImportImage::load(){
+/*template<class gtPluginImportImage_t>
+void gtPluginImpl<gtPluginImportImage_t>::load(){
 	if( !m_isLoad ){
 
 		m_info.m_handle = GT_LOAD_LIBRARY((wchar_t*)m_info.m_path.data());
@@ -28,13 +21,14 @@ void gtPluginImportImage::load(){
 			return;
 		}
 
-		f_loadImage = loadProc;
+		m_pl.f_loadImage = loadProc;
 
 		m_isLoad = true;
 	}
 }
 
-void gtPluginImportImage::unload(){
+template<class gtPluginImportImage_t>
+void gtPluginImpl<gtPluginImportImage_t>::unload(){
 	if( m_isLoad ){
 
 		if( m_info.m_handle )
@@ -44,11 +38,13 @@ void gtPluginImportImage::unload(){
 	}
 }
 
-const gtPluginInfoDL&	gtPluginImportImage::getInfo(){
+template<class gtPluginImportImage_t>
+const gtPluginInfoDL&	gtPluginImpl<gtPluginImportImage_t>::getInfo(){
 	return m_info;
 }
 
-bool gtPluginImportImage::checkLibraryFunctions(){
+template<class gtPluginImportImage_t>
+bool gtPluginImpl<gtPluginImportImage_t>::checkLibraryFunctions(){
 
 	GT_LIBRARY_HANDLE lib = m_info.m_handle;
 
@@ -77,22 +73,17 @@ bool gtPluginImportImage::checkLibraryFunctions(){
 
 	u32 sz = gtPluginGetExtCount();
 	if( sz ){
-		for( u32 i = gtConst0U; i < sz; ++i ){
+		for( u32 i = 0u; i < sz; ++i ){
 			const s8 * str = gtPluginGetExtension( i );
 			gtString ext;
 			util::stringAppend( ext, str, u'a' );
 			util::stringToLower( ext );
-			m_extensions.push_back( ext );
+			m_pl.m_extensions.push_back( ext );
 		}
 		return true;
 	}
 	return false;
-}
-
-void gtPluginImportImage::loadImage( gtString* fileName, gtImage** pImage ){
-	GT_ASSERT2( m_isLoad, "m_isLoad==true, plugin is not load" );
-	this->f_loadImage( *pImage, fileName );
-}
+}*/
 
 /*
 Copyright (c) 2017-2018 532235
