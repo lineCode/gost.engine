@@ -101,10 +101,14 @@
 
 #include <MainSystem/gtWindowInfo.h>
 
+#include <ScriptSystem/gtScriptSystem.h>
+
 #include <GraphicsSystem/gtGraphicsSystem.h>
 #include <GraphicsSystem/gtDebugRenderer.h>
 
 #include <SceneSystem/gtGameObject.h>
+
+#include <ScriptSystem/gtScriptSystem.h>
 
 #include <PluginSystem/gtPluginSystem.h>
 

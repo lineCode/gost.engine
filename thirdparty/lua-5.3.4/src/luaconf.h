@@ -251,7 +251,11 @@
 
 #else				/* }{ */
 
+#ifdef GT_LUA
+#define LUA_API		extern "C"
+#else
 #define LUA_API		extern
+#endif
 
 #endif				/* } */
 

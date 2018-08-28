@@ -67,6 +67,7 @@ namespace gost{
 		static gtMainSystemCommon * getInstance();
 		gtStackTracer*				getStackTracer();
 		gtPtr<gtAudioSystem>		createAudioSystem( const GT_GUID& uid );
+		gtPtr<gtScriptSystem>       createScriptSystem( const GT_GUID& uid );
 		gtPtr<gtGraphicsSystem>		createGraphicsSystem( const gtGraphicsSystemInfo&, const GT_GUID& uid );
 		gtPtr<gtPhysicsSystem>      createPhysicsSystem( const gtPhysicsSystemInfo& psi, const GT_GUID& uid );
 

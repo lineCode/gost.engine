@@ -1,20 +1,17 @@
-#pragma once
+#ifndef __GT_SCRIPT_LUA_H__
+#define __GT_SCRIPT_LUA_H__
 
-#define GOST_ENGINE
+class gtScriptLua : public gtScriptSystem{
+	lua_State* m_lua;
+public:
+	gtScriptLua();
+	~gtScriptLua();
+	
+	void addCFunction( const gtStringA& name, void * ptr );
+	void callSFunction( const gtStringA& name );
+};
 
-#include "gost.h"
-using namespace gost;
-
-#include "btBulletDynamicsCommon.h"
-#include "BulletDynamics/Featherstone/btMultiBodyDynamicsWorld.h"
-#include "BulletDynamics/Featherstone/btMultiBodyConstraintSolver.h"
-#include "BulletCollision\NarrowPhaseCollision\btRaycastCallback.h"
-
-
-#include "gtCollisionShapeImpl.h"
-#include "gtRigidBodyImpl.h"
-
-#include "gtPhysicsBullet.h"
+#endif
 
 /*
 Copyright (c) 2018 532235

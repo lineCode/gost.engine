@@ -277,6 +277,33 @@ bool gtMainSystemCommon::isRun(){
 	return m_isRun;
 }
 
+gtPtr<gtScriptSystem>       gtMainSystemCommon::createScriptSystem( const GT_GUID& uid ){
+	gtPluginCommon * plugin = nullptr;
+	gtPluginScript * pluginScript = nullptr;
+	auto * ps = getPluginSystem();
+	plugin = (gtPluginCommon*)ps->getPlugin( uid );
+	
+	//если указанный плагин не запустился то проба использовать другой
+	if( !plugin ){
+		u32 np = ps->getNumOfPlugins();
+
+		for( u32 i = 0u; i < np; ++i ){
+			auto * pl = (gtPluginCommon*)ps->getPlugin( i );
+			if( pl->getInfo().m_info.m_type == gtPluginType::Script ){
+				pl->load();
+				pluginScript = (gtPluginScript *)pl->getImplementation();
+				return gtPtrNew<gtScriptSystem>( pluginScript->loadScriptPlugin() );
+			}
+		}
+
+		return nullptr;
+	}
+	
+	plugin->load();
+	pluginScript = (gtPluginScript *)plugin->getImplementation();
+	return gtPtrNew<gtScriptSystem>( pluginScript->loadScriptPlugin() );
+}
+
 gtPtr<gtAudioSystem> gtMainSystemCommon::createAudioSystem( const GT_GUID& uid ){
 	gtPluginCommon * plugin = nullptr;
 	gtPluginAudio * pluginAudio = nullptr;
@@ -292,12 +319,7 @@ gtPtr<gtAudioSystem> gtMainSystemCommon::createAudioSystem( const GT_GUID& uid )
 			if( pl->getInfo().m_info.m_type == gtPluginType::Audio ){
 				pl->load();
 				pluginAudio = (gtPluginAudio *)pl->getImplementation();
-				auto ret = pluginAudio->loadAudioDriver();
-
-				if( ret ){
-
-					return gtPtr<gtAudioSystem>( ret );
-				}
+				return gtPtrNew<gtAudioSystem>( pluginAudio->loadAudioDriver() );
 			}
 		}
 

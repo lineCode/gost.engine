@@ -33,19 +33,10 @@ namespace gost{
 	};
 
 	struct gtMaterialTextureLayer{
-
-			// c-tor
-		gtMaterialTextureLayer():
-			diffuseColor( 1.f ),
-			blendOperation( gtMaterialBlendOp::Sub ),
-			level( 1.f ),
-			texture( nullptr )
-		{}
-
-		gtColor	            diffuseColor;
-		gtMaterialBlendOp	blendOperation;
-		f32		            level;
-		gtTexture *         texture;
+		gtColor	            diffuseColor = gtColor( 1.f );
+		gtMaterialBlendOp	blendOperation = gtMaterialBlendOp::Sub;
+		f32		            level = 1.f;
+		gtTexture *         texture = nullptr;
 	};
 
 		// shader type, if used standart shader
@@ -57,56 +48,33 @@ namespace gost{
 
 		// material
 	class gtMaterial{
-
 	public:
-			// c-tor
-		gtMaterial():
-			shader( nullptr ),
-			ambientColor( (u32)0xff303030 ),
-			specularColor( 1.f ),
-			diffuseColor( 1.f ),
-			sunPosition( v4f(0.3f,.6f,-.3f,0.f) ),
-			specularLevel( 1.f ),
-			shininess( 5.f ),
-			glossiness( 0.f ),
-			roughness( 0.f ),
-			transparent( 0.f ),
-			fresnel( 1.f ),
-			flags( (u32)gtMaterialFlag::UseLight ),
-			type( gtMaterialType::Standart ),
-			userData( nullptr ),
-			userDataSize( 0u ),
-			alphaToCoverage( false )
-		{}
 
-			// d-tor
-		~gtMaterial(){}
+		gtShader * shader = nullptr;
 
-		gtShader * shader;
+		gtColor ambientColor = gtColor((u32)0xff303030);
+		gtColor specularColor = gtColor( 1.f );
+		gtColor diffuseColor = gtColor( 1.f );
 
-		gtColor ambientColor;
-		gtColor specularColor;
-		gtColor diffuseColor;
+		v4f     sunPosition = v4f(0.3f,.6f,-.3f,0.f);
 
-		v4f     sunPosition;
+		f32		specularLevel = 1.f;
+		f32		shininess = 5.f;
+		f32		glossiness = 0.f;
+		f32		roughness = 0.f;
 
-		f32		specularLevel;
-		f32		shininess;
-		f32		glossiness;
-		f32		roughness;
-
-		f32		transparent;
-		f32		fresnel;
-		u32		flags;
+		f32		transparent = 0.f;
+		f32		fresnel = 1.f;
+		u32		flags = (u32)gtMaterialFlag::UseLight;
 
 		gtMaterialTextureLayer	textureLayer[ 16u ];
 
-		gtMaterialType type;
+		gtMaterialType type = gtMaterialType::Standart;
 
-		void*   userData;
-		u32     userDataSize;
+		void*   userData = nullptr;
+		u32     userDataSize = 0u;
 
-		bool	alphaToCoverage;
+		bool	alphaToCoverage = false;
 	};
 
 

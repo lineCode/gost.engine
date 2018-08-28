@@ -121,83 +121,95 @@ void gtPluginSystemImpl::scanFolder( const gtString& dir ){
 				
 				plugin->setInfo( pi_dl );
 				
-				if( pi.m_type == gtPluginType::Render ){
-					plugin->setImplementation( new gtPluginRender );
-
-					if( !plugin->checkLibraryFunctions() ) continue;
-
-					m_renderPluginCache.push_back( plugin.data() );
-					m_plugins.push_back( plugin.data() );
-
-				}else if( pi.m_type == gtPluginType::Import_image ){
-					plugin->setImplementation( new gtPluginImportImage );
-
-					if( !plugin->checkLibraryFunctions())	continue;
-
-					gtPluginImportImage * impl = (gtPluginImportImage *)plugin->getImplementation();
-					
-					gtPluginGetExtCount_t f_PluginGetExtCount = GT_LOAD_FUNCTION_SAFE_CAST(gtPluginGetExtCount_t,lib,"PluginGetExtCount");
-					gtPluginGetExtension_t f_gtPluginGetExtension = GT_LOAD_FUNCTION_SAFE_CAST(gtPluginGetExtension_t,lib,"PluginGetExtension");
-					
-					u32 ecnt = f_PluginGetExtCount();
-					for( u32 j = 0u; j < ecnt; ++j ){
-						gtString str;
-						str.assign( f_gtPluginGetExtension( j ) );
-						impl->m_extensions.push_back( str );
-					}
-					
-					m_importImagePluginCache.push_back( plugin.data() );
-					m_plugins.push_back( plugin.data() );
-
-				}else if( pi.m_type == gtPluginType::Import_model ){
-					plugin->setImplementation( new gtPluginImportModel );
-
-					if( !plugin->checkLibraryFunctions())	continue;
-
-					gtPluginImportModel * impl = (gtPluginImportModel *)plugin->getImplementation();
-					
-					gtPluginGetExtCount_t f_PluginGetExtCount = GT_LOAD_FUNCTION_SAFE_CAST(gtPluginGetExtCount_t,lib,"PluginGetExtCount");
-					gtPluginGetExtension_t f_gtPluginGetExtension = GT_LOAD_FUNCTION_SAFE_CAST(gtPluginGetExtension_t,lib,"PluginGetExtension");
-					
-					u32 ecnt = f_PluginGetExtCount();
-					for( u32 j = 0u; j < ecnt; ++j ){
-						gtString str;
-						str.assign( f_gtPluginGetExtension( j ) );
-						impl->m_extensions.push_back( str );
-					}
-					
-					this->m_importModelPluginCache.push_back( plugin.data() );
-					m_plugins.push_back( plugin.data() );
-
-				}else if( pi.m_type == gtPluginType::Audio ){
-					plugin->setImplementation( new gtPluginAudio );
-
-					if( !plugin->checkLibraryFunctions() ) continue;
-
-					m_audioPluginCache.push_back( plugin.data() );
-					m_plugins.push_back( plugin.data() );
-
-				}else if( pi.m_type == gtPluginType::Input ){
-					plugin->setImplementation( new gtPluginInput );
-
-					if( !plugin->checkLibraryFunctions() ) continue;
-
-					m_inputPluginCache.push_back( plugin.data() );
-					m_plugins.push_back( plugin.data() );
-
-				}else if( pi.m_type == gtPluginType::Physics ){
-					plugin->setImplementation( new gtPluginPhysics );
-
-					if( !plugin->checkLibraryFunctions() ) continue;
-
-					m_physicsPluginCache.push_back( plugin.data() );
-					m_plugins.push_back( plugin.data() );
-
-				}else{
-					GT_FREE_LIBRARY( lib );
-					gtLogWriter::printInfo( u"Unsupported plugin: %s. Ignore.", pi.m_name.data() );
+				gtPluginImpl * pl_impl = nullptr;
+				
+				switch( pi.m_type ){
+					case gtPluginType::Render:
+						pl_impl = new gtPluginRender;
+					break;
+					case gtPluginType::Import_image:
+						pl_impl = new gtPluginImportImage;
+					break;
+					case gtPluginType::Import_model:
+						pl_impl = new gtPluginImportModel;
+					break;
+					case gtPluginType::Audio:
+						pl_impl = new gtPluginAudio;
+					break;
+					case gtPluginType::Input:
+						pl_impl = new gtPluginInput;
+					break;
+					case gtPluginType::Physics:
+						pl_impl = new gtPluginPhysics;
+					break;
+					case gtPluginType::Script:
+						pl_impl = new gtPluginScript;
+					break;
+					default:
+						GT_FREE_LIBRARY( lib );
+						gtLogWriter::printInfo( u"Unsupported plugin: %s. Ignore.", pi.m_name.data() );
+						continue;
+					break;
+				}
+				
+				plugin->setImplementation( pl_impl );
+				
+				if( !plugin->checkLibraryFunctions() ){
+					delete pl_impl;
 					continue;
 				}
+				
+				switch( pi.m_type ){
+					case gtPluginType::Render:
+						m_renderPluginCache.push_back( plugin.data() );
+					break;
+					case gtPluginType::Import_image:{
+						gtPluginImportImage * impl = (gtPluginImportImage *)plugin->getImplementation();
+					
+						gtPluginGetExtCount_t f_PluginGetExtCount = GT_LOAD_FUNCTION_SAFE_CAST(gtPluginGetExtCount_t,lib,"PluginGetExtCount");
+						gtPluginGetExtension_t f_gtPluginGetExtension = GT_LOAD_FUNCTION_SAFE_CAST(gtPluginGetExtension_t,lib,"PluginGetExtension");
+						
+						u32 ecnt = f_PluginGetExtCount();
+						for( u32 j = 0u; j < ecnt; ++j ){
+							gtString str;
+							str.assign( f_gtPluginGetExtension( j ) );
+							impl->m_extensions.push_back( str );
+						}
+						
+						m_importImagePluginCache.push_back( plugin.data() );
+					}break;
+					case gtPluginType::Import_model:{
+						gtPluginImportModel * impl = (gtPluginImportModel *)plugin->getImplementation();
+					
+						gtPluginGetExtCount_t f_PluginGetExtCount = GT_LOAD_FUNCTION_SAFE_CAST(gtPluginGetExtCount_t,lib,"PluginGetExtCount");
+						gtPluginGetExtension_t f_gtPluginGetExtension = GT_LOAD_FUNCTION_SAFE_CAST(gtPluginGetExtension_t,lib,"PluginGetExtension");
+						
+						u32 ecnt = f_PluginGetExtCount();
+						for( u32 j = 0u; j < ecnt; ++j ){
+							gtString str;
+							str.assign( f_gtPluginGetExtension( j ) );
+							impl->m_extensions.push_back( str );
+						}
+						
+						this->m_importModelPluginCache.push_back( plugin.data() );
+					}break;
+					case gtPluginType::Audio:
+						m_audioPluginCache.push_back( plugin.data() );
+					break;
+					case gtPluginType::Input:
+						m_inputPluginCache.push_back( plugin.data() );
+					break;
+					case gtPluginType::Physics:
+						m_physicsPluginCache.push_back( plugin.data() );
+					break;
+					case gtPluginType::Script:
+						m_scriptPluginCache.push_back( plugin.data() );
+					break;
+					default:
+					break;
+				}
+				
+				m_plugins.push_back( plugin.data() );
 
 				gtLogWriter::printInfo( u"Add plugin: %s", pi.m_name.data() );
 				GT_FREE_LIBRARY( lib );

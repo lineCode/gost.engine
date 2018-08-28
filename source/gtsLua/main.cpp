@@ -13,6 +13,25 @@ BOOL APIENTRY DllMain( HMODULE, DWORD  ul_reason_for_call, LPVOID ){
 }
 #endif
 
+extern "C"{
+
+	__declspec(dllexport) void __cdecl GetPluginInfo( gtPluginInfo* info ){
+		info->m_author.assign( u"532235" );
+		info->m_description.assign( u"Lua for gost.engine" );
+		info->m_GUID = GT_UID_SCRIPT_LUA_5_3_4;
+		info->m_name.assign( u"Lua plugin" );
+		info->m_type = gtPluginType::Script;
+		info->m_version = 1;
+		info->m_build = 1;
+	}
+	
+	__declspec(dllexport) gtScriptSystem * gtLoadScriptPlugin( /*params*/ ){
+		gtPtr<gtScriptLua>	 lua = gtPtrNew<gtScriptLua>(new gtScriptLua());
+		if( lua )
+			lua->addRef();
+		return lua.data();
+	}
+}
 
 /*
 Copyright (c) 2018 532235

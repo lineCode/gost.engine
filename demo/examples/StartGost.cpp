@@ -119,6 +119,12 @@ int main(){
 		
 	}
 	
+	gtMatrix4 m1;
+	gtMatrix4 m2;
+	
+	m1 = m1 * m2;
+	m2 *= m1;
+	
 	gtDeviceCreationParameters params;
 
 #ifdef UseCustomOutput

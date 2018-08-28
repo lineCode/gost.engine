@@ -1,5 +1,13 @@
+#define GT_EXPORTS
+
 #include "gost.h"
 using namespace gost;
+
+#include <lua.h>
+#include <lauxlib.h>
+#include <lualib.h>
+
+#include "gtScriptLua.h"
 
 /*
 Copyright (c) 2018 532235

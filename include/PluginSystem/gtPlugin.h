@@ -13,7 +13,8 @@ namespace gost{
 		Export_image,
 		Export_model,
 		Input,
-		Physics
+		Physics,
+		Script
 	};
 
 	struct gtPluginInfo{

@@ -54,19 +54,19 @@ namespace gost{
 			p[ 3u ] = 0.f;
 
 			p[ 4u ] = 0.f;
-			p[ gtConst5U ] = 1.f;
-			p[ gtConst6U ] = 0.f;
-			p[ gtConst7U ] = 0.f;
+			p[ 5u ] = 1.f;
+			p[ 6u ] = 0.f;
+			p[ 7u ] = 0.f;
 
-			p[ gtConst8U ] = 0.f;
-			p[ gtConst9U ] = 0.f;
-			p[ gtConst10U ] = 1.f;
-			p[ gtConst11U ] = 0.f;
+			p[ 8u ] = 0.f;
+			p[ 9u ] = 0.f;
+			p[ 10u ] = 1.f;
+			p[ 11u ] = 0.f;
 
-			p[ gtConst12U ] = 0.f;
-			p[ gtConst13U ] = 0.f;
-			p[ gtConst14U ] = 0.f;
-			p[ gtConst15U ] = 1.f;
+			p[ 12u ] = 0.f;
+			p[ 13u ] = 0.f;
+			p[ 14u ] = 0.f;
+			p[ 15u ] = 1.f;
 
 		}
 
@@ -155,10 +155,7 @@ namespace gost{
 			// \param m: other matrix
 			// \return this matrix
 		gtMatrix4& operator*=( const gtMatrix4& m ){
-			m_data[ 0u ] *= m[ 0u ];
-			m_data[ 1u ] *= m[ 1u ];
-			m_data[ 2u ] *= m[ 2u ];
-			m_data[ 3u ] *= m[ 3u ];
+			(*this) = (*this) * m;
 			return *this;
 		}
 

@@ -23,13 +23,13 @@ extern "C"{
 	}
 
 	GT_API u32	__cdecl PluginGetExtCount(){
-		return gtConst3U;
+		return 3u;
 	}
 
 	GT_API const s8*	__cdecl PluginGetExtension( u32 id ){
-		GT_ASSERT1( id < gtConst3U, "Bad argument", "id < gtConst3U" );
+		GT_ASSERT1( id < 3u, "Bad argument", "id < 3u" );
 
-		const s8 * exts[ gtConst3U ] = {
+		const s8 * exts[ 3u ] = {
 			"bmp",
 			"dib",
 			"rle"
@@ -156,9 +156,9 @@ extern "C"{
 			return false;
 		}
 
-		if( info.bV5BitCount != gtConst1U &&
-			info.bV5BitCount != gtConst4U &&
-			info.bV5BitCount != gtConst8U &&
+		if( info.bV5BitCount != 1u &&
+			info.bV5BitCount != 4u &&
+			info.bV5BitCount != 8u &&
 			info.bV5BitCount != 16u &&
 			info.bV5BitCount != 24u &&
 			info.bV5BitCount != 32u ){
@@ -179,7 +179,7 @@ extern "C"{
 
 		if( image->bits == 24u ){
 			image->format	= gtImageFormat::R8G8B8;
-			image->pitch	= image->width * gtConst3U;
+			image->pitch	= image->width * 3u;
 			image->dataSize = image->pitch * image->height;
 
 			image->data = (u8*)gtMemAllocE(image->dataSize);
@@ -207,7 +207,7 @@ extern "C"{
 				return false;
 			}
 
-			image->pitch = image->width * gtConst4U;
+			image->pitch = image->width * 4u;
 
 			if( info.bV5Size == 40U ){
 				file->seek( 54u, gtFileSeekPos::Begin );
@@ -242,7 +242,7 @@ extern "C"{
 				return false;
 			}
 
-			image->pitch = image->width * gtConst2U;
+			image->pitch = image->width * 2u;
 
 			if( info.bV5Size == 40U ){ // x1r5g5b5
 				file->seek( 54u, gtFileSeekPos::Begin );
@@ -291,10 +291,10 @@ extern "C"{
 
 
 			 
-		}else if( image->bits == gtConst8U ){
+		}else if( image->bits == 8u ){
 			
 			image->format = gtImageFormat::R8G8B8A8;
-			image->pitch = image->width * gtConst4U;
+			image->pitch = image->width * 4u;
 			image->dataSize = image->pitch * image->height;
 
 			
@@ -346,20 +346,20 @@ extern "C"{
 
 			u8 * u8_ptr = inds.get();
 
-			for( u32 i = gtConst0U, count = gtConst0U; i < indSize; ){
+			for( u32 i = 0u, count = 0u; i < indSize; ){
 				image->data[ count ] = quadTable[ u8_ptr[ i ] ].Red;
-				image->data[ count+gtConst1U ] = quadTable[ u8_ptr[ i ] ].Green;
-				image->data[ count+gtConst2U ] = quadTable[ u8_ptr[ i ] ].Blue;
-				image->data[ count+gtConst3U ] = 255u;
-				count += gtConst4U;
-				i += gtConst1U;
+				image->data[ count+1u ] = quadTable[ u8_ptr[ i ] ].Green;
+				image->data[ count+2u ] = quadTable[ u8_ptr[ i ] ].Blue;
+				image->data[ count+3u ] = 255u;
+				count += 4u;
+				i += 1u;
 			}
 
-		}else if( image->bits == gtConst4U ){
+		}else if( image->bits == 4u ){
 
 			image->format = gtImageFormat::R8G8B8A8;
 
-			image->pitch = image->width * gtConst4U;
+			image->pitch = image->width * 4u;
 
 			image->dataSize = image->pitch * image->height;
 
@@ -418,28 +418,28 @@ extern "C"{
 			
 
 
-			for( u32 i = gtConst0U, count = gtConst0U; i < indSize; ){
+			for( u32 i = 0u, count = 0u; i < indSize; ){
 
 				u8 color = u8_ptr[ i ];
 				u8 part1 = color & 15u;
-				u8 part2 = (color & 240U)>>gtConst4U;
+				u8 part2 = (color & 240U)>>4u;
 
 				image->data[ count ] = quadTable[ part1 ].Red;
-				image->data[ count+gtConst1U ] = quadTable[ part1 ].Green;
-				image->data[ count+gtConst2U ] = quadTable[ part1 ].Blue;
-				image->data[ count+gtConst3U ] = 255u;
-				image->data[ count+gtConst4U ] = quadTable[ part2 ].Red;
-				image->data[ count+gtConst5U ] = quadTable[ part2 ].Green;
-				image->data[ count+gtConst6U ] = quadTable[ part2 ].Blue;
-				image->data[ count+gtConst7U ] = 255u;
-				count += gtConst8U;
-				i += gtConst1U;
+				image->data[ count+1u ] = quadTable[ part1 ].Green;
+				image->data[ count+2u ] = quadTable[ part1 ].Blue;
+				image->data[ count+3u ] = 255u;
+				image->data[ count+4u ] = quadTable[ part2 ].Red;
+				image->data[ count+5u ] = quadTable[ part2 ].Green;
+				image->data[ count+6u ] = quadTable[ part2 ].Blue;
+				image->data[ count+7u ] = 255u;
+				count += 8u;
+				i += 1u;
 			}
 
 			
 
 
-		}else if( image->bits == gtConst1U ){
+		}else if( image->bits == 1u ){
 			image->format = gtImageFormat::One_bit;
 			image->pitch = image->width;
 			image->dataSize = info.bV5SizeImage;
@@ -472,7 +472,7 @@ extern "C"{
 
 //	irrlicht
 void decompress4BitRLE( u8*& rleData, u8*& inds, u32 size, u32 width, u32 height ){
-		u32 lineWidth = (width+gtConst1U)/gtConst2U/*+pitch*/;
+		u32 lineWidth = (width+1u)/2u/*+pitch*/;
 		u8* p = rleData;
 		u8* newBmp = inds;
 		u8* d = newBmp;

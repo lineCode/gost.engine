@@ -1029,6 +1029,9 @@ LUALIB_API lua_State *luaL_newstate (void) {
   return L;
 }
 
+void gtLuaL_newstate(void){
+}
+
 
 LUALIB_API void luaL_checkversion_ (lua_State *L, lua_Number ver, size_t sz) {
   const lua_Number *v = lua_version(L);

@@ -16,6 +16,7 @@ namespace gost{
 	GT_DEFINE_GUID(GT_UID_IMPORT_IMAGE_PNG, 0x52b5e4a2, 0xcbda, 0x4492, 0x90, 0xb9, 0x97, 0xaf, 0xeb, 0xec, 0xf4, 0x90);
 	GT_DEFINE_GUID(GT_UID_IMPORT_MODEL_OBJ, 0xddb35bd5, 0x41ca, 0x48d8, 0x9d, 0xf5, 0x5b, 0x67, 0xa3, 0xa5, 0xa1, 0x55);
 	GT_DEFINE_GUID(GT_UID_PHYSICS_BULLET_3_2_87, 0x7cddd6fc, 0x6de0, 0x4024, 0xa1, 0xf5, 0xed, 0xb3, 0x79, 0x87, 0xb8, 0xfc);
+	GT_DEFINE_GUID(GT_UID_SCRIPT_LUA_5_3_4, 0x7cddd6fc, 0x6de0, 0x4024, 0xa1, 0xf5, 0xed, 0xb3, 0x79, 0x87, 0xb8, 0xfd);
 
 
 	using gtGetPluginInfo			= void(GT_CDECL*)		        (gtPluginInfo*);
@@ -23,6 +24,7 @@ namespace gost{
 	using gtLoadPhysicsPlugin_t		= gtPhysicsSystem*(GT_CDECL*)	(gtPhysicsSystemInfo*);
 	using gtLoadAudioDriver_t		= gtAudioSystem*(GT_CDECL*)     ();
 	using gtLoadInputDriver_t		= gtInputController*(GT_CDECL*) ();
+	using gtLoadScriptPlugin_t		= gtScriptSystem*(GT_CDECL*)    ();
 	using gtPluginGetExtCount_t		= u32(GT_CDECL*)				();				
 	using gtPluginGetExtension_t	= const s8*(GT_CDECL*)		    ( u32 id );				
 	using gtPluginLoadImage_t		= bool(GT_CDECL*)				(gtImage*,gtString*);	
@@ -58,13 +60,31 @@ namespace gost{
 	
 #define gtPlugin_addFunction(x,y) m_functions.push_back(gtPair<gtStringA,void*>(x,y))
 	
+	class gtPluginScript : public gtPluginImpl{
+	public:
+		gtPluginScript(){
+			gtPlugin_addFunction("gtLoadScriptPlugin", nullptr);
+		}
+	
+		gtScriptSystem *          loadScriptPlugin(){
+			auto sz = getFunctionsCount();
+			for( u32 i = 0u; i < sz; ++i ){
+				auto fn = getFunctionName( i );
+				if( fn == "gtLoadScriptPlugin" ){
+					gtLoadScriptPlugin_t loadProc = (gtLoadScriptPlugin_t)getFunctionPtr( i );
+					return loadProc();
+				}
+			}
+			return nullptr;
+		}
+	};
+	
 	class gtPluginPhysics : public gtPluginImpl{
 	public:
 		gtPluginPhysics(){
 			gtPlugin_addFunction("gtLoadPhysicsPlugin", nullptr);
 		}
 	
-		//gtLoadPhysicsPlugin_t      loadPhysicsProc = nullptr/*(const gtGraphicsSystemInfo& params)*/;
 		gtPhysicsSystem *          loadPhysics( gtPhysicsSystemInfo* params ){
 			auto sz = getFunctionsCount();
 			for( u32 i = 0u; i < sz; ++i ){
@@ -84,7 +104,6 @@ namespace gost{
 			gtPlugin_addFunction("gtLoadGPUDriver", nullptr);
 		}
 		
-	//	gtLoadGPUDriver_t          loadDriverProc = nullptr/*(const gtGraphicsSystemInfo& params)*/;
 		gtGraphicsSystem *         loadDriver( gtGraphicsSystemInfo* params ){
 			auto sz = getFunctionsCount();
 			for( u32 i = 0u; i < sz; ++i ){
@@ -104,7 +123,6 @@ namespace gost{
 			gtPlugin_addFunction("gtLoadAudioPlugin", nullptr);
 		}
 		
-	//	gtLoadAudioDriver_t    loadAudioDriverProc = nullptr;
 		gtAudioSystem*         loadAudioDriver(){
 			auto sz = getFunctionsCount();
 			for( u32 i = 0u; i < sz; ++i ){
@@ -124,7 +142,6 @@ namespace gost{
 			gtPlugin_addFunction("gtLoadInputDriver", nullptr);
 		}
 		
-	//	gtLoadInputDriver_t        loadInputDriverProc = nullptr;
 		gtInputController*         loadInputDriver(){
 			auto sz = getFunctionsCount();
 			for( u32 i = 0u; i < sz; ++i ){
@@ -146,7 +163,6 @@ namespace gost{
 			gtPlugin_addFunction("PluginGetExtension", nullptr);
 		}
 		
-	//	gtPluginLoadModel_t   f_loadModel = nullptr;
 		gtArray<gtString>     m_extensions;
 		gtModel *             loadModel( gtString* fileName ){
 			auto sz = getFunctionsCount();
@@ -170,7 +186,6 @@ namespace gost{
 			gtPlugin_addFunction("PluginGetExtension", nullptr);
 		}
 		
-		//gtPluginLoadImage_t   f_loadImage = nullptr/*(gtImage*im,gtString*fileName)*/;
 		gtArray<gtString>     m_extensions;
 		void                  loadImage( gtString* fileName, gtImage** im ){
 			auto sz = getFunctionsCount();

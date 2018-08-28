@@ -29,7 +29,7 @@ extern "C"{
 
 #if defined(GT_PLATFORM_WIN32)
 
-BOOL __cdecl DllMain( HMODULE /*hModule*/,
+BOOL GT_CDECL DllMain( HMODULE /*hModule*/,
                        DWORD  ul_reason_for_call,
                        LPVOID /*lpReserved*/
 					 ){

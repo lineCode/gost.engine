@@ -6,7 +6,13 @@ namespace gost{
 
 	class gtScriptSystem : public gtRefObject{
 	public:
-
+	
+			// Добавить СИ функцию чтобы вызвать из скрипта
+		virtual void addCFunction( const gtStringA& name, void * ptr ) = 0;
+		
+			// Вызвать функцию скрипта
+		virtual void callSFunction( const gtStringA& name ) = 0;
+		
 	};
 }
 

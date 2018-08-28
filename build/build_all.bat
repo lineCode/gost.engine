@@ -33,4 +33,7 @@ gost.build.exe ../source/gtimOBJ/gost.build.txt -o
 gost.build.exe ../source/gtiiPNG/gost.build.txt -o -r
 gost.build.exe ../source/gtiiPNG/gost.build.txt -o
 
+gost.build.exe ../source/gtsLua/gost.build.txt -o -r
+gost.build.exe ../source/gtsLua/gost.build.txt -o
+
 pause

@@ -17,6 +17,7 @@ namespace gost{
 	class gtModelSystem;
 	class gtPluginSystem;
 	class gtFileSystem;
+	class gtScriptSystem;
 
 	class gtGameObject;
 	class gtStaticObject;
@@ -81,6 +82,7 @@ namespace gost{
 		virtual bool checkEvent( gtEvent& ev, bool(*compare_function)( gtEvent& current_event, gtEvent& user_event ) ) = 0;
 		
 		virtual gtPtr<gtAudioSystem>    createAudioSystem( const GT_GUID& uid ) = 0;
+		virtual gtPtr<gtScriptSystem>   createScriptSystem( const GT_GUID& uid ) = 0;
 		virtual gtPtr<gtGraphicsSystem> createGraphicsSystem( const gtGraphicsSystemInfo& gsi, const GT_GUID& uid ) = 0;
 		virtual gtPtr<gtMutex>          createMutex() = 0;
 		virtual gtPtr<gtPhysicsSystem>  createPhysicsSystem( const gtPhysicsSystemInfo& psi, const GT_GUID& uid ) = 0;
